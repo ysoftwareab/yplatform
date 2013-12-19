@@ -1,0 +1,7 @@
+# util.mk
+
+My utility belt `Makefile` (and my memory belt `*.eg.mk`) for `make`.
+
+# License
+
+[Unlicense](LICENSE).
