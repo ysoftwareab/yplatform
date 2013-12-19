@@ -2,6 +2,12 @@
 
 My utility belt `Makefile` (and my memory belt `*.eg.mk`) for `make`.
 
+# Usage
+
+```
+-include util.mk
+```
+
 # License
 
 [Unlicense](LICENSE).
