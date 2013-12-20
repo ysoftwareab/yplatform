@@ -1,0 +1,2 @@
+# ASSIGN IF UNDEFINED
+# VAR ?= value
