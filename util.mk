@@ -11,8 +11,8 @@ env-guard-%:
 
 
 # CHECK EXECUTABLE
-	@which "${*}" > /dev/null
 env-has-%:
+	@command -v "${*}" >/dev/null 2>&1
 
 
 # silent TARGET
