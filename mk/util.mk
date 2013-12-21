@@ -5,15 +5,18 @@
 .PHONY: env-guard-%
 env-guard-%:
 	@if [ "${${*}}" == "" ]; then \
-		echo "Environment variable $* is not set"; \
-		exit 1; \
+		echo "ERROR: Environment variable ${*} is not defined!"; \
+		exit -1; \
 	fi
 
 
 # CHECK EXECUTABLE
 .PHONY: env-has-%
 env-has-%:
-	@command -v "${*}" >/dev/null 2>&1
+	@command -v "${*}" >/dev/null 2>&1 || { \
+		echo "ERROR: Please install ${*}!"; \
+		exit -1; \
+	}
 
 
 # silent TARGET
