@@ -4,7 +4,7 @@
 # means my-target depends on $HOST being set
 .PHONY: env-guard-%
 env-guard-%:
-	@if [ "${${*}}" == "" ]; then \
+	@if [[ "$${${*}}" == "" ]]; then \
 		echo "ERROR: Environment variable ${*} is not defined!"; \
 		exit -1; \
 	fi
@@ -43,5 +43,5 @@ help:
 
 # usage TARGET (echo USAGE information)
 .PHONY: usage
-usage: env-has-USAGE
+usage: env-guard-USAGE
 	@echo "$$USAGE"
