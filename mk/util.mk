@@ -33,7 +33,8 @@ util-silent:
 util-help:
 #	@sh -c "$(MAKE) -p silent | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | grep -v -e 'env-guard-*' -e 'env-has-*' -e 'make' -e 'Makefile' | sort | uniq"
 	@$(MAKE) -p util-silent | \
-		pcregrep -e '^[a-zA-Z0-9][^\$$#\/\\t=]*:[^=]*' | \
+		pcregrep -e '^[a-zA-Z0-9][^\$$#\\t=]*:' | \
+		pcregrep -v -e ':=' | \
 		sed 's/:.*//' | \
 		pcregrep -v -e 'make' | \
 		pcregrep -v -e 'Makefile' | \
