@@ -6,6 +6,13 @@ util-printvars:
 		$(origin $V)),$(warning $V=$($V) ($(value $V)))))
 
 
+# PRINT MAKEFILE VARIABLE
+# From http://blog.jgc.org/2015/04/the-one-line-you-should-add-to-every.html
+.PHONY: util-printvar-%
+util-printvar-%:
+	@echo $*=$($*)
+
+
 # CHECK ENVIRONMENT VARIABLE
 # Usage:
 # my-target: env-guard-HOST
