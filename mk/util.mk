@@ -1,5 +1,7 @@
+# https://raw.githubusercontent.com/andreineculau/util.mk/master/util.mk
+
 # PRINT MAKEFILE VARIABLES
- .PHONY: util-printvars
+.PHONY: util-printvars
 util-printvars:
 	@$(foreach V,$(sort $(.VARIABLES)),
 		$(if $(filter-out environment% default automatic,
