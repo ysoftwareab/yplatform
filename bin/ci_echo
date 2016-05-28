@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+set -euo pipefail
+
+[ "${CI:-}" = true ] || {
+    >&2 echo "$@"
+    exit 0
+}
+
+STATUS=NORMAL
+MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
+
+case $1 in
+    "[NEXT]")
+        echo "##teamcity[progressMessage '${MESSAGE}']"
+        exit 0
+    ;;
+    "[DO  ]")
+        echo "##teamcity[blockOpened name='$(pwd)' description='${MESSAGE}']"
+        exit 0
+    ;;
+    "[DONE]")
+        echo "##teamcity[blockClosed name='$(pwd)']"
+        exit 0
+    ;;
+    "[SKIP]")
+        STATUS=WARNING
+    ;;
+    "[WARN]")
+        STATUS=WARNING
+    ;;
+    "[ERR ]")
+        STATUS=ERROR
+    ;;
+    "[INFO]"|*)
+    ;;
+esac
+
+echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
