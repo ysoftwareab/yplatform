@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+#- slack_echo 1.0
+## Usage: slack_echo [OPTION]... TEXT...
+## Echo message via a Slack webhook.
+##
+##   -f, --from     Text to display as sender           Defaults to $(whoami)@$(hostname)
+##   -i, --icon     Emoji to display as sender's icon   Defaults to ":shipit:"
+##   -t, --to       Recipient as #channel or @username  Defaults to "#cloud"
+##   -w, --webhook  Webhook URL                         Defaults to ${CLOUD_SLACK_WEBHOOK}
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+FROM="$(whoami)@$(hostname)"
+ICON="${ICON:-:shipit:}"
+TO="${TO:-#cloud}"
+WEBHOOK="${CLOUD_SLACK_WEBHOOK}"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -f|--from)
+            FROM="$2"
+            shift 2
+            ;;
+        -i|--icon)
+            ICON="$2"
+            shift 2
+            ;;
+        -t|--to)
+            TO="$2"
+            shift 2
+            ;;
+        -w|--webhook)
+            WEBHOOK="$2"
+            shift 2
+            ;;
+        -h|--help)
+            usage
+            ;;
+        -v|--version)
+            version
+            ;;
+        -* )
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+TEXT="$*"
+
+curl -qsS \
+     -X POST \
+     -H "Content-type: application/json" \
+     --data "{\"username\": \"${FROM}\", \"channel\": \"${TO}\", \"icon_emoji\": \"${ICON}\", \"text\": \"${TEXT}\", \"parse\": \"full\"}" \
+     ${WEBHOOK}
