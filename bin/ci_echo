@@ -15,10 +15,10 @@ source ${TOP}/support/sh/common.inc.sh
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -h|--help)
-            usage
+            sh_script_usage
             ;;
         -v|--version)
-            version
+            sh_script_version
             ;;
         -* )
             usage

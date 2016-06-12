@@ -41,10 +41,10 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         -h|--help)
-            usage
+            sh_script_usage
             ;;
         -v|--version)
-            version
+            sh_script_version
             ;;
         -* )
             usage
