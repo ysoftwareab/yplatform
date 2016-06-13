@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-get-stack-output 1.0
+## Usage: aws-get-stack-output STACK_NAME OUTPUT
+## Echo stack output given a stack name.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_NAME=$1
+OUTPUT=$2
+aws cloudformation describe-stacks --stack-name ${STACK_NAME} --output text --query "Stacks[0].Outputs[?OutputKey=='${OUTPUT}'].{Value:OutputValue}" 2>/dev/null
