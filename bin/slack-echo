@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 (set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
-#- slack_echo 1.0
-## Usage: slack_echo [OPTION]... TEXT...
+#- slack-echo 1.0
+## Usage: slack-echo [OPTION]... TEXT...
 ## Echo message via a Slack webhook.
 ##
 ##   -f, --from     Text to display as sender           Defaults to $(whoami)@$(hostname)

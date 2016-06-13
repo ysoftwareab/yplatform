@@ -5,8 +5,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
 source ${TOP}/support/sh/common.inc.sh
 
-#- ci_echo 1.0
-## Usage: ci_echo STEP TEXT...
+#- ci-echo 1.0
+## Usage: ci-echo STEP TEXT...
 ## Echo message with a STEP indicator for stdout or for TeamCity consumption.
 ##
 ##   -h, --help     Display this help and exit
