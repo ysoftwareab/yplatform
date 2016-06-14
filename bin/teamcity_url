@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+#- teamcity-uri 1.0
+## Usage: teamcity-uri [OPTION]... BUILD_ID
+## Return TeamCity URI of a build ID
+##
+##   -t, --tab      Build tab.        Defaults to buildResultsDiv
+##   -q, --queued   Is build queued?
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+TAB=${TAB:-buildResultsDiv}
+VIEW=${VIEW:-Log}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -t|--tab)
+            TAB="$2"
+            shift 2
+            ;;
+        -q|--queued)
+            VIEW="Queued"
+            shift 1
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+BUILD_ID=$1
+
+echo "${TEAMCITY_URL}/view${VIEW}.html?buildId=${BUILD_ID}&tab=${TAB}"
