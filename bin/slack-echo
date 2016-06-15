@@ -68,8 +68,7 @@ cat > ${TMP_FILE} <<EOF
 "username": "${FROM}",
 "channel": "${TO}",
 "icon_emoji": "${ICON}",
-"text": "${TEXT}",
-"parse": "full"
+"text": "${TEXT}"
 }
 EOF
 
