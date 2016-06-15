@@ -17,6 +17,12 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
 source ${TOP}/support/sh/common.inc.sh
 
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
 FROM="$(whoami)@$(hostname)"
 ICON="${ICON:-:shipit:}"
 TO="${TO:-#cloud}"
@@ -57,8 +63,20 @@ done
 
 TEXT="$*"
 
-curl -qsS \
+cat > ${TMP_FILE} <<EOF
+{
+"username": "${FROM}",
+"channel": "${TO}",
+"icon_emoji": "${ICON}",
+"text": "${TEXT}",
+"parse": "full"
+}
+EOF
+
+cat ${TMP_FILE}
+
+curl -fqsS \
      -X POST \
      -H "Content-type: application/json" \
-     --data "{\"username\": \"${FROM}\", \"channel\": \"${TO}\", \"icon_emoji\": \"${ICON}\", \"text\": \"${TEXT}\", \"parse\": \"full\"}" \
+     --data @${TMP_FILE} \
      ${WEBHOOK}
