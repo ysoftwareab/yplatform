@@ -15,18 +15,17 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
 source ${TOP}/support/sh/common.inc.sh
 
-TAB=${TAB:-buildResultsDiv}
-VIEW=${VIEW:-Log}
-
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -q|--queued)
+            VIEW="Queued"
+            BUILD_ID_PARAM=itemId
+            TAB=${TAB:-queuedBuildOverviewTab}
+            shift 1
+            ;;
         -t|--tab)
             TAB="$2"
             shift 2
-            ;;
-        -q|--queued)
-            VIEW="Queued"
-            shift 1
             ;;
         -h|--help)
             sh_script_usage
@@ -43,6 +42,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+VIEW=${VIEW:-Log}
+BUILD_ID_PARAM=${BUILD_ID_PARAM:-buildId}
+TAB=${TAB:-buildResultsDiv}
+
 BUILD_ID=$1
 
-echo "${TEAMCITY_URL}/view${VIEW}.html?buildId=${BUILD_ID}&tab=${TAB}"
+echo "${TEAMCITY_URL}/view${VIEW}.html?${BUILD_ID_PARAM}=${BUILD_ID}&tab=${TAB}"
