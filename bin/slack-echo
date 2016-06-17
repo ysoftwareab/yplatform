@@ -24,7 +24,7 @@ function on_exit() {
 trap on_exit EXIT
 
 FROM="$(whoami)@$(hostname)"
-ICON="${ICON:-:shipit:}"
+ICON="${ICON:-:thought_balloon:}"
 TO="${TO:-#cloud}"
 WEBHOOK="${CLOUD_SLACK_WEBHOOK}"
 
