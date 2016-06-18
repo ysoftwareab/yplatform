@@ -27,7 +27,7 @@ while [[ $# -gt 0 ]]; do
             sh_script_version
             ;;
         -* )
-            usage
+            sh_script_usage
             ;;
         *)
             break
