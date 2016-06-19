@@ -6,7 +6,7 @@
 ## Echo message via a Slack webhook.
 ##
 ##   -f, --from     Text to display as sender           Defaults to $(whoami)@$(hostname)
-##   -i, --icon     Emoji to display as sender's icon   Defaults to ":thought_balloon:"
+##   -i, --icon     Emoji to display as sender's icon   Defaults to ":shipit:"
 ##   -t, --to       Recipient as #channel or @username  Defaults to "#cloud"
 ##   -w, --webhook  Webhook URL                         Defaults to ${CLOUD_SLACK_WEBHOOK}
 ##
@@ -24,7 +24,7 @@ function on_exit() {
 trap on_exit EXIT
 
 FROM="$(whoami)@$(hostname)"
-ICON="${ICON:-:thought_balloon:}"
+ICON="${ICON:-:shipit:}"
 TO="${TO:-#${SLACK_CHANNEL}}"
 
 while [[ $# -gt 0 ]]; do
