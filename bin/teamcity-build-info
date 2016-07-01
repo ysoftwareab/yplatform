@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+#- teamcity-build-info 1.0
+## Usage: teamcity-build-info [OPTION]... BUILD_ID
+## Return TeamCity info of a build ID as XML/JSON.
+##
+##   -a, --accept   Set accepted media-type.        Defaults to application/xml.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -a|--accept)
+            MEDIA_TYPE=${2}
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+MEDIA_TYPE=${MEDIA_TYPE:-application/xml}
+
+BUILD_ID=$1
+
+curl -sS -H"Accept: ${MEDIA_TYPE}" "${TEAMCITY_URL}/guestAuth/app/rest/builds/${BUILD_ID}"
