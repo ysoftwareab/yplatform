@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 (set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
-#- teamcity-uri 1.0
-## Usage: teamcity-uri [OPTION]... BUILD_ID
-## Return TeamCity URI of a build ID
+#- teamcity-url 1.0
+## Usage: teamcity-url [OPTION]... BUILD_ID
+## Return TeamCity URL of a build ID
 ##
 ##   -t, --tab      Build tab.        Defaults to buildResultsDiv
 ##   -q, --queued   Is build queued?
