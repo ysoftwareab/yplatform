@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-cu-stack 1.0
+## Usage: aws-cu-stack STACK_NAME
+## Create or update a stack id given a stack name.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            shift 2
+            ;;
+        --wait)
+            WAIT_FOR_STACK=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME})
+
+if [ -z "${STACK_ID}" ]; then
+    aws cloudformation create-stack $@ --on-failure DELETE
+    [ -z "${WAIT_FOR_STACK:-}" ] || aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME}
+else
+    aws cloudformation update-stack $@
+    [ -z "${WAIT_FOR_STACK:-}" ] || aws cloudformation wait stack-update-complete --stack-name ${STACK_ID}
+fi
