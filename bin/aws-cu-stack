@@ -49,7 +49,7 @@ fi
 
 [ -z "${WAIT_FOR_STACK:-}" ] || {
     aws cloudformation wait stack-${CU}-complete --stack-name ${STACK_ID} --no-paginate || {
-        aws cloudformation describe-stack-events --stack-name ${STACK_ID} --no-paginate
+        aws cloudformation describe-stack-events --stack-name ${STACK_ID} --no-paginate | json "StackEvents"
         exit 1
     }
 }
