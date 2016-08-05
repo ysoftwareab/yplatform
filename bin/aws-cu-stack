@@ -28,21 +28,28 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        -* )
-            sh_script_usage
-            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
         *)
             break
             ;;
     esac
 done
 
-STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME})
+STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
 if [ -z "${STACK_ID}" ]; then
-    aws cloudformation create-stack $@ --on-failure DELETE
-    [ -z "${WAIT_FOR_STACK:-}" ] || aws cloudformation wait stack-create-complete --stack-name ${STACK_NAME}
+    MODE=create
+    STACK_ID=$(aws cloudformation create-stack --stack-name ${STACK_NAME} $@ --on-failure DELETE | json "StackId")
 else
-    aws cloudformation update-stack $@
-    [ -z "${WAIT_FOR_STACK:-}" ] || aws cloudformation wait stack-update-complete --stack-name ${STACK_ID}
+    MODE=update
+    aws cloudformation update-stack --stack-name ${STACK_ID} $@
 fi
+
+[ -z "${WAIT_FOR_STACK:-}" ] || {
+    aws cloudformation wait stack-${MODE}-complete --stack-name ${STACK_ID} --no-paginate || {
+        aws cloudformation describe-stack-events --stack-name ${STACK_ID} --no-paginate
+        exit 1
+    }
+}
