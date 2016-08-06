@@ -12,23 +12,44 @@ source ${TOP}/support/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+TIMEOUT_ARG="--timeout-in-minutes 60"
+CAPABILITIES_ARG="--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"
+WAIT_FOR_STACK=
+CREATE_CHANGE_SET=
+CHANGE_SET_NAME=
+CHANGE_SET_FILE=/dev/null
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --stack-name)
             STACK_NAME=$2
+            STACK_NAME_ARG="$1 $2"
             shift 2
             ;;
         --timeout-in-minutes)
-            TIMEOUT_ARG="--timeout-in-minutes $2"
+            TIMEOUT_ARG="$1 $2"
             shift 2
             ;;
         --capabilities)
-            CAPABILITIES_ARG="--capabilities $2"
+            CAPABILITIES_ARG="$1 $2"
             shift 2
             ;;
         --wait)
             WAIT_FOR_STACK=true
             shift
+            ;;
+        --create-change-set)
+            CREATE_CHANGE_SET=true
+            shift
+            ;;
+        --change-set-name)
+            CHANGE_SET_NAME=$2
+            CHANGE_SET_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --change-set-file)
+            CHANGE_SET_FILE=$2
+            shift 2
             ;;
         -h|--help)
             sh_script_usage
@@ -45,24 +66,69 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-TIMEOUT_ARG=${TIMEOUT_ARG:-"--timeout-in-minutes 60"}
-CAPABILITIES_ARG=${CAPABILITIES_ARG:-"--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"}
 STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
-if [ -z "${STACK_ID}" ]; then
-    CU=create
-    echo "Creating ${STACK_NAME}..."
-    STACK_ID=$(aws cloudformation ${CU}-stack --stack-name ${STACK_NAME} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} --on-failure DELETE $@ | json "StackId")
+CU=create
+[[ -z ${STACK_ID} ]] || CU=update
+
+
+if [[ -n ${CREATE_CHANGE_SET} ]]; then
+    if [[ ${CU} = create ]]; then
+        echo >&2 Stack does not exit, thus change sets are not applicable.
+        exit 1
+    fi
+    # echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+    CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+    aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${CHANGE_SET_FILE}
+    exit 0
+elif [[ -n ${CHANGE_SET_NAME} ]]; then
+    if [[ ${CU} = create ]]; then
+        echo >&2 Stack does not exit, thus change sets are not applicable.
+        exit 1
+    fi
+    # echo "Update change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} $@
 else
-    CU=update
-    echo "Updating ${STACK_NAME} = ${STACK_ID}..."
-    aws cloudformation ${CU}-stack --stack-name ${STACK_ID} $@
+    if [[ ${CU} = create ]]; then
+        # echo "Creating ${STACK_NAME} stack..."
+        STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} --on-failure DELETE $@ | json "StackId")
+        STACK_NAME_ARG="--stack-name ${STACK_ID}"
+    else
+        # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
+        aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
+    fi
 fi
 
-[ -z "${WAIT_FOR_STACK:-}" ] || {
+# if [[ ${CU} = create ]]; then
+#     # echo "Creating ${STACK_NAME} stack..."
+#     [[ -z ${CREATE_CHANGE_SET} ]] && [[ -z ${CHANGE_SET_NAME} ]] || {
+#         echo >&2 Stack does not exit, thus change sets are not applicable.
+#         exit 1
+#     }
+#     STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} --on-failure DELETE $@ | json "StackId")
+#     STACK_NAME_ARG="--stack-name ${STACK_ID}"
+# elif [ ${CU} = update ]; then
+#     STACK_NAME_ARG="--stack-name ${STACK_ID}"
+#     if [[ -n ${CREATE_CHANGE_SET} ]]; then
+#         # echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+#         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+#         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+#         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ./${CHANGE_SET_NAME}.changeset.json
+#         exit 0
+#     elif [[ -n ${CHANGE_SET_NAME} ]]; then
+#         # echo "Update change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+#         aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} $@
+#     else
+#         # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
+#         aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
+#     fi
+# fi
+
+if [[ -n ${WAIT_FOR_STACK} ]]; then {
     echo "Waiting for stack-${CU}-complete..."
-    aws cloudformation wait stack-${CU}-complete --stack-name ${STACK_ID} --no-paginate || {
-        aws cloudformation describe-stack-events --stack-name ${STACK_ID} --no-paginate | json "StackEvents"
+    aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} --no-paginate || {
+        aws cloudformation describe-stack-events ${STACK_NAME_ARG} --no-paginate | json "StackEvents"
         exit 1
     }
 }
