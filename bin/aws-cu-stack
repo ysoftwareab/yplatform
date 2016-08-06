@@ -41,13 +41,16 @@ STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
 if [ -z "${STACK_ID}" ]; then
     CU=create
+    echo "Creating ${STACK_NAME}..."
     STACK_ID=$(aws cloudformation ${CU}-stack --stack-name ${STACK_NAME} $@ --on-failure DELETE | json "StackId")
 else
     CU=update
+    echo "Updating ${STACK_NAME} = ${STACK_ID}..."
     aws cloudformation ${CU}-stack --stack-name ${STACK_ID} $@
 fi
 
 [ -z "${WAIT_FOR_STACK:-}" ] || {
+    echo "Waiting for stack-${CU}-complete..."
     aws cloudformation wait stack-${CU}-complete --stack-name ${STACK_ID} --no-paginate || {
         aws cloudformation describe-stack-events --stack-name ${STACK_ID} --no-paginate | json "StackEvents"
         exit 1
