@@ -16,6 +16,7 @@ TIMEOUT_ARG="--timeout-in-minutes 60"
 CAPABILITIES_ARG="--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"
 WAIT_FOR_STACK=
 CREATE_CHANGE_SET=
+EXECUTE_CHANGE_SET=
 CHANGE_SET_NAME=
 CHANGE_SET_FILE=/dev/null
 
@@ -40,6 +41,10 @@ while [[ $# -gt 0 ]]; do
             ;;
         --create-change-set)
             CREATE_CHANGE_SET=true
+            shift
+            ;;
+        --execute-change-set)
+            EXECUTE_CHANGE_SET=true
             shift
             ;;
         --change-set-name)
@@ -74,20 +79,27 @@ CU=create
 
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 Stack does not exit, thus change sets are not applicable.
+        echo >&2 Stack does not exit, thus change-sets are not applicable.
         exit 1
     fi
-    # echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
     CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
-    aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${CHANGE_SET_FILE}
+    TMP_CHANGE_SET_FILE=$(mkfile -t aws-cu-stack.XXXXXXXXXX)
+    aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+    cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
     exit 0
-elif [[ -n ${CHANGE_SET_NAME} ]]; then
+elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 Stack does not exit, thus change sets are not applicable.
+        echo >&2 Stack does not exit, thus change-sets are not applicable.
         exit 1
     fi
-    # echo "Update change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    if [[ -n ${CHANGE_SET_FILE} ]]; then
+        CHANGE_SET_NAME=$(cat ${CHANGE_SET_FILE | json "ChangeSetName"})
+        CHANGE_SET_ID=$(cat ${CHANGE_SET_FILE | json "ChangeSetId"})
+        CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+    fi
+    echo "Executing ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} $@
 else
     if [[ ${CU} = create ]]; then
@@ -96,7 +108,22 @@ else
         STACK_NAME_ARG="--stack-name ${STACK_ID}"
     else
         # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
-        aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
+        # aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
+
+        echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+        CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+        CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+        TMP_CHANGE_SET_FILE=$(mkfile -t aws-cu-stack.XXXXXXXXXX)
+        aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+        cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
+
+        echo "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
+        STATUS_REASON=$(cat ${TMP_CHANGE_SET_FILE} | json "StatusReason")
+        if [[ ${STATUS_REASON} = "The submitted information didn't contain changes. Submit different information to create a change set." ]]; then
+            echo ${STATUS_REASON}
+            exit 0
+        fi
+        aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} $@
     fi
 fi
 
@@ -114,7 +141,7 @@ fi
 #         # echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
 #         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
 #         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
-#         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ./${CHANGE_SET_NAME}.changeset.json
+#         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ./${CHANGE_SET_NAME}.change-set.json
 #         exit 0
 #     elif [[ -n ${CHANGE_SET_NAME} ]]; then
 #         # echo "Update change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
@@ -125,10 +152,10 @@ fi
 #     fi
 # fi
 
-if [[ -n ${WAIT_FOR_STACK} ]]; then {
-    echo "Waiting for stack-${CU}-complete..."
-    aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} --no-paginate || {
-        aws cloudformation describe-stack-events ${STACK_NAME_ARG} --no-paginate | json "StackEvents"
-        exit 1
-    }
+[[ -n ${WAIT_FOR_STACK} ]] || exit 0
+
+echo "Waiting for stack-${CU}-complete..."
+aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} --no-paginate || {
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} --no-paginate | json "StackEvents"
+    exit 1
 }
