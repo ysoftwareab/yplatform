@@ -82,6 +82,10 @@ else
     SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
 fi
 
+function cancel_update_stack() {
+    aws cloudformation cancel-update-stack ${STACK_NAME_ARG}
+}
+
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
         echo >&2 Stack does not exit, thus change-sets are not applicable.
@@ -111,6 +115,7 @@ elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
     fi
     echo "Executing ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    trap cancel_update_stack INT
     aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
 else
     if [[ ${CU} = create ]]; then
@@ -140,6 +145,7 @@ else
             echo ${STATUS_REASON}
             exit 0
         fi
+        trap cancel_update_stack INT
         aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
     fi
 fi
