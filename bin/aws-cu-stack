@@ -102,6 +102,7 @@ if [[ -n ${CREATE_CHANGE_SET} ]]; then
             esac
         done
     aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+    echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
     cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
     exit 0
 elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
@@ -137,6 +138,7 @@ else
             esac
         done
         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+        echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
         cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
 
         echo "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
