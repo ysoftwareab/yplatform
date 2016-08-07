@@ -76,6 +76,12 @@ STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 CU=create
 [[ -z ${STACK_ID} ]] || CU=update
 
+if [[ ${CU} = create ]]; then
+    SED_UNTIL="^\]"
+else
+    SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
+fi
+
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
         echo >&2 Stack does not exit, thus change-sets are not applicable.
@@ -166,7 +172,7 @@ fi
 [[ -n ${WAIT_FOR_STACK} ]] || exit 0
 
 echo "Waiting for stack-${CU}-complete..."
-aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} --no-paginate || {
-    aws cloudformation describe-stack-events ${STACK_NAME_ARG} --no-paginate | json "StackEvents"
+aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} || {
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | json "StackEvents" | sed -e "/${SED_UNTIL}/q"
     exit 1
 }
