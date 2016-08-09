@@ -7,7 +7,7 @@ source ${TOP}/support/sh/common.inc.sh
 
 #- aws-cu-stack 1.0
 ## Usage: aws-cu-stack STACK_NAME
-## Create or update a stack id given a stack name.
+## Create or update a stack.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -176,6 +176,9 @@ fi
 #         aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
 #     fi
 # fi
+
+
+echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
 
 [[ -n ${WAIT_FOR_STACK} ]] || exit 0
 
