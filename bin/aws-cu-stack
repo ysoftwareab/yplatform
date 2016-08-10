@@ -152,32 +152,6 @@ else
     fi
 fi
 
-# if [[ ${CU} = create ]]; then
-#     # echo "Creating ${STACK_NAME} stack..."
-#     [[ -z ${CREATE_CHANGE_SET} ]] && [[ -z ${CHANGE_SET_NAME} ]] || {
-#         echo >&2 Stack does not exit, thus change sets are not applicable.
-#         exit 1
-#     }
-#     STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} --on-failure DELETE $@ | json "StackId")
-#     STACK_NAME_ARG="--stack-name ${STACK_ID}"
-# elif [ ${CU} = update ]; then
-#     STACK_NAME_ARG="--stack-name ${STACK_ID}"
-#     if [[ -n ${CREATE_CHANGE_SET} ]]; then
-#         # echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
-#         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
-#         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
-#         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ./${CHANGE_SET_NAME}.change-set.json
-#         exit 0
-#     elif [[ -n ${CHANGE_SET_NAME} ]]; then
-#         # echo "Update change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
-#         aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} $@
-#     else
-#         # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
-#         aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
-#     fi
-# fi
-
-
 echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
 
 [[ -n ${WAIT_FOR_STACK} ]] || exit 0
