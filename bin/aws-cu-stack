@@ -13,6 +13,7 @@ source ${TOP}/support/sh/common.inc.sh
 ##   -v, --version  Output version information and exit
 
 TIMEOUT_ARG="--timeout-in-minutes 60"
+ON_FAILURE_ARG="--on-failure DELETE"
 CAPABILITIES_ARG="--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"
 WAIT_FOR_STACK=
 CREATE_CHANGE_SET=
@@ -30,6 +31,14 @@ while [[ $# -gt 0 ]]; do
         --timeout-in-minutes)
             TIMEOUT_ARG="$1 $2"
             shift 2
+            ;;
+        --on-failure)
+            ON_FAILURE_ARG="$1 $2"
+            shift 2
+            ;;
+        --disable-rollback)
+            ON_FAILURE_ARG="--on-failure DO_NOTHING"
+            shift
             ;;
         --capabilities)
             CAPABILITIES_ARG="$1 $2"
@@ -121,7 +130,7 @@ elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
 else
     if [[ ${CU} = create ]]; then
         # echo "Creating ${STACK_NAME} stack..."
-        STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} --on-failure DELETE $@ | json "StackId")
+        STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} ${ON_FAILURE_ARG} $@ | json "StackId")
         STACK_NAME_ARG="--stack-name ${STACK_ID}"
     else
         # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
