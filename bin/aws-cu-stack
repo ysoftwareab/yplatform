@@ -91,6 +91,10 @@ else
     SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
 fi
 
+function cancel_create_stack() {
+    aws cloudformation delete-stack ${STACK_NAME_ARG}
+}
+
 function cancel_update_stack() {
     aws cloudformation cancel-update-stack ${STACK_NAME_ARG}
 }
@@ -130,6 +134,7 @@ elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
 else
     if [[ ${CU} = create ]]; then
         # echo "Creating ${STACK_NAME} stack..."
+        trap cancel_create_stack INT
         STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} ${ON_FAILURE_ARG} $@ | json "StackId")
         STACK_NAME_ARG="--stack-name ${STACK_ID}"
     else
