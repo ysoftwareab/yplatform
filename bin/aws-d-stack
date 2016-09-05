@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-d-stack 1.0
+## Usage: aws-d-stack [OPTION]
+## Delete a CloudFormation stack.
+##
+##   --stack-name           Stack name.
+##   --delete-s3            Delete S3 buckets.
+# ##   --retain-resources-s3  Retain S3 buckets.
+# ##   --retain-resources     List of resources that cannot be deleted e.g. non-empty S3 buckets.
+##   --wait                 Wait for stack to be completely created/updated.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+RETAIN_RESOURCES_ARG=
+WAIT_FOR_STACK=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            STACK_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --delete-s3)
+            DELETE_S3=true
+            shift
+            ;;
+        --wait)
+            WAIT_FOR_STACK=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
+
+if [[ ${CU} = create ]]; then
+    SED_UNTIL="^\]"
+else
+    SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
+fi
+
+if [[ -n ${DELETE_S3} ]]; then
+    # list s3 buckets under the stack
+    # "aws s3 rb --force" for each
+    :
+fi
+
+aws cloudformation delete-stack ${STACK_NAME_ARG} ${RETAIN_RESOURCES_ARG}
+
+echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
+
+[[ -n ${WAIT_FOR_STACK} ]] || exit 0
+
+echo "Waiting for stack-delete-complete..."
+aws cloudformation wait stack-delete-complete ${STACK_NAME_ARG} || {
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | json "StackEvents" | sed -e "/${SED_UNTIL}/q"
+    exit 1
+}
