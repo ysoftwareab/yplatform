@@ -53,16 +53,26 @@ done
 
 STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
-if [[ ${CU} = create ]]; then
-    SED_UNTIL="^\]"
-else
-    SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
-fi
+SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
 
 if [[ -n ${DELETE_S3} ]]; then
-    # list s3 buckets under the stack
-    # "aws s3 rb --force" for each
-    :
+    for LOGICAL_RESOURCE_ID in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "LogicalResourceId"); do
+        BUCKET_NAME=$(aws cloudformation get-template ${STACK_NAME_ARG} | json "TemplateBody.Resources.${LOGICAL_RESOURCE_ID}.Properties.BucketName")
+        TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+        aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
+        TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+        aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
+        TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+
+        echo "{\"Objects\":" >${TMP_DELETE_FILE}
+        cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
+        echo ", \"Quiet\": true}" >>${TMP_DELETE_FILE}
+
+        echo "Deleting objects in S3 bucket ${BUCKET_NAME}..."
+        aws s3api delete-objects --bucket ${BUCKET_NAME} --delete file://${TMP_DELETE_FILE}
+        echo "Deleting S3 bucket ${BUCKET_NAME}..."
+        aws s3 rb s3://${BUCKET_NAME} --force >/dev/null
+    done
 fi
 
 aws cloudformation delete-stack ${STACK_NAME_ARG} ${RETAIN_RESOURCES_ARG}
