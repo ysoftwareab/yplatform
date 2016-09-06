@@ -59,18 +59,35 @@ SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-ite
 if [[ -n ${EMPTY_S3} ]]; then
     for LOGICAL_RESOURCE_ID in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "LogicalResourceId"); do
         BUCKET_NAME=$(aws cloudformation get-template ${STACK_NAME_ARG} | json "TemplateBody.Resources.${LOGICAL_RESOURCE_ID}.Properties.BucketName")
-        TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-        aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
-        TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-        aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
-        TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
 
-        echo "{\"Objects\":" >${TMP_DELETE_FILE}
-        cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
-        echo ", \"Quiet\": true}" >>${TMP_DELETE_FILE}
+        aws s3api put-bucket-versioning --bucket ${BUCKET_NAME} --versioning-configuration Status=Suspended
 
-        echo "Emptying S3 bucket ${BUCKET_NAME}..."
-        aws s3api delete-objects --bucket ${BUCKET_NAME} --delete file://${TMP_DELETE_FILE}
+        while true; do
+            # limited to 1000 objects in the "aws s3api delete-objects" call,
+            # so we limit to querying for 500 markers and 500 versions
+            # correction: 500 and 500 still gives errors due to limits (wtf?!),
+            # so we go with 450 and 450...
+            TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
+            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
+            TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
+            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
+
+            # "json --group" does not accept empty arrays
+            [[ $(head -1 ${TMP_DELETE_MARKERS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_MARKERS_FILE}
+            [[ $(head -1 ${TMP_DELETE_VERSIONS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_VERSIONS_FILE}
+            # test if we have markers or versions, break otherwise
+            [[ -s ${TMP_DELETE_MARKERS_FILE} ]] || [[ -s ${TMP_DELETE_VERSIONS_FILE} ]] || break
+
+            TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX).json
+
+            echo "{\"Objects\":" >${TMP_DELETE_FILE}
+            cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
+            echo ", \"Quiet\": false}" >>${TMP_DELETE_FILE}
+
+            echo "Emptying S3 bucket ${BUCKET_NAME} based on ${TMP_DELETE_FILE}..."
+            aws s3api delete-objects --bucket ${BUCKET_NAME} --delete file://${TMP_DELETE_FILE} >/dev/null
+        done
+
         echo "Deleting S3 bucket ${BUCKET_NAME}..."
         aws s3 rb s3://${BUCKET_NAME} --force >/dev/null
     done
