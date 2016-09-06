@@ -60,6 +60,9 @@ if [[ -n ${EMPTY_S3} ]]; then
     for LOGICAL_RESOURCE_ID in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "LogicalResourceId"); do
         BUCKET_NAME=$(aws cloudformation get-template ${STACK_NAME_ARG} | json "TemplateBody.Resources.${LOGICAL_RESOURCE_ID}.Properties.BucketName")
 
+        # check if bucket exists
+        [[ $(aws s3api list-buckets | json "Buckets" | json -a -c "this.Name === '${BUCKET_NAME}'" | json "Name") = ${BUCKET_NAME} ]] || continue
+
         aws s3api put-bucket-versioning --bucket ${BUCKET_NAME} --versioning-configuration Status=Suspended
 
         while true; do
