@@ -5,8 +5,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
 source ${TOP}/support/sh/common.inc.sh
 
-#- aws-cu-stack 1.0
-## Usage: aws-cu-stack [OPTION]
+#- aws-cloudformation-cu-stack 1.0
+## Usage: aws-cloudformation-cu-stack [OPTION]
 ## Create or update a CloudFormation stack.
 ##
 ##   --timeout-in-minutes  See `aws cloudformation create-stack help`. Defaults to 60 minutes.
@@ -118,7 +118,7 @@ if [[ -n ${CREATE_CHANGE_SET} ]]; then
     echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
     CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
-    TMP_CHANGE_SET_FILE=$(mktemp -t aws-cu-stack.XXXXXXXXXX)
+    TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
         while true; do
             case $(aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | json "Status") in
                 CREATE_IN_PROGRESS|CREATE_PENDING) sleep 5 ;;
@@ -155,7 +155,7 @@ else
         echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
-        TMP_CHANGE_SET_FILE=$(mktemp -t aws-cu-stack.XXXXXXXXXX)
+        TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
         while true; do
             case $(aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | json "Status") in
                 CREATE_IN_PROGRESS|CREATE_PENDING) sleep 5 ;;

@@ -5,8 +5,8 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
 source ${TOP}/support/sh/common.inc.sh
 
-#- aws-d-stack 1.0
-## Usage: aws-d-stack [OPTION]
+#- aws-cloudformation-delete-stack 1.0
+## Usage: aws-cloudformation-delete-stack [OPTION]
 ## Delete a CloudFormation stack.
 ##
 ##   --stack-name           Stack name.
@@ -58,11 +58,11 @@ SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-ite
 if [[ -n ${DELETE_S3} ]]; then
     for LOGICAL_RESOURCE_ID in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "LogicalResourceId"); do
         BUCKET_NAME=$(aws cloudformation get-template ${STACK_NAME_ARG} | json "TemplateBody.Resources.${LOGICAL_RESOURCE_ID}.Properties.BucketName")
-        TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+        TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
         aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
-        TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+        TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
         aws s3api list-object-versions --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
-        TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-d-stack.XXXXXXXXXX)
+        TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
 
         echo "{\"Objects\":" >${TMP_DELETE_FILE}
         cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
