@@ -10,7 +10,7 @@ source ${TOP}/support/sh/common.inc.sh
 ## Delete a CloudFormation stack.
 ##
 ##   --stack-name           Stack name.
-##   --delete-s3            Delete S3 buckets.
+##   --empty-s3             Empty S3 buckets beforehand.
 # ##   --retain-resources-s3  Retain S3 buckets.
 # ##   --retain-resources     List of resources that cannot be deleted e.g. non-empty S3 buckets.
 ##   --wait                 Wait for stack to be completely created/updated.
@@ -19,6 +19,7 @@ source ${TOP}/support/sh/common.inc.sh
 ##   -v, --version  Output version information and exit
 
 RETAIN_RESOURCES_ARG=
+EMPTY_S3=
 WAIT_FOR_STACK=
 
 while [[ $# -gt 0 ]]; do
@@ -28,8 +29,8 @@ while [[ $# -gt 0 ]]; do
             STACK_NAME_ARG="$1 $2"
             shift 2
             ;;
-        --delete-s3)
-            DELETE_S3=true
+        --empty-s3)
+            EMPTY_S3=true
             shift
             ;;
         --wait)
@@ -55,7 +56,7 @@ STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
 SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
 
-if [[ -n ${DELETE_S3} ]]; then
+if [[ -n ${EMPTY_S3} ]]; then
     for LOGICAL_RESOURCE_ID in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "LogicalResourceId"); do
         BUCKET_NAME=$(aws cloudformation get-template ${STACK_NAME_ARG} | json "TemplateBody.Resources.${LOGICAL_RESOURCE_ID}.Properties.BucketName")
         TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
@@ -68,7 +69,7 @@ if [[ -n ${DELETE_S3} ]]; then
         cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
         echo ", \"Quiet\": true}" >>${TMP_DELETE_FILE}
 
-        echo "Deleting objects in S3 bucket ${BUCKET_NAME}..."
+        echo "Emptying S3 bucket ${BUCKET_NAME}..."
         aws s3api delete-objects --bucket ${BUCKET_NAME} --delete file://${TMP_DELETE_FILE}
         echo "Deleting S3 bucket ${BUCKET_NAME}..."
         aws s3 rb s3://${BUCKET_NAME} --force >/dev/null
