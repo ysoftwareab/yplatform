@@ -1,0 +1,108 @@
+#!/usr/bin/env node -r babel-register
+
+import _ from 'lodash';
+import aws from 'aws-sdk';
+import {
+  AWS_ACCOUNT
+} from '../cfn/const';
+import {
+  envProxy,
+  makeApiDomain,
+  makeBucketName
+} from '../cfn/util';
+
+let main = async function({env, cmd}) {
+  let apigateway = new aws.APIGateway({
+    region: env.AWS_REGION
+  });
+
+  let domainName = makeApiDomain({env});
+
+  if (cmd === 'create') {
+    try {
+      await apigateway.getDomainName({
+        domainName
+      }).promise();
+    } catch (err) {
+      if (err.code !== 'NotFoundException') {
+        throw err;
+      }
+
+      await exports.createDomainName({
+        env,
+        domainName
+      });
+    }
+  } else if (cmd === 'delete') {
+    await apigateway.deleteDomainName({
+      domainName
+    }).promise();
+  }
+};
+
+exports.createDomainName = async function({env}) {
+  let domainName = makeApiDomain({env});
+  let configBucketName = makeBucketName({
+    env,
+    prefix: 'config'
+  });
+
+  let apigateway = new aws.APIGateway({
+    region: env.AWS_REGION
+  });
+
+  let iam = new aws.IAM({
+    region: env.AWS_REGION
+  });
+
+  let s3 = new aws.S3({
+    region: env.AWS_REGION,
+    signatureVersion: 'v4'
+  });
+
+  let certificatePrivateKey = (await s3.getObject({
+    Bucket: configBucketName,
+    Key: `cert/${AWS_ACCOUNT.CERT_NAME}.private.pem`
+  }).promise()).Body.toString();
+
+  let {
+    CertificateBody,
+    CertificateChain
+  } = (await iam.getServerCertificate({
+    ServerCertificateName: AWS_ACCOUNT.CERT_NAME
+  }).promise()).ServerCertificate;
+
+  // CertificateBody = exports.clean(CertificateBody, 'CERTIFICATE');
+  // CertificateChain = exports.clean(CertificateChain, 'CERTIFICATE');
+  // certificatePrivateKey = exports.clean(certificatePrivateKey, 'RSA PRIVATE KEY');
+
+  await apigateway.createDomainName({
+    certificateBody: CertificateBody,
+    certificateChain: CertificateChain,
+    certificateName: AWS_ACCOUNT.CERT_NAME,
+    certificatePrivateKey,
+    domainName
+  }).promise();
+};
+
+// export let clean = function(content, type) {
+//   content = content.replace(new RegExp(`( |\\n)*\-\-\-\-\-BEGIN ${type}\-\-\-\-\-( |\\n)*`), '');
+//   content = content.replace(new RegExp(`( |\\n)*\-\-\-\-\-END ${type}\-\-\-\-\-( |\\n)*`), '');
+//   content = content.replace(/( |\\n)+/g, '\n');
+//   content = `-----BEGIN ${type}-----
+// ${content}
+// -----END ${type}-----`;
+//   return content;
+// };
+
+export default main;
+
+(async function() {
+  if (!module.parent) {
+    let env = envProxy({env: process.env});
+    await main({
+      env,
+      cmd: process.argv[2]
+    });
+  }
+})();
