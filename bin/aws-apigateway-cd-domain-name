@@ -72,6 +72,7 @@ exports.createDomainName = async function({env}) {
     ServerCertificateName: AWS_ACCOUNT.CERT_NAME
   }).promise()).ServerCertificate;
 
+  console.log(`Creating API Gateway Domain Name ${domainName}...`);
   await apigateway.createDomainName({
     certificateBody: CertificateBody,
     certificateChain: CertificateChain,
@@ -79,6 +80,7 @@ exports.createDomainName = async function({env}) {
     certificatePrivateKey,
     domainName
   }).promise();
+  console.log(`Done creating API Gateway Domain Name ${domainName}.`);
 };
 
 export default main;
