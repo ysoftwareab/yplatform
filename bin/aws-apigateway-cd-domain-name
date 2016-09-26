@@ -72,10 +72,6 @@ exports.createDomainName = async function({env}) {
     ServerCertificateName: AWS_ACCOUNT.CERT_NAME
   }).promise()).ServerCertificate;
 
-  // CertificateBody = exports.clean(CertificateBody, 'CERTIFICATE');
-  // CertificateChain = exports.clean(CertificateChain, 'CERTIFICATE');
-  // certificatePrivateKey = exports.clean(certificatePrivateKey, 'RSA PRIVATE KEY');
-
   await apigateway.createDomainName({
     certificateBody: CertificateBody,
     certificateChain: CertificateChain,
@@ -84,16 +80,6 @@ exports.createDomainName = async function({env}) {
     domainName
   }).promise();
 };
-
-// export let clean = function(content, type) {
-//   content = content.replace(new RegExp(`( |\\n)*\-\-\-\-\-BEGIN ${type}\-\-\-\-\-( |\\n)*`), '');
-//   content = content.replace(new RegExp(`( |\\n)*\-\-\-\-\-END ${type}\-\-\-\-\-( |\\n)*`), '');
-//   content = content.replace(/( |\\n)+/g, '\n');
-//   content = `-----BEGIN ${type}-----
-// ${content}
-// -----END ${type}-----`;
-//   return content;
-// };
 
 export default main;
 
