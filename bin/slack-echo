@@ -61,6 +61,8 @@ while [[ $# -gt 0 ]]; do
 done
 
 TEXT="$*"
+TEXT="${TEXT//\"/\\\"}"
+TEXT="${TEXT//$'\n'/\\\n}"
 
 cat > ${TMP_FILE} <<EOF
 {
