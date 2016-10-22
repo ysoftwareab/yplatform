@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+make $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2)
