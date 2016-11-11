@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# -i ~/.ssh/id_rsa
+ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no "$@"
