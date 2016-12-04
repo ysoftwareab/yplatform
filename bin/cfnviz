@@ -10,8 +10,8 @@ def main():
 
     (graph, edges) = extract_graph(template.get('Description', ''), template['Resources'])
     graph['edges'].extend(edges)
-    handle_terminals(template, graph, 'Parameters', 'source')
-    handle_terminals(template, graph, 'Outputs', 'sink')
+    handle_terminals(template, graph, 'Parameters', 'same')
+    handle_terminals(template, graph, 'Outputs', 'same')
     graph['subgraphs'].append(handle_psuedo_params(graph['edges']))
 
     render(graph)
