@@ -135,9 +135,10 @@ function cancel_update_stack() {
     aws cloudformation cancel-update-stack ${STACK_NAME_ARG}
 }
 
+trap on_exit EXIT
+
 if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
     aws s3 cp ${TEMPLATE_BODY#file://} s3://${TEMPLATE_URL}
-    trap on_exit EXIT
 fi
 
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
