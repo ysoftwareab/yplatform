@@ -38,4 +38,6 @@ done
 FILENAME="$1"
 
 cat - > ${TMP_FILE}
+chown --reference=${FILENAME} ${TMP_FILE}
+chmod --reference=${FILENAME} ${TMP_FILE}
 mv -f ${TMP_FILE} ${FILENAME}
