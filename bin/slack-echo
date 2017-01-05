@@ -7,7 +7,7 @@
 ##
 ##   -f, --from     Text to display as sender           Defaults to $(whoami)@$(hostname)
 ##   -i, --icon     Emoji to display as sender's icon   Defaults to ":shipit:"
-##   -t, --to       Recipient as #channel or @username  Defaults to "#cloud-ci"
+##   -t, --to       Recipient as #channel or @username
 ##   -w, --webhook  Webhook URL                         Defaults to ${CLOUD_SLACK_WEBHOOK}
 ##
 ##   -h, --help     Display this help and exit
@@ -60,6 +60,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+CHANNEL_TO=
+[[ -z "${TO}" ]] || {
+    CHANNEL_TO="\"channel\": \"${TO}\","
+}
+
 TEXT="$*"
 TEXT="${TEXT//\"/\\\"}"
 TEXT="${TEXT//$'\n'/\\\n}"
@@ -67,7 +72,7 @@ TEXT="${TEXT//$'\n'/\\\n}"
 cat > ${TMP_FILE} <<EOF
 {
 "username": "${FROM}",
-"channel": "${TO}",
+${CHANNEL_TO}
 "icon_emoji": "${ICON}",
 "text": "${TEXT}"
 }
