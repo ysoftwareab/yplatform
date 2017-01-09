@@ -27,7 +27,7 @@ source ${TOP}/support/sh/common.inc.sh
 
 TEMPLATE_BODY_ARG=
 TIMEOUT_ARG="--timeout-in-minutes 60"
-ON_FAILURE_ARG="--on-failure DELETE"
+ON_FAILURE_ARG=
 CAPABILITIES_ARG="--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"
 TEMPLATE_BODY=
 TEMPLATE_URL_PREFIX=
@@ -112,6 +112,10 @@ STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
 
 CU=create
 [[ -z ${STACK_ID} ]] || CU=update
+
+if [[ ${CU} = create ]]; then
+    ON_FAILURE_ARG=${FAILURE_ARG:-"--on-failure DELETE"}
+fi
 
 if [[ ${CU} = create ]]; then
     SED_UNTIL="^\]"
