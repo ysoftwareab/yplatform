@@ -24,8 +24,11 @@ function on_exit() {
 trap on_exit EXIT
 
 FROM="$(whoami)@$(hostname)"
-ICON="${ICON:-:shipit:}"
-TO="${TO:-#${SLACK_CHANNEL:-}}"
+ICON=":shipit:"
+TO=
+[[ -z "${SLACK_CHANNEL}" ]] || {
+    TO="#${SLACK_CHANNEL}"
+}
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
