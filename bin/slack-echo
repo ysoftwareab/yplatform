@@ -26,7 +26,7 @@ trap on_exit EXIT
 FROM="$(whoami)@$(hostname)"
 ICON=":shipit:"
 TO=
-[[ -z "${SLACK_CHANNEL}" ]] || {
+[[ -z "${SLACK_CHANNEL:-}" ]] || {
     TO="#${SLACK_CHANNEL}"
 }
 
