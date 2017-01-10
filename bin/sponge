@@ -37,7 +37,10 @@ done
 
 FILENAME="$1"
 
+chown=$(which gchown || which chown || echo chown_not_found)
+chmod=$(which gchmod || which chmod || echo chmod_not_found)
+
 cat - > ${TMP_FILE}
-chown --reference=${FILENAME} ${TMP_FILE}
-chmod --reference=${FILENAME} ${TMP_FILE}
+$chown --reference=${FILENAME} ${TMP_FILE}
+$chmod --reference=${FILENAME} ${TMP_FILE}
 mv -f ${TMP_FILE} ${FILENAME}
