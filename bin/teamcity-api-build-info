@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 (set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
-#- teamcity-url 1.0
-## Usage: teamcity-url [OPTION]... BUILD_ID
-## Return TeamCity URL of a build ID
+#- teamcity-api-build-info 1.0
+## Usage: teamcity-api-build-info [OPTION]... BUILD_ID
+## Return TeamCity info of a build ID as JSON/XML.
 ##
-##   -t, --tab      Build tab.        Defaults to buildResultsDiv
-##   -q, --queued   Is build queued?
+##   -a, --accept   Set accepted media-type.        Defaults to application/json.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -17,14 +16,8 @@ source ${TOP}/support/sh/common.inc.sh
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -q|--queued)
-            VIEW="Queued"
-            BUILD_ID_PARAM=itemId
-            TAB=${TAB:-queuedBuildOverviewTab}
-            shift 1
-            ;;
-        -t|--tab)
-            TAB="$2"
+        -a|--accept)
+            MEDIA_TYPE=${2}
             shift 2
             ;;
         -h|--help)
@@ -42,10 +35,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-VIEW=${VIEW:-Log}
-BUILD_ID_PARAM=${BUILD_ID_PARAM:-buildId}
-TAB=${TAB:-buildResultsDiv}
+MEDIA_TYPE=${MEDIA_TYPE:-application/json}
 
 BUILD_ID=$1
 
-echo "${TEAMCITY_URL}/view${VIEW}.html?${BUILD_ID_PARAM}=${BUILD_ID}&tab=${TAB}"
+curl \
+    -sS \
+    -H"Accept: ${MEDIA_TYPE}" \
+    "${TEAMCITY_URL}/guestAuth/app/rest/builds/${BUILD_ID}"

@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 (set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
-#- teamcity-build-info 1.0
-## Usage: teamcity-build-info [OPTION]... BUILD_ID
-## Return TeamCity info of a build ID as XML/JSON.
+#- teamcity-api-builds 1.0
+## Usage: teamcity-api-builds [OPTION]... BUILD_LOCATOR
+## Return TeamCity info of builds located via BUILD_LOCATOR as JSON/XML.
 ##
-##   -a, --accept   Set accepted media-type.        Defaults to application/xml.
+##   -a, --accept   Set accepted media-type.        Defaults to application/json.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -35,8 +35,11 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-MEDIA_TYPE=${MEDIA_TYPE:-application/xml}
+MEDIA_TYPE=${MEDIA_TYPE:-application/json}
 
-BUILD_ID=$1
+BUILD_LOCATOR=$1
 
-curl -sS -H"Accept: ${MEDIA_TYPE}" "${TEAMCITY_URL}/guestAuth/app/rest/builds/${BUILD_ID}"
+curl \
+    -sS \
+    -H"Accept: ${MEDIA_TYPE}" \
+    "${TEAMCITY_URL}/guestAuth/app/rest/builds/?locator=${BUILD_LOCATOR}"
