@@ -85,7 +85,7 @@ let cfn2graph = function(cfn) {
   let parametersSubgraph = {
     name: 'Parameters',
     type: 'subgraph',
-    rank: 'source',
+    rank: 'same', // 'source',
     shape: 'ellipse',
     style: 'filled',
     nodes: [],
@@ -102,7 +102,7 @@ let cfn2graph = function(cfn) {
   let outputsSubgraph = {
     name: 'Outputs',
     type: 'subgraph',
-    rank: 'max',
+    rank: 'same', // 'max',
     shape: 'ellipse',
     style: 'solid',
     nodes: [],
