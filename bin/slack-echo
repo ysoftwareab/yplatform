@@ -85,6 +85,6 @@ cat ${TMP_FILE}
 
 curl -fqsS \
      -X POST \
-     -H "Content-type: application/json" \
+     -H "Content-Type: application/json" \
      --data @${TMP_FILE} \
      ${SLACK_WEBHOOK}
