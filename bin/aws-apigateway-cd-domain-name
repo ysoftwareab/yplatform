@@ -1,22 +1,22 @@
 #!/usr/bin/env node -r babel-register
 
+import AWS_ACCOUNT from 'cfn-util/lib/const/aws-account';
 import _ from 'lodash';
 import aws from 'aws-sdk';
+import env from 'cfn-util/lib/env';
 import {
-  AWS_ACCOUNT
-} from '../cfn/const';
+  getDomain as getApiDomain
+} from 'cfn-util/lib/env-api';
 import {
-  envProxy,
-  makeApiDomain,
-  makeBucketName
-} from '../cfn/util';
+  getBucketName
+} from 'cfn-util/lib/aws-s3';
 
 let main = async function({env, cmd}) {
   let apigateway = new aws.APIGateway({
     region: env.AWS_REGION
   });
 
-  let domainName = makeApiDomain({env});
+  let domainName = getApiDomain({env});
 
   if (cmd === 'create') {
     try {
@@ -41,8 +41,8 @@ let main = async function({env, cmd}) {
 };
 
 exports.createDomainName = async function({env}) {
-  let domainName = makeApiDomain({env});
-  let configBucketName = makeBucketName({
+  let domainName = getApiDomain({env});
+  let configBucketName = getBucketName({
     env,
     prefix: 'config'
   });
@@ -87,7 +87,6 @@ export default main;
 
 (async function() {
   if (!module.parent) {
-    let env = envProxy({env: process.env});
     await main({
       env,
       cmd: process.argv[2]
