@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
 #- teamcity-api-build-info 1.0
 ## Usage: teamcity-api-build-info [OPTION]... BUILD_ID

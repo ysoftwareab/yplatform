@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
 #- teamcity-build-url 1.0
 ## Usage: teamcity-build-url [OPTION]... BUILD_ID

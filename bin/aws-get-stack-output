@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-(set -o igncr) 2>/dev/null && set -o igncr; # Magic to make it work under cygwin
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TOP="$(cd ${DIR}/../.. && pwd)"
