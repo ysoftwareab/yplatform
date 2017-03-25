@@ -1,6 +1,6 @@
 # core.inc.mk
 
-I make (pun) a lot of things, and I want to keep it DRY.
+I make (pun) a lot of things, and I want to keep them DRY.
 
 The `docs` folder has some tips and tricks as well.
 
