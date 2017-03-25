@@ -1,0 +1,6 @@
+GIT_ROOT = $(shell cd $(TOP) && git rev-parse --show-toplevel 2>/dev/null)
+GIT_HASH = $(shell cd $(TOP) && git rev-parse HEAD 2>/dev/null)
+GIT_HASH_SHORT = $(shell cd $(TOP) && git rev-parse --short HEAD 2>/dev/null)
+GIT_BRANCH = $(shell cd $(TOP) && git rev-parse --abbrev-ref HEAD 2>/dev/null)
+GIT_BRANCH_SHORT = $(shell basename $(GIT_BRANCH))
+$(foreach VAR,GIT_ROOT GIT_HASH GIT_HASH_SHORT GIT_BRANCH GIT_BRANCH_SHORT,$(call make-lazy,$(VAR)))

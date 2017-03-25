@@ -64,11 +64,3 @@ util-help:
 .PHONY: util-usage
 util-usage: util-env-guard-USAGE
 	@echo "$$USAGE"
-
-
-# COMPLEX IFDEF
-# From http://stackoverflow.com/questions/5584872/complex-conditions-check-in-makefile
-ifndef_any_of = $(filter undefined,$(foreach v,$(1),$(origin $(v))))
-ifdef_any_of = $(filter-out undefined,$(foreach v,$(1),$(origin $(v))))
-# ifdef VAR1 || VAR2 -> ifneq ($(call ifdef_any_of,VAR1 VAR2),)
-# ifdef VAR1 && VAR2 -> ifeq ($(call ifndef_any_of,VAR1 VAR2),)
