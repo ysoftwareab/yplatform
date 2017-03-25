@@ -6,10 +6,12 @@ The `docs` folder has some tips and tricks as well.
 
 # Usage
 
-I would have this repository as a submodule e.g. as a `core.inc.mk` folder,
-and then reference it at the top of the real `Makefile`:
+I would have this repository as a submodule e.g. as a `core.inc.mk` folder,  
+and then reference it at the top of the real `Makefile`,  
+just after setting the `TOP` (root path for the current project):
 
 ```make
+TOP := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 include core.inc.mk/Makefile
 ```
 
