@@ -56,6 +56,9 @@ MAKE_PATH = $(shell dirname $(abspath $(firstword $(MAKEFILE_LIST))))
 MAKE_REALPATH = $(patsubst %/,%,$(dir $(realpath "$(MAKE_PATH)/$(MAKE_FILENAME)")))
 $(foreach VAR,MAKE_FILENAME MAKE_PATH MAKE_REALPATH,$(call make-lazy,$(VAR)))
 
+MAKE_SELF_FILENAME = $(shell basename $(lastword $(MAKEFILE_LIST)))
+MAKE_SELF_PATH := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+
 TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print os.path.relpath('$(TOP)', '$(MAKE_PATH)')")
 $(foreach VAR,TOP_REL,$(call make-lazy,$(VAR)))
