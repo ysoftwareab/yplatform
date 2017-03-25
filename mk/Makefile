@@ -1,9 +1,11 @@
-include core.inc.mk
-include os.inc.mk
-include git.inc.mk
-include exe.inc.mk
+CORE_INC_MK_PATH := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
-include target.env.inc.mk
-include target.help.inc.mk
-include target.noop.inc.mk
-include target.printvar.inc.mk
+include $(CORE_INC_MK_PATH)/core.inc.mk
+include $(CORE_INC_MK_PATH)/os.inc.mk
+include $(CORE_INC_MK_PATH)/git.inc.mk
+include $(CORE_INC_MK_PATH)/exe.inc.mk
+
+include $(CORE_INC_MK_PATH)/target.env.inc.mk
+include $(CORE_INC_MK_PATH)/target.help.inc.mk
+include $(CORE_INC_MK_PATH)/target.noop.inc.mk
+include $(CORE_INC_MK_PATH)/target.printvar.inc.mk
