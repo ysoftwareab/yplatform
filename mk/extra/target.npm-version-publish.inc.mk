@@ -2,6 +2,7 @@
 npm-preversion-publish:
 #	allow publishing only from the master branch
 	test $$($(GIT) rev-parse --abbrev-ref HEAD 2>/dev/null) = master
+	$(GIT) diff-files --quiet
 
 
 .PHONY: npm-postversion-publish
