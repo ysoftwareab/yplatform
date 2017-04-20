@@ -218,7 +218,7 @@ echo "Waiting for stack-${CU}-complete..."
 aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} || {
     aws cloudformation describe-stack-events ${STACK_NAME_ARG} | \
         json "StackEvents" | \
-        json -c "global.isOldEvent = global.isOldEvent || this.EventId === '${LAST_EVENT_ID}'; return \!global.isOldEvent;" | \
+        json -c "global.isOldEvent = global.isOldEvent || this.EventId === '${LAST_EVENT_ID}'; return global.isOldEvent;" | \
         json -c "return /FAILED|ROLLBACK/.test(this.ResourceStatus)"
     exit 1
 }
