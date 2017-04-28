@@ -1,6 +1,7 @@
 NODE = $(shell $(WHICH_Q) node || echo "NODE_NOT_FOUND")
-NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
-$(foreach VAR,NODE NPM,$(call make-lazy,$(VAR)))
+NODE_NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
+NPM = $(shell $(WHICH_Q) npm || echo "NPM_NOT_FOUND")
+$(foreach VAR,NODE NODE_NPM NPM,$(call make-lazy,$(VAR)))
 
 BABEL = $(shell PATH="$(PATH)" $(WHICH_Q) babel || echo "BABEL_NOT_FOUND")
 NODE_BABEL = $(NODE) -r babel-register
