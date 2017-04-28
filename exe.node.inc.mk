@@ -1,5 +1,5 @@
 NODE = $(shell $(WHICH_Q) node || echo "NODE_NOT_FOUND")
-NPM = $(shell echo $(NODE) | $(SED) "s/node\$$/npm/")
+NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
 $(foreach VAR,NODE NPM,$(call make-lazy,$(VAR)))
 
 BABEL = $(shell PATH="$(PATH)" $(WHICH_Q) babel || echo "BABEL_NOT_FOUND")
