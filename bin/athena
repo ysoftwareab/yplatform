@@ -3,13 +3,15 @@
 process.env.AWS_ATHENA_REGION = process.env.AWS_ATHENA_REGION || process.env.AWS_REGION;
 console.error(`Prerequisites:
 
-$ echo -e "accessKey = ...\nsecretKey = ..." > $(git rev-parse --show-toplevel 2>/dev/null)/support/bin/athena.credentials
+$ brew cask install java
 
 $ (cd $(git rev-parse --show-toplevel 2>/dev/null)/support/bin &&
 wget http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar &&
 aws s3 cp s3://athena-downloads/drivers/AthenaJDBC41-1.1.0.jar ./ &&
 wget https://sdk-for-java.amazonwebservices.com/latest/aws-java-sdk.zip &&
 unzip aws-java-sdk.zip)
+
+$ echo -e "accessKey = ...\nsecretKey = ..." > $(git rev-parse --show-toplevel 2>/dev/null)/support/bin/athena.credentials
 
 `);
 
