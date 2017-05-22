@@ -1,0 +1,95 @@
+#!/usr/bin/env node -r babel-register
+
+process.env.AWS_ATHENA_REGION = process.env.AWS_ATHENA_REGION || process.env.AWS_REGION;
+console.error(`Prerequisites:
+
+$ echo -e "accessKey = ...\nsecretKey = ..." > $(git rev-parse --show-toplevel 2>/dev/null)/support/bin/athena.credentials
+
+$ (cd $(git rev-parse --show-toplevel 2>/dev/null)/support/bin &&
+wget http://central.maven.org/maven2/commons-logging/commons-logging/1.2/commons-logging-1.2.jar &&
+aws s3 cp s3://athena-downloads/drivers/AthenaJDBC41-1.1.0.jar ./ &&
+wget https://sdk-for-java.amazonwebservices.com/latest/aws-java-sdk.zip &&
+unzip aws-java-sdk.zip)
+
+`);
+
+import JDBC from 'jdbc';
+import _ from 'lodash';
+import aws from 'aws-sdk';
+import fs from 'fs';
+import jinst from 'jdbc/lib/jinst';
+import path from 'path';
+
+let promisify = function(fn) {
+  return function(...args) {
+    return new Promise((resolve, reject) => {
+      fn(...args, (err, result) => {
+        if (err) {
+          return reject(err);
+        }
+        resolve(result);
+      });
+    });
+  };
+};
+
+(async function() {
+  if (!jinst.isJvmCreated()) {
+    jinst.addOption('-Xrs');
+    jinst.setupClasspath([
+      path.join(__dirname, 'commons-logging-1.2.jar'),
+      path.join(__dirname, 'aws-java-sdk', 'lib', 'aws-java-sdk-1.11.132.jar'),
+      path.join(__dirname, 'AthenaJDBC41-1.1.0.jar')
+    ]);
+  }
+
+  let accountId = process.env.AWS_ACCOUNT_ID;
+  if (!accountId) {
+    let sts = new aws.STS();
+    let {Arn} = await sts.getCallerIdentity().promise();
+    accountId = Arn.replace(/^arn:aws:(iam|sts)::/, '').replace(/:.+$/, '');
+  }
+
+  let config = {
+    // Required
+    url: `jdbc:awsathena://athena.${process.env.AWS_ATHENA_REGION}.amazonaws.com:443`,
+    // Optional
+    // drivername: 'com.amazonaws.athena.jdbc.AthenaDriver',
+    // minpoolsize: 10,
+    // maxpoolsize: 100,
+    properties: {
+      s3_staging_dir: `s3://aws-athena-query-results-${accountId}-${process.env.AWS_ATHENA_REGION}/`,
+      log_path: `${__dirname}/athena.log`,
+      log_level: 'TRACE',
+      // user: 'access_key',
+      // password: 'secret_key'
+
+      // support/bin/get-aws-cli-sts | source /dev/stdin
+      // aws_credentials_provider_class: 'com.amazonaws.auth.profile.ProfileCredentialsProvider',
+      // aws_credentials_provider_arguments: `${process.env.HOME}/.aws/credentials,${process.env.AWS_PROFILE}`
+
+      // support/bin/get-aws-cli-sts | source /dev/stdin
+      // aws_credentials_provider_class: 'com.amazonaws.auth.EnvironmentVariableCredentialsProvider'
+
+      aws_credentials_provider_class: 'com.amazonaws.auth.PropertiesFileCredentialsProvider',
+      aws_credentials_provider_arguments: `${__dirname}/athena.credentials`
+    }
+  };
+
+  let SQL = Buffer.alloc(10240);
+
+  let hsqldb = new JDBC(config);
+
+  await promisify(hsqldb.initialize.bind(hsqldb))();
+  let {conn} = await promisify(hsqldb.reserve.bind(hsqldb))();
+
+  fs.readSync(process.stdin.fd, SQL, 0, SQL.byteLength, null);
+  SQL = SQL.toString('utf8').replace(/\0/g, '');
+
+  let stmt = await promisify(conn.createStatement.bind(conn))();
+
+  let results = await promisify(stmt.executeQuery.bind(stmt))(SQL);
+
+  results = await promisify(results.toObjArray.bind(results))();
+  console.log(JSON.stringify(results));
+})();
