@@ -6,3 +6,6 @@ printvars: ## Print all Makefile variables.
 .PHONY: printvar-%
 printvar-%: ## Print one Makefile variable.
 	@echo $*=$($*)
+	@echo '  origin = $(origin $*)'
+	@echo '  flavor = $(flavor $*)'
+	@echo '   value = $(value  $*)'
