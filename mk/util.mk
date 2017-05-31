@@ -10,6 +10,7 @@ print-all:
 
 # PRINT MAKEFILE VARIABLE
 # From http://blog.jgc.org/2015/04/the-one-line-you-should-add-to-every.html
+# See also https://www.cmcrossroads.com/article/printing-value-makefile-variable
 .PHONY: print-%
 print-%:
 	@echo $*=$($*)
@@ -46,6 +47,7 @@ silent:
 
 # help TARGET (list all available targets)
 # From http://stackoverflow.com/a/15058900
+# See also https://www.cmcrossroads.com/article/self-documenting-makefiles
 .PHONY: help
 help:
 #	@sh -c "$(MAKE) -p silent | awk -F':' '/^[a-zA-Z0-9][^\$$#\/\\t=]*:([^=]|$$)/ {split(\$$1,A,/ /);for(i in A)print A[i]}' | grep -v '__\$$' | grep -v -e 'env-guard-*' -e 'env-has-*' -e 'make' -e 'Makefile' | sort | uniq"
