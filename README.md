@@ -22,6 +22,10 @@ include core.inc.mk/core.inc.mk
 include core.inc.mk/target.help.inc.mk
 ```
 
+# Ref
+
+* http://blog.jgc.org/2013/02/updated-list-of-my-gnu-make-articles.html
+
 # License
 
 [Unlicense](LICENSE).
