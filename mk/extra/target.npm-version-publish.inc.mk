@@ -10,7 +10,7 @@ npm-preversion-publish:
 npm-postversion-publish: dist
 	$(GIT) checkout -f -B dist
 	$(GIT) reset --hard origin/dist || true
-	$(GIT) merge --no-ff -s recursive -X theirs @{-1}
+	$(GIT) merge --no-edit --no-ff -s recursive -X theirs @{-1}
 	$(MAKE) dist
 	$(GIT) add -f dist
 	VSN=$$(node -e "console.log(require('./package.json').version)"); \
