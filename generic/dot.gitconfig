@@ -1,0 +1,127 @@
+# CORE
+[core]
+    attributesfile      = ~/git/firecloud/support-firecloud/generic/dot.gitattributes_global
+    excludesfile        = ~/git/firecloud/support-firecloud/generic/dot.gitignore_global
+    whitespace          = blank-at-eol,space-before-tab,blank-at-eof,trailing-space
+    mergeoptions        = --no-edit
+
+[tag]
+    sort                = version:refname
+
+
+# DIFF
+[diff]
+    guitool             = diffmerge
+    renames             = true
+    mnemonicprefix      = true
+    algorithm           = patience
+[diff "bin"]
+	textconv            = hexdump -v -C
+[diff "docx"]
+	textconv            = docx2txt
+[diff "exif"]
+	textconv            = exiftool
+[diff "git-crypt"]
+    textconv            = git-crypt diff
+[diff "gpg"]
+    textconv            = gpg -v
+[diff "gz"]
+    textconv            = gzcat
+[diff "odf"]
+	textconv            = odt2txt
+[diff "pdf"]
+	textconv            = pdfinfo
+[diff "tar"]
+    textconv            = tar -O xf
+[diff "tar-gz"]
+    textconv            = tar -O xzf
+[diff "zip"]
+    textconv            = unzip -p
+[difftool]
+    prompt              = false
+[difftool "diffmerge"]
+    cmd                 = diffmerge --nosplash \"$LOCAL\" \"$REMOTE\"
+
+
+# MERGE
+[merge]
+    guitool             = diffmerge
+    log                 = true
+    summary             = true
+    stat                = true
+    ff                  = false
+    renormalize         = true # false
+[merge "ours"]
+	driver              = true
+[mergetool]
+    prompt              = false
+    keepBackup          = false
+    trustExitCode       = false
+[mergetool "diffmerge"]
+#    cmd                 = diffmerge --nosplash --merge --result=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+    cmd                 = diffmerge --nosplash --merge --result=\"$MERGED\" -t1=\"Local version\" -t2=\"$MERGED\" -t3=\"Other version\" --caption=\"$MERGED\" \"$LOCAL\" \"$BASE\" \"$REMOTE\"
+    trustExitCode       = true
+
+
+# REBASE
+[rebase]
+    autostash           = true
+    autosquash          = true
+    keepEmpty           = true
+    stat                = true
+    missingCommitsCheck = warn
+
+
+# URL
+[branch]
+    autosetupmerge      = true
+    autosetuprebase     = always
+
+
+# FILTERS
+[filter "git-lfs"]
+    smudge = git-lfs smudge %f
+    clean = git-lfs clean %f
+    required = true
+
+[filter "git-crypt"]
+    smudge = git-crypt smudge
+    clean = git-crypt clean
+    required = true
+
+
+# MISC
+[status]
+    submodulesummary    = true
+    relativePaths       = true
+[fetch]
+    recurseSubmodules   = on-demand #true
+[pull]
+    default             = current
+    rebase              = preserve # rebase and preserve merge commits
+    ff                  = only
+[push]
+    default             = current
+    recurseSubmodules   = check
+    followTags          = true
+[svn]
+    rmdir               = true
+[log]
+    date                = iso
+    follow              = true
+[gc]
+    auto                = 0
+[advice]
+    detachedHead        = false
+[rerere]
+    autoupdate          = true
+    enabled             = true
+[gc]
+    auto                = 0
+[notes]
+    displayRef          = refs/notes/*
+    rewriteref          = refs/notes/*
+    rewriteMode         = concatenate
+[notes "rewrite"]
+    amend               = true
+    rebase              = true

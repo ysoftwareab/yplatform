@@ -1,0 +1,70 @@
+# A primer on a few git attributes
+# whitespace=space-before-tab = do not allow spaces followed by tabs
+# whitespace=tab-in-indent    = do not allow indentation by tabs
+# whitespace=trailing-space   = do not allow trailing spaces
+
+# ==============================================================================
+
+# Default behaviour, in case the git client doesn't have core.autocrlf set:
+# commit only LF line endings, but use CRLF locally if needed
+# https://help.github.com/articles/dealing-with-line-endings/
+# http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+# * text=auto eol=lf
+
+# Whitespace ===================================================================
+# * whitespace=space-before-tab,tab-in-indent,trailing-space,tab
+
+# Whitespace (exclusions) ======================================================
+*.mk whitespace=space-before-tab,-tab-in-indent,trailing-space
+Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
+
+# Text =========================================================================
+*.c text diff=cpp
+*.cpp text diff=cpp
+*.cs text diff=csharp
+*.h text diff=cpp
+*.html text diff=html
+*.java text diff=java
+*.js text
+*.json text
+*.md text
+*.mk text
+*.perl text diff=perl
+*.php text diff=php
+*.pl text diff=perl
+*.pm text diff=perl
+*.py text diff=python
+*.sh text
+*.template text
+*.ts text
+.editorconfig text
+.gitattributes text
+.gitconfig text
+.npmignore text
+Makefile* text
+
+# Binaries =====================================================================
+*.docx binary diff=docx
+*.exe binary diff=bin
+*.gif binary diff=exif
+*.gpg binary diff=gpg
+*.gz binary diff=gz
+*.ico binary
+*.jpg binary diff=exif
+*.odf binary diff=odf
+*.odt binary diff=odf
+*.odp binary diff=odf
+*.pdf binary diff=pdf
+*.png binary diff=exif
+*.tar binary diff=tar
+*.tar.gz binary diff=tar-gz
+*.tgz binary
+*.xlsx binary
+*.zip binary diff=zip
+
+# 3rd-party exclusions =========================================================
+# e.g. /path -whitespace -text -tailf-max-line-length
+
+# Ignore when exporting ========================================================
+.gitattributes export-ignore
+.gitignore export-ignore

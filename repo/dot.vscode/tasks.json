@@ -1,0 +1,25 @@
+{
+  "version": "0.1.0",
+
+  "command": "make",
+
+  "isShellCommand": true,
+  "echoCommand": true,
+  "showOutput": "always",
+
+  "tasks": [{
+    "taskName": "clean"
+  }, {
+    "isBuildCommand": true,
+    "taskName": "all",
+    "problemMatcher": [
+      "$lessCompile",
+      "$tsc"
+    ]
+  }, {
+    "taskName": "lint"
+  }, {
+    "isTestCommand": true,
+    "taskName": "test"
+  }]
+}

@@ -1,0 +1,25 @@
+{
+  "editor.renderWhitespace": "boundary",
+  "editor.rulers": [
+    80,
+    120
+  ],
+  "editor.scrollBeyondLastLine": false,
+  "editor.wordWrap": "off",
+
+  "eslint.run": "onSave",
+  "eslint.autoFixOnSave": true,
+
+  "files.exclude": {
+    "**/*.js": {
+      "when": "$(basename).ts"
+    },
+    "**/*.js.map": {
+      "when": "$(basename).js"
+    }
+  },
+  "files.trimTrailingWhitespace": false,
+
+  "tslint.run": "onSave",
+  "tslint.autoFixOnSave": true
+}
