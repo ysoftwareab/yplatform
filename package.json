@@ -2,5 +2,11 @@
   "private": true,
   "name": "support-firecloud",
   "version": "0.0.1",
-  "license": "Unlicense"
+  "license": "Unlicense",
+  "devDependencies": {
+    "eclint": "2.3.0"
+  },
+  "scripts": {
+    "test": "eclint check $(git ls-files | grep -v package-lock.json)"
+  }
 }
