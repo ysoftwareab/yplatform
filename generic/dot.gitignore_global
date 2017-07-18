@@ -1,3 +1,24 @@
-.DS_Store
-.tern-port
+# Emacs
 *#*
+
+# ESLint
+.eslintcache
+
+# NodeJS
+.npm/
+.tern-port
+.yarn-integrity
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OSX
+.DS_Store
+
+# Visual Studio Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
