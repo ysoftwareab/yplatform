@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${DIR}/CONST-VSN.inc
+
+apt-get install -y --force-yes \
+    autoconf \
+    automake \
+    bison \
+    bsdmainutils \
+    build-essential \
+    curl \
+    git \
+    gettext \
+    graphviz \
+    libonig-dev \
+    nodejs \
+    python \
+    python-pip \
+    realpath \
+    remake \
+    software-properties-common \
+    tar \
+    texinfo \
+    uuid-runtime \
+    wget \
+    zip
+
+# Java
+apt-add-repository ppa:webupd8team/java
+echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+
+# GIT
+apt-add-repository ppa:git-core/ppa -y
+
+# Erlang
+wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+dpkg -i erlang-solutions_1.0_all.deb
+
+# NodeJS
+curl -sL https://deb.nodesource.com/setup_7.x | bash -
+
+#	apt-get update # happens in the nodesource.com script
+
+apt-get install -y --force-yes \
+    erlang \
+    git \
+    nodejs \
+    oracle-java8-installer \
+    oracle-java8-set-default
+
+# NPM
+npm install --global npm@${VSN_NPM}
+
+# JSON
+npm install --global json@${VSN_JSON}
+
+# GNU Make
+curl -LO https://ftp.gnu.org/gnu/make/make-${VSN_MAKE}.tar.gz
+tar xf make-${VSN_MAKE}.tar.gz
+cd make-${VSN_MAKE}
+./configure
+make
+make install
+rm -rf make-${VSN_MAKE}*
+
+# AWS
+pip install --upgrade awscli
+pip install --upgrade awslogs
+aws configure set s3.signature_version s3v4

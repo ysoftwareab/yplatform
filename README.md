@@ -51,3 +51,10 @@ ln -s {node_modules/support-firecloud/dot,}.editorconfig
 ln -s {node_modules/support-firecloud/dot,}.npmrc
 ln -s {node_modules/support-firecloud/dot,}.vscode
 ```
+
+
+## OS Bootstrap
+
+Run `ci/deps-os-darwin` to install OSX system dependencies.
+
+Run `ci/deps-os-linux` to install Ubuntu system dependencies.

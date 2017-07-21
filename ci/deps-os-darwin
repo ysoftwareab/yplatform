@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${DIR}/CONST-VSN.inc
+
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || true # fails if already installed
+
+brew tap homebrew/dupes
+brew tap homebrew/versions
+brew update
+
+# GNU Make
+brew install make --force --with-default-names
+
+brew install \
+    awscli \
+    bash \
+    coreutils \
+    curl \
+    erlang \
+    findutils \
+    graphviz \
+    java \
+    jq \
+    parallel \
+    python \
+    node \
+    watch \
+    gnu-sed
+
+# NPM
+npm install --global npm@${VSN_NPM}
+
+# JSON
+npm install --global json@${VSN_JSON}
+
+# AWS
+pip install --upgrade awscli
+pip install --upgrade awslogs
+aws configure set s3.signature_version s3v4
