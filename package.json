@@ -7,6 +7,6 @@
     "eclint": "2.3.0"
   },
   "scripts": {
-    "test": "eclint check $(git ls-files | grep -v package-lock.json)"
+    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" | sed \"s/^/'/g\" | sed \"s/$/'/g\")"
   }
 }
