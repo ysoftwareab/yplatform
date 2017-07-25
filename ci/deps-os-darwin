@@ -29,8 +29,8 @@ brew install \
     watch \
     gnu-sed
 
-# NPM
-npm install --global npm@${VSN_NPM}
+# PNPM
+npm install --global pnpm@${VSN_PNPM}
 
 # JSON
 npm install --global json@${VSN_JSON}

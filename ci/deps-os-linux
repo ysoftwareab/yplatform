@@ -51,8 +51,8 @@ apt-get install -y --force-yes \
     oracle-java8-installer \
     oracle-java8-set-default
 
-# NPM
-npm install --global npm@${VSN_NPM}
+# PNPM
+pnpm install --global pnpm@${VSN_PNPM}
 
 # JSON
 npm install --global json@${VSN_JSON}
