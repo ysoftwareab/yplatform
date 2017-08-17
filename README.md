@@ -1,4 +1,4 @@
-# support-firecloud
+# support-firecloud [![Build Status][2]][1]
 
 Support files  (e.g. configuration like `.gitconfig`, `.editorconfig`).
 
@@ -58,3 +58,12 @@ ln -s {node_modules/support-firecloud/dot,}.vscode
 Run `ci/deps-os-darwin` to install OSX system dependencies.
 
 Run `ci/deps-os-linux` to install Ubuntu system dependencies.
+
+
+## License
+
+[UNLICENSE](UNLICENSE)
+
+
+  [1]: https://travis-ci.org/tobiipro/support-firecloud
+  [2]: https://travis-ci.org/tobiipro/support-firecloud.svg?branch=master
