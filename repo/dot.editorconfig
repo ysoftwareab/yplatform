@@ -16,9 +16,15 @@ tab_width = 4
 [*.sh]
 tab_width = 4
 
+[.gitmodules]
+indent_style = none
+
+[.npmignore]
+insert_final_newline = false # remove if .npmignore isn't empty
+
 [Makefile]
 indent_style = tab
 tab_width = 4
 
-[.gitmodules]
-indent_style = none
+[repo/dot.vscode/settings.json]
+max_line_length = 1024

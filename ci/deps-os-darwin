@@ -4,7 +4,8 @@ set -euo pipefail
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${DIR}/CONST-VSN.inc
 
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || true # fails if already installed
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
+  true # fails if already installed
 
 brew tap homebrew/dupes
 brew tap homebrew/versions
