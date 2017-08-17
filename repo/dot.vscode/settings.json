@@ -22,6 +22,18 @@
     }
   },
 
+  "html.format.enable": true,
+  "html.format.wrapLineLength": 120,
+  "html.format.unformatted": "a, abbr, acronym, b, bdo, big, br, button, cite, code, dfn, em, i, img, input, kbd, label, map, object, q, samp, select, small, span, strong, sub, sup, textarea, tt, var",
+  "html.format.contentUnformatted": "pre",
+  "html.format.indentInnerHtml": true,
+  "html.format.preserveNewLines": true,
+  "html.format.maxPreserveNewLines": 1,
+  "html.format.indentHandlebars": false,
+  "html.format.endWithNewline": true,
+  "html.format.extraLiners": "head, body, /html",
+  "html.format.wrapAttributes": "auto",
+
   "javascript.format.enable": true,
   "javascript.format.insertSpaceAfterCommaDelimiter": true,
   "javascript.format.insertSpaceAfterConstructor": false,
