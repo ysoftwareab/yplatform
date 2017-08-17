@@ -16,11 +16,11 @@
     mnemonicprefix      = true
     algorithm           = patience
 [diff "bin"]
-  textconv            = hexdump -v -C
+    textconv            = hexdump -v -C
 [diff "docx"]
-  textconv            = docx2txt
+    textconv            = docx2txt
 [diff "exif"]
-  textconv            = exiftool
+    textconv            = exiftool
 [diff "git-crypt"]
     textconv            = git-crypt diff
 [diff "gpg"]
@@ -28,9 +28,9 @@
 [diff "gz"]
     textconv            = gzcat
 [diff "odf"]
-  textconv            = odt2txt
+    textconv            = odt2txt
 [diff "pdf"]
-  textconv            = pdfinfo
+    textconv            = pdfinfo
 [diff "tar"]
     textconv            = tar -O xf
 [diff "tar-gz"]
@@ -52,7 +52,7 @@
     ff                  = false
     renormalize         = true # false
 [merge "ours"]
-  driver              = true
+    driver              = true
 [mergetool]
     prompt              = false
     keepBackup          = false
@@ -80,14 +80,13 @@
 
 # FILTERS
 [filter "git-lfs"]
-    smudge = git-lfs smudge %f
-    clean = git-lfs clean %f
-    required = true
-
+    smudge              = git-lfs smudge %f
+    clean               = git-lfs clean %f
+    required            = true
 [filter "git-crypt"]
-    smudge = git-crypt smudge
-    clean = git-crypt clean
-    required = true
+    smudge              = git-crypt smudge
+    clean               = git-crypt clean
+    required            = true
 
 
 # MISC
