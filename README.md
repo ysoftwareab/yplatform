@@ -9,7 +9,7 @@ Failing to do so, hell won't break loose, but you are on your own.
 
 ```shell
 cd ~/git/firecloud
-git clone git@git.tobii.intra:cloud/an/firecloud/support-firecloud.git
+git clone git@github.com:tobiipro/support-firecloud.git
 
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitignore_global
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitattributes_global
@@ -37,7 +37,7 @@ in your `~/.gitconfig` prepend AT THE TOP
 Use as a git submodule via
 
 ```shell
-git submodule add support/firecloud git@git.tobii.intra:cloud/an/firecloud/support-firecloud.git
+git submodule add support/firecloud git@github.com:tobiipro/support-firecloud.git
 ln -s {support/firecloud/repo/dot,}.editorconfig
 ln -s {support/firecloud/repo/dot,}.npmrc
 ln -s {support/firecloud/repo/dot,}.vscode
@@ -46,7 +46,7 @@ ln -s {support/firecloud/repo/dot,}.vscode
 or as an npm dependency via
 
 ```shell
-npm install --save-dev --save-exact git@git.tobii.intra:cloud/an/firecloud/support-firecloud.git#commitish
+npm install --save-dev --save-exact git@github.com:tobiipro/support-firecloud.git#commitish
 ln -s {node_modules/support-firecloud/dot,}.editorconfig
 ln -s {node_modules/support-firecloud/dot,}.npmrc
 ln -s {node_modules/support-firecloud/dot,}.vscode
