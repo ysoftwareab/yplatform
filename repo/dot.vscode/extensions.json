@@ -3,6 +3,7 @@
     "EditorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
-    "eg2.tslint"
+    "eg2.tslint",
+    "glen-84.sass-lint"
   ]
 }
