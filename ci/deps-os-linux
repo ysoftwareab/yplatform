@@ -73,10 +73,12 @@ rm -rf jq-${VSN_JQ}*
 # GNU Make
 curl -LO https://ftp.gnu.org/gnu/make/make-${VSN_MAKE}.tar.gz
 tar xf make-${VSN_MAKE}.tar.gz
-cd make-${VSN_MAKE}
-./configure
-make
-make install
+(
+  cd make-${VSN_MAKE}
+  ./configure
+  make
+  make install
+)
 rm -rf make-${VSN_MAKE}*
 
 # AWS
