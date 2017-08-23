@@ -14,6 +14,7 @@ apt-get install -y --force-yes \
     git \
     gettext \
     graphviz \
+    jq \
     libonig-dev \
     nodejs \
     python \
@@ -27,13 +28,13 @@ apt-get install -y --force-yes \
     wget \
     zip
 
+# GIT
+apt-add-repository ppa:git-core/ppa -y
+
 # Java
 apt-add-repository ppa:webupd8team/java
 echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
-
-# GIT
-apt-add-repository ppa:git-core/ppa -y
 
 # Erlang
 wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
@@ -56,6 +57,18 @@ npm install --global npm@${VSN_NPM}
 
 # JSON
 npm install --global json@${VSN_JSON}
+
+# JQ
+# "apt-get install jq" on ubuntu trusty (14.04) will install the old version 1.3
+curl -LO https://github.com/stedolan/jq/releases/download/jq-${VSN_JQ}/jq-${VSN_JQ}.tar.gz
+tar xf jq-${VSN_JQ}.tar.gz
+(
+    cd jq-${VSN_JQ}
+    ./configure
+    make
+    make install
+)
+rm -rf jq-${VSN_JQ}*
 
 # GNU Make
 curl -LO https://ftp.gnu.org/gnu/make/make-${VSN_MAKE}.tar.gz
