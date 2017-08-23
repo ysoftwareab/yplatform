@@ -11,8 +11,8 @@ apt-get install -y --force-yes \
     bsdmainutils \
     build-essential \
     curl \
-    git \
     gettext \
+    git \
     graphviz \
     jq \
     libonig-dev \

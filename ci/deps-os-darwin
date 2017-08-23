@@ -21,14 +21,15 @@ brew install \
     curl \
     erlang \
     findutils \
+    git \
+    gnu-sed \
     graphviz \
     java \
     jq \
+    node \
     parallel \
     python \
-    node \
-    watch \
-    gnu-sed
+    watch
 
 # NPM
 npm install --global npm@${VSN_NPM}
