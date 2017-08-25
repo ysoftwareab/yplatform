@@ -28,6 +28,7 @@ $(foreach VAR,ESLINT FLOW JSONLINT,$(call make-lazy,$(VAR)))
 
 # Test
 ISTANBUL = $(shell PATH="$(PATH)" $(WHICH_Q) istanbul || echo "ISTANBUL_NOT_FOUND")
+JEST = $(shell PATH="$(PATH)" $(WHICH_Q) jest || echo "JEST_NOT_FOUND")
 MOCHA = $(shell PATH="$(PATH)" $(WHICH_Q) mocha || echo "MOCHA_NOT_FOUND")
 MOCHA_BABEL = $(MOCHA) --compilers js:babel-register
 _MOCHA = $(shell PATH="$(PATH)" $(WHICH_Q) _mocha || echo "_MOCHA_NOT_FOUND")
