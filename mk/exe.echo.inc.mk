@@ -1,5 +1,5 @@
-# CI_ECHO can be used for e.g. pointing to an executable that
-# outputs teamcity messages
+# CI_ECHO can be used for e.g. pointing to
+# an executable that outputs teamcity messages
 
 CI_ECHO ?= $(ECHO)
 ECHO_DO = $(CI_ECHO) "[DO  ]"
