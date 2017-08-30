@@ -11,8 +11,8 @@
 # include support-firecloud/repo/Makefile.common.mk
 # include support-firecloud/repo/...
 
-SF_PATH := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
-include $(SF_PATH)/repo/core.inc.mk/Makefile
+SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
+include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 
 ECLINT = $(call which,ECLINT,eclint)
 JSONLINT = $(call which,JSONLINT,jsonlint)
