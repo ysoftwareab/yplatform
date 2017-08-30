@@ -37,27 +37,29 @@ in your `~/.gitconfig` prepend AT THE TOP
 Use as a git submodule via
 
 ```shell
-git submodule add support/firecloud git@github.com:tobiipro/support-firecloud.git
-ln -s {support/firecloud/repo/dot,}.editorconfig
-ln -s {support/firecloud/repo/dot,}.npmrc
-ln -s {support/firecloud/repo/dot,}.vscode
+git submodule add support-firecloud git://github.com/tobiipro/support-firecloud.git
+ln -s {support-firecloud/repo/dot,}.editorconfig
+ln -s {support-firecloud/repo/dot,}.npmrc
+ln -s {support-firecloud/repo/dot,}.vscode
 ```
 
 or as an npm dependency via
 
 ```shell
-npm install --save-dev --save-exact git@github.com:tobiipro/support-firecloud.git#commitish
-ln -s {node_modules/support-firecloud/dot,}.editorconfig
-ln -s {node_modules/support-firecloud/dot,}.npmrc
-ln -s {node_modules/support-firecloud/dot,}.vscode
+npm install --save-dev --save-exact git://github.com/tobiipro/support-firecloud.git#commitish
+ln -s {node_modules/support-firecloud/repo/dot,}.editorconfig
+ln -s {node_modules/support-firecloud/repo/dot,}.npmrc
+ln -s {node_modules/support-firecloud/repo/dot,}.vscode
 ```
 
 
 ## OS Bootstrap
 
-Run `ci/deps-os-darwin` to install OSX system dependencies.
+Run `ci/osx/bootstrap` to install OSX system dependencies.
 
-Run `ci/deps-os-linux` to install Ubuntu system dependencies.
+Run `ci/linux/bootstrap` to install Ubuntu system dependencies (sudo required).
+
+Run `ci/linux-nosudo/bootstrap` to install Ubuntu system dependencies (sudo not required, minimal setup).
 
 
 ## License
