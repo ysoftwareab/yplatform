@@ -1,0 +1,29 @@
+cache:
+  directories:
+    - /tmp/support-firecloud.cache
+    - $HOME/.local
+    - $HOME/.npm
+    - $HOME/.pip-cache/
+    - $HOME/Library/Caches/Homebrew
+    - node_modules
+before_install:
+  - ./.travis.yml.before_install
+install:
+  - ./.travis.yml.install
+script:
+  - ./.travis.yml.script
+
+language:
+  - node_js
+node_js:
+  - node
+
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: required
+    - os: linux
+      dist: trusty
+      sudo: false
+    - os: osx
