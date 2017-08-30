@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- ci-echo 1.0
+## Usage: ci-echo STEP TEXT...
+## Echo message with a STEP indicator for stdout or for TeamCity/Travis consumption.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+function fallback_echo() {
+    >&2 echo "$@"
+}
+
+function travis_echo() {
+    local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/")"
+
+    case $1 in
+        "[DO  ]")
+            echo "travis_fold:start:${GROUP}"
+            return 0
+        ;;
+        "[DONE]")
+            echo "travis_fold:end"
+            return 0
+        ;;
+        *)
+        ;;
+    esac
+
+    fallback_echo "$@"
+}
+
+function teamcity_echo() {
+    local STATUS=NORMAL
+    local STEP="$1"
+    local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
+
+    case $1 in
+        "[NEXT]")
+            echo "##teamcity[progressMessage '${MESSAGE}']"
+            return 0
+        ;;
+        "[DO  ]")
+            echo "##teamcity[blockOpened name='$(pwd)' description='${MESSAGE}']"
+            return 0
+        ;;
+        "[DONE]")
+            echo "##teamcity[blockClosed name='$(pwd)']"
+            return 0
+        ;;
+        "[SKIP]")
+            STATUS=WARNING
+        ;;
+        "[WARN]")
+            STATUS=WARNING
+        ;;
+        "[ERR ]")
+            STATUS=ERROR
+        ;;
+        "[INFO]"|*)
+        ;;
+    esac
+
+    echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
+}
+
+if [ "${TRAVIS:-}" = "true" ]; then
+    travis_echo "$1" "${@:2}"
+elif [ -n "${TEAMCITY_VERSION:-}" ]; then
+    teamcity_echo "$1" "${@:2}"
+else
+    fallback_echo "${@}"
+fi
