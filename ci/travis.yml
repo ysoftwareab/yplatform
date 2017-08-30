@@ -22,8 +22,12 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      sudo: required
+      sudo: false
+      env: CACHE_NAME=linux-trusty-false
     - os: linux
       dist: trusty
-      sudo: false
+      sudo: required
+      env: CACHE_NAME=linux-trusty-required
     - os: osx
+      osx_image: xcode8.3
+      env: CACHE_NAME=osx-xcode8.3

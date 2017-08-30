@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+echo_do "Installing JQ..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
+echo_done
+
+echo_do "Installing GNU Make..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-make
+echo_done
+
+# AWS
+echo_do "Installing AWS utils..."
+pip install --user --upgrade --ignore-installed awscli
+pip install --user --upgrade --ignore-installed awslogs
+aws configure set s3.signature_version s3v4
+echo_done
+
+echo_do "Printenv..."
+printenv
+echo_done
+
+echo_do "Listing packages..."
+apt list --installed
+echo_done
+
+set +x

@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+function apt_install() {
+    echo "${DPKGS}" | while read DPKG; do
+        apt-get install -y --force-yes ${DPKG}
+    done
+}
+
+[ "${EUID}" -eq 0 ] || {
+    sudo "${BASH_SOURCE[0]}"
+    exit 0
+}
+
+echo_do "Upgrading aptitude..."
+apt-get install -y --force-yes software-properties-common
+apt-add-repository -y ppa:git-core/ppa
+apt-get update
+echo_done
+
+# Basic
+echo_do "Installing basic packages..."
+DPKGS=<<EOF
+autoconf
+automake
+bsdmainutils
+build-essential
+realpath
+software-properties-common
+tar
+uuid-runtime
+zip
+EOF
+apt_install
+echo_done
+
+# Misc
+echo_do "Installing miscellaneous packages..."
+DPKGS=<<EOF
+bash
+curl
+git
+jq
+wget
+EOF
+apt_install
+echo_done
+
+echo_do "Installing JQ..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
+echo_done
+
+echo_do "Installing GNU Make..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-make
+echo_done
+
+# AWS
+echo_do "Installing AWS utils..."
+pip install --upgrade awscli
+pip install --upgrade awslogs
+aws configure set s3.signature_version s3v4
+echo_done
+
+echo_do "Printenv..."
+printenv
+echo_done
+
+echo_do "Listing packages..."
+apt list --installed
+echo_done
+
+set +x

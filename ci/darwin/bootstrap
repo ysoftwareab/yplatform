@@ -1,0 +1,72 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+function brew_install() {
+  echo "${BREW_FORMULAE}" | while read FORMULA; do
+      NAME=$(echo "${FORMULA}" | cut -d' ' -f1)
+      brew list "${NAME}" >/dev/null 2>&1 || brew install ${FORMULA}
+  done
+}
+
+echo_do "Upgrading homebrew..."
+brew update
+brew outdated
+brew upgrade
+echo_done
+
+# Basic/GNU
+echo_do "Installing basic/GNU packages..."
+BREW_FORMULAE=<<EOF
+autoconf
+automake
+coreutils
+diffutils
+findutils --with-default-names
+gnu-sed --with-default-names
+gnu-tar --with-default-names
+gnu-which
+grep --with-default-names
+gzip
+make --with-default-names
+parallel
+pkg-config
+unzip
+watch
+EOF
+brew_install
+echo_done
+
+# Misc
+echo_do "Installing miscellaneous packages..."
+BREW_FORMULAE=<<EOF
+bash
+curl
+git
+jq
+python
+python3
+wget
+EOF
+brew_install
+echo_done
+
+# AWS
+echo_do "Installing AWS utils..."
+pip install --upgrade awscli
+pip install --upgrade awslogs
+aws configure set s3.signature_version s3v4
+echo_done
+
+echo_do "Printenv..."
+printenv
+echo_done
+
+echo_do "Listing packages..."
+brew list --version
+echo_done
+
+set +x

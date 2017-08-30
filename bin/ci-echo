@@ -33,15 +33,18 @@ function fallback_echo() {
 }
 
 function travis_echo() {
-    local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/")"
+    local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
 
     case $1 in
         "[DO  ]")
+            echo -n "${GROUP}" > /tmp/travis_fold_${RANDOM}
             echo "travis_fold:start:${GROUP}"
             return 0
         ;;
         "[DONE]")
-            echo "travis_fold:end"
+            GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
+            ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
+            echo "travis_fold:end:${GROUP}"
             return 0
         ;;
         *)

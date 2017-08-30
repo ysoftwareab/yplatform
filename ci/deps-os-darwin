@@ -1,43 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source ${DIR}/CONST-VSN.inc
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
+echo_do "Installing homebrew..."
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
-  true # fails if already installed
+    true # fails if already installed
+echo_done
 
-brew tap homebrew/dupes
-brew tap homebrew/versions
-brew update
-
-# GNU Make
-brew install make --force --with-default-names
+${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
 brew install \
-    awscli \
-    bash \
-    coreutils \
-    curl \
-    erlang \
-    findutils \
-    git \
-    gnu-sed \
-    graphviz \
-    java \
-    jq \
-    node \
-    parallel \
-    python \
-    watch
+    graphviz
 
-# NPM
-npm install --global npm@${VSN_NPM}
+brew install \
+    erlang \
+    nodejs \
+    java
 
 # JSON
-npm install --global json@${VSN_JSON}
-
-# AWS
-pip install --upgrade awscli
-pip install --upgrade awslogs
-aws configure set s3.signature_version s3v4
+npm install --global json

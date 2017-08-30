@@ -1,35 +1,21 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source ${DIR}/CONST-VSN.inc
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+[ "${EUID}" -eq 0 ] || [ -n "${TEAMCITY_VERSION}" ] || {
+    >&2 echo "Run as root"
+    exit 1
+}
+
+sudo ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
 apt-get install -y --force-yes \
-    autoconf \
-    automake \
-    bison \
-    bsdmainutils \
-    build-essential \
-    curl \
     gettext \
-    git \
     graphviz \
-    jq \
     libonig-dev \
-    nodejs \
-    python \
-    python-pip \
-    realpath \
-    remake \
-    software-properties-common \
-    tar \
-    texinfo \
-    uuid-runtime \
-    wget \
-    zip
-
-# GIT
-apt-add-repository -y ppa:git-core/ppa
+    texinfo
 
 # Java
 apt-add-repository -y ppa:webupd8team/java
@@ -37,51 +23,18 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selec
 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
 
 # Erlang
-wget https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+curl -o  https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 dpkg -i erlang-solutions_1.0_all.deb
 
 # NodeJS
-curl -sL https://deb.nodesource.com/setup_7.x | bash -
-
-#	apt-get update # happens in the nodesource.com script
+curl -sL https://deb.nodesource.com/setup_8.x | bash -
+# sudo apt-get update # happens in the nodesource.com script
 
 apt-get install -y --force-yes \
     erlang \
-    git \
     nodejs \
     oracle-java8-installer \
     oracle-java8-set-default
 
-# NPM
-npm install --global npm@${VSN_NPM}
-
 # JSON
-npm install --global json@${VSN_JSON}
-
-# JQ
-# "apt-get install jq" on ubuntu trusty (14.04) will install the old version 1.3
-curl -LO https://github.com/stedolan/jq/releases/download/jq-${VSN_JQ}/jq-${VSN_JQ}.tar.gz
-tar xf jq-${VSN_JQ}.tar.gz
-(
-    cd jq-${VSN_JQ}
-    ./configure
-    make
-    make install
-)
-rm -rf jq-${VSN_JQ}*
-
-# GNU Make
-curl -LO https://ftp.gnu.org/gnu/make/make-${VSN_MAKE}.tar.gz
-tar xf make-${VSN_MAKE}.tar.gz
-(
-  cd make-${VSN_MAKE}
-  ./configure
-  make
-  make install
-)
-rm -rf make-${VSN_MAKE}*
-
-# AWS
-pip install --upgrade awscli
-pip install --upgrade awslogs
-aws configure set s3.signature_version s3v4
+npm install --global json
