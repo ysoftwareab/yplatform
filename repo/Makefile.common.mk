@@ -14,6 +14,7 @@
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 
+CI_ECHO = $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 ECLINT = $(call which,ECLINT,eclint)
 JSONLINT = $(call which,JSONLINT,jsonlint)
 
