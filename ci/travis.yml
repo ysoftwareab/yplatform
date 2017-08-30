@@ -7,11 +7,12 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
-  - ./.travis.yml.before_install
+  - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
+  - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
 install:
-  - ./.travis.yml.install
+  - npm install
 script:
-  - ./.travis.yml.script
+  - npm test
 
 language:
   - node_js

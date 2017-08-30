@@ -1,9 +1,0 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-source bin/common.inc.sh
-
-TRAVIS_NOSUDO_MARKER=
-[ "${TRAVIS_SUDO}" = "true" ] || TRAVIS_NOSUDO_MARKER="-nosudo"
-
-./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER}/bootstrap
