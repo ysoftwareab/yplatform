@@ -15,8 +15,8 @@ echo_done
 
 # AWS
 echo_do "Installing AWS utils..."
-pip install --user --upgrade --ignore-installed awscli
-pip install --user --upgrade --ignore-installed awslogs
+pip2 install --user --upgrade --ignore-installed awscli
+pip2 install --user --upgrade --ignore-installed awslogs
 aws configure set s3.signature_version s3v4
 echo_done
 
