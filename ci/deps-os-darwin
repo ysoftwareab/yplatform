@@ -12,10 +12,8 @@ echo_done
 ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
 brew install \
-    graphviz
-
-brew install \
     erlang \
+    graphviz \
     nodejs \
     java
 

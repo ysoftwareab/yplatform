@@ -20,7 +20,7 @@ echo_done
 
 # Basic/GNU
 echo_do "Installing basic/GNU packages..."
-BREW_FORMULAE=<<EOF
+BREW_FORMULAE="$(cat <<-'EOF'
 autoconf
 automake
 coreutils
@@ -37,12 +37,13 @@ pkg-config
 unzip
 watch
 EOF
+)"
 brew_install
 echo_done
 
 # Misc
 echo_do "Installing miscellaneous packages..."
-BREW_FORMULAE=<<EOF
+BREW_FORMULAE="$(cat <<-'EOF'
 bash
 curl
 git
@@ -51,13 +52,14 @@ python
 python3
 wget
 EOF
+)"
 brew_install
 echo_done
 
 # AWS
 echo_do "Installing AWS utils..."
-pip install --upgrade awscli
-pip install --upgrade awslogs
+pip2 install --upgrade awscli
+pip2 install --upgrade awslogs
 aws configure set s3.signature_version s3v4
 echo_done
 
@@ -66,7 +68,7 @@ printenv
 echo_done
 
 echo_do "Listing packages..."
-brew list --version
+brew list --versions
 echo_done
 
 set +x

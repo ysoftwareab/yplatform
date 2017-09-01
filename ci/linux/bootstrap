@@ -24,7 +24,7 @@ echo_done
 
 # Basic
 echo_do "Installing basic packages..."
-DPKGS=<<EOF
+DPKGS="$(cat <<-'EOF'
 autoconf
 automake
 bsdmainutils
@@ -35,18 +35,20 @@ tar
 uuid-runtime
 zip
 EOF
+)"
 apt_install
 echo_done
 
 # Misc
 echo_do "Installing miscellaneous packages..."
-DPKGS=<<EOF
+DPKGS="$(cat <<-'EOF'
 bash
 curl
 git
 jq
 wget
 EOF
+)"
 apt_install
 echo_done
 
