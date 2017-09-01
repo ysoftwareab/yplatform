@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+function cd_to_makefile() {
+    test "$(pwd)" != "/"
+    test -f Makefile || {
+        cd ..
+        cd_to_makefile
+    }
+}
+
+cd_to_makefile
+
+make $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2)
