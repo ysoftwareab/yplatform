@@ -39,9 +39,11 @@ function travis_echo() {
         "[DO  ]")
             echo -n "${GROUP}" > /tmp/travis_fold_${RANDOM}
             echo "travis_fold:start:${GROUP}"
+            fallback_echo "$@"
             return 0
         ;;
         "[DONE]")
+            fallback_echo "$@"
             GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
             ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
             echo "travis_fold:end:${GROUP}"
