@@ -3,3 +3,6 @@ tab_width = 4
 
 [*.yml]
 tab_width = 2
+
+[/tracks.ini]
+max_line_length = none
