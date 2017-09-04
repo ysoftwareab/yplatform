@@ -2,6 +2,11 @@
 set -euo pipefail
 set -x
 
+[ "${EUID}" -eq 0 ] || [ -n "${TEAMCITY_VERSION}" ] || {
+    >&2 echo "Run as root"
+    exit 1
+}
+
 function on_exit() {
   local STATUS=$?
   set +x
@@ -11,12 +16,6 @@ function on_exit() {
 trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
-
-[ "${EUID}" -eq 0 ] || [ -n "${TEAMCITY_VERSION}" ] || {
-    >&2 echo "Run as root"
-    exit 1
-}
 
 sudo ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
@@ -47,5 +46,3 @@ apt-get install -y --force-yes \
 
 # JSON
 npm install --global json
-
-set +x

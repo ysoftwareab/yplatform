@@ -11,12 +11,9 @@ function on_exit() {
 trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-echo_do "Installing homebrew..."
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
     true # fails if already installed
-echo_done
 
 ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
@@ -28,5 +25,3 @@ brew install \
 
 # JSON
 npm install --global json
-
-set +x

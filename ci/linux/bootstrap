@@ -2,15 +2,36 @@
 set -euo pipefail
 set -x
 
+[ "${EUID}" -eq 0 ] || {
+    sudo "${BASH_SOURCE[0]}"
+    exit 0
+}
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/exe.inc.sh
+
 function on_exit() {
-  local STATUS=$?
-  set +x
-  exit ${STATUS}
+    local STATUS=$?
+    set +x
+    exit ${STATUS}
 }
 
 trap on_exit EXIT
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+echo_do "Upgrading aptitude..."
+apt-get install -y --force-yes software-properties-common
+apt-add-repository -y ppa:git-core/ppa
+apt-get update
+if [ "${TRAVIS:-}" = "true" ]; then
+    apt-mark hold postgresql-9.3 postgresql-9.4 postgresql-9.5 postgresql-9.6
+fi
+apt-get upgrade -y
+echo_done
+
+echo_do "Installing/Upgrading git..."
+apt-get install -y --force-yes git
+echo_done
+
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 function apt_install() {
@@ -18,17 +39,6 @@ function apt_install() {
         apt-get install -y --force-yes ${DPKG}
     done
 }
-
-[ "${EUID}" -eq 0 ] || {
-    sudo "${BASH_SOURCE[0]}"
-    exit 0
-}
-
-echo_do "Upgrading aptitude..."
-apt-get install -y --force-yes software-properties-common
-apt-add-repository -y ppa:git-core/ppa
-apt-get update
-echo_done
 
 # Basic
 echo_do "Installing basic packages..."
