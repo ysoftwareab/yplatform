@@ -30,7 +30,7 @@ echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selec
 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
 
 # Erlang
-curl -o  https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
+curl -O https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 dpkg -i erlang-solutions_1.0_all.deb
 
 # NodeJS
