@@ -16,14 +16,13 @@ function on_exit() {
 trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
 apt-get install -y --force-yes \
-        gettext \
-        graphviz \
-        libonig-dev \
-        texinfo
+    gettext \
+    graphviz \
+    libonig-dev \
+    texinfo
 
 # Java
 apt-add-repository -y ppa:webupd8team/java
@@ -39,10 +38,10 @@ curl -sL https://deb.nodesource.com/setup_8.x | bash -
 # sudo apt-get update # happens in the nodesource.com script
 
 apt-get install -y --force-yes \
-        erlang \
-        nodejs \
-        oracle-java8-installer \
-        oracle-java8-set-default
+    erlang \
+    nodejs \
+    oracle-java8-installer \
+    oracle-java8-set-default
 
 # JSON
 npm install --global json
