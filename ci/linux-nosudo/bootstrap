@@ -13,12 +13,14 @@ trap on_exit EXIT
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-echo_do "Installing JQ..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
 echo_done
 
 echo_do "Installing GNU Make..."
 ${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-make
+echo_done
+
+echo_do "Installing JQ..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
 echo_done
 
 # AWS
