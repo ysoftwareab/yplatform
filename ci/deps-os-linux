@@ -17,7 +17,7 @@ trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-sudo ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
 apt-get install -y --force-yes \
         gettext \
