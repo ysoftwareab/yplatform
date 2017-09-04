@@ -1,4 +1,4 @@
-CORE_INC_MK_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+CORE_INC_MK_DIR ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 include $(CORE_INC_MK_DIR)/core.inc.mk
 include $(CORE_INC_MK_DIR)/os.inc.mk
