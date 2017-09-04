@@ -70,6 +70,8 @@ EOF
 apt_install
 echo_done
 
+echo_do "Installing GNU Bash..."
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-bash
 echo_done
 
 echo_do "Installing GNU Make..."
