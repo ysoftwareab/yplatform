@@ -10,7 +10,9 @@ function on_exit() {
 
 trap on_exit EXIT
 
-echo "Upgrading homebrew..."
+echo "Installing/Upgrading homebrew..."
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
+    true # fails if already installed
 brew update
 brew outdated
 brew upgrade

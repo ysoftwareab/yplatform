@@ -12,9 +12,6 @@ trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
-    true # fails if already installed
-
 ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
 brew install \
