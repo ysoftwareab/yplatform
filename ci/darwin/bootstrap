@@ -6,9 +6,9 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/exe.inc.sh
 
 function on_exit() {
-  local STATUS=$?
-  set +x
-  exit ${STATUS}
+    local STATUS=$?
+    set +x
+    exit ${STATUS}
 }
 
 trap on_exit EXIT
@@ -27,10 +27,10 @@ echo_done
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 function brew_install() {
-  echo "${BREW_FORMULAE}" | while read FORMULA; do
-      NAME=$(echo "${FORMULA}" | cut -d' ' -f1)
-      brew list "${NAME}" >/dev/null 2>&1 || brew install ${FORMULA}
-  done
+    echo "${BREW_FORMULAE}" | while read FORMULA; do
+        NAME=$(echo "${FORMULA}" | cut -d' ' -f1)
+        brew list "${NAME}" >/dev/null 2>&1 || brew install ${FORMULA}
+    done
 }
 
 # Basic/GNU

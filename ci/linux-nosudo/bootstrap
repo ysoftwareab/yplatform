@@ -3,9 +3,9 @@ set -euo pipefail
 set -x
 
 function on_exit() {
-  local STATUS=$?
-  set +x
-  exit ${STATUS}
+    local STATUS=$?
+    set +x
+    exit ${STATUS}
 }
 
 trap on_exit EXIT
