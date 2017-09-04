@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
+
+function on_exit() {
+  local STATUS=$?
+  set +x
+  exit ${STATUS}
+}
+
+trap on_exit EXIT
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
@@ -19,3 +28,5 @@ brew install \
 
 # JSON
 npm install --global json
+
+set +x

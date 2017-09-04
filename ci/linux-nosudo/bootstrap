@@ -2,6 +2,14 @@
 set -euo pipefail
 set -x
 
+function on_exit() {
+  local STATUS=$?
+  set +x
+  exit ${STATUS}
+}
+
+trap on_exit EXIT
+
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
@@ -27,5 +35,3 @@ echo_done
 echo_do "Listing packages..."
 apt list --installed
 echo_done
-
-set +x
