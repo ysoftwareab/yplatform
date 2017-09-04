@@ -2,9 +2,6 @@
 set -euo pipefail
 set -x
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe.inc.sh
-
 function on_exit() {
     local STATUS=$?
     set +x
@@ -13,17 +10,16 @@ function on_exit() {
 
 trap on_exit EXIT
 
-echo_do "Upgrading homebrew..."
+echo "Upgrading homebrew..."
 brew update
 brew outdated
 brew upgrade
-echo_done
 
-echo_do "Installing/Upgrading git..."
+echo "Installing/Upgrading git..."
 brew list "git" >/dev/null 2>&1 || brew install git
 brew outdated "git" >/dev/null 2>&1 || brew upgrade git
-echo_done
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 function brew_install() {

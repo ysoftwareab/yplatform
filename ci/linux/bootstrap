@@ -7,9 +7,6 @@ set -x
     exit 0
 }
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe.inc.sh
-
 function on_exit() {
     local STATUS=$?
     set +x
@@ -18,7 +15,7 @@ function on_exit() {
 
 trap on_exit EXIT
 
-echo_do "Upgrading aptitude..."
+echo "Upgrading aptitude..."
 apt-get install -y --force-yes software-properties-common
 apt-add-repository -y ppa:git-core/ppa
 apt-get update
@@ -26,12 +23,11 @@ if [ "${TRAVIS:-}" = "true" ]; then
     apt-mark hold postgresql-9.3 postgresql-9.4 postgresql-9.5 postgresql-9.6
 fi
 apt-get upgrade -y
-echo_done
 
-echo_do "Installing/Upgrading git..."
+echo "Installing/Upgrading git..."
 apt-get install -y --force-yes git
-echo_done
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 function apt_install() {
