@@ -1,15 +1,15 @@
 #!/usr/bin/env node -r babel-register
 
-import AWS_ACCOUNT from 'cfn-util/lib/const/aws-account';
+import AWS_ACCOUNT from 'aws-cfn-util-firecloud/lib/const/aws-account';
 import _ from 'lodash';
 import aws from 'aws-sdk';
-import env from 'cfn-util/lib/env';
+import env from 'aws-cfn-util-firecloud/lib/env';
 import {
   getDomain as getApiDomain
-} from 'cfn-util/lib/env-api';
+} from 'aws-cfn-util-firecloud/lib/env-api';
 import {
   getBucketName
-} from 'cfn-util/lib/aws-s3';
+} from 'aws-cfn-util-firecloud/lib/aws-s3';
 
 let main = async function({env, cmd}) {
   let apigateway = new aws.APIGateway({
