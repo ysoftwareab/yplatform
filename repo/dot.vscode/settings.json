@@ -36,7 +36,7 @@
   "html.format.extraLiners": "head, body, /html",
   "html.format.wrapAttributes": "auto",
 
-  "javascript.format.enable": true,
+  "javascript.format.enable": false,
   "javascript.format.insertSpaceAfterCommaDelimiter": true,
   "javascript.format.insertSpaceAfterConstructor": false,
   "javascript.format.insertSpaceAfterSemicolonInForStatements": true,
