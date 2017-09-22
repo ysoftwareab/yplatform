@@ -43,15 +43,6 @@ ln -s {support-firecloud/repo/dot,}.npmrc
 ln -s {support-firecloud/repo/dot,}.vscode
 ```
 
-or as an npm dependency via
-
-```shell
-npm install --save-dev --save-exact git://github.com/tobiipro/support-firecloud.git#commitish
-ln -s {node_modules/support-firecloud/repo/dot,}.editorconfig
-ln -s {node_modules/support-firecloud/repo/dot,}.npmrc
-ln -s {node_modules/support-firecloud/repo/dot,}.vscode
-```
-
 
 ## OS Bootstrap
 
