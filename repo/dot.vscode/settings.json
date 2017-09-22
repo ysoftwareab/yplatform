@@ -50,6 +50,8 @@
   "javascript.format.placeOpenBraceOnNewLineForFunctions": false,
   "javascript.format.placeOpenBraceOnNewLineForControlBlocks": false,
 
+  "json.format.enable": true,
+
   "sasslint.enable": true,
   "sasslint.run": "onSave",
 
