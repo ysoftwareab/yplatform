@@ -24,11 +24,6 @@ apt-get install -y --force-yes \
     libonig-dev \
     texinfo
 
-# Java
-apt-add-repository -y ppa:webupd8team/java
-echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
-echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
-
 # Erlang
 curl -O https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 dpkg -i erlang-solutions_1.0_all.deb
@@ -39,9 +34,7 @@ curl -sL https://deb.nodesource.com/setup_8.x | bash -
 
 apt-get install -y --force-yes \
     erlang \
-    nodejs \
-    oracle-java8-installer \
-    oracle-java8-set-default
+    nodejs
 
 # JSON
 npm install --global json

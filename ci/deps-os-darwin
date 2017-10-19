@@ -17,8 +17,7 @@ ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 brew install \
     erlang \
     graphviz \
-    nodejs \
-    java
+    nodejs
 
 # JSON
 npm install --global json
