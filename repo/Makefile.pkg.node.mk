@@ -15,6 +15,7 @@ SRC_JS_FILES := $(shell $(FIND_Q) src -type f -name "*.js" -print)
 LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
 
 SF_CLEAN_FILES := \
+	$(SF_CLEAN_FILES) \
 	lib \
 	node_modules \
 
