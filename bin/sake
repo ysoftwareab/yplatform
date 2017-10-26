@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+#- sake 1.0
+## Usage: sake <make arguments>
+## "Smart" make wrapper that runs make in the first parent folder with a Makefile
+## and which silences make warnings regarding overriding/ignoring targets (inheritance)
+
 function cd_to_makefile() {
     test "$(pwd)" != "/"
     test -f Makefile || {
