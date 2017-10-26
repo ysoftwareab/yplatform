@@ -4,10 +4,10 @@
 ## Usage: slack-echo [OPTION]... TEXT...
 ## Echo message via a Slack webhook.
 ##
-##   -f, --from     Text to display as sender           Defaults to $(whoami)@$(hostname)
-##   -i, --icon     Emoji to display as sender's icon   Defaults to ":shipit:"
-##   -t, --to       Recipient as #channel or @username  Defaults to ${SLACK_CHANNEL}
-##   -w, --webhook  Webhook URL                         Defaults to ${SLACK_WEBHOOK}
+##   -f, --from     Text to display as sender. Defaults to $(whoami)@$(hostname)
+##   -i, --icon     Emoji to display as sender's icon. Defaults to ":shipit:"
+##   -t, --to       Recipient as #channel or @username. Defaults to ${SLACK_CHANNEL}
+##   -w, --webhook  Webhook URL. Defaults to ${SLACK_WEBHOOK}
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

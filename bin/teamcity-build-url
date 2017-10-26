@@ -4,7 +4,7 @@
 ## Usage: teamcity-build-url [OPTION]... BUILD_ID
 ## Return TeamCity URL of a build ID
 ##
-##   -t, --tab      Build tab.        Defaults to buildResultsDiv
+##   -t, --tab      Build tab. Defaults to buildResultsDiv
 ##   -q, --queued   Is build queued?
 ##
 ##   -h, --help     Display this help and exit

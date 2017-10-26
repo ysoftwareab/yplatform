@@ -4,7 +4,7 @@
 ## Usage: teamcity-api-build-info [OPTION]... BUILD_ID
 ## Return TeamCity info of a build ID as JSON/XML.
 ##
-##   -a, --accept   Set accepted media-type.        Defaults to application/json.
+##   -a, --accept   Set accepted media-type. Defaults to application/json.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
