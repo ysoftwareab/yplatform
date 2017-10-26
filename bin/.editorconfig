@@ -1,0 +1,15 @@
+[*]
+indent_size = 4
+
+[aws-apigateway-cd-domain-name]
+indent_size = 2
+
+[aws-athena/aws-athena]
+indent_size = 2
+
+[aws-cfn2dot]
+indent_size = 2
+
+[aws-iam-expand-user-policies]
+indent_size = 2
+
