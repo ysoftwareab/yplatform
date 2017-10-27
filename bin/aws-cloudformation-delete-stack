@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-cloudformation-delete-stack 1.0
+## Usage: aws-cloudformation-delete-stack [OPTION]
+## Delete a CloudFormation stack.
+##
+##   --stack-name             Stack name.
+##   --empty-s3               Empty S3 buckets beforehand.
+# ##   --retain-resources-s3  Retain S3 buckets.
+# ##   --retain-resources     List of resources that cannot be deleted e.g. non-empty S3 buckets.
+##   --wait                   Wait for stack to be completely created/updated.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+RETAIN_RESOURCES_ARG=
+EMPTY_S3=
+WAIT_FOR_STACK=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            STACK_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --empty-s3)
+            EMPTY_S3=true
+            shift
+            ;;
+        --wait)
+            WAIT_FOR_STACK=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
+
+SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
+
+if [[ -n ${EMPTY_S3} ]]; then
+    for BUCKET_NAME in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "PhysicalResourceId"); do
+        # check if bucket exists
+        [[ $(aws s3api list-buckets | json "Buckets" | json -a -c "this.Name === '${BUCKET_NAME}'" | json "Name") = ${BUCKET_NAME} ]] || continue
+
+        aws s3api put-bucket-versioning --bucket ${BUCKET_NAME} --versioning-configuration Status=Suspended
+
+        while true; do
+            # limited to 1000 objects in the "aws s3api delete-objects" call,
+            # so we limit to querying for 500 markers and 500 versions
+            # correction: 500 and 500 still gives errors due to limits (wtf?!),
+            # so we go with 450 and 450...
+            TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
+            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
+            TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
+            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
+
+            # "json --group" does not accept empty arrays
+            [[ $(head -1 ${TMP_DELETE_MARKERS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_MARKERS_FILE}
+            [[ $(head -1 ${TMP_DELETE_VERSIONS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_VERSIONS_FILE}
+            # test if we have markers or versions, break otherwise
+            [[ -s ${TMP_DELETE_MARKERS_FILE} ]] || [[ -s ${TMP_DELETE_VERSIONS_FILE} ]] || break
+
+            TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX).json
+
+            echo "{\"Objects\":" >${TMP_DELETE_FILE}
+            cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
+            echo ", \"Quiet\": false}" >>${TMP_DELETE_FILE}
+
+            echo "Emptying S3 bucket ${BUCKET_NAME} based on ${TMP_DELETE_FILE}..."
+            aws s3api delete-objects --bucket ${BUCKET_NAME} --delete file://${TMP_DELETE_FILE} >/dev/null
+        done
+
+        echo "Deleting S3 bucket ${BUCKET_NAME}..."
+        aws s3 rb s3://${BUCKET_NAME} --force >/dev/null
+    done
+fi
+
+aws cloudformation delete-stack ${STACK_NAME_ARG} ${RETAIN_RESOURCES_ARG}
+
+echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
+
+[[ -n ${WAIT_FOR_STACK} ]] || exit 0
+
+echo "Waiting for stack-delete-complete..."
+aws cloudformation wait stack-delete-complete ${STACK_NAME_ARG} || {
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | json "StackEvents" | sed -e "/${SED_UNTIL}/q"
+    exit 1
+}

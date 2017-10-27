@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+
+#- sponge 1.0
+## Usage: sponge FILENAME
+## Poor man's version of moreutils sponge.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+FILENAME="$1"
+
+CHOWN=$(which gchown || which chown || echo "GNU_CHOWN_NOT_FOUND")
+CHMOD=$(which gchmod || which chmod || echo "GNU_CHMOD_NOT_FOUND")
+
+cat - > ${TMP_FILE}
+${CHOWN} --reference=${FILENAME} ${TMP_FILE}
+${CHMOD} --reference=${FILENAME} ${TMP_FILE}
+mv -f ${TMP_FILE} ${FILENAME}

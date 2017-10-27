@@ -1,0 +1,91 @@
+#!/usr/bin/env node -r babel-register
+
+import Promise from 'bluebird';
+import _ from 'lodash';
+import aws from 'aws-sdk';
+import stringify from 'json-stable-stringify';
+import {ArgumentParser} from 'argparse';
+
+Promise.longStackTraces();
+
+let parser = new ArgumentParser({});
+_.each({
+  '--filter-user-name': {
+    default: '.*'
+  }
+}, function(options, name) {
+  name = name.split(/[, ]+/);
+  parser.addArgument(name, options);
+});
+let args = parser.parseArgs();
+
+let iam = new aws.IAM();
+
+(async function() {
+  let result = _.pick(await iam.listUsers({}).promise(), ['Users']);
+
+  let filterUsernamesRE = new RegExp(`^${args.filter_user_name}$`);
+  _.remove(result.Users, function({UserName}) {
+    let keep = filterUsernamesRE.test(UserName);
+    return !keep;
+  });
+
+  let expandPolicies = async function(policies) {
+    return await Promise.all(_.map(policies, async function(policy) {
+      let {PolicyArn} = policy;
+
+      policy = (await iam.getPolicy({PolicyArn}).promise()).Policy;
+      _.merge(policy, _.pick(await iam.getPolicyVersion({
+        PolicyArn,
+        VersionId: policy.DefaultVersionId
+      }).promise(), ['PolicyVersion']));
+      policy.PolicyVersion.Document = JSON.parse(unescape(policy.PolicyVersion.Document));
+
+      return policy;
+    }));
+  };
+
+  result.Users = await Promise.all(_.map(result.Users, async function(user) {
+    let {UserName} = user;
+
+    user.Policies = [];
+
+    let inlinePolicyNames = (await iam.listUserPolicies({UserName}).promise()).PolicyNames;
+    await Promise.all(_.map(inlinePolicyNames, async function(PolicyName) {
+      let policy = _.pick(await iam.getUserPolicy({
+        UserName,
+        PolicyName
+      }).promise(), ['PolicyName', 'PolicyDocument']);
+      policy.PolicyDocument = JSON.parse(unescape(policy.PolicyDocument));
+      user.Policies.push(policy);
+    }));
+
+    _.merge(user, _.pick(await iam.listAttachedUserPolicies({UserName}).promise(), ['AttachedPolicies']));
+    user.AttachedPolicies = await expandPolicies(user.AttachedPolicies);
+
+    _.merge(user, _.pick(await iam.listGroupsForUser({UserName}).promise(), ['Groups']));
+    user.Groups = await Promise.all(_.map(user.Groups, async function(group) {
+      let {GroupName} = group;
+
+      group.Policies = [];
+      let inlinePolicyNames = (await iam.listGroupPolicies({GroupName}).promise()).PolicyNames;
+      await Promise.all(_.map(inlinePolicyNames, async function(PolicyName) {
+        let policy = _.pick(await iam.getGroupPolicy({
+          GroupName,
+          PolicyName
+        }).promise(), ['PolicyName', 'PolicyDocument']);
+        policy.PolicyDocument = JSON.parse(unescape(policy.PolicyDocument));
+        group.Policies.push(policy);
+      }));
+
+      _.merge(group, _.pick(await iam.listAttachedGroupPolicies({GroupName}).promise(), ['AttachedPolicies']));
+      group.AttachedPolicies = await expandPolicies(group.AttachedPolicies);
+
+      return group;
+    }));
+
+    return user;
+  }));
+
+  console.log(stringify(result, {space: 2}));
+})();

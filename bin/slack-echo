@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+#- slack-echo 1.0
+## Usage: slack-echo [OPTION]... TEXT...
+## Echo message via a Slack webhook.
+##
+##   -f, --from     Text to display as sender. Defaults to $(whoami)@$(hostname)
+##   -i, --icon     Emoji to display as sender's icon. Defaults to ":shipit:"
+##   -t, --to       Recipient as #channel or @username. Defaults to ${SLACK_CHANNEL}
+##   -w, --webhook  Webhook URL. Defaults to ${SLACK_WEBHOOK}
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
+FROM="$(whoami)@$(hostname)"
+ICON=":shipit:"
+TO=
+[[ -z "${SLACK_CHANNEL:-}" ]] || {
+    TO="#${SLACK_CHANNEL}"
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -f|--from)
+            FROM="$2"
+            shift 2
+            ;;
+        -i|--icon)
+            ICON="$2"
+            shift 2
+            ;;
+        -t|--to)
+            TO="$2"
+            shift 2
+            ;;
+        -w|--webhook)
+            SLACK_WEBHOOK="$2"
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+CHANNEL_TO=
+[[ -z "${TO}" ]] || {
+    CHANNEL_TO="\"channel\": \"${TO}\","
+}
+
+TEXT="$*"
+TEXT="${TEXT//\"/\\\"}"
+TEXT="${TEXT//$'\n'/\\\n}"
+
+cat > ${TMP_FILE} <<EOF
+{
+"username": "${FROM}",
+${CHANNEL_TO}
+"icon_emoji": "${ICON}",
+"text": "${TEXT}"
+}
+EOF
+
+cat ${TMP_FILE}
+
+curl -fqsS \
+     -X POST \
+     -H "Content-Type: application/json" \
+     --data @${TMP_FILE} \
+     ${SLACK_WEBHOOK}

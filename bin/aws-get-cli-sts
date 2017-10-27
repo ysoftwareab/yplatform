@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+AWS_PROFILE=${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-}}
+[ -n "${AWS_PROFILE}" ] || exit 0
+
+AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
+[ -n "${AWS_CLI_CACHE_FILE}" ] || exit 0
+
+AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${AWS_CLI_CACHE_FILE}
+
+[ -n "${AWS_SECRET_ACCESS_KEY:-}" ] || \
+   AWS_SECRET_ACCESS_KEY=$(cat ${AWS_CLI_CACHE_FILE} | python -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["SecretAccessKey"]')
+[ -n "${AWS_ACCESS_KEY_ID:-}" ] || \
+  AWS_ACCESS_KEY_ID=$(cat ${AWS_CLI_CACHE_FILE} | python -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["AccessKeyId"]')
+[ -n "${AWS_SESSION_TOKEN:-}" ] || \
+  AWS_SESSION_TOKEN=$(cat ${AWS_CLI_CACHE_FILE} | python -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["SessionToken"]')
+
+echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
+echo "export AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}"

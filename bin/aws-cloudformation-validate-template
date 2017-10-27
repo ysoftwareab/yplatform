@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-cloudformation-validate-template 1.0
+## Usage: aws-cloudformation-validate-template [OPTION]
+## Validate a CloudFormation template.
+##
+##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url.
+##
+##   --template-url-prefix Location to upload template body.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TEMPLATE_BODY_ARG=
+TEMPLATE_BODY=
+TEMPLATE_URL_PREFIX=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --template-body)
+            TEMPLATE_BODY="$2"
+            TEMPLATE_BODY_ARG="$1 $2"
+            shift 2
+            ;;
+        --template-url-prefix)
+            TEMPLATE_URL_PREFIX="$2"
+            TEMPLATE_URL="$2/$(uuidgen)"
+            TEMPLATE_BODY_ARG="--template-url https://s3.amazonaws.com/${TEMPLATE_URL}"
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+function on_exit() {
+    if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
+        aws s3 rm s3://${TEMPLATE_URL} || true
+    fi
+}
+
+trap on_exit EXIT
+
+if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
+    aws s3 cp ${TEMPLATE_BODY#file://} s3://${TEMPLATE_URL}
+fi
+
+aws cloudformation validate-template ${TEMPLATE_BODY_ARG}

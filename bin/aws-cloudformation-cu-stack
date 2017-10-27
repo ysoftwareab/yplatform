@@ -1,0 +1,226 @@
+#!/usr/bin/env bash
+
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TOP="$(cd ${DIR}/../.. && pwd)"
+source ${TOP}/support/sh/common.inc.sh
+
+#- aws-cloudformation-cu-stack 1.0
+## Usage: aws-cloudformation-cu-stack [OPTION]
+## Create or update a CloudFormation stack.
+##
+##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url.
+##   --timeout-in-minutes  See `aws cloudformation create-stack help`. Defaults to 60 minutes.
+##   --on-failure          See `aws cloudformation create-stack help`. Defaults to DELETE.
+##   --disable-rollback    See `aws cloudformation update-stack help`.
+##   --capabilities        See `aws cloudformation create-stack help` or `aws cloudformation update-stack help`. Defaults to CAPABILITY_IAM CAPABILITY_NAMED_IAM.
+##
+##   --template-url-prefix Location to upload template body.
+##   --wait                Wait for stack to be completely created/updated.
+##   --create-change-set   Create change-set for deferred update, named via --change-set-file or --change-set-name.
+##   --execute-change-set  Execute change-set as named via --change-set-file or --change-set-name.
+##   --change-set-name     Change-set name.
+##   --change-set-file     Change-set filename.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TEMPLATE_BODY_ARG=
+TIMEOUT_ARG="--timeout-in-minutes 60"
+ON_FAILURE_ARG=
+CAPABILITIES_ARG="--capabilities CAPABILITY_IAM CAPABILITY_NAMED_IAM"
+TEMPLATE_BODY=
+TEMPLATE_URL_PREFIX=
+WAIT_FOR_STACK=
+CREATE_CHANGE_SET=
+EXECUTE_CHANGE_SET=
+CHANGE_SET_NAME=
+CHANGE_SET_FILE=/dev/null
+UUID=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            STACK_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --template-body)
+            TEMPLATE_BODY="$2"
+            TEMPLATE_BODY_ARG="$1 $2"
+            shift 2
+            ;;
+        --template-url-prefix)
+            TEMPLATE_URL_PREFIX="$2"
+            TEMPLATE_URL="$2/$(uuidgen)"
+            TEMPLATE_BODY_ARG="--template-url https://s3.amazonaws.com/${TEMPLATE_URL}"
+            shift 2
+            ;;
+        --timeout-in-minutes)
+            TIMEOUT_ARG="$1 $2"
+            shift 2
+            ;;
+        --on-failure)
+            ON_FAILURE_ARG="$1 $2"
+            shift 2
+            ;;
+        --disable-rollback)
+            ON_FAILURE_ARG="--on-failure DO_NOTHING"
+            shift
+            ;;
+        --capabilities)
+            CAPABILITIES_ARG="$1 $2"
+            shift 2
+            ;;
+        --wait)
+            WAIT_FOR_STACK=true
+            shift
+            ;;
+        --create-change-set)
+            CREATE_CHANGE_SET=true
+            shift
+            ;;
+        --execute-change-set)
+            EXECUTE_CHANGE_SET=true
+            shift
+            ;;
+        --change-set-name)
+            CHANGE_SET_NAME=$2
+            CHANGE_SET_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --change-set-file)
+            CHANGE_SET_FILE=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
+
+CU=create
+[[ -z ${STACK_ID} ]] || CU=update
+
+if [[ ${CU} = create ]]; then
+    ON_FAILURE_ARG=${FAILURE_ARG:-"--on-failure DELETE"}
+fi
+
+LAST_EVENT_ID=
+if [[ ${CU} = update ]]; then
+    LAST_EVENT_ID=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
+fi
+
+function on_exit() {
+    if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
+        aws s3 rm s3://${TEMPLATE_URL} || true
+    fi
+}
+
+function cancel_create_stack() {
+    on_exit
+    aws cloudformation delete-stack ${STACK_NAME_ARG}
+}
+
+function cancel_update_stack() {
+    on_exit
+    aws cloudformation cancel-update-stack ${STACK_NAME_ARG}
+}
+
+trap on_exit EXIT
+
+if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
+    aws s3 cp ${TEMPLATE_BODY#file://} s3://${TEMPLATE_URL}
+fi
+
+if [[ -n ${CREATE_CHANGE_SET} ]]; then
+    if [[ ${CU} = create ]]; then
+        echo >&2 Stack does not exit, thus change-sets are not applicable.
+        exit 1
+    fi
+    echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+    CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+    TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
+        while true; do
+            case $(aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | json "Status") in
+                CREATE_IN_PROGRESS|CREATE_PENDING) sleep 5 ;;
+                *) break ;;
+            esac
+        done
+    aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+    echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
+    cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
+    exit 0
+elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
+    if [[ ${CU} = create ]]; then
+        echo >&2 Stack does not exit, thus change-sets are not applicable.
+        exit 1
+    fi
+    if [[ -n ${CHANGE_SET_FILE} ]]; then
+        CHANGE_SET_NAME=$(cat ${CHANGE_SET_FILE} | json "ChangeSetName")
+        CHANGE_SET_ID=$(cat ${CHANGE_SET_FILE} | json "ChangeSetId")
+        CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+    fi
+    echo "Executing ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    trap cancel_update_stack INT
+    aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
+else
+    if [[ ${CU} = create ]]; then
+        # echo "Creating ${STACK_NAME} stack..."
+        trap cancel_create_stack INT
+        STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} ${ON_FAILURE_ARG} $@ | json "StackId")
+        STACK_NAME_ARG="--stack-name ${STACK_ID}"
+    else
+        # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
+        # aws cloudformation ${CU}-stack ${STACK_NAME_ARG} $@
+
+        echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+        CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+        CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
+        TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
+        while true; do
+            case $(aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | json "Status") in
+                CREATE_IN_PROGRESS|CREATE_PENDING) sleep 5 ;;
+                *) break ;;
+            esac
+        done
+        aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
+        echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
+        cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
+
+        echo "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
+        STATUS_REASON=$(cat ${TMP_CHANGE_SET_FILE} | json "StatusReason")
+        if [[ ${STATUS_REASON} = "The submitted information didn't contain changes. Submit different information to create a change set." ]]; then
+            echo ${STATUS_REASON}
+            exit 0
+        fi
+        trap cancel_update_stack INT
+        aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
+    fi
+fi
+
+echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
+
+[[ -n ${WAIT_FOR_STACK} ]] || exit 0
+
+echo "Waiting for stack-${CU}-complete..."
+aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} || {
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | \
+        json "StackEvents" | \
+        json -c "global.isOldEvent = global.isOldEvent || this.EventId === '${LAST_EVENT_ID}'; return !global.isOldEvent;" | \
+        json -c "return /FAILED|ROLLBACK/.test(this.ResourceStatus)"
+    exit 1
+}
+
+# TODO wait for rollback complete on error
