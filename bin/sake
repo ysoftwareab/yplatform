@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
 #- sake 1.0
 ## Usage: sake <make arguments>
 ## "Smart" make wrapper that runs make in the first parent folder with a Makefile
@@ -8,10 +11,6 @@ set -euo pipefail
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
-
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TOP="$(cd ${DIR}/../.. && pwd)"
-source ${TOP}/support/sh/common.inc.sh
 
 MAKE=${MAKE:-make}
 

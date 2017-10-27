@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
 #- teamcity-api-builds 1.0
 ## Usage: teamcity-api-builds [OPTION]... BUILD_LOCATOR
 ## Return TeamCity info of builds located via BUILD_LOCATOR as JSON/XML.
@@ -8,10 +11,6 @@
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
-
-DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-TOP="$(cd ${DIR}/../.. && pwd)"
-source ${TOP}/support/sh/common.inc.sh
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
