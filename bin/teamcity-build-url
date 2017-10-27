@@ -7,8 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: teamcity-build-url [OPTION]... BUILD_ID
 ## Return TeamCity URL of a build ID
 ##
-##   -t, --tab      Build tab. Defaults to buildResultsDiv
-##   -q, --queued   Is build queued?
+##   -t, --tab     Build tab. Defaults to buildResultsDiv
+##   -q, --queued  Is build queued?
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
