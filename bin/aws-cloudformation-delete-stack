@@ -50,7 +50,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-STACK_ID=$(${DIR}/aws-get-stack-id ${STACK_NAME} || :)
+STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id ${STACK_NAME} || :)
 
 SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
 
