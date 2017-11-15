@@ -32,13 +32,19 @@ function fallback_echo() {
     >&2 echo "$@"
 }
 
-function travis_echo() {
-    local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
+function basic_travis_echo() {
+	XTRACE_STATE="$(shopt -po xtrace || :)" # shopt exits with non zero?
+	set +x
+	echo "travis_fold:$@"
+	eval "${XTRACE_STATE}"
+}
 
+function travis_echo() {
     case $1 in
         "[DO  ]")
+            GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
             echo -n "${GROUP}" > /tmp/travis_fold_${RANDOM}
-            echo "travis_fold:start:${GROUP}"
+            basic_travis_echo "start:${GROUP}"
             fallback_echo "$@"
             return 0
         ;;
@@ -46,7 +52,7 @@ function travis_echo() {
             fallback_echo "$@"
             GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
             ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
-            echo "travis_fold:end:${GROUP}"
+            basic_travis_echo "end:${GROUP}"
             return 0
         ;;
         *)
@@ -54,6 +60,13 @@ function travis_echo() {
     esac
 
     fallback_echo "$@"
+}
+
+function basic_teamcity_echo() {
+	XTRACE_STATE="$(shopt -po xtrace || :)" # shopt exits with non zero?
+	set +x
+	echo "##teamcity[$@]"
+	eval "${XTRACE_STATE}"
 }
 
 function teamcity_echo() {
@@ -67,11 +80,15 @@ function teamcity_echo() {
             return 0
         ;;
         "[DO  ]")
-            echo "##teamcity[blockOpened name='$(pwd)' description='${MESSAGE}']"
+            PWD_MESSAGE="$(pwd) ${MESSAGE}"
+            echo -n "${PWD_MESSAGE}" > /tmp/teamcity_block_${RANDOM}
+            basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
         ;;
         "[DONE]")
-            echo "##teamcity[blockClosed name='$(pwd)']"
+            PWD_MESSAGE="$(ls -t /tmp/teamcity_block_* | head -n1 | xargs cat || echo "")"
+            ls -t /tmp/teamcity_block_* | head -n1 | xargs rm || true
+            basic_teamcity_echo "blockClosed name='${PWD_MESSAGE}'"
             return 0
         ;;
         "[SKIP]")
