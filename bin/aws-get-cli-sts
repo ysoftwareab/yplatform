@@ -6,8 +6,26 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 AWS_PROFILE=${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-}}
 [ -n "${AWS_PROFILE}" ] || exit 0
 
-AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
+AWS_PROFILE_ROLE_ARN=$(aws configure get role_arn || true)
+[ -n "${AWS_PROFILE_ROLE_ARN}" ] || exit 0
+STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}
+STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
+
+# AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
+# gross assumption, but aws-cli/boto changed to hash-named filenames
+AWS_CLI_CACHE_FILE=
+for f in $(ls -t ~/.aws/cli/cache/); do
+    cat ~/.aws/cli/cache/$f | \
+        python2 -c 'import sys,json;print json.load(sys.stdin)["AssumedRoleUser"]["Arn"]' | \
+        grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
+        AWS_CLI_CACHE_FILE=$f
+        break || \
+            true
+done
 [ -n "${AWS_CLI_CACHE_FILE}" ] || exit 0
+
+AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ~/.aws/cli/cache/${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["Expiration"]')
+[ $(date -d "${AWS_CLI_CACHE_FILE_EXPIRATION}" +%s) -ge $(date +%s) ] || exit 0
 
 AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${AWS_CLI_CACHE_FILE}
 
