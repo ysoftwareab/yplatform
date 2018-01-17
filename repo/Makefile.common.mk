@@ -23,7 +23,11 @@ EC_FILES_IGNORE := \
 	-e "^LICENSE$$" \
 	-e "^UNLICENSE$$" \
 
-EC_FILES = $(shell $(GIT_LS) | $(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | $(GREP) -v $(EC_FILES_IGNORE) | $(SED) "s/^/'/g" | $(SED) "s/$$/'/g")
+EC_FILES = $(shell $(GIT_LS) | \
+	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
+	$(GREP) -v $(EC_FILES_IGNORE) | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 JSON_FILES = $(shell $(GIT_LS) | $(GREP) -e ".json$$" | $(SED) "s/^/'/g" | $(SED) "s/$$/'/g")
 
 SF_CLEAN_FILES :=
