@@ -25,7 +25,7 @@ done
 [ -n "${AWS_CLI_CACHE_FILE}" ] || exit 0
 
 AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ~/.aws/cli/cache/${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["Expiration"]')
-[ $(date -d "${AWS_CLI_CACHE_FILE_EXPIRATION}" +%s) -ge $(date +%s) ] || exit 0
+[ $(date -j -f "%Y-%m-%dT%H:%M:%SZ" "${AWS_CLI_CACHE_FILE_EXPIRATION}" +%s) -ge $(date +%s) ] && exit 0
 
 AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${AWS_CLI_CACHE_FILE}
 
