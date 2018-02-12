@@ -41,6 +41,7 @@ diffutils
 findutils --with-default-names
 gnu-sed --with-default-names
 gnu-tar --with-default-names
+gnu-time --with-default-names
 gnu-which
 grep --with-default-names
 gzip
