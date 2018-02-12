@@ -4,6 +4,9 @@
 
 **NOTE** We assume that you keep all firecloud-related git repos under `~/git/firecloud`.
 Failing to do so, hell won't break loose, but you are on your own.
+As long as you store the firecloud-related git repos in one folder e.g. `~/Documents/Firecloud`,
+you can easily create a symlink `ln -s ~/Documents/Firecloud ~/git/firecloud` and keep everyone happy.
+
 
 ```shell
 cd
