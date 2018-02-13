@@ -10,7 +10,7 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
-  - bin/transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+  - ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
   - unset TRANSCRYPT_PASSWORD
   - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
   - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
