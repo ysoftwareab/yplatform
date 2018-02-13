@@ -46,9 +46,10 @@ Now you can initialize the repo as a transcrypt-ed repo:
 ```shell
 # set up transcrypt with a randomly generated password
 ./transcrypt -y
+./transcrypt -d
 ```
 
-**NOTE** For backup purposes only, copy the output of the `./transcrypt -y` command,
+**NOTE** For backup purposes only, copy the output of the `./transcrypt -d` command,
 and store it in a **designated safe location**. Ideally, this should only be used later as a last resort.
 
 At this point, **you** have access to the transcrypt-ed repo, but only on this local copy the repo.
