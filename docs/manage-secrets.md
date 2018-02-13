@@ -97,6 +97,10 @@ path/to/support-firecloud/bin/travis-encrypt --value something_super_secret
 
 Now you can add the `secret: "..."` text to your `.travis.yml` file.
 
+For more info, see:
+* https://docs.travis-ci.com/user/encryption-keys/
+* https://docs.travis-ci.com/user/best-practices-security/
+
 ### Transcrypt-ed repo
 
 If your repo is transcrypt-ed, and you want to access secret in Travis CI, the follow these steps:
