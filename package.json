@@ -7,6 +7,6 @@
     "eclint": "2.3.0"
   },
   "scripts": {
-    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" -e \"^UNLICENSE$\" -e \"^bin/\" -e \"^package.json$\")"
+    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" -e \"^UNLICENSE$\" -e \"^bin/\")"
   }
 }
