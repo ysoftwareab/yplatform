@@ -7,12 +7,14 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
+  - secure: "Cm3KptVlL27QaX2vAfZUckvqkIOJwCa5u0HrSUwpodKc55nRQ3gRYpgJSneQiwVtBo8kuD/UpqKXOOL0IA1ntRvZ0af0xzWQK/8GLNQ57b8jzqJ8heHtcPV+Ubhe+Cqvx5k/af9MtqlnUO2R51Pen4FTV/qiWUr3SSlPkjOa2TwEA5XbcNdGa/dtIhNgWt6gSVO0WDBZ/y4IQyGr8WtLIrOsnUjCwe80Xl6z+rDeL2BIjOzObRdEDSJ1iHpPvoCEL0bTlyEuHdMDcuychFwQ6z2pJolyRMErVmxltPBU6dETo/C2TA9h5QAZ35rEZn4oO5aSHZaOK33l8KA5IwVdRBsNvH4QXHqaxBoYqVH+0MO7TtagmnBXLcDsRQ/Pjn43sITnP6E0M1vhkkljW3jrkT1krrAW1DnpXdZwlEaE66sPz6vvj86JcJKh0+CuLSC7+q7T1kIByUkaQCP/XcNRQgLGVVPLMsBBTdji06h6P36iVRnI9iBao2yGF9I4joaFL2iOG+YuQbWWAy6M/j9PEX6Enha3nXBLKyy+NbWKRC+WsswQYYZWLnVBwyobUskp5SxIUR+aP/Fla5wKoaTlKyYoFs/Lu72OD4b7x4VSJeQkaOdnFzZx4x2XIZBX4+2/5OGbGYBSj1hfLgqv/uOfskNohYRjzeLt2nkpQLVB0X4="
   - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
   - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
 install:
   - npm install
 script:
   - npm test
+  - cat docs/manage-secrets.md.test.enc | grep -q "This is a test of transcrypt."
 
 language:
   - node_js
