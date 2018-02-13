@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- travis-encrypt 1.0
+## Usage: travis-encrypt [OPTION]
+## Encrypt value for the current github repo with its Travis CI public key.
+##
+##   --value        Value to encrypt. Can be "<key>=<value>" too.
+##   --porcelain    Output only the encrypted value, without any helper text.
+##   --show-key     Show the Tracis CI public key
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+##
+
+# Refs:
+# https://github.com/slodki/travis-encrypt-cli
+# https://github.com/dlenski/travis-encrypt-sh
+
+USERREPO=$(git remote -v 2>/dev/null | grep -oP "(?<=github.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//")
+VALUE=
+PORCELAIN=false
+SHOW_KEY=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --value)
+            VALUE=$2
+            shift 2
+            ;;
+        --porcelain)
+            PORCELAIN=true
+            shift
+            ;;
+        --show-key)
+            SHOW_KEY=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ "${SHOW_KEY}" = "false" ]] || {
+    [[ "${PORCELAIN}" = "false" ]] || {
+        >&2 echo "Cannot show key in porcelain mode."
+        exit 1
+    }
+}
+
+KEY_RE='"key":"([^"]+)"'
+[[ "$(curl -sS "https://api.travis-ci.org/repos/${USERREPO}/key" 2>/dev/null)" =~ ${KEY_RE} ]]
+KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
+
+[[ "${PORCELAIN}" = "true" ]] || {
+    [[ "${SHOW_KEY}" = "false" ]] || echo -e "${KEY}"
+    echo "Detected repository as ${USERREPO}."
+    echo "Please add the following to your .travis.yml file:"
+    echo
+    echo -n "secure: \""
+}
+
+echo -n "${VALUE}" | openssl rsautl -encrypt -pubin -inkey <(echo -e "${KEY}") | openssl base64 -A
+
+[[ "${PORCELAIN}" = "true" ]] || {
+    echo -n "\""
+    echo
+}
