@@ -82,7 +82,7 @@ gpg --list-keys <recipient>
 
 # commit the encrypted message
 mkdir -p .transcrypt
-cp $(git rev-parse --git-dir)/crypt/*.asc .transcrypt/
+cp $(ls -t $(git rev-parse --git-dir)/crypt/*.asc | head -n1) .transcrypt/
 git add .transcrypt
 git commit -m "add transcrypt recipient"
 ```
