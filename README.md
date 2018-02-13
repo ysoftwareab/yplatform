@@ -8,6 +8,7 @@ Documentation and support files (e.g. configuration like `.gitconfig`, `.editorc
 * [working with git](docs/working-with-git.md)
 * [bootstrap a new repo](docs/bootstrap-a-new-repo.md)
 * [bootstrap CI](docs/bootstrap-ci.md)
+* [working with gpg](docs/working-with-gpg.md)
 
 
 ## License
