@@ -18,14 +18,19 @@ use https://github.com/elasticdog/transcrypt which can work with gpg, but doesn'
 
 ### Bootstrapping a new repo
 
-Edit/create a `.gitattributes` file in your repo, where you mark which file patterns
-should be considered for encryption e.g.
+Edit/create a `.gitattributes` file in your repo
+(it can be in the root and/or in a specific folder just like `.gitignore` can),
+where you mark which file patterns should be considered for encryption e.g.
 
 ```
-/path/to/some.file filter=crypt diff=crypt
-# all *.enc *.key files in all dirs
-*.enc filter=crypt diff.crypt
-*.key filter=crypt diff.crypt
+# transcrypt ===================================================================
+*.cert filter=crypt diff=crypt
+*.crt filter=crypt diff=crypt
+*.gpg filter=crypt diff=crypt
+*.key filter=crypt diff=crypt
+*.secret filter=crypt diff=crypt
+**/*.secret/** filter=crypt diff=crypt
+**/.git* !filter !diff
 ```
 
 The `support-firecloud` repo has a version of transcrypt available in the `bin` folder.
