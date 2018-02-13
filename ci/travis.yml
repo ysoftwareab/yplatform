@@ -1,3 +1,6 @@
+env:
+  global:
+    - secure: "ZqAHqLi804+FLx0R/ZdT3c33B//ypG3a827nOyhceTZUIcheqvL6PxPcfjwxba1hawm5E0B6gS9RBIFXbTyH07ZMnBsdio5iiUuDnOFCXYujVCXoNTkjo1Vlsu2HC8/KR6a5kWvt2UD8MbJ1+Cpur9N9F5dCGEsOFeFB7OvbKx38rxSnXxvNhdVPK+0Zi6jvZafAkUjjSfmgvXWlEFY0cOxjZmslU/KyJM32DiCn3Z8WysGccYIqFQLBYfjfY7n12WBQttXY6JhaEi4Ht1ePWPpfNDjBd4Y6VaMrKDhZ3xPOwrG8AIbOkzJrrTFgXpCFxaavXdkr2H/yYWYec6HuHwAbWvvgIwv84JXFjRRHYUy+Iev+KNIsa4LPFCC9YJDMJk3QJ3O3daS4XejqMDqVv4WudYECy+VtUqZRui9wVC7cRTc30vCCRiqRA9P3p8AlZzS1CoPFXwgFfieZRwbreEJjEBO2sizNmsWnBPxrkvSey4FxR5nHyk487YIfv/3PUCnoZ0gtUuOn2MUvxZMIOlN6LgL6czdIhxLMpulZJjPBeqO6A344wgU22luyKL2bJ6pgraIu+PWUkSQ/RMv6ZZtpD3rPVeY84nI5KDYY2eZLUvQJSBe+uM65Wqpbh6xWCSfmWpB+LwZ7zorzjgO1F6VwGXuci4Crg3mZh6rW528="
 cache:
   directories:
     - /tmp/support-firecloud.cache
@@ -7,7 +10,8 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
-  - secure: "Cm3KptVlL27QaX2vAfZUckvqkIOJwCa5u0HrSUwpodKc55nRQ3gRYpgJSneQiwVtBo8kuD/UpqKXOOL0IA1ntRvZ0af0xzWQK/8GLNQ57b8jzqJ8heHtcPV+Ubhe+Cqvx5k/af9MtqlnUO2R51Pen4FTV/qiWUr3SSlPkjOa2TwEA5XbcNdGa/dtIhNgWt6gSVO0WDBZ/y4IQyGr8WtLIrOsnUjCwe80Xl6z+rDeL2BIjOzObRdEDSJ1iHpPvoCEL0bTlyEuHdMDcuychFwQ6z2pJolyRMErVmxltPBU6dETo/C2TA9h5QAZ35rEZn4oO5aSHZaOK33l8KA5IwVdRBsNvH4QXHqaxBoYqVH+0MO7TtagmnBXLcDsRQ/Pjn43sITnP6E0M1vhkkljW3jrkT1krrAW1DnpXdZwlEaE66sPz6vvj86JcJKh0+CuLSC7+q7T1kIByUkaQCP/XcNRQgLGVVPLMsBBTdji06h6P36iVRnI9iBao2yGF9I4joaFL2iOG+YuQbWWAy6M/j9PEX6Enha3nXBLKyy+NbWKRC+WsswQYYZWLnVBwyobUskp5SxIUR+aP/Fla5wKoaTlKyYoFs/Lu72OD4b7x4VSJeQkaOdnFzZx4x2XIZBX4+2/5OGbGYBSj1hfLgqv/uOfskNohYRjzeLt2nkpQLVB0X4="
+  - bin/transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+  - unset TRANSCRYPT_PASSWORD
   - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
   - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
 install:

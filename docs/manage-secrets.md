@@ -118,7 +118,17 @@ If your repo is transcrypt-ed, and you want to access secret in Travis CI, the f
 
 ```shell
 cd path/to/git/repo
-path/to/support-firecloud/bin/travis-encrypt --value "./transcrypt -y -c <cipher> -p <password>"
+path/to/support-firecloud/bin/travis-encrypt --value "TRANSCRYPT_PASSWORD=<password>"
 ```
 
-Now you can add the `secret: "..."` text to your `.travis.yml` file as the first item within `before_install:`.
+Now you can this to your `.travis.yml` file:
+
+```yaml
+env:
+  global:
+    - secure: "..."
+before_install:
+  - ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+  - unset TRANSCRYPT_PASSWORD
+```
+
