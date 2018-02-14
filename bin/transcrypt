@@ -418,6 +418,15 @@ flush_credentials() {
 		# re-encrypt any files that had been previously decrypted
 		force_checkout
 
+		# remove the `git ls-crypt` alias
+		git config --unset alias.ls-crypt
+
+		# remove the alias section if it's now empty
+		local alias_values=$(git config --get-regex --local 'alias\..*')
+		if [[ ! $alias_values ]]; then
+			git config --remove-section alias
+		fi
+
 		printf 'The local transcrypt credentials have been successfully flushed.\n'
 	else
 		die 1 'flushing of credentials has been aborted'
