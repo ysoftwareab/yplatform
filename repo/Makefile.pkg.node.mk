@@ -9,7 +9,14 @@ NPM_PUBLISH_GIT = $(call which,NPM_PUBLISH_GIT,npm-publish-git)
 
 ESLINT_ARGS ?= --ignore-pattern '!.eslintrc.js' --config $(MAKE_PATH)/node_modules/eslint-config-firecloud/no-ide.js
 
-JS_FILES = $(shell $(GIT_LS) | $(GREP) -e ".js$$" | $(SED) "s/^/'/g" | $(SED) "s/$$/'/g")
+JS_FILES_IGNORE := \
+	-e "^$$"
+
+JS_FILES = $(shell $(GIT_LS) | \
+	$(GREP) -v $(JS_FILES_IGNORE) | \
+	$(GREP) -e ".js$$" | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 
 SRC_JS_FILES := $(shell $(FIND_Q) src -type f -name "*.js" -print)
 LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
