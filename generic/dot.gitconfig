@@ -21,8 +21,6 @@
     textconv            = docx2txt
 [diff "exif"]
     textconv            = exiftool
-[diff "git-crypt"]
-    textconv            = git-crypt diff
 [diff "gpg"]
     textconv            = gpg -v
 [diff "gz"]
@@ -82,10 +80,6 @@
 [filter "git-lfs"]
     smudge              = git-lfs smudge %f
     clean               = git-lfs clean %f
-    required            = true
-[filter "git-crypt"]
-    smudge              = git-crypt smudge
-    clean               = git-crypt clean
     required            = true
 
 

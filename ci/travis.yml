@@ -1,3 +1,6 @@
+env:
+  global:
+    - secure: "ZqAHqLi804+FLx0R/ZdT3c33B//ypG3a827nOyhceTZUIcheqvL6PxPcfjwxba1hawm5E0B6gS9RBIFXbTyH07ZMnBsdio5iiUuDnOFCXYujVCXoNTkjo1Vlsu2HC8/KR6a5kWvt2UD8MbJ1+Cpur9N9F5dCGEsOFeFB7OvbKx38rxSnXxvNhdVPK+0Zi6jvZafAkUjjSfmgvXWlEFY0cOxjZmslU/KyJM32DiCn3Z8WysGccYIqFQLBYfjfY7n12WBQttXY6JhaEi4Ht1ePWPpfNDjBd4Y6VaMrKDhZ3xPOwrG8AIbOkzJrrTFgXpCFxaavXdkr2H/yYWYec6HuHwAbWvvgIwv84JXFjRRHYUy+Iev+KNIsa4LPFCC9YJDMJk3QJ3O3daS4XejqMDqVv4WudYECy+VtUqZRui9wVC7cRTc30vCCRiqRA9P3p8AlZzS1CoPFXwgFfieZRwbreEJjEBO2sizNmsWnBPxrkvSey4FxR5nHyk487YIfv/3PUCnoZ0gtUuOn2MUvxZMIOlN6LgL6czdIhxLMpulZJjPBeqO6A344wgU22luyKL2bJ6pgraIu+PWUkSQ/RMv6ZZtpD3rPVeY84nI5KDYY2eZLUvQJSBe+uM65Wqpbh6xWCSfmWpB+LwZ7zorzjgO1F6VwGXuci4Crg3mZh6rW528="
 cache:
   directories:
     - /tmp/support-firecloud.cache
@@ -7,12 +10,15 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
+  - ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+  - unset TRANSCRYPT_PASSWORD
   - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
   - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
 install:
   - npm install
 script:
   - npm test
+  - cat docs/manage-secrets.md.test.enc | grep -q "This is a test of transcrypt."
 
 language:
   - node_js
