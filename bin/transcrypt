@@ -447,7 +447,7 @@ uninstall_transcrypt() {
 		for script in {clean,smudge,textconv}; do
 			[[ -f "${GIT_DIR}/crypt/${script}" ]] && rm "${GIT_DIR}/crypt/${script}"
 		done
-		[[ -d "${GIT_DIR}/crypt" ]] && rmdir "${GIT_DIR}/crypt"
+		rm -rf "${GIT_DIR}/crypt"
 
 		# touch all encrypted files to prevent stale stat info
 		local encrypted_files=$(git ls-crypt)
