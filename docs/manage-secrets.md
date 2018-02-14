@@ -92,10 +92,18 @@ git commit -m "add transcrypt recipient"
 ```shell
 cd path/to/git/repo
 ./transcrypt --import-gpg .transcrypt/<yourself>.asc
+
+# when finished working with the secrets, flush (remove) credentials
+./transcrypt -f
 ```
 
 **NOTE** In extreme situations, if nobody can decrypt `.transcrypt/*.asc`, use the **designated safe location**
 to run `./transcrypt -c <cipher> -p <password>` and restore access to the transcrypt-ed repo.
+
+Working with secrets is probably a very seldom and time-limited task.
+So whenever you have finished the task, remember to flush transcrypt crendentials
+i.e. remove the transcrypt password and also re-encrypt all files at rest,
+in order to minimize the risk of leaking the secrets.
 
 
 ## Travis CI secrets
