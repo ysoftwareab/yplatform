@@ -1,11 +1,10 @@
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
-include $(SUPPORT_FIRECLOUD_DIR)/repo/Makefile.common.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/generic.common.mk
 
 PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
 export PATH
 
 ESLINT = $(call which,ESLINT,eslint)
-NPM_PUBLISH_GIT = $(call which,NPM_PUBLISH_GIT,npm-publish-git)
 
 ESLINT_ARGS ?= --ignore-pattern '!.eslintrc.js' --config $(MAKE_PATH)/node_modules/eslint-config-firecloud/no-ide.js
 

@@ -1,3 +1,7 @@
+NPM_PUBLISH_GIT = $(call which,NPM_PUBLISH_GIT,npm-publish-git)
+
+# ------------------------------------------------------------------------------
+
 .PHONY: publish
 publish: ## Publish as a git version tag.
 	@$(ECHO_DO) "Publishing version..."

@@ -8,8 +8,8 @@
 # endif
 
 # TOP := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
-# include support-firecloud/repo/Makefile.common.mk
-# include support-firecloud/repo/...
+# include support-firecloud/repo/mk/generic.common.mk
+# include support-firecloud/repo/mk/...
 
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
