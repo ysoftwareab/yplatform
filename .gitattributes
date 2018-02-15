@@ -1,1 +1,8 @@
-/docs/manage-secrets.md.test.enc filter=crypt diff=crypt
+# transcrypt ===================================================================
+*.cert filter=crypt diff=crypt
+*.crt filter=crypt diff=crypt
+*.gpg filter=crypt diff=crypt
+*.key filter=crypt diff=crypt
+*.secret filter=crypt diff=crypt
+**/*.secret/** filter=crypt diff=crypt
+**/.git* !filter !diff
