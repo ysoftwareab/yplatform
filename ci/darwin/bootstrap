@@ -76,8 +76,8 @@ echo_done
 
 # AWS
 echo_do "Installing AWS utils..."
-pip2 install --upgrade awscli==1.14.38 botocore==1.8.42
-pip2 install --upgrade awslogs botocore==1.8.42
+pip2 install --upgrade awscli
+pip2 install --upgrade awslogs
 aws configure set s3.signature_version s3v4
 echo_done
 
