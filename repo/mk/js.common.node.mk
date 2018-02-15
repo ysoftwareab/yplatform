@@ -4,10 +4,6 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/generic.common.mk
 PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
 export PATH
 
-ESLINT = $(call which,ESLINT,eslint)
-
-ESLINT_ARGS ?= --ignore-pattern '!.eslintrc.js' --config $(MAKE_PATH)/node_modules/eslint-config-firecloud/no-ide.js
-
 JS_FILES_IGNORE := \
 	-e "^$$"
 
@@ -28,10 +24,6 @@ SF_CLEAN_FILES := \
 SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	build-js \
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
-	lint-js \
 
 # ------------------------------------------------------------------------------
 
@@ -60,14 +52,6 @@ $(LIB_JS_FILES): lib/%.js: src/%.js $(SRC_JS_FILES)
 
 .PHONY: build-js
 build-js: $(LIB_JS_FILES)
-
-
-.PHONY: lint-js
-lint-js:
-	$(ESLINT) $(ESLINT_ARGS) $(JS_FILES) || { \
-		$(ESLINT) $(ESLINT_ARGS) --fix $(JS_FILES) 2>/dev/null >&2; \
-		exit 1; \
-	}
 
 
 .PHONY: version
