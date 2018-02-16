@@ -18,7 +18,7 @@ install:
   - npm install
 script:
   - npm test
-  - npm run is-descrypted
+  - npm run is-decrypted
 
 language:
   - node_js
