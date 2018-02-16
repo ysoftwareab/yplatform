@@ -141,10 +141,10 @@ env:
   global:
     - secure: "..."
 before_install:
-  - '[ "${TRAVIS_PULL_REQUEST}" != "false" ] || ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"'
+  - '[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"'
   - unset TRANSCRYPT_PASSWORD
 ```
 
-**NOTE** Check for `TRAVIS_PULL_REQUEST` variable, because on pull requests, Travis does not decrypt `.travis.yml`.
+**NOTE** Check the `TRAVIS_EVENT_TYPE` variable, because on pull requests Travis does not decrypt `.travis.yml`.
 
 See how the `support-firecloud`'s [.travis.yml](../ci/travis.yml) looks like.
