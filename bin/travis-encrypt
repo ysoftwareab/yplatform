@@ -28,7 +28,7 @@ SHOW_KEY=false
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --value)
-            VALUE=$2
+            VALUE="$2"
             shift 2
             ;;
         --porcelain)
@@ -44,6 +44,9 @@ while [[ $# -gt 0 ]]; do
             ;;
         -v|--version)
             sh_script_version
+            ;;
+        -* )
+            sh_script_usage
             ;;
         *)
             sh_script_usage
