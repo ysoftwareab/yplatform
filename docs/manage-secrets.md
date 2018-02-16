@@ -145,4 +145,4 @@ before_install:
   - unset TRANSCRYPT_PASSWORD
 ```
 
-See how the `support-firecloud`'s [.travis.yml](../.travis.yml) looks like.
+See how the `support-firecloud`'s [.travis.yml](../ci/travis.yml) looks like.
