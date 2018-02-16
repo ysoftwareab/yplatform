@@ -1,0 +1,6 @@
+include <SUPPORT_FIRECLOUD_DIR_REL>/repo/cfn/Makefile
+
+# BUILD_DATE :=
+# BUILD_TIME :=
+# BUILD_VCS_NUMBER :=
+# ENV_NAME :=
