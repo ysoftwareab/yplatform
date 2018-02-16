@@ -10,7 +10,7 @@ cache:
     - $HOME/Library/Caches/Homebrew
     - node_modules
 before_install:
-  - ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false"] || ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"'
   - unset TRANSCRYPT_PASSWORD
   - '[ "${TRAVIS_SUDO}" = "true" ] || export TRAVIS_NOSUDO_MARKER="-nosudo"'
   - ./ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER:-}/bootstrap
@@ -18,7 +18,7 @@ install:
   - npm install
 script:
   - npm test
-  - npm run is-decrypted
+  - '[ "${TRAVIS_PULL_REQUEST}" != "false"] || npm run is-decrypted'
 
 language:
   - node_js
