@@ -18,7 +18,7 @@ install:
   - npm install
 script:
   - npm test
-  - cat docs/manage-secrets.md.test.secret | grep -q "This is a test of transcrypt."
+  - npm run is-descrypted
 
 language:
   - node_js
