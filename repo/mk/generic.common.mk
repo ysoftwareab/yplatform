@@ -11,7 +11,7 @@
 # include support-firecloud/repo/mk/generic.common.mk
 # include support-firecloud/repo/mk/...
 
-SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
+SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 
 CI_ECHO = $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
