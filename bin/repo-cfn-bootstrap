@@ -41,7 +41,6 @@ done
 
 CFN_DIR=${1:-cfn}
 
-SUPPORT_FIRECLOUD_DIR_REL="$(realpath --relative-to="$(pwd)" "${SUPPORT_FIRECLOUD_DIR}")"
 
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..
@@ -52,6 +51,7 @@ SUPPORT_FIRECLOUD_DIR_REL="$(realpath --relative-to="$(pwd)" "${SUPPORT_FIRECLOU
 )
 
 git rev-parse --show-toplevel >/dev/null
+SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
 mkdir -p ${CFN_DIR}
 
 cd ${CFN_DIR}
