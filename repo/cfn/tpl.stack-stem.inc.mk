@@ -1,9 +1,9 @@
-# example where "env-web" is a stack stem placeholder e.g. env-api/env-web/infra/ci/etc
+ENV_NAME ?=
 
 .PHONY: <STACK_STEM>-setup
 <STACK_STEM>-setup:
 	$(eval STACK_STEM := <STACK_STEM>)
-#	$(eval STACK_NAME := $(ENV_NAME)-web) # in case on env-* stacks only
+	$(eval STACK_NAME := $(subst env,$(ENV_NAME),$(STACK_STEM))
 
 define <STACK_STEM>-lint
 endef
