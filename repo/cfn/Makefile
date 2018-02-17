@@ -111,8 +111,11 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 .PHONY: %.change-set.json
 %.change-set.json: %-setup %.cfn.json %.cfn.json.bak ## Create change-set and template diff.
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE) and $(CHANGE_SET_FILE_DIFF)..."
+#	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
+#		$(CAT) $${f} | $(JQ) -S . > sorted.$${f}; \
+#	done
 	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
-		$(CAT) $${f} | $(JQ) -S . > sorted.$${f}; \
+		$(CAT) $${f} | $(JSON) -k -a | $(SORT) > sorted.$${f}; \
 	done
 	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(CHANGE_SET_FILE_DIFF) || true
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
