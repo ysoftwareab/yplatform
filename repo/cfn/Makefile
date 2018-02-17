@@ -11,10 +11,6 @@ DOT = $(call which,GRAPHVIZ_DOT,dot)
 ESLINT = $(call which,ESLINT,eslint)
 $(foreach VAR,AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
 
-STACK_NAME ?= $(STACK_STEM)
-export STACK_NAME
-export STACK_STEM
-
 AWS_CFN_CU_STACK_ARGS ?=
 ESLINT_ARGS ?=
 
