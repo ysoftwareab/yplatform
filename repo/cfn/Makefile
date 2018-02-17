@@ -89,9 +89,10 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 		--template-url-prefix $(S3_INFRA_BUCKET)/tmp \
 		--tags Key=project,Value=$(PROJECT_DOMAIN_NAME) \
 		--parameters ParameterKey=zzMtime,ParameterValue=$(MAKE_DATE).$(MAKE_TIME)
-	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
-		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
-	}
+# FIXME move to $(STACK_STEM)-post-exec
+#	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
+#		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
+#	}
 	$(call $(STACK_STEM)-post-exec)
 	$(ECHO_DONE)
 
@@ -142,9 +143,10 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 		--execute-change-set \
 		--change-set-file $(CHANGE_SET_FILE)
 	$(RM) $(CHANGE_SET_FILE)
-	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
-		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
-	}
+# FIXME move to $(STACK_STEM)-post-exec
+#	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
+#		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
+#	}
 	$(call $(STACK_STEM)-post-exec)
 	$(ECHO_DONE)
 
