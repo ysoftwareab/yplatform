@@ -6,8 +6,11 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/cfn/Makefile
 # TMP_S3_URL :=
 
 # Optional
-# AWS_CFN_CU_STACK_ARGS := \
-#   --tags Key=project,Value=$(PROJECT_DOMAIN_NAME) \
-#		--parameters ParameterKey=zzMtime,ParameterValue=$(MAKE_DATE).$(MAKE_TIME)
-# ESLINT_ARGS := \
-# 	--reporter html
+
+# `aws cloudformation create-stack/update-stack` arguments
+# e.g. --tags Key=project,Value=someproject --parameters ParameterKey=somekey,ParameterValue=somevalue
+# AWS_CFN_CU_STACK_ARGS :=
+
+# `eslint` arguments
+# e.g. --reporter html
+# ESLINT_ARGS :=
