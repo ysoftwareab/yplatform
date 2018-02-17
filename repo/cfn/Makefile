@@ -55,10 +55,10 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 	$(NODE_BABEL) ./$< > $@
 #	FIXME validate-template only checks JSON syntax. use cloudformation-schema...
 #	https://console.aws.amazon.com/support/home?region=eu-west-1#/case/?displayId=1832313261&language=en
-	if $$($(AWS) s3api head-bucket --bucket $(S3_INFRA_BUCKET)); then { \
+	if $$($(AWS) s3 ls --page-size 1 $(TMP_S3_URL) >/dev/null); then { \
 		aws-cloudformation-validate-template \
 			--template-body file://$@ \
-			--template-url-prefix $(S3_INFRA_BUCKET)/tmp || { \
+			--template-url-prefix $(TMP_S3_URL) || { \
 			mv $@ $@.err; \
 			$(ECHO_ERR) "Erroneous template available as $@.err ."; \
 			exit 1; \
@@ -99,7 +99,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 		--change-set-name $(CHANGE_SET_NAME) \
 		--change-set-file $(CHANGE_SET_FILE) \
 		--template-body file://$(STACK_TPL_FILE) \
-		--template-url-prefix $(S3_INFRA_BUCKET)/tmp \
+		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
@@ -138,7 +138,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 		--change-set-name $(CHANGE_SET_NAME) \
 		--change-set-file $(CHANGE_SET_FILE) \
 		--template-body file://$(STACK_TPL_FILE) \
-		--template-url-prefix $(S3_INFRA_BUCKET)/tmp \
+		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
 	$(ECHO) "Diff file: $(CHANGE_SET_FILE_DIFF)"
 	$(ECHO_DONE)

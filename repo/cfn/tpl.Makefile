@@ -1,7 +1,9 @@
 export SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/<SUPPORT_FIRECLOUD_DIR_REL>)
 include $(SUPPORT_FIRECLOUD_DIR)/repo/cfn/Makefile
 
-# S3_INFRA_BUCKET :=
+# An S3 url to interact with temporary artifats
+# e.g. s3://example/path
+# TMP_S3_URL :=
 
 # Optional
 # AWS_CFN_CU_STACK_ARGS := \
