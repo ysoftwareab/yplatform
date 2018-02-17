@@ -39,9 +39,6 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-CFN_DIR=${1:-cfn}
-
-
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..
     git rev-parse --show-toplevel >/dev/null || {
@@ -50,10 +47,10 @@ CFN_DIR=${1:-cfn}
     }
 )
 
-git rev-parse --show-toplevel >/dev/null
+CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
 SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
-mkdir -p ${CFN_DIR}
 
+mkdir -p ${CFN_DIR}
 cd ${CFN_DIR}
 
 [[ -f Makefile ]] || {
