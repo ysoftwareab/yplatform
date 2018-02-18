@@ -3,6 +3,11 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
 export PATH
 
+AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query Arn 2>/dev/null | \
+	$(SED) "s/^arn:aws:\(iam\|sts\):://" | \
+	$(SED) "s/:.*$$//")
+$(foreach VAR,AWS_ACCOUNT_ID,$(call make-lazy,$(VAR)))
+
 AWS = $(call which,AWS,aws)
 AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
 AWS_CFN_D_STACK = $(call which,AWS_CFN_DELETE_STACK,aws-cloudformation-delete-stack)
