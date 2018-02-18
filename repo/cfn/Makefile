@@ -1,4 +1,3 @@
-SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 
 PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
