@@ -11,17 +11,7 @@ let main = async function({env}) {
     env,
     dir: env.STACK_STEM
   });
-  return _.merge(tpl, {
-    Description: `${env.ENV_NAME} ${env.STACK_STEM} Stack`,
-    Outputs: {
-      BuildNumber: {
-        Value: env.BUILD_NUMBER
-      },
-      S3KeyPrefix: {
-        Value: env.S3_KEY_PREFIX
-      }
-    }
-  });
+  return tpl;
 };
 
 export default main;
