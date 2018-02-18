@@ -71,7 +71,7 @@ cd ${CFN_DIR}
 }
 
 [[ -f "${STACK_STEM}.cfn.js" ]] || {
-    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${STACK_STEM}.cfn.js"
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${STACK_STEM}.cfn.js"
     echo "Created ${CFN_DIR}/${STACK_STEM}.cfn.js."
 }
 
