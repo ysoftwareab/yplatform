@@ -3,12 +3,13 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
 PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
 export PATH
 
+AWS = $(call which,AWS,aws)
 AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
 AWS_CFN_D_STACK = $(call which,AWS_CFN_DELETE_STACK,aws-cloudformation-delete-stack)
 AWS_CFN2DOT = $(NODE_BABEL) $(call which,AWS_CFN2DOT,aws-cfn2dot)
 DOT = $(call which,GRAPHVIZ_DOT,dot)
 ESLINT = $(call which,ESLINT,eslint)
-$(foreach VAR,AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
 
 AWS_CFN_CU_STACK_ARGS ?=
 ESLINT_ARGS ?=
