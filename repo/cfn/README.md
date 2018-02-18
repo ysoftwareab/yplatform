@@ -53,6 +53,7 @@ This has a few striking benefits, like:
         +-- kms.web.cfn.js
     +-- infra
         +-- iam.cfn.js
+    +-- .gitignore          ~  ../support-firecloud/repo/cfn/tpl.gitignore
     +-- Makefile            ~  ../support-firecloud/repo/cfn/tpl.Makefile
     +-- env-web.cfn.js      -> ../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
     +-- env-web.inc.mk      ~  ../support-firecloud/repo/cfn/tpl.stack-stem.inc.mk

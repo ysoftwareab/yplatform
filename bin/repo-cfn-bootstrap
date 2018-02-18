@@ -53,6 +53,11 @@ SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('
 mkdir -p ${CFN_DIR}
 cd ${CFN_DIR}
 
+[[ -f .gitignore ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore ./.gitignore
+    echo "Created ${CFN_DIR}/.gitignore."
+}
+
 [[ -f Makefile ]] || {
     cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile ./Makefile
     sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" Makefile
