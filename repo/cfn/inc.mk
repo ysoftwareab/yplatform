@@ -74,7 +74,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 .PHONY: %.cfn.json/lint
 %.cfn.json/lint: %-setup ## Lint stack.
 	$(ECHO_DO) "Linting the $(STACK_NAME) stack..."
-	$(ESLINT) $(ESLINT_ARGS) --config ./.eslintrc.yaml \
+	$(ESLINT) $(ESLINT_ARGS) \
 		$(STACK_STEM).js \
 		$$($(FIND_Q_NOSYM) $(STACK_STEM) -type f -name "*.cfn.js" -print)
 	$(call $(STACK_STEM)-lint)
