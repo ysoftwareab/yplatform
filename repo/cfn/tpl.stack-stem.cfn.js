@@ -1,10 +1,10 @@
-#!/usr/bin/env node -r babel-register
+#!/usr/bin/env node
 
-import 'aws-util-firecloud/lib/bootstrap';
+require('aws-util-firecloud/lib/bootstrap');
 
-import _ from 'lodash-firecloud';
-import build from 'aws-util-firecloud/lib/cfn/build';
-import env from 'aws-util-firecloud/lib/env';
+let _ = require('lodash-firecloud');
+let build = require('aws-util-firecloud/lib/cfn/build');
+let env = require('aws-util-firecloud/lib/env');
 
 let main = async function({env}) {
   let tpl = await build({
