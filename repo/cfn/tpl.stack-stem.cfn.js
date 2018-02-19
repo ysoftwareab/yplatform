@@ -18,6 +18,7 @@ export default main;
 
 (async function() {
   if (!module.parent) {
+    // eslint-disable-next-line no-console
     console.log(JSON.stringify(await main({env}), undefined, 2));
   }
 })();
