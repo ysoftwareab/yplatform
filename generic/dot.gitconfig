@@ -118,3 +118,5 @@
 [notes "rewrite"]
     amend               = true
     rebase              = true
+[url "git@github.com:"]
+    pushInsteadOf       = git://github.com/
