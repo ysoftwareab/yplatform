@@ -41,9 +41,10 @@ and install transcrypt.
 
 ```shell
 cd path/to/git/repo
+git add .gitattributes
 cp path/to/support-firecloud/bin/transcrypt ./
 git add transcrypt
-git commit -m "add transcrypt executable"
+git commit -m "add transcrypt"
 ```
 
 Now you can initialize the repo as a transcrypt-ed repo:
