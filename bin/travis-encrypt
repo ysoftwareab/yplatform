@@ -56,7 +56,7 @@ done
 
 [[ "${SHOW_KEY}" = "false" ]] || {
     [[ "${PORCELAIN}" = "false" ]] || {
-        >&2 echo "Cannot show key in porcelain mode."
+        echo_err "Cannot show key in porcelain mode."
         exit 1
     }
 }
@@ -67,9 +67,9 @@ KEY_RE='"key":"([^"]+)"'
 KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
 
 if [[ "${KEY}" =~ "not found" ]]; then
-    >&2 echo "Key not found at ${KEY_URL}."
-    >&2 echo "Use official Travis CI client for private repos:"
-    >&2 echo "e.g. <travis encrypt \"value\"> instead of <travis-encrypt --value \"value\">."
+    echo_err "Key not found at ${KEY_URL}."
+    echo_info "Use official Travis CI client for private repos:"
+    echo_info "e.g. <travis encrypt \"value\"> instead of <travis-encrypt --value \"value\">."
     exit 1
 fi
 
