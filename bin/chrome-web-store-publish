@@ -1,0 +1,117 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- chrome-web-store-publish 1.0
+## Usage: chrome-web-store-publish [OPTION]
+## Upload a WebExtension and publish it to the Chrome Web Store.
+##
+##   --id             Extension id.
+##   --zip            Path to the zipped extension.
+##   --client-id      The client id.
+##   --client-secret  The client secret.
+##   --refresh-token  The refresh token. Optional
+##   --upload-only    Skip publishing, only upload the zipped extension.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+##
+
+# Refs:
+# https://gist.github.com/adrienjoly/5c7e3573f182eccc590fd0b65628e857
+# https://developer.chrome.com/webstore/using_webstore_api
+# https://github.com/DrewML/chrome-webstore-upload/blob/master/How%20to%20generate%20Google%20API%20keys.md
+
+ID=
+ZIP=
+CLIENT_ID=
+CLIENT_SECRET=
+REFRESH_TOKEN=
+UPLOAD_ONLY=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --id)
+            ID="$2"
+            shift 2
+            ;;
+        --zip)
+            ZIP="$2"
+            shift 2
+            ;;
+        --client-id)
+            CLIENT_ID="$2"
+            shift 2
+            ;;
+        --client-secret)
+            CLIENT_SECRET="$2"
+            shift 2
+            ;;
+        --refresh-token)
+            REFRESH_TOKEN="$2"
+            shift 2
+            ;;
+        --upload-only)
+            UPLOAD_ONLY=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ -n "${REFRESH_TOKEN}" ]] || {
+    echo_do "Getting access token from Chrome Web Store API..."
+    open "https://accounts.google.com/o/oauth2/auth?&client_id=${CLIENT_ID}&response_type=code&scope=https://www.googleapis.com/auth/chromewebstore&redirect_uri=urn:ietf:wg:oauth:2.0:oob"
+
+    echo "Enter the auth code provided by Google:"
+    read -r AUTH_CODE
+
+    REFRESH_TOKEN=$(curl -sS \
+                         -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&code=${AUTH_CODE}&grant_type=authorization_code&redirect_uri=urn:ietf:wg:oauth:2.0:oob" \
+                         "https://www.googleapis.com/oauth2/v4/token" | json refresh_token
+                 )
+    echo_done
+}
+
+
+echo_do "Getting an access token..."
+ACCESS_TOKEN=$(curl -sS \
+                    -d "client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${REFRESH_TOKEN}&grant_type=refresh_token&redirect_uri=urn:ietf:wg:oauth:2.0:oob" \
+                    "https://www.googleapis.com/oauth2/v4/token" | json access_token
+             )
+echo_done
+
+echo_do "Uploading ${ZIP} to Chrome Web Store..."
+curl -sS \
+  -X PUT \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}"  \
+  -H "x-goog-api-version: 2" \
+  -T "${ZIP}" \
+  "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${ID}"
+echo_done
+
+[[ "${UPLOAD_ONLY}" = "false" ]] || {
+    echo_info "--upload-only given. Stopping here."
+    echo_skip "Publishing on the Chrome Web Store..."
+    exit 0
+}
+
+echo_do "Publishing on the Chrome Web Store..."
+curl -sS \
+  -X POST \
+  -H "Authorization: Bearer ${ACCESS_TOKEN}"  \
+  -H "x-goog-api-version: 2" \
+  "https://www.googleapis.com/upload/chromewebstore/v1.1/items/${ID}/publish"
+echo_done
