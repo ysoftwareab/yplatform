@@ -135,6 +135,10 @@ cd path/to/git/repo
 path/to/support-firecloud/bin/travis-encrypt --value "TRANSCRYPT_PASSWORD=<password>"
 ```
 
+**NOTE** travis-encrypt only works for public repos.
+For private repos, you still need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb):
+`travis encrypt "TRANSCRYPT_PASSWORD=<password>"`.
+
 Now you can this to your `.travis.yml` file:
 
 ```yaml

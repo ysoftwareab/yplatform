@@ -61,9 +61,17 @@ done
     }
 }
 
+KEY_URL="https://api.travis-ci.org/repos/${USERREPO}/key"
 KEY_RE='"key":"([^"]+)"'
-[[ "$(curl -sS "https://api.travis-ci.org/repos/${USERREPO}/key" 2>/dev/null)" =~ ${KEY_RE} ]]
+[[ "$(curl -sS "${KEY_URL}" 2>/dev/null)" =~ ${KEY_RE} ]]
 KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
+
+if [[ "${KEY}" =~ "not found" ]]; then
+    >&2 echo "Key not found at ${KEY_URL}."
+    >&2 echo "Use official Travis CI client for private repos:"
+    >&2 echo "e.g. <travis encrypt \"value\"> instead of <travis-encrypt --value \"value\">."
+    exit 1
+fi
 
 [[ "${PORCELAIN}" = "true" ]] || {
     [[ "${SHOW_KEY}" = "false" ]] || echo -e "${KEY}"
