@@ -2,7 +2,7 @@
   "private": true,
   "name": "support-firecloud",
   "version": "0.0.1",
-  "license": "Unlicense",
+  "license": "Apache-2.0",
   "devDependencies": {
     "eclint": "2.3.0"
   },
