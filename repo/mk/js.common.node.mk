@@ -25,6 +25,8 @@ SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	build-js \
 
+BABEL_RC := $(shell $(FIND_Q) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
+
 # ------------------------------------------------------------------------------
 
 .PHONY: all
@@ -45,7 +47,7 @@ deps: ## Fetch dependencies.
 	@$(ECHO_DONE)
 
 
-$(LIB_JS_FILES): lib/%.js: src/%.js $(SRC_JS_FILES)
+$(LIB_JS_FILES): lib/%.js: src/%.js $(SRC_JS_FILES) $(BABEL_RC)
 	$(MKDIR) $(shell dirname $@)
 	$(BABEL) $< --source-maps --out-file $@
 
