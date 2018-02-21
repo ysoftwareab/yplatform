@@ -17,6 +17,8 @@ cat package.json | grep foo # shows smth like <"foo": "1.0.0">
 npm i path/to/local/foo
 ```
 
+**NOTE** don't worry if `foo` is a dependency or a dev dependency. `npm i` works it out on its own.
+
 ## explanation
 
 ```shell
