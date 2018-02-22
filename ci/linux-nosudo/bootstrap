@@ -25,6 +25,9 @@ echo_do "Installing JQ..."
 ${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
 echo_done
 
+# maybe NPM
+$(2>/dev/null which npm || echo true) install --global npm
+
 # AWS
 echo_do "Installing AWS utils..."
 pip2 install --user --upgrade --ignore-installed awscli

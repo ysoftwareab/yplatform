@@ -42,5 +42,8 @@ apt-get install -y --force-yes \
     erlang \
     nodejs
 
+# NPM
+npm install --global npm
+
 # JSON
 npm install --global json
