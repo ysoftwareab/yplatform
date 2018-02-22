@@ -28,9 +28,15 @@ apt-get install -y --force-yes \
 curl -O https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
 dpkg -i erlang-solutions_1.0_all.deb
 
-# NodeJS
-curl -sL https://deb.nodesource.com/setup_8.x | bash -
-# sudo apt-get update # happens in the nodesource.com script
+# NodeJS (latest)
+# see https://github.com/nodesource/distributions/issues/318
+LATEST_VSN_NODE=9
+while true; do
+    curl -f -sL https://deb.nodesource.com/setup_$((LATEST_VSN_NODE+1)).x >/dev/null || break
+    LATEST_VSN_NODE=$((LATEST_VSN_NODE+1))
+done
+curl -sL https://deb.nodesource.com/setup_${LATEST_VSN_NODE}.x | bash -
+# apt-get update # happens in the nodesource.com script
 
 apt-get install -y --force-yes \
     erlang \
