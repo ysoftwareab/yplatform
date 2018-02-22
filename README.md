@@ -14,7 +14,7 @@ Software and configuration that support TobiiPro's Cloud Services development.
 
 ## License
 
-[UNLICENSE](UNLICENSE)
+[Apache 2.0](LICENSE)
 
 
   [1]: https://travis-ci.org/tobiipro/support-firecloud
