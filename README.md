@@ -1,6 +1,6 @@
 # support-firecloud [![Build Status][2]][1]
 
-Documentation and support files (e.g. configuration like `.gitconfig`, `.editorconfig`).
+Software and configuration that support TobiiPro's Cloud Services development.
 
 
 ## Documentation
