@@ -25,6 +25,4 @@ brew install \
 
 # NPM
 npm install --global npm
-
-# JSON
 npm install --global json

@@ -44,6 +44,4 @@ apt-get install -y --force-yes \
 
 # NPM
 npm install --global npm
-
-# JSON
 npm install --global json
