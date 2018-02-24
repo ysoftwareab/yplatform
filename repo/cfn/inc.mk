@@ -73,7 +73,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 .PHONY: %.cfn.json.bak
 %.cfn.json.bak: %-setup ## Backup stack template.
 	@$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_FILE_BAK)..."
-	$(CFN) get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_FILE_BAK)
+	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_FILE_BAK)
 	@$(ECHO_DONE)
 
 
