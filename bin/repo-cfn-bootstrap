@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- repo-cfn-bootstrap 1.0
+## Usage: repo-cfn-boostrap [OPTION] CFN_DIR
+## Bootstrap a git repo with a cfn configuration.
+##
+##   -s, --stack-stem  A stack stem e.g. infra, ci, env-web, env-api, etc.
+##                     If env-* is given, then STACK_NAME will be set to $(ENV_NAME)-*
+##                     in the <stack-stem>.inc.mk file.
+##
+##   CFN_DIR           The folder to cfn-bootstrap. Defaults to "cfn" in the root of the repo.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+STACK_STEM=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -s|--stack-stem)
+            STACK_STEM="$2"
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+(
+    cd ${SUPPORT_FIRECLOUD_DIR}/..
+    git rev-parse --show-toplevel >/dev/null || {
+        >&2 echo "support-firecloud is not in a git repo"
+        exit 1
+    }
+)
+
+CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
+SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
+
+mkdir -p ${CFN_DIR}
+cd ${CFN_DIR}
+
+[[ -f .gitignore ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore ./.gitignore
+    echo "Created ${CFN_DIR}/.gitignore."
+}
+
+[[ -f Makefile ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile ./Makefile
+    sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" Makefile
+    echo "Created ${CFN_DIR}/Makefile."
+    echo "Make sure to edit ${CFN_DIR}/Makefile in order to supply it with the required variables."
+}
+
+[[ -n "${STACK_STEM}" ]] || {
+    >&2 echo "No stack stem given. Stopping here."
+    exit 0
+}
+
+[[ -f "${STACK_STEM}.cfn.js" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${STACK_STEM}.cfn.js"
+    echo "Created ${CFN_DIR}/${STACK_STEM}.cfn.js."
+}
+
+[[ -f "${STACK_STEM}.inc.mk" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.inc.mk" "${STACK_STEM}.inc.mk"
+    sed -i "s|<STACK_STEM>|${STACK_STEM}|g" "${STACK_STEM}.inc.mk"
+    echo "Created ${CFN_DIR}/${STACK_STEM}.inc.mk."
+}
+
+[[ -d ${STACK_STEM} ]] || {
+    mkdir "${STACK_STEM}"
+    echo "Created ${CFN_DIR}/${STACK_STEM} folder."
+}

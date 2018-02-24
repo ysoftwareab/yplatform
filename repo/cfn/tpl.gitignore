@@ -1,0 +1,6 @@
+/*.cfn*.json
+/*.cfn*.json.bak
+/*.cfn*.json.err
+/*.cfn*.json.png
+/*.change-set*.json
+/*.change-set*.json.diff

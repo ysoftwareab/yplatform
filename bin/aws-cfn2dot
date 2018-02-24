@@ -1,6 +1,6 @@
-#!/usr/bin/env node -r babel-register
+#!/usr/bin/env node
 
-import _ from 'lodash';
+let _ = require('lodash');
 
 let {stdin} = process;
 let chunks = [];
