@@ -54,11 +54,13 @@ git push -u
 
 ### License
 
-Before making your repository public, you must choose a license. [Why?](https://blog.codinghorror.com/pick-a-license-any-license/)
+Before making your repository public, you must choose a license.
+[Why?](https://blog.codinghorror.com/pick-a-license-any-license/)
 
 #### Apache-2.0
 
-By default, the approved license is ["Apache-2.0"](https://www.apache.org/licenses/LICENSE-2.0). [Why?](https://choosealicense.com/licenses/apache-2.0/)
+By default, the approved license is ["Apache-2.0"](https://www.apache.org/licenses/LICENSE-2.0).
+[Why?](https://choosealicense.com/licenses/apache-2.0/)
 
 A `NOTICE` file needs to be added along the `LICENSE` file:
 
@@ -90,7 +92,9 @@ and link to the license in `README.md` by adding at the bottom:
 
 #### Unlicense
 
-If the repo is really slim e.g. configuration, and thus there's nothing to protect/attribute, then put the repo in the public domain by using ["Unlicense"](https://unlicense.org/). [Why?](https://choosealicense.com/licenses/unlicense/)
+If the repo is really slim e.g. configuration, and thus there's nothing to protect/attribute,
+then put the repo in the public domain by using ["Unlicense"](https://unlicense.org/).
+[Why?](https://choosealicense.com/licenses/unlicense/)
 
 Commit the `UNLICENSE` (not `LICENSE`) file to your repo,
 and link to the license in `README.md` by adding at the bottom:
@@ -111,11 +115,14 @@ in a continuous manner, whenever new commits are pushed or on code from pull req
 
 We currently use Travis CI and thus prefer it for consistency, but other CIs are ok given reasonable consideration.
 
-If the repo is public, go to https://travis-ci.org/profile/tobiipro and enable Travis CI integration for your repo.
+If the repo is public, go to https://travis-ci.org/profile/tobiipro
+and enable Travis CI integration for your repo.
 
-If the repo is private, go to https://travis-ci.com/profile/tobiipro (.com instead of .org) and enable Travis CI integration for your repo.
+If the repo is private, go to https://travis-ci.com/profile/tobiipro (.com instead of .org)
+and enable Travis CI integration for your repo.
 
-Link to the repo's page on Travis CI and embed a status image for the `master` branch (or more) in `README.md`, in short add:
+Link to the repo's page on Travis CI
+and embed a status image for the `master` branch (or more) in `README.md`, in short add:
 
 ```md
 # <software product> [![Build Status][2]][1]
@@ -131,7 +138,8 @@ Link to the repo's page on Travis CI and embed a status image for the `master` b
   [2]: https://travis-ci.org/tobiipro/<repo>.svg?branch=master
 ```
 
-**NOTE** for private repos, use `travis-ci.com` and you'll want to go https://travis-ci.com/tobiipro/<repo>, click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
+**NOTE** for private repos, use `travis-ci.com` and you'll want to go https://travis-ci.com/tobiipro/<repo>,
+click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
 
 Reference: https://docs.travis-ci.com/user/status-images/
 
