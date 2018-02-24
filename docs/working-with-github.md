@@ -121,6 +121,11 @@ and enable Travis CI integration for your repo.
 If the repo is private, go to https://travis-ci.com/profile/tobiipro (.com instead of .org)
 and enable Travis CI integration for your repo.
 
+**NOTE** It is recommended that on the repo's Travis CI settings page you
+* enable `Build only if .travis.yml is present`
+* enable `Auto cancel branch builds`
+* enable `Auto cancel pull request builds`
+
 Link to the repo's page on Travis CI
 and embed a status image for the `master` branch (or more) in `README.md`, in short add:
 
