@@ -22,7 +22,7 @@ while [[ $# -gt 0 ]]; do
             STACK_NAME=$2
             shift 2
             ;;
-        --param)
+        --output)
             OUTPUT=$2
             shift 2
             ;;
