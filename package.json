@@ -6,9 +6,5 @@
   "license": "Apache-2.0",
   "devDependencies": {
     "eclint": "2.3.0"
-  },
-  "scripts": {
-    "is-decrypted": "cat docs/manage-secrets.md.test.secret | grep -q 'This is a test of transcrypt.'",
-    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" -e \"^UNLICENSE$\" -e \"^bin/\" -e \"^transcrypt$\")"
   }
 }
