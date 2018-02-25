@@ -1,10 +1,10 @@
 publish:
 	@$(ECHO_DO) "Publishing version..."
-	$(GIT) push origin v`$(CAT) "package.json" | $(JSON) "version"`
+	$(GIT) push $(GIT_REMOTE) v`$(CAT) "package.json" | $(JSON) "version"`
 	@$(ECHO_DONE)
 
 
 publish/%:
 	@$(ECHO_DO) "Publishing tag ${*}..."
-	$(GIT) push origin ${*}
+	$(GIT) push $(GIT_REMOTE) ${*}
 	@$(ECHO_DONE)
