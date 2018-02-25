@@ -36,8 +36,12 @@ all: deps build check ## Fetch dependencies, build and check.
 .PHONY: deps-npm
 deps-npm:
 	$(NPM) install --no-package-lock
-	node_modules/babel-preset-firecloud/npm-install-peer-dependencies
-	node_modules/eslint-config-firecloud/npm-install-peer-dependencies
+	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
+		node_modules/babel-preset-firecloud/npm-install-peer-dependencies; \
+	fi
+	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
+		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
+	fi
 
 
 .PHONY: deps
