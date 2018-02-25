@@ -4,14 +4,28 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 #- aws-get-stack-param 1.0
-## Usage: aws-get-stack-param STACK_NAME PARAM
+## Usage: aws-get-stack-param [OPTION]
 ## Echo stack param given a stack name.
+##
+##   --stack-name   Stack name.
+##   --param        Parameter name.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+STACK_NAME=
+PARAM=
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            shift 2
+            ;;
+        --param)
+            PARAM=$2
+            shift 2
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -27,6 +41,18 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-STACK_NAME=$1
-PARAM=$2
-aws cloudformation describe-stacks --stack-name ${STACK_NAME} --output text --query "Stacks[0].Parameters[?ParameterKey=='${PARAM}'].{Value:ParameterValue}" 2>/dev/null
+[[ -n "${STACK_NAME}" ]] || {
+    echo_err "Please provide a --stack-name."
+    exit 1
+}
+
+[[ -n "${PARAM}" ]] || {
+    echo_err "Please provide a --param."
+    exit 1
+}
+
+aws cloudformation describe-stacks \
+    --stack-name ${STACK_NAME} \
+    --output text \
+    --query "Stacks[0].Parameters[?ParameterKey=='${PARAM}'].{Value:ParameterValue}" \
+    2>/dev/null
