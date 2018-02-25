@@ -1,4 +1,4 @@
-include $(SUPPORT_FIRECLOUD_DIR)/repo/core.inc.mk/Makefile
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
 export PATH
