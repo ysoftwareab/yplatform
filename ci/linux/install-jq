@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-set -euo pipefail
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
@@ -45,7 +43,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 [ -n "${VSN}" ] || {
-    >&2 echo "Please provide a version."
+    echo_err "Please provide a --version."
     exit 1
 }
 

@@ -42,7 +42,7 @@ done
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..
     git rev-parse --show-toplevel >/dev/null || {
-        >&2 echo "support-firecloud is not in a git repo"
+        echo_err "support-firecloud is not in a git repo"
         exit 1
     }
 )
@@ -55,33 +55,33 @@ cd ${CFN_DIR}
 
 [[ -f .gitignore ]] || {
     cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore ./.gitignore
-    echo "Created ${CFN_DIR}/.gitignore."
+    echo_info "Created ${CFN_DIR}/.gitignore."
 }
 
 [[ -f Makefile ]] || {
     cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile ./Makefile
     sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" Makefile
-    echo "Created ${CFN_DIR}/Makefile."
-    echo "Make sure to edit ${CFN_DIR}/Makefile in order to supply it with the required variables."
+    echo_info "Created ${CFN_DIR}/Makefile."
+    echo_info "Make sure to edit ${CFN_DIR}/Makefile in order to supply it with the required variables."
 }
 
 [[ -n "${STACK_STEM}" ]] || {
-    >&2 echo "No stack stem given. Stopping here."
+    echo_info "No stack stem given. Stopping here."
     exit 0
 }
 
 [[ -f "${STACK_STEM}.cfn.js" ]] || {
     cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${STACK_STEM}.cfn.js"
-    echo "Created ${CFN_DIR}/${STACK_STEM}.cfn.js."
+    echo_info "Created ${CFN_DIR}/${STACK_STEM}.cfn.js."
 }
 
 [[ -f "${STACK_STEM}.inc.mk" ]] || {
     cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.inc.mk" "${STACK_STEM}.inc.mk"
     sed -i "s|<STACK_STEM>|${STACK_STEM}|g" "${STACK_STEM}.inc.mk"
-    echo "Created ${CFN_DIR}/${STACK_STEM}.inc.mk."
+    echo_info "Created ${CFN_DIR}/${STACK_STEM}.inc.mk."
 }
 
 [[ -d ${STACK_STEM} ]] || {
     mkdir "${STACK_STEM}"
-    echo "Created ${CFN_DIR}/${STACK_STEM} folder."
+    echo_info "Created ${CFN_DIR}/${STACK_STEM} folder."
 }
