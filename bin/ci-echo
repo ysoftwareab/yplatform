@@ -33,7 +33,7 @@ function fallback_echo() {
 }
 
 function basic_travis_echo() {
-	XTRACE_STATE="$(shopt -po xtrace || :)" # shopt exits with non zero?
+	XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
 	set +x
 	echo "travis_fold:$@"
 	eval "${XTRACE_STATE}"
@@ -66,7 +66,7 @@ function travis_echo() {
 }
 
 function basic_teamcity_echo() {
-	XTRACE_STATE="$(shopt -po xtrace || :)" # shopt exits with non zero?
+	XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
 	set +x
 	echo "##teamcity[$@]"
 	eval "${XTRACE_STATE}"
