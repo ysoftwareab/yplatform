@@ -20,7 +20,7 @@ before_install:
 install:
   - make deps
 script:
-  - make test
+  - make
   - '[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || make is-decrypted'
 
 language:
