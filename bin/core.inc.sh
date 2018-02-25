@@ -26,7 +26,7 @@ GIT_HASH_SHORT=$(git rev-parse --short HEAD 2>/dev/null)
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 GIT_BRANCH_SHORT=$(basename ${GIT_BRANCH})
 GIT_TAG=$(git --describe --exact-match --tags HEAD 2>/dev/null || true)
-GIT_REMOTE=$(git config branch.$(GIT_BRANCH).remote 2>/dev/null || true)
+GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 
 [[ "${TRAVIS:-}" != "true" ]] || {
     GIT_BRANCH=${TRAVIS_BRANCH}
