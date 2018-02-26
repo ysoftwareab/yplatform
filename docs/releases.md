@@ -33,12 +33,19 @@ which internally is using
 
 ```
 cd path/to/minlog
-...                          # make changes
-git add                      # stage changes
+
+# make changes
+
+# save changes
+git add
 git commit -m "some changes"
-make version                 # bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
-make clean all publish       # create a clean build of v0.0.1
-                             # and overwrite it (old v0.0.1 tag is renamed to v0.0.1-src)
+
+# bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
+make version
+
+# create a clean build of v0.0.1
+# and overwrite it (old v0.0.1 tag is renamed to v0.0.1-src)
+make clean all publish
 ```
 
 From this point on, using `git://github.com/tobiipro/minlog.git#v0.0.1`
@@ -71,14 +78,20 @@ An example flow which internally is using
 
 ```
 cd path/to/repo
-...                          # make changes
-git add                      # stage changes
+
+# make changes
+
+# save changes
+git add
 git commit -m "some changes"
-make version                 # bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
-make clean all publish       # push the v0.0.1 tag to the remote
-                             # this is then picked up by Travis CI
-                             # which will then publish the artifacts as a github release
-                             # NOTE: make clean all is not needed, but it's consistent with the npm-publish-git flow
+
+# bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
+make version
+
+# push the v0.0.1 tag to the remote
+# this is then picked up by Travis CI, which will then publish the artifacts as a github release
+# NOTE: make clean all is not needed, but it's consistent with the npm-publish-git flow
+make clean all publish
 ```
 
 Travis CI is then configured via `.travis.yml` with:
