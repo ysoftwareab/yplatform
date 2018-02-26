@@ -6,6 +6,8 @@ GIT_REMOTE = $(shell git config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_ROOT = $(shell cd $(TOP) && git rev-parse --show-toplevel 2>/dev/null)
 GIT_TAGS = $(shell git describe --exact-match --tags HEAD 2>/dev/null)
 
+TRAVIS ?=
+
 ifeq (true,$(TRAVIS))
 GIT_BRANCH = $(TRAVIS_BRANCH)
 endif
