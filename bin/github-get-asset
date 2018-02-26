@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- github-get-asset 1.0
+## Usage: github-get-asset [OPTION]
+## Download a github release asset (aka binary).
+##
+##   --repo-slug    The github repository slug: account/repo
+##   --slug         The asset slug: release/filename
+##   --token        The OAuth Token, if the repository is private
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+REPO_SLUG=
+SLUG=
+GH_TOKEN=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --repo-slug)
+            REPO_SLUG="$2"
+            shift 2
+            ;;
+        --slug)
+            SLUG="$2"
+            shift 2
+            ;;
+        --token)
+            GH_TOKEN="$2"
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[ -n "${REPO_SLUG}" ] || {
+    echo_err "Please provide a --repo-slug."
+    exit 1
+}
+
+[ -n "${SLUG}" ] || {
+    echo_err "Please provide a --slug."
+    exit 1
+}
+
+if [[ -n "${GH_TOKEN}" ]]; then
+    TAG=$(dirname ${SLUG})
+    FILE=$(basename ${SLUG})
+    ASSETS_URL=$(curl -qfsS -H"Authorization: token ${GH_TOKEN}" https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG} | \
+        jq -r ".assets_url")
+    ASSET_URL=$(curl -qfsS -H"Authorization: token ${GH_TOKEN}" "${ASSETS_URL}" | \
+        jq -r ". | map(select(.name == \"${FILE}\"))[0].url")
+    [[ -n "${ASSET_URL}" ]] || {
+        echo_err "Couldn't find an asset ${SLUG} for repo ${REPO_SLUG}."
+        exit 1
+    }
+    # curl -qfsSL -H"Authorization: token ${GH_TOKEN}" -H"Accept: application/octet-stream" "${ASSET_URL}"
+    # FIXME do not forward Authorization header on redirect
+    curl -qfsSL -H"Accept: application/octet-stream" "${ASSET_URL/api.github.com/${GH_TOKEN}@api.github.com}"
+else
+    curl -qfsSL -H"Accept: application/octet-stream" https://github.com/repos/${REPO_SLUG}/releases/download/${SLUG}
+fi
