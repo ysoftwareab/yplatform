@@ -7,18 +7,18 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-cloudformation-cu-stack [OPTION]
 ## Create or update a CloudFormation stack.
 ##
-##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url.
-##   --timeout-in-minutes  See `aws cloudformation create-stack help`. Defaults to 60 minutes.
-##   --on-failure          See `aws cloudformation create-stack help`. Defaults to DELETE.
-##   --disable-rollback    See `aws cloudformation update-stack help`.
-##   --capabilities        See `aws cloudformation create-stack help` or `aws cloudformation update-stack help`. Defaults to CAPABILITY_IAM CAPABILITY_NAMED_IAM.
+##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url
+##   --timeout-in-minutes  See `aws cloudformation create-stack help`. Defaults to 60 minutes
+##   --on-failure          See `aws cloudformation create-stack help`. Defaults to DELETE
+##   --disable-rollback    See `aws cloudformation update-stack help`
+##   --capabilities        See `aws cloudformation create-stack help` or `aws cloudformation update-stack help`. Defaults to CAPABILITY_IAM CAPABILITY_NAMED_IAM
 ##
-##   --template-url-prefix Location to upload template body.
-##   --wait                Wait for stack to be completely created/updated.
-##   --create-change-set   Create change-set for deferred update, named via --change-set-file or --change-set-name.
-##   --execute-change-set  Execute change-set as named via --change-set-file or --change-set-name.
-##   --change-set-name     Change-set name.
-##   --change-set-file     Change-set filename.
+##   --template-url-prefix Location to upload template body
+##   --wait                Wait for stack to be completely created/updated
+##   --create-change-set   Create change-set for deferred update, named via --change-set-file or --change-set-name
+##   --execute-change-set  Execute change-set as named via --change-set-file or --change-set-name
+##   --change-set-name     Change-set name
+##   --change-set-file     Change-set filename
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

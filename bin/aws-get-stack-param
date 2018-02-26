@@ -7,8 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-get-stack-param [OPTION]
 ## Echo stack param given a stack name.
 ##
-##   --stack-name   Stack name.
-##   --param        Parameter name.
+##   --stack-name   Stack name
+##   --param        Parameter name
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

@@ -7,8 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-get-stack-output [OPTION]
 ## Echo stack output given a stack name.
 ##
-##   --stack-name   Stack name.
-##   --output       Output name.
+##   --stack-name   Stack name
+##   --output       Output name
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

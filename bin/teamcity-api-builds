@@ -7,7 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: teamcity-api-builds [OPTION]... BUILD_LOCATOR
 ## Return TeamCity info of builds located via BUILD_LOCATOR as JSON/XML.
 ##
-##   -a, --accept   Set accepted media-type. Defaults to application/json.
+##   -a, --accept   Set accepted media-type. Defaults to application/json
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

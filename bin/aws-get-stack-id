@@ -7,7 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-get-stack-id [OPTION]
 ## Echo stack id given a stack name.
 ##
-##   --stack-name   Stack name.
+##   --stack-name   Stack name
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

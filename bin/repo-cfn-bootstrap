@@ -9,9 +9,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ##
 ##   -s, --stack-stem  A stack stem e.g. infra, ci, env-web, env-api, etc.
 ##                     If env-* is given, then STACK_NAME will be set to $(ENV_NAME)-*
-##                     in the <stack-stem>.inc.mk file.
+##                     in the <stack-stem>.inc.mk file
 ##
-##   CFN_DIR           The folder to cfn-bootstrap. Defaults to "cfn" in the root of the repo.
+##   CFN_DIR           The folder to cfn-bootstrap. Defaults to "cfn" in the root of the repo
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

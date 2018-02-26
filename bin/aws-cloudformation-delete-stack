@@ -7,11 +7,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-cloudformation-delete-stack [OPTION]
 ## Delete a CloudFormation stack.
 ##
-##   --stack-name             Stack name.
-##   --empty-s3               Empty S3 buckets beforehand.
-# ##   --retain-resources-s3  Retain S3 buckets.
-# ##   --retain-resources     List of resources that cannot be deleted e.g. non-empty S3 buckets.
-##   --wait                   Wait for stack to be completely created/updated.
+##   --stack-name             Stack name
+##   --empty-s3               Empty S3 buckets beforehand
+# ##   --retain-resources-s3  Retain S3 buckets
+# ##   --retain-resources     List of resources that cannot be deleted e.g. non-empty S3 buckets
+##   --wait                   Wait for stack to be completely created/updated
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

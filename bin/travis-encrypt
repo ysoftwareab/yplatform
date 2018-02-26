@@ -7,13 +7,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: travis-encrypt [OPTION]
 ## Encrypt value for the current github repo with its Travis CI public key.
 ##
-##   --value        Value to encrypt. Can be "<key>=<value>" too.
-##   --porcelain    Output only the encrypted value, without any helper text.
+##   --value        Value to encrypt. Can be "<key>=<value>" too
+##   --porcelain    Output only the encrypted value, without any helper text
 ##   --show-key     Show the Tracis CI public key
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
-##
 
 # Refs:
 # https://github.com/slodki/travis-encrypt-cli

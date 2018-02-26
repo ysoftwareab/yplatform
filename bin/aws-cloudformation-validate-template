@@ -7,9 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: aws-cloudformation-validate-template [OPTION]
 ## Validate a CloudFormation template.
 ##
-##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url.
-##
-##   --template-url-prefix Location to upload template body.
+##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url
+##   --template-url-prefix Location to upload template body
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
