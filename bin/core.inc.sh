@@ -31,6 +31,4 @@ GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 [[ "${TRAVIS:-}" != "true" ]] || {
     GIT_BRANCH=${TRAVIS_BRANCH}
     GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
-    TRAVIS_TAG=${GIT_TAG} # FIXME https://github.com/travis-ci/travis-ci/issues/9268
-    GIT_TAG=${TRAVIS_TAG}
 }
