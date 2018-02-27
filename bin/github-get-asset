@@ -60,7 +60,8 @@ done
 if [[ -n "${GH_TOKEN}" ]]; then
     TAG=$(dirname ${SLUG})
     FILE=$(basename ${SLUG})
-    ASSETS_URL=$(curl -qfsS -H"Authorization: token ${GH_TOKEN}" https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG} | \
+    RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
+    ASSETS_URL=$(curl -qfsS -H"Authorization: token ${GH_TOKEN}" "${RELEASE_URL}" | \
         jq -r ".assets_url")
     ASSET_URL=$(curl -qfsS -H"Authorization: token ${GH_TOKEN}" "${ASSETS_URL}" | \
         jq -r ". | map(select(.name == \"${FILE}\"))[0].url")
@@ -68,9 +69,12 @@ if [[ -n "${GH_TOKEN}" ]]; then
         echo_err "Couldn't find an asset ${SLUG} for repo ${REPO_SLUG}."
         exit 1
     }
-    # curl -qfsSL -H"Authorization: token ${GH_TOKEN}" -H"Accept: application/octet-stream" "${ASSET_URL}"
-    # FIXME do not forward Authorization header on redirect
-    curl -qfsSL -H"Accept: application/octet-stream" "${ASSET_URL/api.github.com/${GH_TOKEN}@api.github.com}"
+    ASSET_URL="${ASSET_URL/api.github.com/${GH_TOKEN}@api.github.com}"
 else
-    curl -qfsSL -H"Accept: application/octet-stream" https://github.com/repos/${REPO_SLUG}/releases/download/${SLUG}
+    ASSET_URL="https://github.com/repos/${REPO_SLUG}/releases/download/${SLUG}"
 fi
+
+curl \
+    -qfsSL \
+    -H "Accept: application/octet-stream" \
+    "${ASSET_URL}"
