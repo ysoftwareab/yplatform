@@ -1,0 +1,67 @@
+# 1. Notifications
+notifications:
+  slack:
+    rooms:
+      - secure: "PHjlBIIt+ggW94UypB1yP/Sjm8eV6jaGkKXtMeRUcs0WY2TV20a/rojlPh90quCtln/DPWI1wuS4UrPsvmy7PtFrRICX6FO+Aoc5fm/SZ7v0wVidcO61ThcM1OHz2F1oXXwxstITKpveBHCsKtYNHFkOzytJO6haZnqWq0klJUU/TfGBvJ+WNIzVKPQc0vbdjRzzUHMkPzZFk7DPRCaWD6/J2rGY+Xm9s1FBbXTpqaj6uAmCU1FeXi/oTKhpIFRrSO8UPxtxQeg45i7GEhq1tB8MW6SrV9oo10iNPrHQ7f8r+qfrIK1RAaL6SfhmB5+ghz1ckOMMgUXyqBkMKMbdf7k98acXAZwkR3IPN/qcSg8Dd2BZVbKArHxTafVppJkjrd3F1Mpq5PW1ON8HqBek0YyrYpadXG9JLaGHK00wbmu6ruX5tdgpTAlboZnV0X/TEgqbC5cZFrAylIV8bQNLEFZf/mdzxPp5SyApO25d/kIwygbC5ysLhWHomsSzA7AC/X28QqlDx37gF75Btd55wSN8TllxA1gQtBjN5C1HMrJ20+b+FBoYBBi1D8IpepgxVeRC63pZvzPGbfNv+MOQLD0yrYaBbg29mKMAs7lerNddAIbJrx3xqaR4xXu0TBUjjLdFULmzySTCjkfeXCUx0FW06D6rAgg1KgYiDZPNo14=" # atex-ci
+      - secure: "EFN/yGMW+CNrwyqBzJiJOFZIytEIGsz2zBO/s34sCHwk8UukrOJBqSgv1LycjudPr6MizY5ax/IOZkG6fs8ce2Z8qJKNdQC2OHKVXq5Rr5x2HMg3ihoqhEVJhohS2B337TcF6/0WHZ/BT32tOFI1M2Z3WGByxsvrRFTa5eFDxRz+KfyOiWAKjTgY5cG5Sjr3Cmy9vQTFQkWgkSKvIemOCF7q1REFPAg917EvIaZfY2nUT9w9thtvIL3u2JUmWEda+X13oTm5ywEeFo8AYK8CR1PnVfi9O/172Gh8jhPzcjbkl6kEO5E73xPhCAnAoBgIaeQ9cq8kn3uZQeG0cHve55Os8kRGjT/ZFCa/c4XuFkQnLLlNRSJBlQ76EmhU43TianvnwJt/s9H1+ak9pypY5NYe/bx3NMd0BuhkhHB/zcKq96x/ZE7yiJcpsMw+7voVR+CNec4WsrukEDfiily+9A9M9+cB66z25dpsbKIVe6REer+MD9RTwc2n8M00TBmnB14KGQAE8HEXdzTSF5LWcT1T4nxgHeRKMur185KSovAFEB+93CApAN1NU/ooZRqpYkOLd6weDl6c5il4tZ7iPgDmSlLS9a+17lJ4GwNk9pxd398inYV9XSZGF5ZZykSN9LDipdx1VnRrVW/tSS3B9dt6jlvscB5sWbfr9+k5m7o=" # cloud-ci
+    on_success: change
+    on_pull_requests: false
+
+# 2. Env
+env:
+  global:
+    - secure: "ZqAHqLi804+FLx0R/ZdT3c33B//ypG3a827nOyhceTZUIcheqvL6PxPcfjwxba1hawm5E0B6gS9RBIFXbTyH07ZMnBsdio5iiUuDnOFCXYujVCXoNTkjo1Vlsu2HC8/KR6a5kWvt2UD8MbJ1+Cpur9N9F5dCGEsOFeFB7OvbKx38rxSnXxvNhdVPK+0Zi6jvZafAkUjjSfmgvXWlEFY0cOxjZmslU/KyJM32DiCn3Z8WysGccYIqFQLBYfjfY7n12WBQttXY6JhaEi4Ht1ePWPpfNDjBd4Y6VaMrKDhZ3xPOwrG8AIbOkzJrrTFgXpCFxaavXdkr2H/yYWYec6HuHwAbWvvgIwv84JXFjRRHYUy+Iev+KNIsa4LPFCC9YJDMJk3QJ3O3daS4XejqMDqVv4WudYECy+VtUqZRui9wVC7cRTc30vCCRiqRA9P3p8AlZzS1CoPFXwgFfieZRwbreEJjEBO2sizNmsWnBPxrkvSey4FxR5nHyk487YIfv/3PUCnoZ0gtUuOn2MUvxZMIOlN6LgL6czdIhxLMpulZJjPBeqO6A344wgU22luyKL2bJ6pgraIu+PWUkSQ/RMv6ZZtpD3rPVeY84nI5KDYY2eZLUvQJSBe+uM65Wqpbh6xWCSfmWpB+LwZ7zorzjgO1F6VwGXuci4Crg3mZh6rW528=" # TRANSCRYPT_PASSWORD
+
+# 3. Git
+# git:
+branches:
+  except:
+    - /^f\// # feature branches require PR
+
+# 4. Bootstrap
+# os: linux
+# dist: trusty
+# sudo: false
+language:
+  - node_js
+node_js:
+  - node
+# addons:
+before_cache: ./.travis.sh before_cache
+cache:
+  directories:
+    - $HOME/.local
+    - $HOME/.npm
+    - $HOME/.pip-cache/
+    - $HOME/Library/Caches/Homebrew
+    - /tmp/support-firecloud.cache
+    - node_modules
+
+# 5. Steps
+before_install: ./.travis.sh before_install
+install: ./.travis.sh install
+before_script: ./.travis.sh before_script
+script: ./.travis.sh script
+after_success: ./.travis.sh after_success
+after_failure: ./.travis.sh after_failure
+after_script: ./.travis.sh after_script
+
+# 6. Deploy
+before_deploy: ./.travis.sh before_deploy
+# deploy:
+after_deploy: ./.travis.sh after_deploy
+
+# 7. Misc
+matrix:
+  include:
+    - os: linux
+      dist: trusty
+      sudo: false
+      env: CACHE_NAME=linux-trusty-false
+    - os: linux
+      dist: trusty
+      sudo: required
+      env: CACHE_NAME=linux-trusty-required
+    - os: osx
+      osx_image: xcode8.3
+      env: CACHE_NAME=osx-xcode8.3
