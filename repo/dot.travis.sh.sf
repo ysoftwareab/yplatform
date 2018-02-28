@@ -26,6 +26,7 @@ sf_travis_run_install() {
 
 sf_travis_run_script() {
     make
+    make test
 }
 
 sf_travis_run_before_deploy() {

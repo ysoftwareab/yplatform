@@ -37,6 +37,7 @@ SF_CHECK_TARGETS := \
 	lint-ec \
 
 ECLINT_ARGS ?=
+SF_TEST_TARGETS := \
 
 # ------------------------------------------------------------------------------
 
@@ -80,4 +81,11 @@ lint-ec:
 check: ## Check.
 	@$(ECHO_DO) "Checking..."
 	$(MAKE) $(SF_CHECK_TARGETS)
+	@$(ECHO_DONE)
+
+
+.PHONY: test
+test: check## Test.
+	@$(ECHO_DO) "Testing..."
+	$(MAKE) $(SF_TEST_TARGETS)
 	@$(ECHO_DONE)

@@ -1,9 +1,10 @@
 JEST = $(call which,JEST,jest)
 
+SF_TEST_TARGETS := \
+	$(SF_TEST_TARGETS) \
+	test-jest \
 # ------------------------------------------------------------------------------
 
-.PHONY: test
-test: check ## Test.
-	@$(ECHO_DO) "Testing..."
+.PHONY: test-jest
+test-jest:
 	$(JEST)
-	@$(ECHO_DONE)
