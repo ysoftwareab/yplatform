@@ -7,4 +7,5 @@ travis_run_script() {
         make is-decrypted
 }
 
-source support-firecloud/repo/dot.travis.sh
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
+source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.travis.sh"
