@@ -1,32 +1,70 @@
 # git
 
-## settings
+## Creating a new repository locally
 
-**NOTE** We assume that you keep all firecloud-related git repos under `~/git/firecloud`.
-Failing to do so, hell won't break loose, but you are on your own.
-As long as you store the firecloud-related git repos in one folder e.g. `~/Documents/Firecloud`,
-you can easily create a symlink `ln -s ~/Documents/Firecloud ~/git/firecloud` and keep everyone happy.
-
+Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-cd
-git clone git@github.com:tobiipro/support-firecloud.git ~/git/firecloud/support-firecloud
-ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitignore_global
-ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitattributes_global
+git submodule add support-firecloud git://github.com/tobiipro/support-firecloud.git
+
+# for a generic repository
+support-firecloud/bin/repo-generic-bootstrap
+
+# for a Node.js repository
+support-firecloud/bin/repo-node-bootstrap
 ```
 
-If you have git 2.13+ and you'd like to restrict the git config to firecloud-related repos,
-in your `~/.gitconfig` prepend AT THE TOP
+Follow the instructions to supply the info.
 
-```
-[includeIf "gitdir:~/git/firecloud/"]
-    path = ~/git/firecloud/support-firecloud/generic/dot.gitconfig
-```
 
-Alternatively, either for earlier git versions or if you'd like to use the git config globally,
-in your `~/.gitconfig` prepend AT THE TOP
+## Creating a new repository on Github
 
-```
-[include]
-    path = ~/git/firecloud/support-firecloud/generic/dot.gitconfig
+[When creating a new repository](https://github.com/organizations/tobiipro/repositories/new),
+it's recommended that you start with a **private** repository.
+
+Once you push your commits, you and your team members can then inspect and verify
+that everything looks ok, and only then make it public.
+
+> There are only two hard things in Computer Science: cache invalidation and naming things. -- Phil Karlton
+> https://martinfowler.com/bliki/TwoHardThings.html
+
+Please name the repository appropriately, where appropriately stands for, but not only:
+* descriptive and unique e.g. a real name, an accronym
+  * a real name: [minlog](https://github.com/tobiipro/minlog)
+  * an accronym: [KATT](https://github.com/for-GET/katt)
+* if not unique then prefixed or suffixed with team name and mentioning software ecosystem
+  * prefixed: firecloud-dashboard
+  * suffixed: [support-firecloud](https://github.com/tobiipro/support-firecloud)
+  * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/tobiipro/eslint-config-firecloud)
+
+A description is optional by Github standards, but we require it.
+
+No need to initialize a repository with a `README.md`, nor add a `.gitignore` or a `LICENSE`.
+Just push these files from your local copy.
+
+Once you created the Github repository, remember to (see sections below):
+
+
+### Add teams and collaborators
+
+* add entire teams, not individual team members
+* when adding your team, give it admin access
+
+
+### Add topics
+
+Topics will make it easier to filter our repositories, both public and private ones.
+
+* team/project name e.g. `tobii-firecloud`, `tobii-pro-sdk`
+* purpose e.g, `eslint-config` or `eslint-plugin`
+* related software e.g. `eslint`
+* etc
+
+
+### Push your local repository
+
+```shell
+cd path/to/repo
+git remote add origin git@github.com:tobiipro/example.git
+git push -u
 ```

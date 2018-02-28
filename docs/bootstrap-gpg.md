@@ -1,10 +1,11 @@
 # gpg
 
-## Bootstrapping your terminal with GPG and Keybase
+## Bootstrapping your terminal with `gpg` and `keybase`
 
-A more verbose procedure is available at https://github.com/pstadler/keybase-gpg-github [local copy](ptradler-keybase-gpg-github.md).
+A more verbose procedure is available at https://github.com/pstadler/keybase-gpg-github
+([local copy](ptradler-keybase-gpg-github.md)).
 
-Keybase is recommended for its simplicity and convenience but it is really optional.
+`keybase` is recommended for its simplicity and convenience but it is really optional.
 
 ```shell
 # install gnu gpg suite; for example, on OSX you can run
@@ -20,14 +21,16 @@ keybase pgp export | gpg --import
 keybase pgp export --secret | gpg --import --allow-secret-key-import
 ```
 
-## Search for a key in Keybase and import it
+
+## Search for a key in `keybase` and import it
 
 ```shell
 keybase search <recipient>
 curl https://keybase.io/<recipient>/key.asc | gpg --import -
 ```
 
-## Search for a key on a pgp server and import it
+
+## Search for a key on a `pgp` server and import it
 
 ```shell
 gpg --search-keys <recipient>

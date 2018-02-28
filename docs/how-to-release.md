@@ -1,4 +1,4 @@
-# releases
+# How to release
 
 Below you will find flows that focus on `npm` packages, but they are generic at core,
 and they can be followed closely even for other type of packages.
@@ -10,19 +10,19 @@ and they can be followed closely even for other type of packages.
 as dependencies for other packages i.e. not webapps.
 
 In order to simplify the release process and not depend on `npm` registries,
-we publish to the git repository thanks to [npm-publish-git](https://github.com/andreineculau/npm-publish-git).
+we publish to the `git` repository thanks to [npm-publish-git](https://github.com/andreineculau/npm-publish-git).
 
 If that sounds weird to you, it is not. `npm` had support for
 git urls as dependencies](https://docs.npmjs.com/files/package.json#git-urls-as-dependencies)
 for a long time.
 
-The biggest counter-argument to git urls as dependencies is that
+The biggest counter-argument to `git` urls as dependencies is that
 you end up checking out submodules, devDependecies, building, etc every time,
 although you are only interested in the artifact.
 
 And this is what `npm-publish-git` addresses.
-What you end up having in a git tag is an exact match of what would be available on a `npm` registry,
-so there are not git submodules to checkout, no devDependecies to install, no build process.
+What you end up having in a `git` tag is an exact match of what would be available on a `npm` registry,
+so there are not `git` submodules to checkout, no devDependecies to install, no build process.
 Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm-publish-git/blob/master/README.md).
 
 An example flow for publishing [`minlog`](https://github.com/tobiipro/minlog)
@@ -40,7 +40,7 @@ cd path/to/minlog
 git add
 git commit -m "some changes"
 
-# bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
+# bump the patch version and create a `git` tag via `npm version patch` e.g. v0.0.1
 make version
 
 # create a clean build of v0.0.1
@@ -62,7 +62,7 @@ as dependencies for other packages.
 **NOTE** Since `npm` also supports installing from
 [tarball URLs](https://docs.npmjs.com/files/package.json#urls-as-dependencies) it could work just as
 fine for **public** `github` repositories to publish using `github` release artifacts,
-but this may prove inferior as there is no semver version specifiers for tarball URLs as npm has for git URLs
+but this may prove inferior as there is no semver version specifiers for tarball URLs as `npm` has for `git` URLs
 e.g. `git://server/repo.git#semver:*` would take the latest semver version tag.
 
 `github` releases support [attaching artifacts (or binaries)](https://help.github.com/articles/creating-releases/).
@@ -85,7 +85,7 @@ cd path/to/repo
 git add
 git commit -m "some changes"
 
-# bump the patch version and create a git tag via `npm version patch` e.g. v0.0.1
+# bump the patch version and create a `git` tag via `npm version patch` e.g. v0.0.1
 make version
 
 # push the v0.0.1 tag to the remote
@@ -96,9 +96,7 @@ make clean all publish
 
 Travis CI is then configured via `.travis.yml` with:
 
-``` yml
-before_deploy:
-  - make dist
+```yml
 deploy:
   - provider: releases
     api_key:
@@ -110,7 +108,8 @@ deploy:
     on:
       repo: tobiipro/repo
       tags: true
-
 ```
 
-`make dist` is a target that creates at least those artifacts that should be published to a `github` release.
+**NOTE** The generation of the artifacts via `make dist` will happen automatically,
+if `.travis.yml` runs `./travis.sh before_deploy` in `before_deploy`
+(default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
