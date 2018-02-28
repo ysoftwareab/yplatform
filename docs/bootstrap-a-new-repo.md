@@ -8,11 +8,13 @@ Set up `support-firecloud` as a git submodule via
 git submodule add support-firecloud git://github.com/tobiipro/support-firecloud.git
 support-firecloud/bin/repo-node-bootstrap
 ```
+
+
 ## Travis
 
 `cp {support-firecloud/ci/dot,}travis.sh` in your repo, and modify accordingly like:
 
-* replace/remove `secure`values
+* replace/remove `secure` values
 * replace/remove `matrix` configuration
 * etc
 
