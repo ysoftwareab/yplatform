@@ -11,5 +11,6 @@ $(LIB_D_TS_FILES): lib/%.d.ts: src/%.d.ts $(SRC_D_TS_FILES)
 	$(MKDIR) $(shell dirname $@)
 	cp $< $@
 
+
 .PHONY: build-d-ts
 build-d-ts: $(LIB_D_TS_FILES)
