@@ -28,6 +28,10 @@ sf_travis_run_script() {
     make
 }
 
+sf_travis_run_before_deploy() {
+    make dist
+}
+
 if [ "$(type -t "travis_run_${1}")" = "function" ]; then
     eval "travis_run_${1}"
 elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then

@@ -40,13 +40,6 @@ ARTIFACTS=
 
 # NOTE duplicate code on purpose
 
-ARTIFACT=".editorconfig"
-[[ -e "${ARTIFACT}" ]] || {
-    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-}
-
 ARTIFACT=".npmrc"
 [[ -e "${ARTIFACT}" ]] || {
     ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc" "${ARTIFACT}"
@@ -54,59 +47,12 @@ ARTIFACT=".npmrc"
     echo_info "Created ${ARTIFACT}."
 }
 
-ARTIFACT=".travis.sh"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.sh" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-}
-
-ARTIFACT=".travis.yml"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.yml" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-}
-
-for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/*; do
-    mkdir -p .vscode
-    ARTIFACT=".vscode/$(basename ${ARTIFACT})"
-    [[ -e "${ARTIFACT}" ]] || {
-        ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot${ARTIFACT}" "${ARTIFACT}"
-        ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-        echo_info "Symlinked ${ARTIFACT}."
-    }
-done
-
-ARTIFACT="LICENSE"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/LICENSE" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-}
-
-ARTIFACT="NOTICE"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/NOTICE" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
-}
-
-ARTIFACT="AUTHORS"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/AUTHORS" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
-}
-
 ARTIFACT="Makefile"
 [[ -e "${ARTIFACT}" ]] || {
     cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.node" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 ARTIFACT="package.json"
@@ -114,7 +60,7 @@ ARTIFACT="package.json"
     cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/package.json" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 ARTIFACT="jest.config.js"
@@ -123,5 +69,7 @@ ARTIFACT="jest.config.js"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
+
+"${SUPPORT_FIRECLOUD_DIR}/bin/repo-generic-bootstrap"
 
 echo -e "${ARTIFACTS}" | sort -u

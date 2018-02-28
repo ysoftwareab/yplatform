@@ -5,6 +5,7 @@ include support-firecloud/repo/mk/js.common.node.mk
 EC_FILES_IGNORE := \
 	$(EC_FILES_IGNORE) \
 	-e "^bin/" \
+	-e "^repo/LICENSE$$" \
 	-e "^transcrypt$$" \
 
 # ------------------------------------------------------------------------------

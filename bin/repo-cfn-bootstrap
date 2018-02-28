@@ -68,7 +68,7 @@ ARTIFACT="${CFN_DIR}/Makefile"
     sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 [[ -n "${STACK_STEM}" ]] || {
@@ -90,7 +90,7 @@ ARTIFACT="${CFN_DIR}/${STACK_STEM}.inc.mk"
     sed -i "s|<STACK_STEM>|${STACK_STEM}|g" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 ARTIFACT="${CFN_DIR}/${STACK_STEM}"
@@ -98,7 +98,7 @@ ARTIFACT="${CFN_DIR}/${STACK_STEM}"
     mkdir "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT} folder."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 echo -e "${ARTIFACTS}" | sort -u
