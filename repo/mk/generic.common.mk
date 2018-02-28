@@ -39,6 +39,7 @@ SF_BUILD_TARGETS :=
 
 SF_CHECK_TARGETS := \
 	lint-ec \
+	lint-json \
 
 SF_TEST_TARGETS := \
 
@@ -78,6 +79,18 @@ lint-ec:
 		$(ECLINT) fix $(ECLINT_ARGS) $(EC_FILES) 2>/dev/null >&2; \
 		exit 1; \
 	}
+
+
+.PHONY: lint-json
+ifneq (0,$(words $(JSON_FILES)))
+lint-json:
+	for f in $(JSON_FILES); do \
+		$(JSON) -q --validate -f "$${f}"; \
+	done
+else
+lint-json:
+	:
+endif
 
 
 .PHONY: check
