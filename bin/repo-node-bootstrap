@@ -1,0 +1,127 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- repo-node-bootstrap 1.0
+## Usage: repo-node-boostrap [OPTION]
+## Bootstrap a repo as a node repo.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+(
+    cd ${SUPPORT_FIRECLOUD_DIR}/..
+    git rev-parse --show-toplevel >/dev/null || {
+        echo_err "support-firecloud is not in a git repo"
+        exit 1
+    }
+)
+
+SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
+ARTIFACTS=
+
+# NOTE duplicate code on purpose
+
+ARTIFACT=".editorconfig"
+[[ -e "${ARTIFACT}" ]] || {
+    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+ARTIFACT=".npmrc"
+[[ -e "${ARTIFACT}" ]] || {
+    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+ARTIFACT=".travis.sh"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.sh" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+ARTIFACT=".travis.yml"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.yml" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/*; do
+    mkdir -p .vscode
+    ARTIFACT=".vscode/$(basename ${ARTIFACT})"
+    [[ -e "${ARTIFACT}" ]] || {
+        ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot${ARTIFACT}" "${ARTIFACT}"
+        ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+        echo_info "Symlinked ${ARTIFACT}."
+    }
+done
+
+ARTIFACT="LICENSE"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/LICENSE" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+ARTIFACT="NOTICE"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/NOTICE" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+}
+
+ARTIFACT="AUTHORS"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/AUTHORS" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+}
+
+ARTIFACT="Makefile"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.node" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+}
+
+ARTIFACT="package.json"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/package.json" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply it with the required info."
+}
+
+ARTIFACT="jest.config.js"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/jest.config.js" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+}
+
+echo -e "${ARTIFACTS}" | sort -u
