@@ -5,21 +5,22 @@ Software and configuration that support TobiiPro's Cloud Services development.
 
 ## Documentation
 
-* local development
-  * [working with git](docs/working-with-git.md)
-  * [editor setup](docs/editor-setup.md)
-  * [bootstrap a new repo](docs/bootstrap-a-new-repo.md)
-  * [working with gpg](docs/working-with-gpg.md)
+* development
+  * [bootstrap](docs/bootstrap.md)
+  * [bootstrap-your-editor](docs/bootstrap-your-editor.md)
+  * [working with a local `npm` dependency](docs/working-with-a-local-npm-dep.md)
 
-* external tools and services
-  * [working with github](docs/working-with-github.md)
-  * [releases](docs/releases.md)
-  * [bootstrap CI](docs/bootstrap-ci.md)
+* work
+  * [working with `git`](docs/working-with-git.md) and Github
+  * [how to license](docs/how-to-license.md)
+  * [how to manage secrets](docs/how-to-manage-secrets.md) and [working with gpg](docs/working-with-gpg.md)
+  * [how to release](docs/how-to-release.md)
+  * [Travis CI](docs/travis-ci.md)
 
 
 ## License
 
-[Apache 2.0](LICENSE)
+[Apache-2.0](LICENSE)
 
 
   [1]: https://travis-ci.org/tobiipro/support-firecloud

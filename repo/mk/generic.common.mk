@@ -7,7 +7,6 @@
 # endif
 # endif
 
-# TOP := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST))))
 # include support-firecloud/repo/mk/generic.common.mk
 # include support-firecloud/repo/mk/...
 

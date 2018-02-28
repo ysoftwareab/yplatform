@@ -49,39 +49,56 @@ done
 
 CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
 SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
+ARTIFACTS=
 
 mkdir -p ${CFN_DIR}
-cd ${CFN_DIR}
 
-[[ -f .gitignore ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore ./.gitignore
-    echo_info "Created ${CFN_DIR}/.gitignore."
+# NOTE duplicate code on purpose
+
+ARTIFACT="${CFN_DIR}/.gitignore"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
 }
 
-[[ -f Makefile ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile ./Makefile
-    sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" Makefile
-    echo_info "Created ${CFN_DIR}/Makefile."
-    echo_info "Make sure to edit ${CFN_DIR}/Makefile in order to supply it with the required variables."
+ARTIFACT="${CFN_DIR}/Makefile"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile" "${ARTIFACT}"
+    sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 [[ -n "${STACK_STEM}" ]] || {
     echo_info "No stack stem given. Stopping here."
+    echo -e "${ARTIFACTS}" | sort -u
     exit 0
 }
 
-[[ -f "${STACK_STEM}.cfn.js" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${STACK_STEM}.cfn.js"
-    echo_info "Created ${CFN_DIR}/${STACK_STEM}.cfn.js."
+ARTIFACT="${CFN_DIR}/${STACK_STEM}.cfn.js"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
 }
 
-[[ -f "${STACK_STEM}.inc.mk" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.inc.mk" "${STACK_STEM}.inc.mk"
-    sed -i "s|<STACK_STEM>|${STACK_STEM}|g" "${STACK_STEM}.inc.mk"
-    echo_info "Created ${CFN_DIR}/${STACK_STEM}.inc.mk."
+ARTIFACT="${CFN_DIR}/${STACK_STEM}.inc.mk"
+[[ -e "${ARTIFACT}" ]] || {
+    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.inc.mk" "${ARTIFACT}"
+    sed -i "s|<STACK_STEM>|${STACK_STEM}|g" "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
-[[ -d ${STACK_STEM} ]] || {
-    mkdir "${STACK_STEM}"
-    echo_info "Created ${CFN_DIR}/${STACK_STEM} folder."
+ARTIFACT="${CFN_DIR}/${STACK_STEM}"
+[[ -e "${ARTIFACT}" ]] || {
+    mkdir "${ARTIFACT}"
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT} folder."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
+
+echo -e "${ARTIFACTS}" | sort -u
