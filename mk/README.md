@@ -43,4 +43,4 @@ include core.inc.mk/target.help.inc.mk
 
 # License
 
-[Unlicense](LICENSE).
+[Unlicense](LICENSE)
