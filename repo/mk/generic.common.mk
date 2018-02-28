@@ -15,6 +15,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 CI_ECHO = $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 ECLINT = $(call which,ECLINT,eclint)
+ECLINT_ARGS ?=
 JSONLINT = $(call which,JSONLINT,jsonlint)
 
 EC_FILES_IGNORE := \
@@ -26,7 +27,11 @@ EC_FILES = $(shell $(GIT_LS) | \
 	$(GREP) -v $(EC_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
-JSON_FILES = $(shell $(GIT_LS) | $(GREP) -e ".json$$" | $(SED) "s/^/'/g" | $(SED) "s/$$/'/g")
+
+JSON_FILES = $(shell $(GIT_LS) | \
+	$(GREP) -e ".json$$" | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 
 SF_CLEAN_FILES :=
 
@@ -35,7 +40,6 @@ SF_BUILD_TARGETS :=
 SF_CHECK_TARGETS := \
 	lint-ec \
 
-ECLINT_ARGS ?=
 SF_TEST_TARGETS := \
 
 # ------------------------------------------------------------------------------
