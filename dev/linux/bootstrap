@@ -2,8 +2,8 @@
 set -euo pipefail
 set -x
 
-[ "${EUID}" -eq 0 ] || [ -n "${TEAMCITY_VERSION}" ] || {
-    >&2 echo "Run as root"
+[ "${EUID}" -eq 0 ] || {
+    echo "Run as root" >&2
     exit 1
 }
 
@@ -15,7 +15,7 @@ function on_exit() {
 
 trap on_exit EXIT
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
 apt-get install -y --force-yes \
