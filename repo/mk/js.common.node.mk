@@ -4,6 +4,10 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/generic.common.mk
 PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
 export PATH
 
+EC_FILES_IGNORE := \
+	$(EC_FILES_IGNORE) \
+	-e "^package-lock.json$$" \
+
 JS_FILES_IGNORE := \
 	-e "^$$"
 

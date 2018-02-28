@@ -18,7 +18,6 @@ ECLINT = $(call which,ECLINT,eclint)
 JSONLINT = $(call which,JSONLINT,jsonlint)
 
 EC_FILES_IGNORE := \
-	-e "^package-lock.json$$" \
 	-e "^LICENSE$$" \
 	-e "^UNLICENSE$$" \
 
