@@ -2,10 +2,6 @@
 set -euo pipefail
 set -x
 
-# FIXME: these are deps specific to the firecloud/atex-platform/etc repos
-# and should most definitely be moved to their respective repos,
-# leaving in place only the ci/<platform>/bootstrap entrypoints
-
 function on_exit() {
     local STATUS=$?
     set +x
@@ -14,7 +10,7 @@ function on_exit() {
 
 trap on_exit EXIT
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 
 ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 

@@ -1,6 +1,6 @@
 # CI
 
-## settings
+## OS bootstrap
 
 Run `ci/osx/bootstrap` to install OSX system dependencies.
 
