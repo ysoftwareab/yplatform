@@ -16,6 +16,9 @@ sf_os() {
 }
 
 sf_travis_run_before_install() {
+    # Access user-level binaries e.g. node, npm, nvm, etc
+    source ~/.bash_profile
+
     sf_transcrypt
     sf_os
 }

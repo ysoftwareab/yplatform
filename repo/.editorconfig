@@ -1,3 +1,6 @@
+[/dot.travis.sh.sf]
+indent_size = 4
+
 [/dot.travis.yml]
 indent_size = 2
 max_line_length = none
