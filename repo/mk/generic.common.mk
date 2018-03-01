@@ -67,15 +67,12 @@ deps-git:
 
 
 .PHONY: build
-ifneq (0,$(words $(SF_BUILD_TARGETS)))
 build: ## Build.
-	@$(ECHO_DO) "Building..."
-	$(MAKE) $(SF_BUILD_TARGETS)
-	@$(ECHO_DONE)
-else
-build:
-	:
-endif
+	[[ "$(words $(SF_BUILD_TARGETS))" != "0" ]] || { \
+		$(ECHO_DO) "Building..."; \
+		$(MAKE) $(SF_BUILD_TARGETS); \
+		$(ECHO_DONE); \
+	}
 
 
 .PHONY: lint-ec
@@ -97,24 +94,18 @@ endif
 
 
 .PHONY: check
-ifneq (0,$(words $(SF_CHECK_TARGETS)))
 check: ## Check.
-	@$(ECHO_DO) "Checking..."
-	$(MAKE) $(SF_CHECK_TARGETS)
-	@$(ECHO_DONE)
-else
-check:
-	:
-endif
+	[[ "$(words $(SF_BUILD_TARGETS))" != "0" ]] || { \
+		$(ECHO_DO) "Checking..."; \
+		$(MAKE) $(SF_CHECK_TARGETS); \
+		$(ECHO_DONE); \
+	}
 
 
 .PHONY: test
-ifneq (0,$(words $(SF_TEST_TARGETS)))
 test: check ## Test.
-	@$(ECHO_DO) "Testing..."
-	$(MAKE) $(SF_TEST_TARGETS)
-	@$(ECHO_DONE)
-else
-test:
-	:
-endif
+	[[ "$(words $(SF_TEST_TARGETS))" != "0" ]] || { \
+		$(ECHO_DO) "Testing..."; \
+		$(MAKE) $(SF_TEST_TARGETS); \
+		$(ECHO_DONE); \
+	}
