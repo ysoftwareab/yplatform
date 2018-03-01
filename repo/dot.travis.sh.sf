@@ -4,7 +4,7 @@ set -euo pipefail
 sf_transcrypt() {
     [ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || \
     [ ! -x "./transcrypt" ] || \
-    [ -z "${TRANSCRYPT_PASSWORD}" ] || \
+    [ -z "${TRANSCRYPT_PASSWORD:-}" ] || \
     ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}" && \
         unset TRANSCRYPT_PASSWORD
 }
