@@ -9,7 +9,7 @@ PREFIX=/usr/local
 
 [ "${EUID}" -eq 0 ] || PREFIX=${HOME}/.local
 
-while [[ $# -gt 0 ]]; do
+while [ $# -gt 0 ]; do
     case "$1" in
         --prefix)
             PREFIX=$2
