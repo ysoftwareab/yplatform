@@ -46,7 +46,7 @@ ARTIFACT=".editorconfig"
 [[ -e "${ARTIFACT}" ]] || {
     ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
+    echo_info "Symlinked ${ARTIFACT}."
 }
 
 ARTIFACT=".travis.sh"
