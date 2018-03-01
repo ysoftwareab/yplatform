@@ -12,4 +12,4 @@ EC_FILES_IGNORE := \
 
 .PHONY: is-decrypted
 is-decrypted:
-	$(CAT) docs/manage-secrets.md.test.secret | $(GREP) -q "This is a test of transcrypt."
+	$(CAT) docs/how-to-manage-secrets.md.test.secret | $(GREP) -q "This is a test of transcrypt."
