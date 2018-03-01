@@ -90,7 +90,7 @@ brew list --versions
 echo_done
 
 # maybe NPM
-if 2>/dev/null which npm; then
+if >/dev/null 2>&1 which npm; then
     echo_do "Installing npm, json..."
     npm install --global npm
     npm install --global json
