@@ -2,17 +2,17 @@
 set -euo pipefail
 
 CI=${CI:-}
-[ "${CI}" = "1" ] && CI=true || true
+[[ "${CI}" = "1" ]] && CI=true || true
 
 V=${V:-${VERBOSE:-}}
 VERBOSE=${V}
-[ "${VERBOSE}" = "1" ] && VERBOSE=true || true
+[[ "${VERBOSE}" = "1" ]] && VERBOSE=true || true
 
-# [ "${CI}" != "true" ] || {
+# [[ "${CI}" != "true" ]] || {
 #     # VERBOSE=true
 # }
 
-[ "${VERBOSE}" != "true" ] || set -x
+[[ "${VERBOSE}" != "true" ]] || set -x
 
 OS=$(uname | tr "[A-Z]" "[a-z]")
 OS_SHORT=$(echo ${OS} | sed "s/^\([a-z]\+\).*/\1/g")

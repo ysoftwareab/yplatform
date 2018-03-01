@@ -51,7 +51,7 @@ function travis_echo() {
         "[DONE]")
             fallback_echo "$@"
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
-            [ -n "${GROUP}" ] || {
+            [[ -n "${GROUP}" ]] || {
                 GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
                 ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
             }
@@ -89,7 +89,7 @@ function teamcity_echo() {
             return 0
         ;;
         "[DONE]")
-            [ -z "${MESSAGE}" ] && {
+            [[ -z "${MESSAGE}" ]] && {
                 PWD_MESSAGE="$(ls -t /tmp/teamcity_block_* | head -n1 | xargs cat || echo "")"
                 ls -t /tmp/teamcity_block_* | head -n1 | xargs rm || true
             } || {

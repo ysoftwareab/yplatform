@@ -47,12 +47,12 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-[ -n "${REPO_SLUG}" ] || {
+[[ -n "${REPO_SLUG}" ]] || {
     echo_err "Please provide a --repo-slug."
     exit 1
 }
 
-[ -n "${SLUG}" ] || {
+[[ -n "${SLUG}" ]] || {
     echo_err "Please provide a --slug."
     exit 1
 }

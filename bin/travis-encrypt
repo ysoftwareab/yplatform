@@ -53,7 +53,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-[ -n "${VALUE}" ] || {
+[[ -n "${VALUE}" ]] || {
     echo_err "Please provide a --value."
     exit 1
 }
