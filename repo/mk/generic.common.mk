@@ -67,7 +67,7 @@ deps-git:
 
 
 .PHONY: build
-ifneq (0,$(words $(SF_CHECK_TARGETS)))
+ifneq (0,$(words $(SF_BUILD_TARGETS)))
 build: ## Build.
 	@$(ECHO_DO) "Building..."
 	$(MAKE) $(SF_BUILD_TARGETS)
