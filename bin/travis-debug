@@ -7,8 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: travis-debug [OPTION]
 ## Request debug mode for a Travis CI job.
 ##
-##   --token        Travis CI token shown on your profile page
 ##   --job          A job url or id
+##   --token        Travis CI token shown on your profile page
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -51,8 +51,20 @@ done
     exit 1
 }
 
+function get_tmate_cmd() {
+    curl \
+        -fs \
+        -X GET \
+        -H "Accept: application/json" \
+        -H "Travis-API-Version: 3" \
+        -H "Authorization: token ${TOKEN}" \
+        "https://api.travis-ci.org/job/${JOB_ID}/log" | \
+        json "content" | \
+        grep -o "ssh .\+\.tmate\.io" || true
+}
+
 curl \
-    -s \
+    -fsS \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -60,3 +72,27 @@ curl \
     -H "Authorization: token ${TOKEN}" \
     -d '{"quiet": true}' \
     "https://api.travis-ci.org/job/${JOB_ID}/debug"
+
+echo_do "Waiting for the tmate session..."
+sleep 90
+while true; do
+    TMATE_CMD=$(get_tmate_cmd)
+    [[ -z "${TMATE_CMD}" ]] || break
+    echo_info "Waiting for the tmate session..."
+    sleep 30
+done
+echo_done
+
+echo_info "${TMATE_CMD}"
+${TMATE_CMD} || true
+
+echo_do "Deleting the log..."
+sleep 5
+# FIXME it does the job but return 500 Internal Server Error
+curl \
+    -fsS \
+    -X DELETE \
+    -H "Travis-API-Version: 3" \
+    -H "Authorization: token ${TOKEN}" \
+    "https://api.travis-ci.org/job/${JOB_ID}/log" || true
+echo_done
