@@ -65,9 +65,9 @@ ARTIFACT="package.json"
 
 ARTIFACT="jest.config.js"
 [[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/jest.config.js" "${ARTIFACT}"
+    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/jest.config.js" "${ARTIFACT}"
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
+    echo_info "Symlinked ${ARTIFACT}."
 }
 
 "${SUPPORT_FIRECLOUD_DIR}/bin/repo-generic-bootstrap"
