@@ -45,6 +45,10 @@ SF_TEST_TARGETS := \
 
 # ------------------------------------------------------------------------------
 
+.PHONY: all
+all: deps build check ## Fetch dependencies, build and check.
+
+
 .PHONY: clean
 clean: ## Clean.
 	@$(ECHO_DO) "Cleaning..."
