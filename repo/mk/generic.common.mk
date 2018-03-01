@@ -68,7 +68,7 @@ deps-git:
 
 .PHONY: build
 build: ## Build.
-	[[ "$(words $(SF_BUILD_TARGETS))" == "0" ]] || { \
+	[[ "$(words $(SF_BUILD_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Building..."; \
 		$(MAKE) $(SF_BUILD_TARGETS); \
 		$(ECHO_DONE); \
@@ -95,7 +95,7 @@ endif
 
 .PHONY: check
 check: ## Check.
-	[[ "$(words $(SF_CHECK_TARGETS))" == "0" ]] || { \
+	[[ "$(words $(SF_CHECK_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Checking..."; \
 		$(MAKE) $(SF_CHECK_TARGETS); \
 		$(ECHO_DONE); \
@@ -104,7 +104,7 @@ check: ## Check.
 
 .PHONY: test
 test: check ## Test.
-	[[ "$(words $(SF_TEST_TARGETS))" == "0" ]] || { \
+	[[ "$(words $(SF_TEST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Testing..."; \
 		$(MAKE) $(SF_TEST_TARGETS); \
 		$(ECHO_DONE); \
