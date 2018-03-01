@@ -16,7 +16,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 CI_ECHO = $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 ECLINT = $(call which,ECLINT,eclint)
 ECLINT_ARGS ?=
-JSONLINT = $(call which,JSONLINT,jsonlint)
+JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 
 EC_FILES_IGNORE := \
 	-e "^LICENSE$$" \
@@ -89,9 +89,7 @@ lint-ec:
 .PHONY: lint-json
 ifneq (0,$(words $(JSON_FILES)))
 lint-json:
-	for f in $(JSON_FILES); do \
-		$(JSON) -q --validate -f "$${f}"; \
-	done
+	$(JSONLINT) $(JSON_FILES)
 else
 lint-json:
 	:

@@ -16,13 +16,6 @@ sf_os() {
 }
 
 sf_travis_run_before_install() {
-    # Access user-level binaries e.g. node, npm, nvm, etc
-    [[ ! -e ~/.bash_profile ]] || {
-        set +euo pipefail
-        source ~/.bash_profile
-        set -euo pipefail
-    }
-
     sf_transcrypt
     sf_os
 }

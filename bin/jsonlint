@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+CMD=
+
+# https://github.com/stedolan/jq
+if >/dev/null 2>&1 which jq; then
+    CMD="jq . >/dev/null"
+fi
+
+# https://github.com/trentm/json
+if >/dev/null 2>&1 which json; then
+    CMD="json --validate"
+fi
+
+[[ -n "${CMD}" ]] || {
+    echo_err "Could not find jq or json on your system."
+    exit 1
+}
+
+while [[ $# -gt 0 ]]; do
+    cat "$1" | ${CMD} || {
+        echo_err "$1 is not a valid JSON file."
+        exit 1
+    }
+    shift
+done
