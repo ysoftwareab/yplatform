@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- travis-debug 1.0
+## Usage: travis-debug [OPTION]
+## Request debug mode for a Travis CI job.
+##
+##   --token        Travis CI token shown on your profile page
+##   --job          A job url or id
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TOKEN=
+JOB_ID=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --token)
+            TOKEN="$2"
+            shift 2
+            ;;
+        --job)
+            JOB_ID=$(basename "$2")
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ -n "${TOKEN}" ]] || {
+    echo_err "Please provide a --token."
+    exit 1
+}
+
+[[ -n "${JOB_ID}" ]] || {
+    echo_err "Please provide a --job."
+    exit 1
+}
+
+curl \
+    -s \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Accept: application/json" \
+    -H "Travis-API-Version: 3" \
+    -H "Authorization: token ${TOKEN}" \
+    -d '{"quiet": true}' \
+    "https://api.travis-ci.org/job/${JOB_ID}/debug"
