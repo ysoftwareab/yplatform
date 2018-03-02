@@ -72,6 +72,7 @@ wget
 EOF
 )"
 brew_install
+brew link --force python@2
 echo_done
 
 # AWS
