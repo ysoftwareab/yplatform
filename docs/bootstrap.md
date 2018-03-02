@@ -36,7 +36,8 @@ in your `~/.gitconfig` prepend AT THE TOP
 We support Darwin (OSX) and Linux (Ubuntu) architectures.
 The former is the development architecture, while the latter is the CI/CD architecture.
 
-**NOTE** In order to simplify our scripts, we expect GNU binaries (even on Darwin).
+**NOTE** In order to [simplify our ~scripts~ lives](https://ponderthebits.com/2017/01/know-your-tools-linux-gnu-vs-mac-bsd-command-line-utilities-grep-strings-sed-and-find/),
+we expect GNU binaries (even on Darwin).
 
 All system-wide dependencies can be installed by running
 
