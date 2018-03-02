@@ -66,8 +66,8 @@ bash
 curl
 git
 jq
-python
-python3
+python@2
+python@3
 wget
 EOF
 )"
