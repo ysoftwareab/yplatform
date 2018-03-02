@@ -11,8 +11,8 @@ publish: ## Publish as a git version tag.
 
 .PHONY: publish/%
 publish/%: ## Publish as given git tag.
-	@$(ECHO_DO) "Publishing tag ${*}..."
-	$(NPM_PUBLISH_GIT) --tag ${*}
+	@$(ECHO_DO) "Publishing tag $*..."
+	$(NPM_PUBLISH_GIT) --tag $*
 	@$(ECHO_DONE)
 
 

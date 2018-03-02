@@ -5,6 +5,6 @@ publish:
 
 
 publish/%:
-	@$(ECHO_DO) "Publishing tag ${*}..."
-	$(GIT) push $(GIT_REMOTE) ${*}
+	@$(ECHO_DO) "Publishing tag $*..."
+	$(GIT) push $(GIT_REMOTE) $*
 	@$(ECHO_DONE)
