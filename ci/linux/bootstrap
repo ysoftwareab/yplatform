@@ -22,6 +22,15 @@ apt-get update
 if [ "${TRAVIS:-}" = "true" ]; then
     apt-mark hold postgresql-9.3 postgresql-9.4 postgresql-9.5 postgresql-9.6
 fi
+
+# FIXME https://travis-ci.org/tobiipro/support-firecloud/jobs/348017835#L589
+# WARNING: The following packages cannot be authenticated!
+#   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
+#   mongodb-org
+# E: There were unauthenticated packages and -y was used without --allow-unauthenticated
+for f in mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools mongodb-org; do
+    apt-mark hold $f || true
+done
 apt-get upgrade -y
 
 echo "Installing/Upgrading git..."
