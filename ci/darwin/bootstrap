@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-set -x
 
 # FIXME: these are deps specific to the firecloud/atex-platform/etc repos
 # and should most definitely be moved to their respective repos,
