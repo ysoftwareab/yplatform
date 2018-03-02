@@ -8,8 +8,12 @@ EC_FILES_IGNORE := \
 	-e "^repo/LICENSE$$" \
 	-e "^transcrypt$$" \
 
+SF_TEST_TARGETS := \
+	$(SF_TEST_TARGETS) \
+	test-is-decrypted \
+
 # ------------------------------------------------------------------------------
 
-.PHONY: is-decrypted
-is-decrypted:
+.PHONY: test-is-decrypted
+test-is-decrypted:
 	$(CAT) docs/how-to-manage-secrets.md.test.secret | $(GREP) -q "This is a test of transcrypt."
