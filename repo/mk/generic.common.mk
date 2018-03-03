@@ -13,6 +13,11 @@
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
+TRAVIS ?=
+ifeq (true,$(TRAVIS))
+GIT_BRANCH = $(TRAVIS_BRANCH)
+endif
+
 CI_ECHO = $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 ECLINT = $(call which,ECLINT,eclint)
 ECLINT_ARGS ?=
