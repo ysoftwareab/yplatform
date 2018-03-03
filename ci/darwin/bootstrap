@@ -20,7 +20,27 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 brew_install() {
     echo "$@" | while read FORMULA; do
         NAME=$(echo "${FORMULA}" | cut -d' ' -f1)
-        brew list "${NAME}" >/dev/null 2>&1 || brew install ${FORMULA}
+        # is it already installed ?
+        if brew list "${NAME}" >/dev/null 2>&1; then
+            # do we require installation with specific options ?
+            local NAME=$(echo "${FORMULA}" | cut -d " " -f1)
+            local OPTIONS=$(echo "${FORMULA}" | cut -d " " -f2- | xargs -n1 | sort -u)
+            [[ -n "${OPTIONS}" ]] || break
+
+            # is it already installed with the required options ?
+            local USED_OPTIONS="$(brew info --json=v1 | \
+                /usr/bin/python \
+                    -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
+                xargs -n1 | \
+                sort -u || true)"
+            local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
+            [[ -n "${NOT_FOUND_OPTIONS}" ]] || break
+
+            echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
+            echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
+            return 1
+        fi
+        brew install ${FORMULA}
     done
 }
 
