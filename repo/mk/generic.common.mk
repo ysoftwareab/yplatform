@@ -81,20 +81,19 @@ build: ## Build.
 
 .PHONY: lint-ec
 lint-ec:
-	$(ECLINT) check $(ECLINT_ARGS) $(EC_FILES) || { \
-		$(ECLINT) fix $(ECLINT_ARGS) $(EC_FILES) 2>/dev/null >&2; \
-		exit 1; \
+	[[ "$(words $(EC_FILES))" = "0" ]] || { \
+		$(ECLINT) check $(ECLINT_ARGS) $(EC_FILES) || { \
+			$(ECLINT) fix $(ECLINT_ARGS) $(EC_FILES) 2>/dev/null >&2; \
+			exit 1; \
+		}; \
 	}
 
 
 .PHONY: lint-json
-ifneq (0,$(words $(JSON_FILES)))
 lint-json:
-	$(JSONLINT) $(JSON_FILES)
-else
-lint-json:
-	:
-endif
+	[[ "$(words $(JSON_FILES))" = "0" ]] || { \
+		$(JSONLINT) $(JSON_FILES); \
+	}
 
 
 .PHONY: check

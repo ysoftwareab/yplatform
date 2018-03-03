@@ -12,7 +12,9 @@ SF_CHECK_TARGETS := \
 
 .PHONY: lint-js
 lint-js:
-	$(ESLINT) $(ESLINT_ARGS) $(JS_FILES) || { \
-		$(ESLINT) $(ESLINT_ARGS) --fix $(JS_FILES) 2>/dev/null >&2; \
-		exit 1; \
+	[[ "$(words $(JS_FILES))" = "0" ]] || { \
+		$(ESLINT) $(ESLINT_ARGS) $(JS_FILES) || { \
+			$(ESLINT) $(ESLINT_ARGS) --fix $(JS_FILES) 2>/dev/null >&2; \
+			exit 1; \
+		}; \
 	}
