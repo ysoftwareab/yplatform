@@ -1,18 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# FIXME: these are deps specific to the firecloud/atex-platform/etc repos
-# and should most definitely be moved to their respective repos,
-# leaving in place only the ci/<platform>/bootstrap entrypoints
-
-function on_exit() {
-    local STATUS=$?
-    set +x
-    exit ${STATUS}
-}
-
-trap on_exit EXIT
-
 echo "Installing/Upgrading homebrew..."
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
     true # fails if already installed
@@ -21,14 +9,16 @@ brew outdated
 brew upgrade
 
 echo "Installing/Upgrading git..."
-brew list "git" >/dev/null 2>&1 || brew install git
-brew outdated "git" >/dev/null 2>&1 || brew upgrade git
+brew list git >/dev/null 2>&1 || brew install git
+brew outdated git >/dev/null 2>&1 || brew upgrade git
+
+# ------------------------------------------------------------------------------
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-function brew_install() {
-    echo "${BREW_FORMULAE}" | while read FORMULA; do
+brew_install() {
+    echo "$@" | while read FORMULA; do
         NAME=$(echo "${FORMULA}" | cut -d' ' -f1)
         brew list "${NAME}" >/dev/null 2>&1 || brew install ${FORMULA}
     done
@@ -36,7 +26,7 @@ function brew_install() {
 
 # Basic/GNU
 echo_do "Installing basic/GNU packages..."
-BREW_FORMULAE="$(cat <<-'EOF'
+BREW_FORMULAE="$(cat <<-EOF
 autoconf
 automake
 coreutils
@@ -55,12 +45,12 @@ unzip
 watch
 EOF
 )"
-brew_install
+brew_install "${BREW_FORMULAE}"
 echo_done
 
 # Misc
 echo_do "Installing miscellaneous packages..."
-BREW_FORMULAE="$(cat <<-'EOF'
+BREW_FORMULAE="$(cat <<-EOF
 bash
 curl
 git
@@ -70,7 +60,7 @@ python@3
 wget
 EOF
 )"
-brew_install
+brew_install "${BREW_FORMULAE}"
 brew link --force python@2
 echo_done
 
@@ -90,7 +80,7 @@ brew list --versions
 echo_done
 
 # maybe NPM
-if >/dev/null 2>&1 which npm; then
+if which npm >/dev/null 2>&1; then
     echo_do "Installing npm, json..."
     npm install --global npm
     npm install --global json

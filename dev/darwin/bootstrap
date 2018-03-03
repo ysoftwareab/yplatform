@@ -1,22 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function on_exit() {
-    local STATUS=$?
-    set +x
-    exit ${STATUS}
-}
-
-trap on_exit EXIT
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
-${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
-
-brew install \
-    erlang \
-    graphviz \
-    nodejs
+BREW_FORMULAE="$(cat <<-EOF
+erlang
+graphviz
+nodejs
+EOF
+)"
+brew_install "${BREW_FORMULAE}"
 
 # NPM
 npm install --global npm

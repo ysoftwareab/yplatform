@@ -2,26 +2,23 @@
 set -euo pipefail
 
 [ "${EUID}" -eq 0 ] || {
-    echo "Run as root" >&2
-    exit 1
+    sudo "${BASH_SOURCE[0]}"
+    exit 0
 }
 
-function on_exit() {
-    local STATUS=$?
-    set +x
-    exit ${STATUS}
-}
-
-trap on_exit EXIT
+# ------------------------------------------------------------------------------
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
+source ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
-apt-get install -y --force-yes \
-    gettext \
-    graphviz \
-    libonig-dev \
-    texinfo
+DPKGS="$(cat <<-EOF
+gettext
+graphviz
+libonig-dev
+texinfo
+EOF
+)"
+apt_install "${DPKGS}"
 
 # Erlang
 curl -O https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb

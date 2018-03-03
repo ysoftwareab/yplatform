@@ -6,47 +6,58 @@ set -euo pipefail
     exit 0
 }
 
-function on_exit() {
-    local STATUS=$?
-    set +x
-    exit ${STATUS}
+# ------------------------------------------------------------------------------
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+apt_install() {
+    echo "$@" | while read DPKG; do
+        apt-get install -y --force-yes "${DPKG}"
+    done
 }
 
-trap on_exit EXIT
-
-echo "Upgrading aptitude..."
-apt-get install -y --force-yes software-properties-common
+echo_do "Upgrading aptitude..."
+apt_install "software-properties-common"
 apt-add-repository -y ppa:git-core/ppa
 apt-get update
-if [ "${TRAVIS:-}" = "true" ]; then
-    apt-mark hold postgresql-9.3 postgresql-9.4 postgresql-9.5 postgresql-9.6
-fi
+echo_done
 
 # FIXME https://travis-ci.org/tobiipro/support-firecloud/jobs/348017835#L589
 # WARNING: The following packages cannot be authenticated!
 #   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
 #   mongodb-org
 # E: There were unauthenticated packages and -y was used without --allow-unauthenticated
-for f in mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools mongodb-org; do
-    apt-mark hold $f || true
-done
-apt-get upgrade -y
-
-echo "Installing/Upgrading git..."
-apt-get install -y --force-yes git
-
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
-
-function apt_install() {
-    echo "${DPKGS}" | while read DPKG; do
-        apt-get install -y --force-yes ${DPKG}
+if [ "${TRAVIS:-}" = "true" ]; then
+    HOLD_DPKGS="$(cat <<-EOF
+mongodb-org
+mongodb-org-mongos
+mongodb-org-server
+mongodb-org-shell
+mongodb-org-tools
+postgresql-9.3
+postgresql-9.4
+postgresql-9.5
+postgresql-9.6
+EOF
+)"
+    echo "${HOLD_DPKGS}" | while read DPKG; do
+        apt-mark hold "${DPKG}" || true
     done
-}
+fi
+
+echo_do "Upgrading system packages..."
+apt-get upgrade -y
+echo_done
+
+# Git
+echo_do "Installing/Upgrading git..."
+apt_install "git"
+echo_done
 
 # Basic
 echo_do "Installing basic packages..."
-DPKGS="$(cat <<-'EOF'
+DPKGS="$(cat <<-EOF
 autoconf
 automake
 bsdmainutils
@@ -58,12 +69,12 @@ uuid-runtime
 zip
 EOF
 )"
-apt_install
+apt_install "${DPKGS}"
 echo_done
 
 # Misc
 echo_do "Installing miscellaneous packages..."
-DPKGS="$(cat <<-'EOF'
+DPKGS="$(cat <<-EOF
 bash
 curl
 git
@@ -75,7 +86,7 @@ python3-pip
 wget
 EOF
 )"
-apt_install
+apt_install "${DPKGS}"
 echo_done
 
 echo_do "Installing GNU Bash..."
@@ -106,7 +117,7 @@ apt list --installed
 echo_done
 
 # maybe NPM
-if >/dev/null 2>&1 which npm; then
+if which npm >/dev/null 2>&1; then
     echo_do "Installing npm, json..."
     npm install --global npm
     npm install --global json

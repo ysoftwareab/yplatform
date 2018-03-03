@@ -1,14 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function on_exit() {
-    local STATUS=$?
-    set +x
-    exit ${STATUS}
-}
-
-trap on_exit EXIT
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
@@ -40,7 +32,7 @@ apt list --installed
 echo_done
 
 # maybe NPM
-if >/dev/null 2>&1 which npm; then
+if which npm >/dev/null 2>&1; then
     echo_do "Installing npm, json..."
     npm install --global npm
     npm install --global json
