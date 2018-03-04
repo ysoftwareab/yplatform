@@ -19,12 +19,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 brew_install() {
     echo "$@" | while read FORMULA; do
-        NAME=$(echo "${FORMULA}" | cut -d" " -f1)
+        NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         # is it already installed ?
         if brew list "${NAME}" >/dev/null 2>&1; then
             # do we require installation with specific options ?
-            local NAME=$(echo "${FORMULA}" | cut -d" " -f1)
-            local OPTIONS=$(echo "${FORMULA} " | cut -d" " -f2- | xargs -n1 | sort -u)
+            local NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
+            local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
             [[ -n "${OPTIONS}" ]] || break
 
             # is it already installed with the required options ?

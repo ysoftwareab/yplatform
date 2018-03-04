@@ -20,7 +20,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 # https://github.com/dlenski/travis-encrypt-sh
 
 USERREPO=$(git config --local travis.slug 2>/dev/null)
-[[ -n "${USERREPO}" ]] || USERREPO=$(git remote -v 2>/dev/null | grep -oP "(?<=github.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//")
+[[ -n "${USERREPO}" ]] || \
+    USERREPO=$(git remote -v 2>/dev/null | grep -oP "(?<=github.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//")
 VALUE=
 PORCELAIN=false
 SHOW_KEY=false
@@ -59,8 +60,8 @@ done
     exit 1
 }
 
-[[ "${SHOW_KEY}" = "false" ]] || {
-    [[ "${PORCELAIN}" = "false" ]] || {
+[[ ${SHOW_KEY} = false ]] || {
+    [[ ${PORCELAIN} = false ]] || {
         echo_err "Cannot show key in porcelain mode."
         exit 1
     }
@@ -68,7 +69,7 @@ done
 
 KEY_URL="https://api.travis-ci.org/repos/${USERREPO}/key"
 KEY_RE='"key":"([^"]+)"'
-[[ "$(curl -sS "${KEY_URL}" 2>/dev/null || echo 'not found')" =~ ${KEY_RE} ]]
+[[ "$(curl -fqsS "${KEY_URL}" 2>/dev/null || echo 'not found')" =~ ${KEY_RE} ]]
 KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
 
 if [[ "${KEY}" =~ "not found" ]]; then
@@ -78,8 +79,8 @@ if [[ "${KEY}" =~ "not found" ]]; then
     exit 1
 fi
 
-[[ "${PORCELAIN}" = "true" ]] || {
-    [[ "${SHOW_KEY}" = "false" ]] || echo -e "${KEY}"
+[[ ${PORCELAIN} = true ]] || {
+    [[ ${SHOW_KEY} = false ]] || echo -e "${KEY}"
     echo "Detected repository as ${USERREPO}."
     echo "Please add the following to your .travis.yml file:"
     echo
@@ -88,7 +89,7 @@ fi
 
 echo -n "${VALUE}" | openssl rsautl -encrypt -pubin -inkey <(echo -e "${KEY}") | openssl base64 -A
 
-[[ "${PORCELAIN}" = "true" ]] || {
+[[ ${PORCELAIN} = true ]] || {
     echo -n "\""
     echo
 }

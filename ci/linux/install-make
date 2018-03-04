@@ -2,12 +2,12 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-VSN=${VSN_MAKE:=4.2.1}
+VSN=${VSN_MAKE:-4.2.1}
 CACHE_DIR=${SUPPORT_FIRECLOUD_CACHE_DIR}
 CACHE_KEEP=true
 PREFIX=/usr/local
 
-[ "${EUID}" -eq 0 ] || PREFIX=${HOME}/.local
+[ ${EUID} -eq 0 ] || PREFIX=${HOME}/.local
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -19,8 +19,8 @@ while [ $# -gt 0 ]; do
             CACHE_DIR=$2
             shift 2
             ;;
-        --keep)
-            CACHE_KEEP=true
+        --no-keep)
+            CACHE_KEEP=false
             shift
             ;;
         --vsn)
@@ -42,7 +42,7 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-[ -n "${VSN}" ] || {
+[ -n ${VSN} ] || {
     echo_err "Please provide a --version."
     exit 1
 }
@@ -66,6 +66,6 @@ cd ${CACHE_DIR}
     make install
 )
 
-[ ${CACHE_KEEP} ] || {
+[ ${CACHE_KEEP} = true ] || {
     rm -rf ${TAR_NAME}*
 }

@@ -31,7 +31,7 @@ done
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..
     git rev-parse --show-toplevel >/dev/null || {
-        echo_err "support-firecloud is not in a git repo"
+        echo_err "support-firecloud is not in a git repository"
         exit 1
     }
 )
@@ -43,73 +43,73 @@ cd ${SUPPORT_FIRECLOUD_DIR}/..
 
 # NOTE duplicate code on purpose
 
-ARTIFACT=".editorconfig"
-[[ -e "${ARTIFACT}" ]] || {
-    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig" "${ARTIFACT}"
+ARTIFACT=.editorconfig
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
-ARTIFACT=".travis.sh"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.sh" "${ARTIFACT}"
+ARTIFACT=.travis.sh
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
-ARTIFACT=".travis.yml"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.yml" "${ARTIFACT}"
+ARTIFACT=.travis.yml
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.yml ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
-[[ -e ".vscode" ]] || {
+[[ -e .vscode ]] || {
     mkdir -p .vscode
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/.*; do
-        ARTIFACT=".vscode/$(basename ${ARTIFACT})"
-        [[ -e "${ARTIFACT}" ]] || {
-            ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot${ARTIFACT}" "${ARTIFACT}"
+        ARTIFACT=.vscode/$(basename ${ARTIFACT})
+        [[ -e ${ARTIFACT} ]] || {
+            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Symlinked ${ARTIFACT}."
         }
     done
 }
 
-ARTIFACT="LICENSE"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/LICENSE" "${ARTIFACT}"
+ARTIFACT=LICENSE
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/LICENSE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
-ARTIFACT="NOTICE"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/NOTICE" "${ARTIFACT}"
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Created ${ARTIFACT}."
-    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
-}
-
-ARTIFACT="AUTHORS"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/AUTHORS" "${ARTIFACT}"
+ARTIFACT=NOTICE
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/NOTICE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
-ARTIFACT="Makefile"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.generic" "${ARTIFACT}"
+ARTIFACT=AUTHORS
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/AUTHORS ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
-ARTIFACT="README.md"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/README.md" "${ARTIFACT}"
+ARTIFACT=Makefile
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.generic ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
+}
+
+ARTIFACT=README.md
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/README.md ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."

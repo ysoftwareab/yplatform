@@ -41,36 +41,36 @@ ARTIFACTS=
 
 # NOTE duplicate code on purpose
 
-ARTIFACT=".npmrc"
-[[ -e "${ARTIFACT}" ]] || {
-    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc" "${ARTIFACT}"
+ARTIFACT=.npmrc
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
-ARTIFACT="Makefile"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.node" "${ARTIFACT}"
+ARTIFACT=Makefile
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
-ARTIFACT="package.json"
-[[ -e "${ARTIFACT}" ]] || {
-    cp "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/package.json" "${ARTIFACT}"
+ARTIFACT=package.json
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/package.json ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
-ARTIFACT="jest.config.js"
-[[ -e "${ARTIFACT}" ]] || {
-    ln -s "${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/jest.config.js" "${ARTIFACT}"
+ARTIFACT=jest.config.js
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/jest.config.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
-"${SUPPORT_FIRECLOUD_DIR}/bin/repo-generic-bootstrap"
+${SUPPORT_FIRECLOUD_DIR}/bin/repo-generic-bootstrap
 
 echo -e "${ARTIFACTS}" | sort -u

@@ -20,7 +20,7 @@ JOB_ID=
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --token)
-            TOKEN="$2"
+            TOKEN=$2
             shift 2
             ;;
         --job)
@@ -42,19 +42,19 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-[[ -n "${TOKEN}" ]] || {
+[[ -n ${TOKEN} ]] || {
     echo_err "Please provide a --token."
     exit 1
 }
 
-[[ -n "${JOB_ID}" ]] || {
+[[ -n ${JOB_ID} ]] || {
     echo_err "Please provide a --job."
     exit 1
 }
 
 function get_tmate_cmd() {
     curl \
-        -fs \
+        -fqs \
         -X GET \
         -H "Accept: application/json" \
         -H "Travis-API-Version: 3" \
@@ -65,7 +65,7 @@ function get_tmate_cmd() {
 }
 
 curl \
-    -fsS \
+    -fssS \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -91,7 +91,7 @@ echo_do "Deleting the log..."
 sleep 5
 # FIXME it does the job but return 500 Internal Server Error
 curl \
-    -fsS \
+    -fqsS \
     -X DELETE \
     -H "Travis-API-Version: 3" \
     -H "Authorization: token ${TOKEN}" \

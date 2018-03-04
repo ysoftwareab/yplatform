@@ -36,7 +36,7 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-[[ -n "${STACK_NAME}" ]] || {
+[[ -n ${STACK_NAME} ]] || {
     echo_err "Please provide a --stack-name."
     exit 1
 }

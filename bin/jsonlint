@@ -16,13 +16,13 @@ if >/dev/null 2>&1 which json; then
     CMD="json --validate"
 fi
 
-[[ -n "${CMD}" ]] || {
+[[ -n ${CMD} ]] || {
     echo_err "Could not find jq or json on your system."
     exit 1
 }
 
 while [[ $# -gt 0 ]]; do
-    cat "$1" | ${CMD} >/dev/null || {
+    cat $1 | ${CMD} >/dev/null || {
         echo_err "$1 is not a valid JSON file."
         exit 1
     }

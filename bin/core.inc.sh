@@ -6,13 +6,13 @@ CI=${CI:-}
 
 V=${V:-${VERBOSE:-}}
 VERBOSE=${V}
-[[ "${VERBOSE}" = "1" ]] && VERBOSE=true || true
+[[ ${VERBOSE} = 1 ]] && VERBOSE=true || true
 
 # [[ "${CI}" != "true" ]] || {
 #     # VERBOSE=true
 # }
 
-[[ "${VERBOSE}" != "true" ]] || set -x
+[[ ${VERBOSE} != true ]] || set -x
 
 OS=$(uname | tr "[A-Z]" "[a-z]")
 OS_SHORT=$(echo ${OS} | sed "s/^\([a-z]\+\).*/\1/g")
@@ -28,7 +28,7 @@ GIT_BRANCH_SHORT=$(basename ${GIT_BRANCH})
 GIT_TAGS=$(git describe --exact-match --tags HEAD 2>/dev/null || true)
 GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 
-[[ "${TRAVIS:-}" != "true" ]] || {
+[[ ${TRAVIS:-} != true ]] || {
     GIT_BRANCH=${TRAVIS_BRANCH}
     GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
 }

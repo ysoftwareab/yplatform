@@ -25,22 +25,22 @@ trap on_exit EXIT
 FROM="$(whoami)@$(hostname)"
 ICON=":shipit:"
 TO=
-[[ -z "${SLACK_CHANNEL:-}" ]] || {
+[[ -z ${SLACK_CHANNEL:-} ]] || {
     TO="#${SLACK_CHANNEL}"
 }
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--from)
-            FROM="$2"
+            FROM=$2
             shift 2
             ;;
         -i|--icon)
-            ICON="$2"
+            ICON=$2
             shift 2
             ;;
         -t|--to)
-            TO="$2"
+            TO=$2
             shift 2
             ;;
         -w|--webhook)
@@ -63,7 +63,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 CHANNEL_TO=
-[[ -z "${TO}" ]] || {
+[[ -z ${TO} ]] || {
     CHANNEL_TO="\"channel\": \"${TO}\","
 }
 
@@ -82,8 +82,9 @@ EOF
 
 cat ${TMP_FILE}
 
-curl -fqsS \
-     -X POST \
-     -H "Content-Type: application/json" \
-     --data @${TMP_FILE} \
-     ${SLACK_WEBHOOK}
+curl \
+    -fqsS \
+    -X POST \
+    -H "Content-Type: application/json" \
+    --data @${TMP_FILE} \
+    ${SLACK_WEBHOOK}
