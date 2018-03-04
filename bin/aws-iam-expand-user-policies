@@ -1,34 +1,22 @@
 #!/usr/bin/env node
 
-let Promise = require('bluebird');
 let _ = require('lodash');
 let aws = require('aws-sdk');
-let stringify = require('json-stable-stringify');
-let {ArgumentParser} = require('argparse');
 
-Promise.longStackTraces();
-
-let parser = new ArgumentParser({});
-_.each({
-  '--filter-user-name': {
-    default: '.*'
-  }
-}, function(options, name) {
-  name = name.split(/[, ]+/);
-  parser.addArgument(name, options);
-});
-let args = parser.parseArgs();
+let filterUsername = process.env.AWS_USER;
 
 let iam = new aws.IAM();
 
 (async function() {
   let result = _.pick(await iam.listUsers({}).promise(), ['Users']);
 
-  let filterUsernamesRE = new RegExp(`^${args.filter_user_name}$`);
-  _.remove(result.Users, function({UserName}) {
-    let keep = filterUsernamesRE.test(UserName);
-    return !keep;
-  });
+  if (filterUsername) {
+    let filterUsernamesRE = new RegExp(`^${filterUsername}$`);
+    _.remove(result.Users, function({UserName}) {
+      let keep = filterUsernamesRE.test(UserName);
+      return !keep;
+    });
+  }
 
   let expandPolicies = async function(policies) {
     return await Promise.all(_.map(policies, async function(policy) {
@@ -87,5 +75,5 @@ let iam = new aws.IAM();
     return user;
   }));
 
-  console.log(stringify(result, {space: 2}));
+  console.log(JSON.stringify(result, undefined, 2));
 })();
