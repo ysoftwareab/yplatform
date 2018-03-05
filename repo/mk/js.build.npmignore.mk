@@ -8,4 +8,16 @@ SF_BUILD_TARGETS := \
 
 .PHONY: build-npmignore
 build-npmignore:
-	$(CAT) $(GIT_EXCLUDES_FILE) .gitignore .gitignore.npm > .npmignore 2>/dev/null
+	$(CAT) \
+		<($(ECHO) "# ------------------------------------------------------------------------------") \
+		<($(ECHO) "# $(GIT_EXCLUDES_FILE):") \
+		$(GIT_EXCLUDES_FILE) \
+		<($(ECHO) "") \
+		<($(ECHO) "# ------------------------------------------------------------------------------") \
+		<($(ECHO) "# .gitignore:") \
+		.gitignore \
+		<($(ECHO) "") \
+		<($(ECHO) "# ------------------------------------------------------------------------------") \
+		<($(ECHO) "# .gitignore.npm:") \
+		.gitignore.npm \
+		> .npmignore 2>/dev/null
