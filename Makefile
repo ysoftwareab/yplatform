@@ -10,10 +10,16 @@ EC_FILES_IGNORE := \
 
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
-	test-is-decrypted \
+	test-secret \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: test-is-decrypted
-test-is-decrypted:
-	$(CAT) docs/how-to-manage-secrets.md.test.secret | $(GREP) -q "This is a test of transcrypt."
+.PHONY: test-secret
+ifeq (true,$(IS_TRANSCRYPTED))
+test-secret:
+	$(CAT) docs/how-to-manage-secrets.md.test.secret | \
+		$(GREP) -q "This is a test of transcrypt."; \
+else
+test-secret:
+	:
+endif

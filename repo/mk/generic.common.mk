@@ -23,6 +23,8 @@ ECLINT = $(call which,ECLINT,eclint)
 ECLINT_ARGS ?=
 JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 
+IS_TRANSCRYPTED := $(shell $(GIT) config --local transcrypted.version >/dev/null && echo true || echo false)
+
 EC_FILES_IGNORE := \
 	-e "^LICENSE$$" \
 	-e "^UNLICENSE$$" \
