@@ -1,5 +1,5 @@
 module.exports = {
-  collectCoverage: true,
+  collectCoverage: false,
   collectCoverageFrom: [
     '**/src/**/*.js'
   ],
@@ -9,7 +9,7 @@ module.exports = {
     'lcov',
     'text'
   ],
-  notify: true,
+  notify: false,
   testEnvironment: 'node',
   testMatch: [
     '**/test/**/*.test.js'
