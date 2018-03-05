@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+# either we're being executed
+[[ $_ != $0 ]] || {
+    [[ $# -ne 1 ]] || {
+        echo_err "Usage: aws-iam-login <profilename>"
+        exit 1
+    }
+
+    AWS_PROFILE=$1
+
+    aws configure get aws_access_key_id --profile ${AWS_PROFILE} || {
+        echo_err "${AWS_PROFILE} profile is not configured."
+        exit 1
+    }
+
+    # Workarounds for the JavaScript SDK
+    # - doesn't know about AWS_DEFAULT_PROFILE, but it does obey AWS_PROFILE
+    # - doesn't know about the profile configuration's region, but it does obey AWS_REGION
+    export AWS_DEFAULT_PROFILE=${AWS_PROFILE}
+    export AWS_DEFAULT_REGION=${AWS_REGION}
+    export AWS_PROFILE
+    export AWS_REGION=$(aws configure get region --profile ${AWS_PROFILE})
+    export AWS_ROLE_ARN=$(aws configure get role_arn --profile ${AWS_PROFILE})
+
+    unset AWS_SECRET_ACCESS_KEY
+    unset AWS_ACCESS_KEY_ID
+    unset AWS_SESSION_TOKEN
+
+    echo "Switched to AWS profile: ${AWS_PROFILE}"
+	aws configure list
+
+    source <(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-cli-sts)
+    exit 0
+}
+
+# or we're being sourced
+function _aws_profile_completer() {
+    local WORD=${COMP_WORDS[COMP_CWORD]}
+    local AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-~/.aws/credentials}
+    local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | xargs -I{} expr {} : "\[\(.*\)\]")"
+    COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
+}
+
+complete -F _aws_profile_completer aws-iam-login
