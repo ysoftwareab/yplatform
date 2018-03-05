@@ -41,6 +41,13 @@ ARTIFACTS=
 
 # NOTE duplicate code on purpose
 
+ARTIFACT=.gitignore
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.gitignore ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Symlinked ${ARTIFACT}."
+}
+
 ARTIFACT=.npmrc
 [[ -e ${ARTIFACT} ]] || {
     ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc ${ARTIFACT}
