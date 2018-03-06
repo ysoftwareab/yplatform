@@ -113,7 +113,7 @@ check: ## Check.
 
 
 .PHONY: test
-test: check ## Test.
+test: check ## Check and test.
 	[[ "$(words $(SF_TEST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Testing..."; \
 		$(MAKE) $(SF_TEST_TARGETS); \
