@@ -2,15 +2,13 @@
   "private": true,
   "name": "support-firecloud",
   "description": "Software and configuration that support TobiiPro's Cloud Services development.",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "license": "Apache-2.0",
   "files": [
   ],
-  "dependencies": {
-    "aws-sdk": "^2.0.0",
-    "lodash": "^4.0.0"
-  },
   "devDependencies": {
-    "eclint": "2.3.0"
+    "aws-sdk": "^2.205.0",
+    "eclint": "^2.6.0",
+    "lodash": "^4.17.5"
   }
 }
