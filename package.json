@@ -4,6 +4,8 @@
   "description": "Software and configuration that support TobiiPro's Cloud Services development.",
   "version": "0.0.1",
   "license": "Apache-2.0",
+  "files": [
+  ],
   "dependencies": {
     "aws-sdk": "^2.0.0",
     "lodash": "^4.0.0"

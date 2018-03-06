@@ -48,13 +48,6 @@ ARTIFACT=.gitignore
     echo_info "Symlinked ${ARTIFACT}."
 }
 
-ARTIFACT=.gitignore.npm
-[[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.gitignore.npm ${ARTIFACT}
-    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Symlinked ${ARTIFACT}."
-}
-
 ARTIFACT=.npmrc
 [[ -e ${ARTIFACT} ]] || {
     ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.npmrc ${ARTIFACT}
