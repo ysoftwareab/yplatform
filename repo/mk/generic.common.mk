@@ -119,3 +119,12 @@ test: check ## Test.
 		$(MAKE) $(SF_TEST_TARGETS); \
 		$(ECHO_DONE); \
 	}
+
+
+.PHONY: support-firecloud/update
+support-firecloud/update: ## Update support-firecloud to latest master commit.
+	cd support-firecloud; \
+		$(GIT) fetch; \
+		$(GIT) checkout -f origin/master
+	$(GIT) add support-firecloud
+	$(GIT) commit -m "updated support-firecloud"
