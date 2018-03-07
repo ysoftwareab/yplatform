@@ -6,6 +6,7 @@ EC_FILES_IGNORE := \
 	$(EC_FILES_IGNORE) \
 	-e "^bin/" \
 	-e "^repo/LICENSE$$" \
+	-e "^support-firecloud$$" \
 	-e "^transcrypt$$" \
 
 SF_TEST_TARGETS := \
