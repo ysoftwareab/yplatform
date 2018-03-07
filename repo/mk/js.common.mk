@@ -18,14 +18,10 @@ JS_FILES = $(shell $(GIT_LS) | \
 	$(SED) "s/$$/'/g")
 
 SRC_JS_FILES := $(shell $(FIND_Q) src -type f -name "*.js" -print)
-LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
 
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
-	lib \
 	node_modules \
-
-BABELRC := $(shell $(FIND_Q) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
 
 # ------------------------------------------------------------------------------
 
