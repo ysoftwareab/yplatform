@@ -50,7 +50,6 @@ cache:
     - $HOME/.pip-cache/
     - $HOME/Library/Caches/Homebrew
     - /tmp/support-firecloud.cache
-    - node_modules
 
 # 5. Steps
 before_install: ./.travis.sh before_install
