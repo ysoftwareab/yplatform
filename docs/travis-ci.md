@@ -15,6 +15,7 @@ and enable Travis CI integration for your repository.
 * enable `Build only if .travis.yml is present`
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
+* add cronjob `master - daily - Always run`
 
 Link to the repository's page on Travis CI
 and embed a status image for the `master` branch (or more) in `README.md`, in short add:
