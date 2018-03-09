@@ -10,6 +10,8 @@ indent_size = 2
 [aws-cfn2dot]
 indent_size = 2
 
-[aws-iam-expand-user-policies]
+[aws-iam-console-cookie]
 indent_size = 2
 
+[aws-iam-expand-user-policies]
+indent_size = 2

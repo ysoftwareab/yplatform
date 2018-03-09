@@ -1,0 +1,120 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+#- aws-iam-bootstrap 1.0
+## Usage: aws-iam-bootstrap [OPTION]
+## Bootstrap an AWS user's Console (GUI) and, optionally, the CLI.
+##
+##   --user                 User name as defined in AWS IAM
+##   --account              Account name as defined in AWS
+##                          Defaults to the constants file's DEV_AWS_ACCOUNT_NAME
+##   --const-file           Optional. Path to the project's constants file
+##                          Defaults to the git root's CONST.inc
+##
+##   --access-key-id        Optional. Access key ID as defined in AWS IAM
+##                          Required to bootstrap the CLI
+##   --secet-access-key     Optional. Secret access key as defined in AWS IAM
+##                          Required to bootstrap the CLI
+##   --config-tpl-file      Optional. Path to the project's AWS CLI config template
+##                          Defaults to the git root's aws-cli.config.tpl
+##   --credentials-tpl-file Optional. Path to the project's AWS CLI credentials template
+##                          Defaults to the git root's aws-cli.credentials.tpl
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+export AWS_USER=
+export AWS_ACCOUNT_NAME=
+export AWS_ACCESS_KEY_ID=
+export AWS_SECRET_ACCESS_KEY=
+CONST_FILE=${GIT_ROOT}/CONST.inc
+CONFIG_TPL_FILE=${GIT_ROOT}/aws-cli.config.tpl
+CREDENTIALS_TPL_FILE=${GIT_ROOT}/aws-cli.credentials.tpl
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --user)
+            AWS_USER=$2
+            shift 2
+            ;;
+        --const-file)
+            CONST_FILE=$2
+            shift 2
+            ;;
+        --access-key-id)
+            AWS_ACCESS_KEY_ID=$2
+            shift 2
+            ;;
+        --secret-access-key)
+            AWS_SECRET_ACCESS_KEY="$2"
+            shift 2
+            ;;
+        --config-tpl-file)
+            CONFIG_TPL_FILE=$2
+            shift 2
+            ;;
+        --credentials-tpl-file)
+            CREDENTIALS_TPL_FILE=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+[[ -n ${AWS_USER} ]] || {
+    echo_err "Pleaser provide a --user."
+    exit 1
+}
+
+echo_info "Sourcing ${CONST_FILE}."
+set -a
+source ${CONST_FILE}
+set +a
+
+AWS_ACCOUNT_NAME=${AWS_ACCOUNT_NAME:-${DEV_AWS_ACCOUNT_NAME}}
+
+printf "\ec " # clear
+${SUPPORT_FIRECLOUD_DIR}/bin/aws-iam-console-cookie
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Run the above in your browser's DevTools Console."
+read -p "Press enter to continue"
+
+[[ -n ${AWS_ACCESS_KEY_ID} ]] && [[ -n ${AWS_SECRET_ACCESS_KEY} ]] || {
+    exit 0
+}
+
+printf "\ec " # clear
+cat ${CREDENTIALS_TPL_FILE} | envsubst
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Paste the above in your ${AWS_SHARED_CREDENTIALS_FILE:-~/.aws/credentials}."
+read -p "Press enter to continue"
+
+printf "\ec " # clear
+cat ${CONFIG_TPL_FILE} | envsubst
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Paste the above in your ~/.aws/config."
+read -p "Press enter to continue"
+
+printf "\ec " # clear
+echo "source ~/git/firecloud/support-firecloud/bin/aws-iam-login"
+echo
+echo "--------------------------------------------------------------------------------"
+echo "Paste the above in your ~/.bashrc or ~/.profile or similar."
+read -p "Press enter to continue"

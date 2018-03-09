@@ -1,0 +1,69 @@
+#!/usr/bin/env node
+
+let _ = require('lodash');
+
+let envProxy = function({env}) {
+    // eslint-disable-next-line fp/no-proxy
+    return new Proxy(env, {
+      get: function(target, property, _receiver) {
+        if (property === '_') {
+          return target;
+        }
+        if (!_.isString(target[property])) {
+          throw new Error(`env.${property} is undefined.`);
+        }
+        return target[property];
+      }
+    });
+  };
+
+let env = envProxy({env: process.env});
+
+// -----------------------------------------------------------------------------
+
+let rl = [];
+
+let awsAccountIdVars = _.filter(_.keys(env._), function(varName) {
+  return /_AWS_ACCOUNT_ID$/.test(varName);
+});
+
+_.forEach(awsAccountIdVars, function(awsAccountIdVar) {
+  let prefix = _.replace(awsAccountIdVar, /_AWS_ACCOUNT_ID$/, '');
+  let roleVars = _.filter(_.keys(env._), function(varName) {
+    return /_ROLE$/.test(varName) && _.startsWith(varName, `${prefix}_IAM_`);
+  });
+  let roles = _.map(roleVars, function(roleVar) {
+    return env[roleVar];
+  });
+
+  _.forEach(roles, function(r) {
+    let a = env[`${prefix}_AWS_ACCOUNT_NAME`];
+    let c = '';
+
+    if (prefix === 'PROD') {
+      c = 'F2B0A9';
+    }
+
+    rl.push({
+      a,
+      r,
+      d: encodeURIComponent(`${r} @ ${a}`),
+      c
+    });
+  });
+});
+
+let cookieContent = encodeURIComponent(JSON.stringify({
+  bn: env.AWS_USER,
+  ba: env.AWS_ACCOUNT_NAME,
+  rl
+}));
+
+let cookie = [
+  `noflush_awsc-roleInfo=${cookieContent}`,
+  'domain=.aws.amazon.com',
+  'path=/',
+  'secure=yes',
+  `expires=Sat, 29 Dec 2085 19:59:36 GMT`
+].join(';');
+console.log(`document.cookie = '${cookie}';`);
