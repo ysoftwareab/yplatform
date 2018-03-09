@@ -114,7 +114,6 @@ read -p "Press enter to continue"
 
 printf "\ec " # clear
 echo "source ~/git/firecloud/support-firecloud/bin/aws-iam-login"
-echo "alias aws-iam-login=\"~/git/firecloud/support-firecloud/bin/aws-iam-login\""
 echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ~/.bashrc or ~/.profile or similar."
