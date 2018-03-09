@@ -41,11 +41,10 @@ git add
 git commit -m "some changes"
 
 # create a clean (nuked) build
-# and bump the patch version and create a `git` tag via `npm version patch` e.g. v0.0.1
-make nuke all test version
-
-# publish by overwriting it (old v0.0.1 tag is renamed to v0.0.1-src)
-make publish
+# and bump the patch version
+# and create a `git` tag via `npm version patch` e.g. v0.0.1
+# and publish by overwriting it (old v0.0.1 tag is renamed to v0.0.1-src)
+make release
 ```
 
 From this point on, using `git://github.com/tobiipro/minlog.git#v0.0.1`
@@ -86,13 +85,12 @@ git add
 git commit -m "some changes"
 
 # create a clean (nuked) build
-# and bump the patch version and create a `git` tag via `npm version patch` e.g. v0.0.1
-# NOTE: <make nuke all> is not needed, but it's consistent with the npm-publish-git flow
-make nuke all test version
+# and bump the patch version
+# and create a `git` tag via `npm version patch` e.g. v0.0.1
+# and publish by pushing the v0.0.1 tag to the remote
+make release
 
-# push the v0.0.1 tag to the remote
 # this is then picked up by Travis CI, which will then publish the artifacts as a github release
-make publish
 ```
 
 Travis CI is then configured via `.travis.yml` with:
