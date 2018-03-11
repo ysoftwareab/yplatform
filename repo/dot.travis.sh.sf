@@ -2,6 +2,21 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
+function sf_rvm_unfuck() {
+    # from https://github.com/matthew-brett/multibuild/blob/34b988aab60a93fa3c7bd1eb88dd7c4361ca464f/common_utils.sh#L17
+
+    # Work round bug in travis xcode image described at
+    # https://github.com/direnv/direnv/issues/210
+    shell_session_update() { :; }
+
+    # Workaround for https://github.com/travis-ci/travis-ci/issues/8703
+    # suggested by Thomas K at
+    # https://github.com/travis-ci/travis-ci/issues/8703#issuecomment-347881274
+    unset -f cd
+    unset -f pushd
+    unset -f popd
+}
+
 function sf_transcrypt() {
     [ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || \
     [ ! -x "./transcrypt" ] || \
@@ -33,6 +48,7 @@ function sf_travis_run_before_deploy() {
     make dist
 }
 
+sf_rvm_unfuck
 if [ "$(type -t "travis_run_${1}")" = "function" ]; then
     eval "travis_run_${1}"
 elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
