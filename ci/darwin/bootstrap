@@ -6,7 +6,8 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
     true # fails if already installed
 brew update
 brew outdated
-brew upgrade
+# trying to upgrade twice in case of intermediate complaints
+brew upgrade || brew upgrade
 
 echo "Installing/Upgrading git..."
 brew list git >/dev/null 2>&1 || brew install git
