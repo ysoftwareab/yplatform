@@ -73,6 +73,7 @@ curl \
     -H "Authorization: token ${TOKEN}" \
     -d '{"quiet": true}' \
     "https://api.travis-ci.org/job/${JOB_ID}/debug"
+echo
 
 echo_do "Waiting for the tmate session..."
 sleep 90
@@ -96,4 +97,5 @@ curl \
     -H "Travis-API-Version: 3" \
     -H "Authorization: token ${TOKEN}" \
     "https://api.travis-ci.org/job/${JOB_ID}/log" || true
+echo
 echo_done
