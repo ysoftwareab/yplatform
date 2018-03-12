@@ -13,7 +13,7 @@ $(foreach VAR,CURL JQ JSON,$(call make-lazy,$(VAR)))
 
 GIT = $(call which,GIT,git)
 GIT_LS = $(GIT) ls-files
-GIT_LS_NEW = $(GIT_LS) --exclude-standard --others --ignored --directory --no-empty-directory
+GIT_LS_NEW = $(GIT_LS) --others --directory --no-empty-directory
 GIT_LS_SUB = $(CAT) .gitmodules | $(GREP) "path =" | $(SED) "s/.*path = //"
 $(foreach VAR,GIT GIT_LS GIT_LS_NEW GIT_LS_SUB,$(call make-lazy,$(VAR)))
 
