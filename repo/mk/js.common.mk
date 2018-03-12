@@ -23,6 +23,10 @@ SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	node_modules \
 
+SF_DEPS_TARGETS := \
+	$(SF_DEPS_TARGETS) \
+	deps-npm \
+
 # ------------------------------------------------------------------------------
 
 .PHONY: all
@@ -38,13 +42,6 @@ deps-npm:
 	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
-
-
-.PHONY: deps
-deps: ## Fetch dependencies.
-	@$(ECHO_DO) "Fetching dependencies..."
-	$(MAKE) deps-git deps-npm
-	@$(ECHO_DONE)
 
 
 .PHONY: version

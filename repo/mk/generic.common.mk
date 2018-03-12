@@ -42,7 +42,10 @@ JSON_FILES = $(shell $(GIT_LS) | \
 
 SF_CLEAN_FILES := \
 
-SF_BUILD_TARGETS :=
+SF_DEPS_TARGETS := \
+	deps-git \
+
+SF_BUILD_TARGETS := \
 
 SF_CHECK_TARGETS := \
 	lint-ec \
@@ -77,6 +80,15 @@ nuke: ## Nuke (Stash actually) all files/changes not checked in.
 deps-git:
 	$(GIT) submodule sync
 	$(GIT) submodule update --init --recursive
+
+
+.PHONY: deps
+deps: ## Fetch dependencies.
+	[[ "$(words $(SF_DEPS_TARGETS))" = "0" ]] || { \
+		$(ECHO_DO) "Fetching dependencies..."; \
+		$(MAKE) $(SF_DEPS_TARGETS); \
+		$(ECHO_DONE); \
+	}
 
 
 .PHONY: build
