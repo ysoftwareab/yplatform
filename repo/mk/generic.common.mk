@@ -53,6 +53,14 @@ SF_CHECK_TARGETS := \
 
 SF_TEST_TARGETS := \
 
+SNAPSHOT_DIR := snapshot.dir
+SNAPSHOT_ZIP := snapshot.zip
+SNAPSHOT_GIT_HASH := .git_hash
+
+SNAPSHOT_FILES_IGNORE := \
+	-e "^$(SNAPSHOT_DIR)/" \
+	-e "^$(SNAPSHOT_ZIP)$$" \
+
 # ------------------------------------------------------------------------------
 
 .PHONY: all
@@ -133,6 +141,31 @@ test: check ## Check and test.
 		$(MAKE) $(SF_TEST_TARGETS); \
 		$(ECHO_DONE); \
 	}
+
+
+.PHONY: snapshot
+snapshot: ## Create a zip snapshot of all the git content that is not tracked.
+	@$(ECHO_DO) "Creating $(SNAPSHOT_ZIP)..."
+	$(RM) $(SNAPSHOT_DIR)
+	$(MKDIR) $(SNAPSHOT_DIR)
+	for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW) | $(GREP) -v $(SNAPSHOT_FILES_IGNORE)`; do \
+		$(CP) --parents $${f} $(SNAPSHOT_DIR)/; \
+	done
+	$(ECHO) -n "$(GIT_HASH)" > $(SNAPSHOT_DIR)/$(SNAPSHOT_GIT_HASH)
+	cd $(SNAPSHOT_DIR) && $(ZIP) $(GIT_ROOT)/$(SNAPSHOT_ZIP) *
+	@$(ECHO_DONE)
+
+
+.PHONY: reset-to-snapshot
+reset-to-snapshot: ## Reset codebase to the contents of the zip snapshot.
+	@$(ECHO_DO) "Resetting to $(SNAPSHOT_ZIP)..."
+	$(UNZIP) $(SNAPSHOT_ZIP) $(SNAPSHOT_GIT_HASH)
+	$(GIT) reset --hard $(shell $(CAT) ${SNAPSHOT_GIT_HASH})
+	$(GIT) reset --soft $(GIT_HASH_SHORT)
+	$(GIT) clean -xdf -e $(SNAPSHOT_ZIP) -- .
+	$(GIT) reset
+	$(UNZIP) snapshot.zip
+	@$(ECHO_DONE)
 
 
 .PHONY: support-firecloud/update
