@@ -40,7 +40,7 @@ JSON_FILES = $(shell $(GIT_LS) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CLEAN_FILES :=
+SF_CLEAN_FILES := \
 
 SF_BUILD_TARGETS :=
 
@@ -58,9 +58,11 @@ all: deps build check ## Fetch dependencies, build and check.
 
 .PHONY: clean
 clean: ## Clean.
-	@$(ECHO_DO) "Cleaning..."
-	$(RM) $(SF_CLEAN_FILES)
-	@$(ECHO_DONE)
+	[[ "$(words $(SF_CLEAN_FILES))" = "0" ]] || { \
+		$(ECHO_DO) "Cleaning..."; \
+		$(RM) $(SF_CLEAN_FILES); \
+		$(ECHO_DONE); \
+	}
 
 
 .PHONY: nuke
