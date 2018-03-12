@@ -152,7 +152,7 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 		$(CP) --parents $${f} $(SNAPSHOT_DIR)/; \
 	done
 	$(ECHO) -n "$(GIT_HASH)" > $(SNAPSHOT_DIR)/$(SNAPSHOT_GIT_HASH)
-	cd $(SNAPSHOT_DIR) && $(ZIP) $(GIT_ROOT)/$(SNAPSHOT_ZIP) *
+	cd $(SNAPSHOT_DIR) && $(ZIP) $(GIT_ROOT)/$(SNAPSHOT_ZIP) * .*
 	@$(ECHO_DONE)
 
 
@@ -160,7 +160,7 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 reset-to-snapshot: ## Reset codebase to the contents of the zip snapshot.
 	@$(ECHO_DO) "Resetting to $(SNAPSHOT_ZIP)..."
 	$(UNZIP) $(SNAPSHOT_ZIP) $(SNAPSHOT_GIT_HASH)
-	$(GIT) reset --hard $(shell $(CAT) ${SNAPSHOT_GIT_HASH})
+	$(GIT) reset --hard `$(CAT) ${SNAPSHOT_GIT_HASH}`
 	$(GIT) reset --soft $(GIT_HASH_SHORT)
 	$(GIT) clean -xdf -e $(SNAPSHOT_ZIP) -- .
 	$(GIT) reset
