@@ -8,3 +8,15 @@ publish/%:
 	@$(ECHO_DO) "Publishing tag $*..."
 	$(GIT) push $(GIT_REMOTE) $*
 	@$(ECHO_DONE)
+
+
+.PHONY: release
+release: release/patch ## Release a new version (patch level).
+
+
+.PHONY: release/%
+release/%: ## Release a new version with given level (major/minor/patch).
+	@$(ECHO_DO) "Release new $* version..."
+	$(MAKE) version/$* publish
+	$(GIT) push
+	@$(ECHO_DONE)

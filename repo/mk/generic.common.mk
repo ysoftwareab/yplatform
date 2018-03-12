@@ -142,15 +142,3 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 		$(GIT) checkout -f origin/master
 	$(GIT) add support-firecloud
 	$(GIT) commit -m "updated support-firecloud"
-
-
-.PHONY: release
-release: release/patch ## Release a new version (patch level).
-
-
-.PHONY: release/%
-release/%: ## Release a new version with given level (major/minor/patch).
-	@$(ECHO_DO) "Release new $* version..."
-	$(MAKE) nuke all test version/$* publish
-	$(GIT) push
-	@$(ECHO_DONE)
