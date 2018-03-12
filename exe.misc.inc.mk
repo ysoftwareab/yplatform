@@ -6,7 +6,7 @@ GREP_FILENAME = $(GREP) -rl
 LS_ALL = $(LS) -A
 $(foreach VAR,CP_NOSYM DIFF_SS FIND_Q FIND_Q_NOSYM GREP_FILENAME LS_ALL,$(call make-lazy,$(VAR)))
 
-CURL = $(call which,CURL,curl) -qsS
+CURL = $(call which,CURL,curl) -qfsS
 JQ = $(call which,JQ,jq)
 JSON = $(call which,JSON,json) -D " " # to allow / or . in a key
 $(foreach VAR,CURL JQ JSON,$(call make-lazy,$(VAR)))
