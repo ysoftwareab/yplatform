@@ -24,6 +24,7 @@ release: release/patch ## Release a new version (patch level).
 release/%: ## Release a new version with given level (major/minor/patch).
 	@$(ECHO_DO) "Release new $* version..."
 	$(MAKE) nuke all test version/$* publish
+	sleep 15 # allow CI to pick the new tag first
 	$(GIT) push
 	@$(ECHO_DONE)
 
