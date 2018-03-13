@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export T_AWS_IAM_INC_SH_DIR=${T_AWS_IAM_INC_SH_DIR:-$(dirname ${BASH_SOURCE[0]})}
+
 function aws-iam-login() {
     [ $# -eq 1 ] || {
         echo >&2 "Usage: aws-iam-login <profilename>"
@@ -22,8 +24,19 @@ function aws-iam-login() {
     export AWS_REGION=${AWS_DEFAULT_REGION}
     export AWS_ROLE_ARN=$(aws configure get role_arn --profile ${AWS_PROFILE})
 
+    unset AWS_SECRET_ACCESS_KEY
+    unset AWS_ACCESS_KEY_ID
+    unset AWS_SESSION_TOKEN
+
     echo "${AWS_PROFILE} AWS profile is now in use."
-	aws configure list
+    aws configure list # login and obtain a session token
+
+    CREDENTIALS_TEMP=$(mktemp)
+
+    ${T_AWS_IAM_INC_SH_DIR}/aws-get-cli-sts > ${CREDENTIALS_TEMP}
+    source ${CREDENTIALS_TEMP}
+
+    rm -f ${CREDENTIALS_TEMP}
 }
 
 function _aws_profile_completer() {

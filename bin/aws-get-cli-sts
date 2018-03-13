@@ -19,7 +19,7 @@ for f in $(ls -t ~/.aws/cli/cache/); do
     cat ~/.aws/cli/cache/$f | \
         python2 -c 'import sys,json;print json.load(sys.stdin)["AssumedRoleUser"]["Arn"]' | \
         grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
-        AWS_CLI_CACHE_FILE=$f
+        AWS_CLI_CACHE_FILE=$f && \
         break || \
             true
 done
