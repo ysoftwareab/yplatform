@@ -1,9 +1,20 @@
 #!/usr/bin/env node
 
-let _ = require('lodash');
+let _ = require('lodash-firecloud');
 let aws = require('aws-sdk');
 
-let filterUsername = process.env.AWS_USER;
+Promise.longStackTraces();
+
+let parser = new ArgumentParser({});
+_.each({
+  '--filter-user-name': {
+    default: '.*'
+  }
+}, function(options, name) {
+  name = name.split(/[, ]+/);
+  parser.addArgument(name, options);
+});
+let args = parser.parseArgs();
 
 let iam = new aws.IAM();
 
