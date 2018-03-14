@@ -35,7 +35,12 @@ all: deps build check ## Fetch dependencies, build and check.
 
 .PHONY: deps-npm
 deps-npm:
-	$(NPM) install
+	$(eval NPM_LOGS_DIR := $(shell $(NPM) config get cache)/_logs)
+	$(NPM) install || { \
+		$(CAT) $(NPM_LOGS_DIR)/`ls -t $(NPM_LOGS_DIR) | $(HEAD) -1` | \
+			$(GREP) -q "No matching version found for" && \
+			$(NPM) install; \
+	}
 	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/babel-preset-firecloud/npm-install-peer-dependencies; \
 	fi
