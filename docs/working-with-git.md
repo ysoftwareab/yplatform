@@ -5,7 +5,7 @@
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-git submodule add support-firecloud git://github.com/tobiipro/support-firecloud.git
+git submodule add git://github.com/tobiipro/support-firecloud.git
 
 # for a generic repository
 support-firecloud/bin/repo-generic-bootstrap
