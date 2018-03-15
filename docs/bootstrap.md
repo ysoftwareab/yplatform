@@ -1,4 +1,4 @@
-# Boostrap
+# Bootstrap
 
 ## `git`
 
