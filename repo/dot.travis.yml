@@ -15,7 +15,8 @@ env:
     - ""
 
 # 3. Git
-# git:
+git:
+  submodules: false
 branches:
   except:
     - /^f\// # feature branches require PR
