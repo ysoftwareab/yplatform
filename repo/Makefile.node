@@ -6,6 +6,7 @@ endif
 endif
 
 include support-firecloud/repo/mk/js.common.node.mk
+# include support-firecloud/repo/mk/js.deps.private.mk
 # include support-firecloud/repo/mk/js.build.dts.mk
 # include support-firecloud/repo/mk/js.lint.eslint.mk
 # include support-firecloud/repo/mk/js.test.jest.mk
