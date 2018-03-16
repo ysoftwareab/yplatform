@@ -2,12 +2,22 @@ include support-firecloud/repo/mk/js.common.node.mk
 
 # ------------------------------------------------------------------------------
 
+PATH_FILES_IGNORE := \
+	$(PATH_FILES_IGNORE) \
+	-e "^generic/dot.gitattributes_global" \
+	-e "^generic/dot.gitignore_global" \
+	-e "^repo/AUTHORS$$" \
+	-e "^repo/LICENSE$$" \
+	-e "^repo/NOTICE$$" \
+	-e "^repo/UNLICENSE$$" \
+	-e "^repo/cfn/tpl.Makefile$$" \
+
 EC_FILES_IGNORE := \
 	$(EC_FILES_IGNORE) \
 	-e "^bin/" \
 	-e "^repo/LICENSE$$" \
+	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
-	-e "^transcrypt$$" \
 
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \

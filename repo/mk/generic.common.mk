@@ -25,10 +25,33 @@ JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 
 IS_TRANSCRYPTED := $(shell $(GIT) config --local transcrypted.version >/dev/null && echo true || echo false)
 
+SF_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
+
+VENDOR_FILES_IGNORE := \
+	-e "^.transcrypt/" \
+	-e "^LICENSE$$" \
+	-e "^NOTICE$$" \
+	-e "^UNLICENSE$$" \
+	-e "^transcrypt$$" \
+
+PATH_FILES_IGNORE := \
+	-e "^$$" \
+	$(VENDOR_FILES_IGNORE) \
+	-e "^AUTHORS$$" \
+	-e "^README" \
+	-e "/README" \
+	-e "^Makefile" \
+	-e "/Makefile" \
+
 EC_FILES_IGNORE := \
 	-e "^$$" \
-	-e "^LICENSE$$" \
-	-e "^UNLICENSE$$" \
+	$(VENDOR_FILES_IGNORE) \
+
+PATH_FILES = $(shell $(GIT_LS) | \
+	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
+	$(GREP) -v $(PATH_FILES_IGNORE) | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 
 EC_FILES = $(shell $(GIT_LS) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
@@ -40,29 +63,31 @@ JSON_FILES_IGNORE := \
 	-e "^$$" \
 
 JSON_FILES = $(shell $(GIT_LS) | \
+	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
 	$(GREP) -e ".json$$" | \
 	$(GREP) -v $(JSON_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CLEAN_FILES := \
+SF_CLEAN_FILES = \
 
-SF_DEPS_TARGETS := \
+SF_DEPS_TARGETS = \
 	deps-git \
 
-SF_BUILD_TARGETS := \
+SF_BUILD_TARGETS = \
 
-SF_CHECK_TARGETS := \
+SF_CHECK_TARGETS = \
+	lint-path \
 	lint-ec \
 	lint-json \
 
-SF_TEST_TARGETS := \
+SF_TEST_TARGETS = \
 
 SNAPSHOT_DIR := snapshot.dir
 SNAPSHOT_ZIP := snapshot.zip
 SNAPSHOT_GIT_HASH := .git_hash
 
-SNAPSHOT_FILES_IGNORE := \
+SNAPSHOT_FILES_IGNORE = \
 	-e "^$(SNAPSHOT_DIR)/" \
 	-e "^$(SNAPSHOT_ZIP)$$" \
 
@@ -110,6 +135,17 @@ build: ## Build.
 		$(ECHO_DO) "Building..."; \
 		$(MAKE) $(SF_BUILD_TARGETS); \
 		$(ECHO_DONE); \
+	}
+
+
+.PHONY: lint-path
+lint-path:
+	[[ "$(words $(PATH_FILES))" = "0" ]] || { \
+		for f in $(PATH_FILES); do \
+			$(ECHO) "$${f}" | $(GREP) -qv "$(SF_PATH_LINT_RE)" || continue; \
+			$(ECHO_ERR) "$${f} not following file/folder naming convention."; \
+			exit 1; \
+		done; \
 	}
 
 
