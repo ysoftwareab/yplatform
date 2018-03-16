@@ -26,6 +26,7 @@ JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 IS_TRANSCRYPTED := $(shell $(GIT) config --local transcrypted.version >/dev/null && echo true || echo false)
 
 EC_FILES_IGNORE := \
+	-e "^$$" \
 	-e "^LICENSE$$" \
 	-e "^UNLICENSE$$" \
 
@@ -35,8 +36,12 @@ EC_FILES = $(shell $(GIT_LS) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
+JSON_FILES_IGNORE := \
+	-e "^$$" \
+
 JSON_FILES = $(shell $(GIT_LS) | \
 	$(GREP) -e ".json$$" | \
+	$(GREP) -v $(JSON_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
