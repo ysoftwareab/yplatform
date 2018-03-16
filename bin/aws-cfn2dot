@@ -29,7 +29,7 @@ let reduceToDeps = function(acc, statement) {
       _.remove(subRefs, function(subRef) {
         return /^AWS::.+/.test(subRef);
       });
-      _.each(subRefs, function(subRef) {
+      _.forEach(subRefs, function(subRef) {
         subRef = subRef.match(/\$\{([^!][^.}]+)(\..+)?\}/)[1];
         acc.push(subRef);
       });
@@ -41,7 +41,7 @@ let reduceToDeps = function(acc, statement) {
       });
       let subVars = _.keys(statement['Fn::Sub'][1]);
       subRefs = _.without(subRefs, ...subVars);
-      _.each(subRefs, function(subRef) {
+      _.forEach(subRefs, function(subRef) {
         subRef = subRef.match(/\$\{([^!][^.}]+)(\..+)?\}/)[1];
         acc.push(subRef);
       });
@@ -71,12 +71,12 @@ let cfn2graph = function(cfn) {
     subgraphs: []
   };
 
-  _.each(cfn.Resources, function(Resource, name) {
+  _.forEach(cfn.Resources, function(Resource, name) {
     graph.nodes.push({name, type: Resource.Type});
     let deps = findDeps(Resource.Properties);
     deps = deps.concat(Resource.DependsOn || []);
     deps = _.uniq(deps);
-    _.each(deps, function(from) {
+    _.forEach(deps, function(from) {
       graph.edges.push({from, to: name});
     });
   });
@@ -92,9 +92,9 @@ let cfn2graph = function(cfn) {
     edges: []
   };
   graph.subgraphs.push(parametersSubgraph);
-  _.each(cfn.Parameters, function(Parameter, name) {
+  _.forEach(cfn.Parameters, function(Parameter, name) {
     parametersSubgraph.nodes.push({name, type: 'AWS::CloudFormation::Parameter'});
-    _.each(findDeps(Parameter), function(from) {
+    _.forEach(findDeps(Parameter), function(from) {
       parametersSubgraph.edges.push({from, to: name});
     });
   });
@@ -109,10 +109,10 @@ let cfn2graph = function(cfn) {
     edges: []
   };
   graph.subgraphs.push(outputsSubgraph);
-  _.each(cfn.Outputs, function(Output, name) {
+  _.forEach(cfn.Outputs, function(Output, name) {
     name = `output${name}`;
     outputsSubgraph.nodes.push({name, type: 'AWS::CloudFormation::Output'});
-    _.each(findDeps(Output), function(from) {
+    _.forEach(findDeps(Output), function(from) {
       outputsSubgraph.edges.push({from, to: name});
     });
   });
@@ -134,13 +134,13 @@ ${shape}
 ${style}
 `);
 
-  _.each(graph.nodes, function({name, type}) {
+  _.forEach(graph.nodes, function({name, type}) {
     console.log(`"${name}" [label="${name}\n${type}"]`);
   });
 
-  _.each(graph.subgraphs, render);
+  _.forEach(graph.subgraphs, render);
 
-  _.each(graph.edges, function({from, to}) {
+  _.forEach(graph.edges, function({from, to}) {
     // console.log(`"${to}" -> "${from}";`);
     console.log(`"${from}" -> "${to}";`);
   });
