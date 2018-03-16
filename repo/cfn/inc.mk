@@ -122,7 +122,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint $(INC_FILES) ## 
 %.cfn.json.diff: %-setup %.cfn.json %.cfn.json.bak
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE_DIFF)..."
 	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
-		$(CAT) $${f} | $(JSON) -k -a | $(SORT) > sorted.$${f}; \
+		$(CAT) $${f} | $(JQ) -S . | $(SORT) > sorted.$${f}; \
 	done
 	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(CHANGE_SET_FILE_DIFF) || true
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
