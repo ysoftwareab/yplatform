@@ -1,3 +1,22 @@
+VENDOR_FILES_IGNORE := \
+	-e "^node_modules_private/" \
+
+PATH_FILES_IGNORE := \
+	$(PATH_FILES_IGNORE) \
+	$(VENDOR_FILES_IGNORE) \
+
+EC_FILES_IGNORE := \
+	$(EC_FILES_IGNORE) \
+	$(VENDOR_FILES_IGNORE) \
+
+JSON_FILES_IGNORE := \
+	$(JSON_FILES_IGNORE) \
+	$(VENDOR_FILES_IGNORE) \
+
+JS_FILES_IGNORE := \
+	$(JS_FILES_IGNORE) \
+	$(VENDOR_FILES_IGNORE) \
+
 SF_DEPS_TARGETS := \
 	$(SF_DEPS_TARGETS) \
 	deps-node_modules_private \
