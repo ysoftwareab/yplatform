@@ -13,7 +13,7 @@ Software and configuration that support TobiiPro's Cloud Services development.
 * work
   * [working with `git`](docs/working-with-git.md) and Github
   * [how to license](docs/how-to-license.md)
-  * [how to manage secrets](docs/how-to-manage-secrets.md) and [working with gpg](docs/working-with-gpg.md)
+  * [how to manage secrets](docs/how-to-manage-secrets.md) and how to [bootstrap gpg](docs/bootstrap-gpg.md)
   * [how to release](docs/how-to-release.md)
   * [Travis CI](docs/travis-ci.md)
 
