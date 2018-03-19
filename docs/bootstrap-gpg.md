@@ -3,7 +3,7 @@
 ## Bootstrapping your terminal with `gpg` and `keybase`
 
 A more verbose procedure is available at https://github.com/pstadler/keybase-gpg-github
-([local copy](ptradler-keybase-gpg-github.md)).
+([local copy](pstradler-keybase-gpg-github.md)).
 
 `keybase` is recommended for its simplicity and convenience but it is really optional.
 
