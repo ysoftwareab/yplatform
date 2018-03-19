@@ -1,6 +1,10 @@
 BABELRC := $(shell $(FIND_Q) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
 LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
 
+SF_CLEAN_FILES := \
+	$(SF_CLEAN_FILES) \
+	$(LIB_JS_FILES) \
+
 SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	build-babel \
