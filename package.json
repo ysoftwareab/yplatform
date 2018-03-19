@@ -4,8 +4,7 @@
   "description": "Software and configuration that support TobiiPro's Cloud Services development.",
   "version": "0.0.0",
   "license": "Apache-2.0",
-  "files": [
-  ],
+  "files": [],
   "devDependencies": {
     "aws-sdk": "^2.205.0",
     "eclint": "^2.6.0",
