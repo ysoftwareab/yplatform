@@ -72,7 +72,8 @@ Now you can add this to your `.travis.yml` file:
 ```yaml
 env:
   global:
-    - secure: "..." # TRANSCRYPT_PASSWORD
+    # TRANSCRYPT_PASSWORD
+    - secure: "..."
 ```
 
 **NOTE** The decryption of the repository will happen automatically in non-pull-request builds,
