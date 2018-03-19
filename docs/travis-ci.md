@@ -44,12 +44,9 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If you have Travis-specific values to encrypt e.g. a Slack API token for notifications,
 then you can add encrypted values in the `.travis.yml` file that only Travis CI can decrypt.
 
-You can simply use the `travis-encrypt` utility in the `support-firecloud` repository
-and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co.
+If you're working with **public repositories**, you can simply use the `travis-encrypt` utility in the `support-firecloud` repository and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co.
 
-**NOTE** `travis-encrypt` only works for public repositories.
-For private repositories, you still need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb):
-instead of `travis-encrypt --value "..."` type `travis encrypt "..."`.
+For **private repositories**, you still need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb) (on OSX run `brew install travis` to install it) and use `travis encrypt "..."` instead of `travis-encrypt --value "..."` in the examples below.
 
 ```shell
 support-firecloud/bin/travis-encrypt --value something_super_secret
