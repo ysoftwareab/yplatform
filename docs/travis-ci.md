@@ -44,12 +44,12 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If you have Travis-specific values to encrypt e.g. a Slack API token for notifications,
 then you can add encrypted values in the `.travis.yml` file that only Travis CI can decrypt.
 
-If you're working with **public repositories**, you can simply use the `travis-encrypt` utility in the `support-firecloud` repository and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co.
+**NOTE** If you're working with **public repositories**, you can simply use the `travis-encrypt` utility in the `support-firecloud` repository and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co. Use `support-firecloud/bin/travis-encrypt --value "..."` instead of `travis encrypt "..."` in the examples below.
 
-For **private repositories**, you still need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb) (on OSX run `brew install travis` to install it) and use `travis encrypt "..."` instead of `travis-encrypt --value "..."` in the examples below.
+For **private repositories**, you need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb). On OSX run `brew install travis` to install it.
 
 ```shell
-support-firecloud/bin/travis-encrypt --value something_super_secret
+travis encrypt something_super_secret
 ```
 
 Now you can add the `secret: "..."` text to your `.travis.yml` file.
@@ -64,7 +64,7 @@ If your repository is `transcrypt`-ed, and you want to access the secrets in Tra
 
 ```shell
 cd path/to/repo
-support-firecloud/bin/travis-encrypt --value "TRANSCRYPT_PASSWORD=<password>"
+travis encrypt "TRANSCRYPT_PASSWORD=<password>"
 ```
 
 Now you can add this to your `.travis.yml` file:
