@@ -1,6 +1,6 @@
 # the g-prefixed commands are supposed to cater for Mac OSX (i.e. homebrew, etc)
 
-AWK = $(call which,GNU_AWK,gawk awk)
+AWK = $(call which,AWK,gawk awk)
 BASENAME = $(call which,BASENAME,gbasename basename)
 CAT = $(call which,CAT,gcat cat)
 CHMOD = $(call which,CHMOD,gchmod chmod)
