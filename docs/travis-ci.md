@@ -13,7 +13,8 @@ and enable Travis CI integration for your repository.
 
 **NOTE** It is recommended that on the repository's Travis CI settings page you
 * enable `Build only if .travis.yml is present`
-* **if you have long-running builds such as deployment to AWS CloudFormation**, enable `Limit concurrent jobs: 1`
+* **if you have long-running builds such as deployment to AWS CloudFormation**,  
+  enable `Limit concurrent jobs: 1`
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
 * add cronjob `master - daily - Always run`
