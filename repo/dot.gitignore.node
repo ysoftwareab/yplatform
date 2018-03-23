@@ -1,6 +1,5 @@
 /.npmignore
 /coverage/
 /lib/
-/node_modules/
 /snapshot.dir/
 /snapshot.zip
