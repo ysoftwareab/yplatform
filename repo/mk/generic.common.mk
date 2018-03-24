@@ -211,8 +211,6 @@ reset-to-snapshot: ## Reset codebase to the contents of the zip snapshot.
 
 .PHONY: support-firecloud/update
 support-firecloud/update: ## Update support-firecloud to latest master commit.
-	cd support-firecloud; \
-		$(GIT) fetch; \
-		$(GIT) checkout -f origin/master
+	$(GIT) submodule update --init --recursive --remote support-firecloud
 	$(GIT) add support-firecloud
 	$(GIT) commit -m "updated support-firecloud"
