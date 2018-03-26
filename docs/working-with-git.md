@@ -47,13 +47,20 @@ Once you created the Github repository, remember to (see sections below):
 
 ### Add teams and collaborators
 
+Go to `Settings` tab -> `Collaborators & Teams`.
+
 * add entire teams, not individual team members
-* when adding your team, give it admin access
+* if adding your team (who owns the repo), give it admin access
+* remove yourself from collaborators (if you were added automatically by Github)
 
 
 ### Add topics
 
+Go to `Code` tab.
+
 Topics will make it easier to filter our repositories, both public and private ones.
+
+**Topics are also public, making them a good marketing trick. So unless the topic is generic, do prefix it with tobii- or tobii-pro- !!!**
 
 * team/project name e.g. `tobii-firecloud`, `tobii-pro-sdk`
 * purpose e.g, `eslint-config` or `eslint-plugin`
