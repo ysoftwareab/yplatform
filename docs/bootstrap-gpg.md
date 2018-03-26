@@ -26,11 +26,13 @@ keybase pgp export --secret | gpg --import --allow-secret-key-import
 
 ```shell
 keybase search <recipient>
-curl https://keybase.io/<recipient>/key.asc | gpg --import -
+curl https://keybase.io/<keybase_username>/key.asc | gpg --import -
 ```
 
 
 ## Search for a key on a `pgp` server and import it
+
+**NOTE** recipient = an email or a gpg key id
 
 ```shell
 gpg --search-keys <recipient>
