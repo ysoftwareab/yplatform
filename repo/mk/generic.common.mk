@@ -189,9 +189,13 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 	@$(ECHO_DO) "Creating $(SNAPSHOT_ZIP)..."
 	$(RM) $(SNAPSHOT_DIR)
 	$(MKDIR) $(SNAPSHOT_DIR)
-	for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW) | $(GREP) -v $(SNAPSHOT_FILES_IGNORE)`; do \
+	# for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW) | $(GREP) -v $(SNAPSHOT_FILES_IGNORE)`; do \
+	# first copying, then ignoring=deleting because of for-loop limits
+	for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW)`; do \
 		$(CP) --parents $${f} $(SNAPSHOT_DIR)/; \
 	done
+	cd $(SNAPSHOT_DIR) && \
+		$(FIND_Q) . -type f | $(SED) "s|^\./||g" | $(GREP) $(SNAPSHOT_FILES_IGNORE) | $(XARGS) $(RM)
 	$(ECHO) -n "$(GIT_HASH)" > $(SNAPSHOT_DIR)/$(SNAPSHOT_GIT_HASH)
 	cd $(SNAPSHOT_DIR) && $(ZIP) -q $(GIT_ROOT)/$(SNAPSHOT_ZIP) * .*
 	@$(ECHO_DONE)
