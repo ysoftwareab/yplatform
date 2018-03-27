@@ -54,10 +54,13 @@ function travis_echo() {
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
             [[ -n "${GROUP}" ]] || {
                 GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
+                GROUP_CREATED_AGO=$(stat -c '%Z' $(ls -t /tmp/travis_fold_* | head -n1))
+                [[ -z ${GROUP_CREATED_AGO} ]] ||
+                    GROUP_CREATED_AGO=$(($(date +%s) - ${GROUP_CREATED_AGO}))
                 ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
             }
             basic_travis_echo "end:${GROUP}"
-            date +"%H:%M:%S"
+            echo "$(date +"%H:%M:%S"), ${GROUP_CREATED_AGO:-some} seconds since [DO  ]"
             return 0
         ;;
         *)
