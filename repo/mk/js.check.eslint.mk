@@ -2,7 +2,6 @@ ESLINT = $(call which,ESLINT,eslint)
 ESLINT_ARGS ?= \
 	--ignore-pattern '!.babelrc.js' \
 	--ignore-pattern '!.eslintrc.js' \
-	--config $(MAKE_PATH)/node_modules/eslint-config-firecloud/no-ide.js \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
