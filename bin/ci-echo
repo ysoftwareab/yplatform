@@ -40,6 +40,7 @@ function basic_travis_echo() {
 }
 
 function travis_echo() {
+    date +"%H:%M:%S"
     case $1 in
         "[DO  ]")
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
@@ -56,6 +57,7 @@ function travis_echo() {
                 ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
             }
             basic_travis_echo "end:${GROUP}"
+            date +"%H:%M:%S"
             return 0
         ;;
         *)
