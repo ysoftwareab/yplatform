@@ -145,7 +145,7 @@ fi
 
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 Stack does not exist, thus change-sets are not applicable.
+        echo >&2 "Stack does not exist, thus change-sets are not applicable."
         exit 1
     fi
     echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
@@ -159,7 +159,7 @@ if [[ -n ${CREATE_CHANGE_SET} ]]; then
     exit 0
 elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 Stack does not exist, thus change-sets are not applicable.
+        echo >&2 "Stack does not exist, thus change-sets are not applicable."
         exit 1
     fi
     if [[ -n ${CHANGE_SET_FILE} ]]; then
