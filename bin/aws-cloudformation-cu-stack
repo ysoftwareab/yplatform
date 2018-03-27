@@ -150,11 +150,11 @@ if [[ -n ${CREATE_CHANGE_SET} ]]; then
     fi
     echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+    echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
     CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
     TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
     aws cloudformation wait change-set-create-complete ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
     aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
-    echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
     cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
     exit 0
 elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
@@ -182,11 +182,11 @@ else
 
         echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} $@ | json "Id")
+        echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
         TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
         aws cloudformation wait change-set-create-complete ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
-        echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
         cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
 
         echo "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
