@@ -6,16 +6,16 @@ Software and configuration that support TobiiPro's Cloud Services development.
 ## Documentation
 
 * development
-  * [bootstrap](docs/bootstrap.md)
-  * [bootstrap-your-editor](docs/bootstrap-your-editor.md)
-  * [working with a local `npm` dependency](docs/working-with-a-local-npm-dep.md)
+  * [bootstrap](doc/bootstrap.md)
+  * [bootstrap-your-editor](doc/bootstrap-your-editor.md)
+  * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
 
 * work
-  * [working with `git`](docs/working-with-git.md) and Github
-  * [how to license](docs/how-to-license.md)
-  * [how to manage secrets](docs/how-to-manage-secrets.md) and how to [bootstrap gpg](docs/bootstrap-gpg.md)
-  * [how to release](docs/how-to-release.md)
-  * [Travis CI](docs/travis-ci.md)
+  * [working with `git`](doc/working-with-git.md) and Github
+  * [how to license](doc/how-to-license.md)
+  * [how to manage secrets](doc/how-to-manage-secrets.md) and how to [bootstrap gpg](doc/bootstrap-gpg.md)
+  * [how to release](doc/how-to-release.md)
+  * [Travis CI](doc/travis-ci.md)
 
 
 ## License

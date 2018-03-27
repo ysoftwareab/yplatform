@@ -28,7 +28,7 @@ SF_TEST_TARGETS := \
 .PHONY: test-secret
 ifeq (true,$(IS_TRANSCRYPTED))
 test-secret:
-	$(CAT) docs/how-to-manage-secrets.md.test.secret | \
+	$(CAT) doc/how-to-manage-secrets.md.test.secret | \
 		$(GREP) -q "This is a test of transcrypt."; \
 else
 test-secret:
