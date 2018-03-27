@@ -2,15 +2,18 @@
 
 ## Bootstrapping your terminal with `gpg` and `keybase`
 
-A more verbose procedure is available at https://github.com/pstadler/keybase-gpg-github
-([local copy](pstradler-keybase-gpg-github.md)).
-
-`keybase` is recommended for its simplicity and convenience but it is really optional.
-
 ```shell
 # install gnu gpg suite; for example, on OSX you can run
 brew cask install gpg-suite
+```
 
+**FOLLOW THE INSTRUCTIONS IN** https://github.com/pstadler/keybase-gpg-github
+([local copy](pstradler-keybase-gpg-github.md)).
+Use `Method 2` in `Optional: In case you're prompted to enter the password every time`.
+
+**NOTE** `keybase` is recommended for its simplicity and convenience but it is really optional.
+
+```shell
 # download the keybase app; for example, on OSX you can run
 brew cask install keybase
 
