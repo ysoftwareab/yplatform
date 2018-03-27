@@ -40,17 +40,16 @@ function basic_travis_echo() {
 }
 
 function travis_echo() {
-    date +"%H:%M:%S"
     case $1 in
         "[DO  ]")
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
             echo -n "${GROUP}" > /tmp/travis_fold_${RANDOM}
             basic_travis_echo "start:${GROUP}"
-            fallback_echo "$@"
+            fallback_echo "$(date +"%H:%M:%S") $@"
             return 0
         ;;
         "[DONE]")
-            fallback_echo "$@"
+            fallback_echo "$(date +"%H:%M:%S") $@"
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
             [[ -n "${GROUP}" ]] || {
                 GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
@@ -60,14 +59,14 @@ function travis_echo() {
                 ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
             }
             basic_travis_echo "end:${GROUP}"
-            echo "$(date +"%H:%M:%S"), ${GROUP_CREATED_AGO:-some} seconds since [DO  ]"
+            echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO:-some} seconds"
             return 0
         ;;
         *)
         ;;
     esac
 
-    fallback_echo "$@"
+    fallback_echo "$(date +"%H:%M:%S") $@"
 }
 
 function basic_teamcity_echo() {
