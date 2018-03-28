@@ -9,9 +9,11 @@ matrix:
       dist: trusty
       sudo: required
       env: CACHE_NAME=linux-trusty-required
+      if: branch = master
     - os: osx
       osx_image: xcode8.3
       env: CACHE_NAME=osx-xcode8.3
+      if: branch = master
 
 # 1. Notifications
 notifications:
