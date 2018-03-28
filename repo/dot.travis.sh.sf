@@ -22,7 +22,10 @@ function sf_private_submodules() {
     [ -z "${GH_TOKEN:-}" ] || {
         echo "Found GH_TOKEN, setting up github.com HTTPS authentication..."
         echo -e "machine github.com\n  login ${GH_TOKEN}" >> ~/.netrc
+
+        # cover git submodules's canonical ssh url
         git config --global url.https://github.com/tobiipro/.insteadOf git@github.com:tobiipro/
+        # cover npm package.json's canonical git+ssh url
         git config --global url.https://github.com/tobiipro/.insteadOf ssh://git@github.com/tobiipro/
     }
 }
