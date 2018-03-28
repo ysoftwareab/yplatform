@@ -19,7 +19,10 @@ function sf_rvm_unfuck() {
 
 function sf_private_submodules() {
     [ -z "${GH_TOKEN:-}" ] || {
+        echo "Found GH_TOKEN, setting up github.com HTTPS authentication..."
         echo -e "machine github.com\n  login ${GH_TOKEN}" >> ~/.netrc
+        git config --global url.https://github.com/tobiipro/.insteadOf git@github.com/tobiipro/
+        # git config --global url.https://github.com/tobiipro/.insteadOf ssh://github.com/tobiipro/
     }
 }
 
