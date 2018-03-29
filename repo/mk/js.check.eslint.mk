@@ -1,11 +1,11 @@
+SF_CHECK_TARGETS := \
+	$(SF_CHECK_TARGETS) \
+	lint-js \
+
 ESLINT = $(call which,ESLINT,eslint)
 ESLINT_ARGS ?= \
 	--ignore-pattern '!.babelrc.js' \
 	--ignore-pattern '!.eslintrc.js' \
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
-	lint-js \
 
 # ------------------------------------------------------------------------------
 
