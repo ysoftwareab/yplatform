@@ -40,7 +40,7 @@ function basic_travis_echo() {
 }
 
 function travis_echo() {
-    local REL_PWD=$(python2 -c "import os.path; print os.path.relpath('${HOME}', '$(pwd)')")
+    local REL_PWD=$(python -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
     local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
 
     case $1 in
@@ -60,7 +60,7 @@ function travis_echo() {
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     # GROUP_CREATED_AGO=$(date +%s -r ${GROUP_MARKER} 2>/dev/null)
-                    GROUP_CREATED_AGO=$(python2 -c "import os.path, time; print int(os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null)
+                    GROUP_CREATED_AGO=$(python -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null)
                     [[ -z ${GROUP_CREATED_AGO} ]] ||
                         GROUP_CREATED_AGO=$(( $(date +%s) - ${GROUP_CREATED_AGO} ))
                     rm -f ${GROUP_MARKER}
@@ -87,7 +87,7 @@ function basic_teamcity_echo() {
 function teamcity_echo() {
     local STATUS=NORMAL
     local STEP="$1"
-    local REL_PWD=$(python2 -c "import os.path; print os.path.relpath('${HOME}', '$(pwd)')")
+    local REL_PWD=$(python2 -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
     local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
 
     case $1 in
