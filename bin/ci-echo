@@ -97,11 +97,13 @@ function teamcity_echo() {
             return 0
         ;;
         "[DONE]")
-            [[ -z "${MESSAGE}" ]] && {
-                PWD_MESSAGE="$(ls -t /tmp/teamcity_block_* | head -n1 | xargs cat || echo "")"
-                ls -t /tmp/teamcity_block_* | head -n1 | xargs rm || true
-            } || {
-                PWD_MESSAGE="$(pwd) ${MESSAGE}"
+            PWD_MESSAGE="$(pwd) ${MESSAGE:-}"
+            [[ -n "${MESSAGE}" ]] || {
+                BLOCK_MARKER=$(ls -t /tmp/teamcity_block_* | head -n1 2>/dev/null)
+                [[ ! -f ${BLOCK_MARKER} ]] || {
+                    PWD_MESSAGE="$(cat ${BLOCK_MARKER})"
+                    rm -f ${BLOCK_MARKER}
+                }
             }
             basic_teamcity_echo "blockClosed name='${PWD_MESSAGE}'"
             return 0
