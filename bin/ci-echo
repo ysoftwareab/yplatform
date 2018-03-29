@@ -51,15 +51,19 @@ function travis_echo() {
         "[DONE]")
             fallback_echo "$(date +"%H:%M:%S") $@"
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
+            GROUP_CREATED_AGO=some
             [[ -n "${GROUP}" ]] || {
-                GROUP="$(ls -t /tmp/travis_fold_* | head -n1 | xargs cat || echo "")"
-                GROUP_CREATED_AGO=$(stat -c '%Z' $(ls -t /tmp/travis_fold_* | head -n1))
-                [[ -z ${GROUP_CREATED_AGO} ]] ||
-                    GROUP_CREATED_AGO=$(($(date +%s) - ${GROUP_CREATED_AGO}))
-                ls -t /tmp/travis_fold_* | head -n1 | xargs rm || true
+                GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null)
+                [[ ! -f ${GROUP_MARKER} ]] || {
+                    GROUP=$(cat ${GROUP_MARKER})
+                    GROUP_CREATED_AGO=$(date +%s -r ${GROUP_MARKER} 2>/dev/null)
+                    [[ -z ${GROUP_CREATED_AGO} ]] ||
+                        GROUP_CREATED_AGO=$(( $(date +%s) - ${GROUP_CREATED_AGO} ))
+                    rm -f ${GROUP_MARKER}
+                }
             }
             basic_travis_echo "end:${GROUP}"
-            echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO:-some} seconds"
+            echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
             return 0
         ;;
         *)
