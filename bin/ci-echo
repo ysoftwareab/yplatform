@@ -42,9 +42,9 @@ function basic_travis_echo() {
 function travis_echo() {
     case $1 in
         "[DO  ]")
-            GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
-            echo -n "${GROUP}" > /tmp/travis_fold_${RANDOM}
-            basic_travis_echo "start:${GROUP}"
+            PWD_GROUP="$(echo "$(pwd) ${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
+            echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
+            basic_travis_echo "start:${PWD_GROUP}"
             fallback_echo "$(date +"%H:%M:%S") $@"
             return 0
         ;;
@@ -52,17 +52,18 @@ function travis_echo() {
             fallback_echo "$(date +"%H:%M:%S") $@"
             GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
             GROUP_CREATED_AGO=some
+            PWD_GROUP="$(pwd) ${GROUP}"
             [[ -n "${GROUP}" ]] || {
                 GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null)
                 [[ ! -f ${GROUP_MARKER} ]] || {
-                    GROUP=$(cat ${GROUP_MARKER})
+                    PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_CREATED_AGO=$(date +%s -r ${GROUP_MARKER} 2>/dev/null)
                     [[ -z ${GROUP_CREATED_AGO} ]] ||
                         GROUP_CREATED_AGO=$(( $(date +%s) - ${GROUP_CREATED_AGO} ))
                     rm -f ${GROUP_MARKER}
                 }
             }
-            basic_travis_echo "end:${GROUP}"
+            basic_travis_echo "end:${PWD_GROUP}"
             echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
             return 0
         ;;
