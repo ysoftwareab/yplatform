@@ -1,15 +1,18 @@
 TSFMT = $(call which,TSFMT,tsfmt)
 TSLINT = $(call which,TSLINT,tslint)
-TSLINT_ARGS =
+TSLINT_ARGS ?=
+TSLINT_ARGS := \
+	$(TSLINT_ARGS) \
+
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-ts \
+	lint-tslint \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-ts
-lint-ts:
+.PHONY: lint-tslint
+lint-tslint:
 	[[ "$(words $(TS_FILES))" = "0" ]] || { \
 		$(TSLINT) $(TSLINT_ARGS) $(TS_FILES) || { \
 			$(TSLINT) $(TSLINT_ARGS) --fix $(TS_FILES) 2>/dev/null >&2; \

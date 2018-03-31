@@ -6,9 +6,9 @@ SF_DEPS_TARGETS := \
 	$(SF_DEPS_TARGETS) \
 	deps-npm \
 
-ifdef EC_FILES_IGNORE
-EC_FILES_IGNORE := \
-	$(EC_FILES_IGNORE) \
+ifdef SF_ECLINT_FILES_IGNORE
+SF_ECLINT_FILES_IGNORE := \
+	$(SF_ECLINT_FILES_IGNORE) \
 	-e "^package-lock.json$$" \
 
 endif

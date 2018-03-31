@@ -1,14 +1,13 @@
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
-TRAVIS ?=
-ifeq (true,$(TRAVIS))
+ifdef TRAVIS_BRANCH
 GIT_BRANCH = $(TRAVIS_BRANCH)
 endif
 
 CI_ECHO := $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 
-VENDOR_FILES_IGNORE := \
+SF_VENDOR_FILES_IGNORE := \
 	-e "^$$" \
 	-e "^LICENSE$$" \
 	-e "^NOTICE$$" \

@@ -1,3 +1,5 @@
+# ------------------------------------------------------------------------------
+
 publish:
 	@$(ECHO_DO) "Publishing version..."
 	$(GIT) push $(GIT_REMOTE) v`$(CAT) "package.json" | $(JSON) "version"`

@@ -1,3 +1,5 @@
+# ------------------------------------------------------------------------------
+
 .PHONY: version
 version: version/patch ## Bump version (patch level).
 

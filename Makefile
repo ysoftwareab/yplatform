@@ -2,8 +2,8 @@ include support-firecloud/repo/mk/js.common.node.mk
 
 # ------------------------------------------------------------------------------
 
-PATH_FILES_IGNORE := \
-	$(PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE := \
+	$(SF_PATH_FILES_IGNORE) \
 	-e "^generic/dot.gitattributes_global" \
 	-e "^generic/dot.gitignore_global" \
 	-e "^repo/AUTHORS$$" \
@@ -12,8 +12,8 @@ PATH_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^repo/cfn/tpl.Makefile$$" \
 
-EC_FILES_IGNORE := \
-	$(EC_FILES_IGNORE) \
+SF_ECLINT_FILES_IGNORE := \
+	$(SF_ECLINT_FILES_IGNORE) \
 	-e "^bin/" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/UNLICENSE$$" \
@@ -26,11 +26,10 @@ SF_TEST_TARGETS := \
 # ------------------------------------------------------------------------------
 
 .PHONY: test-secret
-ifeq (true,$(IS_TRANSCRYPTED))
 test-secret:
+ifeq (true,$(SF_IS_TRANSCRYPTED))
 	$(CAT) doc/how-to-manage-secrets.md.test.secret | \
 		$(GREP) -q "This is a test of transcrypt."; \
 else
-test-secret:
 	:
 endif
