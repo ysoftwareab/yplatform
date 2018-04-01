@@ -1,5 +1,6 @@
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
+PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
 PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
 export PATH
 
