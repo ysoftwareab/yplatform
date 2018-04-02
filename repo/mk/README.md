@@ -26,9 +26,9 @@ include support-firecloud/repo/mk/...
 The pieces **MUST** be included in this order:
 
 * common
+* check (not intuitive, but allows for following pieces to alter check vars)
 * deps
 * build
-* check
 * test
 * publish
 * misc
