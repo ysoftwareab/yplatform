@@ -65,7 +65,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint ## Generate stac
 		$(ECHO_WARN) "Validating the template will not take place."; \
 		$(ECHO_WARN) "You will also need to manually create this stack via AWS console."; \
 	} fi
-	[[ $(DOT) != "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
+	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
 		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
 	@$(ECHO_DONE)
 
