@@ -94,3 +94,4 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 	$(GIT) submodule update --init --recursive --remote support-firecloud
 	$(GIT) add support-firecloud
 	$(GIT) commit -m "updated support-firecloud"
+	$(GIT) submodule update --init --recursive support-firecloud
