@@ -41,11 +41,11 @@ function basic_travis_echo() {
 
 function travis_echo() {
     local REL_PWD=$(python -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
-    local GROUP="$(echo "${@:2}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
+    local GROUP="${@:2}"
+    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
 
     case $1 in
         "[DO  ]")
-            PWD_GROUP="${REL_PWD} ${GROUP}"
             echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
             basic_travis_echo "start:${PWD_GROUP}"
             fallback_echo "$(date +"%H:%M:%S") $@"
@@ -54,7 +54,6 @@ function travis_echo() {
         "[DONE]")
             fallback_echo "$(date +"%H:%M:%S") $@"
             GROUP_CREATED_AGO=some
-            PWD_GROUP="${REL_PWD} ${GROUP}"
             [[ -n "${GROUP}" ]] || {
                 GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null)
                 [[ ! -f ${GROUP_MARKER} ]] || {
@@ -89,6 +88,7 @@ function teamcity_echo() {
     local STEP="$1"
     local REL_PWD=$(python2 -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
     local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
+    local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
 
     case $1 in
         "[NEXT]")
@@ -96,13 +96,11 @@ function teamcity_echo() {
             return 0
         ;;
         "[DO  ]")
-            PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
             echo -n "${PWD_MESSAGE}" > /tmp/teamcity_block_${RANDOM}
             basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
         ;;
         "[DONE]")
-            PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
             [[ -n "${MESSAGE}" ]] || {
                 BLOCK_MARKER=$(ls -t /tmp/teamcity_block_* | head -n1 2>/dev/null)
                 [[ ! -f ${BLOCK_MARKER} ]] || {
