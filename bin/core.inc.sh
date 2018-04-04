@@ -28,7 +28,7 @@ GIT_BRANCH_SHORT=$(basename ${GIT_BRANCH})
 GIT_TAGS=$(git describe --exact-match --tags HEAD 2>/dev/null || true)
 GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 
-[[ ${TRAVIS:-} != true ]] || {
+[[ -z "${TRAVIS_BRANCH:-}" ]] || {
     GIT_BRANCH=${TRAVIS_BRANCH}
     GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
 }
