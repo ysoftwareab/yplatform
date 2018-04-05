@@ -19,6 +19,7 @@ MKDIR = $(call which,MKDIR,gmkdir mkdir) -p
 MKTEMP = $(call which,MKTEMP,gmktemp mktemp) -t core-inc-mk.XXXXXXXXXX
 MV = $(call which,MV,gmv mv) -f
 PARALLEL = $(call which,PARALLEL,gparallel parallel) --will-cite
+REALPATH = $(call which,REALPATH,grealpath realpath)
 RM = $(call which,RM,grm rm) -rf
 SED = $(call which,SED,gsed sed)
 SHA256SUM = $(call which,SHA256SUM,gsha256sum sha256sum)
@@ -30,4 +31,4 @@ TOUCH = $(call which,TOUCH,gtouch touch)
 TR = $(call which,TR,gtr tr)
 WATCH = $(call which,WATCH,gwatch watch)
 XARGS = $(call which,XARGS,gxargs xargs)
-$(foreach VAR,AWK BASENAME CAT CHMOD CHOWN COMM CP CUT DIFF FIND ECHO GREP HEAD LS MD5SUM MKDIR MKTEMP MV PARALLEL RM SED SHA256SUM SORT TAR TAIL TEE TOUCH TR WATCH XARGS,$(call make-lazy,$(VAR)))
+$(foreach VAR,AWK BASENAME CAT CHMOD CHOWN COMM CP CUT DIFF FIND ECHO GREP HEAD LS MD5SUM MKDIR MKTEMP MV PARALLEL REALPATH RM SED SHA256SUM SORT TAR TAIL TEE TOUCH TR WATCH XARGS,$(call make-lazy,$(VAR)))
