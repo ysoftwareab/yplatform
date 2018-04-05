@@ -7,7 +7,7 @@ CACHE_DIR=${SUPPORT_FIRECLOUD_CACHE_DIR}
 CACHE_KEEP=true
 PREFIX=/usr/local
 
-[ ${EUID} -eq 0 ] || PREFIX=${HOME}/.local
+[ "${EUID}" -eq 0 ] || PREFIX=${HOME}/.local
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -42,7 +42,7 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-[ -n ${VSN} ] || {
+[ -n "${VSN}" ] || {
     echo_err "Please provide a --version."
     exit 1
 }
