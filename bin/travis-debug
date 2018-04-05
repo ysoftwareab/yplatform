@@ -16,6 +16,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 TOKEN=
 JOB_ID=
+TRAVIS_DOMAIN=travis-ci.org
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -24,8 +25,12 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --job)
-            JOB_ID=$(basename "$2")
+            JOB_ID=$2
             shift 2
+            ;;
+        --pro)
+            TRAVIS_DOMAIN=travis-ci.com
+            shift
             ;;
         -h|--help)
             sh_script_usage
@@ -59,10 +64,23 @@ function get_tmate_cmd() {
         -H "Accept: application/json" \
         -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TOKEN}" \
-        "https://api.travis-ci.org/job/${JOB_ID}/log" | \
+        "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/log" | \
         json "content" | \
         grep -o "ssh .\+\.tmate\.io" || true
 }
+
+[[ ! "${JOB_ID}" =~ /builds/ ]] || {
+    JOB_ID=$(basename "${JOB_ID}")
+    JOB_ID=$(curl \
+        -fqs \
+        -X GET \
+        -H "Accept: application/json" \
+        -H "Travis-API-Version: 3" \
+        -H "Authorization: token ${TOKEN}" \
+        "https://api.${TRAVIS_DOMAIN}/build/${JOB_ID}" | \
+        json "jobs[0].id")
+}
+JOB_ID=$(basename "${JOB_ID}")
 
 curl \
     -fssS \
@@ -72,7 +90,7 @@ curl \
     -H "Travis-API-Version: 3" \
     -H "Authorization: token ${TOKEN}" \
     -d '{"quiet": true}' \
-    "https://api.travis-ci.org/job/${JOB_ID}/debug"
+    "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/debug"
 echo
 
 echo_do "Waiting for the tmate session..."
@@ -96,6 +114,6 @@ curl \
     -X DELETE \
     -H "Travis-API-Version: 3" \
     -H "Authorization: token ${TOKEN}" \
-    "https://api.travis-ci.org/job/${JOB_ID}/log" || true
+    "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/log" || true
 echo
 echo_done
