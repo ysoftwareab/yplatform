@@ -99,6 +99,8 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH)"
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	@$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
-	cd $(SF_SUBMODULE_PATH) && \
-		$(GIT) log --oneline --no-color --no-decorate $(SF_COMMIT)..
+	cd $(SF_SUBMODULE_PATH) && { \
+		$(GIT) log --oneline --no-color --no-decorate $(SF_COMMIT)..; \
+		$(GIT) diff --stat $(SF_COMMIT)..; \
+	}
 	@$(ECHO_DONE)
