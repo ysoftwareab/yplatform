@@ -2,7 +2,10 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-VSN=${VSN_BASH:-4.4}
+PKG=
+VSN=
+TAR_NAME=
+TAR_URL=
 CACHE_DIR=${SUPPORT_FIRECLOUD_CACHE_DIR}
 CACHE_KEEP=true
 PREFIX=/usr/local
@@ -11,6 +14,22 @@ PREFIX=/usr/local
 
 while [ $# -gt 0 ]; do
     case "$1" in
+        --pkg)
+            PKG=$2
+            shift 2
+            ;;
+        --vsn)
+            VSN=$2
+            shift 2
+            ;;
+        --tar-name)
+            TAR_NAME=$2
+            shift 2
+            ;;
+        --tar-url)
+            TAR_URL=$2
+            shift 2
+            ;;
         --prefix)
             PREFIX=$2
             shift 2
@@ -22,10 +41,6 @@ while [ $# -gt 0 ]; do
         --no-keep)
             CACHE_KEEP=false
             shift
-            ;;
-        --vsn)
-            VSN=$2
-            shift 2
             ;;
         -h|--help)
             sh_script_usage
@@ -47,8 +62,12 @@ done
     exit 1
 }
 
-TAR_NAME=bash-${VSN}
-TAR_URL=https://ftp.gnu.org/gnu/bash/${TAR_NAME}.tar.gz
+[ -n "${TAR_NAME}" ] || TAR_NAME=${PKG}-${VSN}
+[ -n "${TAR_URL}" ] || TAR_URL=https://ftp.gnu.org/gnu/${PKG}/${TAR_NAME}.tar.gz
+
+TAR_NAME="$(echo "${TAR_NAME}" | PKG=${PKG} VSN=${VSN} envsubst)"
+TAR_URL="$(echo "${TAR_URL}" | PKG=${PKG} VSN=${VSN} envsubst)"
+
 CONFIGURE_ARGS="${CONFIGURE_ARGS:-} --prefix=${PREFIX}"
 
 cd ${CACHE_DIR}

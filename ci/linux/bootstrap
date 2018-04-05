@@ -90,15 +90,16 @@ apt_install "${DPKGS}"
 echo_done
 
 echo_do "Installing GNU Bash..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-bash
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg bash --vsn 4.4
 echo_done
 
 echo_do "Installing GNU Make..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-make
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg make --vsn 4.2.1
 echo_done
 
 echo_do "Installing JQ..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-jq
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg jq --vsn 1.5 \
+    --tar-url "https://github.com/stedolan/jq/releases/download/jq-\${VSN}/\${TAR_NAME}.tar.gz"
 echo_done
 
 # AWS
