@@ -86,3 +86,14 @@ if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 ## Releases
 
 If you are planning to do release via Travis CI, see [how to release](how-to-release.md).
+
+
+## Debugging
+
+If you experience failures and you want to debug inside a Travis worker, see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
+
+You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
+- X is the token that you see at https://travis-ci.org/profile/ (for public repositories) and https://travis-ci.com/profile/ (for private repositories)
+- Y can be a numeric job ID or a job URL or even a build URL (most useful)
+
+Add the flag `--pro`, if your build is for a private repository (i.e. on travis-ci.com instead of travis-ci.org).
