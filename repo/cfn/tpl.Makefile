@@ -14,3 +14,5 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/cfn/inc.mk
 # `eslint` arguments
 # e.g. --reporter html
 # ESLINT_ARGS :=
+
+include *.inc.mk

@@ -174,6 +174,3 @@ check:
 .PHONY: $(STACK_STEM_HOOKS)
 $(STACK_STEM_HOOKS): %-setup
 	$(call $@)
-
-
-include *.inc.mk
