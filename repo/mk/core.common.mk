@@ -90,7 +90,15 @@ test: ## Test and check.
 
 .PHONY: support-firecloud/update
 support-firecloud/update: ## Update support-firecloud to latest master commit.
-	$(GIT) submodule update --init --recursive --remote support-firecloud
-	$(GIT) add support-firecloud
-	$(GIT) commit -m "updated support-firecloud"
-	$(GIT) submodule update --init --recursive support-firecloud
+	$(eval SF_SUBMODULE_PATH := $(shell $(GIT) config --file .gitmodules --get-regexp path | \
+		$(GREP) $(shell basename $(SUPPORT_FIRECLOUD_DIR)) | $(CUT) -d' ' -f2))
+	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
+	@$(ECHO_DO) "Upgrading $(SF_SUBMODULE_PATH)..."
+	$(GIT) submodule update --init --recursive --remote $(SF_SUBMODULE_PATH)
+	$(GIT) add $(SF_SUBMODULE_PATH)
+	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH)"
+	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
+	@$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
+	cd $(SF_SUBMODULE_PATH) && \
+		$(GIT) log --oneline --no-color --no-decorate $(SF_COMMIT)..
+	@$(ECHO_DONE)
