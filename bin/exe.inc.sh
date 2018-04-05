@@ -4,37 +4,39 @@ set -euo pipefail
 export PATH=/usr/local/bin:${PATH}
 export PATH=${HOME}/.local/bin:${PATH}
 
+export CI_ECHO=${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo
+
 function exe() {
     echo "$(pwd)\$ $@"
     "$@"
 }
 
 function echo_next() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[NEXT]" "$@"
+    ${CI_ECHO} "[NEXT]" "$@"
 }
 
 function echo_do() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[DO  ]" "$@"
+    ${CI_ECHO} "[DO  ]" "$@"
 }
 
 function echo_done() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[DONE]" "$@"
+    ${CI_ECHO} "[DONE]" "$@"
 }
 
 function echo_info() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[INFO]" "$@"
+    ${CI_ECHO} "[INFO]" "$@"
 }
 
 function echo_skip() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[SKIP]" "$@"
+    ${CI_ECHO} "[SKIP]" "$@"
 }
 
 function echo_warn() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[WARN]" "$@"
+    ${CI_ECHO} "[WARN]" "$@"
 }
 
 function echo_err() {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo "[ERR ]" "$@"
+    ${CI_ECHO} "[ERR ]" "$@"
 }
 
 function sh_script_usage() {

@@ -5,8 +5,6 @@ ifdef TRAVIS_BRANCH
 GIT_BRANCH = $(TRAVIS_BRANCH)
 endif
 
-CI_ECHO := $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
-
 SF_VENDOR_FILES_IGNORE := \
 	-e "^$$" \
 	-e "^LICENSE$$" \
