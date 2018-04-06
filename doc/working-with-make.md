@@ -48,5 +48,5 @@ In order to follow the standardized targets mentioned above, but also do diminis
 we make use of partial `Makefile`s that when combined cover a great deal of the basic requirements and build steps,
 while still allowing for customization/extensibility where needed.
 
-For more information, see [repo/mk/README.md](repo/mk/README.md) and check out different `Makefile`s
+For more information, see [support-firecloud/repo/mk](../repo/mk/README.md) and check out different `Makefile`s
 of the [`tobiipro` GitHub repos](https://github.com/tobiipro).
