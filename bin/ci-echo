@@ -29,7 +29,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 function fallback_echo() {
-    >&2 echo "${@:2}"
+    >&2 echo "$@"
     case $1 in
         "[DONE]")
             >&2 echo
@@ -55,11 +55,11 @@ function travis_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
             basic_travis_echo "start:${PWD_GROUP}"
-            fallback_echo "$1" "$(date +"%H:%M:%S") $@"
+            >&2 echo "$(date +"%H:%M:%S") $@"
             return 0
             ;;
         "[DONE]")
-            fallback_echo "$1" "$(date +"%H:%M:%S") $@"
+            >&2 echo "$(date +"%H:%M:%S") $@"
             GROUP_CREATED_AGO=some
             [[ -n "${GROUP}" ]] || {
                 GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null)
@@ -81,7 +81,7 @@ function travis_echo() {
             ;;
     esac
 
-    fallback_echo "$1" "$(date +"%H:%M:%S") $@"
+    >&2 echo "$(date +"%H:%M:%S") $@"
 }
 
 function basic_teamcity_echo() {
@@ -141,5 +141,5 @@ if [ "${TRAVIS:-}" = "true" ]; then
 elif [ -n "${TEAMCITY_VERSION:-}" ]; then
     teamcity_echo "$1" "${@:2}"
 else
-    fallback_echo "$1" "$@"
+    fallback_echo "$1" "$@:2"
 fi
