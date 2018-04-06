@@ -62,13 +62,19 @@ deps: ## Fetch dependencies.
 	}
 
 
-.PHONY: build
-build: ## Build.
+# NOTE using a really long name, in order to discourage invoking it directly manually
+.PHONY: some-really-long-target-name-to-just-build
+some-really-long-target-name-to-just-build:
 	[[ "$(words $(SF_BUILD_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Building..."; \
 		$(MAKE) $(SF_BUILD_TARGETS); \
 		$(ECHO_DONE); \
 	}
+
+
+.PHONY: build
+build: some-really-long-target-name-to-just-build check ## Build and check.
+	:
 
 
 .PHONY: check
@@ -80,18 +86,19 @@ check: ## Check.
 	}
 
 
-.PHONY: test
-test: just-test check ## Test and check.
-	:
-
-
-.PHONY: just-test
-just-test:
+# NOTE using a really long name, in order to discourage invoking it directly manually
+.PHONY: some-really-long-target-name-to-just-test
+some-really-long-target-name-to-just-test:
 	[[ "$(words $(SF_TEST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Testing..."; \
 		$(MAKE) $(SF_TEST_TARGETS); \
 		$(ECHO_DONE); \
 	}
+
+
+.PHONY: test
+test: some-really-long-target-name-to-just-test check ## Test and check.
+	:
 
 
 .PHONY: support-firecloud/update
