@@ -15,11 +15,13 @@ include support-firecloud/repo/mk/...
 
 # ------------------------------------------------------------------------------
 
-... include here variables (configuration) ...
+... include here custom variables ...
+
+... include here support-firecloud variables (configuration) ...
 
 # ------------------------------------------------------------------------------
 
-... include here your targets ...
+... include here your custom targets ...
 
 ```
 
@@ -34,3 +36,5 @@ The pieces **MUST** be included in this order:
 * misc
 
 Each "puzzle piece" may have its own usage documentation at the top of the file.
+
+[This is the list of available pieces](./).
