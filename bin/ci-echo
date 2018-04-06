@@ -42,7 +42,7 @@ function basic_travis_echo() {
 function travis_echo() {
     local REL_PWD=$(python -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
     local GROUP="${@:2}"
-    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
+    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\\+/-/g" | sed "s/^-//" | sed "s/-$//")"
 
     case $1 in
         "[DO  ]")
