@@ -30,6 +30,13 @@ done
 
 function fallback_echo() {
     >&2 echo "$@"
+    case $1 in
+        "[DONE]")
+            >&2 echo
+            ;;
+        *)
+            ;;
+    esac
 }
 
 function basic_travis_echo() {
@@ -48,11 +55,11 @@ function travis_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
             basic_travis_echo "start:${PWD_GROUP}"
-            fallback_echo "$(date +"%H:%M:%S") $@"
+            fallback_echo "$1" "$(date +"%H:%M:%S") $2"
             return 0
         ;;
         "[DONE]")
-            fallback_echo "$(date +"%H:%M:%S") $@"
+            fallback_echo "$1" "$(date +"%H:%M:%S") $2"
             GROUP_CREATED_AGO=some
             [[ -n "${GROUP}" ]] || {
                 GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null)
@@ -67,13 +74,14 @@ function travis_echo() {
             }
             basic_travis_echo "end:${PWD_GROUP}"
             echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
+            echo
             return 0
         ;;
         *)
         ;;
     esac
 
-    fallback_echo "$(date +"%H:%M:%S") $@"
+    fallback_echo "$1" "$(date +"%H:%M:%S") $2"
 }
 
 function basic_teamcity_echo() {
@@ -109,6 +117,7 @@ function teamcity_echo() {
                 }
             }
             basic_teamcity_echo "blockClosed name='${PWD_MESSAGE}'"
+            echo
             return 0
         ;;
         "[SKIP]")
@@ -132,5 +141,5 @@ if [ "${TRAVIS:-}" = "true" ]; then
 elif [ -n "${TEAMCITY_VERSION:-}" ]; then
     teamcity_echo "$1" "${@:2}"
 else
-    fallback_echo "${@}"
+    fallback_echo "$1" "${@:2}"
 fi
