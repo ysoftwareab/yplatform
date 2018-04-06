@@ -17,7 +17,7 @@
       "$tsc"
     ]
   }, {
-    "taskName": "lint"
+    "taskName": "check"
   }, {
     "isTestCommand": true,
     "taskName": "test"
