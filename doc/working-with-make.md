@@ -22,10 +22,10 @@ repositories owned by TobiiPro Cloud Services should at all costs implement the 
   (e.g. naming conventions, code style, size of artifacts, run a super quick subset of tests)
 * `make test` should run the tests (the whole set)
 * `make clean` should remove all known files to be generated,
-   while leaving behind files that were manually created.
-   This is prone to errors, since the files need to manually listed inside the `Makefile`.
+  while leaving behind files that were manually created.
+  This is prone to errors, since the files need to manually listed inside the `Makefile`.
 * `make nuke` should remove all unknown files to git (untracked files).
-   Internally it actually creates a stash, so you can safely recover a file.
+  Internally it actually creates a stash, so you can safely recover a file.
 
 
 ## Development workflow
