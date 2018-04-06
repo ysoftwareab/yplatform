@@ -57,7 +57,7 @@ function travis_echo() {
             basic_travis_echo "start:${PWD_GROUP}"
             fallback_echo "$1" "$(date +"%H:%M:%S") $2"
             return 0
-        ;;
+            ;;
         "[DONE]")
             fallback_echo "$1" "$(date +"%H:%M:%S") $2"
             GROUP_CREATED_AGO=some
@@ -76,9 +76,9 @@ function travis_echo() {
             echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
             echo
             return 0
-        ;;
+            ;;
         *)
-        ;;
+            ;;
     esac
 
     fallback_echo "$1" "$(date +"%H:%M:%S") $2"
@@ -102,12 +102,12 @@ function teamcity_echo() {
         "[NEXT]")
             echo "##teamcity[progressMessage '${MESSAGE}']"
             return 0
-        ;;
+            ;;
         "[DO  ]")
             echo -n "${PWD_MESSAGE}" > /tmp/teamcity_block_${RANDOM}
             basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
-        ;;
+            ;;
         "[DONE]")
             [[ -n "${MESSAGE}" ]] || {
                 BLOCK_MARKER=$(ls -t /tmp/teamcity_block_* | head -n1 2>/dev/null)
@@ -119,18 +119,18 @@ function teamcity_echo() {
             basic_teamcity_echo "blockClosed name='${PWD_MESSAGE}'"
             echo
             return 0
-        ;;
+            ;;
         "[SKIP]")
             STATUS=WARNING
-        ;;
+            ;;
         "[WARN]")
             STATUS=WARNING
-        ;;
+            ;;
         "[ERR ]")
             STATUS=ERROR
-        ;;
+            ;;
         "[INFO]"|*)
-        ;;
+            ;;
     esac
 
     echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
