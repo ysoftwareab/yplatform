@@ -28,6 +28,12 @@ repositories owned by TobiiPro Cloud Services should at all costs implement the 
   Internally it actually creates a stash, so you can safely recover a file.
 
 
+## Standardized variables
+
+* `V=1` should trigger a verbose build .e.g `V=1 make` or `make V=1`
+  * this is perfect for initial debugging
+
+
 ## Development workflow
 
 After `git clone`-ing a repository, a developer should only need to run `make`,
