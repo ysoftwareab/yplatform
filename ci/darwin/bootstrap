@@ -39,6 +39,7 @@ brew_install() {
 
             echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
             echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
+            echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
             return 1
         fi
         brew install ${FORMULA}
