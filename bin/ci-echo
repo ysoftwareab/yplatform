@@ -141,5 +141,5 @@ if [ "${TRAVIS:-}" = "true" ]; then
 elif [ -n "${TEAMCITY_VERSION:-}" ]; then
     teamcity_echo "$1" "${@:2}"
 else
-    fallback_echo "$1" "$@:2"
+    fallback_echo "$1" "${@:2}"
 fi
