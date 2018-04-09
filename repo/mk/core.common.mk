@@ -47,6 +47,11 @@ nuke: ## Nuke (Stash actually) all files/changes not checked in.
 	@$(ECHO_DONE)
 
 
+.PHONY: clobber
+clobber: nuke
+	:
+
+
 .PHONY: deps-git
 deps-git:
 	$(GIT) submodule sync
