@@ -1,10 +1,5 @@
-let collectCoverage = false;
-if (process.env.CI === 'true') {
-  collectCoverage = true;
-};
-
 module.exports = {
-  collectCoverage,
+  collectCoverage: true,
   collectCoverageFrom: [
     '**/src/**/*.js'
   ],
