@@ -49,6 +49,7 @@ node_modules_private: ## Refresh node_modules_private folder.
 		DEP_VSN=`$(CAT) "package.json" | $(JSON) "privateDependencies $${DEP_NAME}"`; \
 		DEPS="$${DEPS} $${DEP_NAME}@$${DEP_VSN}"; \
 	done; \
-	$(RM) node_modules_private/etc || true
-	$(RM) node_modules_private/lib || true
-	$(NPM) install --prefix node_modules_private --global $${DEPS}
+	$(RM) node_modules_private/etc || true; \
+	$(RM) node_modules_private/lib || true; \
+	$(NPM) install --prefix node_modules_private --global $${DEPS} \
+
