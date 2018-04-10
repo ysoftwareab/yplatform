@@ -1,5 +1,6 @@
 module.exports = {
-  collectCoverage: true,
+  // FIXME coverage is disabled due to https://github.com/facebook/jest/issues/3959
+  collectCoverage: false,
   collectCoverageFrom: [
     '**/lib/**/*.js'
   ],
