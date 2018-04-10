@@ -9,6 +9,7 @@ Software and configuration that support TobiiPro's Cloud Services development.
   * [bootstrap](doc/bootstrap.md)
   * [bootstrap your editor](doc/bootstrap-your-editor.md)
   * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
+  * [bootstrap AWS (console and CLI)](doc/bootstrap-aws.md)
 
 * work
   * [working with `git`](doc/working-with-git.md) and Github
@@ -16,6 +17,9 @@ Software and configuration that support TobiiPro's Cloud Services development.
   * [how to license](doc/how-to-license.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md) and how to [bootstrap gpg](doc/bootstrap-gpg.md)
   * [how to release](doc/how-to-release.md)
+  * Amazon Web Services
+    * [CloudFormation](../repo/cfn/README.md)
+    * [Identity Access Management](aws-iam.md)
   * [Travis CI](doc/travis-ci.md)
 
 
