@@ -21,6 +21,7 @@
       "when": "$(basename).js"
     }
   },
+  "files.trimFinalNewlines": true,
 
   "search.useIgnoreFilesByDefault": true,
 
