@@ -86,17 +86,13 @@ check: ## Check.
 
 
 .PHONY: test
-test: just-test check ## Test and check.
-	:
-
-
-.PHONY: just-test
-just-test:
+test: ## Test and check.
 	[[ "$(words $(SF_TEST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Testing..."; \
 		$(MAKE) $(SF_TEST_TARGETS); \
 		$(ECHO_DONE); \
 	}
+	$(MAKE) check
 
 
 .PHONY: support-firecloud/update
