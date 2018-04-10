@@ -39,7 +39,7 @@ deps-node_modules_private:
 			$(ECHO_ERR) "Run <make node_modules_private> to update it."; \
 			exit 1; \
 		}; \
-	done; \
+	done;
 
 
 .PHONY: node_modules_private
@@ -51,5 +51,5 @@ node_modules_private: ## Refresh node_modules_private folder.
 	done; \
 	$(RM) node_modules_private/etc || true; \
 	$(RM) node_modules_private/lib || true; \
-	$(NPM) install --prefix node_modules_private --global $${DEPS} \
+	$(NPM) install --prefix node_modules_private --global $${DEPS}
 
