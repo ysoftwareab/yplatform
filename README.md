@@ -7,7 +7,7 @@ Software and configuration that support TobiiPro's Cloud Services development.
 
 * development
   * [bootstrap](doc/bootstrap.md)
-  * [bootstrap-your-editor](doc/bootstrap-your-editor.md)
+  * [bootstrap your editor](doc/bootstrap-your-editor.md)
   * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
 
 * work
