@@ -52,4 +52,3 @@ node_modules_private: ## Refresh node_modules_private folder.
 	$(RM) node_modules_private/etc || true; \
 	$(RM) node_modules_private/lib || true; \
 	$(NPM) install --prefix node_modules_private --global $${DEPS}
-
