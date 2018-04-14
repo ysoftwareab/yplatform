@@ -9,7 +9,7 @@ SF_PROMOTE_ENVS := \
 promote/%: ## promote/<env>/<tag> Promote tag to env branch.
 	$(eval ENV_NAME := $(shell dirname "$*"))
 	$(eval TAG := $(shell basename "$*"))
-	$(ECHO) "$(SF_PROMOTE_ENVS)" | $(GREP) -q -e "$(ENV_NAME)" || { \
+	$(ECHO) "$(SF_PROMOTE_ENVS)" | $(GREP) -q -e "\(^\|\s\)$(ENV_NAME)\(\s\|$$\)" || { \
 		$(ECHO_ERR) "$(ENV_NAME) is not a known env."; \
 		exit 1; \
 	}
