@@ -18,6 +18,6 @@ promote/%: ## promote/<env>/<tag> Promote tag to env branch.
 		exit 1; \
 	}
 	$(GIT) push -f $(GIT_REMOTE) \
-		$(shell $(GIT) rev-list -n1 $(TAG)):refs/heads/env/$(ENV_NAME) \
-		$(shell $(GIT) rev-list -n1 $(TAG)):refs/tags/env/$(ENV_NAME)/$(MAKE_DATE)-$(MAKE_TIME)-$(TAG)
+		$(TAG):refs/heads/env/$(ENV_NAME) \
+		$(TAG):refs/tags/env/$(ENV_NAME)/$(MAKE_DATE)-$(MAKE_TIME)-$(TAG)
 	$(GIT) fetch
