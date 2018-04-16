@@ -29,7 +29,7 @@ brew_install() {
             [[ -n "${OPTIONS}" ]] || continue
 
             # is it already installed with the required options ?
-            local USED_OPTIONS="$(brew info --json=v1 | \
+            local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
                 /usr/bin/python \
                     -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
                 xargs -n1 | \
