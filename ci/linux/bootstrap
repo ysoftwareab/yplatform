@@ -28,7 +28,7 @@ echo_done
 #   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
 #   mongodb-org
 # E: There were unauthenticated packages and -y was used without --allow-unauthenticated
-if [ ${TRAVIS:-} = true ]; then
+if [ "${TRAVIS:-}" = "true" ]; then
     HOLD_DPKGS="$(cat <<-EOF
 mongodb-org
 mongodb-org-mongos
