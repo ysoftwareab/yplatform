@@ -13,6 +13,8 @@ export PATH=/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}
 export PATH=/usr/local/bin:${PATH}
 export PATH=${HOME}/.local/bin:${PATH}
 
+# ------------------------------------------------------------------------------
+
 export CI_ECHO=${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo
 
 function exe() {
@@ -48,6 +50,8 @@ function echo_err() {
     ${CI_ECHO} "[ERR ]" "$@"
 }
 
+# ------------------------------------------------------------------------------
+
 function sh_script_usage() {
     grep "^##" "${0}" | cut -c 4-
     exit 1
@@ -57,6 +61,8 @@ function sh_script_version() {
     grep "^#-" "${0}" | cut -c 4-
     exit 1
 }
+
+# ------------------------------------------------------------------------------
 
 function printenv_with_name() {
     for f in $*; do
