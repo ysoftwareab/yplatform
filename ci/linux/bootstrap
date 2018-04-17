@@ -20,6 +20,7 @@ apt_install() {
 echo_do "Upgrading aptitude..."
 apt_install "software-properties-common"
 apt-add-repository -y ppa:git-core/ppa
+add-apt-repository -y ppa:webupd8team/java
 apt-get update
 echo_done
 
