@@ -16,9 +16,19 @@ brew_install "${BREW_FORMULAE}"
 npm install --global npm
 npm install --global json
 
-# Upgrade default shell, if bash
-echo "/usr/local/bin/bash" | tee -a /etc/shells
-[ "${SHELL:-}" != "/bin/bash" ] || chsh -s /usr/local/bin/bash
-
 # Install Xcode/Command Line Tools
 xcode-select --install
+
+# Upgrade default shell, if bash
+[ "${SHELL:-}" != "/bin/bash" ] || {
+    echo "Your default shell is ${SHELL}, which is system's default bash."
+    echo "You should upgrade to use homebrew's newer bash."
+    read -p "You can skip upgrading by pressing 's'. Anything else will do the upgrade." -n 1 -r
+    [ "${REPLY}" = "s" ] || {
+        sudo tee -a /etc/shells <<EOF
+/usr/local/bin/bash
+EOF
+        chsh -s /usr/local/bin/bash
+        echo "Please open up a new terminal window to switch to the new bash."
+    }
+}
