@@ -29,14 +29,14 @@ while [[ $# -gt 0 ]]; do
 done
 
 function fallback_echo() {
-    >&2 echo "$@"
     case $1 in
-        "[DONE]")
+        "[DO  ]")
             >&2 echo
             ;;
         *)
             ;;
     esac
+    >&2 echo "$@"
 }
 
 function basic_travis_echo() {
@@ -55,6 +55,7 @@ function travis_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
             basic_travis_echo "start:${PWD_GROUP}"
+            >&2 echo
             >&2 echo "$(date +"%H:%M:%S") $@"
             return 0
             ;;
@@ -74,7 +75,6 @@ function travis_echo() {
             }
             basic_travis_echo "end:${PWD_GROUP}"
             >&2 echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
-            >&2 echo
             return 0
             ;;
         *)
