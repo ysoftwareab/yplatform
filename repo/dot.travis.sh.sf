@@ -59,8 +59,8 @@ function sf_travis_run_script() {
 }
 
 function sf_travis_run_before_deploy() {
-    make dist
     make snapshot
+    make dist
 }
 
 sf_rvm_unfuck
