@@ -1,3 +1,4 @@
+export TOP := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/..)
 export SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/<SUPPORT_FIRECLOUD_DIR_REL>)
 include $(SUPPORT_FIRECLOUD_DIR)/repo/cfn/inc.mk
 
