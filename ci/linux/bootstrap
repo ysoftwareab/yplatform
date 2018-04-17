@@ -28,16 +28,17 @@ echo_done
 #   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
 #   mongodb-org
 # E: There were unauthenticated packages and -y was used without --allow-unauthenticated
-# FIXME flimsy oracle-jdk8-installer https://travis-ci.org/tobiipro/support-firecloud/jobs/367862936#L1014
+# FIXME flimsy oracle-*-installer https://travis-ci.org/tobiipro/support-firecloud/jobs/367862936#L1014
 # FIXME flimsy postgresql-*
 if [ "${TRAVIS:-}" = "true" ]; then
     HOLD_DPKGS="$(cat <<-EOF
-oracle-jdk8-installer
 mongodb-org
 mongodb-org-mongos
 mongodb-org-server
 mongodb-org-shell
 mongodb-org-tools
+oracle-java8-installer
+oracle-jdk8-installer
 postgresql-9.3
 postgresql-9.4
 postgresql-9.5
