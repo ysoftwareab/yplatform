@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+export PATH=/usr/local/opt/coreutils/libexec/gnubin:${PATH}
+export PATH=/usr/local/opt/gnu-sed/libexec/gnubin:${PATH}
+export PATH=/usr/local/opt/gnu-tar/libexec/gnubin:${PATH}
+[ ! -e /usr/local/opt/gnu-which/bin/gwhich ] || {
+    function which() {
+        /usr/local/opt/gnu-which/bin/gwhich $@
+    }
+}
+
 export PATH=/usr/local/bin:${PATH}
 export PATH=${HOME}/.local/bin:${PATH}
 
