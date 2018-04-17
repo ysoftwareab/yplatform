@@ -64,7 +64,6 @@ function exe() {
     "$@"
 }
 
-function printenv_with_name() {
 function printenv_uniq() {
     tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
 }
