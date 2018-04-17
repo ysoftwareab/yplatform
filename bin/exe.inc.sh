@@ -17,11 +17,6 @@ export PATH=${HOME}/.local/bin:${PATH}
 
 export CI_ECHO=${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo
 
-function exe() {
-    echo "$(pwd)\$ $@"
-    "$@"
-}
-
 function echo_next() {
     ${CI_ECHO} "[NEXT]" "$@"
 }
@@ -64,12 +59,18 @@ function sh_script_version() {
 
 # ------------------------------------------------------------------------------
 
+function exe() {
+    echo "$(pwd)\$ $@"
+    "$@"
+}
+
+function printenv_with_name() {
+function printenv_uniq() {
+    tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
+}
+
 function printenv_with_name() {
     for f in $*; do
         echo "${f}=$(printenv ${f} || echo "")"
     done
-}
-
-function printenv_uniq() {
-    tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
 }
