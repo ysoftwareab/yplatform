@@ -38,7 +38,9 @@ mongodb-org-server
 mongodb-org-shell
 mongodb-org-tools
 oracle-java8-installer
+oracle-java9-installer
 oracle-jdk8-installer
+oracle-jdk9-installer
 postgresql-9.3
 postgresql-9.4
 postgresql-9.5
