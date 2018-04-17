@@ -20,7 +20,6 @@ apt_install() {
 echo_do "Upgrading aptitude..."
 apt_install "software-properties-common"
 apt-add-repository -y ppa:git-core/ppa
-add-apt-repository -y ppa:webupd8team/java
 apt-get update
 echo_done
 
@@ -29,8 +28,11 @@ echo_done
 #   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
 #   mongodb-org
 # E: There were unauthenticated packages and -y was used without --allow-unauthenticated
+# FIXME flimsy oracle-jdk8-installer https://travis-ci.org/tobiipro/support-firecloud/jobs/367862936#L1014
+# FIXME flimsy postgresql-*
 if [ "${TRAVIS:-}" = "true" ]; then
     HOLD_DPKGS="$(cat <<-EOF
+oracle-jdk8-installer
 mongodb-org
 mongodb-org-mongos
 mongodb-org-server
