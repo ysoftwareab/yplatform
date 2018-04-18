@@ -37,6 +37,21 @@ function aws-iam-login() {
     source ${CREDENTIALS_TEMP}
 
     rm -f ${CREDENTIALS_TEMP}
+
+    [ -n "${AWS_SECRET_ACCESS_KEY}" ] || {
+        echo >&2 "No AWS_SECRET_ACCESS_KEY in the environment. Something went wrong."
+        return 1
+    }
+
+    [ -n "${AWS_ACCESS_KEY_ID}" ] || {
+        echo >&2 "No AWS_ACCESS_KEY_ID in the environment. Something went wrong."
+        return 1
+    }
+
+    [ -n "${AWS_SESSION_TOKEN}" ] || {
+        echo >&2 "No AWS_SESSION_TOKEN in the environment. Something went wrong."
+        return 1
+    }
 }
 
 function _aws_profile_completer() {
