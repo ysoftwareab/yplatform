@@ -1,4 +1,5 @@
 JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
+IS_TRANSCRYPTED ?=
 
 SF_JSONLINT_FILES_IGNORE := \
 	-e "^$$" \

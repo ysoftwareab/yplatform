@@ -1,5 +1,6 @@
 ECLINT = $(call which,ECLINT,eclint)
 ECLINT_ARGS ?=
+IS_TRANSCRYPTED ?=
 
 SF_ECLINT_FILES_IGNORE := \
 	-e "^$$" \
