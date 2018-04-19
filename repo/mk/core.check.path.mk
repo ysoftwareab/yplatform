@@ -9,7 +9,7 @@ SF_PATH_FILES_IGNORE := \
 	-e "^Makefile" \
 	-e "/Makefile" \
 
-SF_PATH_FILES = $(shell $(GIT_LS) | \
+SF_PATH_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
 	$(GREP) -v $(SF_PATH_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \

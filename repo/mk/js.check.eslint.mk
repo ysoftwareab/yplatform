@@ -8,9 +8,9 @@ ESLINT_ARGS := \
 SF_ESLINT_FILES_IGNORE := \
 	-e "^$$"
 
-SF_ESLINT_FILES = $(shell $(GIT_LS) | \
+SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
-	$(GREP) -e ".js$$" | \
+	$(GREP) -e "\.js$$" | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
