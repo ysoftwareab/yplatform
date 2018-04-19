@@ -44,10 +44,19 @@ function sf_os() {
     "${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER}/bootstrap"
 }
 
+function sf_newer_pacote() {
+    # temporary fix for spurious ENOVERSIONS on 'npm install'
+    # https://github.com/tobiipro/support-firecloud/issues/17
+    npm install --global pacote
+    rm -rf $(npm root -g)/npm/node_modules/pacote
+    mv $(npm root -g)/pacote $(npm root -g)/npm/node_modules/pacote
+}
+
 function sf_travis_run_before_install() {
     sf_private_submodules
     sf_transcrypt
     sf_os
+    sf_newer_pacote
 }
 
 function sf_travis_run_install() {
