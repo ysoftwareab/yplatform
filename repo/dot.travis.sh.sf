@@ -20,22 +20,26 @@ function sf_rvm_unfuck() {
 
 function sf_private_submodules() {
     [ -z "${GH_TOKEN:-}" ] || {
-        echo "Found GH_TOKEN, setting up github.com HTTPS authentication..."
+        echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
         echo -e "machine github.com\n  login ${GH_TOKEN}" >> ~/.netrc
 
         # cover git submodules's canonical ssh url
         git config --global url.https://github.com/tobiipro/.insteadOf git@github.com:tobiipro/
         # cover npm package.json's canonical git+ssh url
         git config --global url.https://github.com/tobiipro/.insteadOf ssh://git@github.com/tobiipro/
+        echo_done
     }
 }
 
 function sf_transcrypt() {
     [ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || \
     [ ! -x "./transcrypt" ] || \
-    [ -z "${TRANSCRYPT_PASSWORD:-}" ] || \
-    ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}" && \
+    [ -z "${TRANSCRYPT_PASSWORD:-}" ] || {
+        echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
+        ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
         unset TRANSCRYPT_PASSWORD
+        echo_done
+    }
 }
 
 function sf_os() {
@@ -45,11 +49,13 @@ function sf_os() {
 }
 
 function sf_newer_pacote() {
+    echo_do "Setting up a newer pacote... (temporary fix)"
     # temporary fix for spurious ENOVERSIONS on 'npm install'
     # https://github.com/tobiipro/support-firecloud/issues/17
     npm install --global pacote
     rm -rf $(npm root -g)/npm/node_modules/pacote
     mv $(npm root -g)/pacote $(npm root -g)/npm/node_modules/pacote
+    echo_done
 }
 
 function sf_travis_run_before_install() {
