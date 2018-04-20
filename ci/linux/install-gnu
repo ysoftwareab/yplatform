@@ -66,7 +66,7 @@ done
 [ -n "${TAR_URL}" ] || TAR_URL=https://ftp.gnu.org/gnu/${PKG}/${TAR_NAME}.tar.gz
 
 TAR_NAME="$(echo "${TAR_NAME}" | PKG=${PKG} VSN=${VSN} envsubst)"
-TAR_URL="$(echo "${TAR_URL}" | PKG=${PKG} VSN=${VSN} envsubst)"
+TAR_URL="$(echo "${TAR_URL}" | PKG=${PKG} VSN=${VSN} TAR_NAME=${TAR_NAME} envsubst)"
 
 CONFIGURE_ARGS="${CONFIGURE_ARGS:-} --prefix=${PREFIX}"
 
