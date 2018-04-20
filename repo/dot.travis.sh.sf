@@ -55,7 +55,19 @@ function sf_newer_pacote() {
 function sf_travis_run_before_install() {
     sf_private_submodules
     sf_transcrypt
-    sf_os
+
+    if [ "${SHOW_SF_OS_LOG:-}" = "true" ]; then
+        sf_os
+    else
+        TMP_SF_OS_LOG=$(mktemp)
+        echo_info "Running sf_os, but redirecting into ${TMP_SF_OS_LOG} to minimize Travis log..."
+        sf_os >${TMP_SF_OS_LOG} 2>&1 || {
+            echo_err "sf_os failed. The latest log tail follows:"
+            tail -n100 ${TMP_SF_OS_LOG}
+            exit 1
+        }
+    fi
+
     sf_newer_pacote
 }
 
