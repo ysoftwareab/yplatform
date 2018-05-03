@@ -62,7 +62,7 @@ function travis_echo() {
             >&2 echo "$(date +"%H:%M:%S") $@"
             GROUP_CREATED_AGO=some
             [[ -n "${GROUP}" ]] || {
-                GROUP_MARKER=$(ls -t /tmp/travis_fold_* 2>/dev/null | head -n1 2>/dev/null)
+                GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null || true)
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     # GROUP_CREATED_AGO=$(date +%s -r ${GROUP_MARKER} 2>/dev/null)
