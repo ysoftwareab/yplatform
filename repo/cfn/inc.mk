@@ -11,7 +11,7 @@ $(foreach VAR,AWS_ACCOUNT_ID,$(call make-lazy,$(VAR)))
 
 AWS = $(call which,AWS,aws)
 AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
-AWS_CFN_D_STACK = $(call which,AWS_CFN_DELETE_STACK,aws-cloudformation-delete-stack)
+AWS_CFN_D_STACK = $(call which,AWS_CFN_D_STACK,aws-cloudformation-delete-stack)
 AWS_CFN2DOT = $(call which,AWS_CFN2DOT,aws-cfn2dot)
 DOT = $(call which,GRAPHVIZ_DOT,dot)
 ESLINT = $(call which,ESLINT,eslint)
@@ -111,7 +111,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint ## Generate stac
 %.cfn.json/rm: %-setup ## Remove stack.
 	$(ECHO_DO) "Removing $(STACK_NAME) stack..."
 	$(call $(STACK_STEM)-pre-rm)
-	$(AWS_CFN_DELETE_STACK) \
+	$(AWS_CFN_D_STACK) \
 		--wait \
 		--stack-name $(STACK_NAME) \
 		--empty-s3
