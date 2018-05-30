@@ -97,3 +97,27 @@ You can speed up the process, by running `support-firecloud/bin/travis-debug --t
 - Y can be a numeric job ID or a job URL or even a build URL (most useful)
 
 Add the flag `--pro`, if your build is for a private repository (i.e. on travis-ci.com instead of travis-ci.org).
+
+
+## Notifications
+
+### Slack
+
+* Go to https://tobii.slack.com/apps/, find "Travis CI" and there existing integration between Travis and Tobii Slack
+* Click "pencil" button ("Edit configuration") and note `<token>`
+* Open terminal in the repo folder
+* Generate new Travis secret as mentioned in [Secrets](#Secrets). 
+Assuming that you want notifications in #atex-ci channel command will look like:
+  * in a case of private repo `support-firecloud/bin/travis-encrypt "tobii:<token>#atex-ci"`
+  * in a case of public repo `travis encrypt "tobii:<token>#atex-ci"` (you will need to run `travis login --pro` before that)
+* Add secret in the `.travis.yml` and configure other options
+```yaml
+notifications:
+  email: true
+  slack:
+    rooms:
+      # atex-ci
+      - secure: "<your encrypted token here>"
+    on_success: change
+    on_pull_requests: false
+```
