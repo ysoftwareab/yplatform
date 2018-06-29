@@ -108,8 +108,8 @@ Add the flag `--pro`, if your build is for a private repository (i.e. on travis-
 * Open terminal in the repo folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets). 
 Assuming that you want notifications in #atex-ci channel command will look like:
-  * in a case of private repo `support-firecloud/bin/travis-encrypt "tobii:<token>#atex-ci"`
-  * in a case of public repo `travis encrypt "tobii:<token>#atex-ci"` (you will need to run `travis login --pro` before that)
+  * in a case of public repo `support-firecloud/bin/travis-encrypt "tobii:<token>#atex-ci"`
+  * in a case of private repo `travis encrypt "tobii:<token>#atex-ci"` (you will need to run `travis login --pro` before that)
 * Add secret in the `.travis.yml` and configure other options
 ```yaml
 notifications:
