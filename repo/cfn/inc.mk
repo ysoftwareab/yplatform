@@ -67,6 +67,7 @@ $(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint ## Generate stac
 	} fi
 	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
 		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
+	$(call $(STACK_STEM)-post)
 	@$(ECHO_DONE)
 
 
