@@ -2,14 +2,15 @@
 
 ## `git`
 
-**NOTE** We assume that you keep all firecloud-related `git` repositories under `~/git/firecloud`.
-Failing to do so, hell won't break loose, but you are on your own.
+We assume that you keep all firecloud-related `git` repositories under `~/git/firecloud`.
+
+*Failing to do so, hell won't break loose, but you are on your own.
 As long as you store the firecloud-related `git` repositories in one folder e.g. `~/Documents/Firecloud`,
-you can easily create a symlink `ln -s ~/Documents/Firecloud ~/git/firecloud` and keep everyone happy.
+you can easily create a symlink `ln -s ~/Documents/Firecloud ~/git/firecloud` and keep everyone happy.*
 
 
 ```shell
-cd
+cd # make sure that you are at home dir (~)
 git clone git@github.com:tobiipro/support-firecloud.git ~/git/firecloud/support-firecloud
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitignore_global
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitattributes_global
