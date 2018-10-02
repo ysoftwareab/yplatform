@@ -17,7 +17,7 @@ npm install --global npm
 npm install --global json
 
 # Install Xcode/Command Line Tools
-xcode-select --install
+xcode-select --install || true
 
 # Upgrade default shell, if bash
 [ "${SHELL:-}" != "/bin/bash" ] || {
