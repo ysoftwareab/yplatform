@@ -11,8 +11,8 @@ matrix:
       env: CACHE_NAME=linux-trusty-required
       if: branch = master
     - os: osx
-      osx_image: xcode8.3
-      env: CACHE_NAME=osx-xcode8.3
+      osx_image: xcode9.4
+      env: CACHE_NAME=osx-xcode9.4
       if: branch = master
 
 # 1. Notifications
