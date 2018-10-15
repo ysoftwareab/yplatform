@@ -54,6 +54,11 @@ thus the policies/roles/groups are prefixed with `infra-`.
     can actually assign higher permissions to themselves
   * this includes `infra-ReadR-*` role below
 * `infra-ReadR-*` role has READ-ONLY power over all services
+* `infra-DataOpsR-*` role gives broader set of permissions on data-oriented services. 
+  * targeted for data-scientists and data engineers
+
+A permission for a user to assume a role can be done on account-basis 
+(for example, can be an `AdminR` on dev, but `ReadR` on prod).
 
 **NOTE** for safety reasons, a selected few are in a special `infra-PowerG-*` group,
 which gives them FULL IAM power, without them needing to assume the `infra-OpsR-*` role.
@@ -71,8 +76,9 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
   * Go to `Security credentials`
   * Set the `Assigned MFA device`
   * `Create access key`
-* Add the user to the `infra` stack by adding him to specific roles() e.g. `cfn/infra/iam.<role>.cfn.js` or similar,
-  commit and push to the `master` branch.
+* Add the user to the `infra` stack by adding him to specific roles in `cfn/infra/users.js`,
+  commit and push to the `infra` branch (no need to push manually, run 
+  `make promote-infra` after comitting). 
 * The CI/CD build of that commit will update the role(s) and their Trust Relationship
   to allow the user to assume the role(s)
 * The user should now be able to
