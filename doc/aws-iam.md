@@ -133,7 +133,7 @@ role_arn = arn:aws:iam::${DEV_AWS_ACCOUNT_ID}:role/${DEV_IAM_READ_ROLE}
 source_profile = ${AWS_ACCOUNT_NAME}
 ```
 
-Example of a `aws.credentials.tpl`:
+Example of a `aws-cli.credentials.tpl`:
 
 ```
 [${AWS_ACCOUNT_NAME}]
