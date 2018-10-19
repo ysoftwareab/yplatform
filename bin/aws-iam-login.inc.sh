@@ -1,14 +1,11 @@
 #!/usr/bin/env bash
 
 if [ -n "$BASH_VERSION" ]; then
-    export T_AWS_IAM_INC_SH_DIR="\
-        ${T_AWS_IAM_INC_SH_DIR:-$(dirname ${BASH_SOURCE[0]})}"
+    export T_AWS_IAM_INC_SH_DIR="${T_AWS_IAM_INC_SH_DIR:-$(dirname ${BASH_SOURCE[0]})}"
 elif [ -n "$ZSH_VERSION" ]; then
-    export T_AWS_IAM_INC_SH_DIR="\
-        ${T_AWS_IAM_INC_SH_DIR:-$(dirname ${(%):-%x})}"
+    export T_AWS_IAM_INC_SH_DIR="${T_AWS_IAM_INC_SH_DIR:-$(dirname ${(%):-%x})}"
 else
-    echo >&2 'Unsupported shell in aws-iam-login.inc.sh,\
-        or $BASH_VERSION or $ZSH_VERSION undefined.'
+    echo >&2 'Unsupported shell in aws-iam-login.inc.sh, or $BASH_VERSION or $ZSH_VERSION undefined.'
 fi
 
 function aws-iam-login() {
