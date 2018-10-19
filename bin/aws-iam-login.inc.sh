@@ -68,11 +68,9 @@ function _aws_profile_completer() {
 }
 
 if [ -n "$ZSH_VERSION" ]; then
-    autoload -U compaudit compinit bashcompinit || {
-        echo >&2 "Initialization of Zsh completion features has failed in\
-            aws-iam-login.inc.sh."
+    autoload -U compaudit compinit bashcompinit && bashcompinit || {
+        echo >&2 "Initialization of Zsh completion features has failed in aws-iam-login.inc.sh."
         return 1
     }
-    bashcompinit
 fi
 complete -F _aws_profile_completer aws-iam-login
