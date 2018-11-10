@@ -54,8 +54,6 @@ thus the policies/roles/groups are prefixed with `infra-`.
     can actually assign higher permissions to themselves
   * this includes `infra-ReadR-*` role below
 * `infra-ReadR-*` role has READ-ONLY power over all services
-* `infra-DataOpsR-*` role gives broader set of permissions on data-oriented services. 
-  * targeted for data-scientists and data engineers
 
 A permission for a user to assume a role can be done on account-basis 
 (for example, can be an `AdminR` on dev, but `ReadR` on prod).
