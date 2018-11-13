@@ -42,7 +42,7 @@ STACK_STEM_HOOKS := \
 # ------------------------------------------------------------------------------
 
 .PHONY: all
-all:
+all: $(CFN_JSON_FILES)
 
 
 .PHONY: $(CFN_JSON_FILES)
