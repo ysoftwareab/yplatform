@@ -5,12 +5,14 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
 BREW_FORMULAE="$(cat <<-EOF
+gettext
 erlang
 graphviz
 nodejs
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
+brew link --force gettext
 
 # NPM
 npm install --global npm
