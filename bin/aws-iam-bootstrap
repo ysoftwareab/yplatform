@@ -87,32 +87,34 @@ set +a
 
 AWS_ACCOUNT_NAME=${AWS_ACCOUNT_NAME:-${DEV_AWS_ACCOUNT_NAME}}
 
-printf "\ec " # clear
-${SUPPORT_FIRECLOUD_DIR}/bin/aws-iam-console-cookie
+printf "\ec" # clear
+${SUPPORT_FIRECLOUD_DIR}/bin/aws-iam-console-switch-role > ${GIT_ROOT}/aws-iam-console-switch-role.md
+cat ${GIT_ROOT}/aws-iam-console-switch-role.md
 echo
 echo "--------------------------------------------------------------------------------"
-echo "Run the above in your browser's DevTools Console."
+echo "Bookmark the links above for the roles that are relevant to your work."
+echo "You can always find these in ${GIT_ROOT}/aws-iam-console-switch-role.md ."
 read -p "Press enter to continue"
 
 [[ -n ${AWS_ACCESS_KEY_ID} ]] && [[ -n ${AWS_SECRET_ACCESS_KEY} ]] || {
     exit 0
 }
 
-printf "\ec " # clear
+printf "\ec" # clear
 cat ${CREDENTIALS_TPL_FILE} | envsubst
 echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ${AWS_SHARED_CREDENTIALS_FILE:-~/.aws/credentials}."
 read -p "Press enter to continue"
 
-printf "\ec " # clear
+printf "\ec" # clear
 cat ${CONFIG_TPL_FILE} | envsubst
 echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ~/.aws/config."
 read -p "Press enter to continue"
 
-printf "\ec " # clear
+printf "\ec" # clear
 echo "source ~/git/firecloud/support-firecloud/bin/aws-iam-login.inc.sh"
 echo
 echo "--------------------------------------------------------------------------------"
