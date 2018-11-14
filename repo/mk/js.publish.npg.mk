@@ -30,9 +30,12 @@ release/%: ## Release a new version with given level (major/minor/patch).
 
 
 .PHONY: package-json-prepare
-ifneq (node_modules,$(shell basename $(abspath ..))) # let Makefile build, or else build runs twice
+# if INIT_CWD contains ".npm/_cacache/tmp/git-clone-", then we are a dependency
+# otherwise, we are standalone
 package-json-prepare:
-	:
-else # installing as dependency
-package-json-prepare: build
-endif
+	if [[ "$${INIT_CWD:-}" == *".npm/_cacache/tmp/git-clone-"* ]]; then \
+		$(ECHO_INFO) "package-json-prepare: Dependency mode. Calling build."; \
+		$(MAKE) build; \
+	else \
+		$(ECHO_INFO) "package-json-prepare: Standalone mode. Skip build."; \
+	fi
