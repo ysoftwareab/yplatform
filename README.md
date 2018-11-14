@@ -18,8 +18,8 @@ Software and configuration that support TobiiPro's Cloud Services development.
   * [how to manage secrets](doc/how-to-manage-secrets.md) and how to [bootstrap gpg](doc/bootstrap-gpg.md)
   * [how to release](doc/how-to-release.md)
   * Amazon Web Services
-    * [CloudFormation](../repo/cfn/README.md)
-    * [Identity Access Management](aws-iam.md)
+    * [CloudFormation](repo/cfn/README.md)
+    * [Identity Access Management](doc/aws-iam.md)
   * [Travis CI](doc/travis-ci.md)
 
 
