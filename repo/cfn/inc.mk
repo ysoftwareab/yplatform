@@ -27,7 +27,7 @@ CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
 CHANGE_SET_FILE_DIFF ?= $(CHANGE_SET_FILE).diff
 
 CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
-CFN_JS_FILES := $(patsubst %.inc.mk,%.cfn.js,$(CFN_MK_FILES))
+CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
 CFN_JSON_FILES := $(patsubst %.inc.mk,%.cfn.json,$(CFN_MK_FILES))
 
 LINT_TARGETS := $(patsubst %.cfn.js,%.cfn.json/lint,$(CFN_JS_FILES))
@@ -42,11 +42,11 @@ STACK_STEM_HOOKS := \
 # ------------------------------------------------------------------------------
 
 .PHONY: all
-all:
+all: $(CFN_JSON_FILES)
 
 
 .PHONY: $(CFN_JSON_FILES)
-$(CFN_JSON_FILES): %.cfn.json: %.cfn.js %-setup %.cfn.json/lint ## Generate stack template.
+$(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
 	@$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
 	$(NODE_BABEL) ./$< > $@
