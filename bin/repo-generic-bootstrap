@@ -45,31 +45,31 @@ cd ${SUPPORT_FIRECLOUD_DIR}/..
 
 ARTIFACT=.editorconfig
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.editorconfig ${ARTIFACT}
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.editorconfig ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
 ARTIFACT=.travis.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.sh ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.travis.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=.travis.yml
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.travis.yml ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.travis.yml ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 [[ -e .vscode ]] || {
     mkdir -p .vscode
-    for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot.vscode/.*; do
+    for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/.*; do
         ARTIFACT=.vscode/$(basename ${ARTIFACT})
         [[ -e ${ARTIFACT} ]] || {
-            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/dot${ARTIFACT} ${ARTIFACT}
+            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Symlinked ${ARTIFACT}."
         }
@@ -78,14 +78,14 @@ ARTIFACT=.travis.yml
 
 ARTIFACT=LICENSE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/LICENSE ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/LICENSE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=NOTICE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/NOTICE ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/NOTICE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -93,7 +93,7 @@ ARTIFACT=NOTICE
 
 ARTIFACT=AUTHORS
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/AUTHORS ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/AUTHORS ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -101,7 +101,7 @@ ARTIFACT=AUTHORS
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/Makefile.generic ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -109,7 +109,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=README.md
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/repo/README.md ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/README.md ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
