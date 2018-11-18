@@ -5,17 +5,6 @@ let aws = require('aws-sdk');
 
 Promise.longStackTraces();
 
-let parser = new ArgumentParser({});
-_.each({
-  '--filter-user-name': {
-    default: '.*'
-  }
-}, function(options, name) {
-  name = name.split(/[, ]+/);
-  parser.addArgument(name, options);
-});
-let args = parser.parseArgs();
-
 let iam = new aws.IAM();
 
 (async function() {
