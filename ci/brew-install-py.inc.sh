@@ -11,6 +11,5 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
-brew link --force python@2
 eval "$(pyenv init -)"
 echo_done
