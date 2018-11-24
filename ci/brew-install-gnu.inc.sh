@@ -35,3 +35,10 @@ EOF
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE BREW_WITH_DEFAULT_NAMES
 echo_done
+
+# FIXME
+# remove autoconf
+# remove automake
+# remove parallel
+# remove pkg-config
+# remove watch
