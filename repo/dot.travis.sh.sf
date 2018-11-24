@@ -43,7 +43,6 @@ function sf_transcrypt() {
 }
 
 function sf_pyenv_init() {
-    export PATH="~/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
 }
 
@@ -91,16 +90,68 @@ function sf_travis_run_script() {
     make all test
 }
 
+function sf_travis_run_before_cache_brew() {
+    which brew >/dev/null 2>&1 || return 0
+    local HOMEBREW_PREFIX=$(brew --prefix)
+    local TRAVIS_CACHE_HOMEBREW_PREFIX
+    brew cleanup
+
+    case $(uname -s) in
+        Darwin)
+            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            ;;
+        Linux)
+            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            ;;
+        *)
+            echo_err "brew: $(uname -s) is an unsupported OS."
+            return 1
+            ;;
+    esac
+
+    if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" = "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
+        return 0
+    fi
+
+    echo_do "brew: Caching ${HOMEBREW_PREFIX}/Homebrew..."
+    mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew
+    rsync -a --delete ${HOMEBREW_PREFIX}/Homebrew/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
+    echo_done
+
+    # cache non-bottled formulae
+    rm -rf ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/*
+    for f in $(find ${HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
+        f="$(basename $(dirname "${f}"))/$(basename "${f}")" # name/version
+        local POURED_FROM_BOTTLE="$(cat ${HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json | \
+            /usr/bin/python \
+                -c 'import sys,json;print json.dumps(json.load(sys.stdin)["poured_from_bottle"])' || \
+                echo false)"
+        [[ "${POURED_FROM_BOTTLE}" != "true" ]] || continue
+
+        echo_do "brew: Caching non-bottled ${HOMEBREW_PREFIX}/Cellar/${f}..."
+        mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}
+        rsync -a --delete ${HOMEBREW_PREFIX}/Cellar/${f}/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/
+        echo_done
+    done
+}
+
+function sf_travis_run_before_cache() {
+    sf_travis_run_before_cache_brew
+}
+
 function sf_travis_run_before_deploy() {
     make snapshot
     make dist
 }
 
 sf_rvm_unfuck
+[ ! -f ~/.brew_env ] || source ~/.brew_env
 >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
+
 if [ "$(type -t "travis_run_${1}")" = "function" ]; then
     eval "travis_run_${1}"
 elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
     eval "sf_travis_run_${1}"
 fi
+
 >&2 echo "$(date +"%H:%M:%S") [DONE] $@"

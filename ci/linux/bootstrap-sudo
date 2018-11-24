@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[ ${EUID} -eq 0 ] || {
+    sudo ${BASH_SOURCE[0]}
+    exit 0
+}
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+apt_install() {
+    echo "$@" | while read DPKG; do
+        echo_do "aptitude: Installing ${DPKG}..."
+        apt-get install -y --force-yes "${DPKG}"
+        echo_done
+    done
+}
+
+echo_do "aptitude: Upgrading..."
+apt_install "software-properties-common"
+apt-add-repository -y ppa:git-core/ppa
+apt-get update
+echo_done
+
+# FIXME https://travis-ci.org/tobiipro/support-firecloud/jobs/348017835#L589
+# WARNING: The following packages cannot be authenticated!
+#   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
+#   mongodb-org
+# E: There were unauthenticated packages and -y was used without --allow-unauthenticated
+# FIXME flimsy oracle-*-installer https://travis-ci.org/tobiipro/support-firecloud/jobs/367862936#L1014
+# FIXME flimsy postgresql-*
+if [ "${TRAVIS:-}" = "true" ]; then
+    HOLD_DPKGS="$(cat <<-EOF
+mongodb-org
+mongodb-org-mongos
+mongodb-org-server
+mongodb-org-shell
+mongodb-org-tools
+oracle-java8-installer
+oracle-java9-installer
+oracle-jdk8-installer
+oracle-jdk9-installer
+postgresql-9.3
+postgresql-9.4
+postgresql-9.5
+postgresql-9.6
+EOF
+)"
+    echo "${HOLD_DPKGS}" | while read DPKG; do
+        apt-mark hold "${DPKG}" || true
+    done
+fi
+
+echo_do "aptitude: Upgrading system packages..."
+apt-get upgrade -y
+echo_done
+
+# Basic
+echo_do "aptitude: Installing basic packages..."
+DPKGS="$(cat <<-EOF
+bash
+bsdmainutils
+build-essential
+curl
+file
+git
+uuid-runtime
+EOF
+)"
+apt_install "${DPKGS}"
+echo_done
+
+echo_do "aptitude: Listing packages..."
+apt list --installed
+echo_done

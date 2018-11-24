@@ -4,11 +4,11 @@ matrix:
     - os: linux
       dist: trusty
       sudo: false
-      env: CACHE_NAME=linux-trusty-false
+      env: CACHE_NAME=linux-nosudo-trusty
     - os: linux
       dist: trusty
       sudo: required
-      env: CACHE_NAME=linux-trusty-required
+      env: CACHE_NAME=linux-trusty
       if: branch = master
     - os: osx
       osx_image: xcode10.1
@@ -50,13 +50,19 @@ node_js:
   - node
 # addons:
 before_cache: ./.travis.sh before_cache
-# cache:
-#   directories:
-#     - $HOME/.local
-#     - $HOME/.npm
-#     - $HOME/.pip-cache/
-#     - $HOME/Library/Caches/Homebrew
-#     - /tmp/support-firecloud.cache
+cache:
+  directories:
+    # common
+    - $HOME/.local
+    - $HOME/.npm
+    # darwin
+    - $HOME/.homebrew
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/Library/Caches/pip
+    # linux
+    - $HOME/.cache/Homebrew
+    - $HOME/.cache/pip
+    - $HOME/.linuxbrew
 
 # 5. Steps
 before_install: ./.travis.sh before_install

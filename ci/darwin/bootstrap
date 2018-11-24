@@ -1,115 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "Installing/Upgrading homebrew..."
-ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
-    true # fails if already installed
-brew update
-brew outdated
-# trying to upgrade twice in case of intermediate complaints
-brew upgrade || brew upgrade
-
-echo "Installing/Upgrading git..."
-brew list git >/dev/null 2>&1 || brew install git
-brew outdated git >/dev/null 2>&1 || brew upgrade git
-
-# ------------------------------------------------------------------------------
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-brew_install() {
-    echo "$@" | while read FORMULA; do
-        NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-        # is it already installed ?
-        if brew list "${NAME}" >/dev/null 2>&1; then
-            # do we require installation with specific options ?
-            local NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-            local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
-            [[ -n "${OPTIONS}" ]] || continue
+brew_bootstrap_darwin() {
+    [[ -z "${BREW_FORMULAE:-}" ]] || {
+        echo_info "brew: Detected predefined packages ${BREW_FORMULAE}"
+        return 0
+    }
 
-            # is it already installed with the required options ?
-            local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
-                /usr/bin/python \
-                    -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
-                xargs -n1 | \
-                sort -u || true)"
-            local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
-            [[ -n "${NOT_FOUND_OPTIONS}" ]] || continue
-
-            echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
-            echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
-            echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
-            return 1
-        fi
-        brew install ${FORMULA}
-    done
+    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-common.inc.sh
 }
 
-# Basic/GNU
-echo_do "Installing basic/GNU packages..."
-BREW_FORMULAE="$(cat <<-EOF
-autoconf
-automake
-coreutils
-diffutils
-findutils --with-default-names
-gnu-sed --with-default-names
-gnu-tar --with-default-names
-gnu-time --with-default-names
-gnu-which
-grep --with-default-names
-gzip
-make --with-default-names
-parallel
-pkg-config
-unzip
-watch
-EOF
-)"
-brew_install "${BREW_FORMULAE}"
-echo_done
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+brew_bootstrap_darwin
+brew_list
 
-# Misc
-echo_do "Installing miscellaneous packages..."
-BREW_FORMULAE="$(cat <<-EOF
-bash
-curl
-git
-jq
-python@2
-python@3
-wget
-EOF
-)"
-brew_install "${BREW_FORMULAE}"
-brew link --force python@2
-echo_done
-
-# pyenv, pipenv
-echo_do "Installing Python pyenv and pipenv..."
-brew_install pyenv
-brew_install pipenv
-
-# AWS
-echo_do "Installing AWS utils..."
-brew_install awscli
-brew_install awslogs
-aws configure set s3.signature_version s3v4
-echo_done
+source ${SUPPORT_FIRECLOUD_DIR}/ci/maybe-npm.inc.sh
 
 echo_do "Printenv..."
 printenv
 echo_done
-
-echo_do "Listing packages..."
-brew list --versions
-echo_done
-
-# maybe NPM
-if which npm >/dev/null 2>&1; then
-    echo_do "Installing npm, json..."
-    npm install --global npm
-    npm install --global json
-    echo_done
-fi

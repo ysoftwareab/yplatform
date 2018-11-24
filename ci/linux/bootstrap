@@ -1,165 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[ ${EUID} -eq 0 ] || {
-    sudo ${BASH_SOURCE[0]}
-    exit 0
-}
-
-# ------------------------------------------------------------------------------
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-apt_install() {
-    echo "$@" | while read DPKG; do
-        apt-get install -y --force-yes "${DPKG}"
-    done
+${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap-sudo
+
+brew_bootstrap_linux() {
+    [[ -z "${BREW_FORMULAE:-}" ]] || {
+        echo_info "brew: Detected predefined packages ${BREW_FORMULAE}"
+        return 0
+    }
+
+    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-common.inc.sh
 }
 
-echo_do "Upgrading aptitude..."
-apt_install "software-properties-common"
-apt-add-repository -y ppa:git-core/ppa
-apt-get update
-echo_done
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+brew_bootstrap_linux
+brew_list
 
-# FIXME https://travis-ci.org/tobiipro/support-firecloud/jobs/348017835#L589
-# WARNING: The following packages cannot be authenticated!
-#   mongodb-org-shell mongodb-org-server mongodb-org-mongos mongodb-org-tools
-#   mongodb-org
-# E: There were unauthenticated packages and -y was used without --allow-unauthenticated
-# FIXME flimsy oracle-*-installer https://travis-ci.org/tobiipro/support-firecloud/jobs/367862936#L1014
-# FIXME flimsy postgresql-*
-if [ "${TRAVIS:-}" = "true" ]; then
-    HOLD_DPKGS="$(cat <<-EOF
-mongodb-org
-mongodb-org-mongos
-mongodb-org-server
-mongodb-org-shell
-mongodb-org-tools
-oracle-java8-installer
-oracle-java9-installer
-oracle-jdk8-installer
-oracle-jdk9-installer
-postgresql-9.3
-postgresql-9.4
-postgresql-9.5
-postgresql-9.6
-EOF
-)"
-    echo "${HOLD_DPKGS}" | while read DPKG; do
-        apt-mark hold "${DPKG}" || true
-    done
-fi
-
-echo_do "Upgrading system packages..."
-apt-get upgrade -y
-echo_done
-
-# Git
-echo_do "Installing/Upgrading git..."
-apt_install "git"
-echo_done
-
-# Basic
-echo_do "Installing basic packages..."
-DPKGS="$(cat <<-EOF
-autoconf
-automake
-bsdmainutils
-build-essential
-realpath
-software-properties-common
-tar
-uuid-runtime
-zip
-EOF
-)"
-apt_install "${DPKGS}"
-echo_done
-
-# Misc
-echo_do "Installing miscellaneous packages..."
-DPKGS="$(cat <<-EOF
-bash
-curl
-git
-jq
-python
-python3
-wget
-EOF
-)"
-apt_install "${DPKGS}"
-echo_done
-
-echo_do "Installing GNU Bash..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg bash --vsn 4.4
-echo_done
-
-echo_do "Installing GNU Make..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg make --vsn 4.2.1
-echo_done
-
-echo_do "Installing JQ..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg jq --vsn 1.5 \
-    --tar-url "https://github.com/stedolan/jq/releases/download/jq-\${VSN}/\${TAR_NAME}.tar.gz"
-echo_done
-
-# pip
-echo_do "Installing Python pip..."
-DPKGS="$(cat <<-EOF
-python-pip
-python3-pip
-EOF
-)"
-apt_install "${DPKGS}"
-# curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python2
-# curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3
-echo_done
-
-# pyenv, pipenv
-echo_do "Installing Python pyenv and pipenv..."
-# see https://github.com/pyenv/pyenv/wiki/Common-build-problems
-DPKGS="$(cat <<-EOF
-build-essential
-libssl-dev
-zlib1g-dev
-libbz2-dev
-libreadline-dev
-libsqlite3-dev
-llvm
-libncurses5-dev
-libncursesw5-dev
-xz-utils
-tk-dev
-libffi-dev
-liblzma-dev
-EOF
-)"
-apt_install "${DPKGS}"
-curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
-pip3 install --upgrade pipenv
-
-# AWS
-echo_do "Installing AWS utils..."
-pip3 install --upgrade awscli
-pip3 install --upgrade awslogs
-aws configure set s3.signature_version s3v4
-echo_done
+source ${SUPPORT_FIRECLOUD_DIR}/ci/maybe-npm.inc.sh
 
 echo_do "Printenv..."
 printenv
 echo_done
-
-echo_do "Listing packages..."
-apt list --installed
-echo_done
-
-# maybe NPM
-if which npm >/dev/null 2>&1; then
-    echo_do "Installing npm, json..."
-    npm install --global npm
-    npm install --global json
-    echo_done
-fi
