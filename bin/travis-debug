@@ -10,11 +10,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ##
 ##   --job          A job url or id
 ##   --token        Travis CI token shown on your profile page
+##                  Defaults to ${TRAVIS_API_TOKEN}
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TOKEN=
+TOKEN=${TRAVIS_API_TOKEN:-}
 JOB_ID=
 TRAVIS_DOMAIN=travis-ci.org
 
