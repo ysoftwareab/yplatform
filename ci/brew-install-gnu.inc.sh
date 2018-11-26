@@ -15,8 +15,6 @@ fi
 
 echo_do "brew: Installing GNU packages..."
 BREW_FORMULAE="$(cat <<-EOF
-autoconf
-automake
 coreutils
 diffutils
 findutils ${BREW_WITH_DEFAULT_NAMES}
@@ -26,19 +24,9 @@ gnu-time ${BREW_WITH_DEFAULT_NAMES}
 gnu-which ${BREW_WITH_DEFAULT_NAMES}
 grep ${BREW_WITH_DEFAULT_NAMES}
 gzip
-parallel
-pkg-config
 unzip
-watch
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE BREW_WITH_DEFAULT_NAMES
 echo_done
-
-# FIXME
-# remove autoconf
-# remove automake
-# remove parallel
-# remove pkg-config
-# remove watch
