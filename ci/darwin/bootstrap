@@ -86,10 +86,15 @@ brew_install "${BREW_FORMULAE}"
 brew link --force python@2
 echo_done
 
+# pyenv, pipenv
+echo_do "Installing Python pyenv and pipenv..."
+brew_install pyenv
+brew_install pipenv
+
 # AWS
 echo_do "Installing AWS utils..."
-pip2 install --upgrade awscli
-pip2 install --upgrade awslogs
+brew_install awscli
+brew_install awslogs
 aws configure set s3.signature_version s3v4
 echo_done
 

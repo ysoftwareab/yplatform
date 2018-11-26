@@ -87,8 +87,6 @@ git
 jq
 python
 python3
-python-pip
-python3-pip
 wget
 EOF
 )"
@@ -108,10 +106,45 @@ ${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg jq --vsn 1.5 \
     --tar-url "https://github.com/stedolan/jq/releases/download/jq-\${VSN}/\${TAR_NAME}.tar.gz"
 echo_done
 
+# pip
+echo_do "Installing Python pip..."
+DPKGS="$(cat <<-EOF
+python-pip
+python3-pip
+EOF
+)"
+apt_install "${DPKGS}"
+# curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python2
+# curl -sS https://bootstrap.pypa.io/get-pip.py | sudo python3
+echo_done
+
+# pyenv, pipenv
+echo_do "Installing Python pyenv and pipenv..."
+# see https://github.com/pyenv/pyenv/wiki/Common-build-problems
+DPKGS="$(cat <<-EOF
+build-essential
+libssl-dev
+zlib1g-dev
+libbz2-dev
+libreadline-dev
+libsqlite3-dev
+llvm
+libncurses5-dev
+libncursesw5-dev
+xz-utils
+tk-dev
+libffi-dev
+liblzma-dev
+EOF
+)"
+apt_install "${DPKGS}"
+curl -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+pip3 install --upgrade pipenv
+
 # AWS
 echo_do "Installing AWS utils..."
-pip install --upgrade awscli
-pip install --upgrade awslogs
+pip3 install --upgrade awscli
+pip3 install --upgrade awslogs
 aws configure set s3.signature_version s3v4
 echo_done
 

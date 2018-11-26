@@ -42,10 +42,16 @@ function sf_transcrypt() {
     }
 }
 
+function sf_pyenv_init() {
+    export PATH="~/.pyenv/bin:$PATH"
+    eval "$(pyenv init -)"
+}
+
 function sf_os() {
     TRAVIS_NOSUDO_MARKER="-nosudo"
     [ "${TRAVIS_SUDO}" != "true" ] || TRAVIS_NOSUDO_MARKER=
     "${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER}/bootstrap"
+    sf_pyenv_init
 }
 
 function sf_newer_pacote() {
