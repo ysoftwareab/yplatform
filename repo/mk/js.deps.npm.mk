@@ -29,3 +29,8 @@ deps-npm:
 	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
+
+
+.PHONY: deps-npm-prod
+deps-npm-prod:
+	$(NPM) install --production
