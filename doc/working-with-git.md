@@ -1,5 +1,12 @@
 # git
 
+## Feature branches
+
+We use a convention of prefixing feature branches with `f/`.
+The term `feature` is overloaded, as it means any topic e.g. `bug`, `emergency-fix`, `user`, etc.
+
+This allows different systems, like the CI/CD, to make certain decisions based on the name of the branch.
+
 ## Creating a new repository locally
 
 Set up `support-firecloud` as a `git` submodule via
