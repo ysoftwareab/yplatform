@@ -18,8 +18,9 @@ brew_bootstrap_linux_nosudo() {
 
     if [[ "${TRAVIS:-}" = "true" ]]; then
         echo_do "brew: Installing AWS utils (optimized for Travis)..."
-        pip2 install --user --upgrade --ignore-installed awscli
-        pip2 install --user --upgrade --ignore-installed awslogs
+        local PIP3=/opt/python/$(cd /opt/python && ls | grep "^3\\." | tail -1)/bin/pip3
+        ${PIP3} install --user --upgrade --ignore-installed awscli
+        ${PIP3} install --user --upgrade --ignore-installed awslogs
         aws configure set s3.signature_version s3v4
         echo_done
     else
