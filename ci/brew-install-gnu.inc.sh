@@ -3,12 +3,7 @@ set -euo pipefail
 
 BREW_WITH_DEFAULT_NAMES=
 if [[ "$(uname -s)" = "Darwin" ]]; then
-    if [[ "${TRAVIS:-}" = "true" ]]; then
-        # speed up by using bottles (no --with-default-names) and changing PATH
-        for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip; do
-            echo "export PATH=$(brew --prefix)/opt/${f}/libexec/gnubin:${PATH}" > ~/.brew_env
-        done
-    else
+    if [[ "${TRAVIS:-}" != "true" ]]; then
         BREW_WITH_DEFAULT_NAMES="--with-default-names"
     fi
 fi

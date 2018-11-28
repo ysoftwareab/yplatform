@@ -145,7 +145,6 @@ function sf_travis_run_before_deploy() {
 }
 
 sf_rvm_unfuck
-[ ! -f ~/.brew_env ] || source ~/.brew_env
 >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
 
 if [ "$(type -t "travis_run_${1}")" = "function" ]; then
