@@ -1,4 +1,4 @@
-# New git (and Github) repositories
+# new git (and Github) repositories
 
 ## Creating a new repository locally
 
