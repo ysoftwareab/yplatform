@@ -42,4 +42,4 @@ like your username e.g.
 
 ## New repositories
 
-See [New git (and Github) repositories](./working-with-git-new.md).
+See [new git (and Github) repositories](./working-with-git-new.md).
