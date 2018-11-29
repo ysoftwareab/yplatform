@@ -115,7 +115,7 @@ function sf_travis_run_before_cache_brew() {
 
     echo_do "brew: Caching ${HOMEBREW_PREFIX}/Homebrew..."
     mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew
-    rsync -a --delete ${HOMEBREW_PREFIX}/Homebrew/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
+    rsync -a --inplace --delete ${HOMEBREW_PREFIX}/Homebrew/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
     echo_done
 
     # cache non-bottled formulae
@@ -130,7 +130,7 @@ function sf_travis_run_before_cache_brew() {
 
         echo_do "brew: Caching non-bottled ${HOMEBREW_PREFIX}/Cellar/${f}..."
         mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}
-        rsync -a --delete ${HOMEBREW_PREFIX}/Cellar/${f}/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/
+        rsync -a --inplace --delete ${HOMEBREW_PREFIX}/Cellar/${f}/ ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/
         echo_done
     done
 }
