@@ -5,6 +5,7 @@ if which brew >/dev/null 2>&1; then
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         export PATH=$(brew --prefix)/opt/${f}/libexec/gnubin:${PATH}
     done
+    export PATH=$(brew --prefix)/opt/unzip/bin:${PATH}
     alias which="$(brew --prefix)/opt/gnu-which/bin/gwhich"
 fi
 
