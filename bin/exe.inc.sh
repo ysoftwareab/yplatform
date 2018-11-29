@@ -71,3 +71,12 @@ function printenv_with_name() {
         echo "${f}=$(printenv ${f} || echo "")"
     done
 }
+
+function exe_and_grep_q() {
+    local OUTPUT=$(eval "$1")
+    echo "${OUTPUT}" | grep -q "$2" || {
+        echo "${OUTPUT}"
+        echo_err "No match on '$2'."
+        exit 1
+    }
+}

@@ -8,3 +8,7 @@ echo_do "Installing npm, json..."
 npm install --global npm
 npm install --global json
 echo_done
+
+# test
+exe_and_grep_q "npm --version | head -1" "^6\."
+exe_and_grep_q "json --version | head -1" "^json 9\."
