@@ -21,9 +21,6 @@ brew_list
 
 source ${SUPPORT_FIRECLOUD_DIR}/ci/maybe-npm.inc.sh
 
-# refresh PATH, since now brew is available
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe.inc.sh
-
 echo_do "Printenv..."
 printenv
 echo_done
