@@ -89,9 +89,9 @@ function printenv_with_name() {
 
 function exe_and_grep_q() {
     local OUTPUT=$(eval "$1")
+    echo_info "Testing if '${OUTPUT}' matches '$2'..."
     echo "${OUTPUT}" | grep -q "$2" || {
-        echo "${OUTPUT}"
-        echo_err "No match on '$2'."
+        echo_err "No match."
         exit 1
     }
 }
