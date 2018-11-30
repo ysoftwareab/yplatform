@@ -148,6 +148,16 @@ function sf_travis_run_before_deploy() {
     make dist
 }
 
+function sf_travis_run_all() {
+    travis_run_before_install
+    travis_run_install
+    travis_run_before_script
+    travis_run_script
+    travis_run_after_success
+    travis_run_after_failure
+    travis_run_after_script
+}
+
 sf_rvm_unfuck
 >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
 
