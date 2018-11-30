@@ -41,7 +41,9 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
     echo_do "brew: Restoring cache..."
     if [[ -d "${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
         echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
-        rsync -aW --inplace --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew ${HOMEBREW_PREFIX}/Homebrew
+        rsync -aW --inplace --delete \
+            ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew \
+            ${HOMEBREW_PREFIX}/Homebrew
         echo_done
     fi
     # restore non-bottled formulae
@@ -51,7 +53,9 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
             [[ -f ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json ]] || continue
             echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Cellar/${f}..."
             mkdir -p ${HOMEBREW_PREFIX}/Cellar/${f}
-            rsync -aW --inplace --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ ${HOMEBREW_PREFIX}/Cellar/${f}/
+            rsync -aW --inplace --delete \
+                ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ \
+                ${HOMEBREW_PREFIX}/Cellar/${f}/
             echo_done
         done
     fi
