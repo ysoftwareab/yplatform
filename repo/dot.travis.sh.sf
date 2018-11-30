@@ -17,6 +17,7 @@ function sf_rvm_unfuck() {
     unset -f pushd
     unset -f popd
 }
+sf_rvm_unfuck
 
 function sf_private_submodules() {
     [ -z "${GH_TOKEN:-}" ] || {
@@ -63,6 +64,18 @@ function sf_newer_pacote() {
     echo_done
 }
 
+function sf_travis_run() {
+    >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
+
+    if [ "$(type -t "travis_run_${1}")" = "function" ]; then
+        eval "travis_run_${1}"
+    elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
+        eval "sf_travis_run_${1}"
+    fi
+
+    >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+}
+
 function sf_travis_run_before_install() {
     sf_private_submodules
     sf_transcrypt
@@ -88,6 +101,11 @@ function sf_travis_run_install() {
 
 function sf_travis_run_script() {
     make all test
+}
+
+function sf_travis_run_before_deploy() {
+    make snapshot
+    make dist
 }
 
 function sf_travis_run_before_cache_brew() {
@@ -143,28 +161,23 @@ function sf_travis_run_before_cache() {
     sf_travis_run_before_cache_brew
 }
 
-function sf_travis_run_before_deploy() {
-    make snapshot
-    make dist
-}
 
 function sf_travis_run_all() {
-    travis_run_before_install
-    travis_run_install
-    travis_run_before_script
-    travis_run_script
-    travis_run_after_success
-    travis_run_after_failure
-    travis_run_after_script
+    local TRAVIS_PHASES="$(cat <<-EOF
+before_install
+install
+before_script
+script
+after_success
+after_failure
+after_script
+before_cache
+EOF
+)"
+
+    for f in ${TRAVIS_PHASES}; do
+        sf_travis_run $f;
+    done
 }
 
-sf_rvm_unfuck
->&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
-
-if [ "$(type -t "travis_run_${1}")" = "function" ]; then
-    eval "travis_run_${1}"
-elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
-    eval "sf_travis_run_${1}"
-fi
-
->&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+[[ -z "$*" ]] || sf_travis_run $@
