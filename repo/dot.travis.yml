@@ -33,11 +33,17 @@ node_js:
 before_cache: ./.travis.sh before_cache
 cache:
   directories:
+    # common
     - $HOME/.local
     - $HOME/.npm
-    - $HOME/.pip-cache/
+    # darwin
+    - $HOME/.homebrew
     - $HOME/Library/Caches/Homebrew
-    - /tmp/support-firecloud.cache
+    - $HOME/Library/Caches/pip
+    # linux
+    - $HOME/.cache/Homebrew
+    - $HOME/.cache/pip
+    - $HOME/.linuxbrew
 
 # 5. Steps
 before_install: ./.travis.sh before_install

@@ -17,6 +17,7 @@ function sf_rvm_unfuck() {
     unset -f pushd
     unset -f popd
 }
+sf_rvm_unfuck
 
 function sf_private_submodules() {
     [ -z "${GH_TOKEN:-}" ] || {
@@ -43,15 +44,32 @@ function sf_transcrypt() {
 }
 
 function sf_pyenv_init() {
-    export PATH="~/.pyenv/bin:$PATH"
     eval "$(pyenv init -)"
 }
 
 function sf_os() {
-    TRAVIS_NOSUDO_MARKER="-nosudo"
+    local TRAVIS_NOSUDO_MARKER="-nosudo"
     [ "${TRAVIS_SUDO}" != "true" ] || TRAVIS_NOSUDO_MARKER=
-    "${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER}/bootstrap"
-    sf_pyenv_init
+    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}${TRAVIS_NOSUDO_MARKER}/bootstrap"
+
+    if [ "${SHOW_SF_OS_LOG:-}" = "true" ]; then
+        ${BOOTSTRAP_SCRIPT}
+        return 0
+    fi
+
+    local TMP_SF_OS_LOG=$(mktemp)
+    echo_info "Running sf_os, but redirecting into ${TMP_SF_OS_LOG} to minimize Travis log..."
+
+    while :;do echo -n .; sleep 30; done &
+    local WHILE_LOOP_PID=$!
+    trap "kill ${WHILE_LOOP_PID}" EXIT
+    ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+        echo_err "sf_os failed. The latest log tail follows:"
+        tail -n100 ${TMP_SF_OS_LOG}
+        return 1
+    }
+    echo
+    kill ${WHILE_LOOP_PID} && trap " " EXIT
 }
 
 function sf_newer_pacote() {
@@ -64,22 +82,23 @@ function sf_newer_pacote() {
     echo_done
 }
 
+function sf_travis_run() {
+    >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
+
+    if [ "$(type -t "travis_run_${1}")" = "function" ]; then
+        eval "travis_run_${1}"
+    elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
+        eval "sf_travis_run_${1}"
+    fi
+
+    >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+}
+
 function sf_travis_run_before_install() {
     sf_private_submodules
     sf_transcrypt
-
-    if [ "${SHOW_SF_OS_LOG:-}" = "true" ]; then
-        sf_os
-    else
-        TMP_SF_OS_LOG=$(mktemp)
-        echo_info "Running sf_os, but redirecting into ${TMP_SF_OS_LOG} to minimize Travis log..."
-        sf_os >${TMP_SF_OS_LOG} 2>&1 || {
-            echo_err "sf_os failed. The latest log tail follows:"
-            tail -n100 ${TMP_SF_OS_LOG}
-            exit 1
-        }
-    fi
-
+    sf_os
+    sf_pyenv_init
     sf_newer_pacote
 }
 
@@ -96,11 +115,76 @@ function sf_travis_run_before_deploy() {
     make dist
 }
 
-sf_rvm_unfuck
->&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
-if [ "$(type -t "travis_run_${1}")" = "function" ]; then
-    eval "travis_run_${1}"
-elif [ "$(type -t "sf_travis_run_${1}")" = "function" ]; then
-    eval "sf_travis_run_${1}"
-fi
->&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+function sf_travis_run_before_cache_brew() {
+    which brew >/dev/null 2>&1 || return 0
+    local HOMEBREW_PREFIX=$(brew --prefix)
+    local TRAVIS_CACHE_HOMEBREW_PREFIX
+    brew cleanup
+
+    case $(uname -s) in
+        Darwin)
+            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            ;;
+        Linux)
+            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            ;;
+        *)
+            echo_err "brew: $(uname -s) is an unsupported OS."
+            return 1
+            ;;
+    esac
+
+    if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" = "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
+        return 0
+    fi
+
+    echo_do "brew: Caching ${HOMEBREW_PREFIX}/Homebrew..."
+    mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew
+    rsync -aW --inplace --delete \
+        ${HOMEBREW_PREFIX}/Homebrew/ \
+        ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
+    echo_done
+
+    # cache non-bottled formulae
+    rm -rf ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/*
+    for f in $(find ${HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
+        f="$(basename $(dirname "${f}"))/$(basename "${f}")" # name/version
+        local POURED_FROM_BOTTLE="$(cat ${HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json | \
+            /usr/bin/python \
+                -c 'import sys,json;print json.dumps(json.load(sys.stdin)["poured_from_bottle"])' || \
+                echo false)"
+        [[ "${POURED_FROM_BOTTLE}" != "true" ]] || continue
+
+        echo_do "brew: Caching non-bottled ${HOMEBREW_PREFIX}/Cellar/${f}..."
+        mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}
+        rsync -aW --inplace --delete \
+            ${HOMEBREW_PREFIX}/Cellar/${f}/ \
+            ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/
+        echo_done
+    done
+}
+
+function sf_travis_run_before_cache() {
+    sf_travis_run_before_cache_brew
+}
+
+
+function sf_travis_run_all() {
+    local TRAVIS_PHASES="$(cat <<-EOF
+before_install
+install
+before_script
+script
+after_success
+after_failure
+after_script
+before_cache
+EOF
+)"
+
+    for f in ${TRAVIS_PHASES}; do
+        sf_travis_run $f;
+    done
+}
+
+[[ -z "$*" ]] || sf_travis_run $@

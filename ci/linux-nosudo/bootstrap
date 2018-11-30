@@ -4,38 +4,36 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-echo_do "Installing GNU Bash..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg bash --vsn 4.4
+echo_do "aptitude: Listing packages..."
+apt list --installed
 echo_done
 
-echo_do "Installing GNU Make..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg make --vsn 4.2.1
-echo_done
+brew_bootstrap_linux_nosudo() {
+    [[ -z "${BREW_FORMULAE:-}" ]] || {
+        echo_info "brew: Detected predefined packages ${BREW_FORMULAE}"
+        return 0
+    }
 
-echo_do "Installing JQ..."
-${SUPPORT_FIRECLOUD_DIR}/ci/linux/install-gnu --pkg jq --vsn 1.5 \
-    --tar-url "https://github.com/stedolan/jq/releases/download/jq-\${VSN}/\${TAR_NAME}.tar.gz"
-echo_done
+    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
 
-# AWS
-echo_do "Installing AWS utils..."
-pip2 install --user --upgrade --ignore-installed awscli
-pip2 install --user --upgrade --ignore-installed awslogs
-aws configure set s3.signature_version s3v4
-echo_done
+    if [[ "${TRAVIS:-}" = "true" ]]; then
+        echo_do "brew: Installing AWS utils (optimized for Travis)..."
+        local PIP3=/opt/python/$(cd /opt/python && ls | grep "^3\\." | tail -1)/bin/pip3
+        ${PIP3} install --user --upgrade --ignore-installed awscli
+        ${PIP3} install --user --upgrade --ignore-installed awslogs
+        aws configure set s3.signature_version s3v4
+        echo_done
+    else
+        source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
+    fi
+}
+
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+brew_bootstrap_linux_nosudo
+brew_list
+
+source ${SUPPORT_FIRECLOUD_DIR}/ci/maybe-npm.inc.sh
 
 echo_do "Printenv..."
 printenv
 echo_done
-
-echo_do "Listing packages..."
-apt list --installed
-echo_done
-
-# maybe NPM
-if which npm >/dev/null 2>&1; then
-    echo_do "Installing npm, json..."
-    npm install --global npm
-    npm install --global json
-    echo_done
-fi
