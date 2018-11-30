@@ -17,12 +17,10 @@ if which brew >/dev/null 2>&1; then
     HOMEBREW_PREFIX=$(brew --prefix)
     export PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:${PATH}
 
-    for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip; do
+    for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         export PATH=${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin:${PATH}
     done
-    export PATH=${HOMEBREW_PREFIX}/opt/make/bin:${PATH}
     export PATH=${HOMEBREW_PREFIX}/opt/unzip/bin:${PATH}
-    alias which=${HOMEBREW_PREFIX}/opt/gnu-which/bin/gwhich
     unset HOMEBREW_PREFIX
 fi
 
