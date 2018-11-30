@@ -9,7 +9,6 @@ case $(uname -s) in
         echo_done
 
         TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
-        HOMEBREW_PREFIX=/usr/local
         ;;
     Linux)
         echo_do "brew: Installing linuxbrew..."
@@ -17,10 +16,11 @@ case $(uname -s) in
         echo_done
 
         TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
-        if [[ -x ~/.linuxbrew/bin/brew ]]; then
-            HOMEBREW_PREFIX=~/.linuxbrew
-        elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-            HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew
+
+        if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+            export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}
+        elif [[ -x ~/.linuxbrew/bin/brew ]]; then
+            export PATH=~/.linuxbrew/bin:~/.linuxbrew/sbin:${PATH}
         fi
         ;;
     *)
@@ -29,11 +29,7 @@ case $(uname -s) in
         ;;
 esac
 
-[[ -n "${HOMEBREW_PREFIX:-}" ]] || {
-    echo_err "brew: HOMEBREW_PREFIX is undefined."
-    return 1
-}
-
+HOMEBREW_PREFIX=$(brew --prefix)
 if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
     echo_do "brew: Restoring cache..."
     if [[ -d "${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
@@ -58,10 +54,8 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
     fi
     echo_done
 fi
-unset TRAVIS_CACHE_HOMEBREW_PREFIX
-
-export PATH=${HOMEBREW_PREFIX}/bin:${HOMEBREW_PREFIX}/sbin:${PATH}
 unset HOMEBREW_PREFIX
+unset TRAVIS_CACHE_HOMEBREW_PREFIX
 
 echo_do "brew: Upgrading..."
 brew update
