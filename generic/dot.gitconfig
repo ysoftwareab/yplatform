@@ -86,7 +86,7 @@
 
 # MISC
 [status]
-    submodulesummary    = true
+    submoduleSummary    = true
     relativePaths       = true
 [fetch]
     recurseSubmodules   = on-demand #true
