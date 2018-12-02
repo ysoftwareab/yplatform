@@ -9,11 +9,11 @@ matrix:
       dist: trusty
       sudo: required
       env: CACHE_NAME=linux-trusty
-      if: branch = master
+      if: branch = master AND type IN (push, cron)
     - os: osx
       osx_image: xcode10.1
       env: CACHE_NAME=osx-xcode10.1
-      if: branch = master
+      if: branch = master AND type IN (push, cron)
 
 # 1. Notifications
 notifications:
