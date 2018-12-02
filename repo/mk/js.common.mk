@@ -8,6 +8,13 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.misc.version.mk
 PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
 export PATH
 
+NODE = $(call which,NODE,node)
+NODE_NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
+NODE_NPX = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npx/")
+NPM = $(call which,NPM,npm)
+NPX = $(call which,NPX,npx)
+$(foreach VAR,NODE NODE_NPM NODE_NPX NPM NPX,$(call make-lazy,$(VAR)))
+
 SRC_JS_FILES := $(shell $(FIND_Q) src -type f -name "*.js" -print)
 
 # ------------------------------------------------------------------------------

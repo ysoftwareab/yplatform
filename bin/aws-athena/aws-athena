@@ -1,4 +1,4 @@
-#!/usr/bin/env node -r babel-register
+#!/usr/bin/env babel-node
 
 process.env.AWS_ATHENA_REGION = process.env.AWS_ATHENA_REGION || process.env.AWS_REGION;
 console.error(`Prerequisites:

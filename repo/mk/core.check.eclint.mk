@@ -1,4 +1,6 @@
 ECLINT = $(call which,ECLINT,eclint)
+$(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
+
 ECLINT_ARGS ?=
 IS_TRANSCRYPTED ?=
 

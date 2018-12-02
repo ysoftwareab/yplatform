@@ -1,4 +1,5 @@
 JEST = $(call which,JEST,jest)
+$(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \

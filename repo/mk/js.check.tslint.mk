@@ -1,5 +1,7 @@
 TSFMT = $(call which,TSFMT,tsfmt)
 TSLINT = $(call which,TSLINT,tslint)
+$(foreach VAR,TSFMT TSLINT,$(call make-lazy,$(VAR)))
+
 TSLINT_ARGS ?=
 TSLINT_ARGS := \
 	$(TSLINT_ARGS) \

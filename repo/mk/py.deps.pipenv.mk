@@ -1,4 +1,5 @@
 PIPENV = $(call which,PIPENV,pipenv)
+$(foreach VAR,PIPENV,$(call make-lazy,$(VAR)))
 
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \

@@ -1,3 +1,7 @@
+BABEL = $(call which,BABEL,babel)
+BABEL_NODE = $(call which,BABEL_NODE,babel-node)
+$(foreach VAR,BABEL BABEL_NODE,$(call make-lazy,$(VAR)))
+
 BABELRC := $(shell $(FIND_Q) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
 LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
 

@@ -49,7 +49,7 @@ all: $(CFN_JSON_FILES)
 $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
 	@$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
-	$(NODE_BABEL) ./$< > $@
+	./$< > $@
 #	FIXME validate-template only checks JSON syntax. use cloudformation-schema...
 #	https://console.aws.amazon.com/support/home?region=eu-west-1#/case/?displayId=1832313261&language=en
 	if $$($(AWS) s3 ls --page-size 1 $(TMP_S3_URL) >/dev/null); then { \

@@ -1,3 +1,6 @@
+NPM = $(call which,NPM,npm)
+$(foreach VAR,NPM,$(call make-lazy,$(VAR)))
+
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	node_modules \
