@@ -6,11 +6,12 @@ Set up `support-firecloud` as a `git` submodule via
 
 ```shell
 git submodule add -b master git://github.com/tobiipro/support-firecloud.git
+git submodule update --init --recursive
 
-# for a generic repository
+# for a generic repository, run
 support-firecloud/bin/repo-generic-bootstrap
 
-# for a Node.js repository
+# for a Node.js repository, run
 support-firecloud/bin/repo-node-bootstrap
 ```
 
