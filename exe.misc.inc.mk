@@ -22,10 +22,3 @@ ZIP = $(ZIP_NOSYM) -y
 UNZIP = $(call which,UNZIP,unzip) -oq
 ZIPINFO = $(call which,ZIPINFO,zipinfo)
 $(foreach VAR,ZIP_NOSYM ZIP UNZIP ZIPINFO,$(call make-lazy,$(VAR)))
-
-BABEL = $(call which,BABEL,babel)
-NODE = $(call which,NODE,node)
-NODE_BABEL = $(NODE) -r babel-register
-NODE_NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
-NPM = $(call which,NPM,npm)
-$(foreach VAR,BABEL NODE NODE_BABEL NODE_NPM NPM,$(call make-lazy,$(VAR)))
