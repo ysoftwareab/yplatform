@@ -15,6 +15,7 @@
     renames             = true
     mnemonicprefix      = true
     algorithm           = patience
+    submodule           = log
 [diff "bin"]
     textconv            = hexdump -v -C
 [diff "docx"]
