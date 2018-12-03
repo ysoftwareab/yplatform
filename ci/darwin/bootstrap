@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+sudo true || {
+    >&2 echo "[ERROR] You need local admin rights to properly bootstrap." \
+    "If you don't have local admin rights, try contacting the IT department."
+    exit 1
+}
+
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 

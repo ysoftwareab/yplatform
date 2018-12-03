@@ -1,5 +1,12 @@
 # Bootstrap
 
+## Generate an SSH Key & add it to your Github account
+Repositories are by default accessed via SSH so you need to set up an SSH key and add it to your github account:
+
+- [Generate a new SSH Key and Add it to the ssh-agent](https://help.github.com/enterprise/2.15/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
+- [Add the new SSH key to your Github account](https://help.github.com/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account/)
+
+
 ## `git`
 
 We assume that you keep all firecloud-related `git` repositories under `~/git/firecloud`.
