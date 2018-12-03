@@ -5,10 +5,7 @@ in a continuous manner, whenever new commits are pushed or on code from pull req
 
 We currently use Travis CI and thus prefer it for consistency, but other CIs are ok given reasonable consideration.
 
-If the repository is public, go to https://travis-ci.org/profile/tobiipro
-and enable Travis CI integration for your repository.
-
-If the repository is private, go to https://travis-ci.com/profile/tobiipro (.com instead of .org)
+Go to https://travis-ci.com/profile/tobiipro
 and enable Travis CI integration for your repository.
 
 **NOTE** It is recommended that on the repository's Travis CI settings page you
@@ -27,11 +24,11 @@ and embed a status image for the `master` branch (or more) in `README.md`, in sh
 
 ...
 
-  [1]: https://travis-ci.org/tobiipro/<repo>
-  [2]: https://travis-ci.org/tobiipro/<repo>.svg?branch=master
+  [1]: https://travis-ci.com/tobiipro/<repo>
+  [2]: https://travis-ci.com/tobiipro/<repo>.svg?branch=master
 ```
 
-**NOTE** for private repositories, use `travis-ci.com` and you'll want to go https://travis-ci.com/tobiipro/<repo>,
+**NOTE** for private repositories, you'll want to go https://travis-ci.com/tobiipro/<repo>,
 click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
 
 Reference: https://docs.travis-ci.com/user/status-images/
@@ -46,12 +43,15 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If you have Travis-specific values to encrypt e.g. a Slack API token for notifications,
 then you can add encrypted values in the `.travis.yml` file that only Travis CI can decrypt.
 
-**NOTE** If you're working with **public repositories**, you can simply use the `travis-encrypt` utility in the `support-firecloud` repository and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co. Use `support-firecloud/bin/travis-encrypt --value "..."` instead of `travis encrypt "..."` in the examples below.
+**NOTE** If you're working with **public repositories**,
+you can simply use the `travis-encrypt` utility in the `support-firecloud` repository
+and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co.
+Use `support-firecloud/bin/travis-encrypt --value "..."` instead of `travis encrypt "..."` in the examples below.
 
 For **private repositories**, you need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb). On OSX run `brew install travis` to install it.
 
 ```shell
-travis encrypt something_super_secret
+travis encrypt --com something_super_secret
 ```
 
 Now you can add the `secret: "..."` text to your `.travis.yml` file.
@@ -93,10 +93,8 @@ If you are planning to do release via Travis CI, see [how to release](how-to-rel
 If you experience failures and you want to debug inside a Travis worker, see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
 
 You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
-- X is the token that you see at https://travis-ci.org/profile/ (for public repositories) and https://travis-ci.com/profile/ (for private repositories)
+- X is the token that you see at https://travis-ci.com/profile/
 - Y can be a numeric job ID or a job URL or even a build URL (most useful)
-
-Add the flag `--pro`, if your build is for a private repository (i.e. on travis-ci.com instead of travis-ci.org).
 
 
 ## Notifications

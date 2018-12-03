@@ -29,5 +29,5 @@ Software and configuration that support TobiiPro's Cloud Services development.
 [Apache-2.0](LICENSE)
 
 
-  [1]: https://travis-ci.org/tobiipro/support-firecloud
-  [2]: https://travis-ci.org/tobiipro/support-firecloud.svg?branch=master
+  [1]: https://travis-ci.com/tobiipro/support-firecloud
+  [2]: https://travis-ci.com/tobiipro/support-firecloud.svg?branch=master
