@@ -1,10 +1,36 @@
 # Bootstrap
 
-## Generate an SSH Key & add it to your Github account
-Repositories are by default accessed via SSH so you need to set up an SSH key and add it to your github account:
+## Github onboarding
 
-- [Generate a new SSH Key and Add it to the ssh-agent](https://help.github.com/enterprise/2.15/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/)
-- [Add the new SSH key to your Github account](https://help.github.com/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account/)
+* Have an account? If not [register one](https://github.com/join).
+  * Register with your personal email, if possible. You will surely have a Github account beyond your stay at Tobii.
+* Go to https://github.com/settings/profile and fill in some info and **upload a picture**.
+* Go to https://github.com/settings/emails and **register your @tobii.com email address**.
+  * Keep the personal one as the primary one.
+* Go to https://github.com/settings/security and **enable Two-factor**.
+* Follow the instructions below and **setup [Github notifications](#github-notifications)**.
+
+
+## Github notifications
+
+Notifications are nice, and even necessary to have,
+but they need to come in the right amount and on proper channels.
+
+The right amount can be fixed by going to https://github.com/settings/notifications
+and **turning off `Automatically watch repositories`**.
+
+The proper channels can be fixed by going to https://github.com/settings/emails
+and registering your @tobii.com email address, if you haven't done so already.
+Once that is done, go to https://github.com/settings/notifications#organization_routing
+and select the @tobii.com email address for the Tobii organizations.
+
+
+## Add your SSH key to your Github account
+
+We access repositories via SSH (not HTTPS), so you need to
+
+* [set up an SSH key](https://help.github.com/enterprise/2.15/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/), if you don't have one already
+* [and add it to your Github account](https://help.github.com/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account/)
 
 
 ## `git`
