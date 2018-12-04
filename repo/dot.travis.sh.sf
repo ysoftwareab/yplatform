@@ -62,6 +62,7 @@ function sf_os() {
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
     ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+        echo
         echo_err "sf_os failed. The latest log tail follows:"
         tail -n100 ${TMP_SF_OS_LOG}
         return 1
