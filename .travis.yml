@@ -3,11 +3,6 @@ matrix:
   include:
     - os: linux
       dist: trusty
-      sudo: false
-      env: CACHE_NAME=linux-nosudo-trusty
-    - os: linux
-      dist: trusty
-      sudo: required
       env: CACHE_NAME=linux-trusty
       if: branch = master AND type IN (push, cron)
     - os: osx
@@ -43,7 +38,6 @@ branches:
 # 4. Bootstrap
 # os: linux
 # dist: trusty
-# sudo: false
 language:
   - node_js
 node_js:
