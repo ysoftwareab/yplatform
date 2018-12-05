@@ -8,11 +8,20 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ## Usage: repo-node-boostrap [OPTION]
 ## Bootstrap a repo as a node repo.
 ##
+##   --diff         Bootstrap a temporary folder for comparing
+##                  current status with current bootstrap template
+##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+DIFF=false
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --diff)
+            DIFF=true
+            shift
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -28,16 +37,30 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-(
-    cd ${SUPPORT_FIRECLOUD_DIR}/..
-    git rev-parse --show-toplevel >/dev/null || {
-        echo_err "support-firecloud is not in a git repo"
-        exit 1
-    }
-)
+cd ${SUPPORT_FIRECLOUD_DIR}/..
+git rev-parse --show-toplevel >/dev/null || {
+    echo_err "support-firecloud is not in a git repository"
+    exit 1
+}
+[[ "$(cd $(git rev-parse --show-toplevel) && pwd -P)" = "$(pwd -P)" ]] || {
+    echo_err "support-firecloud is not in the root of a git repository"
+    exit 1
+}
 
-SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
+SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)')")"
 ARTIFACTS=
+
+if ${DIFF}; then
+    echo_info "Creating a temporary vanilla bootstrapped folder for comparison"
+    TMP=$(mktemp -d -t firecloud.XXXXXXXXXX)
+    echo_info "${TMP}"
+    echo_info "e.g. opendiff . ${TMP}"
+    echo_info "e.g. ksdiff . ${TMP}"
+    echo
+    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP}/support-firecloud
+    cd ${TMP}
+    git init >/dev/null
+fi
 
 # NOTE duplicate code on purpose
 
@@ -78,6 +101,6 @@ ARTIFACT=jest.config.js
     echo_info "Created ${ARTIFACT}."
 }
 
-${SUPPORT_FIRECLOUD_DIR}/bin/repo-generic-bootstrap
+${SUPPORT_FIRECLOUD_DIR_REL}/bin/repo-generic-bootstrap
 
 echo -e "${ARTIFACTS}" | sort -u
