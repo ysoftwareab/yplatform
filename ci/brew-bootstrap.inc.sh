@@ -76,7 +76,10 @@ brew_install() {
         # is it already installed ?
         if brew list "${NAME}" >/dev/null 2>&1; then
             # do we require installation with specific options ?
-            [[ -n "${OPTIONS}" ]] || continue
+            [[ -n "${OPTIONS}" ]] || {
+                echo_skip "brew: Installing ${FORMULA}..."
+                continue
+            }
 
             # is it already installed with the required options ?
             local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
@@ -85,7 +88,10 @@ brew_install() {
                 xargs -n1 | \
                 sort -u || true)"
             local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
-            [[ -n "${NOT_FOUND_OPTIONS}" ]] || continue
+            [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
+                echo_skip "brew: Installing ${FORMULA}..."
+                continue
+            }
 
             echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
             echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
