@@ -4,6 +4,7 @@ SF_PATH_FILES_IGNORE := \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 	-e "^AUTHORS$$" \
+	-e "^Brewfile.inc.sh$$" \
 	-e "^README" \
 	-e "/README" \
 	-e "^Makefile" \
