@@ -11,8 +11,10 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 brew_bootstrap_darwin() {
-    [[ -z "${BREW_FORMULAE:-}" ]] || {
-        echo_info "brew: Detected predefined packages ${BREW_FORMULAE}"
+    local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
+    [[ ! -f "${BREWFILE_INC_SH}" ]] || {
+        echo_info "brew: Detected predefined packages in ${BREWFILE_INC_SH}"
+        source ${BREWFILE_INC_SH}
         return 0
     }
 

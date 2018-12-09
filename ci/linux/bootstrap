@@ -7,8 +7,10 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap-sudo
 
 brew_bootstrap_linux() {
-    [[ -z "${BREW_FORMULAE:-}" ]] || {
-        echo_info "brew: Detected predefined packages ${BREW_FORMULAE}"
+    local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
+    [[ ! -f "${BREWFILE_INC_SH}" ]] || {
+        echo_info "brew: Detected predefined packages in ${BREWFILE_INC_SH}"
+        source ${BREWFILE_INC_SH}
         return 0
     }
 
