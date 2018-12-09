@@ -7,6 +7,7 @@ SF_PATH_FILES_IGNORE := \
 	-e "^generic/dot\.gitattributes_global" \
 	-e "^generic/dot\.gitignore_global" \
 	-e "^repo/AUTHORS$$" \
+	-e "^repo/Brewfile.inc.sh$$" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/NOTICE$$" \
 	-e "^repo/UNLICENSE$$" \
