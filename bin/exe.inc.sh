@@ -20,6 +20,7 @@ if which brew >/dev/null 2>&1; then
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         export PATH=${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin:${PATH}
     done
+    export PATH=${HOMEBREW_PREFIX}/opt/curl/bin:${PATH}
     export PATH=${HOMEBREW_PREFIX}/opt/unzip/bin:${PATH}
     unset HOMEBREW_PREFIX
 fi
