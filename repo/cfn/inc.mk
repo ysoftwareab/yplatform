@@ -82,7 +82,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 %.cfn.json/lint: %-setup ## Lint stack.
 	$(ECHO_DO) "Linting the $(STACK_NAME) stack..."
 	$(ESLINT) $(ESLINT_ARGS) \
-		$(STACK_STEM).js \
+		$(STACK_STEM)/index.js \
 		$$($(FIND_Q_NOSYM) $(STACK_STEM) -type f -name "*.cfn.js" -print)
 	$(call $(STACK_STEM)-lint)
 	$(ECHO_DONE)
