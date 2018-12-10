@@ -37,3 +37,4 @@ deps-npm:
 .PHONY: deps-npm-prod
 deps-npm-prod:
 	$(NPM) install --production
+	$(NPM) prune --production
