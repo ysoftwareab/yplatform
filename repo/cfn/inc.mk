@@ -120,6 +120,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(ECHO_DONE)
 
 
+.PHONY: %.cfn.json.diff
 %.cfn.json.diff: %-setup %.cfn.json %.cfn.json.bak
 	$(ECHO_DO) "Creating $(STACK_TPL_FILE_DIFF)..."
 	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
