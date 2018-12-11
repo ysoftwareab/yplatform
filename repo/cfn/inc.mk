@@ -23,8 +23,8 @@ ESLINT_ARGS ?=
 CHANGE_SET_NAME ?= $(STACK_NAME)-$(GIT_HASH_SHORT)-$(MAKE_DATE)-$(MAKE_TIME)
 STACK_TPL_FILE ?= $(STACK_STEM).cfn.json
 STACK_TPL_FILE_BAK ?= $(STACK_TPL_FILE).bak
+STACK_TPL_FILE_DIFF ?= $(STACK_TPL_FILE).diff
 CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
-CHANGE_SET_FILE_DIFF ?= $(CHANGE_SET_FILE).diff
 
 CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
 CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
@@ -121,11 +121,11 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 
 %.cfn.json.diff: %-setup %.cfn.json %.cfn.json.bak
-	$(ECHO_DO) "Creating $(CHANGE_SET_FILE_DIFF)..."
+	$(ECHO_DO) "Creating $(STACK_TPL_FILE_DIFF)..."
 	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
 		$(CAT) $${f} | $(JQ) -S . > sorted.$${f}; \
 	done
-	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(CHANGE_SET_FILE_DIFF) || true
+	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(STACK_TPL_FILE_DIFF) || true
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
 	$(ECHO_DONE)
 
@@ -141,7 +141,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--template-body file://$(STACK_TPL_FILE) \
 		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
-	$(ECHO) "Diff file: $(CHANGE_SET_FILE_DIFF)"
+	$(ECHO) "Diff file: $(STACK_TPL_FILE_DIFF)"
 	$(ECHO_DONE)
 
 
