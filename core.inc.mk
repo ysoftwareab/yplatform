@@ -5,6 +5,7 @@ SHELL := bash
 .SHELLFLAGS := -euo pipefail -c
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
+.SECONDARY:
 .SUFFIXES:
 .NOTPARALLEL:
 
