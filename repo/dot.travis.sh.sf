@@ -48,6 +48,8 @@ function sf_pyenv_init() {
 }
 
 function sf_os() {
+    echo_info "Running sf_os with SHOW_SF_OS_LOG=${SHOW_SF_OS_LOG:-}"
+
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}/bootstrap"
 
     if [ "${SHOW_SF_OS_LOG:-}" = "true" ]; then
@@ -56,7 +58,7 @@ function sf_os() {
     fi
 
     local TMP_SF_OS_LOG=$(mktemp)
-    echo_info "Running sf_os, but redirecting into ${TMP_SF_OS_LOG} to minimize Travis log..."
+    echo_info "Redirecting sf_os into ${TMP_SF_OS_LOG} to minimize Travis log..."
 
     while :;do echo -n .; sleep 60; done &
     local WHILE_LOOP_PID=$!
