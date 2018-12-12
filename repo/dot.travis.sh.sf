@@ -58,7 +58,7 @@ function sf_os() {
     local TMP_SF_OS_LOG=$(mktemp)
     echo_info "Running sf_os, but redirecting into ${TMP_SF_OS_LOG} to minimize Travis log..."
 
-    while :;do echo -n .; sleep 30; done &
+    while :;do echo -n .; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
     ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
