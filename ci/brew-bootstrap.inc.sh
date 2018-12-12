@@ -34,10 +34,10 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
     echo_do "brew: Restoring cache..."
     if [[ -d "${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
         echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
-        RSYNC_CMD="rsync -a --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew ${HOMEBREW_PREFIX}/Homebrew"
+        RSYNC_CMD="rsync -a --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/ ${HOMEBREW_PREFIX}/Homebrew/"
         ${RSYNC_CMD} || {
-            exe ls -la ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew
-            exe ls -la ${HOMEBREW_PREFIX}/Homebrew
+            exe ls -la ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew || true
+            exe ls -la ${HOMEBREW_PREFIX}/Homebrew || true
             ${RSYNC_CMD} --verbose
         }
         unset RSYNC_CMD
