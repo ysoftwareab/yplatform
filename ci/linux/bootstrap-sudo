@@ -52,10 +52,6 @@ EOF
     done
 fi
 
-echo_do "aptitude: Upgrading system packages..."
-apt-get upgrade -y
-echo_done
-
 # Basic
 echo_do "aptitude: Installing basic packages..."
 DPKGS="$(cat <<-EOF
