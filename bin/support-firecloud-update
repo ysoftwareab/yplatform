@@ -3,7 +3,7 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
-SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(SUPPORT_FIRECLOUD_DIR)', '$(GIT_ROOT)')")"
+SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '${GIT_ROOT}')")"
 SUPPORT_FIRECLOUD_TRACKING_BRANCH=$(git config -f ${GIT_ROOT}/.gitmodules submodule."${SUPPORT_FIRECLOUD_DIR_REL}".branch)
 
 cd ${SUPPORT_FIRECLOUD_DIR}
