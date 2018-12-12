@@ -8,7 +8,7 @@ SF_DEPS_TARGETS := \
 	$(SF_DEPS_TARGETS) \
 	deps-latest-sf \
 
-SUPPORT_FIRECLOUD_DIR_REL = $(shell python2 -c "import os.path; print os.path.relpath('$(SUPPORT_FIRECLOUD_DIR)', '$(GIT_ROOT)')")"
+SUPPORT_FIRECLOUD_DIR_REL = $(shell python2 -c "import os.path; print os.path.relpath('$(SUPPORT_FIRECLOUD_DIR)', '$(GIT_ROOT)')")
 
 SUPPORT_FIRECLOUD_TRACKING_BRANCH = $(shell $(GIT) config -f $(GIT_ROOT)/.gitmodules submodule."$(SUPPORT_FIRECLOUD_DIR_REL)".branch)
 
@@ -18,3 +18,7 @@ SUPPORT_FIRECLOUD_TRACKING_BRANCH = $(shell $(GIT) config -f $(GIT_ROOT)/.gitmod
 deps-latest-sf:
 	cd $(SUPPORT_FIRECLOUD_DIR) && \
 		bin/git-checkout-wbni origin/$(SUPPORT_FIRECLOUD_TRACKING_BRANCH)
+
+
+foo:
+	echo $(SUPPORT_FIRECLOUD_DIR_REL)
