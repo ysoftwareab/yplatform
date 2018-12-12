@@ -94,6 +94,10 @@ function sf_travis_run() {
     fi
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+
+    # if this is a debug session,
+    # then open a subshell so that we pass on the exported variables
+    [[ "${TRAVIS_CMD:-}" != "travis_debug" ]] || bash
 }
 
 function sf_travis_run_before_install() {
@@ -197,8 +201,13 @@ EOF
 )"
 
     for f in ${TRAVIS_PHASES}; do
-        sf_travis_run $f;
+        # clear ${TRAVIS_CMD} so that we do not open a subshell
+        TRAVIS_CMD=${TRAVIS_CMD//travis_debug/} sf_travis_run $f;
     done
+
+    # if this is a debug session,
+    # then open a subshell so that we pass on the exported variables
+    [[ "${TRAVIS_CMD:-}" != "travis_debug" ]] || bash
 }
 
 [[ -z "$*" ]] || sf_travis_run $@
