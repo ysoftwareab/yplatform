@@ -60,7 +60,7 @@ function sf_os() {
     local TMP_SF_OS_LOG=$(mktemp)
     echo_info "Redirecting sf_os into ${TMP_SF_OS_LOG} to minimize Travis log..."
 
-    echo " 1 2 3 4 5 6 7 8 8 9101112131415 min"
+    echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"
     while :;do echo -n " ."; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
