@@ -48,11 +48,11 @@ function sf_pyenv_init() {
 }
 
 function sf_os() {
-    echo_info "Running sf_os with SHOW_SF_OS_LOG=${SHOW_SF_OS_LOG:-}"
+    echo_info "Running sf_os with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
 
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}/bootstrap"
 
-    if [ "${SHOW_SF_OS_LOG:-}" = "true" ]; then
+    if [ "${SF_LOG_BOOTSTRAP:-}" = "true" ]; then
         ${BOOTSTRAP_SCRIPT}
         return 0
     fi
