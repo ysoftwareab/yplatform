@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
+# git checkout worktree but not index
+
+[[ -z $(git status -s) ]] || {
+    echo_err "Refusing to touch a dirty index..."
+    git status -s
+    exit 1
+}
+
+COMMIT=$1
+HEAD_COMMIT=$(git rev-parse --short HEAD)
+
+cd ${GIT_ROOT}
+
+# remove all files
+# FIXME handle hidden files
+rm -rf *
+
+# fetch latest commits
+git fetch
+
+# checkout files from desired commit
+git checkout ${COMMIT} .
+
+# unstage files after checkout
+git reset
+
+# update submodules
+git submodule update --init --recursive
+
+echo_info "Marking these ${HEAD_COMMIT}..${COMMIT} changes as assume-unchanged..."
+git status -s
+
+# hide changes
+git status --short --porcelain | xargs git update-index --assume-unchanged
