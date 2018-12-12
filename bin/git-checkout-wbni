@@ -38,4 +38,4 @@ echo_info "Marking these ${HEAD_COMMIT}..${COMMIT} changes as assume-unchanged..
 git status -s
 
 # hide changes
-git status --short --porcelain | xargs git update-index --assume-unchanged
+git status --short --porcelain | cut -d" " -f3 | xargs git update-index --assume-unchanged
