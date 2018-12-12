@@ -66,17 +66,25 @@ fi
 unset HOMEBREW_PREFIX
 unset TRAVIS_CACHE_HOMEBREW_PREFIX
 
-echo_do "brew: Upgrading..."
+echo_do "brew: Updating..."
 brew update
 brew outdated
-# trying to upgrade twice in case of intermediate complaints
-brew upgrade || brew upgrade
 echo_done
 
 echo_do "brew: Installing/Upgrading git..."
 brew list git >/dev/null 2>&1 || brew install git
 brew outdated git >/dev/null 2>&1 || brew upgrade git
 echo_done
+
+brew_upgrade() {
+    echo "$@" | while read NAME; do
+        brew outdated ${NAME} >/dev/null 2>&1 || {
+            echo_do "brew: Upgrading ${NAME}..."
+            brew upgrade ${NAME}
+            echo_done
+        }
+    done
+}
 
 brew_install() {
     echo "$@" | while read FORMULA; do
@@ -87,6 +95,7 @@ brew_install() {
             # do we require installation with specific options ?
             [[ -n "${OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
+                brew_upgrade ${NAME}
                 continue
             }
 
@@ -99,6 +108,7 @@ brew_install() {
             local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
             [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
+                brew_upgrade ${NAME}
                 continue
             }
 
