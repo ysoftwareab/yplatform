@@ -169,7 +169,7 @@ function sf_travis_run_before_cache_brew() {
 function sf_travis_run_before_cache_stats() {
     echo_do "Showing cache stats..."
     local YAML2JSON="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))'"
-    for f in $(${YAML2JSON} .travis.yml | jq -r ".cache.directories[]"); do
+    for f in $(eval "${YAML2JSON} .travis.yml" | jq -r ".cache.directories[]"); do
         [[ -d "${f}" ]] || continue
         du -hcs ${f} | head -n+1
     done
@@ -178,7 +178,8 @@ function sf_travis_run_before_cache_stats() {
 
 function sf_travis_run_before_cache() {
     sf_travis_run_before_cache_brew
-    sf_travis_run_before_cache_stats || true
+    sf_travis_run_before_cache_stats || \
+        echo_skip "Showing cache stats..."
 }
 
 
