@@ -6,7 +6,6 @@ BREW_FORMULAE="$(cat <<-EOF
 curl
 git
 rsync
-wget
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
