@@ -11,15 +11,14 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ##   --job          A job url or id
 ##   --token        Travis CI token shown on your profile page
 ##                  Defaults to ${TRAVIS_API_TOKEN}
-##   --com          Use travis-ci.com (if you have migrated a public repository)
-##   --pro          Use travis-ci.com (if the repository is private)
+##   --org          Use travis-ci.org (if you have not migrated a public repository yet)
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
 TOKEN=${TRAVIS_API_TOKEN:-}
 JOB_ID=
-TRAVIS_DOMAIN=travis-ci.org
+TRAVIS_DOMAIN=travis-ci.com
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -31,8 +30,12 @@ while [[ $# -gt 0 ]]; do
             JOB_ID=$2
             shift 2
             ;;
+        --org)
+            TRAVIS_DOMAIN=travis-ci.org
+            shift
+            ;;
         --com,--pro)
-            TRAVIS_DOMAIN=travis-ci.com
+            # ignore
             shift
             ;;
         -h|--help)

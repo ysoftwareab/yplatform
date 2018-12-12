@@ -11,7 +11,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 ##   --value        Value to encrypt. Can be "<key>=<value>" too
 ##   --porcelain    Output only the encrypted value, without any helper text
 ##   --show-key     Show the Tracis CI public key
-##   --com          Use travis-ci.com (if you have migrated a public repository)
+##   --org          Use travis-ci.org (if you have not migrated a public repository yet)
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -20,7 +20,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 # https://github.com/slodki/travis-encrypt-cli
 # https://github.com/dlenski/travis-encrypt-sh
 
-TRAVIS_DOMAIN=travis-ci.org
+TRAVIS_DOMAIN=travis-ci.com
 USERREPO=$(git config --local travis.slug 2>/dev/null)
 [[ -n "${USERREPO}" ]] || \
     USERREPO=$(git remote -v 2>/dev/null | grep -oP "(?<=github.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//")
@@ -42,8 +42,12 @@ while [[ $# -gt 0 ]]; do
             SHOW_KEY=true
             shift
             ;;
-        --com)
-            TRAVIS_DOMAIN=travis-ci.com
+        --org)
+            TRAVIS_DOMAIN=travis-ci.org
+            shift
+            ;;
+        --com,--pro)
+            # ignore
             shift
             ;;
         -h|--help)
