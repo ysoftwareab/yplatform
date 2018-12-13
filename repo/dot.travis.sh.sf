@@ -3,6 +3,15 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
+[[ "$1" != "debug" ]] || {
+    echo
+    echo "  Creating a debugging subshell..."
+    echo
+    set +euo pipefail
+    ${SHELL}
+    exit 0
+}
+
 function sf_rvm_unfuck() {
     # from https://github.com/matthew-brett/multibuild/blob/34b988aab60a93fa3c7bd1eb88dd7c4361ca464f/common_utils.sh#L17
 
@@ -102,6 +111,12 @@ function sf_travis_run_before_install() {
     sf_os
     sf_pyenv_init
     sf_newer_pacote
+
+    if [[ "${PATH}" =~ /home/travis/.debug ]]; then
+        echo
+        echo "  Please run \`./.travis.sh debug\` to activate your debug session !!!"
+        echo
+    fi
 }
 
 function sf_travis_run_install() {
