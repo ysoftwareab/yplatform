@@ -94,7 +94,18 @@ If you experience failures and you want to debug inside a Travis worker, see [ho
 
 You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
 - X is the token that you see at https://travis-ci.com/profile/
+  - you can omit `--token X` if you have an environment variable `TRAVIS_API_TOKEN`
 - Y can be a numeric job ID or a job URL or even a build URL (most useful)
+- remember that you can almost always run `--help`, so `support-firecloud/bin/travis-debug --help`, to get proper info
+
+Once you SSH via the tmate session, you will be welcome by the message:
+
+>   Run individual commands; or execute configured build phases
+>   with `travis_run_*` functions (e.g., `travis_run_before_install`).
+
+Most of our repos would bootstrap the machine in the `before_install` stage, so run `travis_run_before_install` (equivalent to running `./travis.sh before_install`).
+
+Once that command finishes, you should setup the shell session (e.g. environment variables like `PATH`), so run `source support-firecloud/bin/common.inc.sh`.
 
 
 ## Notifications
