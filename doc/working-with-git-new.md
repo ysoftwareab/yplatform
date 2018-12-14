@@ -2,20 +2,30 @@
 
 ## Creating a new repository locally
 
+```shell
+mkdir new-repo
+cd new-repo
+git init
+```
+
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
 git submodule add -b master git://github.com/tobiipro/support-firecloud.git
 git submodule update --init --recursive
+```
 
-# for a generic repository, run this to scaffold
+In order to bootstrap/scaffold the repository, run
+
+```shell
+# for a generic repository
 support-firecloud/bin/repo-generic-bootstrap
 
-# for a Node.js repository, run this to scaffold
+# for a Node.js repository
 support-firecloud/bin/repo-node-bootstrap
 ```
 
-Follow the instructions to supply the info.
+and follow the instructions to supply the info.
 
 
 ## Creating a new repository on Github
@@ -43,7 +53,7 @@ A description is optional by Github standards, but we require it.
 No need to initialize a repository with a `README.md`, nor add a `.gitignore` or a `LICENSE`.
 Just push these files from your local copy.
 
-Once you created the Github repository, remember to (see sections below):
+Once you've created the Github repository, remember to (see sections below):
 
 
 ### Add teams and collaborators

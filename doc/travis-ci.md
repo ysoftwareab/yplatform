@@ -83,11 +83,6 @@ if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 (default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
 
 
-## Releases
-
-If you are planning to do release via Travis CI, see [how to release](how-to-release.md).
-
-
 ## Debugging
 
 If you experience failures and you want to debug inside a Travis worker,
@@ -136,3 +131,8 @@ notifications:
     on_success: change
     on_pull_requests: false
 ```
+
+
+## Releases
+
+If you are planning to do release via Travis CI, see [how to release](how-to-release.md).
