@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+
 case $(uname -s) in
     Darwin)
         echo_do "brew: Installing homebrew..."
@@ -16,18 +19,14 @@ case $(uname -s) in
         echo_done
 
         TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
-
-        if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-            export PATH=/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}
-        elif [[ -x ~/.linuxbrew/bin/brew ]]; then
-            export PATH=~/.linuxbrew/bin:~/.linuxbrew/sbin:${PATH}
-        fi
         ;;
     *)
         echo_err "brew: $(uname -s) is an unsupported OS."
         return 1
         ;;
 esac
+
+source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-path.inc.sh
 
 HOMEBREW_PREFIX=$(brew --prefix)
 if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
@@ -134,5 +133,4 @@ brew_list() {
     echo_done
 }
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh

@@ -10,11 +10,10 @@ function path_append() {
 
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     path_prepend /home/linuxbrew/.linuxbrew/sbin
-    path_prepend /home/linuxbrew/.linuxbrew/sbin
     path_prepend /home/linuxbrew/.linuxbrew/bin
 elif [[ -x ~/.linuxbrew/bin/brew ]]; then
-    path_prepend ~/.linuxbrew/sbin
-    path_prepend ~/.linuxbrew/bin
+    path_prepend ${HOME}/.linuxbrew/sbin
+    path_prepend ${HOME}/.linuxbrew/bin
 fi
 path_prepend /usr/local/sbin
 path_prepend /usr/local/bin
