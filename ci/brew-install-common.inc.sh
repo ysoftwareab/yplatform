@@ -2,7 +2,6 @@
 set -euo pipefail
 
 echo_do "brew: Installing common packages..."
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-upgrade.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-gnu.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-basic.inc.sh
