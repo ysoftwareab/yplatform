@@ -7,7 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
     echo
     echo "  Creating a debugging subshell..."
     echo
-    PS1="${debian_chroot:+($debian_chroot)}\u:\w\$" ${SHELL}
+    PS1="${debian_chroot:+($debian_chroot)}\u:\w\$ " ${SHELL}
     exit 0
 }
 
