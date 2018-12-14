@@ -55,6 +55,15 @@ Go to `Settings` tab -> `Collaborators & Teams`.
 * remove yourself from collaborators (if you were added automatically by Github)
 
 
+### Protect master branch against push-force
+
+Go to `Settings` tab -> `Branches` -> `Add rule`.
+
+* type `master`
+* select `Including administrators`
+* click `Create`
+
+
 ### Add topics
 
 Go to `Code` tab.
