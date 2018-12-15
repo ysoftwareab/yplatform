@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-common.inc.sh
+SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL:-common}
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-${SF_CI_BREW_INSTALL}.inc.sh

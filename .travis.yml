@@ -3,6 +3,10 @@ matrix:
   include:
     - os: linux
       dist: trusty
+      env: CACHE_NAME=linux-trusty-minimal SF_CI_BREW_INSTALL=minimal
+      if: branch = master AND type IN (push, cron)
+    - os: linux
+      dist: trusty
       env: CACHE_NAME=linux-trusty
       if: branch = master AND type IN (push, cron)
     - os: osx
