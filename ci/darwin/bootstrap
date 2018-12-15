@@ -25,8 +25,6 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
 brew_bootstrap_darwin
 brew_list
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/maybe-npm.inc.sh
-
 echo_do "Printenv..."
 printenv
 echo_done
