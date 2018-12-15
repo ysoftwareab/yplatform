@@ -22,8 +22,8 @@ branches:
     - /^f\// # feature branches require PR
 
 # 4. Bootstrap
-# os: linux
-# dist: trusty
+os: linux
+dist: xenial
 language: generic
 # addons:
 before_cache: ./.travis.sh before_cache
