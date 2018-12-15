@@ -23,10 +23,10 @@ matrix:
       env: CACHE_NAME=linux-xenial-common SF_CI_BREW_INSTALL=common
       if: type IN (push, cron)
 
-    - name: "OSX High Sierra 10.13 (Xcode 10.1) with common brew"
+    - name: "OSX High Sierra 10.13 (Xcode 10.1) with dev brew"
       os: osx
       osx_image: xcode10.1
-      env: CACHE_NAME=osx-xcode10.1-common SF_CI_BREW_INSTALL=common
+      env: CACHE_NAME=osx-xcode10.1-dev SF_CI_BREW_INSTALL=dev
       if: type IN (push, cron)
 
 # 1. Notifications
