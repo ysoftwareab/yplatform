@@ -5,7 +5,6 @@ matrix:
       os: linux
       dist: trusty
       env: CACHE_NAME=linux-trusty-minimal SF_CI_BREW_INSTALL=minimal
-      if: branch = master AND type IN (push, cron)
     - name: "Linux 14.04 with default=common brew"
       os: linux
       dist: trusty
