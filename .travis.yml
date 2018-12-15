@@ -56,7 +56,7 @@ branches:
 
 # 4. Bootstrap
 # os: linux
-# dist: trusty
+# dist: xenial
 language: generic
 # addons:
 before_cache: ./.travis.sh before_cache
