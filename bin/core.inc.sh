@@ -34,6 +34,9 @@ GIT_TAGS=$(git describe --exact-match --tags HEAD 2>/dev/null || true)
         GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
     }
 
+    # placeholder until https://github.com/travis-ci/travis-build/pull/1621#issuecomment-447065499 is released
+    TRAVIS_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-$([[ "${PATH}" =~ /home/travis/.debug ]] && echo true || echo false)}
+
     HOMEBREW_NO_ANALYTICS=1
     HOMEBREW_NO_AUTO_UPDATE=1
 }

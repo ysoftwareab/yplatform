@@ -111,11 +111,11 @@ function sf_travis_run_before_install() {
     sf_pyenv_init
     sf_newer_pacote
 
-    if [[ "${PATH}" =~ /home/travis/.debug ]]; then
+    [[ "${TRAVIS_DEBUG_MODE:-}" != "true" ]] || {
         echo
         echo "  Please run \`./.travis.sh debug\` to activate your debug session !!!"
         echo
-    fi
+    }
 }
 
 function sf_travis_run_install() {
