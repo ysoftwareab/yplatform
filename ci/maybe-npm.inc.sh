@@ -4,7 +4,18 @@ set -euo pipefail
 # optional
 which npm >/dev/null 2>&1 || return 0
 
-echo_do "Installing npm, json..."
+# icu4c needs to be installed via homebrew
+echo_do "brew: (Re)Installing NodeJS requirements..."
+BREW_FORMULAE="$(cat <<-EOF
+icu4c
+EOF
+)"
+brew_install "${BREW_FORMULAE}"
+unset BREW_FORMULAE
+echo_done
+
+
+echo_do "Installing/Upgrading npm, json..."
 npm install --global npm
 npm install --global json
 echo_done
