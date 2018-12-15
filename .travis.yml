@@ -38,10 +38,7 @@ branches:
 # 4. Bootstrap
 # os: linux
 # dist: trusty
-language:
-  - node_js
-node_js:
-  - node
+language: generic
 # addons:
 before_cache: ./.travis.sh before_cache
 cache:
