@@ -1,15 +1,18 @@
 # 0. Misc
 matrix:
   include:
-    - os: linux
+    - name: "Linux 14.04 with minimal brew"
+      os: linux
       dist: trusty
       env: CACHE_NAME=linux-trusty-minimal SF_CI_BREW_INSTALL=minimal
       if: branch = master AND type IN (push, cron)
-    - os: linux
+    - name: "Linux 14.04 with default=common brew"
+      os: linux
       dist: trusty
       env: CACHE_NAME=linux-trusty
       if: branch = master AND type IN (push, cron)
-    - os: osx
+    - name: "OSX 10.13 (Xcode 10.1) with default=common brew"
+      os: osx
       osx_image: xcode10.1
       env: CACHE_NAME=osx-xcode10.1
       if: branch = master AND type IN (push, cron)
