@@ -1,19 +1,32 @@
 # 0. Misc
 matrix:
   include:
-    - name: "Linux 14.04 with minimal brew"
+    - name: "Linux Trusty 14.04 with minimal brew"
       os: linux
       dist: trusty
       env: CACHE_NAME=linux-trusty-minimal SF_CI_BREW_INSTALL=minimal
-    - name: "Linux 14.04 with default=common brew"
+
+    - name: "Linux Trusty 14.04 with common brew"
       os: linux
       dist: trusty
-      env: CACHE_NAME=linux-trusty
+      env: CACHE_NAME=linux-trusty-common SF_CI_BREW_INSTALL=common
       if: type IN (push, cron)
-    - name: "OSX 10.13 (Xcode 10.1) with default=common brew"
+
+    - name: "Linux Xenial 16.04 with minimal brew"
+      os: linux
+      dist: xenial
+      env: CACHE_NAME=linux-xenial-minimal SF_CI_BREW_INSTALL=minimal
+
+    - name: "Linux Xenial 16.04 with common brew"
+      os: linux
+      dist: xenial
+      env: CACHE_NAME=linux-xenial-common SF_CI_BREW_INSTALL=common
+      # if: type IN (push, cron)
+
+    - name: "OSX High Sierra 10.13 (Xcode 10.1) with common brew"
       os: osx
       osx_image: xcode10.1
-      env: CACHE_NAME=osx-xcode10.1
+      env: CACHE_NAME=osx-xcode10.1-common SF_CI_BREW_INSTALL=common
       if: type IN (push, cron)
 
 # 1. Notifications
