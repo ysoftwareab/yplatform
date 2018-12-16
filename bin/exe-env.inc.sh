@@ -20,7 +20,9 @@ path_prepend /usr/local/bin
 path_prepend ${HOME}/.local/sbin
 path_prepend ${HOME}/.local/bin
 
+export NVM_DELETE_PREFIX=1
 export NVM_DIR=${HOME}/.nvm
+mkdir -p ${NVM_DIR}
 
 if which brew >/dev/null 2>&1; then
     HOMEBREW_PREFIX=$(brew --prefix)
