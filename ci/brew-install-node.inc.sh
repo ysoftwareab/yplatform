@@ -9,7 +9,6 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
-source $(brew --prefix)/opt/nvm/nvm.sh
 echo_done
 
 echo_do "Installing npm, json..."
