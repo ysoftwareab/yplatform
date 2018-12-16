@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-path.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-env.inc.sh
 
 export CI_ECHO=${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo
 

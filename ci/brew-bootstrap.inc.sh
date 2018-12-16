@@ -26,7 +26,7 @@ case $(uname -s) in
         ;;
 esac
 
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-path.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-env.inc.sh
 
 HOMEBREW_PREFIX=$(brew --prefix)
 if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
