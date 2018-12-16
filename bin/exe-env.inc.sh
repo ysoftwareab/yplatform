@@ -33,7 +33,8 @@ if which brew >/dev/null 2>&1; then
     path_prepend ${HOMEBREW_PREFIX}/opt/curl/bin
     path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
 
-    source ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh
+    [[ ! -f ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh ]] || \
+        source ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh
 
     unset HOMEBREW_PREFIX
 fi
