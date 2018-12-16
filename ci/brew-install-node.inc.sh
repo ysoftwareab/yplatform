@@ -18,6 +18,5 @@ echo_done
 
 # test
 exe_and_grep_q "node --version | head -1" "^v"
-exe_and_grep_q "nvm --version | head -1" "^0\."
 exe_and_grep_q "npm --version | head -1" "^6\."
 exe_and_grep_q "json --version | head -1" "^json 9\."
