@@ -94,6 +94,7 @@ brew_install() {
             # do we require installation with specific options ?
             [[ -n "${OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
+                brew link ${NAME} || true
                 brew_upgrade ${NAME}
                 continue
             }
@@ -107,6 +108,7 @@ brew_install() {
             local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
             [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
+                brew link ${NAME} || true
                 brew_upgrade ${NAME}
                 continue
             }
