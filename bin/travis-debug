@@ -71,7 +71,7 @@ function get_tmate_cmd() {
         -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TOKEN}" \
         "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/log" | \
-        json "content" | \
+        jq ".content" | \
         grep -o "ssh .\+\.tmate\.io" || true
 }
 
@@ -84,7 +84,7 @@ function get_tmate_cmd() {
         -H "Travis-API-Version: 3" \
         -H "Authorization: token ${TOKEN}" \
         "https://api.${TRAVIS_DOMAIN}/build/${JOB_ID}" | \
-        json "jobs[0].id")
+        jq ".jobs[0].id")
 }
 JOB_ID=$(basename "${JOB_ID}")
 
