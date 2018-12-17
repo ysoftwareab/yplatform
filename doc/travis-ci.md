@@ -51,7 +51,7 @@ so `support-firecloud/bin/travis-debug --help`, to get proper info.
 
 Once you SSH via the tmate session, you will be welcomed by the message:
 
->   Run individual commands; or execute configured build phases
+>   Run individual commands; or execute configured build phases  
 >   with `travis_run_*` functions (e.g., `travis_run_before_install`).
 
 So run `travis_run_before_install` in order to bootstrap the machine.  
