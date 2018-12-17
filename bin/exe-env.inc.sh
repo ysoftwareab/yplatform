@@ -20,7 +20,6 @@ path_prepend /usr/local/bin
 path_prepend ${HOME}/.local/sbin
 path_prepend ${HOME}/.local/bin
 
-export NVM_DELETE_PREFIX=1
 export NVM_DIR=${HOME}/.nvm
 mkdir -p ${NVM_DIR}
 
@@ -36,7 +35,7 @@ if which brew >/dev/null 2>&1; then
     path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
 
     [[ ! -f ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh ]] || \
-        source ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh
+        source ${HOMEBREW_PREFIX}/opt/nvm/nvm.sh --no-use
 
     unset HOMEBREW_PREFIX
 fi
