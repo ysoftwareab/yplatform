@@ -54,12 +54,14 @@ Once you SSH via the tmate session, you will be welcomed by the message:
 >   Run individual commands; or execute configured build phases
 >   with `travis_run_*` functions (e.g., `travis_run_before_install`).
 
-So run `travis_run_before_install` in order to bootstrap the machine.
+So run `travis_run_before_install` in order to bootstrap the machine.  
 Once that command finishes, you will be welcome by the message:
 
 >   Please run `./.travis.sh debug` to activate your debug session !!!
 
 So run `./.travis.sh debug` in order to setup the shell session (e.g. environment variables like `PATH`).
+
+**NOTE** If `travis_run_before_install` fails and crashes the tmate session, you can try running `./.travis.sh before-install` (equivalent but safer).
 
 
 ## Secrets
