@@ -32,11 +32,9 @@ deps-npm:
 	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
-	$(NPM) update --development --no-save --depth 9999
 
 
 .PHONY: deps-npm-prod
 deps-npm-prod:
 	$(NPM) install --production
 	$(NPM) prune --production
-	$(NPM) update --production --no-save --depth 9999
