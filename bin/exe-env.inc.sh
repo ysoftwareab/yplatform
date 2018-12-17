@@ -21,6 +21,7 @@ path_prepend ${HOME}/.local/sbin
 path_prepend ${HOME}/.local/bin
 
 export NVM_DIR=${HOME}/.nvm
+rm -rf ${NVM_DIR}
 mkdir -p ${NVM_DIR}
 
 if which brew >/dev/null 2>&1; then
