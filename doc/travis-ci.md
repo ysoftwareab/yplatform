@@ -36,6 +36,32 @@ Reference: https://docs.travis-ci.com/user/status-images/
 Don't forget to commit the most important thing: a `.travis.yml` ([template](../repo/dot.travis.yml)) file which configures your Travis CI build.
 
 
+## Debugging
+
+If you experience failures and you want to debug inside a Travis worker,
+see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
+
+You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
+- X is the token that you see at https://travis-ci.com/profile/
+  - you can omit `--token X` if you have an environment variable `TRAVIS_API_TOKEN`
+- Y can be a numeric job ID or a job URL or even a build URL (most useful)
+
+**NOTE** Remember that you can almost always run `--help`,
+so `support-firecloud/bin/travis-debug --help`, to get proper info.
+
+Once you SSH via the tmate session, you will be welcomed by the message:
+
+>   Run individual commands; or execute configured build phases
+>   with `travis_run_*` functions (e.g., `travis_run_before_install`).
+
+So run `travis_run_before_install` in order to bootstrap the machine.
+Once that command finishes, you will be welcome by the message:
+
+>   Please run `./.travis.sh debug` to activate your debug session !!!
+
+So run `./.travis.sh debug` in order to setup the shell session (e.g. environment variables like `PATH`).
+
+
 ## Secrets
 
 **NOTE** See related docs on [how to manage secrets](how-to-manage-secrets.md).
@@ -81,32 +107,6 @@ env:
 **NOTE** The decryption of the repository will happen automatically in non-pull-request builds,
 if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 (default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
-
-
-## Debugging
-
-If you experience failures and you want to debug inside a Travis worker,
-see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
-
-You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
-- X is the token that you see at https://travis-ci.com/profile/
-  - you can omit `--token X` if you have an environment variable `TRAVIS_API_TOKEN`
-- Y can be a numeric job ID or a job URL or even a build URL (most useful)
-
-**NOTE** Remember that you can almost always run `--help`,
-so `support-firecloud/bin/travis-debug --help`, to get proper info.
-
-Once you SSH via the tmate session, you will be welcomed by the message:
-
->   Run individual commands; or execute configured build phases
->   with `travis_run_*` functions (e.g., `travis_run_before_install`).
-
-So run `travis_run_before_install` in order to bootstrap the machine.
-Once that command finishes, you will be welcome by the message:
-
->   Please run `./.travis.sh debug` to activate your debug session !!!
-
-So run `./.travis.sh debug` in order to setup the shell session (e.g. environment variables like `PATH`).
 
 
 ## Notifications
