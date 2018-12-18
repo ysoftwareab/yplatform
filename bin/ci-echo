@@ -40,9 +40,14 @@ function fallback_echo() {
 }
 
 function basic_travis_echo() {
-	XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
+    # local ANSI_RED="\033[31;1m"
+    # local ANSI_GREEN="\033[32;1m"
+    # local ANSI_RESET="\033[0m"
+    local ANSI_CLEAR="\033[0K"
+
+	local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
 	set +x
-	echo "travis_fold:$@"
+	echo -en "$@\\r${ANSI_CLEAR}"
 	eval "${XTRACE_STATE}"
 }
 
@@ -54,27 +59,40 @@ function travis_echo() {
     case $1 in
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
-            basic_travis_echo "start:${PWD_GROUP}"
+
+            basic_travis_echo "travis_fold:start:${PWD_GROUP}"
+            basic_travis_echo "travis_time:start:${PWD_GROUP}"
+
             >&2 echo "$(date +"%H:%M:%S") $@"
             return 0
             ;;
         "[DONE]")
             >&2 echo "$(date +"%H:%M:%S") $@"
-            GROUP_CREATED_AGO=some
+            local GROUP_FINISH=$(date +%s)
+            local GROUP_START=${GROUP_FINISH}
+            local GROUP_DURATION=0
+            local IN_NANOSECONDS=1000000000
+
             [[ -n "${GROUP}" ]] || {
                 GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null || true)
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
-                    # GROUP_CREATED_AGO=$(date +%s -r ${GROUP_MARKER} 2>/dev/null)
-                    GROUP_CREATED_AGO=$(python -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null)
-                    [[ -z ${GROUP_CREATED_AGO} ]] ||
-                        GROUP_CREATED_AGO=$(( $(date +%s) - ${GROUP_CREATED_AGO} ))
+                    GROUP_START=$(python -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
+                    GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
                     rm -f ${GROUP_MARKER}
                 }
             }
-            basic_travis_echo "end:${PWD_GROUP}"
-            >&2 echo "$(date +"%H:%M:%S") [DONE] in ${GROUP_CREATED_AGO} seconds"
+
+            GROUP_START=$(( ${GROUP_START} * ${IN_NANOSECONDS} ))
+            GROUP_FINISH=$(( ${GROUP_FINISH} * ${IN_NANOSECONDS} ))
+            GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
+
+            basic_travis_echo "travis_time:end:${PWD_GROUP}:start=${GROUP_START},finish=${GROUP_FINISH},duration=${GROUP_DURATION}"
+            basic_travis_echo "travis_fold:end:${PWD_GROUP}"
+
+            >&2 echo "$(date +"%H:%M:%S") [DONE] in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds"
             >&2 echo
+
             return 0
             ;;
         *)
