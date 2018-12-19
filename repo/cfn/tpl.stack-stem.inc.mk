@@ -11,6 +11,9 @@ endef
 define <STACK_STEM>-pre
 endef
 
+define <STACK_STEM>-post
+endef
+
 define <STACK_STEM>-pre-exec
 endef
 
