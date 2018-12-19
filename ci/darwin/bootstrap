@@ -12,6 +12,10 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 
 brew_bootstrap_darwin() {
     local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
+    [[ -f "${BREWFILE_INC_SH}" ]] || {
+        echo_err "No ${BREWFILE_INC_SH} file present."
+        return 1
+    }
     source ${BREWFILE_INC_SH}
 }
 
