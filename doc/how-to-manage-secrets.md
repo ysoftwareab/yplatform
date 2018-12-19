@@ -42,7 +42,7 @@ and install `transcrypt`.
 ```shell
 cd path/to/repo
 git add .gitattributes
-cp support-firecloud/bin/transcrypt ./
+ln -sf support-firecloud/bin/transcrypt ./
 git add transcrypt
 git commit -m "add transcrypt"
 ```
