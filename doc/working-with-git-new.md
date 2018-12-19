@@ -65,12 +65,23 @@ Go to `Settings` tab -> `Collaborators & Teams`.
 * remove yourself from collaborators (if you were added automatically by Github)
 
 
-### Protect master branch against push-force
+### Merge button and protected master branch
 
-Go to `Settings` tab -> `Branches` -> `Add rule`.
+Restricting merging strategies to always require a merge commit by
+going to `Settings` tab -> `Merge button`.
+
+* deselect `Allow squash merging`
+* deselect `Allow rebase merging`
+
+Protect master branch against push-force, outdated PRs and optionally PRs without CI reviews by
+going to `Settings` tab -> `Branches` -> `Add rule`.
 
 * type `master`
-* select `Including administrators`
+* **optionally** select `Require pull request reviews before merging`
+* select `Require status checks to pass before merging`
+  * select `Require branches to be up to date before merging`
+  * select `Travis CI - Pull Request`
+    * if not available, set up Travis CI integration first
 * click `Create`
 
 
