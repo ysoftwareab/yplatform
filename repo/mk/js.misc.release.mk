@@ -45,7 +45,8 @@ else
 endif
 	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --increment $(RELEASE_LEVEL) $(PKG_VSN)))
 	$(ECHO)
-	$(ECHO) "[Q   ] New $(RELEASE_SEMANTIC_LEVEL) release means new $(RELEASE_LEVEL) release: $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
+	$(ECHO) "       New $(RELEASE_SEMANTIC_LEVEL) release means new $(RELEASE_LEVEL) release."
+	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
 	$(ECHO) "       Wait 10 seconds or press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -t 10 -p ""
