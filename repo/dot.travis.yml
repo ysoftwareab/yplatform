@@ -18,8 +18,8 @@ env:
 git:
   submodules: false
 branches:
-  except:
-    - /^f\// # feature branches require PR
+  only:
+    - master
 
 # 4. Bootstrap
 os: linux
