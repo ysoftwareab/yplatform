@@ -34,7 +34,7 @@ deps-npm:
 	fi
 	$(NPM) prune
 	[[ -f "package-lock.json" ]] || \
-		$(NPM) update --no-save --depth 9999 --development
+		$(NPM) update --no-save --development
 
 
 .PHONY: deps-npm-prod
@@ -42,4 +42,4 @@ deps-npm-prod:
 	$(NPM) install --production
 	$(NPM) prune --production
 	[[ -f "package-lock.json" ]] || \
-		$(NPM) update --no-save --depth 9999 --production
+		$(NPM) update --no-save --production
