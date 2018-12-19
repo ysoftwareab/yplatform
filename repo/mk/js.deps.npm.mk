@@ -32,9 +32,14 @@ deps-npm:
 	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
+	$(NPM) prune
+	[[ -f "package-lock.json" ]] || \
+		$(NPM) update --no-save --development
 
 
 .PHONY: deps-npm-prod
 deps-npm-prod:
 	$(NPM) install --production
 	$(NPM) prune --production
+	[[ -f "package-lock.json" ]] || \
+		$(NPM) update --no-save --production
