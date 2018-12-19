@@ -33,6 +33,7 @@ deps-npm:
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
 	$(NPM) update --development --no-save --depth 9999
+	$(NPM) prune
 
 
 .PHONY: deps-npm-prod
