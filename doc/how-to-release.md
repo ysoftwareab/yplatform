@@ -4,6 +4,31 @@ Below you will find flows that focus on `npm` packages, but they are generic at 
 and they can be followed closely even for other type of packages.
 
 
+## Semantic Versioning
+
+See https://semver.org/spec/v2.0.0.html .
+
+**TL;DR** :
+
+* pre-public versions
+  * `0.0.1` initial version
+  * `0.0.2` minor version with **bugfixes, new features**
+  * `0.1.0` major version with bugfixes, new features, **breaking changes**
+* public versions
+  * `1.0.0` initial public version
+  * `1.0.1` patch version with **bugfixes**
+  * `1.1.0` minor version with bugfixes, **new features**
+  * `2.0.0` major version with bugfixes, new features, **breaking changes**
+
+
+**You don't need to remember all of these if you use the `make release/*` targets below.**
+
+* `make release/bugfix` will be `make release/patch` for both pre- and public versions
+* `make release/feature` will be `make release/patch` for pre-, and `make release/minor` for public versions
+* `make release/breaking` will be `make release/minor` for pre-, and `make release/major` for public versions
+* `make release/public` will release `1.0.0`
+
+
 ## `npm` packages as `git` tags (libraries, frameworks, etc)
 
 **NOTE** This section applies primarily, if not only, to packages which you intend to use
