@@ -121,9 +121,10 @@ ARTIFACT=AUTHORS
 
 ARTIFACT=Brewfile.inc.sh
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-    echo_info "Symlinked ${ARTIFACT}."
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
 ARTIFACT=Makefile
