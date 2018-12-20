@@ -67,8 +67,8 @@ Go to `Settings` tab -> `Collaborators & Teams`.
 
 ### Merge button and protected master branch
 
-Restricting merging strategies to always require a merge commit by
-going to `Settings` tab -> `Merge button`.
+Restrict merging strategies to always require a merge commit by
+going to `Settings` tab -> `Options` ->`Merge button`.
 
 * deselect `Allow squash merging`
 * deselect `Allow rebase merging`
