@@ -20,6 +20,6 @@ unset BREW_FORMULAE BREW_WITH_DEFAULT_NAMES
 echo_done
 
 # test
-exe_and_grep_q "bash --version | head -1" "^GNU bash, version 4\\."
+exe_and_grep_q "bash --version | head -1" "^GNU bash, version [45]\\."
 exe_and_grep_q "jq --version | head -1" "^jq\\-1\\."
 exe_and_grep_q "make --version | head -1" "^GNU Make 4\\."
