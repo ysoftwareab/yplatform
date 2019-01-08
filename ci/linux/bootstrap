@@ -22,3 +22,5 @@ brew_list
 echo_do "Printenv..."
 printenv
 echo_done
+
+echo_info "bootstrap ok"
