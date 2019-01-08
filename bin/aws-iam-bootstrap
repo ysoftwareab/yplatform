@@ -113,10 +113,3 @@ echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ~/.aws/config."
 read -p "Press enter to continue"
-
-printf "\ec" # clear
-echo "source ~/git/firecloud/support-firecloud/bin/aws-iam-login.inc.sh"
-echo
-echo "--------------------------------------------------------------------------------"
-echo "Paste the above in your ~/.bashrc or ~/.profile or similar."
-read -p "Press enter to continue"

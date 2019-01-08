@@ -26,4 +26,3 @@ and follow the instructions to
 * setup your aws-cli
   * set credentials
   * set config
-  * enable the `aws-iam-login` command in your shell
