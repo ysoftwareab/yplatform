@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/priv/common.inc.sh
 
 #- aws-get-stack-id 1.0
 ## Usage: aws-get-stack-id [OPTION]
