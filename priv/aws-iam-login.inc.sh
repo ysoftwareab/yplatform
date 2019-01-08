@@ -1,12 +1,4 @@
-#!/usr/bin/env bash
-
-if [ -n "${BASH_VERSION}" ]; then
-    export T_AWS_IAM_INC_SH_DIR="${T_AWS_IAM_INC_SH_DIR:-$(dirname ${BASH_SOURCE[0]})}"
-elif [ -n "${ZSH_VERSION}" ]; then
-    export T_AWS_IAM_INC_SH_DIR="${T_AWS_IAM_INC_SH_DIR:-$(dirname ${(%):-%x})}"
-else
-    echo >&2 'Unsupported shell in aws-iam-login.inc.sh, or ${BASH_VERSION} or ${ZSH_VERSION} undefined.'
-fi
+#!/usr/bin/env sh
 
 function aws-iam-login() {
     [ $# -eq 1 ] || {
@@ -39,7 +31,7 @@ function aws-iam-login() {
 
     CREDENTIALS_TEMP=$(mktemp)
 
-    ${T_AWS_IAM_INC_SH_DIR}/aws-get-cli-sts > ${CREDENTIALS_TEMP}
+    ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/aws-get-cli-sts > ${CREDENTIALS_TEMP}
     source ${CREDENTIALS_TEMP}
 
     rm -f ${CREDENTIALS_TEMP}
@@ -94,11 +86,5 @@ function _aws_profile_completer() {
     COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
 }
 
-if [ -n "${ZSH_VERSION}" ]; then
-    autoload -U compaudit compinit bashcompinit && bashcompinit || {
-        echo >&2 "Initialization of Zsh completion features has failed in aws-iam-login.inc.sh."
-        return 1
-    }
-fi
 complete -F _aws_profile_completer aws-iam-login
 complete -F _aws_profile_completer aws-iam-login-ns

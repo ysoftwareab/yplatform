@@ -1,17 +1,17 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 function path_prepend() {
-    [[ ":${PATH}:" =~ *"$1"* ]] || export PATH=$1:${PATH}
+    echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
 }
 
 function path_append() {
-    [[ ":${PATH}:" =~ *"$1"* ]] || export PATH=${PATH}:$1
+    echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
 }
 
-if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
     path_prepend /home/linuxbrew/.linuxbrew/sbin
     path_prepend /home/linuxbrew/.linuxbrew/bin
-elif [[ -x ~/.linuxbrew/bin/brew ]]; then
+elif [ -x ~/.linuxbrew/bin/brew ]; then
     path_prepend ${HOME}/.linuxbrew/sbin
     path_prepend ${HOME}/.linuxbrew/bin
 fi
