@@ -16,4 +16,3 @@ echo_done
 exe_and_grep_q "curl --version | head -1" "^curl 7\\."
 exe_and_grep_q "git --version | head -1" "^git version 2\\."
 exe_and_grep_q "rsync --version | head -1" "^rsync  version 3\\."
-exe_and_grep_q "wget --version | head -1" "^GNU Wget 1\\."
