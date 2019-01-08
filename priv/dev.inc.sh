@@ -15,3 +15,5 @@ fi
 
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/priv/exe-env.inc.sh
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/priv/aws-iam-login.inc.sh
+
+alias sake=${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/sake
