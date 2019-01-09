@@ -4,23 +4,6 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap
 
-BREW_FORMULAE="$(cat <<-EOF
-gettext
-erlang
-graphviz
-nodejs
-EOF
-)"
-brew_install "${BREW_FORMULAE}"
-brew link --force gettext
-
-# NPM
-npm install --global npm
-npm install --global json
-
-# Install Xcode/Command Line Tools
-xcode-select -p >/dev/null 2>&1 || xcode-select --install
-
 # Upgrade default shell, if bash
 [ "${SHELL:-}" != "/bin/bash" ] || {
     echo "Your default shell is ${SHELL}, which is system's default bash."
@@ -31,6 +14,6 @@ xcode-select -p >/dev/null 2>&1 || xcode-select --install
 /usr/local/bin/bash
 EOF
         chsh -s /usr/local/bin/bash
-        echo "Please open up a new terminal window to switch to the new bash."
+        echo "Restart your shell, and you're good to go."
     }
 }

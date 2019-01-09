@@ -11,33 +11,16 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap
 
-DPKGS="$(cat <<-EOF
-gettext
-graphviz
-libonig-dev
-texinfo
+# Upgrade default shell, if bash
+[ "${SHELL:-}" != "/bin/bash" ] || {
+    echo "Your default shell is ${SHELL}, which is system's default bash."
+    echo "You should upgrade to use homebrew's newer bash."
+    read -p "You can skip upgrading by pressing 's'. Anything else will do the upgrade." -n 1 -r
+    [ "${REPLY}" = "s" ] || {
+        sudo tee -a /etc/shells <<EOF
+/usr/local/bin/bash
 EOF
-)"
-apt_install "${DPKGS}"
-
-# Erlang
-curl -O https://packages.erlang-solutions.com/erlang-solutions_1.0_all.deb
-dpkg -i erlang-solutions_1.0_all.deb
-
-# NodeJS (latest)
-# see https://github.com/nodesource/distributions/issues/318
-LATEST_VSN_NODE=9
-while true; do
-    curl -f -sL https://deb.nodesource.com/setup_$((LATEST_VSN_NODE+1)).x >/dev/null || break
-    LATEST_VSN_NODE=$((LATEST_VSN_NODE+1))
-done
-curl -sL https://deb.nodesource.com/setup_${LATEST_VSN_NODE}.x | bash -
-# apt-get update # happens in the nodesource.com script
-
-apt-get install -y --force-yes \
-    erlang \
-    nodejs
-
-# NPM
-npm install --global npm
-npm install --global json
+        chsh -s /usr/local/bin/bash
+        echo "Restart your shell, and you're good to go."
+    }
+}
