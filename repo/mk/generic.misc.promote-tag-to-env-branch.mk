@@ -19,6 +19,13 @@ promote/%: ## promote/<env>/<tag> Promote tag to env branch.
 		$(ECHO_ERR) "$(TAG) is not a tag."; \
 		exit 1; \
 	}
+	$(GIT) fetch
+	$(GIT) log --date=short --pretty=format:"%h %ad %s" --no-decorate $(GIT_REMOTE)/$(ENV_BRANCH)..$(TAG_COMMIT)
+	$(ECHO)
+	$(ECHO) "[Q   ] Still want to promote $(TAG) to $(ENV_BRANCH)?"
+	$(ECHO) "       Press ENTER to Continue."
+	$(ECHO) "       Press Ctrl+C to Cancel."
+	read -p ""
 	$(GIT) push -f $(GIT_REMOTE) \
 		$(TAG_COMMIT):refs/heads/$(ENV_BRANCH) \
 		$(TAG_COMMIT):refs/tags/$(ENV_BRANCH)/$(MAKE_DATE)-$(MAKE_TIME)-$(TAG)
