@@ -44,8 +44,8 @@ clean: ## Clean.
 .PHONY: nuke
 nuke: ## Nuke (Stash actually) all files/changes not checked in.
 	@$(ECHO_DO) "Nuking..."
-	$(GIT) reset
-	$(GIT) stash --all
+	$(GIT) reset -- .
+	$(GIT) stash --all -- .
 	@$(ECHO_DONE)
 
 
