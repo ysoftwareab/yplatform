@@ -18,7 +18,7 @@ PUBLIC_breaking := major
 # ------------------------------------------------------------------------------
 
 .PHONY: release
-release: release-patch ## Release a new patch version.
+release: release/patch ## Release a new patch version.
 
 
 .PHONY: release/public
@@ -27,7 +27,7 @@ ifeq (true,$(PKG_VSN_PUBLIC))
 	$(ECHO_ERR) "Current version $(PKG_VSN) is beyond first public version (>=1.0.0)."
 	exit 1
 endif
-	$(MAKE) release-f/major
+	$(MAKE) release/major
 
 
 .PHONY: $(RELEASE_SEMANTIC_TARGETS)
