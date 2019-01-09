@@ -79,7 +79,6 @@ going to `Settings` tab -> `Branches` -> `Add rule`.
 * type `master`
 * **optionally** select `Require pull request reviews before merging`
 * select `Require status checks to pass before merging`
-  * select `Require branches to be up to date before merging`
   * select `Travis CI - Pull Request`
     * if not available, set up Travis CI integration first
 * click `Create`
