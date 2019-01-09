@@ -1,4 +1,5 @@
-include support-firecloud/repo/mk/js.common.node.mk
+# include support-firecloud/repo/mk/js.common.node.mk
+include repo/mk/js.common.node.mk
 
 # ------------------------------------------------------------------------------
 
