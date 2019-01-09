@@ -7,15 +7,14 @@ source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
 case $(uname -s) in
     Darwin)
         echo_do "brew: Installing homebrew..."
-        ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" || \
-            true # fails if already installed
+        </dev/null ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         echo_done
 
         TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
         ;;
     Linux)
         echo_do "brew: Installing linuxbrew..."
-        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        </dev/null sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
         echo_done
 
         TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
