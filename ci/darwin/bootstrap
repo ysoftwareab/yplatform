@@ -28,5 +28,3 @@ brew_list
     printenv
     echo_done
 }
-
-echo_info "bootstrap ok"

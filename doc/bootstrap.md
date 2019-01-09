@@ -80,13 +80,14 @@ All system-wide dependencies can be installed by running
 # ~/git/firecloud/support-firecloud/dev/linux/bootstrap # for Linux
 ```
 
-**NOTE** If the above script didn't finish by printing `[INFO] boostrap ok`,
+**NOTE** If the bootstrap script above didn't finish by printing `Restart your shell, and you're good to go.`,
 then you know the script has failed while executing.
 
 Some aliases/functions/PATHs need to be set as well.
 Append `source ~/git/firecloud/support-firecloud/priv/dev.inc.sh` to your `~/.bashrc` or `~/.zshrc` or similar.
 
 Restart your shell, and you're good to go.
+
 
 ## Editor
 
