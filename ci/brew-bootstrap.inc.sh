@@ -76,10 +76,14 @@ echo_done
 
 brew_upgrade() {
     echo "$@" | while read NAME; do
-        brew outdated ${NAME} >/dev/null 2>&1 || {
-            echo_do "brew: Upgrading ${NAME}..."
-            brew upgrade ${NAME}
-            echo_done
+        # is it pinned?
+        brew list ${NAME} --pinned | grep -q "^${NAME}$" || {
+            # is it already up-to-date?
+            brew outdated ${NAME} >/dev/null 2>&1 || {
+                echo_do "brew: Upgrading ${NAME}..."
+                brew upgrade ${NAME}
+                echo_done
+            }
         }
     done
 }
