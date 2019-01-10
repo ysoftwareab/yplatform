@@ -10,7 +10,7 @@ elif [ -n "${ZSH_VERSION}" ]; then
         echo >&2 "${GLOBAL_SUPPORT_FIRECLOUD_DIR}/priv/aws-iam-login.inc.sh."
     }
 else
-    echo >&2 'Unsupported shell in aws-iam-login.inc.sh, or $BASH_VERSION or $ZSH_VERSION undefined.'
+    echo >&2 "Unsupported shell in aws-iam-login.inc.sh, or \$BASH_VERSION or \$ZSH_VERSION undefined."
 fi
 
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/priv/exe-env.inc.sh

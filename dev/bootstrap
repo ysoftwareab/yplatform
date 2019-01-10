@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+cd ${SUPPORT_FIRECLOUD_DIR} # so that GIT_ROOT becomes SUPPORT_FIRECLOUD_DIR
+
+OS=$(uname | tr "[A-Z]" "[a-z]")
+${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
+
+# Upgrade to homebrew's bash, if using system bash
+[[ "${SHELL:-}" != "/bin/bash" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
+
+echo "Append 'source '~/${SUPPORT_FIRECLOUD_DIR#${HOME}/}/priv/dev.inc.sh'"
+echo "to your '~/.bashrc' or '~/.zshrc' or similar."
+
+echo "Restart your shell, and you're good to go."

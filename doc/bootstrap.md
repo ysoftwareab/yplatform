@@ -76,9 +76,7 @@ we expect GNU binaries (even on Darwin).
 All system-wide dependencies can be installed by running
 
 ```shell
-cd ~/git/firecloud/support-firecloud
-dev/darwin/bootstrap # for Darwin
-# dev/linux/bootstrap # for Linux
+~/git/firecloud/support-firecloud/dev/bootstrap
 ```
 
 **NOTE** If the bootstrap script above didn't finish by printing `Restart your shell, and you're good to go.`,
