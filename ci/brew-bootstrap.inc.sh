@@ -10,14 +10,14 @@ case $(uname -s) in
         </dev/null ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
         echo_done
 
-        TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
+        CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
         ;;
     Linux)
         echo_do "brew: Installing linuxbrew..."
         </dev/null sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
         echo_done
 
-        TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+        CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
         ;;
     *)
         echo_err "brew: $(uname -s) is an unsupported OS."
@@ -28,13 +28,13 @@ esac
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 
 HOMEBREW_PREFIX=$(brew --prefix)
-if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
+[[ "${CI}" != "true" ]] || [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" = "$(cd ${CI_CACHE_HOMEBREW_PREFIX} && pwd)" ]] || {
     echo_do "brew: Restoring cache..."
-    if [[ -d "${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
+    if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
         echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
-        RSYNC_CMD="rsync -a --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/ ${HOMEBREW_PREFIX}/Homebrew/"
+        RSYNC_CMD="rsync -a --delete ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew/ ${HOMEBREW_PREFIX}/Homebrew/"
         ${RSYNC_CMD} || {
-            exe ls -la ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew || true
+            exe ls -la ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew || true
             exe ls -la ${HOMEBREW_PREFIX}/Homebrew || true
             ${RSYNC_CMD} --verbose
         }
@@ -43,15 +43,15 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
     fi
 
     # restore non-bottled formulae
-    if [[ -d "${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar" ]]; then
-        for f in $(find ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
+    if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Cellar" ]]; then
+        for f in $(find ${CI_CACHE_HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
             f="$(basename $(dirname "${f}"))/$(basename "${f}")" # name/version
-            [[ -f ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json ]] || continue
+            [[ -f ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json ]] || continue
             echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Cellar/${f}..."
             mkdir -p ${HOMEBREW_PREFIX}/Cellar/${f}
-            RSYNC_CMD="rsync -a --delete ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ ${HOMEBREW_PREFIX}/Cellar/${f}/"
+            RSYNC_CMD="rsync -a --delete ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ ${HOMEBREW_PREFIX}/Cellar/${f}/"
             ${RSYNC_CMD} || {
-                exe ls -la ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ || true
+                exe ls -la ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ || true
                 exe ls -la ${HOMEBREW_PREFIX}/Cellar/${f}/ || true
                 ${RSYNC_CMD} --verbose
             }
@@ -60,9 +60,9 @@ if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX}
         done
     fi
     echo_done
-fi
+}
 unset HOMEBREW_PREFIX
-unset TRAVIS_CACHE_HOMEBREW_PREFIX
+unset CI_CACHE_HOMEBREW_PREFIX
 
 echo_do "brew: Updating..."
 brew update
