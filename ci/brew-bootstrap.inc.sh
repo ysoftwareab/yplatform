@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 case $(uname -s) in
     Darwin)
@@ -25,7 +25,7 @@ case $(uname -s) in
         ;;
 esac
 
-source ${SUPPORT_FIRECLOUD_DIR}/bin/exe-env.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 
 HOMEBREW_PREFIX=$(brew --prefix)
 if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" != "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
@@ -134,4 +134,4 @@ brew_list() {
     echo_done
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/bin/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
