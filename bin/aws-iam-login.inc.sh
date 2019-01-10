@@ -1,1 +1,1 @@
-../priv/aws-iam-login.inc.sh
+../sh/aws-iam-login.inc.sh

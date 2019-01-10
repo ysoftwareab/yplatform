@@ -8,7 +8,7 @@ sudo true || {
 }
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/priv/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 brew_bootstrap_darwin() {
     local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh

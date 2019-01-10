@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/priv/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 # function travis_run_<step>() {
 # }

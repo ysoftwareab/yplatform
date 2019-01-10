@@ -1,1 +1,1 @@
-../priv/common.inc.sh
+../sh/common.inc.sh

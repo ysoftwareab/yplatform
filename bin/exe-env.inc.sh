@@ -1,1 +1,1 @@
-../priv/exe-env.inc.sh
+../sh/exe-env.inc.sh

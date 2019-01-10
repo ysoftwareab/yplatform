@@ -11,7 +11,7 @@ ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
 # Upgrade to homebrew's bash, if using system bash
 [[ "${SHELL:-}" != "/bin/bash" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
 
-echo "Append 'source '~/${SUPPORT_FIRECLOUD_DIR#${HOME}/}/priv/dev.inc.sh'"
+echo "Append 'source '~/${SUPPORT_FIRECLOUD_DIR#${HOME}/}/sh/dev.inc.sh'"
 echo "to your '~/.bashrc' or '~/.zshrc' or similar."
 
 echo "Restart your shell, and you're good to go."

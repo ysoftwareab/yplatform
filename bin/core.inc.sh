@@ -1,1 +1,1 @@
-../priv/core.inc.sh
+../sh/core.inc.sh

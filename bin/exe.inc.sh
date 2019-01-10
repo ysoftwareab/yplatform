@@ -1,1 +1,1 @@
-../priv/exe.inc.sh
+../sh/exe.inc.sh

@@ -83,7 +83,7 @@ All system-wide dependencies can be installed by running
 then you know the script has failed while executing.
 
 Some aliases/functions/PATHs need to be set as well.
-Append `source ~/git/firecloud/support-firecloud/priv/dev.inc.sh` to your `~/.bashrc` or `~/.zshrc` or similar.
+Append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bashrc` or `~/.zshrc` or similar.
 
 Restart your shell, and you're good to go.
 
