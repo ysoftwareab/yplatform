@@ -3,7 +3,12 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-cd ${SUPPORT_FIRECLOUD_DIR} # so that GIT_ROOT becomes SUPPORT_FIRECLOUD_DIR
+cd ${SUPPORT_FIRECLOUD_DIR}
+git reset
+git stash --all
+git checkout master
+git pull
+git clean -xdf .
 
 OS=$(uname | tr "[A-Z]" "[a-z]")
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
