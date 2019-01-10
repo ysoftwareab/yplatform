@@ -3,6 +3,7 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+# Reset and upgrade SF
 cd ${SUPPORT_FIRECLOUD_DIR}
 git reset
 git stash --all
@@ -10,13 +11,16 @@ git checkout master
 git pull
 git clean -xdf .
 
+# Bootstrap OS
 OS=$(uname | tr "[A-Z]" "[a-z]")
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
 
 # Upgrade to homebrew's bash, if using system bash
 [[ "${SHELL:-}" != "/bin/bash" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
 
+# User feedback
+echo
 echo "Append 'source '~/${SUPPORT_FIRECLOUD_DIR#${HOME}/}/sh/dev.inc.sh'"
 echo "to your '~/.bashrc' or '~/.zshrc' or similar."
-
+echo
 echo "Restart your shell, and you're good to go."
