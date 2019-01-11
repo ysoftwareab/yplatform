@@ -135,9 +135,10 @@ function sf_travis_run_before_deploy() {
 }
 
 function sf_travis_run_after_script_upload_job_artifacts() {
-    local GITHUB_JOB_URL="https://github.com/${TRAVIS_REPO_SLUG}/tree/refs/jobs/${TRAVIS_JOB_ID}"
+    local CI_JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
+    local CI_JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${CI_JOB_GIT_REF}
     echo_do "Uploading job artifacts..."
-    echo "...to ${GITHUB_JOB_URL}"
+    [[ -z "${GH_TOKEN:-}" ]] || echo_info "View on Github: ${CI_JOB_GITHUB_UI_URL}"
 
     git checkout --orphan jobs/${TRAVIS_JOB_ID}
     git reset -- .
@@ -165,7 +166,10 @@ EOF
 
     git add -f README.md
     git commit -m "${TRAVIS_JOB_ID}"
-    git push -f origin HEAD:refs/jobs/${TRAVIS_JOB_ID}
+
+    # Upload to git refs/job/<job_id>
+    [[ -z "${GH_TOKEN:-}" ]] || git push -f https://${GH_TOKEN}@github.com:${TRAVIS_REPO_SLUG}.git HEAD:${CI_JOB_GIT_REF} || true
+
     git checkout -f -
 
     echo_done
