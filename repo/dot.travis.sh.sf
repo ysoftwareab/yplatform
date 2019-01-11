@@ -136,9 +136,12 @@ function sf_travis_run_before_deploy() {
 
 function sf_travis_run_after_script_upload_job_artifacts() {
     local CI_JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
+    local CI_JOB_S3_URL=https://infra-attentionpanel-com-eu-west-1.s3.amazonaws.com/ci/${TRAVIS_JOB_ID}/
     local CI_JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${CI_JOB_GIT_REF}
+    local CI_JOB_S3_UI_URL=https://s3.console.aws.amazon.com/s3/buckets/infra-attentionpanel-com-eu-west-1/ci/${TRAVIS_JOB_ID}/
     echo_do "Uploading job artifacts..."
     [[ -z "${GH_TOKEN:-}" ]] || echo_info "View on Github: ${CI_JOB_GITHUB_UI_URL}"
+    echo_info "View on S3: ${CI_JOB_S3_UI_URL}"
 
     git checkout --orphan jobs/${TRAVIS_JOB_ID}
     git reset -- .
@@ -169,6 +172,10 @@ EOF
 
     # Upload to git refs/job/<job_id>
     [[ -z "${GH_TOKEN:-}" ]] || git push -f https://${GH_TOKEN}@github.com:${TRAVIS_REPO_SLUG}.git HEAD:${CI_JOB_GIT_REF} || true
+
+    # Upload to public S3
+    git ls-files | xargs -I {} \
+        curl -XPUT -T "{}" "${CI_JOB_S3_URL}{}" || true
 
     git checkout -f -
 
