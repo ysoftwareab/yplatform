@@ -177,7 +177,7 @@ EOF
 
     # Upload to git refs/job/<job_id>
     [[ -z "${GH_TOKEN:-}" ]] || {
-        git push -f https://${GH_TOKEN}@github.com:${TRAVIS_REPO_SLUG}.git HEAD:${CI_JOB_GIT_REF} || true
+        git push -f https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git HEAD:${CI_JOB_GIT_REF} || true
     }
 
     # Upload to public S3
