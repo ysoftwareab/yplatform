@@ -148,15 +148,15 @@ function sf_travis_run_after_script_upload_job_artifacts() {
     cat <<-EOF >README.md
 ${CI_JOB_GIT_REF}
 
-# Job (${TRAVIS_JOB_WEB_URL}]()${TRAVIS_JOB_ID}
+# Job [${TRAVIS_JOB_ID}](${TRAVIS_JOB_WEB_URL})
 
 ## Environment
 
 <details>
     <summary>TRAVIS_*</summary>
-    <code>
+    <pre>
 $(printenv | grep "^TRAVIS_")
-    </code>
+    </pre>
 </details>
 
 ## Files
