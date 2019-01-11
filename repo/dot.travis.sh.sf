@@ -134,6 +134,43 @@ function sf_travis_run_before_deploy() {
     make dist
 }
 
+function sf_travis_run_after_script_upload_job_artifacts() {
+    local GITHUB_JOB_URL="https://github.com/${TRAVIS_REPO_SLUG}/tree/refs/jobs/${TRAVIS_JOB_ID}"
+    echo_do "Uploading job artifacts..."
+    echo "...to ${GITHUB_JOB_URL}"
+
+    git checkout --orphan jobs/${TRAVIS_JOB_ID}
+    git reset -- .
+    mv .gitignore.jobs .gitignore
+    git add -f .gitignore
+    git add .
+
+    cat <<-EOF >README.md
+# Job ${TRAVIS_JOB_WEB_URL}
+
+## Environment
+
+<details>
+    <summary>TRAVIS_*<summary>
+    <code>
+$(printenv | grep "^TRAVIS_")
+    </code>
+</details>
+
+## Files
+
+$(git ls-files | xargs -I {} echo "* {}")
+
+EOF
+
+    git add -f README.md
+    git commit -m "${TRAVIS_JOB_ID}"
+    git push -f origin HEAD:refs/jobs/${TRAVIS_JOB_ID}
+    git checkout -f -
+
+    echo_done
+}
+
 function sf_travis_run_before_cache_brew() {
     which brew >/dev/null 2>&1 || return 0
     local HOMEBREW_PREFIX=$(brew --prefix)
