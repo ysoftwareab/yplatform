@@ -136,15 +136,6 @@ function sf_travis_run_before_deploy() {
 
 function sf_travis_run_after_script_upload_job_artifacts() {
     local CI_JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
-    local CI_JOB_S3_URL=https://infra-attentionpanel-com-eu-west-1.s3.amazonaws.com/ci/${TRAVIS_JOB_ID}/
-    local CI_JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${CI_JOB_GIT_REF}
-    local S3_UI_URL=https://s3.console.aws.amazon.com/s3/buckets
-    local CI_JOB_S3_UI_URL=${S3_UI_URL}/infra-attentionpanel-com-eu-west-1/ci/${TRAVIS_JOB_ID}/
-
-    [[ -z "${GH_TOKEN:-}" ]] || {
-        echo_info "View job artifacts on Github: ${CI_JOB_GITHUB_UI_URL}"
-    }
-    echo_info "View job artifacts on S3: ${CI_JOB_S3_UI_URL}"
 
     echo_do "Uploading job artifacts..."
 
@@ -155,12 +146,14 @@ function sf_travis_run_after_script_upload_job_artifacts() {
     git add .
 
     cat <<-EOF >README.md
-# Job ${TRAVIS_JOB_WEB_URL}
+${CI_JOB_GIT_REF}
+
+# Job (${TRAVIS_JOB_WEB_URL}]()${TRAVIS_JOB_ID}
 
 ## Environment
 
 <details>
-    <summary>TRAVIS_*<summary>
+    <summary>TRAVIS_*</summary>
     <code>
 $(printenv | grep "^TRAVIS_")
     </code>
@@ -168,12 +161,13 @@ $(printenv | grep "^TRAVIS_")
 
 ## Files
 
-$(git ls-files | xargs -I {} echo "* {}")
+$(git ls-files | xargs -I {} echo "* [{}]({})")
 
 EOF
 
     git add -f README.md
     git commit -m "${TRAVIS_JOB_ID}"
+    local CI_JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
     [[ -z "${GH_TOKEN:-}" ]] || {
@@ -181,12 +175,22 @@ EOF
     }
 
     # Upload to public S3
+    local CI_JOB_S3_URL=https://infra-attentionpanel-com-eu-west-1.s3.amazonaws.com/ci/${TRAVIS_JOB_ID}/
     git ls-files | xargs -I {} \
         curl -sS -T "{}" -XPUT -H "x-amz-acl: bucket-owner-full-control" "${CI_JOB_S3_URL}{}" || true
 
     git checkout -f -
 
     echo_done
+
+    [[ -z "${GH_TOKEN:-}" ]] || {
+        local CI_JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${CI_JOB_GIT_HASH}
+        echo_info "View job artifacts on Github: ${CI_JOB_GITHUB_UI_URL}"
+    }
+    local S3_UI_URL=https://s3.console.aws.amazon.com/s3/buckets
+    local CI_JOB_S3_UI_URL=${S3_UI_URL}/infra-attentionpanel-com-eu-west-1/ci/${TRAVIS_JOB_ID}/
+    echo_info "View job artifacts on S3: ${CI_JOB_S3_UI_URL}"
+
 }
 
 function sf_travis_run_before_cache_brew() {
