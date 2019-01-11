@@ -182,7 +182,7 @@ EOF
 
     # Upload to public S3
     git ls-files | xargs -I {} \
-        curl -sS -XPUT -T "{}" "${CI_JOB_S3_URL}{}" || true
+        curl -sS -T "{}" -XPUT -H "x-amz-acl: bucket-owner-full-control" "${CI_JOB_S3_URL}{}" || true
 
     git checkout -f -
 
