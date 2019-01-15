@@ -84,6 +84,18 @@ ARTIFACT=.travis.yml
     echo_info "Created ${ARTIFACT}."
 }
 
+[[ -e .github ]] || {
+    mkdir -p .github
+    for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/.*; do
+        ARTIFACT=.github/$(basename ${ARTIFACT})
+        [[ -e ${ARTIFACT} ]] || {
+            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+            echo_info "Symlinked ${ARTIFACT}."
+        }
+    done
+}
+
 [[ -e .vscode ]] || {
     mkdir -p .vscode
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/.*; do
