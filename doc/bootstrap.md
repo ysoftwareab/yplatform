@@ -83,9 +83,11 @@ All system-wide dependencies can be installed by running
 then you know the script has failed while executing.
 
 Some aliases/functions/PATHs need to be set as well.
-Append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bashrc` or `~/.zshrc` or similar.
+Append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.
 
 Restart your shell, and you're good to go.
+
+You can test that everything is fine by checking that `echo $SF_BOOTSTRAPPED` prints `true`.
 
 
 ## Editor
