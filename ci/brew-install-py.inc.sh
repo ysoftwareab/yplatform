@@ -12,6 +12,9 @@ EOF
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 eval "$(pyenv init -)"
+for f in $(brew --cellar python@2)/* $(brew --cellar python@3)/*; do
+    ln -sf $f ~/.pyenv/versions/
+done
 echo_done
 
 # test
