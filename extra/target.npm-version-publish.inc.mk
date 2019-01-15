@@ -21,6 +21,6 @@ npm-postversion-publish: dist
 			dist:dist \
 			v$${VSN}:refs/tags/v$${VSN} \
 			v$${VSN}-dist:refs/tags/v$${VSN}-dist
-	$(LS) | $(GREP) -v dist | $(XARGS) $(GIT) clean -xdf --
+	$(LS) | $(GREP) -v dist | $(XARGS) -L1 $(GIT) clean -xdf --
 	$(GIT) checkout -
 	$(GIT) stash pop
