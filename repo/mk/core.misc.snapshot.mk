@@ -24,7 +24,7 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 			$(SED) "s|^\./||g" | \
 			$(GREP) $(SF_SNAPSHOT_FILES_IGNORE) > $(SF_SNAPSHOT_DIR).ignore || \
 				$(RM) $(SF_SNAPSHOT_DIR).ignore; \
-		[ ! -f $(SF_SNAPSHOT_DIR).ignore ] || $(CAT) $(SF_SNAPSHOT_DIR).ignore | $(XARGS) $(RM); \
+		[ ! -f $(SF_SNAPSHOT_DIR).ignore ] || $(CAT) $(SF_SNAPSHOT_DIR).ignore | $(XARGS) -L1 $(RM); \
 		$(RM) $(SF_SNAPSHOT_DIR).ignore; \
 	}
 	$(ECHO) -n "$(GIT_HASH)" > $(SF_SNAPSHOT_DIR)/$(SF_SNAPSHOT_GIT_HASH)
