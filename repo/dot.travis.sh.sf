@@ -45,7 +45,7 @@ function sf_transcrypt() {
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${TRANSCRYPT_PASSWORD:-}" ]] || return 0
 
-    if ./transcrypt -d >/dev/null 2>&1; then
+    if git config --local transcrypted.version >/dev/null; then
         echo_skip "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
         return 0
     fi
