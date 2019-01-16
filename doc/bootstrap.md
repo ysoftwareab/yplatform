@@ -87,7 +87,8 @@ Append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bash
 
 Restart your shell, and you're good to go.
 
-You can test that everything is fine by checking that `echo $SF_BOOTSTRAPPED` prints `true`.
+You can test that everything is fine by checking that
+running `echo $SF_DEV_INC_SH` prints `true`.
 
 
 ## Editor

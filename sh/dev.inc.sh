@@ -18,4 +18,4 @@ source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/aws-iam-login.inc.sh
 
 alias sake=${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/sake
 
-export SF_BOOTSTRAPPED=true
+export SF_DEV_INC_SH=true
