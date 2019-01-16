@@ -65,7 +65,7 @@ function printenv_with_name() {
 function exe_and_grep_q() {
     local OUTPUT=$(eval "$1")
     echo_info "Testing if '${OUTPUT}' matches '$2'..."
-    which -a $(echo "$1" | cut -d" " -f1)
+    which -a $(echo "$1" | cut -d" " -f1) | xargs -L1 ls -l
     echo "${OUTPUT}" | grep -q "$2" || {
         echo_err "No match."
         exit 1
