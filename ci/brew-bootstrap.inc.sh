@@ -130,6 +130,8 @@ brew_install() {
         brew install ${FORMULA}
         echo_done
     done
+    # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 brew_list() {
