@@ -154,9 +154,9 @@ function teamcity_echo() {
     echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
 }
 
-if [ "${TRAVIS:-}" = "true" ]; then
+if [[ "${TRAVIS:-}" = "true" ]]; then
     travis_echo "$1" "${@:2}"
-elif [ -n "${TEAMCITY_VERSION:-}" ]; then
+elif [[ -n "${TEAMCITY_VERSION:-}" ]]; then
     teamcity_echo "$1" "${@:2}"
 else
     fallback_echo "$1" "${@:2}"
