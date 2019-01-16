@@ -24,6 +24,7 @@ SF_ECLINT_FILES_IGNORE := \
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
 	test-secret \
+	test-upload-job-artifacts \
 
 # ------------------------------------------------------------------------------
 
@@ -35,3 +36,7 @@ ifeq (true,$(SF_IS_TRANSCRYPTED))
 else
 	:
 endif
+
+.PHONY: test-upload-job-artifacts
+test-upload-job-artifacts:
+	$(ECHO) "This is a test of upload-job-artifacts" >some-job-artifact.md
