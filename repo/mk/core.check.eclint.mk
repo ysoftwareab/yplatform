@@ -2,7 +2,7 @@ ECLINT = $(call which,ECLINT,eclint)
 $(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
 
 ECLINT_ARGS ?=
-IS_TRANSCRYPTED ?=
+SF_IS_TRANSCRYPTED ?= false
 
 SF_ECLINT_FILES_IGNORE := \
 	-e "^$$" \
@@ -10,7 +10,7 @@ SF_ECLINT_FILES_IGNORE := \
 
 SF_ECLINT_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
-	$(GREP) -Fvxf <([ $(IS_TRANSCRYPTED) ] || [[ ! -x $(TOP)/transcrypt ]] || $(TOP)/transcrypt -l) | \
+	$(GREP) -Fvxf <([ $(SF_IS_TRANSCRYPTED) ] || [[ ! -x $(TOP)/transcrypt ]] || $(TOP)/transcrypt -l) | \
 	$(GREP) -v $(SF_ECLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")

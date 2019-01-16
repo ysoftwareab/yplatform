@@ -1,5 +1,5 @@
 JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
-IS_TRANSCRYPTED ?=
+SF_IS_TRANSCRYPTED ?= false
 
 SF_JSONLINT_FILES_IGNORE := \
 	-e "^$$" \
@@ -7,7 +7,7 @@ SF_JSONLINT_FILES_IGNORE := \
 
 SF_JSONLINT_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
-	$(GREP) -Fvxf <([ $(IS_TRANSCRYPTED) ] || [ ! -x $(TOP)/transcrypt ] || $(TOP)/transcrypt -l) | \
+	$(GREP) -Fvxf <([ $(SF_IS_TRANSCRYPTED) ] || [ ! -x $(TOP)/transcrypt ] || $(TOP)/transcrypt -l) | \
 	$(GREP) -e ".json$$" | \
 	$(GREP) -v $(SF_JSONLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
