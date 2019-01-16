@@ -41,14 +41,14 @@ function sf_private_submodules() {
 }
 
 function sf_transcrypt() {
-    [ "${TRAVIS_EVENT_TYPE}" = "pull_request" ] || \
-    [ ! -x "./transcrypt" ] || \
-    [ -z "${TRANSCRYPT_PASSWORD:-}" ] || {
-        echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
-        ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
-        unset TRANSCRYPT_PASSWORD
-        echo_done
-    }
+    [ "${TRAVIS_EVENT_TYPE}" != "pull_request" ] || return 0
+    [ -x "./transcrypt" ] || return 0
+    [ -n "${TRANSCRYPT_PASSWORD:-}" ] || return 0
+
+    echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
+    ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+    unset TRANSCRYPT_PASSWORD
+    echo_done
 }
 
 function sf_pyenv_init() {
