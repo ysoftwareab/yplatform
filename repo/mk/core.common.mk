@@ -101,16 +101,17 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 	$(eval SF_SUBMODULE_PATH := $(shell $(GIT) config --file .gitmodules --get-regexp path | \
 		$(GREP) $(shell basename $(SUPPORT_FIRECLOUD_DIR)) | $(CUT) -d' ' -f2))
 	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
-	@$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH)..."
+	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH)..."
 	$(GIT) submodule update --init --recursive --remote $(SF_SUBMODULE_PATH)
 	$(GIT) add $(SF_SUBMODULE_PATH)
 	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH)"
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
-	@$(ECHO)
-	@$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
-	cd $(SF_SUBMODULE_PATH) && { \
-		$(GIT) log --date=short --pretty=format:"%h %ad %s" --no-decorate $(SF_COMMIT)..; \
-		$(GIT) diff --stat $(SF_COMMIT)..; \
-	}
-	@$(ECHO)
-	@$(ECHO_DONE)
+	$(ECHO)
+	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
+	$(GIT) -C $(SF_SUBMODULE_PATH) \
+		log --date=short --pretty=format:"%h %ad %s" --no-decorate $(SF_COMMIT).. | \
+		$(GREP) --color -E "^|break"
+	$(GIT) -C $(SF_SUBMODULE_PATH) \
+		diff --stat $(SF_COMMIT)..
+	$(ECHO)
+	$(ECHO_DONE)
