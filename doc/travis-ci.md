@@ -36,10 +36,16 @@ Reference: https://docs.travis-ci.com/user/status-images/
 Don't forget to commit the most important thing: a `.travis.yml` ([template](../repo/dot.travis.yml)) file which configures your Travis CI build.
 
 
-## Artifafcts
+## Artifacts
 
 If your job has artifacts, like logs that you'd like to access outside of the Travis CI job log,
-then you need to create a `.gitignore.jobs` file resembling a regular `.gitignore` that defines
+then you need to
+
+* Add a `GH_TOKEN` secure environment variable to `.travis.yml`.
+  This Github API token should have enough permissions to push to the repository.
+* Create a `.gitignore.artifacts`
+
+`.gitignore.artifacts` resembles a regular `.gitignore` that defines
 which files should be ignored, while rest would be considered artifacts e.g.
 
 ```
@@ -50,14 +56,7 @@ which files should be ignored, while rest would be considered artifacts e.g.
 !/some.log
 ```
 
-Once you do, your artifacts would start being upload to `s3://infra-tobiicloud-com-eu-west-1/jobs/<job_id>/`.
-If you'd like them uploaded elsewhere, add an environment variable `SF_JOBS_S3_PATH` in `.travis.yml`.
-You can later browse them via AWS S3's UI or checking them out via
-`aws s3 cp --recursive ${SF_JOBS_S3_PATH}/<job_id> ./`
-
-If your `.travis.yml` also has a `GH_TOKEN` (a Github API token)
-with enough permissions to push back to your repository,
-then your artifacts would also be uploaded to a `refs/jobs/<job_id>` git ref,
+Once you do, your artifacts would be uploaded to a `refs/jobs/<job_id>` git ref,
 making it possible to browse the artifacts via Github's UI,
 or checking them out via `git fetch refs/jobs/<job_id> && git log -p FETCH_HEAD`
 (or even `git checkout FETCH_HEAD`) from a local repo.

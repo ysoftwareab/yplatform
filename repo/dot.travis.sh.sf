@@ -140,6 +140,11 @@ function sf_travis_run_after_script_upload_job_artifacts() {
         return 0
     }
 
+    [[ -n "${GH_TOKEN:-}" ]] || {
+        echo_skip "Uploading job artifacts..."
+        return 0
+    }
+
     echo_do "Uploading job artifacts..."
 
     local JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
@@ -181,35 +186,14 @@ EOF
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
-    [[ -z "${GH_TOKEN:-}" ]] || {
-        git push -f https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
-    }
-
-    # Upload to public S3
-    SF_JOBS_S3_PATH=${SF_JOBS_S3_PATH:-infra-tobiicloud-com-eu-west-1/jobs}
-    SF_JOBS_S3_PATH=${SF_JOBS_S3_PATH%/}
-    local JOB_S3_BUCKET=${SF_JOBS_S3_PATH%%/*}
-    local JOB_S3_KEY_PREFIX=${SF_JOBS_S3_PATH#*/}
-    local JOB_S3_URL=https://${JOB_S3_BUCKET}.s3.amazonaws.com/${JOB_S3_KEY_PREFIX}/${TRAVIS_JOB_ID}/
-    git ls-files | xargs -I {} \
-        curl -sS \
-        -T "{}" \
-        -XPUT \
-        -H "content-type: text/plain" \
-        -H "x-amz-acl: bucket-owner-full-control" \
-        "${JOB_S3_URL}{}" || true
+    git push -f https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
     git checkout -f -
 
     echo_done
 
-    [[ -z "${GH_TOKEN:-}" ]] || {
-        local JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${JOB_GIT_HASH}
-        echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL}"
-    }
-    local S3_UI_URL=https://s3.console.aws.amazon.com/s3/buckets
-    local JOB_S3_UI_URL=${S3_UI_URL}/${JOB_S3_BUCKET}/${JOB_S3_KEY_PREFIX}/${TRAVIS_JOB_ID}/
-    echo_info "View job artifacts on S3: ${JOB_S3_UI_URL}"
+    local JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${JOB_GIT_HASH}
+    echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL}"
 
     # (Try to) Remove job artifacts older than 7 days ago
     function prune_job_git_ref() {
