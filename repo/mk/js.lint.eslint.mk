@@ -1,1 +1,0 @@
-js.check.eslint.mk
