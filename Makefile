@@ -5,7 +5,6 @@ include repo/mk/js.common.node.mk
 
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
-	-e "^.github/" \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^repo/AUTHORS$$" \
