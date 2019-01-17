@@ -10,7 +10,7 @@ and enable Travis CI integration for your repository.
 
 **NOTE** It is recommended that on the repository's Travis CI settings page you
 * enable `Build only if .travis.yml is present`
-* **if you have long-running builds such as deployment to AWS CloudFormation**,  
+* **if you have long-running builds such as deployment to AWS CloudFormation**,
   enable `Limit concurrent jobs: 1`
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
@@ -36,6 +36,32 @@ Reference: https://docs.travis-ci.com/user/status-images/
 Don't forget to commit the most important thing: a `.travis.yml` ([template](../repo/dot.travis.yml)) file which configures your Travis CI build.
 
 
+## Artifacts
+
+If your job has artifacts, like logs that you'd like to access outside of the Travis CI job log,
+then you need to
+
+* Add a `GH_TOKEN` secure environment variable to `.travis.yml`.
+  This Github API token should have enough permissions to push to the repository.
+* Create a `.gitignore.artifacts`
+
+`.gitignore.artifacts` resembles a regular `.gitignore` that defines
+which files should be ignored, while rest would be considered artifacts e.g.
+
+```
+# Ignore everything
+*
+
+# But not
+!/some.log
+```
+
+Once you do, your artifacts would be uploaded to a `refs/jobs/<job_id>` git ref,
+making it possible to browse the artifacts via Github's UI,
+or checking them out via `git fetch refs/jobs/<job_id> && git log -p FETCH_HEAD`
+(or even `git checkout FETCH_HEAD`) from a local repo.
+
+
 ## Debugging
 
 If you experience failures and you want to debug inside a Travis worker,
@@ -51,10 +77,10 @@ so `support-firecloud/bin/travis-debug --help`, to get proper info.
 
 Once you SSH via the tmate session, you will be welcomed by the message:
 
->   Run individual commands; or execute configured build phases  
+>   Run individual commands; or execute configured build phases
 >   with `travis_run_*` functions (e.g., `travis_run_before_install`).
 
-So run `travis_run_before_install` in order to bootstrap the machine.  
+So run `travis_run_before_install` in order to bootstrap the machine.
 Once that command finishes, you will be welcome by the message:
 
 >   Please run `./.travis.sh debug` to activate your debug session !!!
@@ -118,7 +144,7 @@ if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 * Go to https://tobii.slack.com/apps/, find "Travis CI" and there existing integration between Travis and Tobii Slack
 * Click "pencil" button ("Edit configuration") and note `<token>`
 * Open terminal in the repo folder
-* Generate new Travis secret as mentioned in [Secrets](#Secrets). 
+* Generate new Travis secret as mentioned in [Secrets](#Secrets).
 Assuming that you want notifications in #atex-ci channel command will look like:
   * in a case of public repo `support-firecloud/bin/travis-encrypt "tobii:<token>#atex-ci"`
   * in a case of private repo `travis encrypt "tobii:<token>#atex-ci"` (you will need to run `travis login --pro` before that)
