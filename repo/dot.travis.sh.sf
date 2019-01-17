@@ -155,8 +155,8 @@ function sf_travis_run_after_script_upload_job_artifacts() {
     local JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
 
     git checkout --orphan jobs/${TRAVIS_JOB_ID}
-    git reset -- .
     git ls-files -- "*/.gitignore" | xargs -L1 rm -f
+    git reset -- .
     mv .gitignore.artifacts .gitignore
     git add .
 
