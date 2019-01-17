@@ -11,10 +11,10 @@ When opening a Pull Request, or when reviewing someone else's Pull Request,
 follow these guidelines:
 
 0. Small is Best
-1. Correctness
-2. Consistency
-3. Readability
-4. Knowledge Sharing (extra)
+1. Correct
+2. Consistent
+3. Readable
+4. Share Knowledge
 
 ## 0. Small is Best
 
@@ -28,14 +28,14 @@ See also:
 * https://medium.com/@fagnerbrack/one-pull-request-one-concern-e84a27dfe9f1
 
 
-## 1. Correctness
+## 1. Correct
 
 The changeset needs to be comprehensive and logical.
 
 Code changes should not only add new features or fix bugs, but also not introduce bugs.
 
 
-## 2. Consistency
+## 2. Consistent
 
 The changeset needs to be consistent with itself and with the existing codebase.
 
@@ -46,7 +46,7 @@ When such improvements take place they should take place on their own,
 and they should touch at least the whole repository, if not the whole system.
 
 
-## 3. Readability
+## 3. Readable
 
 The changeset should be rather readable, not just in a working state.
 
@@ -58,7 +58,7 @@ See also:
 * http://typicalprogrammer.com/what-does-code-readability-mean
 
 
-## 4. Knowledge Sharing
+## 4. Share Knowledge
 
 Given that the above guidelines/checks are fullfilled, the reviewer should have the liberty to point out
 alternative code or useful functions/libraries, while the author has the liberty to assimilate or ignore them.

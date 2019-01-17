@@ -5,10 +5,10 @@ Please remember to follow our guidelines
 https://github.com/tobiipro/support-firecloud/blob/master/doc/working-with-git-pr.md :
 
 0. Small is Best
-1. Correctness
-2. Consistency
-3. Readability
-4. Knowledge Sharing
+1. Correct
+2. Consistent
+3. Readable
+4. Share Knowledge
 
 And make sure that `make check` passes and maybe `make all test` as well.
 -->
