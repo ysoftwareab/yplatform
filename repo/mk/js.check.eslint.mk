@@ -18,12 +18,12 @@ SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-eslint \
+	check-eslint \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-eslint
-lint-eslint:
+.PHONY: check-eslint
+check-eslint:
 	[[ "$(words $(SF_ESLINT_FILES))" = "0" ]] || { \
 		$(ESLINT) $(ESLINT_ARGS) $(SF_ESLINT_FILES) || { \
 			$(ESLINT) $(ESLINT_ARGS) --fix $(SF_ESLINT_FILES) 2>/dev/null >&2; \

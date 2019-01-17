@@ -9,12 +9,12 @@ TSLINT_ARGS := \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-tslint \
+	check-tslint \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-tslint
-lint-tslint:
+.PHONY: check-tslint
+check-tslint:
 	[[ "$(words $(TS_FILES))" = "0" ]] || { \
 		$(TSLINT) $(TSLINT_ARGS) $(TS_FILES) || { \
 			$(TSLINT) $(TSLINT_ARGS) --fix $(TS_FILES) 2>/dev/null >&2; \

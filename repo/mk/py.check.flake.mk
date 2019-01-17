@@ -12,10 +12,10 @@ SF_FLAKE_FILES = $(shell $(GIT_LS) . | \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-flake \
+	check-flake \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-flake
-lint-flake:
+.PHONY: check-flake
+check-flake:
 	$(FLAKE) $(FLAKE_ARGS) $(SF_FLAKE_FILES)

@@ -15,12 +15,12 @@ SF_JSONLINT_FILES = $(shell $(GIT_LS) . | \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-jsonlint \
+	check-jsonlint \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-jsonlint
-lint-jsonlint:
+.PHONY: check-jsonlint
+check-jsonlint:
 	[[ "$(words $(SF_JSONLINT_FILES))" = "0" ]] || { \
 		$(JSONLINT) $(SF_JSONLINT_FILES); \
 	}

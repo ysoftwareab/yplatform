@@ -20,12 +20,12 @@ SF_PATH_FILES = $(shell $(GIT_LS) . | \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-path \
+	check-path \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-path
-lint-path:
+.PHONY: check-path
+check-path:
 	[[ "$(words $(SF_PATH_FILES))" = "0" ]] || { \
 		for f in $(SF_PATH_FILES); do \
 			$(ECHO) "$${f}" | $(GREP) -qv "$(SF_PATH_LINT_RE)" || continue; \

@@ -17,12 +17,12 @@ SF_ECLINT_FILES = $(shell $(GIT_LS) . | \
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
-	lint-eclint \
+	check-eclint \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: lint-eclint
-lint-eclint:
+.PHONY: check-eclint
+check-eclint:
 	[[ "$(words $(SF_ECLINT_FILES))" = "0" ]] || { \
 		$(ECLINT) check $(ECLINT_ARGS) $(SF_ECLINT_FILES) || { \
 			$(ECLINT) fix $(ECLINT_ARGS) $(SF_ECLINT_FILES) 2>/dev/null >&2; \
