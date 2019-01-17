@@ -156,8 +156,8 @@ function sf_travis_run_after_script_upload_job_artifacts() {
 
     git checkout --orphan jobs/${TRAVIS_JOB_ID}
     git reset -- .
+    git ls-files -- "*/.gitignore" | xargs -L1 rm -f
     mv .gitignore.artifacts .gitignore
-    git add -f .gitignore
     git add .
 
     # (Try to) Create log.sh-session
@@ -180,13 +180,11 @@ ${JOB_GIT_REF}
 
 ## Artifacts
 
-$(git ls-files | grep -v "^\.gitignore$" | xargs -I {} echo "* [{}]({})")
+$(git ls-files | xargs -I {} echo "* [{}]({})")
 
 EOF
     git add -f README.md
 
-
-    git reset .gitignore
     git commit -m "${TRAVIS_JOB_ID}"
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
