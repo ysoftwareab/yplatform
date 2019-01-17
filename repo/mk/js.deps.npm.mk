@@ -33,13 +33,27 @@ deps-npm:
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
 	$(NPM) prune
-	[[ -f "package-lock.json" ]] || \
-		$(NPM) update --no-save --development
+	[[ -f "package-lock.json" ]] || { \
+		$(CAT) package.json | \
+			$(JQ)  ".dependencies + .devDependencies" | \
+			$(JQ) "to_entries" | \
+			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
+			$(JQ) -r ".key" | \
+			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
+		$(NPM) update --no-save --development; \
+	}
 
 
 .PHONY: deps-npm-prod
 deps-npm-prod:
 	$(NPM) install --production
 	$(NPM) prune --production
-	[[ -f "package-lock.json" ]] || \
-		$(NPM) update --no-save --production
+	[[ -f "package-lock.json" ]] || { \
+		$(CAT) package.json | \
+			$(JQ)  ".dependencies" | \
+			$(JQ) "to_entries" | \
+			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
+			$(JQ) -r ".key" | \
+			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
+		$(NPM) update --no-save --production; \
+	}
