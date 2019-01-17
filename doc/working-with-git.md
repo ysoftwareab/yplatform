@@ -15,6 +15,11 @@ like your username e.g.
 * DONT `add-logo`
 
 
+## Pull requests
+
+See [git and Pull Requests](./working-with-git-pr.md).
+
+
 ## New repositories
 
 See [new git (and Github) repositories](./working-with-git-new.md).

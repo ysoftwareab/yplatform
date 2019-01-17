@@ -5,14 +5,16 @@ include repo/mk/js.common.node.mk
 
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
-	-e "^generic/dot\.gitattributes_global" \
-	-e "^generic/dot\.gitignore_global" \
+	-e "^.github/" \
+	-e "^generic/dot\.gitattributes_global$$" \
+	-e "^generic/dot\.gitignore_global$$" \
 	-e "^repo/AUTHORS$$" \
 	-e "^repo/Brewfile.inc.sh$$" \
+	-e "^repo/cfn/tpl\.Makefile$$" \
+	-e "^repo/dot.github/" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/NOTICE$$" \
 	-e "^repo/UNLICENSE$$" \
-	-e "^repo/cfn/tpl\.Makefile$$" \
 
 SF_ECLINT_FILES_IGNORE := \
 	$(SF_ECLINT_FILES_IGNORE) \
