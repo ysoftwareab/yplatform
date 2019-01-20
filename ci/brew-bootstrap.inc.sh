@@ -69,11 +69,6 @@ brew update
 brew outdated
 echo_done
 
-echo_do "brew: Installing/Upgrading git..."
-brew list git >/dev/null 2>&1 || brew install git
-brew outdated git >/dev/null 2>&1 || brew upgrade git
-echo_done
-
 brew_upgrade() {
     echo "$@" | while read NAME; do
         # link, if not already
@@ -138,6 +133,10 @@ brew_install() {
     # see https://github.com/Homebrew/brew/issues/5013
     hash -r
 }
+
+echo_do "brew: Installing/Upgrading git..."
+brew_install git
+echo_done
 
 brew_list() {
     echo_do "brew: Listing packages..."
