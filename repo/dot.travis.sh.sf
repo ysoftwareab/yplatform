@@ -62,7 +62,7 @@ function sf_pyenv_init() {
 
 function sf_os() {
     [[ "${TRAVIS_DEBUG_MODE:-}" != "true" ]] || {
-        SF_LOG_BOOTSTRAP=true
+        SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
     echo_info "Running sf_os with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
 
