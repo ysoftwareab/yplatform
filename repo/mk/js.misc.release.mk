@@ -49,5 +49,6 @@ endif
 	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
 	$(ECHO) "       Wait 10 seconds or press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
-	read -t 10 -p ""
+#	Ctrl-C will interrupt. Timeout will return a failure
+	read -t 10 -p "" || true
 	$(MAKE) release/$(RELEASE_LEVEL)
