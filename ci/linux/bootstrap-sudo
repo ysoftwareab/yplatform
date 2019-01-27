@@ -23,6 +23,10 @@ apt-add-repository -y ppa:git-core/ppa
 apt-get update
 echo_done
 
+apt_install locales
+locale-gen en_US en_US.UTF-8
+dpkg-reconfigure --frontend=noninteractive locales
+
 # Basic
 echo_do "aptitude: Installing basic packages..."
 DPKGS="$(cat <<-EOF
