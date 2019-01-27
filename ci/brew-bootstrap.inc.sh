@@ -134,9 +134,7 @@ brew_install() {
     hash -r
 }
 
-echo_do "brew: Installing/Upgrading git..."
-brew_install git
-echo_done
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 
 brew_list() {
     echo_do "brew: Listing packages..."
