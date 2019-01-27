@@ -8,8 +8,8 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
-npm install --global npm
-npm install --global json
+npm install --global npm@6
+npm install --global json@9
 echo_done
 
 echo_do "brew: Testing NodeJS packages..."
