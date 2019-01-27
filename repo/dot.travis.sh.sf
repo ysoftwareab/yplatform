@@ -237,7 +237,9 @@ function sf_travis_run_before_cache_brew() {
             ;;
     esac
 
-    if [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" = "$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} && pwd)" ]]; then
+    local HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+    local TRAVIS_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+    if [[ "${HOMEBREW_PREFIX_FULL}" = "${TRAVIS_CACHE_HOMEBREW_PREFIX_FULL}" ]]; then
         return 0
     fi
 

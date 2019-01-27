@@ -28,7 +28,9 @@ esac
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 
 HOMEBREW_PREFIX=$(brew --prefix)
-[[ "${CI}" != "true" ]] || [[ "$(cd ${HOMEBREW_PREFIX} && pwd)" = "$(cd ${CI_CACHE_HOMEBREW_PREFIX} && pwd)" ]] || {
+HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+[[ "${CI}" != "true" ]] || [[ "${HOMEBREW_PREFIX_FULL}" = "${CI_CACHE_HOMEBREW_PREFIX_FULL}" ]] || {
     echo_do "brew: Restoring cache..."
     if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
         echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
