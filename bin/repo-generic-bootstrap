@@ -89,9 +89,9 @@ ARTIFACT=.travis.yml
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/.*; do
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ -e ${ARTIFACT} ]] || {
-            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
-            echo_info "Symlinked ${ARTIFACT}."
+            echo_info "Created ${ARTIFACT}."
         }
     done
 }
