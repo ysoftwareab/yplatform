@@ -43,17 +43,13 @@ then you need to
 
 * Add a `GH_TOKEN` secure environment variable to `.travis.yml`.
   This Github API token should have enough permissions to push to the repository.
-* Create a `.gitignore.artifacts`
+* Create a `.artifacts`
 
-`.gitignore.artifacts` resembles a regular `.gitignore` that defines
-which files should be ignored, while rest would be considered artifacts e.g.
+The `.artifacts` file is a list of paths that would include artifacts e.g.
 
 ```
-# Ignore everything
-*
-
-# But not
-!/some.log
+some.log
+some/folder/*.log
 ```
 
 Once you do, your artifacts would be uploaded to a `refs/jobs/<job_id>` git ref,
