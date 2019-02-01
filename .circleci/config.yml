@@ -65,12 +65,6 @@ aliases:
           only:
             - master
 
-  - filter-pr: &filter-pr
-      filters:
-        branches:
-          only:
-            - /^refs\/pull\/.+$/
-
 
 executors:
   docker:
@@ -154,14 +148,6 @@ workflows:
           <<: *job-main-linux-xenial-common
       - main-macos-xcode101-dev:
           <<: *job-main-macos-xcode101-dev
-
-  pr:
-    <<: *filter-pr
-    jobs:
-      - main-linux-trusty-minimal:
-          <<: *job-main-linux-trusty-minimal
-      - main-linux-xenial-minimal:
-          <<: *job-main-linux-xenial-minimal
 
   nightly:
     <<: *filter-main
