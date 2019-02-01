@@ -55,21 +55,21 @@ echo_done
 
 brew_upgrade() {
     echo "$@" | while read NAME; do
-        # link, if not already
-        brew link ${NAME} || true
-
         # install any missing dependencies
         local MISSING="$(brew missing ${NAME})"
         [[ -z "${MISSING}" ]] || brew install ${MISSING}
 
+        # link, if not already
+        brew link ${NAME} || true
+
         # is it pinned?
-        brew list ${NAME} --pinned | grep -q "^${NAME}$" || {
-            # is it already up-to-date?
-            brew outdated ${NAME} >/dev/null 2>&1 || {
-                echo_do "brew: Upgrading ${NAME}..."
-                brew upgrade ${NAME}
-                echo_done
-            }
+        brew list ${NAME} --pinned | grep -q "^${NAME}$" && continue || true
+
+        # is it already up-to-date?
+        brew outdated ${NAME} >/dev/null 2>&1 || {
+            echo_do "brew: Upgrading ${NAME}..."
+            brew upgrade ${NAME}
+            echo_done
         }
     done
 }
