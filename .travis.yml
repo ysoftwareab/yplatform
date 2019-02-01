@@ -61,7 +61,7 @@ branches:
 # dist: xenial
 language: generic
 # addons:
-before_cache: ./.travis.sh before_cache
+before_cache: ./.ci.sh before_cache
 cache:
   directories:
     # common
@@ -77,15 +77,15 @@ cache:
     - $HOME/.linuxbrew
 
 # 5. Steps
-before_install: ./.travis.sh before_install
-install: ./.travis.sh install
-before_script: ./.travis.sh before_script
-script: ./.travis.sh script
-after_success: ./.travis.sh after_success
-after_failure: ./.travis.sh after_failure
-after_script: ./.travis.sh after_script
+before_install: ./.ci.sh before_install
+install: ./.ci.sh install
+before_script: ./.ci.sh before_script
+script: ./.ci.sh script
+after_success: ./.ci.sh after_success
+after_failure: ./.ci.sh after_failure
+after_script: ./.ci.sh after_script
 
 # 6. Deploy
-before_deploy: ./.travis.sh before_deploy
+before_deploy: ./.ci.sh before_deploy
 # deploy:
-after_deploy: ./.travis.sh after_deploy
+after_deploy: ./.ci.sh after_deploy
