@@ -41,7 +41,7 @@ function sf_private_submodules() {
 }
 
 function sf_transcrypt() {
-    [[ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]] || return 0
+    [[ "${CI_IS_PR}" != "true" ]] || return 0
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${TRANSCRYPT_PASSWORD:-}" ]] || return 0
 
@@ -63,12 +63,12 @@ function sf_pyenv_init() {
 }
 
 function sf_os() {
-    [[ "${TRAVIS_DEBUG_MODE:-}" != "true" ]] || {
+    [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
     echo_info "Running sf_os with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
 
-    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${TRAVIS_OS_NAME}/bootstrap"
+    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
         ${BOOTSTRAP_SCRIPT}
@@ -76,7 +76,7 @@ function sf_os() {
     fi
 
     local TMP_SF_OS_LOG=$(mktemp)
-    echo_info "Redirecting sf_os into ${TMP_SF_OS_LOG} to minimize Travis log..."
+    echo_info "Redirecting sf_os into ${TMP_SF_OS_LOG} to minimize CI log..."
 
     echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"
     while :;do echo -n " ."; sleep 60; done &
@@ -103,46 +103,49 @@ function sf_newer_pacote() {
     echo_done
 }
 
-function sf_travis_run() {
+function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
 
     if [[ "$(type -t "travis_run_${1}")" = "function" ]]; then
+        # FIXME backward compat (remove also repo/dot.travis.sh.sf)
         eval "travis_run_${1}"
-    elif [[ "$(type -t "sf_travis_run_${1}")" = "function" ]]; then
-        eval "sf_travis_run_${1}"
+    elif [[ "$(type -t "ci_run_${1}")" = "function" ]]; then
+        eval "ci_run_${1}"
+    elif [[ "$(type -t "sf_ci_run_${1}")" = "function" ]]; then
+        eval "sf_ci_run_${1}"
     fi
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
 }
 
-function sf_travis_run_before_install() {
+function sf_ci_run_before_install() {
     sf_private_submodules
     sf_transcrypt
     sf_os
     sf_pyenv_init
     sf_newer_pacote
 
-    [[ "${TRAVIS_DEBUG_MODE:-}" != "true" ]] || {
+    [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         echo
         echo "  Please run \`./.ci.sh debug\` to activate your debug session !!!"
         echo
     }
 }
 
-function sf_travis_run_install() {
+function sf_ci_run_install() {
     make deps
 }
 
-function sf_travis_run_script() {
+function sf_ci_run_script() {
     make all test
 }
 
-function sf_travis_run_before_deploy() {
+function sf_ci_run_before_deploy() {
     make snapshot
     make dist
 }
 
-function sf_travis_run_after_script_upload_job_artifacts() {
+function sf_ci_run_after_script_upload_job_artifacts() {
     [[ -f .artifacts ]] || {
         echo_skip "Uploading job artifacts..."
         return 0
@@ -155,30 +158,32 @@ function sf_travis_run_after_script_upload_job_artifacts() {
 
     echo_do "Uploading job artifacts..."
 
-    local JOB_GIT_REF=refs/jobs/${TRAVIS_JOB_ID}
+    local JOB_GIT_REF=refs/jobs/${CI_JOB_ID}
 
-    git checkout --orphan jobs/${TRAVIS_JOB_ID}
+    git checkout --orphan jobs/${CI_JOB_ID}
     git ls-files -- "*/.gitignore" | xargs -L1 rm -f
     git reset -- .
     git add -f $(cat .artifacts)
 
-    # (Try to) Create log.sh-session
-    local CURL_TRAVIS_API_HEADERS=(-H "Travis-API-Version: 3")
-    [[ -z "${TRAVIS_API_TOKEN:-}" ]] || {
-        CURL_TRAVIS_API_HEADERS+=(-H "Authorization: token ${TRAVIS_API_TOKEN}")
+    [[ "${TRAVIS:-}" != "true" ]] || {
+        # (Try to) Create log.sh-session
+        local CURL_TRAVIS_API_HEADERS=(-H "Travis-API-Version: 3")
+        [[ -z "${TRAVIS_API_TOKEN:-}" ]] || {
+            CURL_TRAVIS_API_HEADERS+=(-H "Authorization: token ${TRAVIS_API_TOKEN}")
+        }
+        touch log.sh-session
+        curl \
+            -sS \
+            "${CURL_TRAVIS_API_HEADERS[@]}" \
+            https://api.travis-ci.com/job/${TRAVIS_JOB_ID}/log | jq -r '.content' >log.sh-session || true
+        git add -f log.sh-session
     }
-    touch log.sh-session
-    curl \
-        -sS \
-        "${CURL_TRAVIS_API_HEADERS[@]}" \
-        https://api.travis-ci.com/job/${TRAVIS_JOB_ID}/log | jq -r '.content' >log.sh-session || true
-    git add -f log.sh-session
 
     # Create README.md
     cat <<-EOF >README.md
 ${JOB_GIT_REF}
 
-# Job [${TRAVIS_JOB_ID}](${TRAVIS_JOB_WEB_URL})
+# Job [${CI_JOB_ID}](${CI_JOB_URL})
 
 ## Artifacts
 
@@ -187,17 +192,17 @@ $(git ls-files | xargs -I {} echo "* [{}]({})")
 EOF
     git add -f README.md
 
-    git commit -m "${TRAVIS_JOB_ID}"
+    git commit -m "${CI_JOB_ID}"
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
-    git push -f https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
+    git push -f https://${GH_TOKEN}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
     git checkout -f -
 
     echo_done
 
-    local JOB_GITHUB_UI_URL=https://github.com/${TRAVIS_REPO_SLUG}/tree/${JOB_GIT_HASH}
+    local JOB_GITHUB_UI_URL=https://github.com/${CI_REPO_SLUG}/tree/${JOB_GIT_HASH}
     echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL}"
 
     # (Try to) Remove job artifacts older than 7 days ago
@@ -213,22 +218,22 @@ EOF
     done
 }
 
-function sf_travis_run_after_script() {
-    sf_travis_run_after_script_upload_job_artifacts
+function sf_ci_run_after_script() {
+    sf_ci_run_after_script_upload_job_artifacts
 }
 
-function sf_travis_run_before_cache_brew() {
+function sf_ci_run_before_cache_brew() {
     which brew >/dev/null 2>&1 || return 0
     local HOMEBREW_PREFIX=$(brew --prefix)
-    local TRAVIS_CACHE_HOMEBREW_PREFIX
+    local CI_CACHE_HOMEBREW_PREFIX
     brew cleanup
 
     case $(uname -s) in
         Darwin)
-            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
             ;;
         Linux)
-            TRAVIS_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
             ;;
         *)
             echo_err "brew: $(uname -s) is an unsupported OS."
@@ -237,42 +242,46 @@ function sf_travis_run_before_cache_brew() {
     esac
 
     local HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-    local TRAVIS_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${TRAVIS_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-    if [[ "${HOMEBREW_PREFIX_FULL}" = "${TRAVIS_CACHE_HOMEBREW_PREFIX_FULL}" ]]; then
+    local CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+    if [[ "${HOMEBREW_PREFIX_FULL}" = "${CI_CACHE_HOMEBREW_PREFIX_FULL}" ]]; then
         return 0
     fi
 
     echo_do "brew: Caching ${HOMEBREW_PREFIX}/Homebrew..."
-    mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew
+    mkdir -p ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew
     rsync -aW --inplace --delete \
         ${HOMEBREW_PREFIX}/Homebrew/ \
-        ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
+        ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew/
     echo_done
 
     # FIXME remove after 2019-03-01
-    rm -rf ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/*
+    rm -rf ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/*
 }
 
-function sf_travis_run_before_cache_stats() {
+function sf_ci_run_before_cache_stats() {
     echo_do "Showing cache stats..."
-    local YAML2JSON="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))'"
-    for f in $(eval "${YAML2JSON} .travis.yml" | jq -r ".cache.directories[]"); do
-        eval "f=${f}"
-        [[ -d "${f}" ]] || continue
-        du -hcs ${f} | head -n+1
-    done
+
+    [[ "${TRAVIS:-}" != "true" ]] || {
+        local YAML2JSON="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))'"
+        for f in $(eval "${YAML2JSON} .travis.yml" | jq -r ".cache.directories[]"); do
+            eval "f=${f}"
+            [[ -d "${f}" ]] || continue
+            du -hcs ${f} | head -n+1
+        done
+    }
+
     echo_done
 }
 
-function sf_travis_run_before_cache() {
-    sf_travis_run_before_cache_brew
-    sf_travis_run_before_cache_stats || \
+function sf_ci_run_before_cache() {
+    sf_ci_run_before_cache_brew
+    sf_ci_run_before_cache_stats || \
         echo_skip "Showing cache stats..."
 }
 
 
-function sf_travis_run_all() {
-    local TRAVIS_PHASES="$(cat <<-EOF
+function sf_ci_run_all() {
+    local CI_PHASES="$(cat <<-EOF
 before_install
 install
 before_script
@@ -280,9 +289,17 @@ script
 EOF
 )"
 
-    for f in ${TRAVIS_PHASES}; do
-        sf_travis_run $f;
+    for f in ${CI_PHASES}; do
+        sf_ci_run $f;
     done
 }
 
-[[ -z "$*" ]] || sf_travis_run $@
+[[ "${TRAVIS:-}" != "true" ]] || {
+    CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE}
+    CI_JOB_ID=${TRAVIS_JOB_ID}
+    CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
+    CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
+    CI_IS_PR=$([[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]] && echo true || true)
+}
+
+[[ -z "$*" ]] || sf_ci_run $@
