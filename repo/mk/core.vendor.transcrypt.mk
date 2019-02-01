@@ -1,4 +1,4 @@
-SF_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypted.version >/dev/null && echo true || echo false)
+SF_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypted.version >/dev/null && echo true || true)
 
 # ------------------------------------------------------------------------------
 
