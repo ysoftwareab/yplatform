@@ -249,23 +249,8 @@ function sf_travis_run_before_cache_brew() {
         ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Homebrew/
     echo_done
 
-    # cache non-bottled formulae
+    # FIXME remove after 2019-03-01
     rm -rf ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/*
-    for f in $(find ${HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
-        f="$(basename $(dirname "${f}"))/$(basename "${f}")" # name/version
-        local POURED_FROM_BOTTLE="$(cat ${HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json | \
-            /usr/bin/python \
-                -c 'import sys,json;print json.dumps(json.load(sys.stdin)["poured_from_bottle"])' || \
-                echo false)"
-        [[ "${POURED_FROM_BOTTLE}" != "true" ]] || continue
-
-        echo_do "brew: Caching non-bottled ${HOMEBREW_PREFIX}/Cellar/${f}..."
-        mkdir -p ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}
-        rsync -aW --inplace --delete \
-            ${HOMEBREW_PREFIX}/Cellar/${f}/ \
-            ${TRAVIS_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/
-        echo_done
-    done
 }
 
 function sf_travis_run_before_cache_stats() {

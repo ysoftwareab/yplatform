@@ -43,24 +43,6 @@ CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pw
         unset RSYNC_CMD
         echo_done
     fi
-
-    # restore non-bottled formulae
-    if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Cellar" ]]; then
-        for f in $(find ${CI_CACHE_HOMEBREW_PREFIX}/Cellar -mindepth 2 -maxdepth 2 -print); do
-            f="$(basename $(dirname "${f}"))/$(basename "${f}")" # name/version
-            [[ -f ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/INSTALL_RECEIPT.json ]] || continue
-            echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Cellar/${f}..."
-            mkdir -p ${HOMEBREW_PREFIX}/Cellar/${f}
-            RSYNC_CMD="rsync -a --delete ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ ${HOMEBREW_PREFIX}/Cellar/${f}/"
-            ${RSYNC_CMD} || {
-                exe ls -la ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/${f}/ || true
-                exe ls -la ${HOMEBREW_PREFIX}/Cellar/${f}/ || true
-                ${RSYNC_CMD} --verbose
-            }
-            unset RSYNC_CMD
-            echo_done
-        done
-    fi
     echo_done
 }
 unset HOMEBREW_PREFIX
