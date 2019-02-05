@@ -10,13 +10,6 @@ publish: ## Publish as a git version tag.
 	@$(ECHO_DONE)
 
 
-.PHONY: publish/%
-publish/%: ## Publish as given git tag.
-	@$(ECHO_DO) "Publishing tag $*..."
-	$(NPM_PUBLISH_GIT) --tag $*
-	@$(ECHO_DONE)
-
-
 .PHONY: $(RELEASE_TARGETS)
 $(RELEASE_TARGETS): release/%: ## Release a new version with major/minor/patch level.
 	@$(ECHO_DO) "Release new $* version..."

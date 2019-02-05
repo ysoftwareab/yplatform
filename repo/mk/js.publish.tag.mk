@@ -6,12 +6,6 @@ publish:
 	@$(ECHO_DONE)
 
 
-publish/%:
-	@$(ECHO_DO) "Publishing tag $*..."
-	$(GIT) push $(GIT_REMOTE) $*
-	@$(ECHO_DONE)
-
-
 .PHONY: $(RELEASE_TARGETS)
 $(RELEASE_TARGETS): release/%: ## Release a new version with major/minor/patch level.
 	@$(ECHO_DO) "Release new $* version..."
