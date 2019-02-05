@@ -1,3 +1,7 @@
+RELEASE_LEVELS := $(VERSION_LEVELS)
+
+RELEASE_TARGETS := $(patsubst %,release/%,$(RELEASE_LEVELS))
+
 RELEASE_SEMANTIC_LEVELS := \
 	bugfix \
 	feature \

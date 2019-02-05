@@ -12,8 +12,8 @@ publish/%:
 	@$(ECHO_DONE)
 
 
-.PHONY: release/%
-release/%: ## Release a new version with major/minor/patch level.
+.PHONY: $(RELEASE_TARGETS)
+$(RELEASE_TARGETS): release/%: ## Release a new version with major/minor/patch level.
 	@$(ECHO_DO) "Release new $* version..."
 	$(MAKE) version/$* publish
 	sleep 15 # allow CI to pick the new tag first
