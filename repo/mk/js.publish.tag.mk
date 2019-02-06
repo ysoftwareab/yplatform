@@ -6,16 +6,22 @@ publish:
 	@$(ECHO_DONE)
 
 
-publish/%:
-	@$(ECHO_DO) "Publishing tag $*..."
-	$(GIT) push $(GIT_REMOTE) $*
-	@$(ECHO_DONE)
+.PHONY: $(RELEASE_TARGETS)
+$(RELEASE_TARGETS): ## Release a new major/minor/patch-bumped version.
+	$(eval VSN := $(*:release/%=%))
+	VSN=$(VSN) $(MAKE) _release
 
 
-.PHONY: release/%
-release/%: ## Release a new version with major/minor/patch level.
-	@$(ECHO_DO) "Release new $* version..."
-	$(MAKE) version/$* publish
+.PHONY: release/v%
+release/v%: ## Release a new specific version.
+	$(eval VSN := $(*:release/v%=%))
+	VSN=$(VSN) $(MAKE) _release
+
+
+.PHONY: _release
+_release:
+	@$(ECHO_DO) "Release new $(VSN) version..."
+	$(MAKE) nuke all test version/v$(VSN) publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else `git push` fails
