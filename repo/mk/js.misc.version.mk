@@ -20,7 +20,19 @@ version: version/patch ## Bump patch version.
 
 
 .PHONY: $(VERSION_TARGETS)
-$(VERSION_TARGETS): version/%: ## Bump major/minor/patch version.
-	@$(ECHO_DO) "Bumping $* version..."
-	$(NPM) version $*
+$(VERSION_TARGETS): version/% ## Bump major/minor/patch version.
+	$(eval VSN := $(*:version/%=%))
+	VSN=$(VSN) $(MAKE) _version
+
+
+.PHONY: version/v%
+version/v%: ## Bump to specific version.
+	$(eval VSN := $(*:version/v%=%))
+	VSN=$(VSN) $(MAKE) _version
+
+
+.PHONY: _version
+_version:
+	@$(ECHO_DO) "Bumping $(VSN) version..."
+	$(NPM) version $(VSN)
 	@$(ECHO_DONE)
