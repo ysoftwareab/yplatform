@@ -89,7 +89,7 @@ function get_tmate_cmd() {
 JOB_ID=$(basename "${JOB_ID}")
 
 curl \
-    -fssS \
+    -fqsS \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
