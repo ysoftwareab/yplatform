@@ -62,9 +62,9 @@ if [[ -n ${GH_TOKEN} ]]; then
     TAG=$(dirname ${SLUG})
     FILE=$(basename ${SLUG})
     RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
-    ASSETS_URL=$(curl -fqsS -H "Authorization: token ${GH_TOKEN}" "${RELEASE_URL}" | \
+    ASSETS_URL=$(curl -fqsS -H "authorization: token ${GH_TOKEN}" "${RELEASE_URL}" | \
         jq -r ".assets_url")
-    ASSET_URL=$(curl -fqsS -H "Authorization: token ${GH_TOKEN}" "${ASSETS_URL}" | \
+    ASSET_URL=$(curl -fqsS -H "authorization: token ${GH_TOKEN}" "${ASSETS_URL}" | \
         jq -r ". | map(select(.name == \"${FILE}\"))[0].url")
     [[ -n ${ASSET_URL} ]] || {
         echo_err "Couldn't find an asset ${SLUG} for repo ${REPO_SLUG}."
@@ -78,5 +78,5 @@ fi
 curl \
     -fqsS \
     -L \
-    -H "Accept: application/octet-stream" \
+    -H "accept: application/octet-stream" \
     "${ASSET_URL}"
