@@ -1,4 +1,4 @@
-# support-firecloud [![Build Status][2]][1]
+# support-firecloud [![TravisCI Status][2]][1] [![CircleCI Status][4]][3]
 
 Software and configuration that support TobiiPro's Cloud Services development.
 
@@ -31,3 +31,5 @@ Software and configuration that support TobiiPro's Cloud Services development.
 
   [1]: https://travis-ci.com/tobiipro/support-firecloud
   [2]: https://travis-ci.com/tobiipro/support-firecloud.svg?branch=master
+  [3]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master
+  [4]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master.svg?style=svg
