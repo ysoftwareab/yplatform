@@ -302,4 +302,12 @@ EOF
     CI_IS_PR=$([[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]] && echo true || true)
 }
 
+[[ "${CIRCLECI:-}" != "true" ]] || {
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}
+    CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
+    CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+    CI_IS_PR=$([[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]] && echo true || true)
+}
+
 [[ -z "$*" ]] || sf_ci_run $@
