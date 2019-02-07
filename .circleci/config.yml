@@ -146,8 +146,8 @@ workflows:
           <<: *job-main-linux-xenial-minimal
       - main-linux-xenial-common:
           <<: *job-main-linux-xenial-common
-      - main-macos-xcode101-dev:
-          <<: *job-main-macos-xcode101-dev
+      # - main-macos-xcode101-dev:
+      #     <<: *job-main-macos-xcode101-dev
 
   nightly:
     <<: *filter-main
@@ -164,5 +164,5 @@ workflows:
           <<: *job-main-linux-xenial-minimal
       - main-linux-xenial-common:
           <<: *job-main-linux-xenial-common
-      - main-macos-xcode101-dev:
-          <<: *job-main-macos-xcode101-dev
+      # - main-macos-xcode101-dev:
+      #     <<: *job-main-macos-xcode101-dev
