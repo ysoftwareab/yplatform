@@ -78,9 +78,9 @@ ARTIFACT=${CFN_DIR}/Makefile
     exit 0
 }
 
-ARTIFACT=${CFN_DIR}/${STACK_STEM}.cfn.js
+ARTIFACT=${CFN_DIR}/${STACK_STEM}/index.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.cfn.js ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem/index.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }

@@ -1,9 +1,6 @@
-ENV_NAME ?=
-
 .PHONY: <STACK_STEM>-setup
 <STACK_STEM>-setup:
 	$(eval STACK_STEM := <STACK_STEM>)
-	$(eval STACK_NAME := $(subst env,$(ENV_NAME),$(STACK_STEM))
 
 define <STACK_STEM>-lint
 endef
