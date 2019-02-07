@@ -136,21 +136,24 @@ workflows:
   version: 2.1
 
   main:
-    <<: *filter-main
     jobs:
       - main-linux-trusty-minimal:
+          <<: *filter-main
           <<: *job-main-linux-trusty-minimal
       - main-linux-trusty-common:
+          <<: *filter-main
           <<: *job-main-linux-trusty-common
       - main-linux-xenial-minimal:
+          <<: *filter-main
           <<: *job-main-linux-xenial-minimal
       - main-linux-xenial-common:
+          <<: *filter-main
           <<: *job-main-linux-xenial-common
       # - main-macos-xcode101-dev:
+      #     <<: *filter-main
       #     <<: *job-main-macos-xcode101-dev
 
   nightly:
-    <<: *filter-main
     triggers:
       - schedule:
           <<: *filter-main
