@@ -53,66 +53,78 @@ brew update
 brew outdated
 echo_done
 
+brew_upgrade_one() {
+    local NAME="$1"
+
+    # install any missing dependencies
+    local MISSING="$(brew missing ${NAME})"
+    [[ -z "${MISSING}" ]] || brew install ${MISSING}
+
+    # link, if not already
+    brew link ${NAME} || true
+
+    # is it pinned?
+    brew list ${NAME} --pinned | grep -q "^${NAME}$" && return 0 || true
+
+    # is it already up-to-date?
+    brew outdated ${NAME} >/dev/null 2>&1 || {
+        echo_do "brew: Upgrading ${NAME}..."
+        brew upgrade ${NAME}
+        echo_done
+    }
+
+}
+
 brew_upgrade() {
     echo "$@" | while read NAME; do
-        # install any missing dependencies
-        local MISSING="$(brew missing ${NAME})"
-        [[ -z "${MISSING}" ]] || brew install ${MISSING}
-
-        # link, if not already
-        brew link ${NAME} || true
-
-        # is it pinned?
-        brew list ${NAME} --pinned | grep -q "^${NAME}$" && continue || true
-
-        # is it already up-to-date?
-        brew outdated ${NAME} >/dev/null 2>&1 || {
-            echo_do "brew: Upgrading ${NAME}..."
-            brew upgrade ${NAME}
-            echo_done
-        }
+        </dev/null brew_upgrade_one "${NAME}"
     done
 }
 
-brew_install() {
-    echo "$@" | while read FORMULA; do
-        local NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-        local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
-        # is it already installed ?
-        if brew list "${NAME}" >/dev/null 2>&1; then
-            # do we require installation with specific options ?
-            [[ -n "${OPTIONS}" ]] || {
-                echo_skip "brew: Installing ${FORMULA}..."
-                brew_upgrade ${NAME}
-                continue
-            }
+brew_install_one() {
+    local FORMULA="$1"
+    local NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
+    local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+    # is it already installed ?
+    if brew list "${NAME}" >/dev/null 2>&1; then
+        # do we require installation with specific options ?
+        [[ -n "${OPTIONS}" ]] || {
+            echo_skip "brew: Installing ${FORMULA}..."
+            brew_upgrade ${NAME}
+            return 0
+        }
 
-            # is it already installed with the required options ?
-            local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
+        # is it already installed with the required options ?
+        local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
                 /usr/bin/python \
                     -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
                 xargs -n1 | \
                 sort -u || true)"
-            local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
-            [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
-                echo_skip "brew: Installing ${FORMULA}..."
-                brew_upgrade ${NAME}
-                continue
-            }
+        local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
+        [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
+            echo_skip "brew: Installing ${FORMULA}..."
+            brew_upgrade ${NAME}
+            return 0
+        }
 
-            echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
-            echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
+        echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
+        echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
 
-            if [[ "${TRAVIS:-}" = "true" ]]; then
-                brew uninstall ${FORMULA}
-            else
-                echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
-                return 1
-            fi
+        if [[ "${TRAVIS:-}" = "true" ]]; then
+            brew uninstall ${FORMULA}
+        else
+            echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
+            return 1
         fi
-        echo_do "brew: Installing ${FORMULA}..."
-        brew install ${FORMULA}
-        echo_done
+    fi
+    echo_do "brew: Installing ${FORMULA}..."
+    brew install ${FORMULA}
+    echo_done
+}
+
+brew_install() {
+    echo "$@" | while read FORMULA; do
+        </dev/null brew_install_one "${FORMULA}"
     done
     # see https://github.com/Homebrew/brew/issues/5013
     hash -r
