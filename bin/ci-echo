@@ -33,11 +33,19 @@ function fallback_echo() {
     local GROUP="${@:2}"
     local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
+    local COLOR_DIM="\e[2m"
+    local COLOR_RESET="\e[0m"
+
+    [[ "${CI}" != "true" ]] || {
+        COLOR_DIM=
+        COLOR_RESET=
+    }
+
     case $1 in
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/ci_echo_fallback_block_${RANDOM}
 
-            >&2 echo -e "          \e[2m     > ${PWD_GROUP}\e[0m"
+            >&2 echo -e "               ${COLOR_DIM}> ${PWD_GROUP}${COLOR_RESET}"
             >&2 echo -e "$(date +"%H:%M:%S") $@"
             ;;
         "[DONE]")
@@ -61,7 +69,7 @@ function fallback_echo() {
             GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
 
             >&2 echo -e "$(date +"%H:%M:%S") $@ in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds"
-            >&2 echo -e "          \e[2m     < ${PWD_GROUP}\e[0m"
+            >&2 echo -e "               ${COLOR_DIM}< ${PWD_GROUP}${COLOR_RESET}"
             >&2 echo
             ;;
         *)
