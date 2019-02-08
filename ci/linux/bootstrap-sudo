@@ -9,16 +9,11 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-apt_install_one() {
-    local DPKG="$1"
-    echo_do "aptitude: Installing ${DPKG}..."
-    apt-get install -y --force-yes "${DPKG}"
-    echo_done
-}
-
 apt_install() {
     echo "$@" | while read DPKG; do
-        </dev/null app_install_one "${DPKG}"
+        echo_do "aptitude: Installing ${DPKG}..."
+        apt-get install -y --force-yes "${DPKG}"
+        echo_done
     done
 }
 
