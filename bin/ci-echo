@@ -87,7 +87,7 @@ function travis_echo() {
 
     case $1 in
         "[DO  ]")
-            echo -n "${PWD_GROUP}" > /tmp/travis_fold_${RANDOM}
+            echo -n "${PWD_GROUP}" > /tmp/ci_echo_travis_fold_${RANDOM}
 
             basic_travis_echo "travis_fold:start:${PWD_GROUP}"
             basic_travis_echo "travis_time:start:${PWD_GROUP}"
@@ -103,7 +103,7 @@ function travis_echo() {
             local IN_NANOSECONDS=1000000000
 
             [[ -n "${GROUP}" ]] || {
-                GROUP_MARKER=$(ls -t /tmp/travis_fold_* | head -n1 2>/dev/null || true)
+                GROUP_MARKER=$(ls -t /tmp/ci_echotravis_fold_* | head -n1 2>/dev/null || true)
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_START=$(python -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
@@ -151,13 +151,13 @@ function teamcity_echo() {
             return 0
             ;;
         "[DO  ]")
-            echo -n "${PWD_MESSAGE}" > /tmp/teamcity_block_${RANDOM}
+            echo -n "${PWD_MESSAGE}" > /tmp/ci_echo_teamcity_block_${RANDOM}
             basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
             ;;
         "[DONE]")
             [[ -n "${MESSAGE}" ]] || {
-                BLOCK_MARKER=$(ls -t /tmp/teamcity_block_* | head -n1 2>/dev/null)
+                BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* | head -n1 2>/dev/null)
                 [[ ! -f ${BLOCK_MARKER} ]] || {
                     PWD_MESSAGE="$(cat ${BLOCK_MARKER})"
                     rm -f ${BLOCK_MARKER}
