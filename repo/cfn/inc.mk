@@ -47,7 +47,7 @@ all: $(CFN_JSON_FILES)
 
 .PHONY: $(CFN_JSON_FILES)
 $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
-	@$(ECHO_DO) "Generating a valid $@..."
+	$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
 	./$< > $@
 #	FIXME validate-template only checks JSON syntax. use cloudformation-schema...
@@ -68,14 +68,14 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
 		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
 	$(call $(STACK_STEM)-post)
-	@$(ECHO_DONE)
+	$(ECHO_DONE)
 
 
 .PHONY: %.cfn.json.bak
 %.cfn.json.bak: %-setup ## Backup stack template.
-	@$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_FILE_BAK)..."
+	$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_FILE_BAK)..."
 	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_FILE_BAK)
-	@$(ECHO_DONE)
+	$(ECHO_DONE)
 
 
 .PHONY: %.cfn.json/lint
