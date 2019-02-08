@@ -37,7 +37,8 @@ function fallback_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/ci_echo_fallback_block_${RANDOM}
 
-            >&2 echo -e "$@ \e[2m(${PWD_GROUP})\e[0m"
+            >&2 echo -e "\e[2m     > ${PWD_GROUP}\e[0m"
+            >&2 echo -e "$@"
             ;;
         "[DONE]")
             local GROUP_FINISH=$(date +%s)
@@ -59,7 +60,8 @@ function fallback_echo() {
             GROUP_FINISH=$(( ${GROUP_FINISH} * ${IN_NANOSECONDS} ))
             GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
 
-            >&2 echo -e "$@ in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds \e[2m(${PWD_GROUP})\e[0m"
+            >&2 echo -e "$@ in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds"
+            >&2 echo -e "\e[2m     < ${PWD_GROUP}\e[0m"
             >&2 echo
             ;;
         *)
