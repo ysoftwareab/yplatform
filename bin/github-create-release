@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- github-create-release 1.0
+## Usage: github-create-release [OPTION]
+## Create a github release with assets (aka binaries).
+##
+##   --repo-slug    The github repository slug: account/repo
+##   --tag          The release tag
+##   --target       The release target (commitish)
+##   --name         The release name
+##   --body         The release body
+##   --prerelease   Mark this release as a prerelease
+##   --asset        The path to an asset. Multiple assets can be given
+##   --token        The OAuth Token, if the repository is private
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
+REPO_SLUG=
+TAG=
+TARGET=
+NAME=
+BODY=
+PRERELEASE=false
+ASSETS=
+GH_TOKEN=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --repo-slug)
+            REPO_SLUG=$2
+            shift 2
+            ;;
+        --tag)
+            TAG=$2
+            shift 2
+            ;;
+        --target)
+            TARGET=$2
+            shift 2
+            ;;
+        --name)
+            NAME=$2
+            shift 2
+            ;;
+        --body)
+            BODY=$2
+            shift 2
+            ;;
+        --prerelease)
+            PRERELEASE=true
+            shift
+            ;;
+        --asset)
+            ASSETS="${ASSETS} $2"
+            shift 2
+            ;;
+        --token)
+            GH_TOKEN=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ -n ${REPO_SLUG} ]] || {
+    echo_err "Please provide a --repo-slug."
+    exit 1
+}
+
+[[ -n ${TAG} ]] || {
+    echo_err "Please provide a --tag."
+    exit 1
+}
+
+[[ -n ${GH_TOKEN} ]] || {
+    echo_err "Please provide a --token."
+    exit 1
+}
+
+RELEASES_URL="https://api.github.com/repos/${REPO_SLUG}/releases"
+
+NAME=${NAME:-${TAG}}
+BODY=${BODY:-${TAG}}
+TARGET=${TARGET:-${GIT_HASH}}
+echo_info "Creating a draft release ${NAME} tagged ${TAG} from ${TARGET}..."
+curl \
+    -fqsS \
+    -X POST \
+    -H "authorization: token ${GH_TOKEN}" \
+    -d "\
+{
+  \"tag_name\": \"${TAG}\",
+  \"target_commitish\": \"${TARGET}\",
+  \"name\": \"${NAME}\",
+  \"body\": \"${BODY}\",
+  \"draft\": true,
+  \"prerelease\": ${PRERELEASE}
+}
+" \
+    -o ${TMP_FILE} \
+    "${RELEASES_URL}"
+echo
+
+RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
+RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
+UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+
+for ASSET in ${ASSETS}; do
+    UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
+    echo_info "Uploading ${ASSET}..."
+    curl \
+        -fqsS \
+        -X POST \
+        -H "authorization: token ${GH_TOKEN}" \
+        -H "content-type: application/octet-stream" \
+        --data-binary @${ASSET} \
+        "${UPLOAD_ASSET_URL}"
+    echo
+done
+
+echo_info "Publishing release ${NAME}..."
+curl \
+    -fqsS \
+    -X POST \
+    -H "authorization: token ${GH_TOKEN}" \
+    -d "\
+{
+  \"draft\": false
+}
+" \
+    "${RELEASE_URL}"
+echo
+
+RELEASE_HTML_URL=$(cat ${TMP_FILE} | jq -r ".html_url")
+echo_info "Release ${NAME} is now available at ${RELEASE_HTML_URL}."
