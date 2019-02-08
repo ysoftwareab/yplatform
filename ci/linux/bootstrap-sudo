@@ -10,11 +10,11 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 apt_install() {
-    echo "$@" | while read DPKG; do
+     while read -u3 DPKG; do
         echo_do "aptitude: Installing ${DPKG}..."
         apt-get install -y --force-yes "${DPKG}"
         echo_done
-    done
+    done 3< <(echo "$@")
 }
 
 echo_do "aptitude: Updating..."

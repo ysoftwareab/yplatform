@@ -54,7 +54,7 @@ brew outdated
 echo_done
 
 brew_upgrade() {
-    echo "$@" | while read NAME; do
+    while read -u3 NAME; do
         # install any missing dependencies
         local MISSING="$(brew missing ${NAME})"
         [[ -z "${MISSING}" ]] || brew install ${MISSING}
@@ -71,11 +71,11 @@ brew_upgrade() {
             brew upgrade ${NAME}
             echo_done
         }
-    done
+    done 3< <(echo "$@")
 }
 
 brew_install() {
-    echo "$@" | while read FORMULA; do
+    while read -u3 FORMULA; do
         local NAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
         # is it already installed ?
@@ -113,7 +113,7 @@ brew_install() {
         echo_do "brew: Installing ${FORMULA}..."
         brew install ${FORMULA}
         echo_done
-    done
+    done 3< <(echo "$@")
     # see https://github.com/Homebrew/brew/issues/5013
     hash -r
 }
