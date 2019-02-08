@@ -29,12 +29,41 @@ while [[ $# -gt 0 ]]; do
 done
 
 function fallback_echo() {
-    >&2 echo "$@"
+    local REL_PWD=$(python -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
+    local GROUP="${@:2}"
+    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
+
     case $1 in
+        "[DO  ]")
+            echo -n "${PWD_GROUP}" > /tmp/ci_echo_fallback_block_${RANDOM}
+
+            >&2 echo -e "$@ \e[2m(${PWD_GROUP})\e[0m"
+            ;;
         "[DONE]")
+            local GROUP_FINISH=$(date +%s)
+            local GROUP_START=${GROUP_FINISH}
+            local GROUP_DURATION=0
+            local IN_NANOSECONDS=1000000000
+
+            [[ -n "${GROUP}" ]] || {
+                GROUP_MARKER=$(ls -t /tmp/ci_echo_fallback_block_* | head -n1 2>/dev/null || true)
+                [[ ! -f ${GROUP_MARKER} ]] || {
+                    PWD_GROUP=$(cat ${GROUP_MARKER})
+                    GROUP_START=$(python -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
+                    GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
+                    rm -f ${GROUP_MARKER}
+                }
+            }
+
+            GROUP_START=$(( ${GROUP_START} * ${IN_NANOSECONDS} ))
+            GROUP_FINISH=$(( ${GROUP_FINISH} * ${IN_NANOSECONDS} ))
+            GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
+
+            >&2 echo -e "$@ in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds \e[2m(${PWD_GROUP})\e[0m"
             >&2 echo
             ;;
         *)
+            >&2 echo "$@"
             ;;
     esac
 }
