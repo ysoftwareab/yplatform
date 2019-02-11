@@ -100,6 +100,7 @@ jobs:
         type: string
     executor: << parameters.p_executor >>
     steps:
+      - run: echo "REPORT_PATH=reports" >> $BASH_ENV
       - run: echo "CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
       - run: echo "SF_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
       - run: echo "SF_LOG_BOOTSTRAP=true" >> $BASH_ENV
