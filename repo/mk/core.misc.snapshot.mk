@@ -20,7 +20,7 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 	done
 	cd $(SF_SNAPSHOT_DIR) && { \
 		$(RM) $(SF_SNAPSHOT_DIR).ignore; \
-		$(FIND_Q_NOSYM) . -type f -printf "%P\n" | \
+		$(FIND_Q) . -type f -printf "%P\n" | \
 			$(GREP) $(SF_SNAPSHOT_FILES_IGNORE) > $(SF_SNAPSHOT_DIR).ignore || \
 				$(RM) $(SF_SNAPSHOT_DIR).ignore; \
 		[ ! -f $(SF_SNAPSHOT_DIR).ignore ] || $(CAT) $(SF_SNAPSHOT_DIR).ignore | $(XARGS) -L1 $(RM); \
