@@ -307,6 +307,7 @@ EOF
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
     CI_IS_PR=$([[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]] && echo true || true)
+    CI_IS_CRON=$([[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] && echo true || true)
 }
 
 [[ "${CIRCLECI:-}" != "true" ]] || {
@@ -315,6 +316,7 @@ EOF
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
     CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     CI_IS_PR=$([[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]] && echo true || true)
+    CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
     export USER=$(whoami)
 }
 

@@ -85,6 +85,8 @@ executors:
 jobs:
   main: &job-main
     parameters:
+      p_ci_is_cron:
+        type: string
       p_executor:
         type: executor
       p_cache_name:
@@ -93,6 +95,7 @@ jobs:
         type: string
     executor: << parameters.p_executor >>
     steps:
+      - run: echo "CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
       - run: echo "SF_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
       - run: echo "SF_LOG_BOOTSTRAP=true" >> $BASH_ENV
       - run: date +%v > ~/week-number
@@ -160,12 +163,16 @@ workflows:
           cron: "0 0 * * *"
     jobs:
       - main-linux-trusty-minimal:
+          p_ci_is_cron: "true"
           <<: *job-main-linux-trusty-minimal
       - main-linux-trusty-common:
+          p_ci_is_cron: "true"
           <<: *job-main-linux-trusty-common
       - main-linux-xenial-minimal:
+          p_ci_is_cron: "true"
           <<: *job-main-linux-xenial-minimal
       - main-linux-xenial-common:
+          p_ci_is_cron: "true"
           <<: *job-main-linux-xenial-common
       # - main-macos-xcode101-dev:
       #     <<: *job-main-macos-xcode101-dev
