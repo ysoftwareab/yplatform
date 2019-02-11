@@ -86,6 +86,7 @@ function sf_os() {
         echo
         echo_err "sf_os failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
+        sleep 10 # see https://github.com/travis-ci/travis-ci/issues/6018
         return 1
     }
     echo
