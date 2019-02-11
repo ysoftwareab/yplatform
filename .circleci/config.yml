@@ -25,6 +25,7 @@ aliases:
         - ~/.linuxbrew
 
   - job-main-linux-trusty-minimal: &job-main-linux-trusty-minimal
+      p_ci_is_cron: "false"
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:trusty
@@ -32,6 +33,7 @@ aliases:
       p_install: minimal
 
   - job-main-linux-trusty-common: &job-main-linux-trusty-common
+      p_ci_is_cron: "false"
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:trusty
@@ -39,6 +41,7 @@ aliases:
       p_install: common
 
   - job-main-linux-xenial-minimal: &job-main-linux-xenial-minimal
+      p_ci_is_cron: "false"
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:xenial
@@ -46,6 +49,7 @@ aliases:
       p_install: minimal
 
   - job-main-linux-xenial-common: &job-main-linux-xenial-common
+      p_ci_is_cron: "false"
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:xenial
@@ -53,6 +57,7 @@ aliases:
       p_install: common
 
   - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
+      p_ci_is_cron: "false"
       p_executor:
         name: macos
         p_xcode: "10.1.0"
@@ -163,16 +168,17 @@ workflows:
           cron: "0 0 * * *"
     jobs:
       - main-linux-trusty-minimal:
-          p_ci_is_cron: "true"
           <<: *job-main-linux-trusty-minimal
+          p_ci_is_cron: "true"
       - main-linux-trusty-common:
-          p_ci_is_cron: "true"
           <<: *job-main-linux-trusty-common
+          p_ci_is_cron: "true"
       - main-linux-xenial-minimal:
-          p_ci_is_cron: "true"
           <<: *job-main-linux-xenial-minimal
-      - main-linux-xenial-common:
           p_ci_is_cron: "true"
+      - main-linux-xenial-common:
           <<: *job-main-linux-xenial-common
+          p_ci_is_cron: "true"
       # - main-macos-xcode101-dev:
       #     <<: *job-main-macos-xcode101-dev
+      #     p_ci_is_cron: "true"
