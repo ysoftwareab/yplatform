@@ -27,13 +27,6 @@ function sf_rvm_unfuck() {
 }
 sf_rvm_unfuck
 
-function sf_stdout_rate_limit_unfuck() {
-    # Work around bug in travis not being able to swallow output at high speeds
-    # https://github.com/travis-ci/travis-ci/issues/8973
-    python -c "import fcntl; fcntl.fcntl(1, fcntl.F_SETFL, 0)"
-}
-sf_stdout_rate_limit_unfuck
-
 function sf_private_submodules() {
     [[ -z "${GH_TOKEN:-}" ]] || {
         echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
