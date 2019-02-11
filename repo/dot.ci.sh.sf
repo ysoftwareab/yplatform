@@ -85,9 +85,7 @@ function sf_os() {
     ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
         echo_err "sf_os failed. The latest log tail follows:"
-        sleep 10
         tail -n1000 ${TMP_SF_OS_LOG}
-        sleep 10
         return 1
     }
     echo
