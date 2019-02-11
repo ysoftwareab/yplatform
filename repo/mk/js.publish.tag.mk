@@ -8,13 +8,13 @@ publish:
 
 .PHONY: $(RELEASE_TARGETS)
 $(RELEASE_TARGETS): ## Release a new major/minor/patch-bumped version.
-	$(eval VSN := $(*:release/%=%))
+	$(eval VSN := $(@:release/%=%))
 	VSN=$(VSN) $(MAKE) _release
 
 
 .PHONY: release/v%
 release/v%: ## Release a new specific version.
-	$(eval VSN := $(*:release/v%=%))
+	$(eval VSN := $(@:release/v%=%))
 	VSN=$(VSN) $(MAKE) _release
 
 

@@ -21,13 +21,13 @@ version: version/patch ## Bump patch version.
 
 .PHONY: $(VERSION_TARGETS)
 $(VERSION_TARGETS): version/% ## Bump major/minor/patch version.
-	$(eval VSN := $(*:version/%=%))
+	$(eval VSN := $(@:version/%=%))
 	VSN=$(VSN) $(MAKE) _version
 
 
 .PHONY: version/v%
 version/v%: ## Bump to specific version.
-	$(eval VSN := $(*:version/v%=%))
+	$(eval VSN := $(@:version/v%=%))
 	VSN=$(VSN) $(MAKE) _version
 
 
