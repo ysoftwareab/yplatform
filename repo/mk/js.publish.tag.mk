@@ -21,7 +21,7 @@ release/v%: ## Release a new specific version.
 .PHONY: _release
 _release:
 	@$(ECHO_DO) "Release new $(VSN) version..."
-	$(MAKE) nuke all test version/v$(VSN) publish
+	$(MAKE) version/v$(VSN) publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else `git push` fails
