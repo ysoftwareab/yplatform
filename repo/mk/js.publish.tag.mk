@@ -21,6 +21,8 @@ release/v%: ## Release a new specific version.
 .PHONY: _release
 _release:
 	@$(ECHO_DO) "Release new $(VSN) version..."
+	# $(MAKE) nuke all test version/v$(VSN) publish
+	# no need for 'nuke all test'
 	$(MAKE) version/v$(VSN) publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
