@@ -45,7 +45,7 @@ function fallback_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/ci_echo_fallback_block_${RANDOM}
 
-            >&2 echo -e "               ${COLOR_DIM}> ${PWD_GROUP}${COLOR_RESET}"
+            >&2 echo -e "              ${COLOR_DIM}> ${PWD_GROUP}${COLOR_RESET}"
             >&2 echo -e "$(date +"%H:%M:%S") $@"
             ;;
         "[DONE]")
@@ -69,7 +69,7 @@ function fallback_echo() {
             GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
 
             >&2 echo -e "$(date +"%H:%M:%S") $@ in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds"
-            >&2 echo -e "               ${COLOR_DIM}< ${PWD_GROUP}${COLOR_RESET}"
+            >&2 echo -e "              ${COLOR_DIM}< ${PWD_GROUP}${COLOR_RESET}"
             >&2 echo
             ;;
         *)
