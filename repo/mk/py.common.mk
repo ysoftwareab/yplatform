@@ -11,4 +11,7 @@ SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
 	-e "^Pipfile$$" \
 
+PKG_NAME := unknown # FIXME
+PKG_VSN := 0.0.0 # FIXME
+
 # ------------------------------------------------------------------------------

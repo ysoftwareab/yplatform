@@ -1,4 +1,6 @@
 /.npmignore
+/BUILD
+/VERSION
 /coverage/
 /lib/
 /snapshot.dir/

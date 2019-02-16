@@ -4,6 +4,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.transcrypt.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.path.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.eclint.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.jsonlint.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.snapshot.mk
 
 # ------------------------------------------------------------------------------
