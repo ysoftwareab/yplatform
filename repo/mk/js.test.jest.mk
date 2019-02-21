@@ -1,6 +1,9 @@
 JEST = $(call which,JEST,jest)
 $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
+JEST_ARGS ?=
+
+
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	coverage \
@@ -13,4 +16,4 @@ SF_TEST_TARGETS := \
 
 .PHONY: test-jest
 test-jest:
-	$(JEST)
+	$(JEST) $(JEST_ARGS)
