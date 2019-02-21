@@ -20,7 +20,11 @@ version: version/patch ## Bump patch version.
 
 
 .PHONY: $(VERSION_TARGETS)
-$(VERSION_TARGETS): version/% ## Bump major/minor/patch version.
+# NOTE: below is a workaround for `make help` to work
+version/patch: ## Bump patch version.
+version/minor: ## Bump minor version.
+version/major: ## Bump major version.
+$(VERSION_TARGETS): version/%
 	$(eval VSN := $(@:version/%=%))
 	VSN=$(VSN) $(MAKE) _version
 

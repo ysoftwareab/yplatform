@@ -11,7 +11,11 @@ publish: ## Publish as a git version tag.
 
 
 .PHONY: $(RELEASE_TARGETS)
-$(RELEASE_TARGETS): ## Release a new major/minor/patch-bumped version.
+# NOTE: below is a workaround for `make help` to work
+release/patch: ## Release a new patch-bumped version.
+release/minor: ## Release a new minor-bumped version.
+release/major: ## Release a new major-bumped version.
+$(RELEASE_TARGETS):
 	$(eval VSN := $(@:release/%=%))
 	VSN=$(VSN) $(MAKE) _release
 
