@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+
+# Run a NodeJS script with support for ES6-imports
+# e.g. instead of `node some/script.js` use `node-esm some/script.js`
+# See https://github.com/standard-things/esm
+
+# if first call, install esm and call script again
+if [[ -z "${NODE_ESM_ARGS:-}" ]]; then
+   export NODE_ESM_ARGS="$@"
+   npx -q -p esm node-esm
+   exit 0
+fi
+
+# make NPX node_modules available to node
+NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep ".npm/_npx" | head -n1)
+NPX_PATH=$(dirname ${NPX_PATH})
+export NODE_PATH=${NPX_PATH}/lib/node_modules:${NODE_PATH:-}
+
+# require esm and run script
+eval "node -r esm ${NODE_ESM_ARGS}"
