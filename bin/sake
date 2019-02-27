@@ -17,11 +17,11 @@ MAKE=${MAKE:-make}
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -h|--help)
-            ${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2)
+            ${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2) | grep -v "make.*: Entering directory '"
             sh_script_usage
             ;;
         -v|--version)
-            ${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2)
+            ${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2) | grep -v "make.*: Entering directory '"
             sh_script_version
             ;;
         *)
@@ -40,4 +40,4 @@ function cd_to_makefile() {
 
 cd_to_makefile
 
-${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2)
+${MAKE} $@ 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2) | grep -v "make.*: Entering directory '"
