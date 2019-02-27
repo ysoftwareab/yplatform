@@ -42,6 +42,7 @@ deps-npm:
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --development; \
 	}
+	$(NPM) list --depth=0
 
 
 .PHONY: deps-npm-prod
@@ -57,3 +58,4 @@ deps-npm-prod:
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --production; \
 	}
+	$(NPM) list --depth=0
