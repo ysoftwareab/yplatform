@@ -11,6 +11,7 @@ SF_SNAPSHOT_FILES_IGNORE = \
 .PHONY: snapshot
 snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 	@$(ECHO_DO) "Creating $(SF_SNAPSHOT_ZIP)..."
+	$(RM) $(SF_SNAPSHOT_ZIP)
 	$(RM) $(SF_SNAPSHOT_DIR)
 	$(MKDIR) $(SF_SNAPSHOT_DIR)
 	# for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW) | $(GREP) -v $(SF_SNAPSHOT_FILES_IGNORE)`; do \
@@ -27,7 +28,8 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 		$(RM) $(SF_SNAPSHOT_DIR).ignore; \
 	}
 	$(ECHO) -n "$(GIT_HASH)" > $(SF_SNAPSHOT_DIR)/$(SF_SNAPSHOT_GIT_HASH)
-	cd $(SF_SNAPSHOT_DIR) && $(ZIP) -q $(GIT_ROOT)/$(SF_SNAPSHOT_ZIP) * .*
+	cd $(SF_SNAPSHOT_DIR) && \
+		$(ZIP) -q $(GIT_ROOT)/$(SF_SNAPSHOT_ZIP) $$($(FIND_Q) . -mindepth 1 -maxdepth 1 -printf '%P\n')
 	@$(ECHO_DONE)
 
 
