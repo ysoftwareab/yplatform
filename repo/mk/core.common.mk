@@ -45,7 +45,9 @@ clean: ## Clean.
 nuke: ## Nuke (Stash actually) all files/changes not checked in.
 	@$(ECHO_DO) "Nuking..."
 	$(GIT) reset -- .
+	$(GIT) submodule foreach --recursive "$(GIT) reset -- ."
 	$(GIT) stash --all -- .
+	$(GIT) submodule foreach --recursive "$(GIT) stash --all -- ."
 	@$(ECHO_DONE)
 
 
