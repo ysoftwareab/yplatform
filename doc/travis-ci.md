@@ -90,15 +90,16 @@ So run `./.travis.sh debug` in order to setup the shell session (e.g. environmen
 
 **NOTE** See related docs on [how to manage secrets](how-to-manage-secrets.md).
 
-If you have Travis-specific values to encrypt e.g. a Slack API token for notifications,
-then you can add encrypted values in the `.travis.yml` file that only Travis CI can decrypt.
+If you have Travis-specific values to encrypt,
+then you can add encrypted values via the web UI of Travis CI:
+`project -> More Options -> Settings -> Environment Variables`.
+By default, all environment variables added like this are encrypted (secret; not displayed in the logs).
 
-**NOTE** If you're working with **public repositories**,
-you can simply use the `travis-encrypt` utility in the `support-firecloud` repository
-and shortcircuit the official [`Travis CI` client](https://github.com/travis-ci/travis.rb) which requires Ruby&co.
-Use `support-firecloud/bin/travis-encrypt --value "..."` instead of `travis encrypt "..."` in the examples below.
+One exception is configuration for Slack notifications, which need to be configured by
+adding encrypted values in the `.travis.yml` file (that only Travis CI can decrypt).
 
-For **private repositories**, you need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb). On OSX run `brew install travis` to install it.
+You'll need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb) for that.
+On OSX run `brew install travis` to install it.
 
 ```shell
 travis encrypt --com something_super_secret
