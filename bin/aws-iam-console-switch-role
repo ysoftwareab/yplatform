@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let _ = require('lodash');
+let _ = require('lodash-firecloud').default;
 
 let objectToQueryString = function(obj) {
   let params = [];
@@ -13,22 +13,7 @@ let objectToQueryString = function(obj) {
   return _.join(params, '&');
 };
 
-let envProxy = function({env}) {
-  // eslint-disable-next-line fp/no-proxy
-  return new Proxy(env, {
-    get: function(target, property, _receiver) {
-      if (property === '_') {
-        return target;
-      }
-      if (!_.isString(target[property])) {
-        throw new Error(`env.${property} is undefined.`);
-      }
-      return target[property];
-    }
-  });
-};
-
-let env = envProxy({env: process.env});
+let env = _.safeProxy(process.env);
 
 // -----------------------------------------------------------------------------
 
