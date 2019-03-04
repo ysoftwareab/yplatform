@@ -48,9 +48,9 @@ nuke: ## Nuke all files/changes not checked in.
 	$(GIT) submodule foreach --recursive "$(GIT) reset -- ."
 	$(GIT) checkout HEAD -- .
 
-	$(GIT) clean --xdf -- .
+	$(GIT) clean -xdf -- .
 	$(GIT) submodule foreach --recursive "$(GIT) checkout HEAD -- ."
-	$(GIT) submodule foreach --recursive "$(GIT) clean --xdf -- ."
+	$(GIT) submodule foreach --recursive "$(GIT) clean -xdf -- ."
 	@$(ECHO_DONE)
 
 
