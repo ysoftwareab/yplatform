@@ -6,7 +6,10 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.misc.release.mk
 
 # ------------------------------------------------------------------------------
 
-PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
+# repository node_modules executables
+PATH := $(GIT_ROOT)/node_modules/.bin:$(PATH)
+# makefile-folder node_modules exebutables
+PATH := $(MAKE_PATH)/node_modules/.bin:$(PATH)
 export PATH
 
 NODE = $(call which,NODE,node)
