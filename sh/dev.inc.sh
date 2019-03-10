@@ -16,6 +16,18 @@ fi
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/aws-iam-login.inc.sh
 
-alias sake=${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/sake
+function sf-bin() {
+    local GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
+    local SF_BIN=$1
+    shift 1
+    if [[ -x ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} ]]; then
+        ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} "$@"
+        return 0
+    fi
+    ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/${SF_BIN} "$@"
+}
+
+alias sake="sf-bin sake"
+alias node-esm="sf-bin node-esm"
 
 export SF_DEV_INC_SH=true

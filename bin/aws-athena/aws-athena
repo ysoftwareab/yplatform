@@ -1,4 +1,4 @@
-#!/usr/bin/env babel-node
+#!/usr/bin/env node-esm
 
 process.env.AWS_ATHENA_REGION = process.env.AWS_ATHENA_REGION || process.env.AWS_REGION;
 console.error(`Prerequisites:

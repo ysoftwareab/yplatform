@@ -2,6 +2,9 @@ SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/
 
 # ------------------------------------------------------------------------------
 
+PATH := $(PATH):$(SUPPPORT_FIRECLOUD_DIR)/bin
+export PATH
+
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
