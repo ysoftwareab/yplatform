@@ -1,22 +1,6 @@
 #!/usr/bin/env bash
 
-ci_run_script_ci() {
-    [[ ! "${GIT_BRANCH}" =~ ^env/ ]] || {
-        echo_err "${FUNCNAME[0]}: env/ branches are not CD branches, not CI."
-        return 1
-    }
-
-    sf_ci_run_script
-}
-
-
 ci_run_script_provision_env_git() {
-    [[ "${GIT_BRANCH}" = "master" || \
-        "${GIT_BRANCH}" = *-env ]] || {
-        echo_err "${FUNCNAME[0]}: ${GIT_BRANCH} is not a known git-env branch."
-        return 1
-    }
-
     make snapshot
     make dist
 
@@ -31,11 +15,6 @@ ci_run_script_provision_env_git() {
 
 
 ci_run_script_provision_env() {
-    [[ "${GIT_BRANCH}" =~ ^env/ ]] || {
-        echo_skip "${FUNCNAME[0]}: ${GIT_BRANCH} is not an env/ branch."
-        return 0 # working in maybe-mode
-    }
-
     PKG_VSN=$(cat package.json | json "version")
     echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
@@ -72,7 +51,7 @@ ci_run_script() {
             true
             ;;
         *)
-            ci_run_script_ci
+            sf_ci_run_script
             ;;
     esac
 
@@ -89,7 +68,7 @@ ci_run_script() {
             ci_run_script_provision_env
             return 0
             ;;
-        *)
+        master|*-env)
             ci_run_script_provision_env_git
             return 0
             ;;
