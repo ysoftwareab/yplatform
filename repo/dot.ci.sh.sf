@@ -11,6 +11,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
     exit 0
 }
 
+
 function sf_rvm_unfuck() {
     # from https://github.com/matthew-brett/multibuild/blob/34b988aab60a93fa3c7bd1eb88dd7c4361ca464f/common_utils.sh#L17
 
@@ -27,6 +28,7 @@ function sf_rvm_unfuck() {
 }
 sf_rvm_unfuck
 
+
 function sf_private_submodules() {
     [[ -z "${GH_TOKEN:-}" ]] || {
         echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
@@ -40,13 +42,14 @@ function sf_private_submodules() {
     }
 }
 
+
 function sf_transcrypt() {
     [[ "${CI_IS_PR}" != "true" ]] || return 0
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${TRANSCRYPT_PASSWORD:-}" ]] || return 0
 
     if git config --local transcrypted.version >/dev/null; then
-        echo_skip "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
+        echo_skip "${FUNCNAME[0]}: Repository isn't transcrypted..."
         return 0
     fi
 
@@ -56,17 +59,19 @@ function sf_transcrypt() {
     echo_done
 }
 
+
 function sf_pyenv_init() {
     if which pyenv >/dev/null 2>&1; then
         eval "$(pyenv init -)"
     fi
 }
 
+
 function sf_os() {
     [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
-    echo_info "Running sf_os with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
+    echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
 
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
@@ -76,7 +81,7 @@ function sf_os() {
     fi
 
     local TMP_SF_OS_LOG=$(mktemp)
-    echo_info "Redirecting sf_os into ${TMP_SF_OS_LOG} to minimize CI log..."
+    echo_info "${FUNCNAME[0]}: Redirecting into ${TMP_SF_OS_LOG} to minimize CI log..."
 
     echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"
     while :;do echo -n " ."; sleep 60; done &
@@ -84,7 +89,7 @@ function sf_os() {
     trap "kill ${WHILE_LOOP_PID}" EXIT
     ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
-        echo_err "sf_os failed. The latest log tail follows:"
+        echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
         sleep 10 # see https://github.com/travis-ci/travis-ci/issues/6018
         return 1
@@ -92,6 +97,7 @@ function sf_os() {
     echo
     kill ${WHILE_LOOP_PID} && trap " " EXIT
 }
+
 
 function sf_newer_pacote() {
     which npm >/dev/null 2>&1 || return 0
@@ -103,6 +109,7 @@ function sf_newer_pacote() {
     mv $(npm root -g)/pacote $(npm root -g)/npm/node_modules/pacote
     echo_done
 }
+
 
 function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
@@ -119,6 +126,7 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
 }
 
+
 function sf_ci_run_before_install() {
     sf_private_submodules
     sf_transcrypt
@@ -133,27 +141,31 @@ function sf_ci_run_before_install() {
     }
 }
 
+
 function sf_ci_run_install() {
     make deps
 }
 
+
 function sf_ci_run_script() {
     make all test
 }
+
 
 function sf_ci_run_before_deploy() {
     make snapshot
     make dist
 }
 
+
 function sf_ci_run_after_script_upload_job_artifacts() {
     [[ -f .artifacts ]] || {
-        echo_skip "Uploading job artifacts..."
+        echo_skip "${FUNCNAME[0]}: No .artifacts found..."
         return 0
     }
 
     [[ -n "${GH_TOKEN:-}" ]] || {
-        echo_skip "Uploading job artifacts..."
+        echo_skip "${FUNCNAME[0]}: No GH_TOKEN found..."
         return 0
     }
 
@@ -219,9 +231,11 @@ EOF
     done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
 }
 
+
 function sf_ci_run_after_script() {
     sf_ci_run_after_script_upload_job_artifacts
 }
+
 
 function sf_ci_run_before_cache_brew() {
     which brew >/dev/null 2>&1 || return 0
@@ -237,7 +251,7 @@ function sf_ci_run_before_cache_brew() {
             CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
             ;;
         *)
-            echo_err "brew: $(uname -s) is an unsupported OS."
+            echo_err "${FUNCNAME[0]}: $(uname -s) is an unsupported OS."
             return 1
             ;;
     esac
@@ -259,6 +273,7 @@ function sf_ci_run_before_cache_brew() {
     rm -rf ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/*
 }
 
+
 function sf_ci_run_before_cache_stats() {
     echo_do "Showing cache stats..."
 
@@ -274,10 +289,10 @@ function sf_ci_run_before_cache_stats() {
     echo_done
 }
 
+
 function sf_ci_run_before_cache() {
     sf_ci_run_before_cache_brew
-    sf_ci_run_before_cache_stats || \
-        echo_skip "Showing cache stats..."
+    sf_ci_run_before_cache_stats || true
 }
 
 
@@ -294,6 +309,7 @@ EOF
         sf_ci_run $f;
     done
 }
+
 
 [[ "${TRAVIS:-}" != "true" ]] || {
     CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
