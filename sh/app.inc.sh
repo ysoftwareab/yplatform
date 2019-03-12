@@ -90,7 +90,7 @@ function app_provision_cfn_stack() {
             [[ "${DRYRUN:-}" = "true" ]] || {
                 # FIXME see https://github.com/m3t/travis_wait
                 # make ${STACK_STEM}.cfn.json/exec
-                travis-wait \
+                ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
                     -i ${TRAVIS_WAIT_INTERVAL} \
                     -l ${TRAVIS_WAIT_MAX} \
                     "make ${STACK_STEM}.cfn.json/exec" \
@@ -107,7 +107,7 @@ function app_provision_cfn_stack() {
             [[ "${DRYRUN:-}" = "true" ]] || {
                 # FIXME see https://github.com/m3t/travis_wait
                 # make ${STACK_STEM}.change-set.json/exec
-                travis-wait \
+                ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
                     -i ${TRAVIS_WAIT_INTERVAL} \
                     -l ${TRAVIS_WAIT_MAX} \
                     "make ${STACK_STEM}.change-set.json/exec" \
@@ -159,7 +159,7 @@ function app_teardown_cfn_stack() {
         echo_do "Tearing down stack ${STACK_NAME}..."
         exe cd ${GIT_ROOT}/cfn
 
-        travis-wait \
+        ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
             -i ${TRAVIS_WAIT_INTERVAL} \
             -l ${TRAVIS_WAIT_MAX} \
             -a ${TRAVIS_WAIT_ALLOW_APPEND} \
