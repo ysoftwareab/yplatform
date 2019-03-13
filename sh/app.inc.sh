@@ -12,6 +12,9 @@ export AWS_REGION=${AWS_REGION:-${AWS_DEFAULT_REGION}}
 function app_get_snapshot() {
     [[ ! -f snapshot.zip ]] || return 0
 
+    PKG_NAME=$(cat package.json | jq -r ".name")
+    PKG_VSN=$(cat package.json | jq -r ".version")
+
     echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
         exit 1
@@ -36,6 +39,9 @@ function app_reset_to_snapshot() {
 function app_get_dist() {
     [[ ! -f dist/app.zip ]] || return 0
     [[ ! -f ${LOCAL_DIST_APP_ZIP:-} ]] || return 0
+
+    PKG_NAME=$(cat package.json | jq -r ".name")
+    PKG_VSN=$(cat package.json | jq -r ".version")
 
     echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
