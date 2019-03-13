@@ -44,7 +44,7 @@ ci_run_script_teardown_env() {
 
 
 ci_run_script() {
-    export ENV_NAME=$(${SUPPORT_FIRECLOD_DIR/}bin/app-get-env-name)
+    export ENV_NAME=$(${SUPPORT_FIRECLOUD_DIR/}bin/app-get-env-name)
 
     case ${GIT_BRANCH} in
         env/*)
