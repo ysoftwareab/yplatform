@@ -22,7 +22,7 @@ function app_get_snapshot() {
 
     echo_do "Fetching snapshot.zip artifact..."
     mkdir -p dist
-    github-get-asset \
+    ${SUPPORT_FIRECLOUD_DIR}/bin/github-get-asset \
         --repo-slug "tobiipro/${PKG_NAME}" \
         --slug "v${PKG_VSN}/snapshot.zip" \
         --token "${GH_TOKEN}" \
@@ -50,7 +50,7 @@ function app_get_dist() {
 
     echo_do "Fetching dist/app.zip artifact..."
     mkdir -p dist
-    github-get-asset \
+    ${SUPPORT_FIRECLOUD_DIR}/bin/github-get-asset \
         --repo-slug "tobiipro/${PKG_NAME}" \
         --slug "v${PKG_VSN}/app.zip" \
         --token "${GH_TOKEN}" \
