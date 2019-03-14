@@ -9,8 +9,8 @@ ci_run_script_provision_env_git() {
     export LOCAL_DIST_APP_ZIP=$(mktemp -t $(basename $(pwd)).XXXXXXXXXX)
     mv dist/app.zip ${LOCAL_DIST_APP_ZIP}
 
-    bin/provision-env
-    [[ ! -f bin/test-env ]] || bin/test-env
+    ${GIT_ROOT}/bin/provision-env
+    [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
 }
 
 
@@ -22,14 +22,15 @@ ci_run_script_provision_env() {
     }
 
     # Cron jobs should just run tests (skip provision)
-    if [[ "${CI_IS_CRON}" = "true" ]] ; then
+    if [[ "${CI_IS_CRON}" = "true" ]]; then
+        ${GIT_ROOT}/bin/get_snapshot
         make reset-to-snapshot
         ci_run_script_test
         return 0
     fi
 
-    bin/provision-env
-    [[ ! -f bin/test-env ]] || bin/test-env
+    ${GIT_ROOT}/bin/provision-env
+    [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
 }
 
 
@@ -39,13 +40,11 @@ ci_run_install() {
 
 
 ci_run_script_teardown_env() {
-    bin/teardown-env
+    ${GIT_ROOT}/bin/teardown-env
 }
 
 
 ci_run_script() {
-    export ENV_NAME=$(${SUPPORT_FIRECLOUD_DIR}/bin/app-get-env-name)
-
     case ${GIT_BRANCH} in
         env/*)
             true
@@ -59,6 +58,7 @@ ci_run_script() {
 
     case ${GIT_BRANCH} in
         env/*)
+            local ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
             local TEARDOWN_PATTERN="^\[TEARDOWN-ENV ${ENV_NAME}\]"
             if [[ $(git log --format=%s -n1) =~ ${TEARDOWN_PATTERN} ]] ; then
                 ci_run_script_teardown_env

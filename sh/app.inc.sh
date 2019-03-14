@@ -4,65 +4,30 @@ set -a
 source ${GIT_ROOT}/CONST.inc
 set +a
 
-ENV_NAME=$(${SUPPORT_FIRECLOUD_DIR}/bin/app-get-env-name)
-
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-${GLOBAL_AWS_REGION}}
 export AWS_REGION=${AWS_REGION:-${AWS_DEFAULT_REGION}}
 
+ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
+
 function app_get_snapshot() {
-    [[ ! -f snapshot.zip ]] || return 0
-
-    PKG_NAME=$(cat package.json | jq -r ".name")
-    PKG_VSN=$(cat package.json | jq -r ".version")
-
-    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
-        echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
-        exit 1
-    }
-
-    echo_do "Fetching snapshot.zip artifact..."
-    mkdir -p dist
-    ${SUPPORT_FIRECLOUD_DIR}/bin/github-get-asset \
-        --repo-slug "tobiipro/${PKG_NAME}" \
-        --slug "v${PKG_VSN}/snapshot.zip" \
-        --token "${GH_TOKEN}" \
-        > snapshot.zip
-    echo_done
+    // deprecated
+    ${GIT_ROOT}/bin/get-snapshot
 }
 
-
 function app_reset_to_snapshot() {
+    // deprecated
     make reset-to-snapshot
 }
 
-
 function app_get_dist() {
-    [[ ! -f dist/app.zip ]] || return 0
-    [[ ! -f ${LOCAL_DIST_APP_ZIP:-} ]] || return 0
-
-    PKG_NAME=$(cat package.json | jq -r ".name")
-    PKG_VSN=$(cat package.json | jq -r ".version")
-
-    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
-        echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
-        exit 1
-    }
-
-    echo_do "Fetching dist/app.zip artifact..."
-    mkdir -p dist
-    ${SUPPORT_FIRECLOUD_DIR}/bin/github-get-asset \
-        --repo-slug "tobiipro/${PKG_NAME}" \
-        --slug "v${PKG_VSN}/app.zip" \
-        --token "${GH_TOKEN}" \
-        > dist/app.zip
-    echo_done
+    // deprecated
+    ${GIT_ROOT}/bin/get-dist
 }
-
 
 function app_reset_to_dist() {
+    // deprecated
     make reset-to-dist
 }
-
 
 function app_assume_aws_credentials() {
     echo_do "Impersonating ${AWS_ACCOUNT_PREFIX} credentials..."
