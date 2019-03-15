@@ -10,22 +10,22 @@ export AWS_REGION=${AWS_REGION:-${AWS_DEFAULT_REGION}}
 ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
 
 function app_get_snapshot() {
-    // deprecated
+    # deprecated
     ${GIT_ROOT}/bin/get-snapshot
 }
 
 function app_reset_to_snapshot() {
-    // deprecated
+    # deprecated
     make reset-to-snapshot
 }
 
 function app_get_dist() {
-    // deprecated
+    # deprecated
     ${GIT_ROOT}/bin/get-dist
 }
 
 function app_reset_to_dist() {
-    // deprecated
+    # deprecated
     make reset-to-dist
 }
 
