@@ -71,5 +71,5 @@ MAKE_SELF_FILENAME = $(shell basename $(lastword $(MAKEFILE_LIST)))
 MAKE_SELF_PATH := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 TOP ?= $(MAKE_PATH)
-TOP_REL = $(shell python2 -c "import os.path; print os.path.relpath('$(TOP)', '$(MAKE_PATH)')")
+TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
 $(foreach VAR,TOP_REL,$(call make-lazy,$(VAR)))
