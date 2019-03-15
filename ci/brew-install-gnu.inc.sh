@@ -18,10 +18,6 @@ brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 echo_done
 
-if [[ $(uname -s) = "Darwin" ]]; then
-    brew_install gnu-time
-fi
-
 echo_do "brew: Testing GNU packages..."
 exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\."
 exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\\."
