@@ -17,7 +17,7 @@ STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
 AWS_CLI_CACHE_FILE=
 for f in $(ls -t ~/.aws/cli/cache/); do
     cat ~/.aws/cli/cache/$f | \
-        python2 -c 'import sys,json;print json.load(sys.stdin)["AssumedRoleUser"]["Arn"]' | \
+        jq -r ".AssumedRoleUser.Arn" | \
         grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
         AWS_CLI_CACHE_FILE=$f && \
         break || \
@@ -25,17 +25,17 @@ for f in $(ls -t ~/.aws/cli/cache/); do
 done
 [[ -n ${AWS_CLI_CACHE_FILE} ]] || exit 0
 
-AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ~/.aws/cli/cache/${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["Expiration"]')
+AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ~/.aws/cli/cache/${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.Expiration")
 [[ $(date -d "${AWS_CLI_CACHE_FILE_EXPIRATION}" +%s) -ge $(date +%s) ]] || exit 0
 
 AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${AWS_CLI_CACHE_FILE}
 
 [[ -n ${AWS_SECRET_ACCESS_KEY:-} ]] || \
-   AWS_SECRET_ACCESS_KEY=$(cat ${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["SecretAccessKey"]')
+   AWS_SECRET_ACCESS_KEY=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.SecretAccessKey")
 [[ -n ${AWS_ACCESS_KEY_ID:-} ]] || \
-  AWS_ACCESS_KEY_ID=$(cat ${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["AccessKeyId"]')
+  AWS_ACCESS_KEY_ID=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.AccessKeyId")
 [[ -n ${AWS_SESSION_TOKEN:-} ]] || \
-  AWS_SESSION_TOKEN=$(cat ${AWS_CLI_CACHE_FILE} | python2 -c 'import sys,json;print json.load(sys.stdin)["Credentials"]["SessionToken"]')
+  AWS_SESSION_TOKEN=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.SessionToken")
 
 echo "export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
 echo "export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}"
