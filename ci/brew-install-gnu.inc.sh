@@ -8,7 +8,6 @@ diffutils
 findutils
 gnu-sed
 gnu-tar
-gnu-time
 gnu-which
 grep
 gzip
@@ -18,6 +17,10 @@ EOF
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 echo_done
+
+if [[ $(uname -s) = "Darwin" ]]; then
+    brew_install gnu-time
+fi
 
 echo_do "brew: Testing GNU packages..."
 exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\."
