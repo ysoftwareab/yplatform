@@ -47,7 +47,8 @@ git rev-parse --show-toplevel >/dev/null || {
     exit 1
 }
 
-SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)')")"
+
+SUPPORT_FIRECLOUD_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)'))")"
 ARTIFACTS=
 
 if ${DIFF}; then

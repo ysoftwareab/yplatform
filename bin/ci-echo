@@ -147,7 +147,7 @@ function basic_teamcity_echo() {
 function teamcity_echo() {
     local STATUS=NORMAL
     local STEP="$1"
-    local REL_PWD=$(python2 -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
+    local REL_PWD=$(python -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
     local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
     local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
 

@@ -49,7 +49,7 @@ done
 )
 
 CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
-SUPPORT_FIRECLOUD_DIR_REL="$(python2 -c "import os.path; print os.path.relpath('$(pwd)', '${SUPPORT_FIRECLOUD_DIR}')")"
+SUPPORT_FIRECLOUD_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)'))")"
 ARTIFACTS=
 
 mkdir -p ${CFN_DIR}
