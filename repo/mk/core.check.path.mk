@@ -4,13 +4,21 @@ SF_PATH_FILES_IGNORE := \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 	-e "^.github/" \
-	-e "^AUTHORS$$" \
 	-e "^Brewfile.inc.sh$$" \
-	-e "^README" \
-	-e "/README" \
+
+SF_PATH_FILES_IGNORE := \
+	$(SF_PATH_FILES_IGNORE) \
+	-e "^AUTHORS$$" \
+
+SF_PATH_FILES_IGNORE := \
+	$(SF_PATH_FILES_IGNORE) \
 	-e "^Makefile" \
 	-e "/Makefile" \
-	-e "/Pipfile" \
+
+SF_PATH_FILES_IGNORE := \
+	$(SF_PATH_FILES_IGNORE) \
+	-e "^README" \
+	-e "/README" \
 
 SF_PATH_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \

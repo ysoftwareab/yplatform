@@ -10,6 +10,7 @@ SF_PATH_LINT_RE := ^\([a-z0-9/.-]\+\|[a-z0-9/_]\+\.py\)$$
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
 	-e "^Pipfile$$" \
+	-e "/Pipfile$$" \
 
 PKG_NAME := unknown # FIXME
 PKG_VSN := 0.0.0 # FIXME
