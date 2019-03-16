@@ -23,7 +23,7 @@ ci_run_script_provision_env() {
 
     # Cron jobs should just run tests (skip provision)
     if [[ "${CI_IS_CRON}" = "true" ]]; then
-        ${GIT_ROOT}/bin/get_snapshot
+        ${GIT_ROOT}/bin/get-snapshot
         make reset-to-snapshot
         ci_run_script_test
         return 0
