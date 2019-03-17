@@ -24,6 +24,7 @@ CHANGE_SET_NAME ?= $(STACK_NAME)-$(GIT_HASH_SHORT)-$(MAKE_DATE)-$(MAKE_TIME)
 STACK_TPL_FILE ?= $(STACK_STEM).cfn.json
 STACK_TPL_FILE_BAK ?= $(STACK_TPL_FILE).bak
 STACK_TPL_FILE_DIFF ?= $(STACK_TPL_FILE).diff
+STACK_DRIFT_FILE ?= $(STACK_STEM).drift.json
 CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
 
 CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
@@ -128,6 +129,19 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	done
 	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(STACK_TPL_FILE_DIFF) || true
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
+	$(ECHO_DONE)
+
+
+.PHONY: %.drift.json
+%.drift.json: %-setup ## Describe drift status.
+	$(ECHO_DO) "Creating $(STACK_DRIFT_FILE)..."
+	$(AWS) cloudformation detect-stack-drift \
+		--stack-name $(STACK_NAME)
+	sleep 60 # FIXME cheating
+	$(AWS) cloudformation describe-stack-resource-drifts \
+		--stack-name $(STACK_NAME) \
+		--stack-resource-drift-status-filters DELETED MODIFIED NOT_CHECKED | $(JQ) -r ".StackResourceDrifts" >$(STACK_DRIFT_FILE)
+	$(ECHO) "Drift file: $(STACK_DRIFT_FILE)"
 	$(ECHO_DONE)
 
 
