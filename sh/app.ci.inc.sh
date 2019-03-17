@@ -25,7 +25,7 @@ ci_run_script_provision_env() {
     if [[ "${CI_IS_CRON}" = "true" ]]; then
         ${GIT_ROOT}/bin/get-snapshot
         make reset-to-snapshot
-        ci_run_script_test
+        [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
         return 0
     fi
 
