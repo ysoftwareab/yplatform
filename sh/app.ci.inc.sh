@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ci_run_script_provision_env_git() {
+ci_run_script_env_git() {
     make snapshot
     make dist
 
@@ -14,7 +14,7 @@ ci_run_script_provision_env_git() {
 }
 
 
-ci_run_script_provision_env() {
+ci_run_script_env() {
     PKG_VSN=$(cat package.json | json "version")
     echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
@@ -65,11 +65,11 @@ ci_run_script() {
                 return 0
             fi
 
-            ci_run_script_provision_env
+            ci_run_script_env
             return 0
             ;;
         master|*-env)
-            ci_run_script_provision_env_git
+            ci_run_script_env_git
             return 0
             ;;
     esac
