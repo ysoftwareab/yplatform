@@ -140,7 +140,8 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	sleep 60 # FIXME cheating
 	$(AWS) cloudformation describe-stack-resource-drifts \
 		--stack-name $(STACK_NAME) \
-		--stack-resource-drift-status-filters DELETED MODIFIED NOT_CHECKED | $(JQ) -r ".StackResourceDrifts" >$(STACK_DRIFT_FILE)
+		--stack-resource-drift-status-filters DELETED MODIFIED NOT_CHECKED | \
+		$(JQ) -r ".StackResourceDrifts" >$(STACK_DRIFT_FILE)
 	$(ECHO) "Drift file: $(STACK_DRIFT_FILE)"
 	$(ECHO_DONE)
 
