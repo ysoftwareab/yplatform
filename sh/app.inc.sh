@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 set -a
-source ${GIT_ROOT}/CONST.inc
+[[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
 set +a
 
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-${GLOBAL_AWS_REGION}}
