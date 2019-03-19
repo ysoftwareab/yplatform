@@ -2,9 +2,14 @@
 set -euo pipefail
 
 echo_do "brew: Installing basic packages..."
+
+# https://github.com/kadwanev/retry
+brew pull 27283
+
 BREW_FORMULAE="$(cat <<-EOF
 curl
 git
+retry
 rsync
 EOF
 )"
