@@ -37,7 +37,7 @@ check-path:
 	[[ "$(words $(SF_PATH_FILES))" = "0" ]] || { \
 		for f in $(SF_PATH_FILES); do \
 			$(ECHO) "$${f}" | $(GREP) -qv "$(SF_PATH_LINT_RE)" || continue; \
-			$(ECHO_ERR) "$${f} not following file/folder naming convention."; \
+			$(ECHO_ERR) "$${f} not following file/folder naming convention '$(SF_PATH_LINT_RE)'."; \
 			exit 1; \
 		done; \
 	}
