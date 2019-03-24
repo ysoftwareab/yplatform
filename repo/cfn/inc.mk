@@ -132,20 +132,6 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(ECHO_DONE)
 
 
-.PHONY: %.drift.json
-%.drift.json: %-setup ## Describe drift status.
-	$(ECHO_DO) "Creating $(STACK_DRIFT_FILE)..."
-	$(AWS) cloudformation detect-stack-drift \
-		--stack-name $(STACK_NAME)
-	sleep 60 # FIXME cheating
-	$(AWS) cloudformation describe-stack-resource-drifts \
-		--stack-name $(STACK_NAME) \
-		--stack-resource-drift-status-filters DELETED MODIFIED NOT_CHECKED | \
-		$(JQ) -r ".StackResourceDrifts" >$(STACK_DRIFT_FILE)
-	$(ECHO) "Drift file: $(STACK_DRIFT_FILE)"
-	$(ECHO_DONE)
-
-
 .PHONY: %.change-set.json
 %.change-set.json: %-setup %.cfn.json %.cfn.json.diff ## Create change-set and template diff.
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE)..."
@@ -165,6 +151,9 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 %.change-set.json/exec: %-setup ## Update stack with change-set.
 	$(ECHO_DO) "Updating $(STACK_NAME) stack with $(CHANGE_SET_FILE)..."
 	$(call $(STACK_STEM)-pre-exec)
+	$(AWS_CFN_DETECT_STACK_DRIFT) \
+		--stack-name $(STACK_NAME) \
+		--change-set-file $(DRIFT_FILE) || true
 	$(AWS_CFN_CU_STACK) \
 		--wait \
 		--stack-name $(STACK_NAME) \

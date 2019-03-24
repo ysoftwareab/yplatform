@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- aws-cloudformation-detect-stack-drift 1.0
+## Usage: aws-cloudformation-detect-stack-drift [OPTION]
+## Check if a CloudFormation stack has drifted.
+##
+##   --stack-name          See `aws cloudformation detect-stack-drift help`
+##
+##   --drift-file          Drift filename
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DRIFT_FILE=/dev/null
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --stack-name)
+            STACK_NAME=$2
+            STACK_NAME_ARG="$1 $2"
+            shift 2
+            ;;
+        --drift-file)
+            DRIFT_FILE=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        # -* )
+        #     sh_script_usage
+        #     ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || :)
+
+[[ -n ${STACK_ID} ]] || {
+    echo >&2 "Stack does not exist."
+    exit 1
+}
+
+echo "Checking drift status for ${STACK_ID} aka ${STACK_NAME} stack..."
+STACK_DRIFT_DETECTION_ID=$(aws cloudformation detect-stack-drift ${STACK_NAME_ARG} | jq -r ".StackDriftDetectionId")
+while true; do
+    DETECTION_STATUS=$(aws cloudformation describe-stack-drift-detection-status --stack-drift-detection-id ${STACK_DRIFT_DETECTION_ID} | jq -r ".DetectionStatus")
+    case "${DETECTION_STATUS}" in
+        DETECTION_IN_PROGRESS)
+            sleep 5
+            continue
+            break
+            ;;
+        DETECTION_FAILED)
+            STACK_DRIFT_STATUS=$(aws cloudformation describe-stack-drift-detection-status --stack-drift-detection-id ${STACK_DRIFT_DETECTION_ID} | jq -r ".StackDriftStatus")
+            echo >&2 "Failed to check drift status: ${STACK_DRIFT_STATUS}."
+            aws cloudformation describe-stack-drift-detection-status --stack-drift-detection-id ${STACK_DRIFT_DETECTION_ID} | jq >&2
+            exit 1
+            break
+            ;;
+        *)
+            STACK_DRIFT_STATUS=$(aws cloudformation describe-stack-drift-detection-status --stack-drift-detection-id ${STACK_DRIFT_DETECTION_ID} | jq -r ".StackDriftStatus")
+            case "${STACK_DRIFT_STATUS}" in
+                IN_SYNC)
+                    echo "All resources are in sync."
+                    exit 0
+                    break
+                    ;;
+                *)
+                    echo >&2 "Drift status is ${STACK_DRIFT_STATUS}."
+                    TMP_DRIFT_FILE=$(mktemp -t aws-cloudformation-detect-stack-drift.XXXXXXXXXX)
+                    aws cloudformation describe-stack-resource-drifts --stack-name ${STACK_NAME} | jq "[.StackResourceDrifts[] | select(.StackResourceDriftStatus != \"IN_SYNC\")]" | tee ${TMP_DRIFT_FILE}
+                    cp ${TMP_DRIFT_FILE} ${DRIFT_FILE}
+                    exit 1
+                    break
+                    ;;
+            esac
+            break
+            ;;
+    esac
+done
