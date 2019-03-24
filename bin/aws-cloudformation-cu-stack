@@ -8,6 +8,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: aws-cloudformation-cu-stack [OPTION]
 ## Create or update a CloudFormation stack.
 ##
+##   --stack-name          See `aws cloudformation create-stack help`
 ##   --template-body       Translated to --template-url. This works around the lower size limits of template-body vs template-url
 ##   --timeout-in-minutes  See `aws cloudformation create-stack help`. Defaults to 60 minutes
 ##   --on-failure          See `aws cloudformation create-stack help`. Defaults to DELETE
