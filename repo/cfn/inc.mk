@@ -103,10 +103,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--template-body file://$(STACK_TPL_FILE) \
 		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
-	$(AWS_CFN_DETECT_STACK_DRIFT) \
-		--stack-name $(STACK_NAME) \
-		--drift-file $(STACK_DRIFT_FILE) \
-		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
+	$(MAKE) $(STACK_DRIFT_FILE)
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
 #		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
@@ -137,6 +134,13 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
 	$(ECHO_DONE)
 
+.PHONY: %.cfn.drift.json
+%.cfn.drift.json: %-setup
+	$(AWS_CFN_DETECT_STACK_DRIFT) \
+		--stack-name $(STACK_NAME) \
+		--drift-file $(STACK_DRIFT_FILE) \
+		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
+
 
 .PHONY: %.change-set.json
 %.change-set.json: %-setup %.cfn.json %.cfn.json.diff ## Create change-set and template diff.
@@ -163,10 +167,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--execute-change-set \
 		--change-set-file $(CHANGE_SET_FILE)
 	$(RM) $(CHANGE_SET_FILE)
-	$(AWS_CFN_DETECT_STACK_DRIFT) \
-		--stack-name $(STACK_NAME) \
-		--drift-file $(STACK_DRIFT_FILE) \
-		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
+	$(MAKE) $(STACK_DRIFT_FILE)
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
 #		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
