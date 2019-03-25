@@ -134,8 +134,8 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
 	$(ECHO_DONE)
 
-.PHONY: %.cfn.drift.json
-%.cfn.drift.json: %-setup
+.PHONY: %.drift.json
+%.drift.json: %-setup
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
 		--stack-name $(STACK_NAME) \
 		--drift-file $(STACK_DRIFT_FILE) \
