@@ -103,6 +103,10 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--template-body file://$(STACK_TPL_FILE) \
 		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
+	$(AWS_CFN_DETECT_STACK_DRIFT) \
+		--stack-name $(STACK_NAME) \
+		--drift-file $(STACK_DRIFT_FILE) \
+		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
 #		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
@@ -153,16 +157,16 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 %.change-set.json/exec: %-setup ## Update stack with change-set.
 	$(ECHO_DO) "Updating $(STACK_NAME) stack with $(CHANGE_SET_FILE)..."
 	$(call $(STACK_STEM)-pre-exec)
-	$(AWS_CFN_DETECT_STACK_DRIFT) \
-		--stack-name $(STACK_NAME) \
-		--drift-file $(STACK_DRIFT_FILE) \
-		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
 	$(AWS_CFN_CU_STACK) \
 		--wait \
 		--stack-name $(STACK_NAME) \
 		--execute-change-set \
 		--change-set-file $(CHANGE_SET_FILE)
 	$(RM) $(CHANGE_SET_FILE)
+	$(AWS_CFN_DETECT_STACK_DRIFT) \
+		--stack-name $(STACK_NAME) \
+		--drift-file $(STACK_DRIFT_FILE) \
+		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
 #		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
