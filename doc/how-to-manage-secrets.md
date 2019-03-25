@@ -93,11 +93,12 @@ git commit -m "add transcrypt recipient"
 
 ```shell
 cd path/to/repo
-./transcrypt -y --import-gpg .transcrypt/<yourself@tobii.com>.asc
+make decrypt
 
-# when finished working with the secrets, flush (remove) credentials
-./transcrypt -y -f
+# ./transcrypt -y --import-gpg .transcrypt/<yourself@tobii.com>.asc
 ```
+
+When finished working with the secrets, flush (remove) credentials `./transcrypt -y -f`.
 
 **NOTE** In extreme situations, if nobody can decrypt `.transcrypt/*.asc`,
 use the **designated safe location** to run `./transcrypt -c <cipher> -p <password>`
