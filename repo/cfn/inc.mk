@@ -11,6 +11,7 @@ $(foreach VAR,AWS_ACCOUNT_ID,$(call make-lazy,$(VAR)))
 
 AWS = $(call which,AWS,aws)
 AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
+AWS_CFN_DETECT_STACK_DRIFT = $(call which,AWS_CFN_DETECT_STACK_DRIFT,aws-cloudformation-detect-stack-drift)
 AWS_CFN_D_STACK = $(call which,AWS_CFN_D_STACK,aws-cloudformation-delete-stack)
 AWS_CFN2DOT = $(call which,AWS_CFN2DOT,aws-cfn2dot)
 DOT = $(call which,GRAPHVIZ_DOT,dot)
@@ -18,6 +19,7 @@ ESLINT = $(call which,ESLINT,eslint)
 $(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
 
 AWS_CFN_CU_STACK_ARGS ?=
+AWS_CFN_DETECT_STACK_DRIFT_ARGS ?=
 ESLINT_ARGS ?=
 
 CHANGE_SET_NAME ?= $(STACK_NAME)-$(GIT_HASH_SHORT)-$(MAKE_DATE)-$(MAKE_TIME)
@@ -153,7 +155,8 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(call $(STACK_STEM)-pre-exec)
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
 		--stack-name $(STACK_NAME) \
-		--change-set-file $(DRIFT_FILE) || true
+		--change-set-file $(STACK_DRIFT_FILE) || true
+		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS)
 	$(AWS_CFN_CU_STACK) \
 		--wait \
 		--stack-name $(STACK_NAME) \
