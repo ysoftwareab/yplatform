@@ -29,6 +29,11 @@ See https://semver.org/spec/v2.0.0.html .
 * `make release/public` will release `1.0.0`
 
 
+**For hotfix/custom releases, you can use `make release/vX.Y.Z-hotfix.N`,
+where `X.Y.Z` is the current version and `hotfix.N` is an identifier and an index for the hotfix/custom release.**
+Since you are probably not releasing from the `master` branch, please remember to merge back your fixes.
+
+
 ## `npm` packages as `git` tags (libraries, frameworks, etc)
 
 **NOTE** This section applies primarily, if not only, to packages which you intend to use
