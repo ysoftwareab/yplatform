@@ -7,6 +7,15 @@
 brew cask install gpg-suite
 ```
 
+You should now have an executable `/usr/local/MacGPG2/bin/gpg2`
+but you need to instruct git to use that for gpgrelated functionality.
+You do that by editing `~/.gitconfig` and adding
+
+```
+[gpg]
+    program = /usr/local/MacGPG2/bin/gpg2
+```
+
 **FOLLOW THE INSTRUCTIONS IN** https://github.com/pstadler/keybase-gpg-github
 ([local copy](pstradler-keybase-gpg-github.md)).
 Use `Method 2` in `Optional: In case you're prompted to enter the password every time`.
