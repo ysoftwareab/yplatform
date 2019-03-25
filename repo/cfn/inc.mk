@@ -155,7 +155,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(call $(STACK_STEM)-pre-exec)
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
 		--stack-name $(STACK_NAME) \
-		--change-set-file $(STACK_DRIFT_FILE) \
+		--drift-file $(STACK_DRIFT_FILE) \
 		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
 	$(AWS_CFN_CU_STACK) \
 		--wait \
