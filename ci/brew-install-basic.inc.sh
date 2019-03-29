@@ -3,18 +3,16 @@ set -euo pipefail
 
 echo_do "brew: Installing basic packages..."
 
-# https://github.com/kadwanev/retry
-brew pull 27283
-
 BREW_FORMULAE="$(cat <<-EOF
 curl
 git
-retry
 rsync
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
+
+brew install ${SUPPORT_FIRECLOUD_DIR}/ci/retry.rb
 echo_done
 
 echo_do "brew: Testing basic packages..."
