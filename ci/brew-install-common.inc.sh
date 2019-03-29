@@ -6,6 +6,4 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-gnu.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-basic.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-node.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-py.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-aws.inc.sh
 echo_done
