@@ -101,7 +101,7 @@ ARTIFACT=.travis.yml
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/.*; do
         ARTIFACT=.vscode/$(basename ${ARTIFACT})
         [[ -e ${ARTIFACT} ]] || {
-            ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            ln -s ../${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Symlinked ${ARTIFACT}."
         }
