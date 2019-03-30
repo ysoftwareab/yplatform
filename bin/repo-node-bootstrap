@@ -73,6 +73,14 @@ ARTIFACT=.gitignore
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
+ARTIFACT=.eslintrc.js
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.eslintrc.js ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
+}
+
 ARTIFACT=.npmrc
 [[ -e ${ARTIFACT} ]] || {
     ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.npmrc ${ARTIFACT}
