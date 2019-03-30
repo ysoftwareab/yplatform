@@ -72,14 +72,14 @@ ARTIFACT=.editorconfig
 
 ARTIFACT=.ci.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.ci.sh ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.ci.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=.travis.yml
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.travis.yml ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.travis.yml ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
@@ -89,7 +89,7 @@ ARTIFACT=.travis.yml
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github/.*; do
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ -e ${ARTIFACT} ]] || {
-            cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Created ${ARTIFACT}."
         }
@@ -110,14 +110,14 @@ ARTIFACT=.travis.yml
 
 ARTIFACT=LICENSE
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/LICENSE ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/LICENSE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=NOTICE
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/NOTICE ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/NOTICE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -125,7 +125,7 @@ ARTIFACT=NOTICE
 
 ARTIFACT=AUTHORS
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/AUTHORS ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/AUTHORS ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -133,7 +133,7 @@ ARTIFACT=AUTHORS
 
 ARTIFACT=Brewfile.inc.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -141,7 +141,7 @@ ARTIFACT=Brewfile.inc.sh
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -149,7 +149,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=README.md
 [[ -e ${ARTIFACT} ]] || {
-    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/README.md ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/README.md ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
