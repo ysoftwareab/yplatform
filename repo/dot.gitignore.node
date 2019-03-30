@@ -1,7 +1,7 @@
-/.npmignore
 /BUILD
 /VERSION
 /coverage/
+/dist/
 /lib/
 /snapshot.dir/
 /snapshot.zip
