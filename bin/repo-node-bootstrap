@@ -67,7 +67,7 @@ fi
 
 ARTIFACT=.gitignore
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
+    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -82,7 +82,7 @@ ARTIFACT=.npmrc
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.node ${ARTIFACT}
+    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -90,7 +90,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=package.json
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/package.json ${ARTIFACT}
+    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/package.json ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -98,7 +98,7 @@ ARTIFACT=package.json
 
 ARTIFACT=jest.config.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/jest.config.js ${ARTIFACT}
+    cp --remove-destination ${SUPPORT_FIRECLOUD_DIR_REL}/repo/jest.config.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
