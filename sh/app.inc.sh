@@ -7,7 +7,7 @@ set +a
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-${GLOBAL_AWS_REGION}}
 export AWS_REGION=${AWS_REGION:-${AWS_DEFAULT_REGION}}
 
-ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
+[[ ! -x "${GIT_ROOT}/bin/get-env-name" ]] || ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
 
 function app_get_snapshot() {
     # deprecated
