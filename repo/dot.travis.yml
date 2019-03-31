@@ -1,22 +1,16 @@
-# 0. Misc
-# matrix:
-
 # 1. Notifications
 notifications:
   slack:
     rooms:
+      # channel
       - secure: ""
     on_success: change
     on_pull_requests: false
 
 # 2. Env
-env:
-  global:
-    - ""
+# env:
 
 # 3. Git
-git:
-  submodules: false
 branches:
   only:
     - master
