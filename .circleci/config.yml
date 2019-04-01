@@ -24,22 +24,6 @@ aliases:
         - ~/.cache/pip
         - ~/.linuxbrew
 
-  - job-main-linux-trusty-minimal: &job-main-linux-trusty-minimal
-      p_ci_is_cron: "false"
-      p_executor:
-        name: docker
-        p_image: circleci/buildpack-deps:trusty
-      p_cache_name: linux-trusty-minimal
-      p_install: minimal
-
-  - job-main-linux-trusty-common: &job-main-linux-trusty-common
-      p_ci_is_cron: "false"
-      p_executor:
-        name: docker
-        p_image: circleci/buildpack-deps:trusty
-      p_cache_name: linux-trusty-common
-      p_install: common
-
   - job-main-linux-xenial-minimal: &job-main-linux-xenial-minimal
       p_ci_is_cron: "false"
       p_executor:
@@ -124,12 +108,6 @@ jobs:
       - run: ./.ci.sh before_cache
       - *step_save_cache
 
-  main-linux-trusty-minimal:
-    <<: *job-main
-
-  main-linux-trusty-common:
-    <<: *job-main
-
   main-linux-xenial-minimal:
     <<: *job-main
 
@@ -145,12 +123,6 @@ workflows:
 
   main:
     jobs:
-      - main-linux-trusty-minimal:
-          <<: *filter-main
-          <<: *job-main-linux-trusty-minimal
-      - main-linux-trusty-common:
-          <<: *filter-main
-          <<: *job-main-linux-trusty-common
       - main-linux-xenial-minimal:
           <<: *filter-main
           <<: *job-main-linux-xenial-minimal
@@ -167,12 +139,6 @@ workflows:
           <<: *filter-main
           cron: "0 0 * * *"
     jobs:
-      - main-linux-trusty-minimal:
-          <<: *job-main-linux-trusty-minimal
-          p_ci_is_cron: "true"
-      - main-linux-trusty-common:
-          <<: *job-main-linux-trusty-common
-          p_ci_is_cron: "true"
       - main-linux-xenial-minimal:
           <<: *job-main-linux-xenial-minimal
           p_ci_is_cron: "true"
