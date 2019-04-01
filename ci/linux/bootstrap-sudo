@@ -27,10 +27,6 @@ apt_install locales
 locale-gen en_US en_US.UTF-8
 dpkg-reconfigure --frontend=noninteractive locales
 
-# improve date-time (ntp) sync
-sudo timedatectl set-ntp no
-apt_install ntp
-
 # Basic
 echo_do "aptitude: Installing basic packages..."
 DPKGS="$(cat <<-EOF
