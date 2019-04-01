@@ -1,17 +1,6 @@
 # 0. Misc
 matrix:
   include:
-    - name: "Linux Trusty 14.04 with minimal brew"
-      os: linux
-      dist: trusty
-      env: CACHE_NAME=linux-trusty-minimal SF_CI_BREW_INSTALL=minimal
-
-    - name: "Linux Trusty 14.04 with common brew"
-      os: linux
-      dist: trusty
-      env: CACHE_NAME=linux-trusty-common SF_CI_BREW_INSTALL=common
-      if: type IN (push, cron)
-
     - name: "Linux Xenial 16.04 with minimal brew"
       os: linux
       dist: xenial
