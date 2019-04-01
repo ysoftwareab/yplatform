@@ -12,13 +12,8 @@ set -euo pipefail
         export LDFLAGS="-L$(brew --prefix)/opt/llvm/lib -Wl,-rpath,$(brew --prefix)/opt/llvm/lib"
     }
 
-    echo_do "brew: Installing NodeJS packages..."
-    BREW_FORMULAE="$(cat <<-EOF
-node
-EOF
-)"
-    brew_install "${BREW_FORMULAE}"
-    unset BREW_FORMULAE
+    brew uninstall node || true
+    brew install --build-from-source node
     npm install --global npm@6
     npm install --global json@9
     echo_done
