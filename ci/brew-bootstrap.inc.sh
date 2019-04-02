@@ -68,7 +68,7 @@ brew_upgrade() {
         # is it already up-to-date?
         brew outdated ${NAME} >/dev/null 2>&1 || {
             echo_do "brew: Upgrading ${NAME}..."
-            brew upgrade ${NAME}
+            brew upgrade --force-bottle ${NAME}
             echo_done
         }
     done 3< <(echo "$@")
@@ -112,7 +112,7 @@ brew_install() {
             fi
         fi
         echo_do "brew: Installing ${FORMULA}..."
-        brew install ${FORMULA}
+        brew install --force-bottle ${FORMULA}
         echo_done
     done 3< <(echo "$@")
     # see https://github.com/Homebrew/brew/issues/5013
