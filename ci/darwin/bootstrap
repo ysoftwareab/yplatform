@@ -15,17 +15,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
     sudo sntp -sS time.apple.com
 ) || true
 
-brew_bootstrap_darwin() {
-    local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
-    [[ -f "${BREWFILE_INC_SH}" ]] || {
-        echo_err "No ${BREWFILE_INC_SH} file present."
-        return 1
-    }
-    source ${BREWFILE_INC_SH}
-}
-
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
-brew_bootstrap_darwin
+brew_brewfile_inc_sh
 brew_list
 
 [[ "${CI:-}" != "true" ]] || {
