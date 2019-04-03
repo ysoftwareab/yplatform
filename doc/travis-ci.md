@@ -5,16 +5,27 @@ in a continuous manner, whenever new commits are pushed or on code from pull req
 
 We currently use Travis CI and thus prefer it for consistency, but other CIs are ok given reasonable consideration.
 
-Go to https://travis-ci.com/profile/tobiipro
-and enable Travis CI integration for your repository.
+A very first step to setup an integration with Travis CI is to visit https://github.com/organizations/tobiipro/settings/installations,
+press `Configure` next to `Travis CI` and make sure that Travis
+has access to your repo in the `Repository access` section dropdown.
 
-**NOTE** It is recommended that on the repository's Travis CI settings page you
-* enable `Build only if .travis.yml is present`
+Then go to https://travis-ci.com/profile/tobiipro
+and find your repo in the list to open it's settings.
+
+## Repository's Travis CI settings
+
+It is recommended that on the repository's Travis CI settings page you
 * **if you have long-running builds such as deployment to AWS CloudFormation**,
   enable `Limit concurrent jobs: 1`
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
 * add cronjob `master - daily - Always run`
+* (preferred, but not obligatory) replace default SSH key with `tobiiprotools` 
+SSH key (can be found in **designated safe location**).
+
+## In the repo
+
+### `README.md` and status image
 
 Link to the repository's page on Travis CI
 and embed a status image for the `master` branch (or more) in `README.md`, in short add:
@@ -32,6 +43,8 @@ and embed a status image for the `master` branch (or more) in `README.md`, in sh
 click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
 
 Reference: https://docs.travis-ci.com/user/status-images/
+
+### `.travis.yml`
 
 Don't forget to commit the most important thing: a `.travis.yml` ([template](../repo/dot.travis.yml)) file which configures your Travis CI build.
 
@@ -90,13 +103,20 @@ So run `./.travis.sh debug` in order to setup the shell session (e.g. environmen
 
 **NOTE** See related docs on [how to manage secrets](how-to-manage-secrets.md).
 
+### Web UI Secrets (preferred)
+
 If you have Travis-specific values to encrypt,
 then you can add encrypted values via the web UI of Travis CI:
 `project -> More Options -> Settings -> Environment Variables`.
+
 By default, all environment variables added like this are encrypted (secret; not displayed in the logs).
 
-One exception is configuration for Slack notifications, which need to be configured by
-adding encrypted values in the `.travis.yml` file (that only Travis CI can decrypt).
+### `.travis.yml` secrets
+
+Two exceptions from adding secret variables through web UI 
+and using instead `.travis.yml` file (that only Travis CI can decrypt):
+* configuration for Slack notifications
+* Githib Releases provider API key
 
 You'll need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb) for that.
 On OSX run `brew install travis` to install it.
@@ -113,26 +133,34 @@ For more info, see:
 
 ### `transcrypt`-ed repository
 
-If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI, then follow these steps:
+If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI, 
+you need to add `TRANSCRYPT_PASSWORD` variable in Travis Web UI.
 
-```shell
-cd path/to/repo
-travis encrypt "TRANSCRYPT_PASSWORD=<password>"
-```
-
-Now you can add this to your `.travis.yml` file:
-
-```yaml
-env:
-  global:
-    # TRANSCRYPT_PASSWORD
-    - secure: "..."
-```
-
-**NOTE** The decryption of the repository will happen automatically in non-pull-request builds,
+The decryption of the repository will happen automatically in non-pull-request builds,
 if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 (default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
 
+
+### Migrating secrets from existing repo
+
+To make the setup faster and avoid looking for secrets all over different places, 
+you can _manually_ get all the secrets in existing repo. 
+
+To do so,
+start a debugging session as described in [debugging section](#Debugging). 
+
+Alternatively, you can start debugging session through Travis Web UI
+and after some minutes in the output log
+you should get an `ssh` command to execute, like 
+```
+ssh rFjXYvZt3FotUuXVOKo1z2WOc@to2.tmate.io
+```
+
+After logging in, run command(s) to get your var values.
+
+```shell
+printenv | grep MY_SECRET_VAR_PREFIX_
+```
 
 ## Notifications
 
@@ -160,4 +188,5 @@ notifications:
 
 ## Releases
 
-If you are planning to do release via Travis CI, see [how to release](how-to-release.md).
+If you are planning to release via Travis CI (primarily for high-level packages), see 
+[how to release](how-to-release.md#npm-packages-as-github-artifacts).

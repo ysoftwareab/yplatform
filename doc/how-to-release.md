@@ -139,6 +139,15 @@ deploy:
       tags: true
 ```
 
+The secure `api_key` should contain `tobiiprotools`'s Github token 
+(can be found in the **designated safe location**) and must be encrypted with Travis CLI like 
+
+```shell
+travis --pro encrypt <GH_TOKEN>
+```
+
+Read more at travis-ci.md#travis-yml-secrets. 
+
 **NOTE** The generation of the artifacts via `make dist` will happen automatically,
 if `.travis.yml` runs `./travis.sh before_deploy` in `before_deploy`
 (default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
