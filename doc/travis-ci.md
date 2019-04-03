@@ -10,7 +10,7 @@ press `Configure` next to `Travis CI` and make sure that Travis
 has access to your repo in the `Repository access` section dropdown.
 
 Then go to https://travis-ci.com/profile/tobiipro
-and enable Travis CI integration for your repository.
+and find your repo in the list to open it's settings.
 
 ## Repository's Travis CI settings
 
@@ -144,9 +144,14 @@ if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 ### Migrating secrets from existing repo
 
 To make the setup faster and avoid looking for secrets all over different places, 
-you can _manually_ get all the secrets in existing repo. To do so,
-start a debugging session in Travis UI and after some minutes in Travis output log
-you should get an `ssh` command to execute like 
+you can _manually_ get all the secrets in existing repo. 
+
+To do so,
+start a debugging session as described in [debugging section](#Debugging). 
+
+Alternatively, you can start debugging session through Travis Web UI
+and after some minutes in the output log
+you should get an `ssh` command to execute, like 
 ```
 ssh rFjXYvZt3FotUuXVOKo1z2WOc@to2.tmate.io
 ```

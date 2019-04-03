@@ -143,7 +143,7 @@ The secure `api_key` should contain `tobiiprotools`'s Github token
 (can be found in the **designated safe location**) and must be encrypted with Travis CLI like 
 
 ```shell
-travis encrypt <GH_TOKEN>
+travis --pro encrypt <GH_TOKEN>
 ```
 
 Read more at travis-ci.md#travis-yml-secrets. 
