@@ -74,9 +74,17 @@ or checking them out via `git fetch refs/jobs/<job_id> && git log -p FETCH_HEAD`
 ## Debugging
 
 If you experience failures and you want to debug inside a Travis worker,
-see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
+you can press the `Debug build` button in the top-right corner, and, after some minutes,
+you should get an `ssh` command to execute in the output log, like
 
-You can speed up the process, by running `support-firecloud/bin/travis-debug --token X --job Y`, where
+```
+ssh rFjXYvZt3FotUuXVOKo1z2WOc@to2.tmate.io
+```
+
+For official info, see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
+
+If you debug often, you can speed up the process,
+by running `support-firecloud/bin/travis-debug --token X --job Y`, where
 - X is the token that you see at https://travis-ci.com/profile/
   - you can omit `--token X` if you have an environment variable `TRAVIS_API_TOKEN`
 - Y can be a numeric job ID or a job URL or even a build URL (most useful)
@@ -147,14 +155,7 @@ To make the setup faster and avoid looking for secrets all over different places
 you can _manually_ get all the secrets in existing repo. 
 
 To do so,
-start a debugging session as described in [debugging section](#Debugging). 
-
-Alternatively, you can start debugging session through Travis Web UI
-and after some minutes in the output log
-you should get an `ssh` command to execute, like 
-```
-ssh rFjXYvZt3FotUuXVOKo1z2WOc@to2.tmate.io
-```
+start a debugging session as described in [debugging section](#Debugging).
 
 After logging in, run command(s) to get your var values.
 
