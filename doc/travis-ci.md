@@ -10,7 +10,7 @@ press `Configure` next to `Travis CI` and make sure that Travis
 has access to your repo in the `Repository access` section dropdown.
 
 Then go to https://travis-ci.com/profile/tobiipro
-and find your repo in the list to open it's settings.
+and find your repo in the list to open its settings.
 
 ## Repository's Travis CI settings
 
