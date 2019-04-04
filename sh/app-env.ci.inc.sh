@@ -56,19 +56,19 @@ ci_run_script() {
 
     [[ "${CI_IS_PR}" != "true" ]] || return 0
 
+    local ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
+    local TEARDOWN_PATTERN="^\[TEARDOWN-ENV ${ENV_NAME}\]"
+    if [[ $(git log --format=%s -n1) =~ ${TEARDOWN_PATTERN} ]] ; then
+        ci_run_script_teardown_env
+        return 0
+    fi
+
     case ${GIT_BRANCH} in
         env/*)
             ci_run_script_env
             return 0
             ;;
         master|*-env)
-            local ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
-            local TEARDOWN_PATTERN="^\[TEARDOWN-ENV ${ENV_NAME}\]"
-            if [[ $(git log --format=%s -n1) =~ ${TEARDOWN_PATTERN} ]] ; then
-                ci_run_script_teardown_env
-                return 0
-            fi
-
             ci_run_script_env_git
             return 0
             ;;
