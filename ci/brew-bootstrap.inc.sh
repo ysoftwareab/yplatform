@@ -53,7 +53,7 @@ brew update
 brew outdated
 echo_done
 
-brew_upgrade() {
+function brew_upgrade() {
     while read -u3 NAME; do
         # install any missing dependencies
         local MISSING="$(brew missing ${NAME})"
@@ -74,7 +74,7 @@ brew_upgrade() {
     done 3< <(echo "$@")
 }
 
-brew_install() {
+function brew_install() {
     while read -u3 FORMULA; do
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1 | sed "s/\.rb$$//")
         local NAME=$(basename "${FULLNAME}")
@@ -132,7 +132,7 @@ brew_brewfile_inc_sh() {
     source ${BREWFILE_INC_SH}
 }
 
-brew_list() {
+function brew_list() {
     echo_do "brew: Listing packages..."
     brew list --versions
     echo_done
@@ -140,7 +140,7 @@ brew_list() {
 
 # apt_install is not related to brew, but it is here for convenience,
 # to make it available in Brewfile.inc.sh files
-apt_install() {
+function apt_install() {
     while read -u3 DPKG; do
         echo_do "aptitude: Installing ${DPKG}..."
         sudo apt-get install -y --force-yes "${DPKG}"
