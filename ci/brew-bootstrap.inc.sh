@@ -138,4 +138,14 @@ brew_list() {
     echo_done
 }
 
+# apt_install is not related to brew, but it is here for convenience,
+# to make it available in Brewfile.inc.sh files
+apt_install() {
+    while read -u3 DPKG; do
+        echo_do "aptitude: Installing ${DPKG}..."
+        sudo apt-get install -y --force-yes "${DPKG}"
+        echo_done
+    done 3< <(echo "$@")
+}
+
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
