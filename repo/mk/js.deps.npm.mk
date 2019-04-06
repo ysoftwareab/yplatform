@@ -1,3 +1,9 @@
+# repository node_modules executables
+PATH := $(GIT_ROOT)/node_modules/.bin:$(PATH)
+# makefile-folder node_modules exebutables
+PATH := $(MAKE_PATH)/node_modules/.bin:$(PATH)
+export PATH
+
 NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 

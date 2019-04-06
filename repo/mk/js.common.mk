@@ -6,12 +6,6 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.misc.release.mk
 
 # ------------------------------------------------------------------------------
 
-# repository node_modules executables
-PATH := $(GIT_ROOT)/node_modules/.bin:$(PATH)
-# makefile-folder node_modules exebutables
-PATH := $(MAKE_PATH)/node_modules/.bin:$(PATH)
-export PATH
-
 NODE = $(call which,NODE,node)
 NODE_NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
 NODE_NPX = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npx/")
