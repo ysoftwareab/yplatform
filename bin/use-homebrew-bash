@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
 HOMEBREW_BASH=$(brew --prefix)/bin/bash
 echo "       Your current shell is ${SHELL}."
 echo "[Q   ] Do you want to upgrade to homebrew's bash at ${HOMEBREW_BASH} ?"
