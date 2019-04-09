@@ -77,7 +77,7 @@ function brew_upgrade() {
 function brew_install() {
     while read -u3 FORMULA; do
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-        local NAME=$(basename "${FULLNAME}" | sed "s/\.rb$$//")
+        local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
         local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
         # is it already installed ?
         if brew list "${NAME}" >/dev/null 2>&1; then
