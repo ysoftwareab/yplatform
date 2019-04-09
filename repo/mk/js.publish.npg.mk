@@ -42,9 +42,9 @@ _release:
 			--no-decorate \
 			`$(GIT) rev-parse HEAD`..`$(GIT) rev-parse @{u}`; \
 		GIT_TAG=`$(GIT) tag -l --points-at HEAD | $(HEAD) -1`; \
-		$(ECHO_INFO) "Merging in tag $${GIT_TAG} instead of fast-forwarding..."; \
-		GIT_MERGE_COMMIT=`$(GIT) commit-tree -p @{u} -p HEAD -m "Merge tag $${GIT_TAG}" "HEAD^{tree}"`; \
-		$(GIT) reset $${GIT_MERGE_COMMIT}; \
+		$(ECHO_INFO) "Merging in tag $${GIT_TAG}..."; \
+		$(GIT) reset @{u}; \
+		$(GIT) merge --no-ff refs/tags/$${GIT_TAG} -m "Merge tag $${GIT_TAG}"; \
 	}
 	$(GIT) push
 	@$(ECHO_DONE)
