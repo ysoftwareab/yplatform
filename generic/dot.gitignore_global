@@ -20,8 +20,7 @@ yarn-error.log*
 .DS_Store
 
 # Visual Studio Code
-.vscode/*
-!.vscode/.editorconfig
+.vscode/*.json
 !.vscode/extensions.json
 !.vscode/launch.json
 !.vscode/settings.json
