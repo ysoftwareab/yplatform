@@ -29,7 +29,7 @@
   },
   "files.trimFinalNewlines": true,
 
-  "search.useIgnoreFilesByDefault": true,
+  "search.useIgnoreFiles": true,
 
   "html.format.enable": true,
   "html.format.wrapLineLength": 120,
