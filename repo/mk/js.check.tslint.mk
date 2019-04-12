@@ -5,6 +5,7 @@ $(foreach VAR,TSFMT TSLINT,$(call make-lazy,$(VAR)))
 TSLINT_ARGS ?=
 TSLINT_ARGS := \
 	$(TSLINT_ARGS) \
+	--format verbose \
 
 
 SF_CHECK_TARGETS := \
