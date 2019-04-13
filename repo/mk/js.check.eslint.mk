@@ -12,7 +12,7 @@ SF_ESLINT_FILES_IGNORE := \
 
 SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
-	$(GREP) -e "\.js$$" | \
+	$(GREP) -e "\\.\\(js\\|ts\\)$$" | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
