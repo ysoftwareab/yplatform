@@ -20,6 +20,9 @@ tab_width = 4
 [*.py]
 indent_size = 4
 
+[*.ts]
+indent_size = none
+
 [*.sh]
 indent_size = 4
 
