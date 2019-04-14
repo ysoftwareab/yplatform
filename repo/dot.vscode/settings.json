@@ -28,7 +28,9 @@
       "when": "$(basename).js"
     }
   },
+  "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
 
   "search.useIgnoreFiles": true,
 
