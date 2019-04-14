@@ -10,6 +10,7 @@
   "editor.wordWrap": "off",
 
   "eslint.enable": true,
+  "eslint.alwaysShowStatus": true,
   "eslint.run": "onSave",
   "eslint.autoFixOnSave": true,
   "eslint.validate": [
@@ -66,6 +67,7 @@
 
   "tslint.enable": true,
   "tslint.jsEnable": false,
+  "tslint.alwaysShowStatus": true,
   "tslint.run": "onSave",
   "tslint.autoFixOnSave": true,
 
