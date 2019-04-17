@@ -128,6 +128,11 @@ RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
 UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
 
 for ASSET in ${ASSETS}; do
+    [[ -s ${ASSET} ]] || {
+        echo_warn "${ASSET} is empty."
+        echo_skip "Uploading ${ASSET}..."
+        continue
+    }
     UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
     echo_info "Uploading ${ASSET}..."
     curl \
