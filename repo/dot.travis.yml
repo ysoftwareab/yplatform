@@ -46,10 +46,10 @@ after_script: ./.ci.sh after_script
 
 # 6. Deploy
 before_deploy: ./.ci.sh before_deploy
-deploy:
-  - provider: script
-    script: ./.ci.sh deploy
-    skip_cleanup: true
-    on:
-      tags: true
+# deploy:
+#   - provider: script
+#     script: ./.ci.sh deploy
+#     skip_cleanup: true
+#     on:
+#       tags: true
 after_deploy: ./.ci.sh after_deploy
