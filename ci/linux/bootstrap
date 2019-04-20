@@ -9,7 +9,7 @@ ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap-sudo
 MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
 MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
 MEM_GIB_SWAP=/mnt/${MEM_GIB}GiB.swap
-(
+[[ "${TRAVIS:-}" != "true" ]] || (
     echo_do "Enabling swap..."
     cat /proc/swaps
     sudo fallocate -l ${MEM_GIB}g ${MEM_GIB_SWAP}
@@ -24,7 +24,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
 brew_brewfile_inc_sh
 brew_list
 
-(
+[[ "${TRAVIS:-}" != "true" ]] || (
     echo_do "Disabling swap..."
     sudo swapoff ${MEM_GIB_SWAP}
     sudo rm ${MEM_GIB_SWAP}
