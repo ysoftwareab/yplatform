@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ci_run_script_env_git() {
+function ci_run_script_env_git() {
     make snapshot
     make dist
 
@@ -14,7 +14,7 @@ ci_run_script_env_git() {
 }
 
 
-ci_run_script_env() {
+function ci_run_script_env() {
     PKG_VSN=$(cat package.json | json "version")
     echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
@@ -34,17 +34,17 @@ ci_run_script_env() {
 }
 
 
-ci_run_install() {
+function ci_run_install() {
     true
 }
 
 
-ci_run_script_teardown_env() {
+function ci_run_script_teardown_env() {
     ${GIT_ROOT}/bin/teardown-env
 }
 
 
-ci_run_script() {
+function ci_run_script() {
     case ${GIT_BRANCH} in
         env/*)
             true
