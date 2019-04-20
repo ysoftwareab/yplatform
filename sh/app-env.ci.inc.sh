@@ -74,3 +74,22 @@ function ci_run_script() {
             ;;
     esac
 }
+
+function ci_run_deploy() {
+    local GIT_TAG=$(git tag -l --points-at HEAD | head -1)
+    local ASSETS=${ASSETS:-$(ls dist/app.zip snapshot.zip)}
+
+    echo_info "Assets for release:"
+    echo "${ASSETS}" | xargs ls -l
+
+    local ASSETS_ARGS=$(
+        echo "${ASSETS}" | \
+        xargs -I {} echo "--asset {}"
+    )
+    ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
+        --repo-slug ${CI_REPO_SLUG} \
+        --tag ${GIT_TAG} \
+        --target $(git rev-parse HEAD) \
+        ${ASSETS_ARGS} \
+        --token ${GH_TOKEN}
+}
