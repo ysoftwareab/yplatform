@@ -8,7 +8,7 @@ SF_VENDOR_FILES_IGNORE := \
 # ------------------------------------------------------------------------------
 
 .PHONY: decrypt
-decrypt:
+decrypt: # Decrypt this repository with transcrypt
 	$(ECHO) "[Q   ] Which identity do you want to use to decrypt this repository?"
 	ls -1 .transcrypt | $(SED) "s/\.asc$$//g" | $(SED) "s/^/       /g"
 	read ID && \
