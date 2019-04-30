@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-let _ = require('lodash').default;
+let _ = require('lodash-firecloud').default;
 let fs = require('fs');
 
 let createStackPolicy = async function({cfnTemplatePath}) {
