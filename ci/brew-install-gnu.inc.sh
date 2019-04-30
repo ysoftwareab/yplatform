@@ -6,6 +6,7 @@ BREW_FORMULAE="$(cat <<-EOF
 coreutils
 diffutils
 findutils
+gettext
 gnu-sed
 gnu-tar
 gnu-which
