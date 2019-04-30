@@ -1,0 +1,57 @@
+#!/usr/bin/env node
+let _ = require('lodash').default;
+let fs = require('fs');
+
+let createStackPolicy = async function({cfnTemplatePath}) {
+  let cfnTemplate = JSON.parse(fs.readFileSync(cfnTemplatePath));
+  let resources = _.keys(cfnTemplate.Resources);
+  let retainedResources = _.filter(resources, function(resourceName) {
+    return _.get(cfnTemplate.Resources[resourceName], 'DeletionPolicy') === 'Retain';
+  });
+
+  let denyStatements = _.map(retainedResources, function(resourceName) {
+    return {
+      Effect: 'Deny',
+      Action: [
+        'Update:Delete',
+        'Update:Replace'
+      ],
+      Principal: '*',
+      Resource: `LogicalResourceId/${resourceName}`
+    };
+  });
+
+  let allowAllStatement = {
+    Effect: 'Allow',
+    Action: 'Update:*',
+    Principal: '*',
+    Resource: '*'
+  };
+
+  let policy = {
+    Statement: [
+      allowAllStatement,
+      ...denyStatements
+    ]
+  };
+
+  return policy;
+};
+
+(async function() {
+  if (module.parent) {
+    return;
+  }
+
+  // CLI MODE
+  let policy = await createStackPolicy({
+    cfnTemplatePath: process.argv[2]
+  });
+
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(policy, undefined, 2));
+})();
+
+module.exports = {
+    createStackPolicy
+}
