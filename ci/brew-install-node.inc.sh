@@ -3,9 +3,9 @@ set -euo pipefail
 
 echo_do "brew: Installing NodeJS packages..."
 
-# force node bottle on Travis, compiling node fails or takes forever
+# force node bottle on CI, compiling node fails or takes forever
 NODE_FORMULA=node
-[[ "${TRAVIS:-}" != "true" ]] || {
+[[ "${CI:-}" != "true" ]] || {
     cd $(brew --repo homebrew/core)
     git fetch --depth 1000
     BREW_TEST_BOT=BrewTestBot
