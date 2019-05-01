@@ -18,7 +18,7 @@ NODE_FORMULA=node
             --grep update \
             --grep bottle \
             Formula/node.rb || echo master
-                      )
+    )
     [[ "${NODE_BOTTLE_COMMIT}" != "master" ]] || {
         echo_err "Failed to find a brew bottle for node formula."
         echo_err "and node cannot be built from source on Travis due to available resources."
