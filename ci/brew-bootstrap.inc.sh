@@ -79,8 +79,20 @@ function brew_install() {
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
         local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+
         # is it already installed ?
         if brew list "${NAME}" >/dev/null 2>&1; then
+            # is it a url/path to a formula.rb file
+            [[ "${FULLNAME}" = "${NAME}" ]] || {
+                brew uninstall ${NAME}
+
+                echo_do "brew: Installing ${FORMULA}..."
+                brew install ${FORMULA}
+                echo_done
+
+                continue
+            }
+
             # do we require installation with specific options ?
             [[ -n "${OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
@@ -111,6 +123,7 @@ function brew_install() {
                 return 1
             fi
         fi
+
         echo_do "brew: Installing ${FORMULA}..."
         brew install ${FORMULA}
         echo_done
