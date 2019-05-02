@@ -122,13 +122,13 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 .PHONY: %.cfn.json/rm
 %.cfn.json/rm: %-setup ## Remove stack.
-	$(ECHO_DO) "Removing $(STACK_NAME) stack..."
-	$(call $(STACK_STEM)-pre-rm)
 	$(ECHO_DO) "Removing $(STACK_NAME) stack policy (allowing all changes)..."
 	$(AWS) cloudformation set-stack-policy \
 		--stack-name $(STACK_NAME) \
 		--stack-policy-body '{"Statement":[{"Effect":"Allow","Action":"Update:*","Principal":"*","Resource":"*"}]}'
 	$(ECHO_DONE)
+	$(ECHO_DO) "Removing $(STACK_NAME) stack..."
+	$(call $(STACK_STEM)-pre-rm)
 	$(AWS_CFN_D_STACK) \
 		--wait \
 		--stack-name $(STACK_NAME) \
