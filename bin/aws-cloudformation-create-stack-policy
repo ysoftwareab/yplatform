@@ -2,8 +2,7 @@
 let _ = require('lodash-firecloud').default;
 let fs = require('fs');
 
-let createStackPolicy = async function({cfnTemplatePath}) {
-  let cfnTemplate = JSON.parse(fs.readFileSync(cfnTemplatePath));
+let createStackPolicy = async function({cfnTemplate}) {
   let retainedResources = __.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
 
   let denyStatements = _.map(retainedResources, function(resourceName) {
@@ -41,8 +40,10 @@ let createStackPolicy = async function({cfnTemplatePath}) {
   }
 
   // CLI MODE
+  let cfnTemplate = JSON.parse(fs.readFileSync(process.argv[2]));
+
   let policy = await createStackPolicy({
-    cfnTemplatePath: process.argv[2]
+    cfnTemplate
   });
 
   // eslint-disable-next-line no-console
