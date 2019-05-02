@@ -4,10 +4,7 @@ let fs = require('fs');
 
 let createStackPolicy = async function({cfnTemplatePath}) {
   let cfnTemplate = JSON.parse(fs.readFileSync(cfnTemplatePath));
-  let resources = _.keys(cfnTemplate.Resources);
-  let retainedResources = _.filter(resources, function(resourceName) {
-    return _.get(cfnTemplate.Resources[resourceName], 'DeletionPolicy') === 'Retain';
-  });
+  let retainedResources = __.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
 
   let denyStatements = _.map(retainedResources, function(resourceName) {
     return {
