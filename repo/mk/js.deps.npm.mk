@@ -38,6 +38,13 @@ deps-npm:
 	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
+ifeq ($(CI),true)
+	$(GIT) diff --exit-code package.json || { \
+		$(ECHO_ERR) "package.json has changed."; \
+		$(ECHO_ERR) "Run 'make deps-npm' locally, commit and push the changes before another CI run."; \
+		exit 1; \
+	}
+endif
 	$(NPM) prune
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
