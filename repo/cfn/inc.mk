@@ -172,7 +172,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 
 .PHONY: %.change-set.json
-%.change-set.json: %-setup %.cfn.json %.cfn.json.diff %.cfn.policy.json %.cfn.policy.json.bak ## Create change-set and template diff.
+%.change-set.json: %.cfn.json.diff %.cfn.policy.json %.cfn.policy.json.bak ## Create change-set and template diff.
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE)..."
 	$(AWS_CFN_CU_STACK) \
 		--stack-name $(STACK_NAME) \
