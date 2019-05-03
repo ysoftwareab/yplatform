@@ -13,11 +13,14 @@ SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	build-babel \
 
+BABEL_ARGS := \
+	--source-maps
+
 # ------------------------------------------------------------------------------
 
 $(LIB_JS_FILES): lib/%.js: src/%.js $(SRC_JS_FILES) $(BABELRC)
 	$(MKDIR) $(shell dirname $@)
-	$(BABEL) $< --source-maps --out-file $@
+	$(BABEL) $< $(BABEL_ARGS) --out-file $@
 
 
 .PHONY: build-babel
