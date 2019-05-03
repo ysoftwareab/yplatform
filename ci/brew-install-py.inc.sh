@@ -29,8 +29,20 @@ echo_done
 # See https://github.com/pypa/pipenv/issues/3395
 # See https://github.com/pypa/virtualenv/issues/1270
 echo_do "brew: Installing 'pipenv 2018.10.13'..."
-HOMEBREW_CORE_GUC=https://raw.githubusercontent.com/Linuxbrew/homebrew-core
-PIPENV_2018_10_13=${HOMEBREW_CORE_GUC}/494b0638a632244d25aaf2bd2292ae54c99ffa94/Formula/pipenv.rb
+case $(uname -s) in
+    Darwin)
+        HOMEBREW_CORE_GUC=https://raw.githubusercontent.com/Homebrew/homebrew-core
+        PIPENV_2018_10_13=${HOMEBREW_CORE_GUC}/305b5e94929c8d2d07ebceb8a720b0365fe5b35d/Formula/pipenv.rb
+        ;;
+    Linux)
+        HOMEBREW_CORE_GUC=https://raw.githubusercontent.com/Linuxbrew/homebrew-core
+        PIPENV_2018_10_13=${HOMEBREW_CORE_GUC}/494b0638a632244d25aaf2bd2292ae54c99ffa94/Formula/pipenv.rb
+        ;;
+    *)
+        echo_err "brew: $(uname -s) is an unsupported OS."
+        return 1
+        ;;
+esac
 brew uninstall --force pipenv
 brew install ${PIPENV_2018_10_13}
 brew pin pipenv
