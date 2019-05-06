@@ -24,6 +24,19 @@ endif
 
 # ------------------------------------------------------------------------------
 
+.PHONY: deps-npm-unmet-peer
+deps-npm-unmet-peer:
+	diff -U0 \
+		<(cat package.json.unmet-peer 2>/dev/null | \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by [^@]\+" || true) \
+		<($(NPM) list --depth=0 2>&1 | \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by [^@]\+") || { \
+			$(ECHO_ERR) "Found (new) unmet peer dependencies."; \
+			$(ECHO_INFO) "If you want to ignore one or more, add to package.json.unmet-peer,"; \
+			$(ECHO_INFO) "the lines above that start with '+npm ERR! peer dep missing:'."; \
+			exit 1; \
+		}
+
 .PHONY: deps-npm
 deps-npm:
 	$(eval NPM_LOGS_DIR := $(shell $(NPM) config get cache)/_logs)
@@ -55,7 +68,7 @@ endif
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --development; \
 	}
-	$(NPM) list --depth=0 || true
+	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
 .PHONY: deps-npm-prod
@@ -71,4 +84,4 @@ deps-npm-prod:
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --production; \
 	}
-	$(NPM) list --depth=0 || true
+	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
