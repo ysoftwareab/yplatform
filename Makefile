@@ -32,7 +32,7 @@ SF_TEST_TARGETS := \
 test-secret:
 ifeq ($(SF_IS_TRANSCRYPTED),true)
 	$(CAT) doc/how-to-manage-secrets.md.test.secret | \
-		$(GREP) -q "This is a test of transcrypt."; \
+		$(GREP) -q "This is a test of transcrypt."
 else
 	:
 endif
