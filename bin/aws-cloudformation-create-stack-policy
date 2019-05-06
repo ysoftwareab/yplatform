@@ -1,0 +1,55 @@
+#!/usr/bin/env node
+let _ = require('lodash-firecloud').default;
+let fs = require('fs');
+
+let createStackPolicy = async function({cfnTemplate}) {
+  let retainedResources = __.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
+
+  let denyStatements = _.map(retainedResources, function(resourceName) {
+    return {
+      Effect: 'Deny',
+      Action: [
+        'Update:Delete',
+        'Update:Replace'
+      ],
+      Principal: '*',
+      Resource: `LogicalResourceId/${resourceName}`
+    };
+  });
+
+  let allowAllStatement = {
+    Effect: 'Allow',
+    Action: 'Update:*',
+    Principal: '*',
+    Resource: '*'
+  };
+
+  let policy = {
+    Statement: [
+      allowAllStatement,
+      ...denyStatements
+    ]
+  };
+
+  return policy;
+};
+
+(async function() {
+  if (module.parent) {
+    return;
+  }
+
+  // CLI MODE
+  let cfnTemplate = JSON.parse(fs.readFileSync(process.argv[2]));
+
+  let policy = await createStackPolicy({
+    cfnTemplate
+  });
+
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify(policy, undefined, 2));
+})();
+
+module.exports = {
+    createStackPolicy
+}

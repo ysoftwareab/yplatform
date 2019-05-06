@@ -14,6 +14,7 @@ AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
 AWS_CFN_DETECT_STACK_DRIFT = $(call which,AWS_CFN_DETECT_STACK_DRIFT,aws-cloudformation-detect-stack-drift)
 AWS_CFN_D_STACK = $(call which,AWS_CFN_D_STACK,aws-cloudformation-delete-stack)
 AWS_CFN2DOT = $(call which,AWS_CFN2DOT,aws-cfn2dot)
+AWS_CFN_C_STACK_POLICY = $(call which,AWS_CFN_C_STACK_POLICY,aws-cloudformation-create-stack-policy)
 DOT = $(call which,GRAPHVIZ_DOT,dot)
 ESLINT = $(call which,ESLINT,eslint)
 $(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
@@ -28,6 +29,8 @@ STACK_TPL_FILE_BAK ?= $(STACK_TPL_FILE).bak
 STACK_TPL_FILE_DIFF ?= $(STACK_TPL_FILE).diff
 STACK_DRIFT_FILE ?= $(STACK_STEM).drift.json
 CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
+STACK_POLICY_FILE ?= $(STACK_STEM).cfn.policy.json
+STACK_POLICY_FILE_BAK ?= $(STACK_POLICY_FILE).bak
 
 CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
 CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
@@ -92,7 +95,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 
 .PHONY: %.cfn.json/exec
-%.cfn.json/exec: %-setup %.cfn.json ## Create/update stack.
+%.cfn.json/exec: %-setup %.cfn.json %.cfn.policy.json %.cfn.policy.json.bak ## Create/update stack.
 	$(ECHO_DO) "Creating/updating $(STACK_NAME) stack..."
 	$(call $(STACK_STEM)-pre-exec)
 	$(AWS_CFN_CU_STACK) \
@@ -103,6 +106,11 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--template-body file://$(STACK_TPL_FILE) \
 		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
+	$(ECHO_DO) "Updating $(STACK_NAME) stack policy..."
+	$(AWS) cloudformation set-stack-policy \
+		--stack-name $(STACK_NAME) \
+		--stack-policy-body file://$(STACK_POLICY_FILE)
+	$(ECHO_DONE)
 	$(MAKE) $(STACK_DRIFT_FILE)
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
@@ -114,6 +122,11 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 .PHONY: %.cfn.json/rm
 %.cfn.json/rm: %-setup ## Remove stack.
+	$(ECHO_DO) "Removing $(STACK_NAME) stack policy (allowing all changes)..."
+	$(AWS) cloudformation set-stack-policy \
+		--stack-name $(STACK_NAME) \
+		--stack-policy-body '{"Statement":[{"Effect":"Allow","Action":"Update:*","Principal":"*","Resource":"*"}]}'
+	$(ECHO_DONE)
 	$(ECHO_DO) "Removing $(STACK_NAME) stack..."
 	$(call $(STACK_STEM)-pre-rm)
 	$(AWS_CFN_D_STACK) \
@@ -134,6 +147,22 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
 	$(ECHO_DONE)
 
+
+.PHONY: %.cfn.policy.json
+%.cfn.policy.json: %-setup %.cfn.json ## Generate stack policy.
+	$(ECHO_DO) "Generating stack policy for $(STACK_NAME)..."
+	$(AWS_CFN_C_STACK_POLICY) $(STACK_TPL_FILE) > $(STACK_POLICY_FILE)
+	$(ECHO_DONE)
+
+
+.PHONY: %.cfn.policy.json.bak
+%.cfn.policy.json.bak: %-setup ## Back up stack policy.
+	$(ECHO_DO) "Backing up current stack policy for $(STACK_NAME)..."
+	$(AWS) cloudformation get-stack-policy --stack-name $(STACK_NAME) | \
+		$(JSON) "StackPolicyBody" > $(STACK_POLICY_FILE_BAK) || true
+	$(ECHO_DONE)
+
+
 .PHONY: %.drift.json
 %.drift.json: %-setup
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
@@ -143,7 +172,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 
 .PHONY: %.change-set.json
-%.change-set.json: %-setup %.cfn.json %.cfn.json.diff ## Create change-set and template diff.
+%.change-set.json: %.cfn.json.diff %.cfn.policy.json %.cfn.policy.json.bak ## Create change-set and template diff.
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE)..."
 	$(AWS_CFN_CU_STACK) \
 		--stack-name $(STACK_NAME) \
@@ -167,6 +196,11 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--execute-change-set \
 		--change-set-file $(CHANGE_SET_FILE)
 	$(RM) $(CHANGE_SET_FILE)
+	$(ECHO_DO) "Updating $(STACK_NAME) stack policy..."
+	$(AWS) cloudformation set-stack-policy \
+		--stack-name $(STACK_NAME) \
+		--stack-policy-body file://$(STACK_POLICY_FILE)
+	$(ECHO_DONE)
 	$(MAKE) $(STACK_DRIFT_FILE)
 # FIXME move to $(STACK_STEM)-post-exec
 #	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
