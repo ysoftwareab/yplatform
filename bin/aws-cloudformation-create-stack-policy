@@ -40,6 +40,11 @@ let createStackPolicy = async function({cfnTemplate}) {
   }
 
   // CLI MODE
+  process.on('unhandledRejection', function(err) {
+    console.error(err);
+    throw err;
+  });
+
   let cfnTemplate = JSON.parse(fs.readFileSync(process.argv[2]));
 
   let policy = await createStackPolicy({
@@ -51,5 +56,5 @@ let createStackPolicy = async function({cfnTemplate}) {
 })();
 
 module.exports = {
-    createStackPolicy
+  createStackPolicy
 }
