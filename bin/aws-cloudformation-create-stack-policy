@@ -3,7 +3,7 @@ let _ = require('lodash-firecloud').default;
 let fs = require('fs');
 
 let createStackPolicy = async function({cfnTemplate}) {
-  let retainedResources = __.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
+  let retainedResources = _.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
 
   let denyStatements = _.map(retainedResources, function(resourceName) {
     return {
