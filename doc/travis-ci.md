@@ -20,7 +20,7 @@ It is recommended that on the repository's Travis CI settings page you
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
 * add cronjob `master - daily - Always run`
-* (preferred, but not obligatory) replace default SSH key with `tobiiprotools` 
+* (preferred, but not obligatory) replace default SSH key with `tobiiprotools`
 SSH key (can be found in **designated safe location**).
 
 ## In the repo
@@ -122,7 +122,7 @@ By default, all environment variables added like this are encrypted (secret; not
 
 ### `.travis.yml` secrets
 
-Two exceptions from adding secret variables through web UI 
+Two exceptions from adding secret variables through web UI
 and using instead `.travis.yml` file (that only Travis CI can decrypt):
 * configuration for Slack notifications
 * Githib Releases provider API key
@@ -142,7 +142,7 @@ For more info, see:
 
 ### `transcrypt`-ed repository
 
-If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI, 
+If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI,
 you need to add `TRANSCRYPT_PASSWORD` variable in Travis Web UI.
 
 The decryption of the repository will happen automatically in non-pull-request builds,
@@ -152,8 +152,8 @@ if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 
 ### Migrating secrets from existing repo
 
-To make the setup faster and avoid looking for secrets all over different places, 
-you can _manually_ get all the secrets in existing repo. 
+To make the setup faster and avoid looking for secrets all over different places,
+you can _manually_ get all the secrets in existing repo.
 
 To do so,
 start a debugging session as described in [debugging section](#Debugging).
@@ -191,6 +191,6 @@ notifications:
 ## Releases
 
 If you are planning to release via Travis CI (primarily for high-level packages):
- - give access to the repo to `tobiiprotools` team with a level `Write`,
+* give access to the repo to `tobiiprotools` team with a level `Write`,
 so it will be able to push releases
- - see [how to release](how-to-release.md#npm-packages-as-github-artifacts).
+* see [how to release](how-to-release.md#npm-packages-as-github-artifacts).
