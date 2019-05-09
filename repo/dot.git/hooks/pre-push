@@ -3,4 +3,12 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../support-firecloud" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
+GIT_MODIFIED_FILES="$(git diff --name-only)"
+[[ -z "${GIT_MODIFIED_FILES}" ]] || {
+    echo_warn "The files below are modified and unstaged,"
+    echo_warn "but 'make check' will use the whole file content,"
+    echo_warn "so the push might fail because of unstaged changes, not related to the new commits."
+    echo "${GIT_MODIFIED_FILES}"
+}
+
 make check
