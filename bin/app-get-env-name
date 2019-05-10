@@ -11,7 +11,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 if [[ "${GIT_BRANCH}" =~ ^env/ ]]; then
     ENV_NAME=${GIT_BRANCH/#env\//}
 else
-    ENV_NAME=git-$(echo -n "${GIT_BRANCH}" | sed "s|^f/||" | tr "A-Z" "a-z" | tr -cs "a-z0-9" "-")
+    ENV_NAME=git-$(echo -n "${GIT_BRANCH}" | tr "A-Z" "a-z" | tr -cs "a-z0-9" "-")
 fi
 
 echo "${ENV_NAME}"
