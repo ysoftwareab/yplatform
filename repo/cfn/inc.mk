@@ -1,7 +1,6 @@
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 PATH := $(MAKE_PATH)/node_modules/.bin:$(GIT_ROOT)/node_modules/.bin:$(PATH)
-PATH := $(SUPPORT_FIRECLOUD_DIR)/bin:$(PATH)
 export PATH
 
 AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query Arn 2>/dev/null | \
@@ -10,11 +9,11 @@ AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query A
 $(foreach VAR,AWS_ACCOUNT_ID,$(call make-lazy,$(VAR)))
 
 AWS = $(call which,AWS,aws)
-AWS_CFN_CU_STACK = $(call which,AWS_CFN_CU_STACK,aws-cloudformation-cu-stack)
-AWS_CFN_DETECT_STACK_DRIFT = $(call which,AWS_CFN_DETECT_STACK_DRIFT,aws-cloudformation-detect-stack-drift)
-AWS_CFN_D_STACK = $(call which,AWS_CFN_D_STACK,aws-cloudformation-delete-stack)
-AWS_CFN2DOT = $(call which,AWS_CFN2DOT,aws-cfn2dot)
-AWS_CFN_C_STACK_POLICY = $(call which,AWS_CFN_C_STACK_POLICY,aws-cloudformation-create-stack-policy)
+AWS_CFN_CU_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-cu-stack
+AWS_CFN_DETECT_STACK_DRIFT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-detect-stack-drift
+AWS_CFN_D_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-delete-stack
+AWS_CFN2DOT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cfn2dot
+AWS_CFN_C_STACK_POLICY = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-create-stack-policy
 DOT = $(call which,GRAPHVIZ_DOT,dot)
 ESLINT = $(call which,ESLINT,eslint)
 $(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
