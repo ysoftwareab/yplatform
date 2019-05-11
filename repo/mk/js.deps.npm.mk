@@ -1,7 +1,7 @@
 # repository node_modules executables
-PATH := $(GIT_ROOT)/node_modules/.bin:$(PATH)
+PATH := $(PATH):$(GIT_ROOT)/node_modules/.bin
 # makefile-folder node_modules exebutables
-PATH := $(MAKE_PATH)/node_modules/.bin:$(PATH)
+PATH := $(PATH):$(MAKE_PATH)/node_modules/.bin
 export PATH
 
 NPM = $(call which,NPM,npm)
