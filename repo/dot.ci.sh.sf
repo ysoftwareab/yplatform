@@ -209,7 +209,7 @@ EOF
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
-    git push -f https://${GH_TOKEN}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
+    git push --no-verify -f https://${GH_TOKEN}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
     git checkout -f -
 
@@ -224,7 +224,7 @@ EOF
         git fetch --depth=1 origin ${JOB_GIT_REF} >/dev/null 2>&1
         [[ -z $(git log -1 --since='7 days ago' FETCH_HEAD) ]] || return 0
         echo_info "Deleting ${JOB_GIT_REF}..."
-        git push origin :${JOB_GIT_REF} >/dev/null 2>&1
+        git push --no-verify -f origin :${JOB_GIT_REF} >/dev/null 2>&1
     }
     while read -u3 JOB_GIT_REF; do
         prune_job_git_ref ${JOB_GIT_REF} || true
