@@ -1,5 +1,7 @@
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
+# need access to node-esm
+PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
 # repository node_modules executables
 PATH := $(PATH):$(GIT_ROOT)/node_modules/.bin
 # makefile-folder node_modules exebutables
