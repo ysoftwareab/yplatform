@@ -6,7 +6,8 @@ PATH_NPM := $(PATH_NPM):$(GIT_ROOT)/node_modules/.bin
 define npm-which
 $(shell \
 	export PATH="$(PATH_NPM):$(PATH)"; \
-	export RESULT="$$(for CMD in $(2); do $(WHICH_Q) $${CMD} && break || continue; done)"; echo "$${RESULT:-$(1)_NOT_FOUND}")
+	export RESULT="$$(for CMD in $(2); do $(WHICH_Q) $${CMD} && break || continue; done)"; \
+	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 
 NPM = $(call which,NPM,npm)
