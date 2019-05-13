@@ -2,15 +2,16 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 # need access to node-esm
 PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
+export PATH
 
-PATH_NPM :=
+# makefile-folder node_modules exebutables
+PATH_NPM := $(MAKE_PATH)/node_modules/.bin
 # repository node_modules executables
 PATH_NPM := $(PATH_NPM):$(GIT_ROOT)/node_modules/.bin
-# makefile-folder node_modules exebutables
-PATH_NPM := $(PATH_NPM):$(MAKE_PATH)/node_modules/.bin
-PATH := $(PATH):$(PATH_NPM)
 
-export PATH
+define npm-which
+$(shell export PATH="$(PATH_NPM):$(PATH)"; export RESULT="$$(for CMD in $(2); do $(WHICH_Q) $${CMD} && break || continue; done)"; echo "$${RESULT:-$(1)_NOT_FOUND}")
+endef
 
 AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query Arn 2>/dev/null | \
 	$(SED) "s/^arn:aws:\(iam\|sts\):://" | \
@@ -24,7 +25,7 @@ AWS_CFN_D_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-delete-stack
 AWS_CFN2DOT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cfn2dot
 AWS_CFN_C_STACK_POLICY = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-create-stack-policy
 DOT = $(call which,GRAPHVIZ_DOT,dot)
-ESLINT = $(call which,ESLINT,eslint)
+ESLINT = $(call npm-which,ESLINT,eslint)
 $(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
 
 AWS_CFN_CU_STACK_ARGS ?=
