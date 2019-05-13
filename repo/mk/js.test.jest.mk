@@ -1,4 +1,4 @@
-JEST = $(call which,JEST,jest)
+JEST = $(call npm-which,JEST,jest)
 $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 JEST_ARGS ?=

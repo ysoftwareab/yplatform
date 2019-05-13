@@ -1,4 +1,4 @@
-TSLINT = $(call which,TSLINT,tslint)
+TSLINT = $(call npm-which,TSLINT,tslint)
 $(foreach VAR,TSLINT,$(call make-lazy,$(VAR)))
 
 TSLINT_ARGS ?=

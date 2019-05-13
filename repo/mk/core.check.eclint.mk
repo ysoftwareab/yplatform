@@ -1,4 +1,4 @@
-ECLINT = $(call which,ECLINT,eclint)
+ECLINT = $(call npm-which,ECLINT,eclint)
 $(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
 
 ECLINT_ARGS ?=

@@ -1,4 +1,4 @@
-ESLINT = $(call which,ESLINT,eslint)
+ESLINT = $(call npm-which,ESLINT,eslint)
 $(foreach VAR,ESLINT,$(call make-lazy,$(VAR)))
 
 ESLINT_ARGS ?=

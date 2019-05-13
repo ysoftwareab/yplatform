@@ -1,4 +1,4 @@
-WEBPACK := $(call which,WEBPACK,webpack)
+WEBPACK := $(call npm-which,WEBPACK,webpack)
 $(foreach VAR,WEBPACK,$(call make-lazy,$(VAR)))
 
 SF_BUILD_TARGETS := \

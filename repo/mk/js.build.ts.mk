@@ -1,4 +1,4 @@
-TSC = $(call which,TSC,tsc)
+TSC = $(call npm-which,TSC,tsc)
 $(foreach VAR,TSC,$(call make-lazy,$(VAR)))
 
 TS_FILES = $(shell $(FIND_Q_NOSYM) src -type f -name "*.ts" -print)

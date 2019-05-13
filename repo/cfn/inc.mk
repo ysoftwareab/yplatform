@@ -2,10 +2,14 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 # need access to node-esm
 PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
+
+PATH_NPM :=
 # repository node_modules executables
-PATH := $(PATH):$(GIT_ROOT)/node_modules/.bin
+PATH_NPM := $(PATH_NPM):$(GIT_ROOT)/node_modules/.bin
 # makefile-folder node_modules exebutables
-PATH := $(PATH):$(MAKE_PATH)/node_modules/.bin
+PATH_NPM := $(PATH_NPM):$(MAKE_PATH)/node_modules/.bin
+PATH := $(PATH):$(PATH_NPM)
+
 export PATH
 
 AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query Arn 2>/dev/null | \
