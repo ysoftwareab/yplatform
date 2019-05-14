@@ -4,6 +4,7 @@
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
     "glen-84.sass-lint",
-    "ms-vscode.vscode-typescript-tslint-plugin"
+    "ms-vscode.vscode-typescript-tslint-plugin",
+    "orta.vscode-jest"
   ]
 }
