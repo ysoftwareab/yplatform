@@ -14,7 +14,14 @@ SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
 	$(GREP) -e "\\.\\(js\\|ts\\)$$" | \
 	$(SED) "s/^/'/g" | \
-	$(SED) "s/$$/'/g")
+	$(SED) "s/$$/'/g") \
+	$(shell $(GIT_LS) . | while read FILE; do \
+		[[ -f "$${FILE}" ]] || continue; \
+		[[ -x "$${FILE}" ]] || continue; \
+		$(HEAD) -n1 "$${FILE}" | $(GREP) "\#" | $(GREP) -q -e "\bnode\b" || continue; \
+		$(ECHO) "$${FILE}"; \
+	done)
+
 
 SF_CHECK_TARGETS := \
 	$(SF_CHECK_TARGETS) \
