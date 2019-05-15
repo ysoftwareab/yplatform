@@ -3,6 +3,12 @@
 Software and configuration that support TobiiPro's Cloud Services development.
 
 
+**IMPORTANT:** Almost all github.com/tobiipro repositories have `support-firecloud` as a git submodule.  
+It is therefore **important that you clone these repositories recursively**, otherwise `make` **will** fail.
+* use `git clone --recursive ...`
+* or run `git submodule update --init --recursive` after cloning.
+
+
 ## Documentation
 
 * newcomer
