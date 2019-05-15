@@ -1,4 +1,4 @@
-# git and Pull Requests
+# git (and Github) Pull Requests
 
 **NOTE** Make sure that `make check` passes and maybe `make all test` as well,
 before opening a Pull Request.
