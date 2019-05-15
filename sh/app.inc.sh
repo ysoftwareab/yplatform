@@ -51,6 +51,8 @@ function app_provision_cfn_stack() {
     local STACK_NAME=${STACK_STEM/#env/${ENV_NAME}}
     local STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
+    local AWS_CFN_URL=https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home
+
     echo_do "Provisioning CloudFormation ${STACK_NAME}..."
     (
         cd cfn
@@ -87,6 +89,31 @@ function app_provision_cfn_stack() {
                     exit 1
                 }
                 cat "${TRAVIS_WAIT_LOG}"
+
+                [[ ! -f ${STACK_STEM}.drift.json ]] || {
+                    echo_warn "${STACK_NAME} has drifted."
+
+                    [[ -n "${SLACK_WEBHOOK:-}" ]] || {
+                        echo_info "SLACK_WEBHOOK is undefined."
+                        echo_skip "Notifying Slack..."
+                        exit 0
+                    }
+                    [[ -n "${SLACK_CHANNELS:-}" ]] || SLACK_CHANNELS=${SLACK_CHANNEL:-};
+                    [[ -n "${SLACK_CHANNELS:-}" ]] || {
+                        echo_info "SLACK_CHANNEL{S} is undefined."
+                        echo_skip "Notifying Slack..."
+                        exit 0
+                    };
+
+                    for SLACK_CHANNEL in $(echo ${SLACK_CHANNELS} | sed "s/[, ]+/\n/g"); do
+                        echo_info "Notifying Slack #${SLACK_CHANNEL}..."
+                        STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+                        ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo " \
+Stack ${STACK_NAME} has drifted. \
+See ${AWS_CFN_URL}?region=${AWS_REGION}#/stack/detail/drift?stackId=${STACK_ID//\//%2f} . \
+"
+                    done
+                }
             }
         fi
     )
