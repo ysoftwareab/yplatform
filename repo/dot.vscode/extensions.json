@@ -1,9 +1,10 @@
 {
   "recommendations": [
-    "EditorConfig.editorconfig",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
+    "EditorConfig.editorconfig",
+    "glen-84.sass-lint",
     "ms-vscode.vscode-typescript-tslint-plugin",
-    "glen-84.sass-lint"
+    "orta.vscode-jest"
   ]
 }
