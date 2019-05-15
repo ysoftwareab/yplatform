@@ -1,4 +1,5 @@
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 
 # need access to node-esm
 PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
@@ -35,20 +36,42 @@ AWS_CFN_CU_STACK_ARGS ?=
 AWS_CFN_DETECT_STACK_DRIFT_ARGS ?=
 ESLINT_ARGS ?=
 
+CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
+
 CHANGE_SET_NAME ?= $(STACK_NAME)-$(GIT_HASH_SHORT)-$(MAKE_DATE)-$(MAKE_TIME)
 STACK_TPL_FILE ?= $(STACK_STEM).cfn.json
-STACK_TPL_FILE_BAK ?= $(STACK_TPL_FILE).bak
-STACK_TPL_FILE_DIFF ?= $(STACK_TPL_FILE).diff
+STACK_TPL_FILES := $(patsubst %.inc.mk,%.cfn.json,$(CFN_MK_FILES))
+
+STACK_TPL_BAK_FILE ?= $(STACK_TPL_FILE).bak
+STACK_TPL_BAK_FILES := $(patsubst %.inc.mk,%.cfn.json.bak,$(CFN_MK_FILES))
+
+STACK_TPL_DIFF_FILE ?= $(STACK_TPL_FILE).diff
+STACK_TPL_DIFF_FILES := $(patsubst %.inc.mk,%.cfn.json.diff,$(CFN_MK_FILES))
+
 STACK_DRIFT_FILE ?= $(STACK_STEM).drift.json
-CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
+STACK_DRIFT_FILES := $(patsubst %.inc.mk,%.drift.json,$(CFN_MK_FILES))
+
 STACK_POLICY_FILE ?= $(STACK_STEM).cfn.policy.json
-STACK_POLICY_FILE_BAK ?= $(STACK_POLICY_FILE).bak
+STACK_POLICY_FILES := $(patsubst %.inc.mk,%.cfn.policy.json,$(CFN_MK_FILES))
 
-CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
+STACK_POLICY_BAK_FILE ?= $(STACK_POLICY_FILE).bak
+STACK_POLICY_BAK_FILES := $(patsubst %.inc.mk,%.cfn.policy.json.bak,$(CFN_MK_FILES))
+
+CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
+CHANGE_SET_FILES := $(patsubst %.inc.mk,%.change-set.json,$(CFN_MK_FILES))
+
+SF_CLEAN_FILES := \
+	$(SF_CLEAN_FILES) \
+	$(STACK_TPL_FILES) \
+	$(STACK_TPL_BAK_FILES) \
+	$(STACK_TPL_DIFF_FILES) \
+	$(STACK_DRIFT_FILES) \
+	$(STACK_POLICY_FILES) \
+	$(STACK_POLICY_BAK_FILES) \
+	$(CHANGE_SET_FILES) \
+
 CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
-CFN_JSON_FILES := $(patsubst %.inc.mk,%.cfn.json,$(CFN_MK_FILES))
-
-LINT_TARGETS := $(patsubst %.cfn.js,%.cfn.json/lint,$(CFN_JS_FILES))
+LINT_TARGETS := $(patsubst %/index.js,%.cfn.json/lint,$(CFN_JS_FILES))
 
 STACK_STEM_HOOKS := \
 	%-pre \
@@ -60,11 +83,11 @@ STACK_STEM_HOOKS := \
 # ------------------------------------------------------------------------------
 
 .PHONY: all
-all: $(CFN_JSON_FILES)
+all: $(STACK_TPL_FILES)
 
 
-.PHONY: $(CFN_JSON_FILES)
-$(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
+.PHONY: $(STACK_TPL_FILES)
+$(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
 	$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
 	./$< > $@
@@ -91,8 +114,8 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 .PHONY: %.cfn.json.bak
 %.cfn.json.bak: %-setup ## Backup stack template.
-	$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_FILE_BAK)..."
-	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_FILE_BAK)
+	$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_BAK_FILE)..."
+	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_BAK_FILE)
 	$(ECHO_DONE)
 
 
@@ -151,12 +174,12 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 
 .PHONY: %.cfn.json.diff
 %.cfn.json.diff: %-setup %.cfn.json %.cfn.json.bak
-	$(ECHO_DO) "Creating $(STACK_TPL_FILE_DIFF)..."
-	for f in $(STACK_TPL_FILE_BAK) $(STACK_TPL_FILE); do \
+	$(ECHO_DO) "Creating $(STACK_TPL_DIFF_FILE)..."
+	for f in $(STACK_TPL_BAK_FILE) $(STACK_TPL_FILE); do \
 		$(CAT) $${f} | $(JQ) -S . > sorted.$${f}; \
 	done
-	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE) >$(STACK_TPL_FILE_DIFF) || true
-	$(RM) sorted.$(STACK_TPL_FILE_BAK) sorted.$(STACK_TPL_FILE)
+	$(DIFF) --unified=1000000 sorted.$(STACK_TPL_BAK_FILE) sorted.$(STACK_TPL_FILE) >$(STACK_TPL_DIFF_FILE) || true
+	$(RM) sorted.$(STACK_TPL_BAK_FILE) sorted.$(STACK_TPL_FILE)
 	$(ECHO_DONE)
 
 
@@ -171,7 +194,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 %.cfn.policy.json.bak: %-setup ## Back up stack policy.
 	$(ECHO_DO) "Backing up current stack policy for $(STACK_NAME)..."
 	$(AWS) cloudformation get-stack-policy --stack-name $(STACK_NAME) | \
-		$(JSON) "StackPolicyBody" > $(STACK_POLICY_FILE_BAK) || true
+		$(JSON) "StackPolicyBody" > $(STACK_POLICY_BAK_FILE) || true
 	$(ECHO_DONE)
 
 
@@ -194,7 +217,7 @@ $(CFN_JSON_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate st
 		--template-body file://$(STACK_TPL_FILE) \
 		--template-url-prefix $(TMP_S3_URL) \
 		$(AWS_CFN_CU_STACK_ARGS)
-	$(ECHO) "Diff file: $(STACK_TPL_FILE_DIFF)"
+	$(ECHO) "Diff file: $(STACK_TPL_DIFF_FILE)"
 	$(ECHO_DONE)
 
 
