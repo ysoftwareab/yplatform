@@ -5,7 +5,7 @@ Software and configuration that support TobiiPro's Cloud Services development.
 
 ## Documentation
 
-* development
+* newcomer
   * [bootstrap](doc/bootstrap.md)
   * [bootstrap your editor](doc/bootstrap-your-editor.md)
   * [bootstrap AWS (console and CLI)](doc/bootstrap-aws.md) (optional)
