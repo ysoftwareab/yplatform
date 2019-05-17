@@ -30,8 +30,6 @@ SF_VENDOR_FILES_IGNORE := \
 	-e "^NOTICE$$" \
 	-e "^UNLICENSE$$" \
 
-SF_CLEAN_FILES := \
-
 SF_DEPS_TARGETS := \
 	deps-git \
 
@@ -47,31 +45,7 @@ SF_TEST_TARGETS := \
 all: deps build check ## Fetch dependencies, build and check.
 
 
-.PHONY: clean
-clean: ## Clean.
-	[[ "$(words $(SF_CLEAN_FILES))" = "0" ]] || { \
-		$(ECHO_DO) "Cleaning..."; \
-		$(RM) $(SF_CLEAN_FILES); \
-		$(ECHO_DONE); \
-	}
-
-
-.PHONY: nuke
-nuke: ## Nuke all files/changes not checked in.
-	@$(ECHO_DO) "Nuking..."
-	$(GIT) reset -- .
-	$(GIT) submodule foreach --recursive "$(GIT) reset -- ."
-	$(GIT) checkout HEAD -- .
-
-	$(GIT) clean -xdf -- .
-	$(GIT) submodule foreach --recursive "$(GIT) checkout HEAD -- ."
-	$(GIT) submodule foreach --recursive "$(GIT) clean -xdf -- ."
-	@$(ECHO_DONE)
-
-
-.PHONY: clobber
-clobber: nuke
-	:
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 
 
 .PHONY: deps-git
