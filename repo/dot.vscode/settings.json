@@ -46,6 +46,8 @@
 
   "javascript.format.enable": false,
 
+  "jest.runAllTestsFirst": false,
+
   "json.format.enable": true,
 
   "sasslint.enable": true,
