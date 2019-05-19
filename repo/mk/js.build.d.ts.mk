@@ -1,6 +1,10 @@
 SRC_D_TS_FILES := $(shell $(FIND_Q_NOSYM) src -type f -name "*.d.ts" -print)
 LIB_D_TS_FILES := $(patsubst src/%.d.ts,lib/%.d.ts,$(SRC_D_TS_FILES))
 
+SF_CLEAN_FILES := \
+	$(SF_CLEAN_FILES) \
+	$(LIB_D_TS_FILES) \
+
 SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	build-d-ts
