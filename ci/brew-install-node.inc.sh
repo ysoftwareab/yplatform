@@ -17,14 +17,10 @@ NODE_FORMULA=node
             --author ${BREW_TEST_BOT} \
             --grep update \
             --grep bottle \
-            Formula/node.rb || echo master
+            Formula/node.rb
     )
-    [[ "${NODE_BOTTLE_COMMIT}" != "master" ]] || {
-        echo_err "Failed to find a brew bottle for node formula."
-        echo_err "and node cannot be built from source on Travis due to available resources."
-        exit 1
-    }
-    NODE_FORMULA="https://raw.githubusercontent.com/Homebrew/linuxbrew-core/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
+    [[ "${NODE_BOTTLE_COMMIT}" = "" ]] || \
+        NODE_FORMULA="https://raw.githubusercontent.com/Homebrew/linuxbrew-core/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
 }
 
 BREW_FORMULAE="$(cat <<-EOF
