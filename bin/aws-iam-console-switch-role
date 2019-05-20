@@ -17,7 +17,7 @@ let env = _.safeProxy(process.env);
 
 // -----------------------------------------------------------------------------
 
-let awsAccountIdVars = _.filter(_.keys(env._), function(varName) {
+let awsAccountIdVars = _.filter(_.keys(env), function(varName) {
   return /_AWS_ACCOUNT_ID$/.test(varName);
 });
 awsAccountIdVars = _.sortBy(awsAccountIdVars);
@@ -25,7 +25,7 @@ awsAccountIdVars = _.sortBy(awsAccountIdVars);
 _.forEach(awsAccountIdVars, function(awsAccountIdVar) {
   let prefix = _.replace(awsAccountIdVar, /_AWS_ACCOUNT_ID$/, '');
   let account = env[`${prefix}_AWS_ACCOUNT_NAME`];
-  let roleVars = _.filter(_.keys(env._), function(varName) {
+  let roleVars = _.filter(_.keys(env), function(varName) {
     return /_ROLE$/.test(varName) && _.startsWith(varName, `${prefix}_IAM_`);
   });
   let roles = _.map(roleVars, function(roleVar) {
