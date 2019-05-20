@@ -147,10 +147,6 @@ $(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate s
 		--stack-policy-body file://$(STACK_POLICY_FILE)
 	$(ECHO_DONE)
 	$(MAKE) $(STACK_DRIFT_FILE)
-# FIXME move to $(STACK_STEM)-post-exec
-#	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
-#		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
-#	}
 	$(call $(STACK_STEM)-post-exec)
 	$(ECHO_DONE)
 
@@ -237,10 +233,6 @@ $(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate s
 		--stack-policy-body file://$(STACK_POLICY_FILE)
 	$(ECHO_DONE)
 	$(MAKE) $(STACK_DRIFT_FILE)
-# FIXME move to $(STACK_STEM)-post-exec
-#	[ $(AWS_ACCOUNT_ID) != $(PROD_AWS_ACCOUNT_ID) ] || { \
-#		$(AWS) cloudformation update-termination-protection --stack-name $(STACK_NAME) --enable-termination-protection; \
-#	}
 	$(call $(STACK_STEM)-post-exec)
 	$(ECHO_DONE)
 
