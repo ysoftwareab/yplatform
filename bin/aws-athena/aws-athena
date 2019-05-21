@@ -1,5 +1,15 @@
 #!/usr/bin/env node-esm
 
+/* eslint-disable eslint-comments/no-unlimited-disable */
+/* eslint-disable */
+
+import JDBC from 'jdbc';
+import _ from 'lodash-firecloud';
+import aws from 'aws-sdk';
+import fs from 'fs';
+import jinst from 'jdbc/lib/jinst';
+import path from 'path';
+
 process.env.AWS_ATHENA_REGION = process.env.AWS_ATHENA_REGION || process.env.AWS_REGION;
 console.error(`Prerequisites:
 
@@ -14,13 +24,6 @@ unzip aws-java-sdk.zip)
 $ echo -e "accessKey = ...\nsecretKey = ..." > $(git rev-parse --show-toplevel 2>/dev/null)/support/bin/athena.credentials
 
 `);
-
-import JDBC from 'jdbc';
-import _ from 'lodash-firecloud';
-import aws from 'aws-sdk';
-import fs from 'fs';
-import jinst from 'jdbc/lib/jinst';
-import path from 'path';
 
 let promisify = function(fn) {
   return function(...args) {
@@ -48,7 +51,9 @@ let promisify = function(fn) {
   let accountId = process.env.AWS_ACCOUNT_ID;
   if (!accountId) {
     let sts = new aws.STS();
-    let {Arn} = await sts.getCallerIdentity().promise();
+    let {
+      Arn
+    } = await sts.getCallerIdentity().promise();
     accountId = Arn.replace(/^arn:aws:(iam|sts)::/, '').replace(/:.+$/, '');
   }
 
@@ -83,7 +88,9 @@ let promisify = function(fn) {
   let hsqldb = new JDBC(config);
 
   await promisify(hsqldb.initialize.bind(hsqldb))();
-  let {conn} = await promisify(hsqldb.reserve.bind(hsqldb))();
+  let {
+    conn
+  } = await promisify(hsqldb.reserve.bind(hsqldb))();
 
   fs.readSync(process.stdin.fd, SQL, 0, SQL.byteLength, null);
   SQL = SQL.toString('utf8').replace(/\0/g, '');

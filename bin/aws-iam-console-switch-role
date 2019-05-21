@@ -38,10 +38,10 @@ _.forEach(awsAccountIdVars, function(awsAccountIdVar) {
 
   _.forEach(roles, function(role) {
     let displayName = `${role} @ ${account}`;
-    let color = 'B7CA9D' // green;
+    let color = 'B7CA9D'; // green;
 
     if (prefix === 'PROD') {
-      color = 'F2B0A9' // red;
+      color = 'F2B0A9'; // red;
     }
 
     let url = 'https://signin.aws.amazon.com/switchrole?';

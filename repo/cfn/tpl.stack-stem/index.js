@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+// eslint-disable-next-line import/no-unassigned-import
 require('aws-util-firecloud/lib/bootstrap');
 
 let _ = require('lodash-firecloud');
@@ -13,7 +14,7 @@ let main = async function({env}) {
   return tpl;
 };
 
-export default main;
+module.exports = main;
 
 (async function() {
   if (!module.parent) {

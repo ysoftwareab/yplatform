@@ -3,8 +3,10 @@
 let _ = require('lodash-firecloud');
 let fs = require('fs');
 
-let createStackPolicy = async function({cfnTemplate}) {
-  let retainedResources = _.keys(_.pickBy(cfnTemplate.Resources, {DeletionPolicy: 'Retain'}));
+let main = async function({cfnTemplate}) {
+  let retainedResources = _.keys(_.pickBy(cfnTemplate.Resources, {
+    DeletionPolicy: 'Retain'
+  }));
 
   let denyStatements = _.map(retainedResources, function(resourceName) {
     return {
@@ -35,6 +37,8 @@ let createStackPolicy = async function({cfnTemplate}) {
   return policy;
 };
 
+module.exports = main;
+
 (async function() {
   if (module.parent) {
     return;
@@ -48,14 +52,9 @@ let createStackPolicy = async function({cfnTemplate}) {
 
   let cfnTemplate = JSON.parse(fs.readFileSync(process.argv[2]));
 
-  let policy = await createStackPolicy({
+  let policy = await main({
     cfnTemplate
   });
 
-  // eslint-disable-next-line no-console
   console.log(JSON.stringify(policy, undefined, 2));
 })();
-
-module.exports = {
-  createStackPolicy
-}

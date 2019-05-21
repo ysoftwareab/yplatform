@@ -8,33 +8,42 @@ Promise.longStackTraces();
 let iam = new aws.IAM();
 
 (async function() {
-  let result = _.pick(await iam.listUsers({}).promise(), ['Users']);
+  let result = _.pick(await iam.listUsers({}).promise(), [
+    'Users'
+  ]);
 
-  if (filterUsername) {
-    let filterUsernamesRE = new RegExp(`^${filterUsername}$`);
-    _.remove(result.Users, function({UserName}) {
-      let keep = filterUsernamesRE.test(UserName);
-      return !keep;
-    });
-  }
+  // if (filterUsername) {
+  //   let filterUsernamesRE = new RegExp(`^${filterUsername}$`);
+  //   result.Users = _.reject(result.Users, function({UserName}) {
+  //     let keep = filterUsernamesRE.test(UserName);
+  //     return !keep;
+  //   });
+  // }
 
   let expandPolicies = async function(policies) {
     return await Promise.all(_.map(policies, async function(policy) {
-      let {PolicyArn} = policy;
+      let {
+        PolicyArn
+      } = policy;
 
       policy = (await iam.getPolicy({PolicyArn}).promise()).Policy;
       _.merge(policy, _.pick(await iam.getPolicyVersion({
         PolicyArn,
         VersionId: policy.DefaultVersionId
-      }).promise(), ['PolicyVersion']));
+      }).promise(), [
+        'PolicyVersion'
+      ]));
       policy.PolicyVersion.Document = JSON.parse(unescape(policy.PolicyVersion.Document));
 
       return policy;
     }));
   };
 
+  // eslint-disable-next-line require-atomic-updates
   result.Users = await Promise.all(_.map(result.Users, async function(user) {
-    let {UserName} = user;
+    let {
+      UserName
+    } = user;
 
     user.Policies = [];
 
@@ -43,17 +52,28 @@ let iam = new aws.IAM();
       let policy = _.pick(await iam.getUserPolicy({
         UserName,
         PolicyName
-      }).promise(), ['PolicyName', 'PolicyDocument']);
+      }).promise(), [
+        'PolicyName',
+        'PolicyDocument'
+      ]);
       policy.PolicyDocument = JSON.parse(unescape(policy.PolicyDocument));
       user.Policies.push(policy);
     }));
 
-    _.merge(user, _.pick(await iam.listAttachedUserPolicies({UserName}).promise(), ['AttachedPolicies']));
+    _.merge(user, _.pick(await iam.listAttachedUserPolicies({UserName}).promise(), [
+      'AttachedPolicies'
+    ]));
+    // eslint-disable-next-line require-atomic-updates
     user.AttachedPolicies = await expandPolicies(user.AttachedPolicies);
 
-    _.merge(user, _.pick(await iam.listGroupsForUser({UserName}).promise(), ['Groups']));
+    _.merge(user, _.pick(await iam.listGroupsForUser({UserName}).promise(), [
+      'Groups'
+    ]));
+    // eslint-disable-next-line require-atomic-updates
     user.Groups = await Promise.all(_.map(user.Groups, async function(group) {
-      let {GroupName} = group;
+      let {
+        GroupName
+      } = group;
 
       group.Policies = [];
       let inlinePolicyNames = (await iam.listGroupPolicies({GroupName}).promise()).PolicyNames;
@@ -61,12 +81,18 @@ let iam = new aws.IAM();
         let policy = _.pick(await iam.getGroupPolicy({
           GroupName,
           PolicyName
-        }).promise(), ['PolicyName', 'PolicyDocument']);
+        }).promise(), [
+          'PolicyName',
+          'PolicyDocument'
+        ]);
         policy.PolicyDocument = JSON.parse(unescape(policy.PolicyDocument));
         group.Policies.push(policy);
       }));
 
-      _.merge(group, _.pick(await iam.listAttachedGroupPolicies({GroupName}).promise(), ['AttachedPolicies']));
+      _.merge(group, _.pick(await iam.listAttachedGroupPolicies({GroupName}).promise(), [
+        'AttachedPolicies'
+      ]));
+      // eslint-disable-next-line require-atomic-updates
       group.AttachedPolicies = await expandPolicies(group.AttachedPolicies);
 
       return group;
