@@ -1,1 +1,0 @@
-../sh/aws-iam-login.inc.sh
