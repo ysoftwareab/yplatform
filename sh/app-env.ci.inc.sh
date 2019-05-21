@@ -76,7 +76,12 @@ function ci_run_script() {
 }
 
 function ci_run_deploy() {
-    local GIT_TAG=$(git tag -l --points-at HEAD | head -1)
+    PKG_VSN=$(cat package.json | json "version")
+    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
+        echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
+        return 1
+    }
+
     local ASSETS=${ASSETS:-$(ls dist/app.zip snapshot.zip)}
 
     echo_info "Assets for release:"
@@ -88,7 +93,7 @@ function ci_run_deploy() {
     )
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
         --repo-slug ${CI_REPO_SLUG} \
-        --tag ${GIT_TAG} \
+        --tag "v${PKG_VSN}" \
         --target $(git rev-parse HEAD) \
         ${ASSETS_ARGS} \
         --token ${GH_TOKEN}
