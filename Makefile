@@ -1,4 +1,5 @@
 include repo/mk/js.common.node.mk
+include repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
 
