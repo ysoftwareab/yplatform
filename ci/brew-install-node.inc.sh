@@ -9,7 +9,11 @@ NODE_FORMULA=node
     cd $(brew --repo homebrew/core)
     git fetch --depth 1000
     BREW_TEST_BOT=BrewTestBot
-    [[ "$(uname -s)" != "Linux" ]] || BREW_TEST_BOT=LinuxbrewTestBot
+    BREW_REPO_SLUG=Homebrew/homebrew-core
+    [[ "$(uname -s)" != "Linux" ]] || {
+        BREW_TEST_BOT=LinuxbrewTestBot
+        BREW_REPO_SLUG=Homebrew/linuxbrew-core
+    }
     NODE_BOTTLE_COMMIT=$(
         git log -1 \
             --first-parent \
@@ -20,7 +24,7 @@ NODE_FORMULA=node
             Formula/node.rb
     )
     [[ "${NODE_BOTTLE_COMMIT}" = "" ]] || \
-        NODE_FORMULA="https://raw.githubusercontent.com/Homebrew/linuxbrew-core/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
+        NODE_FORMULA="https://raw.githubusercontent.com/${BREW_REPO_SLUG}/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
 }
 
 BREW_FORMULAE="$(cat <<-EOF
