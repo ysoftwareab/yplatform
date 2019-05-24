@@ -2,6 +2,10 @@ SASSLINT = $(call npm-which,SASSLINT,sass-lint)
 $(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
 
 SASSLINT_ARGS ?=
+SASSLINT_ARGS := \
+	$(SASSLINT_ARGS) \
+	--no-exit \
+	--verbose
 
 SF_SASSLINT_FILES_IGNORE := \
 	-e "^$$"
