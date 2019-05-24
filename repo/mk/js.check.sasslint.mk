@@ -11,7 +11,7 @@ SF_SASSLINT_FILES_IGNORE := \
 	-e "^$$"
 
 SF_SASSLINT_FILES = $(shell $(GIT_LS) . | \
-	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
+	$(GREP) -v $(SF_SASSLINT_FILES_IGNORE) | \
 	$(GREP) -e "\\.\\(sass\\|scss\\)$$" | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g") \
