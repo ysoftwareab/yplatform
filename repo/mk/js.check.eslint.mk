@@ -19,7 +19,7 @@ SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 		[[ -f "$${FILE}" ]] || continue; \
 		[[ -x "$${FILE}" ]] || continue; \
 		$(HEAD) -n1 "$${FILE}" | $(GREP) "\#" | $(GREP) -q -e "\bnode\b" || continue; \
-		$(ECHO) "$${FILE}"; \
+		$(ECHO) "'$${FILE}'"; \
 	done)
 
 
