@@ -108,7 +108,7 @@ function app_provision_cfn_stack() {
                     for SLACK_CHANNEL in $(echo ${SLACK_CHANNELS} | sed "s/[, ]+/\n/g"); do
                         echo_info "Notifying Slack #${SLACK_CHANNEL}..."
                         STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
-                        ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo " \
+                        ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo --to "#${SLACK_CHANNEL}" " \
 Stack ${STACK_NAME} has drifted. \
 See ${AWS_CFN_URL}?region=${AWS_REGION}#/stack/detail/drift?stackId=${STACK_ID//\//%2f} . \
 "
