@@ -28,6 +28,7 @@ function sf-bin() {
 }
 
 alias sake="sf-bin sake"
-alias node-esm="sf-bin node-esm"
+# alias node-esm="sf-bin node-esm"
+ln -sf ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/node-esm /usr/local/bin/node-esm
 
 export SF_DEV_INC_SH=true
