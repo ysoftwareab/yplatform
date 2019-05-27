@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # Run a NodeJS script with support for ES6-imports
 # e.g. instead of `node some/script.js` use `node-esm some/script.js`
