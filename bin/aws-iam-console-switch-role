@@ -52,7 +52,7 @@ _.forEach(awsAccountIdVars, function(awsAccountIdVar) {
       roleName: role
     });
 
-    console.log(`[${displayName}](`);
+    console.log(`* [${displayName}](`);
     console.log(`${url}`);
     console.log(')  ');
   });
