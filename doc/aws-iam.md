@@ -77,7 +77,7 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
 * Add the user to the `infra` stack by adding him to specific roles in `cfn/infra/users.js`,
   commit and push to the `infra` branch (no need to push manually, run 
   `make promote-infra` after comitting). 
-* The CI/CD build of that commit will update the role(s) and their Trust Relationship
+* The CI/CD build of that commit will update the role(s) and their Trust Relationships
   to allow the user to assume the role(s)
 * The user should now be able to
   * login in the AWS console
@@ -87,8 +87,9 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
 
 ## How to support support-firecloud's aws-iam-bootstrap
 
-If you own a repository that you want to support [`aws-iam-bootstrap`](../bin/aws-iam-bootstrap),
-you need the following in the root of the repository:
+If you own a repository that version controlls the infra stack (with roles and policies),
+you may want to support [`aws-iam-bootstrap`](../bin/aws-iam-bootstrap),
+and then you need the following in the root of the repository:
 
 * a `CONST.inc` file with environment variables
 * a `aws-cli.config.tpl` file with resembles `~/.aws/config`
