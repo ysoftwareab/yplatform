@@ -6,8 +6,8 @@ endif
 
 # CONST.inc.secret
 ifneq ($(wildcard $(GIT_ROOT)/CONST.inc.secret),)
-SF_TMP_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
-ifeq ($(SF_IS_TRANSCRYPTED),true)
+SF_TMP_IS_TRANSCRYPTED := $(shell $(GIT) config --local transcrypt.version >/dev/null && echo -n true || echo -n false)
+ifeq ($(SF_TMP_IS_TRANSCRYPTED),true)
 
 include $(GIT_ROOT)/CONST.inc.secret
 export $(shell $(SED) 's/=.*//' $(GIT_ROOT)/CONST.inc.secret)
