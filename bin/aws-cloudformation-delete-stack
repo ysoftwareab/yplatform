@@ -68,9 +68,9 @@ if [[ -n ${EMPTY_S3} ]]; then
             # correction: 500 and 500 still gives errors due to limits (wtf?!),
             # so we go with 450 and 450...
             TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
+            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
             TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-            aws s3api list-object-versions --max-items 450 --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
+            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
 
             # "json --group" does not accept empty arrays
             [[ $(head -1 ${TMP_DELETE_MARKERS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_MARKERS_FILE}
