@@ -57,7 +57,7 @@ function app_provision_cfn_stack() {
 
     local AWS_CFN_URL=https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home
 
-    echo_do "Provisioning CloudFormation ${STACK_NAME}..."
+    echo_do "Provisioning CloudFormation ${STACK_NAME}... DRYRUN=${DRYRUN:-}"
     (
         cd cfn
         if [[ -z "${STACK_ID}" ]]; then
