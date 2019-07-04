@@ -74,9 +74,9 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
   * Go to `Security credentials`
   * Set the `Assigned MFA device`
   * `Create access key`
-* Add the user to the `infra` stack by adding him to specific roles in `cfn/infra/users.js`,
-  commit and push to the `infra` branch (no need to push manually, run 
-  `make promote-infra` after comitting). 
+* Add the user to the `infra` stack by adding them to specific roles
+  in `cfn/infra/users.js` part of the `aws*-dev-prod` repository,
+  commit, create a release with `make release`, and promote the new release to infra with `make promote/infra/v0.0.0`.
 * The CI/CD build of that commit will update the role(s) and their Trust Relationships
   to allow the user to assume the role(s)
 * The user should now be able to
@@ -87,7 +87,7 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
 
 ## How to support support-firecloud's aws-iam-bootstrap
 
-If you own a repository that version controlls the infra stack (with roles and policies),
+If you own a repository that version controls the `infra` stack (with roles and policies),
 you may want to support [`aws-iam-bootstrap`](../bin/aws-iam-bootstrap),
 and then you need the following in the root of the repository:
 
