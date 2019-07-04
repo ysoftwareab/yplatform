@@ -8,7 +8,8 @@ This would allow you to select a role in AWS console,
 or to run `aws-iam-login <profile-name>` in your terminal
 in order to assume the credentials for a certain AWS role.
 
-To set this up run the following from within a repository that supports `aws-iam-bootstrap`:
+To set this up run the following from within
+a repository that supports `aws-iam-bootstrap` e.g. `aws*-dev-prod`:
 
 ```
 ~/git/firecloud/support-firecloud/bin/aws-iam-boostrap \
