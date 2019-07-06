@@ -142,14 +142,6 @@ Make use of it, or else if you create a new stack you can easily drown yourself 
     * [Condition Functions](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/intrinsic-function-reference-conditions.html)
   * [Pseudo Parameters](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/pseudo-parameter-reference.html)
 
-* [Elastic Beanstalk](https://aws.amazon.com/documentation/elastic-beanstalk/)
-  * [eu-west-1 samples](http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cfn-sample-templates-eu-west-1.html)
-  * [Configuration](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options.html)
-    * Option Settings
-      * [General]](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-general.html)
-      * [Node.js](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/command-options-specific.html#command-options-nodejs)
-  * [Blue/green CNAME swap](http://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.CNAMESwap.html)
-
 * S3
   * [Access Policy Language](http://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html)
     * Condition Keys
