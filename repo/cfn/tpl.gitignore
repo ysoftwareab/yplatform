@@ -1,3 +1,4 @@
 /*.cfn.json*
+/*.cfn.policy.json*
 /*.change-set.json*
 /*.drift.json*
