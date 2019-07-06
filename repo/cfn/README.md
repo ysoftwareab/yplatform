@@ -75,12 +75,12 @@ while the `env-web` stack is per environment, n per AWS account.
 ## Bootstrapping a repo with AWS CloudFormation templates
 
 ```shell
-path/to/support-firecloud/bin/repo-cfn-boostrap --stack-stem env-web
-path/to/support-firecloud/bin/repo-cfn-boostrap --stack-stem infra
+support-firecloud/bin/repo-cfn-boostrap --stack-stem env-web
+support-firecloud/bin/repo-cfn-boostrap --stack-stem infra
 ```
 
 
-## General structure of the `path/to/repo/cfn` folder
+## General structure of the `cfn` folder
 
 * `/Makefile` drives the build in an abstract manner
 * `/<stack-stem>.inc.mk` implements a few specific things required by the abstract Makefile, as well as
@@ -102,16 +102,23 @@ path/to/support-firecloud/bin/repo-cfn-boostrap --stack-stem infra
 
 ## Artifacts
 
-* `/<stack-stem>.cfn.json` would be the latest generated CloudFormation template
-* `/<stack-stem>.cfn.json.bak` would be the live CloudFormation template that defines the current stack
 * `/<stack-stem>.cfn.json.err` would be the latest failed CloudFormation template
   * failed = invalid JSON or CloudFormation semantics
+  
+* `/<stack-stem>.cfn.json.bak` would be the live CloudFormation template of the current stack
+* `/<stack-stem>.cfn.policy.json.bak` would be the live CloudFormation policy of the current stack
+* `/<stack-stem>.drift.json.bak` would be the live CloudFormation drift results of the current stack
+
+* `/<stack-stem>.cfn.json` would be the latest generated CloudFormation template
+* `/<stack-stem>.cfn.policy.json` would be the latest generated CloudFormation policy
+
 
 For stacks that are being updated:
 
 * `/<stack-stem>.change-set.json` would be the CloudFormation changeset, as retrieved from AWS
 * `/<stack-stem>.change-set.json.diff` would be the diff between
   the live CloudFormation template `/<stack-stem>.cfn.json.bak` and the newly generated `/<stack-stem>.cfn.json`
+* `/<stack-stem>.drift.json` would be the CloudFormation drift results, after executing the change-set
 
 
 ## Make targets
