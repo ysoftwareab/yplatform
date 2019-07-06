@@ -213,10 +213,13 @@ $(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate s
 		--drift-file $(STACK_DRIFT_BAK_FILE) \
 		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
 
-
+CHANGE_SET_FILE_DEPS := \
+	%.cfn.json.diff \
+	%.cfn.policy.json \
+	%.cfn.policy.json.bak \
+	%.drift.json.bak
 .PHONY: %.change-set.json
-%.change-set.json: %.cfn.json.diff %.cfn.policy.json %.cfn.policy.json.bak ## Create change-set and template diff.
-%.change-set.json: %.drift.json.bak
+%.change-set.json: $(CHANGE_SET_FILE_DEPS) ## Create change-set and template diff.
 	$(ECHO_DO) "Creating $(CHANGE_SET_FILE)..."
 	$(AWS_CFN_CU_STACK) \
 		--stack-name $(STACK_NAME) \
