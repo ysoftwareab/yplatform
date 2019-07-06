@@ -150,4 +150,5 @@ Make use of it, or else if you create a new stack you can easily drown yourself 
       * [for key operations](http://docs.aws.amazon.com/AmazonS3/latest/dev/amazon-s3-policy-keys.html#bucket-keys-in-amazon-s3-policies)
 
 * IAM
+  * [Complete reference from Cloudonaut](https://iam.cloudonaut.io/)
   * [Policy](http://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements.html)
