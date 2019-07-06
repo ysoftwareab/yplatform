@@ -200,18 +200,22 @@ $(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate s
 
 .PHONY: %.drift.json
 %.drift.json: %-setup
+	$(ECHO_DO) "Collecting drifts for $(STACK_NAME)..."
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
 		--stack-name $(STACK_NAME) \
 		--drift-file $(STACK_DRIFT_FILE) \
 		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
+	$(ECHO_DONE)
 
 
 .PHONY: %.drift.json.bak
 %.drift.json.bak: %-setup
+	$(ECHO_DO) "Backing up current drifts for $(STACK_NAME)..."
 	$(AWS_CFN_DETECT_STACK_DRIFT) \
 		--stack-name $(STACK_NAME) \
 		--drift-file $(STACK_DRIFT_BAK_FILE) \
 		$(AWS_CFN_DETECT_STACK_DRIFT_ARGS) || true
+	$(ECHO_DONE)
 
 CHANGE_SET_FILE_DEPS := \
 	%.cfn.json.diff \
