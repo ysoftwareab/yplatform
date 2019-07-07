@@ -30,12 +30,10 @@ AWS_CFN_D_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-delete-stack
 AWS_CFN2DOT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cfn2dot
 AWS_CFN_C_STACK_POLICY = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-create-stack-policy
 DOT = $(call which,GRAPHVIZ_DOT,dot)
-ESLINT = $(call npm-which,ESLINT,eslint)
-$(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT ESLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT,$(call make-lazy,$(VAR)))
 
 AWS_CFN_CU_STACK_ARGS ?=
 AWS_CFN_DETECT_STACK_DRIFT_ARGS ?=
-ESLINT_ARGS ?=
 
 CFN_MK_FILES := $(shell $(FIND_Q_NOSYM) . -mindepth 1 -maxdepth 1 -type f -name "*.inc.mk" -print)
 
@@ -75,7 +73,6 @@ SF_CLEAN_FILES := \
 	$(CHANGE_SET_FILES) \
 
 CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
-LINT_TARGETS := $(patsubst %/index.js,%.cfn.json/lint,$(CFN_JS_FILES))
 
 STACK_STEM_HOOKS := \
 	%-pre \
@@ -91,7 +88,7 @@ all: $(STACK_TPL_FILES)
 
 
 .PHONY: $(STACK_TPL_FILES)
-$(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate stack template.
+$(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup ## Generate stack template.
 	$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
 	./$< > $@
@@ -120,16 +117,6 @@ $(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup %.cfn.json/lint ## Generate s
 %.cfn.json.bak: %-setup ## Backup stack template.
 	$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_BAK_FILE)..."
 	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_BAK_FILE)
-	$(ECHO_DONE)
-
-
-.PHONY: %.cfn.json/lint
-%.cfn.json/lint: %-setup ## Lint stack.
-	$(ECHO_DO) "Linting the $(STACK_NAME) stack..."
-	$(ESLINT) $(ESLINT_ARGS) \
-		$(STACK_STEM)/index.js \
-		$$($(FIND_Q_NOSYM) $(STACK_STEM) -type f -name "*.cfn.js" -print)
-	$(call $(STACK_STEM)-lint)
 	$(ECHO_DONE)
 
 
@@ -255,15 +242,6 @@ CHANGE_SET_FILE_DEPS := \
 	$(MAKE) $(STACK_DRIFT_FILE)
 	$(call $(STACK_STEM)-post-exec)
 	$(ECHO_DONE)
-
-
-.PHONY: lint
-lint: $(LINT_TARGETS)
-
-
-.PHONY: check
-check:
-	$(MAKE) lint
 
 
 .PHONY: $(STACK_STEM_HOOKS)
