@@ -13,6 +13,11 @@ repositories owned by TobiiPro Cloud Services should at all costs implement the 
 * `make` should always fetch all dependencies, build and run basic checks
   * `make` should be the same as `make all`
   * `make` should be the same as `make deps build check`
+* `make bootstrap` should bootstrap your system with global dependencies
+  * example: installing bash/node/python/gnu utils/etc
+  * this is not part of the `make deps` step because it would be innefficient
+    since global dependecies don't change often, take a long time to install,
+    and are also shared to a great extent between our repositories
 * `make deps` should fetch all dependencies
   * no network connection should be required for upcoming `make build check`
   * dependencies should also be built, where needed

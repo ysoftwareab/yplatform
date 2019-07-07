@@ -48,6 +48,13 @@ all: deps build check ## Fetch dependencies, build and check.
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 
 
+.PHONY: bootstrap
+bootstrap: ## Bootstrap your system.
+	$(ECHO_DO) "Bootstrapping..."
+	$(SUPPORT_FIRECLOUD_DIR)/ci/$(OS_SHORT)/bootstrap
+	$(ECHO_DONE)
+
+
 .PHONY: deps-git
 deps-git:
 	$(GIT) submodule sync
