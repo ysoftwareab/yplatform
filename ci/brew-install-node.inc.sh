@@ -27,6 +27,12 @@ NODE_FORMULA=node
         NODE_FORMULA="https://raw.githubusercontent.com/${BREW_REPO_SLUG}/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
 }
 
+# if we specify a node version via .travis.yml (ignore 'node' because that means latest),
+# do not override it by installing the latest node version via homebrew
+[[ "${TRAVIS_NODE_VERSION:-}" = "node" ]] || [[ -n "${TRAVIS_NODE_VERSION:-}" ]] || {
+    NODE_FORMULA=
+}
+
 BREW_FORMULAE="$(cat <<-EOF
 ${NODE_FORMULA}
 EOF
