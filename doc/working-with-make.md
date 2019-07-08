@@ -10,14 +10,14 @@ No matter which is the primary language,
 repositories owned by TobiiPro Cloud Services should at all costs implement the following targets:
 
 * `make help` to show most important targets, and their description
-* `make` should always fetch all dependencies, build and run basic checks
-  * `make` should be the same as `make all`
-  * `make` should be the same as `make deps build check`
 * `make bootstrap` should bootstrap your system with global dependencies
   * example: installing bash/node/python/gnu utils/etc
   * this is not part of the `make deps` step because it would be innefficient
     since global dependecies don't change often, take a long time to install,
     and are also shared to a great extent between our repositories
+* `make` should always fetch all dependencies, build and run basic checks
+  * `make` should be the same as `make all`
+  * `make` should be the same as `make deps build check`
 * `make deps` should fetch all dependencies
   * no network connection should be required for upcoming `make build check`
   * dependencies should also be built, where needed
@@ -41,7 +41,9 @@ repositories owned by TobiiPro Cloud Services should at all costs implement the 
 
 ## Development workflow
 
-After `git clone`-ing a repository, a developer should only need to run `make`,
+After `git clone`-ing a repository, a developer should run `make bootstrap` in order to install global dependencies.
+
+After that, a developer should only need to run `make`,
 in order to get a fully functional repository, ready for development.
 
 Similarly, after making changes, a developer should only need to run `make` in order to explore their changes.
