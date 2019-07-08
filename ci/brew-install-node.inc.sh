@@ -29,7 +29,7 @@ NODE_FORMULA=node
 
 # if we specify a node version via .travis.yml (ignore 'node' because that means latest),
 # do not override it by installing the latest node version via homebrew
-[[ "${TRAVIS_NODE_VERSION:-}" = "node" ]] || [[ -n "${TRAVIS_NODE_VERSION:-}" ]] || {
+[[ "${TRAVIS_NODE_VERSION:-}" = "node" ]] || [[ -z "${TRAVIS_NODE_VERSION:-}" ]] || {
     NODE_FORMULA=
 }
 
