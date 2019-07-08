@@ -72,7 +72,7 @@ SF_CLEAN_FILES := \
 	$(STACK_POLICY_BAK_FILES) \
 	$(CHANGE_SET_FILES) \
 
-CFN_JS_FILES := $(patsubst %.inc.mk,%/index.js,$(CFN_MK_FILES))
+CFN_INDEX_FILE := index.js
 
 STACK_STEM_HOOKS := \
 	%-pre \
@@ -88,7 +88,7 @@ all: $(STACK_TPL_FILES)
 
 
 .PHONY: $(STACK_TPL_FILES)
-$(STACK_TPL_FILES): %.cfn.json: %/index.js %-setup ## Generate stack template.
+$(STACK_TPL_FILES): %.cfn.json: %/$(CFN_INDEX_FILE) %-setup ## Generate stack template.
 	$(ECHO_DO) "Generating a valid $@..."
 	$(call $(STACK_STEM)-pre)
 	./$< > $@
