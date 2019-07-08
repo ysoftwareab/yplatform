@@ -11,6 +11,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 apt_install() {
     while read -u3 DPKG; do
+        [[ -n "${DPKG}" ]] || continue
+
         echo_do "aptitude: Installing ${DPKG}..."
         apt-get install -y --force-yes "${DPKG}"
         echo_done

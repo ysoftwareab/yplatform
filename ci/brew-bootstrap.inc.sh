@@ -55,6 +55,8 @@ echo_done
 
 function brew_upgrade() {
     while read -u3 NAME; do
+        [[ -n "${NAME}" ]] || continue
+
         # install any missing dependencies
         local MISSING="$(brew missing ${NAME})"
         [[ -z "${MISSING}" ]] || brew install ${MISSING}
@@ -76,6 +78,8 @@ function brew_upgrade() {
 
 function brew_install() {
     while read -u3 FORMULA; do
+        [[ -n "${FORMULA}" ]] || continue
+
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
         local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
@@ -155,6 +159,8 @@ function brew_list() {
 # to make it available in Brewfile.inc.sh files
 function apt_install() {
     while read -u3 DPKG; do
+        [[ -n "${DPKG}" ]] || continue
+
         echo_do "aptitude: Installing ${DPKG}..."
         sudo apt-get install -y --force-yes "${DPKG}"
         echo_done
