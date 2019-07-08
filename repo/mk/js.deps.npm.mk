@@ -24,9 +24,11 @@ deps-npm-unmet-peer:
 	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
 	diff -U0 \
 		<(cat package.json.unmet-peer 2>/dev/null | \
-			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" || true) \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
+			$(SORT) -u || true) \
 		<(cat $(NPM_LIST_TMP) 2>/dev/null | \
-			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" || true) || { \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
+			$(SORT) -u || true) || { \
 			$(ECHO_ERR) "Found (new) unmet peer dependencies."; \
 			$(ECHO_INFO) "If you want to ignore one or more, add to package.json.unmet-peer,"; \
 			$(ECHO_INFO) "the lines above that start with '+npm ERR! peer dep missing:'."; \
