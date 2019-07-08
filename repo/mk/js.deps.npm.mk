@@ -20,11 +20,13 @@ endif
 
 .PHONY: deps-npm-unmet-peer
 deps-npm-unmet-peer:
+	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
+	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
 	diff -U0 \
 		<(cat package.json.unmet-peer 2>/dev/null | \
 			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by [^@]\+" || true) \
-		<($(NPM) list --depth=0 2>&1 | \
 			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by [^@]\+") || { \
+		<(cat $(NPM_LIST_TMP) 2>/dev/null | \
 			$(ECHO_ERR) "Found (new) unmet peer dependencies."; \
 			$(ECHO_INFO) "If you want to ignore one or more, add to package.json.unmet-peer,"; \
 			$(ECHO_INFO) "the lines above that start with '+npm ERR! peer dep missing:'."; \
