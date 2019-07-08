@@ -10,10 +10,12 @@ sudo true || {
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-# improve date-time (ntp) sync
-(
-    sudo sntp -sS time.apple.com
-) || true
+[[ "${CI:-}" != "true" ]] || {
+    # improve date-time (ntp) sync
+    (
+        sudo sntp -sS time.apple.com
+    ) || true
+}
 
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
 brew_brewfile_inc_sh
