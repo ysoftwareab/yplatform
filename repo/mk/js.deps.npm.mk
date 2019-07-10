@@ -13,6 +13,7 @@ ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE := \
 	$(SF_ECLINT_FILES_IGNORE) \
 	-e "^package-lock.json$$" \
+	-e "^package.json.unmet-peer$$" \
 
 endif
 
