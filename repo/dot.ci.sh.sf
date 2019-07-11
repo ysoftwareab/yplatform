@@ -99,18 +99,6 @@ function sf_os() {
 }
 
 
-function sf_newer_pacote() {
-    which npm >/dev/null 2>&1 || return 0
-    echo_do "Setting up a newer pacote... (temporary fix)"
-    # temporary fix for spurious ENOVERSIONS on 'npm install'
-    # https://github.com/tobiipro/support-firecloud/issues/17
-    npm install --global pacote
-    rm -rf $(npm root -g)/npm/node_modules/pacote
-    mv $(npm root -g)/pacote $(npm root -g)/npm/node_modules/pacote
-    echo_done
-}
-
-
 function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
 
@@ -132,7 +120,6 @@ function sf_ci_run_before_install() {
     sf_transcrypt
     sf_os
     sf_pyenv_init
-    sf_newer_pacote
 
     [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         echo
