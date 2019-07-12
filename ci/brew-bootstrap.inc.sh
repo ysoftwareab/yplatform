@@ -138,7 +138,7 @@ function brew_install() {
 
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 
-brew_brewfile_inc_sh() {
+function brew_brewfile_inc_sh() {
     local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile-${OS_SHORT}.inc.sh
     [[ -f "${BREWFILE_INC_SH}" ]] || BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
     [[ -f "${BREWFILE_INC_SH}" ]] || {
