@@ -12,6 +12,7 @@ has access to your repo in the `Repository access` section dropdown.
 Then go to https://travis-ci.com/profile/tobiipro
 and find your repo in the list to open its settings.
 
+
 ## Repository's Travis CI settings
 
 It is recommended that on the repository's Travis CI settings page you
@@ -22,6 +23,7 @@ It is recommended that on the repository's Travis CI settings page you
 * add cronjob `master - daily - Always run`
 * (preferred, but not obligatory) replace default SSH key with `tobiiprotools`
 SSH key (can be found in **designated safe location**).
+
 
 ## In the repo
 
