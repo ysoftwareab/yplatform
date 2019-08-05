@@ -4,5 +4,6 @@
 *.gpg filter=crypt diff=crypt
 *.key filter=crypt diff=crypt
 *.secret filter=crypt diff=crypt
+*.secret.* filter=crypt diff=crypt
 **/*.secret/** filter=crypt diff=crypt
 **/.git* !filter !diff
