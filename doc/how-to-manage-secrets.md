@@ -29,6 +29,7 @@ where you mark which file patterns should be considered for encryption e.g.
 *.gpg filter=crypt diff=crypt
 *.key filter=crypt diff=crypt
 *.secret filter=crypt diff=crypt
+*.secret.* filter=crypt diff=crypt
 **/*.secret/** filter=crypt diff=crypt
 **/.git* !filter !diff
 ```
