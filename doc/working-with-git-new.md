@@ -72,6 +72,7 @@ going to `Settings` tab -> `Options` ->`Merge button`.
 
 * deselect `Allow squash merging`
 * deselect `Allow rebase merging`
+* select `Automatically delete head branches`
 
 Protect master branch against push-force, outdated PRs and optionally PRs without CI reviews by
 going to `Settings` tab -> `Branches` -> `Add rule`.
