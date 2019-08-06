@@ -65,10 +65,20 @@ Go to `Settings` tab -> `Collaborators & Teams`.
 * remove yourself from collaborators (if you were added automatically by Github)
 
 
+### Security Alerts
+
+Allow Github to perform analysis of the dependency graph and provide security alerts by
+going to `Settings` tab -> `Options` -> `Data services`.
+
+* select `Allow GitHub to perform read-only analysis of this repository`
+* select `Dependency graph`
+* select `Security alerts`
+
+
 ### Merge button and protected master branch
 
 Restrict merging strategies to always require a merge commit by
-going to `Settings` tab -> `Options` ->`Merge button`.
+going to `Settings` tab -> `Options` -> `Merge button`.
 
 * deselect `Allow squash merging`
 * deselect `Allow rebase merging`
