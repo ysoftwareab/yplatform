@@ -128,12 +128,11 @@ but here's a common workflow:
 
 * new stack
   * `make <stack-stem>.cfn.json` to generate and validate the template
-    * `make <stack-stem>.cfn.json/lint` to lint the template JS sources (runs automatically)
   * `make <stack-stem>.cfn.json/exec` to execute the template, and create the stack
-  **NOTE**: if the stack already exists, this will actually end up executing a change-set.
+  **NOTE**: if the stack already exists, this will actually end up creating and executing a change-set.
 * existing stack
   * `make <stack-stem>.change-set.json` to generate the template changeset and the diff
-    * `/<stack-stem>.change-set.json.diff` is tremendously useful for manual inspection!!!
+    * `/<stack-stem>.cfn.json.diff` is tremendously useful for manual inspection!!!
   * `make <stack-stem>.change-set.json/exec` to execute the changeset, and update the stack
   * `make <stack-stem>.cfn.json/rm` to remove the stack
 
