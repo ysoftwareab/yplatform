@@ -6,5 +6,5 @@ teardown-env: ## Teardown env
 		$(ECHO_ERR) "Unstage your changes before calling 'make teardown-env'."; \
 		exit 1; \
 	}
-	$(GIT) commit --allow-empty -m "[TEARDOWN-ENV $(ENV_NAME)]"
+	$(GIT) commit --allow-empty -m "[sf teardown-$(ENV_NAME)]"
 	$(GIT) push -f
