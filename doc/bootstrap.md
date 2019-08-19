@@ -29,8 +29,8 @@ and select the @tobii.com email address for the Tobii organizations.
 
 We access repositories via SSH (not HTTPS), so you need to
 
-* [set up an SSH key](https://help.github.com/enterprise/2.15/user/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/), if you don't have one already
-* [and add it to your Github account](https://help.github.com/enterprise/2.15/user/articles/adding-a-new-ssh-key-to-your-github-account/)
+* [set up an SSH key](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent), if you don't have one already
+* [and add it to your Github account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account)
 
 
 ## `git`
