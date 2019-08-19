@@ -45,17 +45,13 @@ function ci_run_script_teardown_env() {
 
 
 function ci_run_script() {
-    case ${GIT_BRANCH} in
-        env/*)
-            true
-            ;;
-        *)
-            sf_ci_run_script
-            ;;
-    esac
+    # handle PRs
+    [[ "${CI_IS_PR}" != "true" ]] || {
+        sf_ci_run_script
+        return 0
+    }
 
-    [[ "${CI_IS_PR}" != "true" ]] || return 0
-
+    # handle teardown
     local ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
     local TEARDOWN_PATTERN="^\[TEARDOWN-ENV ${ENV_NAME}\]"
     if [[ $(git log --format=%s -n1) =~ ${TEARDOWN_PATTERN} ]] ; then
@@ -64,15 +60,20 @@ function ci_run_script() {
     fi
 
     case ${GIT_BRANCH} in
+        # handle env branches
         env/*)
             ci_run_script_env
             return 0
             ;;
+        # handle git-env branches
         master|*-env)
+            sf_ci_run_script
             ci_run_script_env_git
             return 0
             ;;
     esac
+
+    sf_ci_run_script
 }
 
 function ci_run_deploy() {
