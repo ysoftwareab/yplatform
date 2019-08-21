@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -x
+
+if [ -n "${BASH_VERSION}" ]; then
+    MYSELF=${BASH_SOURCE[0]}
+elif [ -n "${ZSH_VERSION}" ]; then
+    MYSELF=${(%):-%x}
+else
+    echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+fi
+
+# assume this is a symlink to sf-bin. it is intended to be used like that
+MYSELF=$(readlink "${MYSELF}")
+[ "${MYSELF:0:1}" = "/" ] || MYSELF=$(dirname ${MYSELF})/${MYSELF}
+
+GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${MYSELF})/../..}"
+
+if [ -n "${ZSH_VERSION}" ]; then
+    autoload -U compaudit compinit bashcompinit
+    bashcompinit || {
+        echo >&2 "Initialization of zsh completion features has failed."
+    }
+fi
+
+GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
+SF_BIN=$(basename $0)
+
+# use the current repo's support-firecloud bin
+if [[ -x ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} ]]; then
+    ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} "$@"
+    return 0
+fi
+
+# default to global support-firecloud bin
+${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/${SF_BIN} "$@"
