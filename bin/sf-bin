@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -x
 
 if [ -n "${BASH_VERSION}" ]; then
     MYSELF=${BASH_SOURCE[0]}
@@ -28,7 +27,7 @@ SF_BIN=$(basename $0)
 # use the current repo's support-firecloud bin
 if [[ -x ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} ]]; then
     ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} "$@"
-    return 0
+    exit 0
 fi
 
 # default to global support-firecloud bin
