@@ -82,7 +82,9 @@ going to `Settings` tab -> `Options` -> `Merge button`.
 
 * deselect `Allow squash merging`
 * deselect `Allow rebase merging`
-* select `Automatically delete head branches`
+
+Under the same section, select `Automatically delete head branches` in order to keep the repository clean
+from stale merged branches.
 
 Protect master branch against push-force, outdated PRs and optionally PRs without CI reviews by
 going to `Settings` tab -> `Branches` -> `Add rule`.
