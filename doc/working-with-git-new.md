@@ -104,6 +104,12 @@ going to `Settings` tab -> `Branches` -> `Add rule`.
     * if not available, set up Travis CI integration first
 * click `Create`
 
+**NOTE** Do not enable `Require branches to be up to date before merging`,
+because rather than rebasing your PR branch on top of the destination branch,
+it will actually merge the destination (e.g. master) into your PR branch,
+creating a spaghetti commit history, which at times might even have negative consequences.
+See [this comment](https://github.com/isaacs/github/issues/1113) for more.
+
 
 ### Add topics
 
