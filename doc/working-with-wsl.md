@@ -1,39 +1,36 @@
-# WSL - Windows subsystem for linux
+# Windows Subsystem for linux (WSL)
 
-WSL is a feature of Windows 10 introduced in the Anniversary Update in 2016 and improved since. It allows you to install 
-different linux distros to run under windows without the need for a full virtual machine. 
+WSL is a feature of Windows 10 introduced in the Anniversary Update in 2016 and improved since.
+It allows you to install different Linux distros to run under Windows without the need for a full virtual machine.
 
-https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux
+See https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux for more info.
 
 
 ## Installation of WSL
 
-* Upgrade to windows 1903 (adds support for accessing your WSL file system via file shares on \\wsl$\
-* Enable WSL and install the linux distro of your choice (Ubuntu 18.04 tested). https://docs.microsoft.com/en-us/windows/wsl/install-win10
-* Install npm: sudo apt-get install npm
-* Update npm: sudo npm -g install npm
-* Install Angular: sudo npm install -g @angular/cli
-* Prereqs for nvm: apt-get install build-essential libssl-dev
-* Install nvm (node version manager): https://github.com/nvm-sh/nvm
-* Install a suitable version of node: nvm install 12
+* Upgrade to Windows 1903 which adds support for accessing your WSL file system via file shares on `\\wsl$\`
+* Enable WSL and install the Linux distro of your choice (Ubuntu 18.04 tested).
+  See https://docs.microsoft.com/en-us/windows/wsl/install-win10 for more info.
+* Continue with bootstrapping Linux with support-firecloud
+  * [git](./bootstrap.md#git)
+  * [System](./bootstrap.md#system)
+  * etc.
 
-## Installation of VS code
-VS code has extensions that allows you to run the editor in windows and connect to your WSL installation:
 
-* Download and install VS code for windows
-* Install VSCode extension "remote development": https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack
-* Install VSCode extension "Remote WSL": https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
+## WSL for Visual Studio Code (vscode)
 
-To start a WSL version of VS code, just type "code ." in your project folder from a bash terminal. The terminal in the editor will be a bash-terminal instead of a powershell terminal.
+`vscode` has extensions that allows you to run the editor in Windows and connect to your WSL installation:
 
-## Bootstrapping
+* Download and install `vscode` for Windows
+* Install [the "Remote Development" extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.vscode-remote-extensionpack)
+* Install [the "Remote - WSL" extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
 
-Now it is time to get the firecloud stuff installed inside WSL: [bootstrap](bootstrap.md)
+To start a WSL version of `vscode`, just type `code .` in your project folder from a bash terminal.
+The terminal in the editor will be a bash-terminal instead of a powershell terminal.
+
 
 ## Conclusion
 
-From here things should work as you expect them. If you run "ng serve" from your bash 
-terminal in WSL, it will start a development server that can be accessed from Chrome 
-running on your windows machine http://localhost:4200
+From here things should work as you expect them. If not, please update these instructions or file an issue.
 
 Good luck!
