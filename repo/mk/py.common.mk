@@ -5,7 +5,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/py.deps.pipenv.mk
 # ------------------------------------------------------------------------------
 
 # .py filename should not contain dots or hyphens, but it can have underscores
-SF_PATH_LINT_RE := ^\([a-z0-9/.-]\+\|[a-z0-9/_]\+\.py\)$$
+SF_PATH_LINT_RE := ^[a-z0-9/.-]\+\|[a-z0-9/.-]*/[a-z0-9_]\+\.py$$
 
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
