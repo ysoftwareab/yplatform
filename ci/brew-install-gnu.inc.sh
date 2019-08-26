@@ -13,6 +13,7 @@ gnu-which
 grep
 gzip
 unzip
+zip
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
@@ -27,4 +28,6 @@ exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\."
 exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\."
 exe_and_grep_q "unzip --version 2>&1 | head -2 | tail -1" "^UnZip 6\\."
 exe_and_grep_q "unzip --version 2>&1 | head -2 | tail -1" ", by Debian\\."
+exe_and_grep_q "zip --version 2>&1 | head -2 | tail -1" "Zip 3\\.0"
+exe_and_grep_q "zip --version 2>&1 | head -2 | tail -1" ", by Info-ZIP\\."
 echo_done

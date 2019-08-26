@@ -31,6 +31,7 @@ if which brew >/dev/null 2>&1; then
     path_prepend ${HOMEBREW_PREFIX}/opt/curl/bin
     path_prepend ${HOMEBREW_PREFIX}/opt/gettext/bin
     path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
+    path_prepend ${HOMEBREW_PREFIX}/opt/zip/bin
 
     unset HOMEBREW_PREFIX
 fi
