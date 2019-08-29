@@ -3,6 +3,14 @@ include repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
 
+SF_CLEAN_FILES := \
+	$(SF_CLEAN_FILES) \
+	support-firecloud \
+
+SF_DEPS_TARGETS := \
+	deps-support-firecloud \
+	$(SF_DEPS_TARGETS) \
+
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
 	-e "^generic/dot\.gitattributes_global$$" \
@@ -29,6 +37,12 @@ SF_TEST_TARGETS := \
 
 # ------------------------------------------------------------------------------
 
+.PHONY: deps-support-firecloud
+deps-support-firecloud:
+	$(RM) support-firecloud
+	ln -s . support-firecloud
+
+
 .PHONY: test-secret
 test-secret:
 ifeq ($(SF_IS_TRANSCRYPTED),true)
@@ -37,6 +51,7 @@ ifeq ($(SF_IS_TRANSCRYPTED),true)
 else
 	:
 endif
+
 
 .PHONY: test-upload-job-artifacts
 test-upload-job-artifacts:
