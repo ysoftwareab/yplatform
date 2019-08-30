@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+[[ "${SF_DEV_INC_SH:-}" = true ]] || {
+    >&2 echo "[ERROR] You need to run this on a bootstrap dev machine where SF_DEV_INC_SH=true."
+    exit 1
+}
+
+brew_brewfile_inc_sh
+
+# see https://github.com/Homebrew/brew/issues/5013
+hash -r

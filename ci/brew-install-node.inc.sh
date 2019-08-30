@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${SF_BOOTSTRAP_SKIP_COMMON:-}" = "true" ]]; then
+echo_info "brew: SF_BOOTSTRAP_SKIP_COMMON=${SF_BOOTSTRAP_SKIP_COMMON}"
+echo_skip "brew: Installing NodeJS packages..."
+else
+
 echo_do "brew: Installing NodeJS packages..."
 
 # force node bottle on CI, compiling node fails or takes forever
@@ -50,3 +55,5 @@ exe_and_grep_q "node --version | head -1" "^v"
 exe_and_grep_q "npm --version | head -1" "^6\."
 exe_and_grep_q "json --version | head -1" "^json 9\."
 echo_done
+
+fi

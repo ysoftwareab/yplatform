@@ -49,9 +49,9 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 
 
 .PHONY: bootstrap
-bootstrap: ## Bootstrap your system (skips common dependencies). Run 'make bootstrap/scratch' to include them.
-	$(ECHO_DO) "Bootstrapping (skip common)..."
-	SF_BREW_INSTALL_SKIP_COMMON=true $(SUPPORT_FIRECLOUD_DIR)/ci/$(OS_SHORT)/bootstrap
+bootstrap: ## Bootstrap your system skipping 'dev'. Run 'make bootstrap/scratch' to include 'dev'.
+	$(ECHO_DO) "Bootstrapping (skip dev)..."
+	SF_BOOTSTRAP_SKIP_COMMON=true $(SUPPORT_FIRECLOUD_DIR)/ci/repo/bootstrap
 	$(ECHO_DONE)
 
 

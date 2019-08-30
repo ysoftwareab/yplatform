@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+if [[ "${SF_BOOTSTRAP_SKIP_COMMON:-}" = "true" ]]; then
+echo_info "brew: SF_BOOTSTRAP_SKIP_COMMON=${SF_BOOTSTRAP_SKIP_COMMON}"
+echo_skip "brew: Installing basic packages..."
+else
+
 echo_do "brew: Installing basic packages..."
 
 BREW_FORMULAE="$(cat <<-EOF
@@ -25,3 +30,5 @@ exe_and_grep_q "unzip --version 2>&1 | head -2 | tail -1" ", by Debian\\."
 exe_and_grep_q "zip --version 2>&1 | head -2 | tail -1" "Zip 3\\.0"
 exe_and_grep_q "zip --version 2>&1 | head -2 | tail -1" ", by Info-ZIP\\."
 echo_done
+
+fi
