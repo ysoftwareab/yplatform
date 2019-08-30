@@ -13,6 +13,13 @@ git clean -xdf .
 
 # Bootstrap OS
 OS=$(uname | tr "[A-Z]" "[a-z]")
+
+sudo true || {
+    >&2 echo "[ERROR] You need local admin rights to properly bootstrap." \
+    "If you don't have local admin rights, try contacting the IT department."
+    exit 1
+}
+
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
 
 # Upgrade to homebrew's bash, if using system bash
