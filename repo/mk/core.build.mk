@@ -1,3 +1,8 @@
+# Adds targets to generate the BUILD and VERSION files,
+# which include variables that can be sourced by shell scripts and Makefiles.
+
+# ------------------------------------------------------------------------------
+
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	BUILD \
