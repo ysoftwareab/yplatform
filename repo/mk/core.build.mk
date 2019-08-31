@@ -1,5 +1,17 @@
 # Adds targets to generate the BUILD and VERSION files,
 # which include variables that can be sourced by shell scripts and Makefiles.
+#
+# Adds a `sf-substitute-version-vars-in-file` function
+# that can generate files based on templates
+# that reference variables in the BUILD or VERSION files.
+# This is useful for referencing version information at runtime.
+# Usage:
+#
+# some/version.js: some/tpl.version.js
+#	$(call sf-substitute-version-vars-in-file,$<,$@)
+#
+# where `some/tpl.version.js` could be:
+# export default {gitHash: '${BUILD_GIT_HASH}'};
 
 # ------------------------------------------------------------------------------
 
@@ -49,6 +61,11 @@ define sf-write-var-to-file
 	$(ECHO)  | $(TEE) -a $2
 endef
 
+define sf-substitute-version-vars-in-file
+	< $1 > $2 \
+		$(foreach VAR,$(SF_VERSION_VARS) $(SF_BUILD_VARS),$(VAR)=$($(VAR))) \
+		envsubst '$(foreach VAR,$(SF_VERSION_VARS) $(SF_BUILD_VARS),$${$(VAR)})'
+endef
 
 # ------------------------------------------------------------------------------
 
