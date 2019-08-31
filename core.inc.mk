@@ -57,6 +57,36 @@ export $(1)
 endif
 endef
 
+# see https://blog.jgc.org/2007/06/escaping-comma-and-space-in-gnu-make.html
+# $(,)
+, := ,
+# $( )
+space :=
+space +=
+$(space) :=
+$(space) +=
+# $(=)
+equals := =
+$(equals) := =
+# $(#)
+hash := \#
+$(hash) := \#
+# $(:)
+colon := :
+$(colon) := :
+# $($$)
+dollar := $$
+$(dollar) := $$
+# $(;)
+; := ;
+# $(%)
+% := %
+# $(\n)
+define \n
+
+
+endef
+
 # ------------------------------------------------------------------------------
 
 MAKE_DATE := $(shell date +'%y%m%d')
