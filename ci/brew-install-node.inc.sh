@@ -46,8 +46,12 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
-npm install --global npm@6
+
+# allow npm upgrade to fail on WSL; fails with EACCESS
+IS_WSL=$([[ -e /proc/version ]] && cat /proc/version | grep -q -e "Microsoft" && echo true || echo false)
+npm install --global npm@6 || ${IS_WSL}
 npm install --global json@9
+
 echo_done
 
 echo_do "brew: Testing NodeJS packages..."
