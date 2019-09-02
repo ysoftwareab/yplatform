@@ -1,3 +1,16 @@
+# Adds phony targets to install all npm dependencies `deps-npm`, and prod-only `deps-npm-prod`.
+# Additionally to 'npm install' functionality, we also:
+# * install babel-preset-firecloud and eslint-config-firecloud peer dependencies
+# * 'npm update' also the git dependencies (to the latest compatible version)
+# * check (and fail) for unmet peer dependencies.
+#
+# The check for unmet peer dependencies can be silenced on a case-by-case basis
+# by commiting a package.json.unmet-peer file that contains the 'peer dep missing' lines
+# produced by 'npm list' that you want to ignore e.g.:
+# npm ERR! peer dep missing: tslint@^5.16.0, required by tslint-config-firecloud
+#
+# ------------------------------------------------------------------------------
+
 NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
