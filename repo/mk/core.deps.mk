@@ -1,3 +1,11 @@
+# Adds a 'deps' target that will call all the targets in SF_DEPS_TARGETS.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds an internal 'deps-git' target will install git submodules.
+#
+# ------------------------------------------------------------------------------
+
 SF_DEPS_TARGETS := \
 	deps-git \
 

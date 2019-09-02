@@ -1,3 +1,16 @@
+# Adds a 'clean' target that will remove all SF_CLEAN_FILES.
+# This is a so-called safe target that removes only defined files,
+# leaving untouched files that are unknown to the repository.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'nuke' target that will remove all untracked files,
+# and reset all the changes to tracked files.
+# This is an unsafe target and is meant as an alternative to removing and cloning
+# the repository from scratch, when the 'clean' target fails to fix unforeseen issues.
+#
+# ------------------------------------------------------------------------------
+
 SF_CLEAN_FILES := \
 
 # ------------------------------------------------------------------------------

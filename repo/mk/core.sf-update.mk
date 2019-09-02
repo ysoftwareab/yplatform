@@ -1,3 +1,9 @@
+# Adds a 'support-firecloud/update' target which will update the support-firecloud git submodule,
+# while also showing the git commits that the update will introduce.
+#
+# Commits that have the word 'break' will be colour highlighted,
+# so the developer can take corrective actions when needed.
+#
 # ------------------------------------------------------------------------------
 
 .PHONY: support-firecloud/update

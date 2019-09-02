@@ -1,3 +1,21 @@
+# Adds a 'snapshot' target that will create
+# a SF_SNAPSHOT_ZIP (defaults to snapshot.zip) file
+# with all the untracked files in the current repository.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_SNAPSHOT_FILES_IGNORE:
+# SF_SNAPSHOT_FILES_IGNORE := \
+#	$(SF_SNAPSHOT_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'reset-to-snapshot' target that will restore the current repository
+# to the contents of the SF_SNAPSHOT_ZIP file.
+#
+# ------------------------------------------------------------------------------
+
 SF_SNAPSHOT_DIR := snapshot.dir
 SF_SNAPSHOT_ZIP := snapshot.zip
 SF_SNAPSHOT_GIT_HASH := .git_hash

@@ -1,3 +1,8 @@
+# Adds a 'decrypt' target that will descrypt the current transcrypted repository
+# by using a GPG encoded password.
+#
+# ------------------------------------------------------------------------------
+
 SF_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
 
 SF_VENDOR_FILES_IGNORE := \
