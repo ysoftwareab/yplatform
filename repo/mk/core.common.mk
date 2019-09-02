@@ -30,15 +30,6 @@ SF_VENDOR_FILES_IGNORE := \
 	-e "^NOTICE$$" \
 	-e "^UNLICENSE$$" \
 
-SF_DEPS_TARGETS := \
-	deps-git \
-
-SF_BUILD_TARGETS := \
-
-SF_CHECK_TARGETS := \
-
-SF_TEST_TARGETS := \
-
 # ------------------------------------------------------------------------------
 
 .PHONY: all
@@ -46,86 +37,9 @@ all: deps build check ## Fetch dependencies, build and check.
 
 
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
-
-
-.PHONY: bootstrap
-bootstrap: ## Bootstrap your system skipping 'dev'. Run 'make bootstrap/scratch' to include 'dev'.
-	$(ECHO_DO) "Bootstrapping (skip dev)..."
-	SF_BOOTSTRAP_SKIP_COMMON=true $(SUPPORT_FIRECLOUD_DIR)/ci/repo/bootstrap
-	$(ECHO_DONE)
-
-
-.PHONY: bootstrap/scratch
-bootstrap/scratch:
-	$(ECHO_DO) "Bootstrapping..."
-	$(SUPPORT_FIRECLOUD_DIR)/ci/$(OS_SHORT)/bootstrap
-	$(ECHO_DONE)
-
-
-.PHONY: deps-git
-deps-git:
-	$(GIT) submodule sync
-	$(GIT) submodule update --init --recursive
-
-
-.PHONY: deps
-deps: ## Fetch dependencies.
-	[[ "$(words $(SF_DEPS_TARGETS))" = "0" ]] || { \
-		$(ECHO_DO) "Fetching dependencies..."; \
-		$(MAKE) $(SF_DEPS_TARGETS); \
-		$(ECHO_DONE); \
-	}
-
-
-.PHONY: build
-build: ## Build.
-	[[ "$(words $(SF_BUILD_TARGETS))" = "0" ]] || { \
-		$(ECHO_DO) "Building..."; \
-		$(MAKE) $(SF_BUILD_TARGETS); \
-		$(ECHO_DONE); \
-	}
-
-
-.PHONY: check
-check: ## Check.
-	[[ "$(words $(SF_CHECK_TARGETS))" = "0" ]] || { \
-		$(ECHO_DO) "Checking..."; \
-		$(MAKE) $(SF_CHECK_TARGETS); \
-		$(ECHO_DONE); \
-	}
-
-
-.PHONY: test
-test: ## Test.
-	[[ "$(words $(SF_TEST_TARGETS))" = "0" ]] || { \
-		$(ECHO_DO) "Testing..."; \
-		$(MAKE) $(SF_TEST_TARGETS); \
-		$(ECHO_DONE); \
-	}
-
-
-.PHONY: support-firecloud/update
-support-firecloud/update: ## Update support-firecloud to latest master commit.
-	$(eval SF_SUBMODULE_PATH := $(shell $(GIT) config --file .gitmodules --get-regexp path | \
-		$(GREP) $(shell basename $(SUPPORT_FIRECLOUD_DIR)) | $(CUT) -d' ' -f2))
-	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
-	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH)..."
-	$(GIT) submodule update --init --recursive --remote $(SF_SUBMODULE_PATH)
-	$(GIT) add $(SF_SUBMODULE_PATH)
-	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH)"
-	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
-	$(ECHO)
-	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
-	$(ECHO)
-	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
-		--graph \
-		--date=short \
-		--pretty=format:"%h %ad %s" \
-		--no-decorate \
-		$(SF_COMMIT).. | \
-		$(GREP) --color -E "^|break"
-	$(ECHO)
-	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
-		diff --stat $(SF_COMMIT)..
-	$(ECHO)
-	$(ECHO_DONE)
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.bootstrap.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.sf-update.mk
