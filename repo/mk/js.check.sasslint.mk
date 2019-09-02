@@ -12,7 +12,11 @@
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
+# NOTE transcrypted files are automatically ignored.
+#
 # ------------------------------------------------------------------------------
+
+SF_IS_TRANSCRYPTED ?= false
 
 SASSLINT = $(call npm-which,SASSLINT,sass-lint)
 $(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
@@ -27,8 +31,10 @@ SF_SASSLINT_FILES_IGNORE := \
 	-e "^$$"
 
 SF_SASSLINT_FILES = $(shell $(GIT_LS) . | \
-	$(GREP) -v $(SF_SASSLINT_FILES_IGNORE) | \
 	$(GREP) -e "\\.\\(sass\\|scss\\)$$" | \
+	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
+	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
+	$(GREP) -v $(SF_SASSLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g") \
 

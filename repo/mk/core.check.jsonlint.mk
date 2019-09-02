@@ -1,5 +1,5 @@
 # Adds a 'check-jsonlint' target to run 'jsonlint'
-# over SF_JSONLINT_FILES (defaults to all committed and staged files).
+# over SF_JSONLINT_FILES (defaults to all committed and staged *.json files).
 # The 'check-jsonlint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #
 # The jsonlint executable is lazy-found inside ./node_modules/.bin and $PATH.
@@ -16,8 +16,11 @@
 #
 # ------------------------------------------------------------------------------
 
-JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 SF_IS_TRANSCRYPTED ?= false
+
+JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
+
+JSONLINT_ARGS ?=
 
 SF_JSONLINT_FILES_IGNORE := \
 	-e "^$$" \
@@ -40,5 +43,5 @@ SF_CHECK_TARGETS := \
 .PHONY: check-jsonlint
 check-jsonlint:
 	[[ "$(words $(SF_JSONLINT_FILES))" = "0" ]] || { \
-		$(JSONLINT) $(SF_JSONLINT_FILES); \
+		$(JSONLINT) $(JSONLINT_ARGS) $(SF_JSONLINT_FILES); \
 	}

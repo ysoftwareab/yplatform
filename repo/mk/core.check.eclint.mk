@@ -16,11 +16,12 @@
 #
 # ------------------------------------------------------------------------------
 
+SF_IS_TRANSCRYPTED ?= false
+
 ECLINT = $(call npm-which,ECLINT,eclint)
 $(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
 
 ECLINT_ARGS ?=
-SF_IS_TRANSCRYPTED ?= false
 
 SF_ECLINT_FILES_IGNORE := \
 	-e "^$$" \
