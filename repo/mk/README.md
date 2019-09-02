@@ -41,3 +41,33 @@ The pieces **MUST** be included in this order:
 
 Each "puzzle piece" may have its own usage documentation at the top of the file.
 
+The high-level hierarchy of pieces is as follows:
+
+* core.common.mk
+  * core.bootstrap.mk
+  * core.clean.mk
+  * core.deps.mk
+  * core.build.mk
+  * core.check.mk
+  * core.test.mk
+  * core.sf-update.mk
+* generic.common.mk
+  * core.common.mk
+  * core.vendor.transcrypt.mk
+  * core.deps.git-hook-pre-push.mk
+  * core.build-version-file.mk
+  * core.check.path.mk
+  * core.check.eclint.mk
+  * core.check.jsonlint.mk
+  * core.misc.snapshot.mk
+* js.common.mk
+  * generic.common.mk
+  * js.deps.npm.mk
+  * js.misc.version.mk
+  * js.misc.release.mk
+* js.common.node.mk
+  * js.common.mk
+  * js.build.babel.mk
+* py.common.mk
+  * generic.common.mk
+  * py.deps.pipenv.mk
