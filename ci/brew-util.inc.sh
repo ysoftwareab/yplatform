@@ -85,8 +85,7 @@ function brew_install() {
 }
 
 function brew_brewfile_inc_sh() {
-    local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile-${OS_SHORT}.inc.sh
-    [[ -f "${BREWFILE_INC_SH}" ]] || BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
+    local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
     [[ -f "${BREWFILE_INC_SH}" ]] || {
         echo_err "No ${BREWFILE_INC_SH} file present."
         return 1
