@@ -1,6 +1,8 @@
 # Adds targets to generate the BUILD and VERSION files,
 # which include variables that can be sourced by shell scripts and Makefiles.
 #
+# ------------------------------------------------------------------------------
+#
 # Adds a `sf-substitute-version-vars-in-file` function
 # that can generate files based on templates
 # that reference variables in the BUILD or VERSION files.
