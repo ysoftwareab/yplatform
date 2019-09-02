@@ -36,8 +36,8 @@ SF_VENDOR_FILES_IGNORE := \
 all: deps build check ## Fetch dependencies, build and check.
 
 
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.bootstrap.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk
