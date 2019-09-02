@@ -1,5 +1,7 @@
-# Adds phony targets to install all npm dependencies `deps-npm`, and prod-only `deps-npm-prod`.
-# Additionally to 'npm install' functionality, we also:
+# Adds 'deps-npm' and 'deps-npm-prod' targets to install all and respectively prod-only npm dependencies.
+# The 'deps-npm' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
+#
+# In addition to 'npm install' functionality, we also:
 # * install babel-preset-firecloud and eslint-config-firecloud peer dependencies
 # * 'npm update' also the git dependencies (to the latest compatible version)
 # * check (and fail) for unmet peer dependencies.

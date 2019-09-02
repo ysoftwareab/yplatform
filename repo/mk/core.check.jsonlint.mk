@@ -1,3 +1,21 @@
+# Adds a 'check-jsonlint' target to run 'jsonlint'
+# over SF_JSONLINT_FILES (defaults to all committed and staged files).
+# The 'check-jsonlint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The jsonlint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The arguments to the jsonlint executable can be changed via JSONLINT_ARGS.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_JSONLINT_FILES_IGNORE:
+# SF_JSONLINT_FILES_IGNORE := \
+#	$(SF_JSONLINT_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# NOTE transcrypted files are automatically ignored.
+#
+# ------------------------------------------------------------------------------
+
 JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 SF_IS_TRANSCRYPTED ?= false
 

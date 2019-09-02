@@ -1,3 +1,21 @@
+# Adds a 'check-eclint' target to run 'eclint'
+# over SF_ECLINT_FILES (defaults to all committed and staged files).
+# The 'check-eclint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The eclint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The arguments to the eclint executable can be changed via ECLINT_ARGS.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_ECLINT_FILES_IGNORE:
+# SF_ECLINT_FILES_IGNORE := \
+#	$(SF_ECLINT_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# NOTE transcrypted files are automatically ignored.
+#
+# ------------------------------------------------------------------------------
+
 ECLINT = $(call npm-which,ECLINT,eclint)
 $(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
 

@@ -28,7 +28,9 @@ include support-firecloud/repo/mk/...
 The pieces **MUST** be included in this order:
 
 * common
-* check (not intuitive to have check so early, but allows for upcoming pieces to alter check vars)
+* check
+  * not intuitive to have 'check' so early since it runs after 'build',
+    but allows for upcoming pieces to alter 'check' vars
 * deps
 * build
 * test
@@ -37,4 +39,4 @@ The pieces **MUST** be included in this order:
 
 Each "puzzle piece" may have its own usage documentation at the top of the file.
 
-[This is the list of available pieces](./).
+[This is the full list of available pieces](./). Each piece has its docs inside the file.

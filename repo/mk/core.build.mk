@@ -1,5 +1,6 @@
-# Adds targets to generate the BUILD and VERSION files,
+# Adds 'BUILD' and 'VERSION' targets to generate the respective files,
 # which include variables that can be sourced by shell scripts and Makefiles.
+# The 'BUILD' and 'VERSION' targets are automatically included in the 'build' target via SF_BUILD_TARGETS.
 #
 # ------------------------------------------------------------------------------
 #
@@ -14,7 +15,7 @@
 #
 # where `some/tpl.version.js` could be:
 # export default {gitHash: '${BUILD_GIT_HASH}'};
-
+#
 # ------------------------------------------------------------------------------
 
 SF_CLEAN_FILES := \

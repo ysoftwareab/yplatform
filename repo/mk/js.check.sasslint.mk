@@ -1,3 +1,19 @@
+# Adds a 'check-sasslint' target to run 'sasslint'
+# over SF_SASSLINT_FILES (defaults to all committed and staged *.sass and *.scss files).
+# The 'check-sasslint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The sasslint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The arguments to the sasslint executable can be changed via SASSLINT_ARGS.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_SASSLINT_FILES_IGNORE:
+# SF_SASSLINT_FILES_IGNORE := \
+#	$(SF_SASSLINT_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# ------------------------------------------------------------------------------
+
 SASSLINT = $(call npm-which,SASSLINT,sass-lint)
 $(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
 

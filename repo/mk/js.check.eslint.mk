@@ -1,3 +1,20 @@
+# Adds a 'check-eslint' target to run 'eslint'
+# over SF_ESLINT_FILES (defaults to all committed and staged *.js and *.ts files).
+# The 'check-eslint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The eslint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The arguments to the eslint executable can be changed via ESLINT_ARGS.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_ESLINT_FILES_IGNORE:
+# SF_ESLINT_FILES_IGNORE := \
+#	$(SF_ESLINT_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# ------------------------------------------------------------------------------
+
+
 ESLINT = $(call npm-which,ESLINT,eslint)
 $(foreach VAR,ESLINT,$(call make-lazy,$(VAR)))
 

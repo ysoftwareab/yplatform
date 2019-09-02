@@ -1,3 +1,15 @@
+# Adds a 'test-jest' target to run all JEST_TEST_FILES (defaults to test/**/*.test.js).
+# The 'test-jest' target is automatically included in the 'test' target via SF_TEST_TARGETS.
+#
+# The jest executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The arguments to the jest executable can be changed via JEST_ARGS.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds 'test/**/*.test.js' targets to run jest on a specific test/**/*.test.js file.
+#
+# ------------------------------------------------------------------------------
+
 JEST = $(call npm-which,JEST,jest)
 $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
