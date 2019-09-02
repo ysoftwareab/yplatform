@@ -1,3 +1,18 @@
+# Adds a 'check-path' target to run path and filename checks
+# over SF_PATH_FILES (defaults to all committed and staged files).
+# The 'check-path' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The check is a match check against a regular expression defined via SF_PATH_LINT_RE.
+#
+# For convenience, specific files can be ignored
+# via grep arguments given to SF_PATH_FILES_IGNORE:
+# SF_PATH_FILES_IGNORE := \
+#	$(SF_PATH_FILES_IGNORE) \
+#	-e "^path/to/dir/" \
+#	-e "^path/to/file$" \
+#
+# ------------------------------------------------------------------------------
+
 SF_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
 
 SF_PATH_FILES_IGNORE := \
