@@ -73,22 +73,23 @@ The former is the development architecture, while the latter is the CI/CD archit
 **NOTE** In order to [simplify our ~scripts~ lives](https://ponderthebits.com/2017/01/know-your-tools-linux-gnu-vs-mac-bsd-command-line-utilities-grep-strings-sed-and-find/),
 we expect GNU binaries (even on Darwin).
 
-All system-wide dependencies can be installed by running
+All common system-wide dependencies can be installed by running
 
 ```shell
-~/git/firecloud/support-firecloud/dev/bootstrap
+cd ~/git/firecloud/support-firecloud
+make bootstrap
 ```
 
 **NOTE** If the bootstrap script above didn't finish by printing `Restart your shell, and you're good to go.`,
 then you know the script has failed while executing.
 
-Some aliases/functions/PATHs need to be set as well.
-Append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.
+**IMPORTANT. THE ONLY MANUAL STEP** is to append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh` to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.
 
 Restart your shell, and you're good to go.
 
-You can test that everything is fine by checking that
-running `echo $SF_DEV_INC_SH` prints `true`.
+**NOTE** You can test that everything is fine by checking that running `echo $SF_DEV_INC_SH` prints `true`.
+
+**NOTE** Repositories might require more system-wide dependencies. These are defined in a file called `Brewfile.inc.sh` within each repository. To install them, run `make bootstrap` inside the repository. You can also run `make bootstrap/scratch` to (re)install both common and repository-specific ones.
 
 
 ## Editor
