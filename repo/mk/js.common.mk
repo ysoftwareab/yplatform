@@ -1,3 +1,7 @@
+# This is a collection of "must have" targets for JavaScript repositories.
+#
+# ------------------------------------------------------------------------------
+
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/generic.common.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.deps.npm.mk

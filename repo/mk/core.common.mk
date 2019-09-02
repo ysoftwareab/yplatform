@@ -1,3 +1,7 @@
+# This is a collection of "bare minimum" targets for generic repositories.
+#
+# ------------------------------------------------------------------------------
+
 SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
 
 # ------------------------------------------------------------------------------

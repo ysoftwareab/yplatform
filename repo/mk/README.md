@@ -41,9 +41,9 @@ The pieces **MUST** be included in this order:
 
 Each "puzzle piece" may have its own usage documentation at the top of the file.
 
-The high-level hierarchy of pieces is as follows:
+The high-level colletions of pieces are as follows:
 
-* core.common.mk
+* core.common.mk - the "bare minimum" for generic repositories
   * core.bootstrap.mk
   * core.clean.mk
   * core.deps.mk
@@ -51,7 +51,7 @@ The high-level hierarchy of pieces is as follows:
   * core.check.mk
   * core.test.mk
   * core.sf-update.mk
-* generic.common.mk
+* generic.common.mk - the "must have" for generic repositories
   * core.common.mk
   * core.vendor.transcrypt.mk
   * core.deps.git-hook-pre-push.mk
@@ -60,14 +60,32 @@ The high-level hierarchy of pieces is as follows:
   * core.check.eclint.mk
   * core.check.jsonlint.mk
   * core.misc.snapshot.mk
-* js.common.mk
+* js.common.mk - the "must have" for JavaScript repositories
   * generic.common.mk
   * js.deps.npm.mk
   * js.misc.version.mk
   * js.misc.release.mk
-* js.common.node.mk
+* js.common.node.mk - the "must have" for NodeJS repositories
   * js.common.mk
   * js.build.babel.mk
-* py.common.mk
+* py.common.mk - the "must have" for Python repositories
   * generic.common.mk
   * py.deps.pipenv.mk
+
+Addon pieces by type of repository:
+* generic
+  * core.misc.merge-upstream.mk
+  * core.misc.source-const-inc.mk
+  * env.common.mk
+    * env.promote-tag-to-env-branch.mk
+    * env.teardown-env.mk
+* JavaScript/NodeJS
+  * js.build.webpack.mk
+  * js.check.d.ts.mk
+  * js.check.sasslint.mk
+  * js.deps.private.mk
+  * js.publish.npg.mk
+  * js.publish.tag.mk
+  * js.test.jest.mk
+* Python
+  * py.check.flake.mk
