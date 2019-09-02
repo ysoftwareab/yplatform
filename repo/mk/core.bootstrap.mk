@@ -1,9 +1,18 @@
+# Adds a 'boostrap' target that will bootstrap the system
+# with dependencies that are specific to the repository.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'bootstrap/scratch' target that will bootstrap the system
+# first with common dependencies (same as running the ~/git/firecloud/support-firecloud/dev/boostrap script)
+# and then with dependencies that are specific to the repository.
+#
 # ------------------------------------------------------------------------------
 
 .PHONY: bootstrap
 bootstrap: ## Bootstrap your system skipping 'dev'. Run 'make bootstrap/scratch' to include 'dev'.
 	$(ECHO_DO) "Bootstrapping (skip dev)..."
-	SF_BOOTSTRAP_SKIP_COMMON=true $(SUPPORT_FIRECLOUD_DIR)/ci/repo/bootstrap
+	$(SUPPORT_FIRECLOUD_DIR)/ci/repo/bootstrap
 	$(ECHO_DONE)
 
 
