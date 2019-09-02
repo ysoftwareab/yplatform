@@ -27,7 +27,7 @@ include support-firecloud/repo/mk/...
 
 The pieces **MUST** be included in this order:
 
-* common
+* common (e.g. generic.common.mk)
 * check
   * not intuitive to have 'check' so early since it runs after 'build',
     but allows for upcoming pieces to alter 'check' vars
@@ -37,6 +37,7 @@ The pieces **MUST** be included in this order:
 * publish
 * misc
 
+[This is the full list of available pieces](./).
+
 Each "puzzle piece" may have its own usage documentation at the top of the file.
 
-[This is the full list of available pieces](./). Each piece has its docs inside the file.
