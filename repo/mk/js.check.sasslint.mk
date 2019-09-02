@@ -2,7 +2,7 @@
 # over SF_SASSLINT_FILES (defaults to all committed and staged *.sass and *.scss files).
 # The 'check-sasslint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #
-# The sasslint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The sasslint executable is lazy-found inside node_modules/.bin and $PATH.
 # The arguments to the sasslint executable can be changed via SASSLINT_ARGS.
 #
 # For convenience, specific files can be ignored

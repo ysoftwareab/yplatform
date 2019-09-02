@@ -2,7 +2,7 @@
 # over SF_ECLINT_FILES (defaults to all committed and staged files).
 # The 'check-eclint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #
-# The eclint executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The eclint executable is lazy-found inside node_modules/.bin and $PATH.
 # The arguments to the eclint executable can be changed via ECLINT_ARGS.
 #
 # For convenience, specific files can be ignored

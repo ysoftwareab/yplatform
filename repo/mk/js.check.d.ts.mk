@@ -2,7 +2,7 @@
 # over SF_D_TS_FILES (defaults to all committed and staged *.d.ts files).
 # The 'check-d-ts' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #
-# The tsc executable is lazy-found inside ./node_modules/.bin and $PATH.
+# The tsc executable is lazy-found inside node_modules/.bin and $PATH.
 # The arguments to the tsc executable can be changed via TSC_D_TS_ARGS.
 #
 # For convenience, specific files can be ignored
