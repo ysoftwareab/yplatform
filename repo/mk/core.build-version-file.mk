@@ -43,7 +43,7 @@ BUILD_OS_ARCH ?= $(ARCH)
 BUILD_VSN ?= $(PKG_VSN)_$(GIT_HASH)
 
 
-SF_BUILD_VARS := \
+SF_BUILD_VARS = \
 	BUILD_VSN \
 	BUILD_DATE \
 	BUILD_TIME \
@@ -56,14 +56,15 @@ SF_BUILD_VARS := \
 	BUILD_USER \
 	BUILD_HOSTNAME \
 
-SF_VERSION_VARS := \
+SF_VERSION_VARS = \
 	PKG_NAME \
 	PKG_VSN \
+	$(SF_BUILD_VARS)
 
 define sf-substitute-version-vars-in-file
 	< $1 > $2 \
-		$(foreach VAR,$(SF_VERSION_VARS) $(SF_BUILD_VARS),$(VAR)=$($(VAR))) \
-		envsubst '$(foreach VAR,$(SF_VERSION_VARS) $(SF_BUILD_VARS),$${$(VAR)})'
+		$(foreach VAR,$(SF_VERSION_VARS),$(VAR)=$($(VAR))) \
+		envsubst '$(foreach VAR,$(SF_VERSION_VARS),$${$(VAR)})'
 endef
 
 # ------------------------------------------------------------------------------
@@ -80,5 +81,4 @@ VERSION: BUILD
 	$(ECHO_DO) "Generating $@..."
 	$(RM) $@
 	$(ECHO) $(foreach VAR,$(SF_VERSION_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
-	$(CAT) BUILD >> $@
 	$(ECHO_DONE)
