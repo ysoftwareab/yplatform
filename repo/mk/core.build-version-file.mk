@@ -60,10 +60,6 @@ SF_VERSION_VARS := \
 	PKG_NAME \
 	PKG_VSN \
 
-define sf-write-var-to-file
-	$(ECHO)  | $(TEE) -a $2
-endef
-
 define sf-substitute-version-vars-in-file
 	< $1 > $2 \
 		$(foreach VAR,$(SF_VERSION_VARS) $(SF_BUILD_VARS),$(VAR)=$($(VAR))) \
