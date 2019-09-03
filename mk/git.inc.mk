@@ -9,3 +9,9 @@ $(foreach VAR,GIT_BRANCH GIT_BRANCH_SHORT GIT_DESCRIBE GIT_HASH GIT_HASH_SHORT G
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_ROOT = $(shell cd $(TOP) && $(GIT) rev-parse --show-toplevel 2>/dev/null)
 $(foreach VAR,GIT_REMOTE GIT_ROOT,$(call make-lazy,$(VAR)))
+
+GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && echo true || echo false)
+GIT_REPO_HAS_STAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^[^ U]" && echo true || echo false)
+GIT_REPO_HAS_UNSTAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^ [^ ]" && echo true || echo false)
+GIT_REPO_HAS_UNTRACKED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\?\?" && echo true || echo false)
+GIT_REPO_HAS_CONFLICTS = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && echo true || echo false)
