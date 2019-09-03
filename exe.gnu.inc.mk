@@ -13,6 +13,10 @@ DIFF = $(call which,DIFF,gdiff diff)
 FIND = $(call which,FIND,gfind find)
 ECHO = $(call which,ECHO,gecho echo)
 GREP = $(call which,GREP,ggrep grep)
+$(foreach VAR,AWK BASENAME CAT CHMOD CHOWN COMM CP CUT DATE DIFF FIND ECHO GREP,$(call make-lazy,$(VAR)))
+
+# ------------------------------------------------------------------------------
+
 HEAD = $(call which,HEAD,ghead head)
 LN = $(call which,LN,gln ln) -f
 LS = $(call which,LS,gls ls)
@@ -22,6 +26,10 @@ MKTEMP = $(call which,MKTEMP,gmktemp mktemp) -t core-inc-mk.XXXXXXXXXX
 MV = $(call which,MV,gmv mv) -f
 PATCH = $(call which,PATCH,gpatch patch)
 PARALLEL = $(call which,PARALLEL,gparallel parallel) --will-cite
+$(foreach VAR,HEAD LN LS MD5SUM MKDIR MKTEMP MV PATCH PARALLEL,$(call make-lazy,$(VAR)))
+
+#-------------------------------------------------------------------------------
+
 READLINK = $(call which,READLINK,greadlink readlink)
 REALPATH = $(call which,REALPATH,grealpath realpath)
 RM = $(call which,RM,grm rm) -rf
@@ -36,4 +44,4 @@ TOUCH = $(call which,TOUCH,gtouch touch)
 TR = $(call which,TR,gtr tr)
 WATCH = $(call which,WATCH,gwatch watch)
 XARGS = $(call which,XARGS,gxargs xargs)
-$(foreach VAR,AWK BASENAME CAT CHMOD CHOWN COMM CP CUT DATE DIFF FIND ECHO GREP HEAD LN LS MD5SUM MKDIR MKTEMP MV PATCH PARALLEL READLINK REALPATH RM SED SEQ SHA256SUM SORT TAR TAIL TEE TOUCH TR WATCH XARGS,$(call make-lazy,$(VAR)))
+$(foreach VAR,PARALLEL READLINK REALPATH RM SED SEQ SHA256SUM SORT TAR TAIL TEE TOUCH TR WATCH XARGS,$(call make-lazy,$(VAR)))
