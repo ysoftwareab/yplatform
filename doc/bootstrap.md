@@ -68,7 +68,9 @@ in your `~/.gitconfig` prepend AT THE TOP
 ## System
 
 We support Darwin (OSX) and Linux (Ubuntu) architectures.
-The former is the development architecture, while the latter is the CI/CD architecture.
+The former is the main development architecture, while the latter is the main CI/CD architecture.
+
+**We do NOT support Windows Subshell for Linux**, but we do know that it is possible to successfully bootstrap Ubuntu 16.04/18.04 distributions under it. If you feel adventurous, read and improve our experimental notes on [working with WSL](working-with-wsl.md).
 
 **NOTE** In order to [simplify our ~scripts~ lives](https://ponderthebits.com/2017/01/know-your-tools-linux-gnu-vs-mac-bsd-command-line-utilities-grep-strings-sed-and-find/),
 we expect GNU binaries (even on Darwin).
