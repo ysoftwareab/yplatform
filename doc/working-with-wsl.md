@@ -1,4 +1,4 @@
-# Windows Subsystem for linux (WSL)
+# Windows Subsystem for Linux (WSL)
 
 WSL is a feature of Windows 10 introduced in the Anniversary Update in 2016 and improved since.
 It allows you to install different Linux distros to run under Windows without the need for a full virtual machine.
