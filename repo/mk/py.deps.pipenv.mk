@@ -1,3 +1,8 @@
+# Adds 'deps-pipenv' and 'deps-pipenv-prod' targets to install all and respectively prod-only pipenv dependencies.
+# The 'deps-pipenv' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
+#
+# ------------------------------------------------------------------------------
+
 PIPENV = $(call which,PIPENV,pipenv)
 $(foreach VAR,PIPENV,$(call make-lazy,$(VAR)))
 
