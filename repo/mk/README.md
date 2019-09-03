@@ -63,8 +63,8 @@ The high-level colletions of pieces are as follows:
 * js.common.mk - the "must have" for JavaScript repositories
   * generic.common.mk
   * js.deps.npm.mk
-  * js.misc.version.mk
-  * js.misc.release.mk
+  * core.misc.version.mk
+  * core.misc.release.mk
 * js.common.node.mk - the "must have" for NodeJS repositories
   * js.common.mk
   * js.build.babel.mk
@@ -75,6 +75,8 @@ The high-level colletions of pieces are as follows:
 Addon pieces by type of repository:
 * generic
   * core.misc.merge-upstream.mk
+  * core.misc.release-npg.mk
+  * core.misc.release-tag.mk
   * core.misc.source-const-inc.mk
   * env.common.mk
     * env.promote-tag-to-env-branch.mk
@@ -84,8 +86,6 @@ Addon pieces by type of repository:
   * js.check.d.ts.mk
   * js.check.sasslint.mk
   * js.deps.private.mk
-  * js.publish.npg.mk
-  * js.publish.tag.mk
   * js.test.jest.mk
 * Python
   * py.check.flake.mk

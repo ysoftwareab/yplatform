@@ -10,7 +10,9 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.path.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.eclint.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.jsonlint.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.transcrypt.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.release.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.snapshot.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.version.mk
 
 # ------------------------------------------------------------------------------
 
