@@ -34,3 +34,11 @@ The terminal in the editor will be a bash-terminal instead of a powershell termi
 From here things should work as you expect them. If not, please update these instructions or file an issue.
 
 Good luck!
+
+
+## Random notes
+
+Appveyor CI seems to support a Windows VM with WSL enabled, though the VM may take 3-4 minutes to start up. Refs:
+
+* https://github.com/appveyor/ci/issues/1295
+* https://ci.appveyor.com/project/appveyor-tests/win2k19-azure/builds/24024378
