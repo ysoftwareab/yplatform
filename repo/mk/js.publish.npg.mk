@@ -1,35 +1,24 @@
+# This is a collection of internal targets implementing
+# releasing new versions as npm packages reachable via git tags.
+#
+# ------------------------------------------------------------------------------
+
 NPM_PUBLISH_GIT = $(call npm-which,NPM_PUBLISH_GIT,npm-publish-git)
 $(foreach VAR,NPM_PUBLISH_GIT,$(call make-lazy,$(VAR)))
 
 # ------------------------------------------------------------------------------
 
-.PHONY: publish
-publish: ## Publish as a git version tag.
+.PHONY: _publish
+_publish:
 	@$(ECHO_DO) "Publishing version..."
 	$(NPM_PUBLISH_GIT)
 	@$(ECHO_DONE)
 
 
-.PHONY: $(RELEASE_TARGETS)
-# NOTE: below is a workaround for `make help` to work
-release/patch: ## Release a new patch-bumped version.
-release/minor: ## Release a new minor-bumped version.
-release/major: ## Release a new major-bumped version.
-$(RELEASE_TARGETS):
-	$(eval VSN := $(@:release/%=%))
-	VSN=$(VSN) $(MAKE) _release
-
-
-.PHONY: release/v%
-release/v%: ## Release a new specific version.
-	$(eval VSN := $(@:release/v%=%))
-	VSN=$(VSN) $(MAKE) _release
-
-
 .PHONY: _release
 _release:
 	@$(ECHO_DO) "Release new $(VSN) version..."
-	$(MAKE) nuke all test version/v$(VSN) publish
+	$(MAKE) nuke all test version/v$(VSN) _publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else `git push` fails

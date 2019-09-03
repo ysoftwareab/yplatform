@@ -1,3 +1,31 @@
+# Adds a 'release' target as an alias to 'release/bugfix'.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds 'release/bugfix', 'release/feature' and 'release/breaking' targets
+# to release new versions with the version bumped accordingly.
+# For pre-public <1.0.0 versions:
+# * 'breaking' will bump the minor version,
+# * 'feature' and 'bugfix' will bump the patch version.
+# For public >=1.0.0 versions:
+# * 'breaking' will bump the major version,
+# * 'feature' will bump the minor version,
+# * 'bugfix' will bump the patch version.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'release/public' target that is to be used
+# once and only once in the lifecycle of a package.
+# Going public semver-wise is a matter of code maturity and API stability,
+# and not a matter of transitioning the package from internal/private to public.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'release/v<SEMVER>' target to release a specific version.
+# Version will be set to the given SEMVER value.
+#
+# ------------------------------------------------------------------------------
+
 RELEASE_LEVELS := $(VERSION_LEVELS)
 
 RELEASE_TARGETS := $(patsubst %,release/%,$(RELEASE_LEVELS))
@@ -22,7 +50,7 @@ PUBLIC_breaking := major
 # ------------------------------------------------------------------------------
 
 .PHONY: release
-release: release/patch ## Release a new patch version.
+release: release/bugfix ## Release a new bugfix version.
 
 
 .PHONY: release/public
@@ -32,6 +60,18 @@ ifeq (true,$(PKG_VSN_PUBLIC))
 	exit 1
 endif
 	$(MAKE) release/major
+
+
+.PHONY: $(RELEASE_TARGETS)
+$(RELEASE_TARGETS):
+	$(eval VSN := $(@:release/%=%))
+	VSN=$(VSN) $(MAKE) _release
+
+
+.PHONY: release/v%
+release/v%: ## Release a new specific version.
+	$(eval VSN := $(@:release/v%=%))
+	VSN=$(VSN) $(MAKE) _release
 
 
 .PHONY: $(RELEASE_SEMANTIC_TARGETS)

@@ -1,3 +1,12 @@
+# Adds 'version/patch', 'version/minor' and 'version/major' internal targets
+# to bump the version accordingly.
+#
+# ------------------------------------------------------------------------------
+#
+# Adds a 'version/v<SEMVER>' internal target to set the version to the given SEMVER value.
+#
+# ------------------------------------------------------------------------------
+
 VERSION_LEVELS := \
 	patch \
 	minor \
@@ -15,22 +24,14 @@ $(foreach VAR,PKG_VSN PKG_VSN_MAJOR PKG_VSN_PUBLIC,$(call make-lazy,$(VAR)))
 
 # ------------------------------------------------------------------------------
 
-.PHONY: version
-version: version/patch ## Bump patch version.
-
-
 .PHONY: $(VERSION_TARGETS)
-# NOTE: below is a workaround for `make help` to work
-version/patch: ## Bump patch version.
-version/minor: ## Bump minor version.
-version/major: ## Bump major version.
 $(VERSION_TARGETS): version/%
 	$(eval VSN := $(@:version/%=%))
 	VSN=$(VSN) $(MAKE) _version
 
 
 .PHONY: version/v%
-version/v%: ## Bump to specific version.
+version/v%:
 	$(eval VSN := $(@:version/v%=%))
 	VSN=$(VSN) $(MAKE) _version
 
