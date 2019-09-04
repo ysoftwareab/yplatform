@@ -35,10 +35,16 @@ NODE_ESM = $(call which,NODE_ESM,node-esm)
 .PHONY: all
 all: deps build check ## Fetch dependencies, build and check.
 
+SF_INCLUDES_IGNORE ?=
 
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk
+SF_CORE_COMMON_INCLUDES_DEFAULT += \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk \
+
+SF_CORE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_CORE_COMMON_INCLUDES_DEFAULT))
+
+include $(SF_CORE_COMMON_INCLUDES)
