@@ -15,7 +15,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.bootstrap.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.release.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.snapshot.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.version.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.sf-update.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.sf-update.mk
 
 # ------------------------------------------------------------------------------
 
