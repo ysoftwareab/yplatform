@@ -1,4 +1,4 @@
-SF_PROMOTE_ENVS := \
+SF_PROMOTE_ENVS += \
 	dev \
 	prod-staging \
 	prod \

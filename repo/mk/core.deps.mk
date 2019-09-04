@@ -1,8 +1,7 @@
 # Adds a 'deps' target that will call all the targets in SF_DEPS_TARGETS.
 #
 # To add another deps target do
-# SF_DEPS_TARGETS := \
-#	$(SF_DEPS_TARGETS) \
+# SF_DEPS_TARGETS += \
 #	deps-for-something-else \
 #
 # ------------------------------------------------------------------------------
@@ -11,7 +10,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_DEPS_TARGETS := \
+SF_DEPS_TARGETS += \
 	deps-git \
 
 # ------------------------------------------------------------------------------

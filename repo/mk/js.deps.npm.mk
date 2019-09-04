@@ -16,17 +16,14 @@
 NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	node_modules \
 
-SF_DEPS_TARGETS := \
-	$(SF_DEPS_TARGETS) \
+SF_DEPS_TARGETS += \
 	deps-npm \
 
 ifdef SF_ECLINT_FILES_IGNORE
-SF_ECLINT_FILES_IGNORE := \
-	$(SF_ECLINT_FILES_IGNORE) \
+SF_ECLINT_FILES_IGNORE += \
 	-e "^package-lock.json$$" \
 	-e "^package.json.unmet-peer$$" \
 

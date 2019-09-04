@@ -18,13 +18,11 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	BUILD \
 	VERSION \
 
-SF_BUILD_TARGETS := \
-	$(SF_BUILD_TARGETS) \
+SF_BUILD_TARGETS += \
 	VERSION \
 
 BUILD_DATE ?= $(MAKE_DATE)

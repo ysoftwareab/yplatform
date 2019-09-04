@@ -21,16 +21,14 @@ SF_IS_TRANSCRYPTED ?= false
 SASSLINT = $(call npm-which,SASSLINT,sass-lint)
 $(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
 
-SASSLINT_ARGS ?=
-SASSLINT_ARGS := \
-	$(SASSLINT_ARGS) \
+SASSLINT_ARGS += \
 	--no-exit \
 	--verbose
 
-SF_SASSLINT_FILES_IGNORE := \
+SF_SASSLINT_FILES_IGNORE += \
 	-e "^$$"
 
-SF_SASSLINT_FILES = $(shell $(GIT_LS) . | \
+SF_SASSLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.\\(sass\\|scss\\)$$" | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
@@ -38,9 +36,7 @@ SF_SASSLINT_FILES = $(shell $(GIT_LS) . | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g") \
 
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-sasslint \
 
 # ------------------------------------------------------------------------------

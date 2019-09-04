@@ -1,14 +1,10 @@
 TSLINT = $(call npm-which,TSLINT,tslint)
 $(foreach VAR,TSLINT,$(call make-lazy,$(VAR)))
 
-TSLINT_ARGS ?=
-TSLINT_ARGS := \
-	$(TSLINT_ARGS) \
+TSLINT_ARGS += \
 	--format verbose \
 
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-tslint \
 
 # ------------------------------------------------------------------------------

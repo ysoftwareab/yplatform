@@ -3,17 +3,16 @@ BABEL_NODE = $(call npm-which,BABEL_NODE,babel-node)
 $(foreach VAR,BABEL BABEL_NODE,$(call make-lazy,$(VAR)))
 
 BABELRC := $(shell $(FIND_Q_NOSYM) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
-LIB_JS_FILES := $(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES))
+LIB_JS_FILES += \
+	$(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES)) \
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	$(LIB_JS_FILES) \
 
-SF_BUILD_TARGETS := \
-	$(SF_BUILD_TARGETS) \
+SF_BUILD_TARGETS += \
 	build-babel \
 
-BABEL_ARGS := \
+BABEL_ARGS += \
 	--source-maps
 
 # ------------------------------------------------------------------------------

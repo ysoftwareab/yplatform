@@ -6,12 +6,10 @@
 PIPENV = $(call which,PIPENV,pipenv)
 $(foreach VAR,PIPENV,$(call make-lazy,$(VAR)))
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	.venv \
 
-SF_DEPS_TARGETS := \
-	$(SF_DEPS_TARGETS) \
+SF_DEPS_TARGETS += \
 	deps-pipenv \
 
 export PIPENV_NO_INHERIT = 1

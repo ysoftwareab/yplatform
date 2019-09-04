@@ -13,8 +13,7 @@
 # ------------------------------------------------------------------------------
 
 ifneq (,$(wildcard .git))
-SF_DEPS_TARGETS := \
-	$(SF_DEPS_TARGETS) \
+SF_DEPS_TARGETS += \
 	.git/hooks/pre-push \
 
 endif

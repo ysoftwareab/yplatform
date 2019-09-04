@@ -1,13 +1,12 @@
 # Adds a 'test' target that will call all the targets in SF_TEST_TARGETS.
 #
 # To add another test target do
-# SF_TEST_TARGETS := \
-#	$(SF_TEST_TARGETS) \
+# SF_TEST_TARGETS += \
 #	test-something-else \
 #
 # ------------------------------------------------------------------------------
 
-SF_TEST_TARGETS := \
+SF_TEST_TARGETS += \
 
 # ------------------------------------------------------------------------------
 

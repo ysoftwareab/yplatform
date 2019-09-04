@@ -7,8 +7,7 @@
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to SF_ECLINT_FILES_IGNORE:
-# SF_ECLINT_FILES_IGNORE := \
-#	$(SF_ECLINT_FILES_IGNORE) \
+# SF_ECLINT_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
@@ -21,21 +20,20 @@ SF_IS_TRANSCRYPTED ?= false
 ECLINT = $(call npm-which,ECLINT,eclint)
 $(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
 
-ECLINT_ARGS ?=
+ECLINT_ARGS += \
 
-SF_ECLINT_FILES_IGNORE := \
+SF_ECLINT_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 
-SF_ECLINT_FILES = $(shell $(GIT_LS) . | \
+SF_ECLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
 	$(GREP) -v $(SF_ECLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-eclint \
 
 # ------------------------------------------------------------------------------

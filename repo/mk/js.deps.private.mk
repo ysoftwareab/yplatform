@@ -1,27 +1,7 @@
-SF_VENDOR_FILES_IGNORE := \
+SF_VENDOR_FILES_IGNORE += \
 	-e "^node_modules_private/" \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
-	$(SF_VENDOR_FILES_IGNORE) \
-
-SF_ECLINT_FILES_IGNORE := \
-	$(SF_ECLINT_FILES_IGNORE) \
-	$(SF_VENDOR_FILES_IGNORE) \
-
-SF_JSONLINT_FILES_IGNORE := \
-	$(SF_JSONLINT_FILES_IGNORE) \
-	$(SF_VENDOR_FILES_IGNORE) \
-
-ifdef SF_ESLINT_FILES_IGNORE
-SF_ESLINT_FILES_IGNORE := \
-	$(SF_ESLINT_FILES_IGNORE) \
-	$(SF_VENDOR_FILES_IGNORE) \
-
-endif
-
-SF_DEPS_TARGETS := \
-	$(SF_DEPS_TARGETS) \
+SF_DEPS_TARGETS += \
 	deps-node_modules_private \
 
 # ------------------------------------------------------------------------------

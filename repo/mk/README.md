@@ -28,11 +28,9 @@ include support-firecloud/repo/mk/...
 The pieces **MUST** be included in this order:
 
 * common (e.g. generic.common.mk)
-* check
-  * not intuitive to have 'check' so early since it runs after 'build',
-    but allows for upcoming pieces to alter 'check' vars
 * deps
 * build
+* check
 * test
 * publish
 * misc

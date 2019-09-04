@@ -12,7 +12,8 @@ VERSION_LEVELS := \
 	minor \
 	major \
 
-VERSION_TARGETS := $(patsubst %,version/%,$(VERSION_LEVELS))
+VERSION_TARGETS += \
+	$(patsubst %,version/%,$(VERSION_LEVELS)) \
 
 PKG_VSN = $(shell $(CAT) package.json | $(JQ) ".version")
 PKG_VSN_MAJOR = $(shell $(ECHO) "$(PKG_VSN)" | $(CUT) -d"." -f1)

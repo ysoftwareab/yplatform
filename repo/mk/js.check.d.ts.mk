@@ -21,17 +21,15 @@ SF_IS_TRANSCRYPTED ?= false
 TSC_D_TS = $(call npm-which,TSC,tsc)
 $(foreach VAR,TSC_D_TS,$(call make-lazy,$(VAR)))
 
-TSC_D_TS_ARGS ?=
-TSC_D_TS_ARGS := \
-	$(TSC_D_TS_ARGS) \
+TSC_D_TS_ARGS += \
 	--esModuleInterop \
 	--noEmit \
 
-SF_D_TS_FILES_IGNORE := \
+SF_D_TS_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 
-SF_D_TS_FILES = $(shell $(GIT_LS) . | \
+SF_D_TS_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.d.ts$$" | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
@@ -39,8 +37,7 @@ SF_D_TS_FILES = $(shell $(GIT_LS) . | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-d-ts
 
 # ------------------------------------------------------------------------------

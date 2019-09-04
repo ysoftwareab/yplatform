@@ -26,16 +26,19 @@
 #
 # ------------------------------------------------------------------------------
 
-RELEASE_LEVELS := $(VERSION_LEVELS)
+RELEASE_LEVELS += \
+	$(VERSION_LEVELS)
 
-RELEASE_TARGETS := $(patsubst %,release/%,$(RELEASE_LEVELS))
+RELEASE_TARGETS += \
+	$(patsubst %,release/%,$(RELEASE_LEVELS)) \
 
-RELEASE_SEMANTIC_LEVELS := \
+RELEASE_SEMANTIC_LEVELS += \
 	bugfix \
 	feature \
 	breaking \
 
-RELEASE_SEMANTIC_TARGETS := $(patsubst %,release/%,$(RELEASE_SEMANTIC_LEVELS))
+RELEASE_SEMANTIC_TARGETS += \
+	$(patsubst %,release/%,$(RELEASE_SEMANTIC_LEVELS)) \
 
 # <1.0.0
 PREPUBLIC_bugfix := patch

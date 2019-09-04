@@ -20,7 +20,7 @@ SF_SNAPSHOT_DIR := snapshot.dir
 SF_SNAPSHOT_ZIP := snapshot.zip
 SF_SNAPSHOT_GIT_HASH := .git_hash
 
-SF_SNAPSHOT_FILES_IGNORE = \
+SF_SNAPSHOT_FILES_IGNORE += \
 	-e "^$(SF_SNAPSHOT_DIR)/" \
 	-e "^$(SF_SNAPSHOT_ZIP)$$" \
 

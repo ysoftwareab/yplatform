@@ -21,16 +21,14 @@ SF_IS_TRANSCRYPTED ?= false
 ESLINT = $(call npm-which,ESLINT,eslint)
 $(foreach VAR,ESLINT,$(call make-lazy,$(VAR)))
 
-ESLINT_ARGS ?=
-ESLINT_ARGS := \
-	$(ESLINT_ARGS) \
+ESLINT_ARGS += \
 	--ignore-pattern '!.babelrc.js' \
 	--ignore-pattern '!.eslintrc.js' \
 
-SF_ESLINT_FILES_IGNORE := \
+SF_ESLINT_FILES_IGNORE += \
 	-e "^$$"
 
-SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
+SF_ESLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.\\(js\\|ts\\)$$" | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
@@ -44,9 +42,7 @@ SF_ESLINT_FILES = $(shell $(GIT_LS) . | \
 		$(ECHO) "'$${FILE}'"; \
 	done)
 
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-eslint \
 
 # ------------------------------------------------------------------------------

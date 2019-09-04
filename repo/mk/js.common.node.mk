@@ -8,8 +8,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.build.babel.mk
 
 # ------------------------------------------------------------------------------
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	dist \
 	lib \
 

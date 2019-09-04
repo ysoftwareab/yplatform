@@ -7,8 +7,7 @@
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to SF_JSONLINT_FILES_IGNORE:
-# SF_JSONLINT_FILES_IGNORE := \
-#	$(SF_JSONLINT_FILES_IGNORE) \
+# SF_JSONLINT_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
@@ -20,13 +19,13 @@ SF_IS_TRANSCRYPTED ?= false
 
 JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
 
-JSONLINT_ARGS ?=
+JSONLINT_ARGS += \
 
-SF_JSONLINT_FILES_IGNORE := \
+SF_JSONLINT_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 
-SF_JSONLINT_FILES = $(shell $(GIT_LS) . | \
+SF_JSONLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.json$$" | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
@@ -34,8 +33,7 @@ SF_JSONLINT_FILES = $(shell $(GIT_LS) . | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-jsonlint \
 
 # ------------------------------------------------------------------------------

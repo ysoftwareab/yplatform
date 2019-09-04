@@ -15,39 +15,34 @@
 
 SF_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
 
-SF_PATH_FILES_IGNORE := \
+SF_PATH_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 	-e "^.github/" \
 	-e "^Brewfile.inc.sh$$" \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE += \
 	-e "^AUTHORS$$" \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE += \
 	-e "^CONST\.inc$$" \
 	-e "^CONST\.inc\.secret$$" \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE += \
 	-e "^Makefile" \
 	-e "/Makefile" \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE += \
 	-e "^README" \
 	-e "/README" \
 
-SF_PATH_FILES = $(shell $(GIT_LS) . | \
+SF_PATH_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
 	$(GREP) -v $(SF_PATH_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
+SF_CHECK_TARGETS += \
 	check-path \
 
 # ------------------------------------------------------------------------------
