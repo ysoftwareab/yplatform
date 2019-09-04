@@ -51,20 +51,21 @@ The high-level colletions of pieces are as follows:
   * core.check.mk
   * core.test.mk
   * core.sf-update.mk
+  * core.vendor.mk
 * generic.common.mk - the "must have" for generic repositories
-  * core.common.mk
-  * core.vendor.transcrypt.mk
-  * core.deps.git-hook-pre-push.mk
   * core.build-version-file.mk
-  * core.check.path.mk
   * core.check.eclint.mk
   * core.check.jsonlint.mk
+  * core.check.path.mk
+  * core.common.mk
+  * core.deps.git-hook-pre-push.mk
   * core.misc.snapshot.mk
+  * core.misc.transcrypt.mk
+  * core.release.mk
+  * core.version.mk
 * js.common.mk - the "must have" for JavaScript repositories
   * generic.common.mk
   * js.deps.npm.mk
-  * core.misc.version.mk
-  * core.misc.release.mk
 * js.common.node.mk - the "must have" for NodeJS repositories
   * js.common.mk
   * js.build.babel.mk
@@ -75,9 +76,9 @@ The high-level colletions of pieces are as follows:
 Addon pieces by type of repository:
 * generic
   * core.misc.merge-upstream.mk
-  * core.misc.release-npg.mk
-  * core.misc.release-tag.mk
   * core.misc.source-const-inc.mk
+  * core.release.npg.mk
+  * core.release.tag.mk
   * env.common.mk
     * env.promote-tag-to-env-branch.mk
     * env.teardown-env.mk
