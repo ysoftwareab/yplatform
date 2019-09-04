@@ -1,4 +1,6 @@
 include repo/mk/core.common.mk
+include repo/mk/core.check.path.mk
+include repo/mk/core.check.eclint.mk
 include repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
