@@ -2,6 +2,10 @@
 # by using a GPG encoded password.
 #
 # ------------------------------------------------------------------------------
+#
+# Adds a SF_IS_TRANSCRYPTED variable to check if the repository has been decrypted.
+#
+# ------------------------------------------------------------------------------
 
 SF_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
 
