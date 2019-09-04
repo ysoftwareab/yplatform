@@ -44,15 +44,14 @@ Each "puzzle piece" may have its own usage documentation at the top of the file.
 The high-level colletions of pieces are as follows:
 
 * core.common.mk - the "bare minimum" for generic repositories
-  * core.bootstrap.mk
   * core.clean.mk
   * core.deps.mk
   * core.build.mk
   * core.check.mk
   * core.test.mk
-  * core.sf-update.mk
   * core.vendor.mk
 * generic.common.mk - the "must have" for generic repositories
+  * core.bootstrap.mk
   * core.build-version-file.mk
   * core.check.eclint.mk
   * core.check.jsonlint.mk
@@ -62,6 +61,7 @@ The high-level colletions of pieces are as follows:
   * core.misc.snapshot.mk
   * core.misc.transcrypt.mk
   * core.release.mk
+  * core.sf-update.mk
   * core.version.mk
 * js.common.mk - the "must have" for JavaScript repositories
   * generic.common.mk
