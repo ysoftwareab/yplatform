@@ -44,4 +44,4 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-d-ts
 check-d-ts:
-	$(TSC_D_TS) $(TSC_D_TS) $(SF_D_TS_FILES)
+	$(TSC_D_TS) $(TSC_D_TS_ARGS) $(SF_D_TS_FILES)
