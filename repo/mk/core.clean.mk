@@ -31,6 +31,15 @@ clean: ## Clean.
 
 .PHONY: nuke
 nuke: ## Nuke all files/changes not checked in.
+	[[ ! $(GIT_REPO_HAS_CHANGED_FILES) ]] || { \
+		$(ECHO); \
+		$(ECHO) "       Your repository has deleted/modified/new files,"; \
+		$(ECHO) "       and continuing will remove/reset those files."; \
+		$(ECHO) "[Q   ] Continue?"; \
+		$(ECHO) "       Press ENTER to Continue."; \
+		$(ECHO) "       Press Ctrl+C to Cancel."; \
+		read -p ""; \
+	}
 	$(ECHO_DO) "Nuking..."
 	$(GIT) reset -- .
 	$(GIT) submodule foreach --recursive "$(GIT) reset -- ."
