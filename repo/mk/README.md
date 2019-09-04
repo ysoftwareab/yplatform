@@ -32,7 +32,7 @@ The pieces **MUST** be included in this order:
 * build
 * check
 * test
-* publish
+* release
 * misc
 
 [This is the full list of available pieces](./).
