@@ -1,4 +1,4 @@
-# Adds an internal '.git/hooks/pre-push' target that will generate a pre-push git hook.
+# Adds a '.git/hooks/pre-push' internal target that will generate a pre-push git hook.
 # The '.git/hooks/pre-push' is automatically added to the 'deps' target via SF_DEPS_TARGETS.
 #
 # The pre-push git hook is intended to run 'make check' on 'git push', before pushing to remote that is.

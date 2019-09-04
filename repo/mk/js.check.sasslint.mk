@@ -1,4 +1,4 @@
-# Adds a 'check-sasslint' target to run 'sasslint'
+# Adds a 'check-sasslint' internal target to run 'sasslint'
 # over SF_SASSLINT_FILES (defaults to all committed and staged *.sass and *.scss files).
 # The 'check-sasslint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #

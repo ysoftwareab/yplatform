@@ -1,4 +1,4 @@
-# Adds 'BUILD' and 'VERSION' targets to generate the respective files,
+# Adds 'BUILD' and 'VERSION' internal targets to generate the respective files,
 # which include variables that can be sourced by shell scripts and Makefiles.
 # The 'BUILD' and 'VERSION' targets are automatically included in the 'build' target via SF_BUILD_TARGETS.
 #

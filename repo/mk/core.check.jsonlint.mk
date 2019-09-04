@@ -1,4 +1,4 @@
-# Adds a 'check-jsonlint' target to run 'jsonlint'
+# Adds a 'check-jsonlint' internal target to run 'jsonlint'
 # over SF_JSONLINT_FILES (defaults to all committed and staged *.json files).
 # The 'check-jsonlint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #

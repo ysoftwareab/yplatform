@@ -1,4 +1,4 @@
-# Adds a 'check-eclint' target to run 'eclint'
+# Adds a 'check-eclint' internal target to run 'eclint'
 # over SF_ECLINT_FILES (defaults to all committed and staged files).
 # The 'check-eclint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #

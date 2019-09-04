@@ -1,4 +1,4 @@
-# Adds a 'check-flake' target to run 'flake8'
+# Adds a 'check-flake' internal target to run 'flake8'
 # over SF_FLAKE_FILES (defaults to all committed and staged *.py files).
 # The 'check-flake' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #

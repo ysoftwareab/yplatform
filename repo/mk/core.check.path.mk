@@ -1,4 +1,4 @@
-# Adds a 'check-path' target to run path and filename checks
+# Adds a 'check-path' internal target to run path and filename checks
 # over SF_PATH_FILES (defaults to all committed and staged files).
 # The 'check-path' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #

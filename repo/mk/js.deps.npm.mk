@@ -1,4 +1,4 @@
-# Adds 'deps-npm' and 'deps-npm-prod' targets to install all and respectively prod-only npm dependencies.
+# Adds 'deps-npm' and 'deps-npm-prod' internal targets to install all and respectively prod-only npm dependencies.
 # The 'deps-npm' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
 #
 # In addition to 'npm install' functionality, we also:
