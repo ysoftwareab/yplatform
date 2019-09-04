@@ -115,8 +115,6 @@
 [status]
     submoduleSummary    = true
     relativePaths       = true
-[submodule]
-    recurse = true
 [svn]
     rmdir               = true
 [url "git@github.com:"]
