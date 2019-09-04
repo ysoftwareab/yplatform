@@ -33,6 +33,7 @@ SF_VENDOR_FILES_IGNORE := \
 	-e "^LICENSE$$" \
 	-e "^NOTICE$$" \
 	-e "^UNLICENSE$$" \
+NODE_ESM = $(call which,NODE_ESM,node-esm)
 
 # ------------------------------------------------------------------------------
 
