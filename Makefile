@@ -5,10 +5,8 @@ undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/repo/mk/core.common.mk
-include support-firecloud/repo/mk/core.check.path.mk
-include support-firecloud/repo/mk/core.check.eclint.mk
-include support-firecloud/repo/mk/core.misc.transcrypt.mk
+include support-firecloud/repo/mk/generic.common.mk
+include support-firecloud/repo/mk/js.deps.npm.mk
 include support-firecloud/repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
