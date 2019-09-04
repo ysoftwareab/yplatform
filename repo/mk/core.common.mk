@@ -28,11 +28,6 @@ $(shell \
 	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 
-SF_VENDOR_FILES_IGNORE := \
-	-e "^$$" \
-	-e "^LICENSE$$" \
-	-e "^NOTICE$$" \
-	-e "^UNLICENSE$$" \
 NODE_ESM = $(call which,NODE_ESM,node-esm)
 
 # ------------------------------------------------------------------------------
@@ -42,6 +37,7 @@ all: deps build check ## Fetch dependencies, build and check.
 
 
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.bootstrap.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk
