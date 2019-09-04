@@ -11,6 +11,10 @@ include support-firecloud/repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
 
+COMMON_MKS := $(wildcard repo/mk/*.common.mk)
+# FIXME env.common.mk isn't an "entrypoint" makefile, like the rest
+COMMON_MKS := $(filter-out repo/mk/env.common.mk,$(COMMON_MKS))
+
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	support-firecloud \
@@ -38,6 +42,7 @@ SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
 	test-secret \
 	test-upload-job-artifacts \
+	test-repo-mk \
 
 # ------------------------------------------------------------------------------
 
@@ -54,3 +59,13 @@ endif
 .PHONY: test-upload-job-artifacts
 test-upload-job-artifacts:
 	$(ECHO) "This is a test of upload-job-artifacts" >some-job-artifact.md
+
+
+.PHONY: test-repo-mk
+test-repo-mk:
+	$(MAKE) help
+	for mk in $(COMMON_MKS); do \
+		$(ECHO_DO) "Testing $${mk}..."; \
+		$(MAKE) -f $${mk} help; \
+		$(ECHO_DONE); \
+	done
