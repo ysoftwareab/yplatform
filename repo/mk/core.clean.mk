@@ -9,6 +9,11 @@
 # This is an unsafe target and is meant as an alternative to removing and cloning
 # the repository from scratch, when the 'clean' target fails to fix unforeseen issues.
 #
+# To add another file/folder to the list of files to clean do
+# SF_CLEAN_FILES := \
+#	$(SF_CLEAN_FILES) \
+#	clean/some/other/path \
+#
 # ------------------------------------------------------------------------------
 
 SF_CLEAN_FILES := \
