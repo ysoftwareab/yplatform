@@ -1,17 +1,21 @@
-include repo/mk/core.common.mk
-include repo/mk/core.check.path.mk
-include repo/mk/core.check.eclint.mk
-include repo/mk/js.check.eslint.mk
+ifeq (,$(wildcard support-firecloud/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell ln -s . support-firecloud)
+ifneq (,$(filter undefine,$(.FEATURES)))
+undefine INSTALL_SUPPORT_FIRECLOUD
+endif
+endif
+
+include support-firecloud/repo/mk/core.common.mk
+include support-firecloud/repo/mk/core.check.path.mk
+include support-firecloud/repo/mk/core.check.eclint.mk
+include support-firecloud/repo/mk/core.misc.transcrypt.mk
+include support-firecloud/repo/mk/js.check.eslint.mk
 
 # ------------------------------------------------------------------------------
 
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
 	support-firecloud \
-
-SF_DEPS_TARGETS := \
-	deps-support-firecloud \
-	$(SF_DEPS_TARGETS) \
 
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
@@ -38,12 +42,6 @@ SF_TEST_TARGETS := \
 	test-upload-job-artifacts \
 
 # ------------------------------------------------------------------------------
-
-.PHONY: deps-support-firecloud
-deps-support-firecloud:
-	$(RM) support-firecloud
-	ln -s . support-firecloud
-
 
 .PHONY: test-secret
 test-secret:
