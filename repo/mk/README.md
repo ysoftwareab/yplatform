@@ -66,7 +66,7 @@ The high-level colletions of pieces are as follows:
   * generic.common.mk
   * ---
   * js.deps.npm.mk
-* js.common.node.mk - the "must have" for NodeJS repositories
+* node.common.mk - the "must have" for NodeJS repositories
   * js.common.mk
   * ---
   * js.build.babel.mk
