@@ -41,39 +41,39 @@ Each "puzzle piece" may have its own usage documentation at the top of the file.
 
 The high-level colletions of pieces are as follows:
 
-* core.common.mk - the "bare minimum" for generic repositories
-  * core.clean.mk
-  * core.deps.mk
-  * core.build.mk
-  * core.check.mk
-  * core.test.mk
-  * core.vendor.mk
-* generic.common.mk - the "must have" for generic repositories
-  * core.common.mk
+* [core.common.mk](core.common.mk) - the "bare minimum" for generic repositories
+  * [core.clean.mk](core.clean.mk)
+  * [core.deps.mk](core.deps.mk)
+  * [core.build.mk](core.build.mk)
+  * [core.check.mk](core.check.mk)
+  * [core.test.mk](core.test.mk)
+  * [core.vendor.mk](core.vendor.mk)
+* [generic.common.mk](generic.common.mk) - the "must have" for generic repositories
+  * [core.common.mk](core.common.mk)
   * ---
-  * core.build-version-file.mk
-  * core.check.eclint.mk
-  * core.check.jsonlint.mk
-  * core.check.path.mk
-  * core.deps.git-hook-pre-push.mk
-  * core.misc.bootstrap.mk
-  * core.misc.sf-update.mk
-  * core.misc.snapshot.mk
-  * core.misc.transcrypt.mk
-  * core.misc.version.mk
-  * core.release.mk
-* js.common.mk - the "must have" for JavaScript repositories
-  * generic.common.mk
+  * [core.build-version-file.mk](core.build-version-file.mk)
+  * [core.check.eclint.mk](core.check.eclint.mk)
+  * [core.check.jsonlint.mk](core.check.jsonlint.mk)
+  * [core.check.path.mk](core.check.path.mk)
+  * [core.deps.git-hook-pre-push.mk](core.deps.git-hook-pre-push.mk)
+  * [core.misc.bootstrap.mk](core.misc.bootstrap.mk)
+  * [core.misc.sf-update.mk](core.misc.sf-update.mk)
+  * [core.misc.snapshot.mk](core.misc.snapshot.mk)
+  * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
+  * [core.misc.version.mk](core.misc.version.mk)
+  * [core.release.mk](core.release.mk)
+* [js.common.mk](js.common.mk) - the "must have" for JavaScript repositories
+  * [generic.common.mk](generic.common.mk)
   * ---
-  * js.deps.npm.mk
-* node.common.mk - the "must have" for NodeJS repositories
-  * js.common.mk
+  * [js.deps.npm.mk](js.deps.npm.mk)
+* [node.common.mk](node.common.mk) - the "must have" for NodeJS repositories
+  * [js.common.mk](js.common.mk)
   * ---
-  * js.build.babel.mk
-* py.common.mk - the "must have" for Python repositories
-  * generic.common.mk
+  * [js.build.babel.mk](js.build.babel.mk)
+* [py.common.mk](py.common.mk) - the "must have" for Python repositories
+  * [generic.common.mk](generic.common.mk)
   * ---
-  * py.deps.pipenv.mk
+  * [py.deps.pipenv.mk](py.deps.pipenv.mk)
 
 **NOTE** All makefiles are split into:
 
@@ -86,20 +86,20 @@ The high-level colletions of pieces are as follows:
 
 Addon pieces by type of repository:
 * generic
-  * core.misc.merge-upstream.mk
-  * core.misc.source-const-inc.mk
-  * core.release.npg.mk
-  * core.release.tag.mk
-  * env.common.mk (FIXME)
-    * env.promote-tag-to-env-branch.mk
-    * env.teardown-env.mk
+  * [core.misc.merge-upstream.mk](core.misc.merge-upstream.mk)
+  * [core.misc.source-const-inc.mk](core.misc.source-const-inc.mk)
+  * [core.release.npg.mk](core.release.npg.mk)
+  * [core.release.tag.mk](core.release.tag.mk)
+  * [env.common.mk](env.common.mk) (FIXME)
+    * [env.promote-tag-to-env-branch.mk](env.promote-tag-to-env-branch.mk)
+    * [env.teardown-env.mk](env.teardown-env.mk)
 * JavaScript/NodeJS
-  * js.build.d.ts.mk
-  * js.build.webpack.mk
-  * js.check.d.ts.mk
-  * js.check.eslint.mk
-  * js.check.sasslint.mk
-  * js.deps.private.mk
-  * js.test.jest.mk
+  * [js.build.d.ts.mk](js.build.d.ts.mk)
+  * [js.build.webpack.mk](js.build.webpack.mk)
+  * [js.check.d.ts.mk](js.check.d.ts.mk)
+  * [js.check.eslint.mk](js.check.eslint.mk)
+  * [js.check.sasslint.mk](js.check.sasslint.mk)
+  * [js.deps.private.mk](js.deps.private.mk)
+  * [js.test.jest.mk](js.test.jest.mk)
 * Python
-  * py.check.flake.mk
+  * [py.check.flake.mk](py.check.flake.mk)
