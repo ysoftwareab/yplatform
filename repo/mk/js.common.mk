@@ -15,13 +15,6 @@ include $(SF_JS_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 
-NODE = $(call which,NODE,node)
-NODE_NPM = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npm/")
-NODE_NPX = $(shell realpath $(NODE) | $(SED) "s/bin\/node\$$/libexec\/npm\/bin\/npx/")
-NPM = $(call which,NPM,npm)
-NPX = $(call which,NPX,npx)
-$(foreach VAR,NODE NODE_NPM NODE_NPX NPM NPX,$(call make-lazy,$(VAR)))
-
 PKG_NAME := $(shell $(CAT) package.json | $(JQ) -r ".name")
 PKG_VSN := $(shell $(CAT) package.json | $(JQ) -r ".version")
 
