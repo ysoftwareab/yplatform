@@ -27,6 +27,7 @@ SASSLINT_ARGS += \
 
 SF_SASSLINT_FILES_IGNORE += \
 	-e "^$$"
+	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_SASSLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.\\(sass\\|scss\\)$$" | \

@@ -23,6 +23,7 @@ FLAKE_ARGS +=
 
 SF_FLAKE_FILES_IGNORE += \
 	-e "^$$" \
+	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_FLAKE_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\.py$$" | \

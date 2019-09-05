@@ -7,8 +7,7 @@
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to SF_ESLINT_FILES_IGNORE:
-# SF_ESLINT_FILES_IGNORE := \
-#	$(SF_ESLINT_FILES_IGNORE) \
+# SF_ESLINT_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
@@ -27,6 +26,7 @@ ESLINT_ARGS += \
 
 SF_ESLINT_FILES_IGNORE += \
 	-e "^$$"
+	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_ESLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.\\(js\\|ts\\)$$" | \
