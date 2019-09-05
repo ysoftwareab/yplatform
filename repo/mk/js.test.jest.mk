@@ -14,7 +14,6 @@ JEST = $(call npm-which,JEST,jest)
 $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 JEST_ARGS += \
-	--passWithNoTests \
 
 JEST_TEST_FILES += \
 	$(shell $(FIND_Q_NOSYM) test -type f -name "*.test.js" -print) \
@@ -33,7 +32,9 @@ SF_TEST_TARGETS += \
 
 .PHONY: test-jest
 test-jest:
-	$(JEST) $(JEST_ARGS)
+	[[ "$(words $(JEST_TEST_FILES))" = "0" ]] || { \
+		$(JEST) $(JEST_ARGS); \
+	}
 
 
 .PHONY: $(JEST_TEST_FILES)
