@@ -2,7 +2,7 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'test-jest' internal target to run all JEST_TEST_FILES (defaults to test/**/*.test.js).
+# Adds a 'test-jest' internal target to run all SF_JEST_TEST_FILES (defaults to test/**/*.test.js).
 # The 'test-jest' target is automatically included in the 'test' target via SF_TEST_TARGETS.
 #
 # The jest executable is lazy-found inside ./node_modules/.bin and $PATH.
