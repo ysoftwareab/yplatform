@@ -35,9 +35,12 @@ The pieces **MUST** be included in this order:
 * release
 * misc
 
-[This is the full list of available pieces](./).
+**NOTE** All are split into:
 
-Each "puzzle piece" may have its own usage documentation at the top of the file.
+* docs
+* includes
+* variables
+* targets
 
 The high-level colletions of pieces are as follows:
 
@@ -50,7 +53,7 @@ The high-level colletions of pieces are as follows:
   * [core.vendor.mk](core.vendor.mk)
 * [generic.common.mk](generic.common.mk) - the "must have" for generic repositories
   * [core.common.mk](core.common.mk)
-  * ---
+  * -
   * [core.build-version-file.mk](core.build-version-file.mk)
   * [core.check.eclint.mk](core.check.eclint.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
@@ -64,23 +67,16 @@ The high-level colletions of pieces are as follows:
   * [core.release.mk](core.release.mk)
 * [js.common.mk](js.common.mk) - the "must have" for JavaScript repositories
   * [generic.common.mk](generic.common.mk)
-  * ---
+  * -
   * [js.deps.npm.mk](js.deps.npm.mk)
 * [node.common.mk](node.common.mk) - the "must have" for NodeJS repositories
   * [js.common.mk](js.common.mk)
-  * ---
+  * -
   * [js.build.babel.mk](js.build.babel.mk)
 * [py.common.mk](py.common.mk) - the "must have" for Python repositories
   * [generic.common.mk](generic.common.mk)
-  * ---
+  * -
   * [py.deps.pipenv.mk](py.deps.pipenv.mk)
-
-**NOTE** All makefiles are split into:
-
-* docs
-* includes
-* variables
-* targets
 
 **NOTE** It is only `*.common.mk` makefiles that can `include`. All others are atomic.
 
@@ -103,3 +99,5 @@ Addon pieces by type of repository:
   * [js.test.jest.mk](js.test.jest.mk)
 * Python
   * [py.check.flake.mk](py.check.flake.mk)
+
+For a full list of available pieces [click here](./).
