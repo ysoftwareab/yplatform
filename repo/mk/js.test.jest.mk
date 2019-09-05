@@ -15,7 +15,7 @@ $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 JEST_ARGS += \
 
-JEST_TEST_FILES += \
+SF_JEST_TEST_FILES += \
 	$(shell $(FIND_Q_NOSYM) test -type f -name "*.test.js" -print) \
 
 SF_PATH_FILES_IGNORE += \
@@ -37,6 +37,6 @@ test-jest:
 	}
 
 
-.PHONY: $(JEST_TEST_FILES)
-$(JEST_TEST_FILES):
+.PHONY: $(SF_JEST_TEST_FILES)
+$(SF_JEST_TEST_FILES):
 	$(JEST) $(JEST_ARGS) $@
