@@ -1,1 +1,0 @@
-core.misc.transcrypt.mk
