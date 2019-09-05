@@ -1,4 +1,4 @@
-# Adds a 'snapshot' target that will create
+# Adds a 'snapshot' internal target that will create
 # a SF_SNAPSHOT_ZIP (defaults to snapshot.zip) file
 # with all the untracked files in the current repository.
 #
@@ -10,8 +10,8 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'reset-to-snapshot' target that will restore the current repository
-# to the contents of the SF_SNAPSHOT_ZIP file.
+# Adds a 'reset-to-snapshot' internal target that will restore
+# the current repository to the contents of the SF_SNAPSHOT_ZIP file.
 #
 # ------------------------------------------------------------------------------
 
@@ -26,7 +26,7 @@ SF_SNAPSHOT_FILES_IGNORE += \
 # ------------------------------------------------------------------------------
 
 .PHONY: snapshot
-snapshot: ## Create a zip snapshot of all the git content that is not tracked.
+snapshot:
 	@$(ECHO_DO) "Creating $(SF_SNAPSHOT_ZIP)..."
 	$(RM) $(SF_SNAPSHOT_ZIP)
 	$(RM) $(SF_SNAPSHOT_DIR)
@@ -41,7 +41,7 @@ snapshot: ## Create a zip snapshot of all the git content that is not tracked.
 
 
 .PHONY: reset-to-snapshot
-reset-to-snapshot: ## Reset codebase to the contents of the zip snapshot.
+reset-to-snapshot:
 	@$(ECHO_DO) "Resetting to $(SF_SNAPSHOT_ZIP)..."
 	$(UNZIP) $(SF_SNAPSHOT_ZIP) $(SF_SNAPSHOT_GIT_HASH)
 	$(GIT) reset --hard `$(CAT) ${SF_SNAPSHOT_GIT_HASH}`
