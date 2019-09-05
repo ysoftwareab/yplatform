@@ -18,6 +18,10 @@ JEST_ARGS += \
 JEST_TEST_FILES += \
 	$(shell $(FIND_Q_NOSYM) test -type f -name "*.test.js" -print) \
 
+SF_PATH_FILES_IGNORE += \
+	-e "/__mocks__/" \
+	-e "/__snapshots__/" \
+
 SF_CLEAN_FILES += \
 	coverage \
 
