@@ -25,7 +25,7 @@ ESLINT_ARGS += \
 	--ignore-pattern '!.eslintrc.js' \
 
 SF_ESLINT_FILES_IGNORE += \
-	-e "^$$"
+	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_ESLINT_FILES += $(shell $(GIT_LS) . | \

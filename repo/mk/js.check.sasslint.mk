@@ -26,7 +26,7 @@ SASSLINT_ARGS += \
 	--verbose
 
 SF_SASSLINT_FILES_IGNORE += \
-	-e "^$$"
+	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_SASSLINT_FILES += $(shell $(GIT_LS) . | \
