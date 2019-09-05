@@ -1,6 +1,6 @@
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.transcrypt.mk
+include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.transcrypt.mk
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.source-const-inc.mk
 
 # need access to node-esm
