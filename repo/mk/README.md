@@ -51,9 +51,7 @@ The high-level colletions of pieces are as follows:
   * [core.check.mk](core.check.mk)
   * [core.test.mk](core.test.mk)
   * [core.vendor.mk](core.vendor.mk)
-* [generic.common.mk](generic.common.mk) - the "must have" for generic repositories
-  * [core.common.mk](core.common.mk)
-  * -
+* [generic.common.mk](generic.common.mk) - [core.common.mk](core.common.mk) + the "must have" for generic repositories
   * [core.build-version-file.mk](core.build-version-file.mk)
   * [core.check.eclint.mk](core.check.eclint.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
@@ -65,17 +63,11 @@ The high-level colletions of pieces are as follows:
   * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
   * [core.misc.version.mk](core.misc.version.mk)
   * [core.release.mk](core.release.mk)
-* [js.common.mk](js.common.mk) - the "must have" for JavaScript repositories
-  * [generic.common.mk](generic.common.mk)
-  * -
+* [js.common.mk](js.common.mk) - [generic.common.mk](generic.common.mk) + the "must have" for JavaScript repositories
   * [js.deps.npm.mk](js.deps.npm.mk)
-* [node.common.mk](node.common.mk) - the "must have" for NodeJS repositories
-  * [js.common.mk](js.common.mk)
-  * -
+* [node.common.mk](node.common.mk) - [js.common.mk](js.common.mk) + the "must have" for NodeJS repositories
   * [js.build.babel.mk](js.build.babel.mk)
-* [py.common.mk](py.common.mk) - the "must have" for Python repositories
-  * [generic.common.mk](generic.common.mk)
-  * -
+* [py.common.mk](py.common.mk) - [generic.common.mk](generic.common.mk) + the "must have" for Python repositories
   * [py.deps.pipenv.mk](py.deps.pipenv.mk)
 
 **NOTE** It is only `*.common.mk` makefiles that can `include`. All others are atomic.
