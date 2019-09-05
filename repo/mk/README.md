@@ -64,7 +64,7 @@ The high-level colletions of pieces are as follows:
   * [core.misc.snapshot.mk](core.misc.snapshot.mk)
   * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
   * [core.misc.version.mk](core.misc.version.mk)
-  * [core.release.mk](core.release.mk)
+  * [core.misc.release.mk](core.misc.release.mk)
 * [js.common.mk](js.common.mk) - [generic.common.mk](generic.common.mk) + the "must have" for JavaScript repositories
   * [js.deps.npm.mk](js.deps.npm.mk)
 * [node.common.mk](node.common.mk) - [js.common.mk](js.common.mk) + the "must have" for NodeJS repositories
