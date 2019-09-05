@@ -14,6 +14,7 @@ JEST = $(call npm-which,JEST,jest)
 $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 JEST_ARGS += \
+	--passWithNoTests \
 
 JEST_TEST_FILES += \
 	$(shell $(FIND_Q_NOSYM) test -type f -name "*.test.js" -print) \
