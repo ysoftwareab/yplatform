@@ -6,8 +6,7 @@
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to SF_PATH_FILES_IGNORE:
-# SF_PATH_FILES_IGNORE := \
-#	$(SF_PATH_FILES_IGNORE) \
+# SF_PATH_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #

@@ -4,8 +4,7 @@
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to SF_SNAPSHOT_FILES_IGNORE:
-# SF_SNAPSHOT_FILES_IGNORE := \
-#	$(SF_SNAPSHOT_FILES_IGNORE) \
+# SF_SNAPSHOT_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
