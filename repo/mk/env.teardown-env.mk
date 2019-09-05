@@ -2,7 +2,7 @@
 
 .PHONY: teardown-env
 teardown-env: ## Teardown env
-	[[ ! $(GIT_REPO_HAS_STAGED_FILES) ]] || { \
+	! $(GIT_REPO_HAS_STAGED_FILES) || { \
 		$(ECHO_ERR) "Unstage your changes before calling 'make teardown-env'."; \
 		exit 1; \
 	}

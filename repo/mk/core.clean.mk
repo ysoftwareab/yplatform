@@ -30,7 +30,7 @@ clean: ## Clean.
 
 .PHONY: nuke
 nuke: ## Nuke all files/changes not checked in.
-	[[ ! $(GIT_REPO_HAS_CHANGED_FILES) ]] || { \
+	! $(GIT_REPO_HAS_CHANGED_FILES) || { \
 		$(ECHO); \
 		$(ECHO) "       Your repository has deleted/modified/new files,"; \
 		$(ECHO) "       and continuing will remove/reset those files."; \
