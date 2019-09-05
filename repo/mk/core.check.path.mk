@@ -18,6 +18,8 @@ SF_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
 SF_PATH_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
+
+SF_PATH_FILES_IGNORE += \
 	-e "^.github/" \
 	-e "^Brewfile.inc.sh$$" \
 

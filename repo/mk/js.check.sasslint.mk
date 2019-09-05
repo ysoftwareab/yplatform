@@ -23,7 +23,7 @@ $(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
 
 SASSLINT_ARGS += \
 	--no-exit \
-	--verbose
+	--verbose \
 
 SF_SASSLINT_FILES_IGNORE += \
 	-e "^$$" \
