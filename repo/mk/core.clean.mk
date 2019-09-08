@@ -34,6 +34,7 @@ nuke: ## Nuke all files/changes not checked in.
 		$(ECHO); \
 		$(ECHO) "       Your repository has deleted/modified/new files,"; \
 		$(ECHO) "       and continuing will remove/reset those files."; \
+		$(GIT) status --porcelain; \
 		$(ECHO) "[Q   ] Continue?"; \
 		$(ECHO) "       Press ENTER to Continue."; \
 		$(ECHO) "       Press Ctrl+C to Cancel."; \
