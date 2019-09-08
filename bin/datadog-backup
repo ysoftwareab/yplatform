@@ -1,0 +1,90 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- datadog-backup 1.0
+## Usage: datadog-backup [OPTION]
+## Create a DataDog backup of pipelines, monitors and users.
+##
+##   --api-key      The DataDog API key
+##   --app-key      The DataDog APP key
+##   --site         The DataDog site. Defaults to 'datadoghq.com'
+##   --dir          The output folder. Defaults to current working directory
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DD_API_KEY=
+DD_APP_KEY=
+DD_SITE=datadoghq.com
+DIR=.
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --api-key)
+            DD_API_KEY=$2
+            shift 2
+            ;;
+        --app-key)
+            DD_APP_KEY=$2
+            shift 2
+            ;;
+        --site)
+            DD_SITE=$2
+            shift 2
+            ;;
+        --dir)
+            DIR=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ -n ${DD_API_KEY} ]] || {
+    echo_err "Please provide a --api-key."
+    exit 1
+}
+
+[[ -n ${DD_APP_KEY} ]] || {
+    echo_err "Please provide a --app-key."
+    exit 1
+}
+
+DD_API_BASE_URL="https://api.${DD_SITE}/api/v1"
+
+echo_info "Fetching monitors..."
+curl \
+    -fqsS \
+    "${DD_API_BASE_URL}/monitor?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
+    jq > "${DIR}/monitors.json"
+echo
+
+echo_info "Fetching pipelines..."
+curl \
+    -fqsS \
+    "${DD_API_BASE_URL}/logs/config/pipelines?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
+    jq > "${DIR}/pipelines.json"
+echo
+
+echo_info "Fetching users..."
+curl \
+    -fqsS \
+    "${DD_API_BASE_URL}/users?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
+    jq > "${DIR}/users.json"
+echo
+
+echo_info "DataDog has been backed up to ${DIR}."
