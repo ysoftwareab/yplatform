@@ -299,6 +299,9 @@ EOF
 
 
 [[ "${TRAVIS:-}" != "true" ]] || {
+    git config --global user.email "travis@travis-ci.org"
+    git config --global user.name "Travis CI"
+
     CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
     CI_JOB_ID=${TRAVIS_JOB_ID}
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
@@ -309,6 +312,9 @@ EOF
 }
 
 [[ "${CIRCLECI:-}" != "true" ]] || {
+    git config --global user.email "circleci@circleci.com"
+    git config --global user.name "CircleCI"
+
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
