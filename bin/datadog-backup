@@ -70,6 +70,7 @@ echo_info "Fetching monitors..."
 curl \
     -fqsS \
     "${DD_API_BASE_URL}/monitor?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
+    jq 'map(del(.overall_state_modified, .overall_state))' | \
     jq > "${DIR}/monitors.json"
 echo
 
