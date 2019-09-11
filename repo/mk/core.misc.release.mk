@@ -92,6 +92,16 @@ else
 endif
 	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --increment $(RELEASE_LEVEL) $(PKG_VSN)))
 	$(ECHO)
+	$(ECHO_INFO) "Changes since $(PKG_VSN):"
+	$(ECHO)
+	$(GIT) --no-pager log \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		v$(PKG_VSN).. | \
+		$(GREP) --color -E "^|break"
+	$(ECHO)
 	$(ECHO) "       New $(RELEASE_SEMANTIC_LEVEL) release means new $(RELEASE_LEVEL) release."
 	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
 	$(ECHO) "       Wait 10 seconds or press ENTER to Continue."
