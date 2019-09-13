@@ -100,7 +100,7 @@ endif
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		v$(PKG_VSN).. | \
-		$(GREP) --color -E "^|break"
+		$(GREP) --color -E "^|break" || true
 	$(ECHO)
 	$(ECHO) "       New $(RELEASE_SEMANTIC_LEVEL) release means new $(RELEASE_LEVEL) release."
 	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
