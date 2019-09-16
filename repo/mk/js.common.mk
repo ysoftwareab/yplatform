@@ -15,9 +15,6 @@ include $(SF_JS_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 
-PKG_NAME := $(shell $(CAT) package.json | $(JQ) -r ".name")
-PKG_VSN := $(shell $(CAT) package.json | $(JQ) -r ".version")
-
 SRC_JS_FILES := $(shell $(FIND_Q_NOSYM) src -type f -name "*.js" -print)
 
 # ------------------------------------------------------------------------------

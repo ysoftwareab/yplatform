@@ -33,4 +33,8 @@ include $(SF_GENERIC_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 
+PKG_NAME ?= $(shell $(CAT) package.json | $(JQ) -r ".name")
+PKG_VSN ?= $(shell $(CAT) package.json | $(JQ) -r ".version")
+$(foreach VAR,PKG_NAME PKG_VSN,$(call make-lazy,$(VAR)))
+
 # ------------------------------------------------------------------------------

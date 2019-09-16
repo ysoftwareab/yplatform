@@ -15,7 +15,6 @@ VERSION_LEVELS := \
 VERSION_TARGETS += \
 	$(patsubst %,version/%,$(VERSION_LEVELS)) \
 
-PKG_VSN = $(shell $(CAT) package.json | $(JQ) ".version")
 PKG_VSN_MAJOR = $(shell $(ECHO) "$(PKG_VSN)" | $(CUT) -d"." -f1)
 PKG_VSN_PUBLIC =
 ifneq (0,$(PKG_VSN_MAJOR))
