@@ -36,6 +36,10 @@ NPM = $(call which,NPM,npm)
 NPX = $(call which,NPX,npx)
 $(foreach VAR,NODE NODE_ESM NODE_NPM NODE_NPX NPM NPX,$(call make-lazy,$(VAR)))
 
+PKG_NAME ?= $(shell $(CAT) package.json | $(JQ) -r ".name")
+PKG_VSN ?= $(shell $(CAT) package.json | $(JQ) -r ".version")
+$(foreach VAR,PKG_NAME PKG_VSN,$(call make-lazy,$(VAR)))
+
 # ------------------------------------------------------------------------------
 
 .PHONY: all
