@@ -82,6 +82,9 @@ STACK_STEM_HOOKS := \
 	%-pre-rm \
 	%-post-rm \
 
+TMP_S3_BUCKET = $(shell $(ECHO) $(TMP_S3_URL) | $(SED) "s|/.\+||")
+TMP_S3_PREFIX = $(shell $(ECHO) $(TMP_S3_URL) | $(SED) "s|^[^/]\+/||")
+
 # ------------------------------------------------------------------------------
 
 .PHONY: all
@@ -110,6 +113,13 @@ $(STACK_TPL_FILES): %.cfn.json: %/$(CFN_INDEX_FILE) %-setup ## Generate stack te
 	} fi
 	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
 		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
+	$(AWS) cloudformation package \
+		--template-file $@ \
+		--s3-bucket $(TMP_S3_BUCKET) \
+		--s3-prefix $(TMP_S3_PREFIX)/$(shell basename $(GIT_ROOT))-$(BUILD_DATE)-$(BUILD_TIME)-$(STACK_STEM) \
+		--use-json \
+		--output-template-file packaged.$@
+	$(MV) packaged.$@ $@
 	$(call $(STACK_STEM)-post)
 	$(ECHO_DONE)
 
