@@ -117,7 +117,7 @@ $(STACK_TPL_FILES): %.cfn.json: %/$(CFN_INDEX_FILE) %-setup ## Generate stack te
 .PHONY: %.cfn.json.bak
 %.cfn.json.bak: %-setup ## Backup stack template.
 	$(ECHO_DO) "Backing up $(STACK_NAME) stack template to $(STACK_TPL_BAK_FILE)..."
-	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JSON) "TemplateBody" > $(STACK_TPL_BAK_FILE)
+	$(AWS) cloudformation get-template --stack-name $(STACK_NAME) | $(JQ) -r ".TemplateBody" > $(STACK_TPL_BAK_FILE)
 	$(ECHO_DONE)
 
 
@@ -182,7 +182,7 @@ $(STACK_TPL_FILES): %.cfn.json: %/$(CFN_INDEX_FILE) %-setup ## Generate stack te
 %.cfn.policy.json.bak: %-setup ## Back up stack policy.
 	$(ECHO_DO) "Backing up current stack policy for $(STACK_NAME)..."
 	$(AWS) cloudformation get-stack-policy --stack-name $(STACK_NAME) | \
-		$(JSON) "StackPolicyBody" > $(STACK_POLICY_BAK_FILE) || true
+		$(JQ) -r ".StackPolicyBody" > $(STACK_POLICY_BAK_FILE) || true
 	$(ECHO_DONE)
 
 
