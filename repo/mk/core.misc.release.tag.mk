@@ -6,7 +6,7 @@
 .PHONY: _publish
 _publish:
 	@$(ECHO_DO) "Publishing version..."
-	$(GIT) push $(GIT_REMOTE) v`$(CAT) "package.json" | $(JSON) "version"`
+	$(GIT) push $(GIT_REMOTE) v`$(CAT) "package.json" | $(JQ) -r ".version"`
 	@$(ECHO_DONE)
 
 
