@@ -53,12 +53,12 @@ done
 
 STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
-SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | json "StackEvents[0].EventId")
+SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | jq -r ".StackEvents[0].EventId")
 
 if [[ -n ${EMPTY_S3} ]]; then
-    for BUCKET_NAME in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | json "StackResources" | json -a -c "this.ResourceType === 'AWS::S3::Bucket'" "PhysicalResourceId"); do
+    for BUCKET_NAME in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | jq -r ".StackResources" | jq ".[] | select(.ResourceType == \"AWS::S3::Bucket\")" | jq -r ".PhysicalResourceId"); do
         # check if bucket exists
-        [[ $(aws s3api list-buckets | json "Buckets" | json -a -c "this.Name === '${BUCKET_NAME}'" | json "Name") = ${BUCKET_NAME} ]] || continue
+        [[ $(aws s3api list-buckets | jq -r ".Buckets" | jq -".[] | select(.Name == \"${BUCKET_NAME}\"" | jq -r ".Name") = ${BUCKET_NAME} ]] || continue
 
         aws s3api put-bucket-versioning --bucket ${BUCKET_NAME} --versioning-configuration Status=Suspended
 
@@ -68,9 +68,9 @@ if [[ -n ${EMPTY_S3} ]]; then
             # correction: 500 and 500 still gives errors due to limits (wtf?!),
             # so we go with 450 and 450...
             TMP_DELETE_MARKERS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | json "DeleteMarkers" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified" >${TMP_DELETE_MARKERS_FILE}
+            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | jq -r ".DeleteMarkers" | jq "map(del(.Owner, .IsLatest, .LastModified))" >${TMP_DELETE_MARKERS_FILE}
             TMP_DELETE_VERSIONS_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX)
-            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | json "Versions" | json -aj -e "delete this.Owner; delete this.IsLatest; delete this.LastModified; delete this.ETag; delete this.StorageClass; delete this.Size" >${TMP_DELETE_VERSIONS_FILE}
+            aws s3api list-object-versions --max-keys 450 --bucket ${BUCKET_NAME} | jq -r ".Versions" | jq "map(del(.Owner, .IsLatest, .LastModified, .ETag, .StorageClass, .Size))" >${TMP_DELETE_VERSIONS_FILE}
 
             # "json --group" does not accept empty arrays
             [[ $(head -1 ${TMP_DELETE_MARKERS_FILE}) != "[]" ]] || echo -n "" > ${TMP_DELETE_MARKERS_FILE}
@@ -81,7 +81,7 @@ if [[ -n ${EMPTY_S3} ]]; then
             TMP_DELETE_FILE=$(mktemp -t aws-cloudformation-delete-stack.XXXXXXXXXX).json
 
             echo "{\"Objects\":" >${TMP_DELETE_FILE}
-            cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | json --group >>${TMP_DELETE_FILE}
+            cat ${TMP_DELETE_MARKERS_FILE} ${TMP_DELETE_VERSIONS_FILE} | jq -s "add" >>${TMP_DELETE_FILE}
             echo ", \"Quiet\": false}" >>${TMP_DELETE_FILE}
 
             echo "Emptying S3 bucket ${BUCKET_NAME} based on ${TMP_DELETE_FILE}..."
@@ -101,6 +101,6 @@ echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/
 
 echo "Waiting for stack-delete-complete..."
 aws cloudformation wait stack-delete-complete ${STACK_NAME_ARG} || {
-    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | json "StackEvents" | sed -e "/${SED_UNTIL}/q"
+    aws cloudformation describe-stack-events ${STACK_NAME_ARG} | jq -r ".StackEvents" | sed -e "/${SED_UNTIL}/q"
     exit 1
 }
