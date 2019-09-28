@@ -68,7 +68,11 @@ endif
 .PHONY: $(RELEASE_TARGETS)
 $(RELEASE_TARGETS):
 	$(eval VSN := $(@:release/%=%))
+	$(eval PKG_VSN_NEW ?= $(shell $(NPX) semver --increment $(VSN) $(PKG_VSN)))
+	$(ECHO_DO) "Releasing $(PKG_VSN_NEW)..."
 	VSN=$(VSN) $(MAKE) _release
+	$(ECHO_INFO) "Released $(PKG_VSN_NEW)."
+	$(ECHO_DONE)
 
 
 .PHONY: release/v%
@@ -88,9 +92,12 @@ ifeq (true,$(PKG_VSN_PUBLIC))
 	$(eval RELEASE_LEVEL := $(PUBLIC_$(RELEASE_SEMANTIC_LEVEL)))
 else
 	$(eval RELEASE_LEVEL := $(PREPUBLIC_$(RELEASE_SEMANTIC_LEVEL)))
-	$(ECHO_INFO) "Current version $(PKG_VSN) is pre-public (<1.0.0)."
 endif
 	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --increment $(RELEASE_LEVEL) $(PKG_VSN)))
+	$(ECHO_DO) "Preparing to release $(PKG_VSN_NEW)..."
+ifneq (true,$(PKG_VSN_PUBLIC))
+	$(ECHO_INFO) "Current version $(PKG_VSN) is pre-public (<1.0.0)."
+endif
 	$(ECHO)
 	$(ECHO_INFO) "Changes since $(PKG_VSN):"
 	$(ECHO)
