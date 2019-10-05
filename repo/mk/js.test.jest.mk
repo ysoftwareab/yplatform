@@ -32,7 +32,7 @@ SF_TEST_TARGETS += \
 
 .PHONY: test-jest
 test-jest:
-	[[ "$(words $(JEST_TEST_FILES))" = "0" ]] || { \
+	[[ "$(words $(SF_JEST_TEST_FILES))" = "0" ]] || { \
 		$(JEST) $(JEST_ARGS); \
 	}
 
