@@ -99,15 +99,7 @@ ifneq (true,$(PKG_VSN_PUBLIC))
 	$(ECHO_INFO) "Current version $(PKG_VSN) is pre-public (<1.0.0)."
 endif
 	$(ECHO)
-	$(ECHO_INFO) "Changes since $(PKG_VSN):"
-	$(ECHO)
-	$(GIT) --no-pager log \
-		--graph \
-		--date=short \
-		--pretty=format:"%h %ad %s" \
-		--no-decorate \
-		v$(PKG_VSN).. | \
-		$(GREP) --color -E "^|break" || true
+	$(MAKE) unreleased
 	$(ECHO)
 	$(ECHO) "       New $(RELEASE_SEMANTIC_LEVEL) release means new $(RELEASE_LEVEL) release."
 	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
@@ -115,3 +107,21 @@ endif
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -p ""
 	$(MAKE) release/$(RELEASE_LEVEL)
+
+
+.PHONY: unreleased
+unreleased: unreleased/v$(PKG_VSN) ## Show unreleased commits.
+
+
+.PHONY: unreleased/%
+unreleased/%:
+	$(ECHO_INFO) "Changes since $(*):"
+	$(ECHO)
+	$(GIT) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(*).. | \
+		$(GREP) --color -E "^|break" || true
