@@ -25,6 +25,7 @@ _release:
 	[[ `$(GIT) rev-list --count HEAD..@{u}` = 0 ]] || { \
 		$(ECHO_INFO) "Upstream has new commits..."; \
 		$(GIT) --no-pager log \
+			--color \
 			--graph \
 			--date=short \
 			--pretty=format:"%h %ad %s" \

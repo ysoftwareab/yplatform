@@ -20,6 +20,7 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
+		--color \
 		--graph \
 		--date=short \
 		--pretty=format:"%h %ad %s" \

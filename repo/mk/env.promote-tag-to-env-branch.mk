@@ -21,6 +21,7 @@ promote/%: ## promote/<env>/<tag> Promote tag to env branch.
 	}
 	$(GIT) fetch
 	$(GIT) --no-pager log \
+		--color \
 		--graph \
 		--date=short \
 		--pretty=format:"%h %ad %s" \
