@@ -44,7 +44,10 @@ function sf_private_submodules() {
 
 
 function sf_transcrypt() {
-    [[ "${CI_IS_PR:-}" != "true" ]] || return 0
+    # de-transcrypt only for non-PRs or for PRs from the same repo
+    [[ "${CI_IS_PR:-}" != "true" ]] || {
+        [[ "${CI_PR_SLUG}" = "${CI_REPO_SLUG}" ]] || return 0
+    }
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${TRANSCRYPT_PASSWORD:-}" ]] || return 0
 
@@ -305,6 +308,7 @@ EOF
     CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
     CI_JOB_ID=${TRAVIS_JOB_ID}
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
+    CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
     CI_IS_PR=$([[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]] && echo true || echo false)
     CI_IS_CRON=$([[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] && echo true || echo false)
@@ -318,6 +322,7 @@ EOF
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
+    CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
     CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
     CI_IS_PR=$([[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]] && echo true || echo false)
     CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
