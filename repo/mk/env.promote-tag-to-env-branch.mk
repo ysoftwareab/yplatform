@@ -20,13 +20,28 @@ promote/%: ## promote/<env>/<tag> Promote tag to env branch.
 		exit 1; \
 	}
 	$(GIT) fetch
+	$(ECHO)
+	$(ECHO_INFO) "Changes ready to be promoted:"
+	$(ECHO)
 	$(GIT) --no-pager log \
 		--color \
 		--graph \
 		--date=short \
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
-		$(GIT_REMOTE)/$(ENV_BRANCH)..$(TAG_COMMIT) || true
+		$(GIT_REMOTE)/$(ENV_BRANCH)..$(TAG_COMMIT) | \
+		$(GREP) --color -E "^|break" || true
+	$(ECHO)
+	$(ECHO_INFO) "Breaking changes ready to be promoted:"
+	$(ECHO)
+	$(GIT) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(GIT_REMOTE)/$(ENV_BRANCH)..$(TAG_COMMIT) | \
+		$(GREP) --color -E "break" || true
 	$(ECHO)
 	$(ECHO) "[Q   ] Still want to promote $(TAG) to $(ENV_BRANCH)?"
 	$(ECHO) "       Press ENTER to Continue."

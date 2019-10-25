@@ -26,7 +26,18 @@ support-firecloud/update: ## Update support-firecloud to latest master commit.
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(SF_COMMIT).. | \
-		$(GREP) --color -E "^|break"
+		$(GREP) --color -E "^|break" || true
+	$(ECHO)
+	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
+	$(ECHO)
+	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(SF_COMMIT).. | \
+		$(GREP) --color -E "break" || true
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
 		diff --stat $(SF_COMMIT)..

@@ -125,3 +125,14 @@ unreleased/%:
 		--no-decorate \
 		$(*).. | \
 		$(GREP) --color -E "^|break" || true
+	$(ECHO)
+	$(ECHO_INFO) "Breaking changes since $(*):"
+	$(ECHO)
+	$(GIT) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(*).. | \
+		$(GREP) --color -E "break" || true
