@@ -2,9 +2,12 @@ TSC = $(call npm-which,TSC,tsc)
 $(foreach VAR,TSC,$(call make-lazy,$(VAR)))
 
 TS_FILES += \
+	$(shell $(FIND_Q_NOSYM) src -type f -name "*.js" -print) \
 	$(shell $(FIND_Q_NOSYM) src -type f -name "*.ts" -print) \
 
 TS_FILES_GEN += \
+	$(patsubst %.js,%.d.ts,$(TS_FILES)) \
+	$(patsubst %.ts,%.d.ts,$(TS_FILES)) \
 	$(patsubst %.ts,%.js,$(TS_FILES)) \
 	$(patsubst %.ts,%.js.map,$(TS_FILES)) \
 
