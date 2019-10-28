@@ -8,7 +8,7 @@ SF_CLEAN_FILES += \
 	$(LIB_D_TS_FILES) \
 
 SF_BUILD_TARGETS += \
-	build-d-ts
+	build-cp-dts
 
 # ------------------------------------------------------------------------------
 
@@ -17,5 +17,5 @@ $(LIB_D_TS_FILES): lib/%.d.ts: src/%.d.ts $(SRC_D_TS_FILES)
 	cp $< $@
 
 
-.PHONY: build-d-ts
-build-d-ts: $(LIB_D_TS_FILES)
+.PHONY: build-cp-dts
+build-cp-dts: $(LIB_D_TS_FILES)
