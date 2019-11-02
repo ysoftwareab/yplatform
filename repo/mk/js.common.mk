@@ -15,6 +15,11 @@ include $(SF_JS_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 
+TSC = $(call npm-which,TSC,tsc)
+$(foreach VAR,TSC,$(call make-lazy,$(VAR)))
+
 SRC_JS_FILES := $(shell $(FIND_Q_NOSYM) src -type f -name "*.js" -print)
+
+SRC_TS_FILES := $(shell $(FIND_Q_NOSYM) src -type f -name "*.ts" -print)
 
 # ------------------------------------------------------------------------------

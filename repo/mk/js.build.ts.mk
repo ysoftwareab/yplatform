@@ -1,24 +1,33 @@
-TSC = $(call npm-which,TSC,tsc)
-$(foreach VAR,TSC,$(call make-lazy,$(VAR)))
+LIB_JS_FROM_JS_FILES += \
+	$(patsubst src/%.js,lib/%.js,$(SRC_JS_FILES)) \
 
-TS_FILES += \
-	$(shell $(FIND_Q_NOSYM) src -type f -name "*.js" -print) \
-	$(shell $(FIND_Q_NOSYM) src -type f -name "*.ts" -print) \
+LIB_JS_FROM_TS_FILES += \
+	$(patsubst src/%.ts,lib/%.js,$(SRC_TS_FILES)) \
 
-TS_FILES_GEN += \
-	$(patsubst %.js,%.d.ts,$(TS_FILES)) \
-	$(patsubst %.ts,%.d.ts,$(TS_FILES)) \
-	$(patsubst %.ts,%.js,$(TS_FILES)) \
-	$(patsubst %.ts,%.js.map,$(TS_FILES)) \
+LIB_JS_FILES += \
+	$(LIB_JS_FROM_JS_FILES) \
+	$(LIB_JS_FROM_TS_FILES) \
+
+LIB_JS_MAP_FILES += \
+	$(patsubst src/%.js,lib/%.js.map,$(SRC_JS_FILES)) \
+	$(patsubst src/%.ts,lib/%.js.map,$(SRC_TS_FILES)) \
+
+LIB_DTS_FILES += \
+	$(patsubst src/%.js,lib/%.d.ts,$(SRC_JS_FILES)) \
+	$(patsubst src/%.ts,lib/%.d.ts,$(SRC_TS_FILES)) \
 
 SF_CLEAN_FILES += \
-	$(TS_FILES_GEN) \
+	$(LIB_JS_FILES) \
+	$(LIB_JS_MAP_FILES) \
+	$(LIB_DTS_FILES) \
 
 SF_BUILD_TARGETS += \
 	build-ts \
+
+TSC_ARGS += \
 
 # ------------------------------------------------------------------------------
 
 .PHONY: build-ts
 build-ts:
-	$(TSC)
+	$(TSC) $(TSC_ARGS)
