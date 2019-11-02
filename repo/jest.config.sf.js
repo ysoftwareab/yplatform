@@ -24,6 +24,10 @@ try {
   }
 
   transform['^.+\\.js$'] = 'babel-jest';
+
+  if (topPackage.devDependencies['@babel/preset-typescript']) {
+    transform['^.+\\.ts$'] = 'babel-jest';
+  }
 } catch (_err) {
   // console.log(_err);
 }
