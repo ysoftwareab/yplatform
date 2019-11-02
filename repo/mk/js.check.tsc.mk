@@ -15,10 +15,19 @@ TSLINT_ARGS += \
 SF_CHECK_TARGETS += \
 	check-tsc \
 
+SF_CHECK_TSC_PROJECT := tsconfig.check.json
+ifeq $($(wildcard tsconfig.check.json),)
+SF_CHECK_TSC_PROJECT := tsconfig.json
+endif
+
 TSC_ARGS += \
+
+SF_CHECK_TSC_TSC_ARGS += \
+	-p $(SF_CHECK_TSC_PROJECT) \
+	--noEmit \
 
 # ------------------------------------------------------------------------------
 
 .PHONY: check-tsc
 check-tsc:
-	$(TSC) --noEmit $(TSC_ARGS)
+	$(TSC) $(TSC_ARGS) $(SF_CHECK_TSC_TSC_ARGS)
