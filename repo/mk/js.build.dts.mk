@@ -9,7 +9,7 @@ SF_BUILD_TARGETS += \
 	build-dts \
 
 SF_BUILD_DTS_PROJECT := tsconfig.declaration.json
-ifeq $($(wildcard tsconfig.declaration.json),)
+ifeq ($(wildcard tsconfig.declaration.json),)
 SF_BUILD_DTS_PROJECT := tsconfig.json
 endif
 

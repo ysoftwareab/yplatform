@@ -16,7 +16,7 @@ SF_CHECK_TARGETS += \
 	check-tsc \
 
 SF_CHECK_TSC_PROJECT := tsconfig.check.json
-ifeq $($(wildcard tsconfig.check.json),)
+ifeq ($(wildcard tsconfig.check.json),)
 SF_CHECK_TSC_PROJECT := tsconfig.json
 endif
 
