@@ -1,6 +1,27 @@
 let path = require('path');
 
-let transform = {};
+let sfConfig = {
+  // FIXME coverage is disabled due to https://github.com/facebook/jest/issues/3959
+  collectCoverage: false,
+  collectCoverageFrom: [
+    '**/lib/**/*.js'
+  ],
+  coverageReporters: [
+    'json',
+    'html',
+    'lcov',
+    'text'
+  ],
+  transformIgnorePatterns: [
+    '.*/node_modules/.*'
+  ],
+  notify: false,
+  testEnvironment: 'node',
+  testMatch: [
+    '**/test/**/*.test.js'
+  ],
+  transform: {}
+};
 
 // only add babel-jest transformer if babel-jest is a top-level dependency
 try {
@@ -23,31 +44,13 @@ try {
     throw new Error(`babel-jest is not a dev dependency in ${topPackageJson}`);
   }
 
-  transform['^.+\\.js$'] = 'babel-jest';
+  sfConfig.transform['^.+\\.js$'] = 'babel-jest';
 
   if (topPackage.devDependencies['@babel/preset-typescript']) {
-    transform['^.+\\.ts$'] = 'babel-jest';
+    sfConfig.transform['^.+\\.ts$'] = 'babel-jest';
   }
 } catch (_err) {
   // console.log(_err);
 }
 
-module.exports = {
-  // FIXME coverage is disabled due to https://github.com/facebook/jest/issues/3959
-  collectCoverage: false,
-  collectCoverageFrom: [
-    '**/lib/**/*.js'
-  ],
-  coverageReporters: [
-    'json',
-    'html',
-    'lcov',
-    'text'
-  ],
-  notify: false,
-  testEnvironment: 'node',
-  testMatch: [
-    '**/test/**/*.test.js'
-  ],
-  transform
-};
+module.exports = sfConfig;
