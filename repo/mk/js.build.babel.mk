@@ -42,4 +42,6 @@ $(LIB_JS_FROM_TS_FILES): lib/%.js: src/%.ts $(SRC_JS_FILES) $(BABELRC)
 
 .PHONY: build-babel
 build-babel:
-	$(MAKE) $(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES)
+	[[ "$(words $(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES))" = "0" ]] || { \
+		$(MAKE) $(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES); \
+	}
