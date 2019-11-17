@@ -10,7 +10,7 @@ SF_DEPS_TARGETS += \
 deps-node_modules_private:
 	DEPS=""; \
 	for DEP_NAME in `$(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'`; do \
-		DEP_VSN=`$(CAT) "package.json" | $(JQ) -r ".privateDependencies $${DEP_NAME}"`; \
+		DEP_VSN=`$(CAT) "package.json" | $(JQ) -r ".privateDependencies.\"$${DEP_NAME}\""`; \
 		BUNDLED_DEP_VSN=`$(CAT) "node_modules_private/lib/node_modules/$${DEP_NAME}/package.json" | $(JQ) -r "._from"`; \
 		[[ "$${DEP_VSN}" = "$${BUNDLED_DEP_VSN}" ]] || { \
 			$(ECHO_ERR) "node_modules_private/lib/node_modules/$${DEP_NAME} is outdated."; \
