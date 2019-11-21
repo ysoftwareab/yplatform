@@ -6,21 +6,30 @@ let sfConfig = {
   collectCoverageFrom: [
     '**/lib/**/*.js'
   ],
+  coveragePathIgnorePatterns: [
+    '<rootDir>/node_modules/'
+  ],
   coverageReporters: [
     'json',
     'html',
     'lcov',
     'text'
   ],
-  transformIgnorePatterns: [
-    '.*/node_modules/.*'
-  ],
   notify: false,
   testEnvironment: 'node',
   testMatch: [
     '**/test/**/*.test.js'
   ],
-  transform: {}
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/'
+  ],
+  transform: {},
+  transformIgnorePatterns: [
+    '<rootDir>/node_modules/'
+  ],
+  watchPathIgnorePatterns: [
+    '<rootDir>/node_modules/'
+  ]
 };
 
 // only add babel-jest transformer if babel-jest is a top-level dependency
