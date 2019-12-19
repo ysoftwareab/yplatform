@@ -11,6 +11,11 @@
 # produced by 'npm list' that you want to ignore e.g.:
 # npm ERR! peer dep missing: tslint@^5.16.0, required by tslint-config-firecloud
 #
+# For leaf repositories (i.e. not libraries), package-lock.json may present some stability.
+# In order to create a lock, add to your Makefile:
+# SF_DEPS_TARGETS += deps-npm-package-lock
+# and commit package-lock.json.
+#
 # ------------------------------------------------------------------------------
 
 NPM = $(call which,NPM,npm)
