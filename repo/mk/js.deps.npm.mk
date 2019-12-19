@@ -110,3 +110,8 @@ deps-npm-prod:
 		$(NPM) update --no-save --production; \
 	}
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
+
+
+.PHONY: deps-npm-package-lock
+deps-npm-package-lock:
+	$(NPM) install --package-lock-only
