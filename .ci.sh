@@ -24,8 +24,8 @@ function ci_run_deploy() {
     [[ -f "${DOCKERFILE}" ]] || return
 
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
-    docker push ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
+    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}:${GIT_HASH_SHORT}
+    docker push ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}:${GIT_HASH_SHORT}
 }
 
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
