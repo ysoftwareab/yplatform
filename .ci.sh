@@ -19,13 +19,14 @@ function ci_run_deploy() {
 
     RELEASE_ID="$(source /etc/os-release && echo ${ID})"
     RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
-    DOCKER_IMAGE_TAG=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}
+    DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}
+    DOCKER_IMAGE_TAG=${GIT_HASH_SHORT}
     DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/Dockerfile.${RELEASE_ID}.${RELEASE_VERSION_CODENAME}
     [[ -f "${DOCKERFILE}" ]] || return
 
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}:${GIT_HASH_SHORT}
-    docker push ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}:${GIT_HASH_SHORT}
+    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 }
 
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
