@@ -5,11 +5,12 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 function ci_run_deploy() {
+    DOCKER_ORG=${DOCKER_ORG:-tobiipro}
     [[ -n "${DOCKER_USERNAME:-}" ]] || return
     [[ -n "${DOCKER_PASSWORD:-}" ]] || return
     [[ -e "/etc/os-release" ]] || return
 
-    # temporary; should check instead if a docker repository exists for ${DOCKER_USERNAME}/${DOCKER_IMAGE_TAG}
+    # temporary; should check instead if a docker repository exists for ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
     [[ "${SF_CI_BREW_INSTALL}" = "common" ]] || return
 
     RELEASE_ID="$(source /etc/os-release && echo ${ID})"
@@ -24,10 +25,10 @@ function ci_run_deploy() {
     # build
     docker build . --file ${DOCKERFILE} --tag ${DOCKER_IMAGE_TAG}
     docker images
-    docker tag travis-ci-build-stages-demo ${DOCKER_USERNAME}/${DOCKER_IMAGE_TAG}
+    docker tag travis-ci-build-stages-demo ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
 
     # deploy
-    docker push ${DOCKER_USERNAME}/${DOCKER_IMAGE_TAG}
+    docker push ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
 }
 
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
