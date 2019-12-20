@@ -23,15 +23,8 @@ function ci_run_deploy() {
     DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/Dockerfile.${RELEASE_ID}.${RELEASE_VERSION_CODENAME}
     [[ -f "${DOCKERFILE}" ]] || return
 
-    # login
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-    # build
-    docker build . --file ${DOCKERFILE} --tag ${DOCKER_IMAGE_TAG}
-    docker images
-    docker tag travis-ci-build-stages-demo ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
-
-    # deploy
+    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
     docker push ${DOCKER_ORG}/${DOCKER_IMAGE_TAG}
 }
 
