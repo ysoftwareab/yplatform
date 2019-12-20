@@ -21,6 +21,7 @@ SF_CLEAN_FILES := \
 
 SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
+	-e "^ci/linux/Dockerfile" \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^repo/AUTHORS$$" \
