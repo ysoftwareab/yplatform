@@ -68,7 +68,7 @@ endif
 .PHONY: $(RELEASE_TARGETS)
 $(RELEASE_TARGETS):
 	$(eval VSN := $(@:release/%=%))
-	$(eval PKG_VSN_NEW ?= $(shell $(NPX) semver --increment $(VSN) $(PKG_VSN)))
+	$(eval PKG_VSN_NEW ?= $(shell $(NPX) semver --coerce --increment $(VSN) $(PKG_VSN)))
 	$(ECHO_DO) "Releasing $(PKG_VSN_NEW)..."
 	VSN=$(VSN) $(MAKE) _release
 	$(ECHO_INFO) "Released $(PKG_VSN_NEW)."
