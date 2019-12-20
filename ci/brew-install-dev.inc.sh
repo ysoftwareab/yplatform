@@ -10,7 +10,11 @@ tmate
 ttyrec
 EOF
 )"
-brew_install "${BREW_FORMULAE}"
+# ok if installing a dev dependency fails
+# brew_install "${BREW_FORMULAE}"
+echo "${BREW_FORMULAE}" | while read BREW_FORMULA; do
+    brew_install "${BREW_FORMULA}" || true
+done
 unset BREW_FORMULAE
 
 echo_done
