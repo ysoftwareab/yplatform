@@ -1,50 +1,5 @@
 # docker build . --file ci/linux/Dockerfile.ubuntu.xenial --tag sf-ubuntu-xenial
-from ubuntu:16.04
+FROM ubuntu:16.04
 
-# ENV
-env APTGET apt-get install -y --no-install-recommends
-env CI true
-env DEBIAN_FRONTEND noninteractive
-env IMAGE_TAG sf-ubuntu-xenial
-env SF_CI_BREW_INSTALL common
-
-# Deps
-run apt-get update -y --fix-missing
-run ${APTGET} apt-transport-https
-run ${APTGET} software-properties-common python-software-properties ca-certificates
-run ${APTGET} git openssl ssh-client sudo
-
-# SSH
-run mkdir -p /root/.ssh
-run chmod 700 /root/.ssh
-run echo "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
-run chmod 600 /root/.ssh/config
-
-# GIT
-run git config --global user.email "${IMAGE_TAG}@docker"
-run git config --global user.name "${IMAGE_TAG}"
-
-# NON-ROOT SUDO USER
-run addgroup --gid 1000 docker
-run adduser --uid 1000 --ingroup docker --ingroup sudo --home /home/docker --shell /bin/sh --disabled-password --gecos "" docker
-run echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
-
-# COPY
-add . /support-firecloud
-run chown -R root:root /support-firecloud
-run cd /support-firecloud && \
-    git config url."https://github.com/".insteadOf git@github.com:
-
-# MAIN
-user docker
-run cd /support-firecloud && \
-    ./ci/linux/bootstrap
-
-# CLEANUP
-user root
-run rm -rf /support-firecloud
-env APTGET=
-env CI=
-env DEBIAN_FRONTEND=
-env IMAGE_TAG=
-env SF_CI_BREW_INSTALL=
+ADD . /support-firecloud
+RUN /support-firecloud/ci/linux/Dockerfile.ubuntu.xenial.sh
