@@ -1,5 +1,7 @@
 version: 2.1
 
+orbs:
+  jq: circleci/jq@1.9.1
 
 aliases:
   - &step_restore_cache
@@ -89,6 +91,7 @@ jobs:
       - run: echo "SF_LOG_BOOTSTRAP=true" >> $BASH_ENV
       - run: date +%v > ~/week-number
       - checkout
+      - jq/install
       - run: git submodule sync
       - run: git submodule update --init --recursive
       - *step_restore_cache
