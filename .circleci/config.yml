@@ -125,10 +125,10 @@ jobs:
     executor: &job-main-executor << parameters.p_executor >>
     steps:
       - job-main-steps: &job-main-steps
-        p_ci_is_cron: << parameters.p_ci_is_cron >>
-        p_executor: << parameters.p_executor >>
-        p_cache_name: << parameters.p_cache_name >>
-        p_install: << parameters.p_install >>
+          p_ci_is_cron: << parameters.p_ci_is_cron >>
+          p_executor: << parameters.p_executor >>
+          p_cache_name: << parameters.p_cache_name >>
+          p_install: << parameters.p_install >>
 
   main-linux-xenial-minimal:
     parameters: *job-main-parameters
