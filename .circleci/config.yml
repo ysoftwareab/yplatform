@@ -124,7 +124,7 @@ jobs:
         type: string
     executor: &job-main-executor << parameters.p_executor >>
     steps:
-      - job-main-steps:
+      - job-main-steps: &job-main-steps
         p_ci_is_cron: << parameters.p_ci_is_cron >>
         p_executor: << parameters.p_executor >>
         p_cache_name: << parameters.p_cache_name >>
@@ -135,21 +135,21 @@ jobs:
     executor: *job-main-executor
     steps:
       - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
-      - job-main-steps
+      - *job-main-steps
 
   main-linux-xenial-common:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
       - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
-      - job-main-steps
+      - *job-main-steps
 
   main-macos-xcode101-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
       - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
-      - job-main-steps
+      - *job-main-steps
 
 
 workflows:
