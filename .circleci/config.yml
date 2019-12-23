@@ -109,6 +109,7 @@ commands:
           command: ./.ci.sh after_script
       - run: ./.ci.sh before_cache
       - *step_save_cache
+      - setup_remote_docker
       - run: |
           if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
             ./.ci.sh before_deploy;
