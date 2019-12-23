@@ -114,6 +114,7 @@ jobs:
       p_install:
         type: string
     executor: &job-main-executor << parameters.p_executor >>
+    steps:
       - job-main-steps
 
   main-linux-xenial-minimal:
