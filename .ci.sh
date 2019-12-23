@@ -21,9 +21,21 @@ function ci_run_deploy_docker_image() {
     DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/Dockerfile.${RELEASE_ID}.${RELEASE_VERSION_CODENAME}
     [[ -f "${DOCKERFILE}" ]] || return
 
+    # NOTE jq must be preinstalled
+    TIMESTAMP_LATEST=$(
+        curl https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
+            jq -r .last_updated | \
+            xargs -0 date +%s -d || \
+            echo 0)
+
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
     docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+    if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
+        docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+    fi
 }
 
 function ci_run_deploy() {
