@@ -109,6 +109,12 @@ commands:
           command: ./.ci.sh after_script
       - run: ./.ci.sh before_cache
       - *step_save_cache
+      - run: |
+          if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
+            ./.ci.sh before_deploy;
+            ./.ci.sh deploy;
+            ./.ci.sh after_deploy;
+          fi
 
 
 jobs:
