@@ -73,18 +73,8 @@ executors:
       xcode: << parameters.p_xcode >>
 
 
-jobs:
-  main: &job-main
-    parameters:
-      p_ci_is_cron:
-        type: string
-      p_executor:
-        type: executor
-      p_cache_name:
-        type: string
-      p_install:
-        type: string
-    executor: << parameters.p_executor >>
+commands:
+  job-main-steps:
     steps:
       - run: echo "CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
       - run: echo "SF_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
@@ -111,14 +101,41 @@ jobs:
       - run: ./.ci.sh before_cache
       - *step_save_cache
 
+
+jobs:
+  main:
+    parameters: &job-main-parameters
+      p_ci_is_cron:
+        type: string
+      p_executor:
+        type: executor
+      p_cache_name:
+        type: string
+      p_install:
+        type: string
+    executor: &job-main-executor << parameters.p_executor >>
+      - job-main-steps
+
   main-linux-xenial-minimal:
-    <<: *job-main
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - job-main-steps
 
   main-linux-xenial-common:
-    <<: *job-main
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - job-main-steps
 
   main-macos-xcode101-dev:
-    <<: *job-main
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - job-main-steps
 
 
 workflows:
