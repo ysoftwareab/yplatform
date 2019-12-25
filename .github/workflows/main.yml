@@ -9,8 +9,13 @@ jobs:
     env:
       SF_CI_BREW_INSTALL: minimal
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+      - shell: bash
+        run: |
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
       - run: ./.ci.sh before_install
-      - run: V=1 ./.ci.sh install
+      - run: ./.ci.sh install
       - run: ./.ci.sh before_script
       - run: ./.ci.sh script
