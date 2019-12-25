@@ -11,6 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: ./.ci.sh before_install
-      - run: ./.ci.sh install
+      - run: V=1 ./.ci.sh install
       - run: ./.ci.sh before_script
       - run: ./.ci.sh script
