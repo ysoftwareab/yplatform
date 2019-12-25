@@ -109,13 +109,13 @@ commands:
           command: ./.ci.sh after_script
       - run: ./.ci.sh before_cache
       - *step_save_cache
-      - setup_remote_docker
-      - run: |
-          if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
-            ./.ci.sh before_deploy;
-            ./.ci.sh deploy;
-            ./.ci.sh after_deploy;
-          fi
+      # - setup_remote_docker
+      # - run: |
+      #     if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
+      #       ./.ci.sh before_deploy;
+      #       ./.ci.sh deploy;
+      #       ./.ci.sh after_deploy;
+      #     fi
 
 
 jobs:
@@ -142,21 +142,21 @@ jobs:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
-      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
       - *job-main-steps
 
   main-linux-xenial-common:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
-      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
       - *job-main-steps
 
   main-macos-xcode101-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
-      - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
       - *job-main-steps
 
 
