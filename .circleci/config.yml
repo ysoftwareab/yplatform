@@ -1,0 +1,192 @@
+version: 2.1
+
+orbs:
+  jq: circleci/jq@1.9.1
+
+aliases:
+  - &step_restore_cache
+    restore_cache:
+      keys:
+        - v1-{{ .Branch }}-<< parameters.p_cache_name >>-{{ checksum "~/week-number" }}
+        - v1-master-<< parameters.p_cache_name >>-{{ checksum "~/week-number" }}
+
+  - &step_save_cache
+    save_cache:
+      key: v1-{{ .Branch }}-<< parameters.p_cache_name >>-{{ checksum "~/week-number" }}
+      paths:
+        # common
+        - ~/.local
+        - ~/.npm
+        # darwin
+        - ~/.homebrew
+        - ~/Library/Caches/Homebrew
+        - ~/Library/Caches/pip
+        # linux
+        - ~/.cache/Homebrew
+        - ~/.cache/pip
+        - ~/.linuxbrew
+
+  - job-main-linux-xenial-minimal: &job-main-linux-xenial-minimal
+      p_ci_is_cron: "false"
+      p_executor:
+        name: docker
+        p_image: circleci/buildpack-deps:xenial
+      p_cache_name: linux-xenial-minimal
+      p_install: minimal
+
+  - job-main-linux-xenial-common: &job-main-linux-xenial-common
+      p_ci_is_cron: "false"
+      p_executor:
+        name: docker
+        p_image: circleci/buildpack-deps:xenial
+      p_cache_name: linux-xenial-common
+      p_install: common
+
+  - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
+      p_ci_is_cron: "false"
+      p_executor:
+        name: macos
+        p_xcode: "10.1.0"
+      p_cache_name: macos-xcode10.1-dev
+      p_install: dev
+
+  - filter-main: &filter-main
+      filters:
+        branches:
+          only:
+            - master
+
+
+executors:
+  docker:
+    parameters:
+      p_image:
+        type: string
+    docker:
+      - image: << parameters.p_image >>
+
+  macos:
+    parameters:
+      p_xcode:
+        type: string
+    macos:
+      xcode: << parameters.p_xcode >>
+
+
+commands:
+  job-main-steps:
+    parameters:
+      p_ci_is_cron:
+        type: string
+      p_executor:
+        type: executor
+      p_cache_name:
+        type: string
+      p_install:
+        type: string
+    steps:
+      - run: echo "CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
+      - run: echo "SF_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
+      - run: echo "SF_LOG_BOOTSTRAP=true" >> $BASH_ENV
+      - run: date +%v > ~/week-number
+      - checkout
+      - jq/install
+      - run: git submodule sync
+      - run: git submodule update --init --recursive
+      - *step_restore_cache
+      - run: ./.ci.sh before_install
+      - run: ./.ci.sh install
+      - run: ./.ci.sh before_script
+      - run: ./.ci.sh script
+      - run:
+          when: on_fail
+          command: ./.ci.sh after_failure
+      - run:
+          when: on_success
+          command: ./.ci.sh after_success
+      - run:
+          when: always
+          command: ./.ci.sh after_script
+      - run: ./.ci.sh before_cache
+      - *step_save_cache
+      # - setup_remote_docker
+      # - run: |
+      #     if [[ "${CIRCLE_BRANCH}" = "master" ]]; then
+      #       ./.ci.sh before_deploy;
+      #       ./.ci.sh deploy;
+      #       ./.ci.sh after_deploy;
+      #     fi
+
+
+jobs:
+  main:
+    parameters: &job-main-parameters
+      p_ci_is_cron:
+        type: string
+      p_executor:
+        type: executor
+      p_cache_name:
+        type: string
+      p_install:
+        type: string
+    executor: &job-main-executor << parameters.p_executor >>
+    steps:
+      - &job-main-steps
+        job-main-steps:
+          p_ci_is_cron: << parameters.p_ci_is_cron >>
+          p_executor: << parameters.p_executor >>
+          p_cache_name: << parameters.p_cache_name >>
+          p_install: << parameters.p_install >>
+
+  main-linux-xenial-minimal:
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - *job-main-steps
+
+  main-linux-xenial-common:
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - *job-main-steps
+
+  main-macos-xcode101-dev:
+    parameters: *job-main-parameters
+    executor: *job-main-executor
+    steps:
+      # - run: echo "SF_DEPLOY_DOCKER_IMAGE=true" >> $BASH_ENV
+      - *job-main-steps
+
+
+workflows:
+  version: 2.1
+
+  main:
+    jobs:
+      - main-linux-xenial-minimal:
+          <<: *filter-main
+          <<: *job-main-linux-xenial-minimal
+      - main-linux-xenial-common:
+          <<: *filter-main
+          <<: *job-main-linux-xenial-common
+      # - main-macos-xcode101-dev:
+      #     <<: *filter-main
+      #     <<: *job-main-macos-xcode101-dev
+
+  nightly:
+    triggers:
+      - schedule:
+          <<: *filter-main
+          cron: "0 0 * * *"
+    jobs:
+      - main-linux-xenial-minimal:
+          <<: *job-main-linux-xenial-minimal
+          p_ci_is_cron: "true"
+      - main-linux-xenial-common:
+          <<: *job-main-linux-xenial-common
+          p_ci_is_cron: "true"
+      # - main-macos-xcode101-dev:
+      #     <<: *job-main-macos-xcode101-dev
+      #     p_ci_is_cron: "true"

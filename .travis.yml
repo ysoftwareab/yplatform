@@ -1,0 +1,95 @@
+# 1. Notifications
+notifications:
+  slack:
+    rooms:
+      # cloud-ci
+      - secure: "EFN/yGMW+CNrwyqBzJiJOFZIytEIGsz2zBO/s34sCHwk8UukrOJBqSgv1LycjudPr6MizY5ax/IOZkG6fs8ce2Z8qJKNdQC2OHKVXq5Rr5x2HMg3ihoqhEVJhohS2B337TcF6/0WHZ/BT32tOFI1M2Z3WGByxsvrRFTa5eFDxRz+KfyOiWAKjTgY5cG5Sjr3Cmy9vQTFQkWgkSKvIemOCF7q1REFPAg917EvIaZfY2nUT9w9thtvIL3u2JUmWEda+X13oTm5ywEeFo8AYK8CR1PnVfi9O/172Gh8jhPzcjbkl6kEO5E73xPhCAnAoBgIaeQ9cq8kn3uZQeG0cHve55Os8kRGjT/ZFCa/c4XuFkQnLLlNRSJBlQ76EmhU43TianvnwJt/s9H1+ak9pypY5NYe/bx3NMd0BuhkhHB/zcKq96x/ZE7yiJcpsMw+7voVR+CNec4WsrukEDfiily+9A9M9+cB66z25dpsbKIVe6REer+MD9RTwc2n8M00TBmnB14KGQAE8HEXdzTSF5LWcT1T4nxgHeRKMur185KSovAFEB+93CApAN1NU/ooZRqpYkOLd6weDl6c5il4tZ7iPgDmSlLS9a+17lJ4GwNk9pxd398inYV9XSZGF5ZZykSN9LDipdx1VnRrVW/tSS3B9dt6jlvscB5sWbfr9+k5m7o="
+    on_success: change
+    on_pull_requests: false
+
+# 2. Env
+env:
+  global:
+
+# 3. Git
+# git:
+branches:
+  only:
+    - master
+
+# 4. Bootstrap
+# os: linux
+# dist: xenial
+language: generic
+# addons:
+before_cache: ./.ci.sh before_cache
+cache:
+  directories:
+    # common
+    - $HOME/.local
+    - $HOME/.npm
+    # darwin
+    - $HOME/.homebrew
+    - $HOME/Library/Caches/Homebrew
+    - $HOME/Library/Caches/pip
+    # linux
+    - $HOME/.cache/Homebrew
+    - $HOME/.cache/pip
+    - $HOME/.linuxbrew
+
+# 5. Steps
+before_install: ./.ci.sh before_install
+install: ./.ci.sh install
+before_script: ./.ci.sh before_script
+script: ./.ci.sh script
+after_success: ./.ci.sh after_success
+after_failure: ./.ci.sh after_failure
+after_script: ./.ci.sh after_script
+
+# 6. Deploy
+before_deploy: ./.ci.sh before_deploy
+deploy:
+  provider: script
+  script: ./.ci.sh deploy
+  skip_cleanup: true
+  on:
+    branch: master
+after_deploy: ./.ci.sh after_deploy
+
+
+jobs:
+  include:
+    - stage: test
+      name: "Linux Xenial 16.04 with minimal brew"
+      os: linux
+      dist: xenial
+      env: CACHE_NAME=linux-xenial-minimal SF_CI_BREW_INSTALL=minimal SF_DEPLOY_DOCKER_IMAGE=true
+      if: type IN (push, cron, pull_request)
+
+    - stage: test
+      name: "Linux Xenial 16.04 with common brew"
+      os: linux
+      dist: xenial
+      env: CACHE_NAME=linux-xenial-common SF_CI_BREW_INSTALL=common SF_DEPLOY_DOCKER_IMAGE=true
+      if: type IN (push, cron)
+
+    - stage: test
+      name: "Linux Bionic 18.04 with minimal brew"
+      os: linux
+      dist: bionic
+      env: CACHE_NAME=linux-bionic-minimal SF_CI_BREW_INSTALL=minimal SF_DEPLOY_DOCKER_IMAGE=true
+      if: type IN (push, cron)
+
+    - stage: test
+      name: "Linux Bionic 18.04 with common brew"
+      os: linux
+      dist: bionic
+      env: CACHE_NAME=linux-bionic-common SF_CI_BREW_INSTALL=common SF_DEPLOY_DOCKER_IMAGE=true
+      if: type IN (push, cron)
+
+    - stage: test
+      name: "OSX High Sierra 10.14 (Xcode 10.2) with dev brew"
+      os: osx
+      osx_image: xcode10.2
+      env: CACHE_NAME=osx-xcode10.2-dev SF_CI_BREW_INSTALL=dev
+      if: type IN (push, cron)
