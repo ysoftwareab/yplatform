@@ -5,8 +5,7 @@ on:
 
 jobs:
   main-linux-xenial-minimal:
-    name: test
-    runs-on: ubuntu-xenial
+    runs-on: ubuntu-16.04
     env:
       SF_CI_BREW_INSTALL: minimal
     steps:
