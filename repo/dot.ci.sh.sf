@@ -310,8 +310,14 @@ EOF
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
     CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
-    CI_IS_PR=$([[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]] && echo true || echo false)
-    CI_IS_CRON=$([[ "${TRAVIS_EVENT_TYPE}" = "cron" ]] && echo true || echo false)
+    CI_IS_PR=false
+    if [[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=false
+    if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+        CI_IS_CRON=true
+    fi
     CI_TAG=${TRAVIS_TAG:-}
 }
 
@@ -324,7 +330,10 @@ EOF
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
     CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
     CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
-    CI_IS_PR=$([[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]] && echo true || echo false)
+    CI_IS_PR=false
+    if [[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]]; then
+        CI_IS_PR=true
+    fi
     CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
     CI_TAG=${CIRCLE_TAG:-}
     export USER=$(whoami)
@@ -337,11 +346,23 @@ EOF
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${GITHUB_ACTION}
     CI_JOB_URL=https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_REF}/checks?check_suite_id=${GITHUB_ACTION}
-    CI_PR_SLUG=$([[ "${GITHUB_EVENT_NAME}" = "pull_request" ]] && echo https://github.com/${GITHUB_REPOSITORY}/pull/$(jq -r .github.event.number ${GITHUB_EVENT_PATH}) || true)
+    CI_PR_SLUG=
+    if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+        CI_PR_SLUG=https://github.com/${GITHUB_REPOSITORY}/pull/$(jq -r .github.event.number ${GITHUB_EVENT_PATH})
+    fi
     CI_REPO_SLUG=${GITHUB_REPOSITORY}
-    CI_IS_PR=$([[ "${GITHUB_EVENT_NAME}" = "pull_request" ]] && echo true || echo false)
-    CI_IS_CRON=$([[ "${GITHUB_EVENT_NAME}" = "" ]] && echo true || echo false)
-    CI_TAG=$([[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]] && echo ${GITHUB_REF} || true)
+    CI_IS_PR=false
+    if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=false
+    if [[ "${GITHUB_EVENT_NAME}" = "" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_TAG=
+    if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
+        CI_TAG=${GITHUB_REF}
+    fi
 }
 
 [[ -z "$*" ]] || sf_ci_run $@
