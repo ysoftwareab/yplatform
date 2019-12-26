@@ -369,8 +369,6 @@ EOF
     if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
         CI_TAG=${GITHUB_REF#refs\/tag\/}
     fi
-
-    env | grep -e GITHUB -e CI
 }
 
 [[ -z "$*" ]] || sf_ci_run $@
