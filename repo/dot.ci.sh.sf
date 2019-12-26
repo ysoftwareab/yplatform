@@ -330,4 +330,18 @@ EOF
     export USER=$(whoami)
 }
 
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    git config --global user.email "actions@github.com"
+    git config --global user.name "Github Actions CI"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${GITHUB_ACTION}
+    CI_JOB_URL=https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_REF}/checks?check_suite_id=${GITHUB_ACTION}
+    CI_PR_SLUG=$([[ "${GITHUB_EVENT_NAME}" = "pull_request" ]] && echo https://github.com/${GITHUB_REPOSITORY}/pull/$(jq -r .github.event.number ${GITHUB_EVENT_PATH}) || true)
+    CI_REPO_SLUG=${GITHUB_REPOSITORY}
+    CI_IS_PR=$([[ "${GITHUB_EVENT_NAME}" = "pull_request" ]] && echo true || echo false)
+    CI_IS_CRON=$([[ "${GITHUB_EVENT_NAME}" = "" ]] && echo true || echo false)
+    CI_TAG=$([[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]] && echo ${GITHUB_REF} || true)
+}
+
 [[ -z "$*" ]] || sf_ci_run $@
