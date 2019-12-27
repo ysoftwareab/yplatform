@@ -4,10 +4,18 @@ on:
     branches: master
 
 jobs:
-  main-linux-xenial-minimal:
-    runs-on: ubuntu-16.04
+  main:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-16.04
+          - ubuntu-18.04
+        sf_ci_brew_install:
+          - minimal
+          - common
+    runs-on: ${{ matrix.os }}
     env:
-      SF_CI_BREW_INSTALL: minimal
+      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps:
       # - run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
       - uses: actions/checkout@v2
