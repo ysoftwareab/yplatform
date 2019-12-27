@@ -386,7 +386,7 @@ EOF
     fi
     CI_TAG=
     if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
-        CI_TAG=${GITHUB_REF#refs\/tag\/}
+        CI_TAG=${GITHUB_REF#refs\/tags\/}
     fi
     export CI=true
 }
