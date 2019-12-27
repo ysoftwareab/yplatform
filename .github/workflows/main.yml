@@ -16,6 +16,7 @@ jobs:
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
+      SF_LOG_BOOTSTRAP: true
       SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps:
       # - run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
