@@ -11,7 +11,8 @@ jobs:
     steps:
       # - run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
       - uses: actions/checkout@v2
-      - shell: bash
+      - name: actions/checkout@v2 submodules
+        shell: bash
         run: |
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
