@@ -13,6 +13,7 @@ jobs:
         sf_ci_brew_install:
           - minimal
           - common
+    name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
       SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
