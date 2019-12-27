@@ -90,7 +90,7 @@ function sf_pyenv_init() {
 
 
 function sf_os() {
-    [[ ! -d /support-firecloud ]] || {
+    [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || [[ ! -d /support-firecloud ]] || {
         echo_info "${FUNCNAME[0]}: /support-firecloud directory exists."
         echo_info "${FUNCNAME[0]}: Assumming that OS is already bootstrapped (Docker image)."
         return 0
