@@ -155,7 +155,7 @@ function ga_echo() {
         "[DO  ]")
             echo -n "${PWD_GROUP}" > /tmp/ci_echo_ga_fold_${RANDOM}
 
-            basic_ga_echo "::group::${PWD_GROUP}"
+            basic_ga_echo "##[group]${PWD_GROUP}"
 
             >&2 echo "$(date +"%H:%M:%S") $@"
             ;;
@@ -180,7 +180,7 @@ function ga_echo() {
             GROUP_FINISH=$(( ${GROUP_FINISH} * ${IN_NANOSECONDS} ))
             GROUP_DURATION=$(( ${GROUP_DURATION} * ${IN_NANOSECONDS} ))
 
-            basic_ga_echo "::endgroup::"
+            basic_ga_echo "##[endgroup]"
 
             >&2 echo "$(date +"%H:%M:%S") [DONE] in $(( ${GROUP_DURATION} / ${IN_NANOSECONDS} )) seconds"
             >&2 echo
