@@ -373,7 +373,7 @@ EOF
     set +a
 
     env | grep -e GITHUB -e CI
-
+    cat ${GITHUB_EVENT_PATH}
 }
 
 [[ -z "$*" ]] || sf_ci_run $@
