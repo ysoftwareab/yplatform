@@ -10,7 +10,11 @@ function brew_upgrade() {
         [[ -z "${MISSING}" ]] || brew install ${MISSING}
 
         # link, if not already
-        brew link ${NAME} || true
+        if [[ "${CI:-}" != "true" ]]; then
+            brew link ${NAME} || true
+        else
+            brew link --force ${NAME} || true
+        fi
 
         # is it pinned?
         brew list ${NAME} --pinned | grep -q "^${NAME}$" && continue || true
@@ -39,7 +43,11 @@ function brew_install() {
                 brew uninstall ${NAME}
 
                 echo_do "brew: Installing ${FORMULA}..."
-                brew install ${FORMULA}
+                if [[ "${CI:-}" != "true" ]]; then
+                    brew install ${FORMULA}
+                else
+                    brew install --force ${FORMULA}
+                fi
                 echo_done
 
                 continue
