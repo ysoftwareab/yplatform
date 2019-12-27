@@ -140,11 +140,9 @@ function travis_echo() {
 }
 
 function basic_ga_echo() {
-    local ANSI_CLEAR="\033[0K"
-
 	local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
 	set +x
-	echo -en "$@\\r${ANSI_CLEAR}"
+	echo "$@"
 	eval "${XTRACE_STATE}"
 }
 
