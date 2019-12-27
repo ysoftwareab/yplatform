@@ -374,7 +374,6 @@ EOF
 
     env | grep -e GITHUB -e CI
 
-    SF_LOG_BOOTSTRAP=true
 }
 
 [[ -z "$*" ]] || sf_ci_run $@
