@@ -369,6 +369,7 @@ EOF
     if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
         CI_TAG=${GITHUB_REF#refs\/tag\/}
     fi
+    export CI=true
 }
 
 [[ -z "$*" ]] || sf_ci_run $@
