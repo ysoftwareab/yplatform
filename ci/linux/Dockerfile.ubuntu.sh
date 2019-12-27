@@ -48,4 +48,5 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     chown -R root:root .
     git config url."https://github.com/".insteadOf git@github.com:
     sudo -H -u docker ./ci/linux/bootstrap
+    touch /support-firecloud.bootstrapped
 }
