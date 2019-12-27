@@ -44,7 +44,6 @@ SF_TEST_TARGETS := \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
-	test-ga \
 
 # ------------------------------------------------------------------------------
 
@@ -71,12 +70,3 @@ test-repo-mk:
 		$(MAKE) -f $${mk} help; \
 		$(ECHO_DONE); \
 	done
-
-
-.PHONY: test-ga
-test-ga:
-ifeq (true,$(GITHUB_ACTIONS))
-	false
-else
-	true
-endif
