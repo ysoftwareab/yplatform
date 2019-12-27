@@ -22,3 +22,8 @@ jobs:
       - run: ./.ci.sh install
       - run: ./.ci.sh before_script
       - run: ./.ci.sh script
+      - run: ./.ci.sh after_failure
+        if: failure()
+      - run: ./.ci.sh after_success
+      - run: ./.ci.sh after_script
+        if: always()
