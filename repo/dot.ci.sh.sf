@@ -349,6 +349,7 @@ EOF
     git config --global user.email "actions@github.com"
     git config --global user.name "Github Actions CI"
 
+    set -a
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${GITHUB_ACTION}
     CI_JOB_URL=https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_REF}/checks?check_suite_id=${GITHUB_ACTION}
@@ -369,6 +370,7 @@ EOF
     if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
         CI_TAG=${GITHUB_REF#refs\/tag\/}
     fi
+    set +a
 
     env | grep -e GITHUB -e CI
 
