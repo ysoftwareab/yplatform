@@ -6,6 +6,7 @@ on:
 jobs:
   main:
     strategy:
+      fail-fast: false
       matrix:
         os:
           - ubuntu-16.04
