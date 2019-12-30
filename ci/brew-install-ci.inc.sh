@@ -4,7 +4,7 @@ set -euo pipefail
 echo_do "brew: Unlink keg-only packages..."
 BREW_FORMULAE="$(brew info --json=v1 --installed | \
     jq -r 'map(select(.keg_only == true and .linked_keg != null)) | map(.name) | .[]')"
-cat "${BREW_FORMULAE}"
+echo "${BREW_FORMULAE}"
 while read -u3 FORMULA; do
     brew unlink ${FORMULA} || true
 done 3< <(echo "${BREW_FORMULAE}")
