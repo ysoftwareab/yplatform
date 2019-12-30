@@ -7,7 +7,7 @@ BREW_FORMULAE="$(brew info --json=v1 --installed | \
 echo "${BREW_FORMULAE}"
 while read -u3 FORMULA; do
     brew unlink ${FORMULA} || true
-done 3< <(echo "${BREW_FORMULAE}")
+done 3< <(echo -n "${BREW_FORMULAE}")
 unset FORMULA
 unset BREW_FORMULAE
 echo_done
