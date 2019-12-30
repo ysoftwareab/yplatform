@@ -55,6 +55,6 @@ brew update
 brew outdated
 echo_done
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
+[[ "${CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
