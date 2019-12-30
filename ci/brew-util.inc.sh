@@ -13,7 +13,7 @@ function brew_upgrade() {
         if [[ "${CI:-}" != "true" ]]; then
             brew link ${NAME} || true
         else
-            brew link --force ${NAME} || true
+            brew link --force --overwrite ${NAME} || true
         fi
 
         # is it pinned?
@@ -46,7 +46,7 @@ function brew_install() {
                 if [[ "${CI:-}" != "true" ]]; then
                     brew install ${FORMULA}
                 else
-                    brew install --force ${FORMULA}
+                    brew install --force ${FORMULA} || brew link --force --overwrite ${FORMULA}
                 fi
                 echo_done
 
