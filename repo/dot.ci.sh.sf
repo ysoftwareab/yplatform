@@ -252,6 +252,18 @@ function sf_ci_run_after_script() {
 }
 
 
+function sf_ci_run_notifications_slack() {
+    [[ -n "${SLACK_WEBHOOK:-}" ]] || return 0
+    [[ "${CI_STATUS:-}" != "failure" ]] || return 0
+
+    slack-echo "Build #ID (${GIT_HASH_SHORT}) of ${CI_REPO_SLUG}@${GIT_BRANCH:-${CI_TAG}} by $(git log -1 --format '%cn') failed"
+}
+
+function sf_ci_run_notifications() {
+    sf_ci_run_notifications_slack
+}
+
+
 function sf_ci_run_before_cache_brew() {
     which brew >/dev/null 2>&1 || return 0
     local HOMEBREW_PREFIX=$(brew --prefix)

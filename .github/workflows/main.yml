@@ -20,6 +20,8 @@ jobs:
     env:
       SF_LOG_BOOTSTRAP: true
       SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
     steps:
       # - run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
       - uses: actions/checkout@v2
@@ -39,6 +41,12 @@ jobs:
       - run: ./.ci.sh after_success || true
       - run: ./.ci.sh after_script || true
         if: always()
+      - env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHHOK }}
+          SLACK_CHANNEL: cloud-ci
+          CI_STATUS: ${{ job.status }}
+        run: ./.ci.sh notifications || true
+        if: always()
 
   deploy:
     needs: main
@@ -57,6 +65,8 @@ jobs:
     env:
       SF_LOG_BOOTSTRAP: true
       SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
       SF_DEPLOY_DOCKER_IMAGE: true
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -73,3 +83,9 @@ jobs:
       - run: ./.ci.sh before_deploy
       - run: ./.ci.sh deploy
       - run: ./.ci.sh after_deploy || true
+      - env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHHOK }}
+          SLACK_CHANNEL: cloud-ci
+          CI_STATUS: ${{ job.status }}
+        run: ./.ci.sh notifications || true
+        if: always()
