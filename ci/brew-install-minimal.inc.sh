@@ -3,7 +3,7 @@ set -euo pipefail
 
 if [[ "${SF_BOOTSTRAP_SKIP_COMMON:-}" = "true" ]]; then
 echo_info "brew: SF_BOOTSTRAP_SKIP_COMMON=${SF_BOOTSTRAP_SKIP_COMMON}"
-echo_skip "brew: Installing common packages..."
+echo_skip "brew: Installing minimal packages..."
 else
 
 echo_do "brew: Installing minimal packages..."
