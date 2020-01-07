@@ -3,40 +3,40 @@ on:
   push:
     branches: master
 
-aliases:
-  strategy: &strategy
-    fail-fast: false
-    matrix:
-      os:
-        - ubuntu-16.04
-        - ubuntu-18.04
-        - macos-latest
-      sf_ci_brew_install:
-        - minimal
-        - common
-  env: &env
-    GH_TOKEN: ${{ secrets.GH_TOKEN }}
-    SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
-    SF_LOG_BOOTSTRAP: true
-    TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
-  checkout: &checkout
-    # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
-    uses: actions/checkout@v2
-  checkout-submodules: &checkout-submodules
-    name: Run actions/checkout@v2 submodules
-    shell: bash
-    run: |
-      auth_header="$(git config --local --get http.https://github.com/.extraheader)"
-      git submodule sync --recursive
-      git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-      submodule update --init --force --recursive --depth=1
-  notify-slack: &notify-slack
-    env:
-      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHHOK }}
-      SLACK_CHANNEL: cloud-ci
-      CI_STATUS: ${{ job.status }}
-    run: ./.ci.sh notifications || true
-    if: always()
+# aliases:
+#   strategy: &strategy
+#     fail-fast: false
+#     matrix:
+#       os:
+#         - ubuntu-16.04
+#         - ubuntu-18.04
+#         - macos-latest
+#       sf_ci_brew_install:
+#         - minimal
+#         - common
+#   env: &env
+#     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+#     SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+#     SF_LOG_BOOTSTRAP: true
+#     TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+#   checkout: &checkout
+#     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
+#     uses: actions/checkout@v2
+#   checkout-submodules: &checkout-submodules
+#     name: Run actions/checkout@v2 submodules
+#     shell: bash
+#     run: |
+#       auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+#       git submodule sync --recursive
+#       git -c "http.extraheader=$auth_header" -c protocol.version=2 \
+#       submodule update --init --force --recursive --depth=1
+#   notify-slack: &notify-slack
+#     env:
+#       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHHOK }}
+#       SLACK_CHANNEL: cloud-ci
+#       CI_STATUS: ${{ job.status }}
+#     run: ./.ci.sh notifications || true
+#     if: always()
 
 jobs:
   main:
