@@ -40,7 +40,7 @@ on:
 
 jobs:
   main:
-    # strategy: &strategy
+    # strategy: *strategy
     strategy:
       fail-fast: false
       matrix:
@@ -90,7 +90,7 @@ jobs:
   deploy:
     needs: main
     if: github.ref == 'refs/heads/master'
-    # strategy: &strategy
+    # strategy: *strategy
     strategy:
       fail-fast: false
       matrix:
