@@ -1,4 +1,4 @@
-# support-firecloud [![TravisCI Status][2]][1] [![CircleCI Status][4]][3]
+# support-firecloud [![TravisCI Status][2]][1] [![CircleCI Status][4]][3] [![Github Actions CI Status][6]][5]
 
 Software and configuration that support TobiiPro's Cloud Services development.
 
@@ -42,3 +42,5 @@ It is therefore **important that you clone these repositories recursively**, oth
   [2]: https://travis-ci.com/tobiipro/support-firecloud.svg?branch=master
   [3]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master
   [4]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master.svg?style=svg
+  [5]: https://github.com/tobiipro/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
+  [5]: https://github.com/tobiipro/support-firecloud/workflows/CI/badge.svg?branch=master
