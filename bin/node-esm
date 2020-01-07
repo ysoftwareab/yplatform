@@ -6,7 +6,8 @@ set -euo pipefail
 # See https://github.com/standard-things/esm
 
 # if first call, install esm and call script again
-if [[ -z "${NODE_ESM_ARGS:-}" ]]; then
+if [[ -z "${NODE_ESM_PASS:-}" ]]; then
+    export NODE_ESM_PASS=1
     export NODE_ESM_ARGS="$@"
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     npx -q -p esm node-esm
