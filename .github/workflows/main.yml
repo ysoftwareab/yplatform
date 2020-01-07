@@ -104,10 +104,14 @@ jobs:
     name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
-      <<: *env
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       SF_DEPLOY_DOCKER_IMAGE: true
+      # <<: *env
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
+      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+      SF_LOG_BOOTSTRAP: true
+      TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
     steps:
       # - *checkout
       - uses: actions/checkout@v2
