@@ -39,14 +39,19 @@ SF_ECLINT_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
-SF_BUILD_TARGETS := \
+GITHUB_WORKFLOWS := \
 	.github/workflows/main.yml \
+
+SF_BUILD_TARGETS := \
+	$(SF_BUILD_TARGETS) \
+	$(GITHUB_WORKFLOWS) \
 
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
+	test-github-workflows \
 
 # ------------------------------------------------------------------------------
 
@@ -76,4 +81,15 @@ test-repo-mk:
 		$(ECHO_DO) "Testing $${mk}..."; \
 		$(MAKE) -f $${mk} help; \
 		$(ECHO_DONE); \
+	done
+
+
+.PHONY: test-github-workflows
+test-github-workflows:
+	for GITHUB_WORKFLOW in $(GITHUB_WORKFLOWS); do \
+		$(MAKE) $${GITHUB_WORKFLOW}; \
+		$(GIT) diff --exit-code $${GITHUB_WORKFLOW} || { \
+			$(ECHO_ERR) "$${GITHUB_WORKFLOW} has uncommitted changes."; \
+			exit 1; \
+		} \
 	done

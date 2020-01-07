@@ -21,9 +21,12 @@ SCRIPT="$(cat <<EOF
 let fs = require('fs');
 let yml = require('js-yaml');
 let data = yml.safeLoad(fs.readFileSync('/dev/stdin'));
-console.log(yml.safeDump(data, {
-  lineWidth: 120,
+data = yml.safeLoad(yml.safeDump(data, {
   noRefs: true
+}));
+delete data.aliases;
+console.log(yml.safeDump(data, {
+  lineWidth: 120
 }));
 EOF
 )"
