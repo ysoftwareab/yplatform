@@ -39,6 +39,9 @@ SF_ECLINT_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
+SF_BUILD_TARGETS := \
+	.github/workflows/main.yml \
+
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
 	test-secret \
@@ -46,6 +49,10 @@ SF_TEST_TARGETS := \
 	test-repo-mk \
 
 # ------------------------------------------------------------------------------
+
+.github/workflows/main.yml: .github/workflows/.main.src.yml
+	(echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE ($<)"; cat $< | bin/yaml-expand) > $@
+
 
 .PHONY: test-secret
 test-secret:
