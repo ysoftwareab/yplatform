@@ -4,6 +4,21 @@ on:
     branches: master
 
 aliases:
+  strategy: &strategy
+    fail-fast: false
+    matrix:
+      os:
+        - ubuntu-16.04
+        - ubuntu-18.04
+        - macos-latest
+      sf_ci_brew_install:
+        - minimal
+        - common
+  env: &env
+    GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+    SF_LOG_BOOTSTRAP: true
+    TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
   checkout: &checkout
     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
     uses: actions/checkout@v2
@@ -25,23 +40,11 @@ aliases:
 
 jobs:
   main:
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-16.04
-          - ubuntu-18.04
-          - macos-latest
-        sf_ci_brew_install:
-          - minimal
-          - common
+    strategy: *strategy
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
-      SF_LOG_BOOTSTRAP: true
-      TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+      <<: *env
     steps:
       - *checkout
       - *checkout-submodules
@@ -59,25 +62,14 @@ jobs:
   deploy:
     needs: main
     if: github.ref == 'refs/heads/master'
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-16.04
-          - ubuntu-18.04
-        sf_ci_brew_install:
-          - minimal
-          - common
+    strategy: *strategy
     name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
+      <<: *env
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
       SF_DEPLOY_DOCKER_IMAGE: true
-      SF_LOG_BOOTSTRAP: true
-      TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
     steps:
       - *checkout
       - *checkout-submodules
