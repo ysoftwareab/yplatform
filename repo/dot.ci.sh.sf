@@ -254,7 +254,6 @@ function sf_ci_run_after_script() {
 
 function sf_ci_run_notifications_slack() {
     [[ -n "${SLACK_WEBHOOK:-}" ]] || return 0
-    CI_STATUS=failure
     [[ "${CI_STATUS:-}" = "failure" ]] || return 0
 
     ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo \
