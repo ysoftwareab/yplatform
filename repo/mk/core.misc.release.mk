@@ -66,6 +66,10 @@ endif
 
 
 .PHONY: $(RELEASE_TARGETS)
+# NOTE: below is a workaround for `make help-all` to work
+release/patch:
+release/minor:
+release/major:
 $(RELEASE_TARGETS):
 	$(eval VSN := $(@:release/%=%))
 	$(eval PKG_VSN_NEW ?= $(shell $(NPX) semver --coerce --increment $(VSN) $(PKG_VSN)))
