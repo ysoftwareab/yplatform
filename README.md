@@ -43,4 +43,4 @@ It is therefore **important that you clone these repositories recursively**, oth
   [3]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master
   [4]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master.svg?style=svg
   [5]: https://github.com/tobiipro/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
-  [5]: https://github.com/tobiipro/support-firecloud/workflows/CI/badge.svg?branch=master
+  [6]: https://github.com/tobiipro/support-firecloud/workflows/CI/badge.svg?branch=master
