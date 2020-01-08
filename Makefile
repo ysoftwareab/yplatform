@@ -44,6 +44,10 @@ GITHUB_WORKFLOWS_SRC := $(shell $(FIND_Q_NOSYM) .github/workflows.src -type f -n
 GITHUB_WORKFLOWS := \
 	$(patsubst .github/workflows.src/%,.github/workflows/%,$(GITHUB_WORKFLOWS_SRC)) \
 
+SF_CHECK_TARGETS := \
+	$(SF_CHECK_TARGETS) \
+	check-github-workflows \
+
 SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
 	$(GITHUB_WORKFLOWS) \
@@ -53,12 +57,22 @@ SF_TEST_TARGETS := \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
-	test-github-workflows \
 
 # ------------------------------------------------------------------------------
 
 $(GITHUB_WORKFLOWS): .github/workflows/%: .github/workflows.src/% $(GITHUB_WORKFLOWS_SRC)
 	(echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE ($<)"; cat $< | bin/yaml-expand) > $@
+
+
+.PHONY: check-github-workflows
+check-github-workflows:
+	for GITHUB_WORKFLOW in $(GITHUB_WORKFLOWS); do \
+		$(MAKE) $${GITHUB_WORKFLOW}; \
+		$(GIT) diff --exit-code $${GITHUB_WORKFLOW} || { \
+			$(ECHO_ERR) "$${GITHUB_WORKFLOW} has uncommitted changes."; \
+			exit 1; \
+		} \
+	done
 
 
 .PHONY: test-secret
@@ -83,15 +97,4 @@ test-repo-mk:
 		$(ECHO_DO) "Testing $${mk}..."; \
 		$(MAKE) -f $${mk} help; \
 		$(ECHO_DONE); \
-	done
-
-
-.PHONY: test-github-workflows
-test-github-workflows:
-	for GITHUB_WORKFLOW in $(GITHUB_WORKFLOWS); do \
-		$(MAKE) $${GITHUB_WORKFLOW}; \
-		$(GIT) diff --exit-code $${GITHUB_WORKFLOW} || { \
-			$(ECHO_ERR) "$${GITHUB_WORKFLOW} has uncommitted changes."; \
-			exit 1; \
-		} \
 	done
