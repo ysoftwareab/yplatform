@@ -8,8 +8,7 @@ notifications:
     on_pull_requests: false
 
 # 2. Env
-env:
-  global:
+# env:
 
 # 3. Git
 # git:
