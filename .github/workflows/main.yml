@@ -1,4 +1,4 @@
-# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (.github/workflows/.main.src.yml)
+# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (.github/workflows.src/main.yml)
 name: CI
 'on':
   push:

@@ -39,8 +39,10 @@ SF_ECLINT_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
+GITHUB_WORKFLOWS_SRC := $(shell $(FIND_Q_NOSYM) .github/workflows.src -type f -name "*.yml" -print)
+
 GITHUB_WORKFLOWS := \
-	.github/workflows/main.yml \
+	$(patsubst .github/workflows.src/%,.github/workflows/%,$(GITHUB_WORKFLOWS_SRC)) \
 
 SF_BUILD_TARGETS := \
 	$(SF_BUILD_TARGETS) \
@@ -55,7 +57,7 @@ SF_TEST_TARGETS := \
 
 # ------------------------------------------------------------------------------
 
-.github/workflows/main.yml: .github/workflows/.main.src.yml
+$(GITHUB_WORKFLOWS): .github/workflows/%: .github/workflows.src/% $(GITHUB_WORKFLOWS_SRC)
 	(echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE ($<)"; cat $< | bin/yaml-expand) > $@
 
 
