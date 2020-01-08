@@ -41,7 +41,7 @@ jobs:
       - run: ./.ci.sh after_script || true
         if: always()
       - env:
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHHOK }}'
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
@@ -81,9 +81,8 @@ jobs:
       - run: ./.ci.sh deploy
       - run: ./.ci.sh after_deploy || true
       - env:
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHHOK }}'
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
         if: always()
-
