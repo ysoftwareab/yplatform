@@ -29,7 +29,7 @@ $(foreach VAR,PKG_VSN PKG_VSN_MAJOR PKG_VSN_PUBLIC,$(call make-lazy,$(VAR)))
 version/patch:
 version/minor:
 version/major:
-$(VERSION_TARGETS): version/%
+$(VERSION_TARGETS):
 	$(eval VSN := $(@:version/%=%))
 	VSN=$(VSN) $(MAKE) _version
 
