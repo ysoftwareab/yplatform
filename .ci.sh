@@ -4,6 +4,15 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
+function ci_run_before_install() {
+    [[ ${OS_SHORT} != "linux" ]] || {
+        apt-get update
+        apt-get install -y git
+    }
+
+    sf_ci_run_before_install
+}
+
 function ci_run_before_deploy() {
     true
 }
