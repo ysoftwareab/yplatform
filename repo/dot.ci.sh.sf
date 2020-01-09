@@ -133,20 +133,22 @@ function sf_ci_run() {
     MAYBE_DOCKER_EXEC=
     if test -f /.dockerenv || grep -qa docker /proc/1/cgroup; then
         echo_info "Running inside a Docker container."
-    elif [[ "${TRAVIS:-}" = "true" ]]; then
+    elif [[ "${TRAVIS:-}" = "true" && "${SF_TRAVIS_DOCKER_IMAGE:-}" != "false" ]]; then
         MAYBE_DOCKER_EXEC="docker exec -it -w ${TRAVIS_BUILD_DIR} docker-ci ./ci.sh"
 
         if [[ "${1}" = "before_install" ]]; then
-            if [[ -z "${SF_DOCKER_IMAGE:-}" ]]; then
-                SF_DOCKER_IMAGE=$(source /etc/os-release && echo ${ID}):$(source /etc/os-release && echo ${VERSION_ID})
+            if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
+                RELEASE_ID=$(source /etc/os-release && echo ${ID})
+                RELEASE_VERSION_ID=$(source /etc/os-release && echo ${VERSION_ID})
+                SF_TRAVIS_DOCKER_IMAGE=${RELEASE_ID}:${RELEASE_VERSION_ID}
             fi
-            docker pull ${SF_DOCKER_IMAGE}
+            docker pull ${SF_TRAVIS_DOCKER_IMAGE}
             docker run -d -it --rm \
                 --name docker-ci \
                 --env CI=true \
                 --env-file <(printenv | grep -e "^TRAVIS") \
                 --volume ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} \
-                ${SF_DOCKER_IMAGE}
+                ${SF_TRAVIS_DOCKER_IMAGE}
         fi
     fi
 
