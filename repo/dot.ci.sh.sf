@@ -139,8 +139,8 @@ function sf_ci_run() {
         if [[ "${1}" = "before_install" ]]; then
             if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
                 RELEASE_ID=$(source /etc/os-release && echo ${ID})
-                RELEASE_VERSION_ID=$(source /etc/os-release && echo ${VERSION_ID})
-                SF_TRAVIS_DOCKER_IMAGE=${RELEASE_ID}:${RELEASE_VERSION_ID}
+                RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
+                SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
             fi
             docker pull ${SF_TRAVIS_DOCKER_IMAGE}
             docker run -d -it --rm \
