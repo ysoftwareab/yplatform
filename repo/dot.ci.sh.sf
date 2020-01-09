@@ -151,7 +151,7 @@ function sf_ci_run() {
     elif [[ "${SF_TRAVIS_DOCKER_IMAGE:-}" = "false" ]]; then
         echo_info "Skipping the docker-ci container because viaSF_TRAVIS_DOCKER_IMAGE=false."
     else
-        CMD="docker exec -it -w ${TRAVIS_BUILD_DIR} docker-ci $@"
+        CMD="docker exec -it -w ${TRAVIS_BUILD_DIR} docker-ci ${0} $@"
 
         if [[ "${1}" = "before_install" ]]; then
             if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
