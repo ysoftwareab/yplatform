@@ -130,10 +130,25 @@ function sf_os() {
 function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
 
+    MAYBE_DOCKER_EXEC=
+    if test -f /.dockerenv || grep -qa docker /proc/1/cgroup; then
+        echo_info "Running inside a Docker container."
+    elif [[ "${TRAVIS:-}" = "true" ]]; then
+        MAYBE_DOCKER_EXEC="docker exec -it docker-ci"
+
+        if [[ "${1}" = "before_install" ]]; then
+            if [[ -z "${SF_DOCKER_IMAGE:-}" ]]; then
+                SF_DOCKER_IMAGE=$(source /etc/os-release && echo ${ID}):$(source /etc/os-release && echo ${VERSION_ID})
+            fi
+            docker pull ${SF_DOCKER_IMAGE}
+            docker run -d -it --rm --name docker-ci ${SF_DOCKER_IMAGE}
+        fi
+    fi
+
     if [[ "$(type -t "ci_run_${1}")" = "function" ]]; then
-        eval "ci_run_${1}"
+        eval "${MAYBE_DOCKER_EXEC} ci_run_${1}"
     elif [[ "$(type -t "sf_ci_run_${1}")" = "function" ]]; then
-        eval "sf_ci_run_${1}"
+        eval "${MAYBE_DOCKER_EXEC} sf_ci_run_${1}"
     fi
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
