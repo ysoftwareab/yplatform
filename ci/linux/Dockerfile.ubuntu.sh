@@ -7,8 +7,8 @@ apt-get-install() {
 
 export CI=true
 export DEBIAN_FRONTEND=noninteractive
-export IMAGE_TAG=sf-ubuntu-xenial
-export SF_CI_BREW_INSTALL=common
+# export IMAGE_TAG= # --build-arg
+# export SF_CI_BREW_INSTALL= # --build-arg
 
 # DEPS
 apt-get update -y --fix-missing

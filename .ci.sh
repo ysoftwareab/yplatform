@@ -29,7 +29,13 @@ function ci_run_deploy_docker_image() {
             echo 0)
 
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-    docker build . --file ${DOCKERFILE} --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+    docker build . \
+        --file ${DOCKERFILE} \
+        --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+        --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+        --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+
     docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
