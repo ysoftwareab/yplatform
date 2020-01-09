@@ -133,7 +133,7 @@ function sf_ci_run() {
     MAYBE_DOCKER_EXEC=
     if [[ ${SF_TRAVIS_DOCKER:-} = "true" ]]; then
         echo_info "Running inside the docker-ci container."
-    elif [[ "${TRAVIS:-}" = "true" && "${SF_TRAVIS_DOCKER_IMAGE:-}" != "false" ]]; then
+    elif [[ "${TRAVIS:-}" = "true" && "${OS_SHORT}" = "linux" && "${SF_TRAVIS_DOCKER_IMAGE:-}" != "false" ]]; then
         MAYBE_DOCKER_EXEC="docker exec -it -w ${TRAVIS_BUILD_DIR} docker-ci ./.ci.sh"
 
         if [[ "${1}" = "before_install" ]]; then
