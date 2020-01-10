@@ -175,7 +175,7 @@ function sf_ci_run() {
                 exe docker exec -it -u root docker-ci \
                     addgroup \
                     --gid ${GROUP_ID} \
-                    $(getent group ${GROUP_ID} | cut -d: -f1);
+                    $(getent group ${GROUP_ID} | cut -d: -f1) || true;
             done
             exe docker exec -it -u root docker-ci \
                 adduser \
