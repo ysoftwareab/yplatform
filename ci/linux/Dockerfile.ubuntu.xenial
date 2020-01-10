@@ -1,6 +1,9 @@
 # docker build . --file ci/linux/Dockerfile.ubuntu.xenial --tag sf-ubuntu-xenial
 FROM ubuntu:16.04
 
+ARG IMAGE_TAG
+ARG SF_CI_BREW_INSTALL
+
 ADD . /support-firecloud
 RUN IMAGE_TAG=${IMAGE_TAG} \
     SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL} \
