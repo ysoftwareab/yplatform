@@ -164,7 +164,7 @@ function sf_ci_run() {
                 --name docker-ci \
                 --env SF_TRAVIS_DOCKER=true \
                 --env CI=true \
-                --env-file <(cat build.sh | \
+                --env-file <(cat ~/build.sh | \
                                  grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
                                  sed "s/travis_cmd export\\\\ //g" | \
                                  sed "s/\\\\=/=/g") \
