@@ -180,13 +180,18 @@ function sf_ci_run() {
             exe docker exec -it -u root docker-ci \
                 adduser \
                 --uid $(id -u) \
-                $(for GROUP_ID in $(id -G); do echo -n "--gid ${GROUP_ID} "; done) \
-                --ingroup sudo \
+                --ingroup $(id -g --name) \
                 --home /home/$(id -u --name) \
                 --shell /bin/sh \
                 --disabled-password \
                 --gecos "" \
                 $(id -u --name)
+            for GROUP_ID in $(id -G) $(getent group sudo | cut -d: -f3); do
+                exe docker exec -it -u root docker-ci \
+                    adduser \
+                    $(id -u --name) \
+                    $(getent group ${GROUP_ID} | cut -d: -f1);
+            done
         fi
     fi
 
