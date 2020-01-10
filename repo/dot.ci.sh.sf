@@ -151,7 +151,7 @@ function sf_ci_run() {
     elif [[ "${SF_TRAVIS_DOCKER_IMAGE:-}" = "false" ]]; then
         echo_info "Skipping the docker-ci container because viaSF_TRAVIS_DOCKER_IMAGE=false."
     else
-        CMD="docker exec -it -w ${TRAVIS_BUILD_DIR} docker-ci ${0} $@"
+        CMD="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) docker-ci ${0} $@"
 
         if [[ "${1}" = "before_install" ]]; then
             if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
@@ -171,6 +171,20 @@ function sf_ci_run() {
                 --env-file <(printenv | grep -e "^TRAVIS") \
                 --volume ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
+            docker exec -it -u root docker-ci \
+                addgroup \
+                --gid $(id -g) \
+                $(id -g --name)
+            docker exec -it -u root docker-ci \
+                adduser \
+                --uid $(id -u) \
+                --ingroup $(id -g --name) \
+                --ingroup sudo \
+                --home /home/$(id -u --name) \
+                --shell /bin/sh \
+                --disabled-password \
+                --gecos "" \
+                $(id -u --name)
         fi
     fi
 
