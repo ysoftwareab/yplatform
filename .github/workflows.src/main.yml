@@ -75,7 +75,7 @@ jobs:
     env:
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      SF_DEPLOY_DOCKER_IMAGE: true
+      # SF_DEPLOY_DOCKER_IMAGE: true
       <<: *env
     steps:
       - *checkout
