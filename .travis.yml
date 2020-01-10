@@ -15,6 +15,7 @@ notifications:
 branches:
   only:
     - master
+    - docker
 
 # 4. Bootstrap
 # os: linux
