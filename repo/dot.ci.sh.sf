@@ -169,7 +169,7 @@ function sf_ci_run() {
                                  sed "s/travis_cmd export\\\\ //g" | \
                                  sed "s/\\\\=/=/g") \
                 --env-file <(printenv | grep -e "^TRAVIS") \
-                --volume ${TRAVIS_BUILD_DIR}:${TRAVIS_BUILD_DIR} \
+                --volume ${HOME}:${HOME} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
             docker exec -it -u root docker-ci \
                 addgroup \
