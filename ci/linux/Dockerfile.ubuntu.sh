@@ -34,12 +34,12 @@ addgroup \
 adduser \
     --uid 1000 \
     --ingroup sf \
-    --ingroup sudo \
     --home /home/sf \
     --shell /bin/sh \
     --disabled-password \
     --gecos "" \
     sf
+adduser sf sudo
 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # MAIN
