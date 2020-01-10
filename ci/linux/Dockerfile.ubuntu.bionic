@@ -1,15 +1,8 @@
 # docker build . --file ci/linux/Dockerfile.ubuntu.xenial --tag sf-ubuntu-bionic
 FROM ubuntu:18.04
 
-# ENV
-ENV IMAGE_TAG=${IMAGE_TAG}
-ENV SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
-
-# MAIN
 ADD . /support-firecloud
-RUN /support-firecloud/ci/linux/Dockerfile.ubuntu.bionic.sh
+RUN IMAGE_TAG=${IMAGE_TAG} \
+    SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL} \
+    /support-firecloud/ci/linux/Dockerfile.ubuntu.bionic.sh
 USER docker
-
-# CLEANUP
-ENV IMAGE_TAG=
-ENV SF_CI_BREW_INSTALL=
