@@ -165,9 +165,9 @@ function sf_ci_run() {
                 --env SF_TRAVIS_DOCKER=true \
                 --env CI=true \
                 --env-file <(cat ~/build.sh | \
-                                 grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
-                                 sed "s/travis_cmd export\\\\ //g" | \
-                                 sed "s/\\\\=/=/g") \
+                    grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
+                    sed "s/travis_cmd export\\\\ //g" | \
+                    sed "s/\\\\=/=/g") \
                 --env-file <(printenv | grep -e "^TRAVIS") \
                 --volume ${HOME}:${HOME} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
