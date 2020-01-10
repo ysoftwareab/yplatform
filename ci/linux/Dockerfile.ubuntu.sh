@@ -30,16 +30,16 @@ git config --global user.name "${IMAGE_TAG}"
 # NON-ROOT SUDO USER
 addgroup \
     --gid 1000 \
-    docker
+    sf
 adduser \
     --uid 1000 \
-    --ingroup docker \
+    --ingroup sf \
     --ingroup sudo \
-    --home /home/docker \
+    --home /home/sf \
     --shell /bin/sh \
     --disabled-password \
     --gecos "" \
-    docker
+    sf
 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # MAIN
@@ -47,6 +47,6 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     cd /support-firecloud
     chown -R root:root .
     git config url."https://github.com/".insteadOf git@github.com:
-    sudo -H -u docker ./ci/linux/bootstrap
+    sudo -H -u sf ./ci/linux/bootstrap
     touch /support-firecloud.bootstrapped
 }

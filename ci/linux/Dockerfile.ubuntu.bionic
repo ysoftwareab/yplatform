@@ -5,4 +5,3 @@ ADD . /support-firecloud
 RUN IMAGE_TAG=${IMAGE_TAG} \
     SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL} \
     /support-firecloud/ci/linux/Dockerfile.ubuntu.bionic.sh
-USER docker
