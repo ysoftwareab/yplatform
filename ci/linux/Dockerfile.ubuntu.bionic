@@ -8,6 +8,7 @@ ENV SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
 # MAIN
 ADD . /support-firecloud
 RUN /support-firecloud/ci/linux/Dockerfile.ubuntu.bionic.sh
+USER docker
 
 # CLEANUP
 ENV IMAGE_TAG=
