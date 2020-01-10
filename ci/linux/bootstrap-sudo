@@ -31,6 +31,7 @@ dpkg-reconfigure --frontend=noninteractive locales
 
 # improve date-time (ntp) sync
 (
+    # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
     ln -sf /usr/share/zoneinfo/UTC /etc/localtime
     apt_install tzdata
     dpkg-reconfigure --frontend=noninteractive tzdata
