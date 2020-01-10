@@ -13,7 +13,7 @@ export DEBIAN_FRONTEND=noninteractive
 # DEPS
 apt-get update -y --fix-missing
 apt-get-install apt-transport-https
-apt-get-install software-properties-common python-software-properties ca-certificates
+apt-get-install software-properties-common ca-certificates
 apt-get-install git openssl ssh-client sudo
 rm -rf /var/lib/apt/lists/*
 
