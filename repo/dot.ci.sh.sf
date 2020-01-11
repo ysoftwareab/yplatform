@@ -193,7 +193,6 @@ function sf_ci_run() {
                     $(getent group ${GROUP_ID} | cut -d: -f1);
             done
 
-            # TODO should be fixed another way
             exe docker exec -it -u root docker-ci \
                 chown -R $(id -u):$(id -g) /home/linuxbrew
         fi
