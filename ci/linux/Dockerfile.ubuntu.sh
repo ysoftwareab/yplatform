@@ -27,12 +27,18 @@ chmod 600 /root/.ssh/config
 git config --global user.email "${IMAGE_TAG}@docker"
 git config --global user.name "${IMAGE_TAG}"
 
+# GID UID
+GID_INDEX=999
+UID_INDEX=999
+
 # NON-ROOT SUDO USER
+GID_INDEX=$((GID_INDEX + 1))
 addgroup \
-    --gid 1000 \
+    --gid ${GID_INDEX} \
     sf
+UID_INDEX=$((UID_INDEX + 1))
 adduser \
-    --uid 1000 \
+    --uid ${UID_INDEX} \
     --ingroup sf \
     --home /home/sf \
     --shell /bin/sh \
