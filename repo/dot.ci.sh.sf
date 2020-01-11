@@ -159,7 +159,9 @@ function sf_ci_run() {
                 RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
                 SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
             fi
+
             exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
+
             exe docker run -d -it --rm \
                 --name docker-ci \
                 --env SF_TRAVIS_DOCKER=true \
@@ -171,12 +173,14 @@ function sf_ci_run() {
                 --env-file <(printenv | grep -e "^TRAVIS") \
                 --volume ${HOME}:${HOME} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
+
             for GROUP_ID in $(id -G); do
                 exe docker exec -it -u root docker-ci \
                     addgroup \
                     --gid ${GROUP_ID} \
                     $(getent group ${GROUP_ID} | cut -d: -f1) || true;
             done
+
             exe docker exec -it -u root docker-ci \
                 adduser \
                 --uid $(id -u) \
@@ -186,6 +190,7 @@ function sf_ci_run() {
                 --disabled-password \
                 --gecos "" \
                 $(id -u --name)
+
             for GROUP_ID in $(id -G) $(getent group sudo | cut -d: -f3); do
                 exe docker exec -it -u root docker-ci \
                     adduser \
