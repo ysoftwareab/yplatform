@@ -194,13 +194,7 @@ function sf_ci_run() {
             done
 
             exe docker exec -it -u root docker-ci \
-                addgroup sf-brew
-            exe docker exec -it -u root docker-ci \
-                adduser $(id -u --name) sf-brew
-            exe docker exec -it -u root docker-ci \
-                chgrp -R sf-brew /home/linuxbrew
-            exe docker exec -it -u root docker-ci \
-                chmod -R g=u /home/linuxbrew
+                chown -R $(id -u):$(id -g) /home/linuxbrew
         fi
     fi
 
