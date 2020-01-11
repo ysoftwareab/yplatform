@@ -160,8 +160,10 @@ function sf_ci_run() {
                 SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
             fi
 
+            # pull docker image
             exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
 
+            # run the docker container, while passing relevant env vars and mounting HOME folder
             exe docker run -d -it --rm \
                 --name docker-ci \
                 --env SF_TRAVIS_DOCKER=true \
@@ -174,6 +176,7 @@ function sf_ci_run() {
                 --volume ${HOME}:${HOME} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
 
+            # create same groups (and gids) that the 'travis' user belongs to inside the docker container
             for GROUP_ID in $(id -G); do
                 exe docker exec -it -u root docker-ci \
                     addgroup \
@@ -181,6 +184,7 @@ function sf_ci_run() {
                     $(getent group ${GROUP_ID} | cut -d: -f1) || true;
             done
 
+            # create same user (and uid) that the 'travis' user has inside the docker container
             exe docker exec -it -u root docker-ci \
                 adduser \
                 --uid $(id -u) \
@@ -191,6 +195,7 @@ function sf_ci_run() {
                 --gecos "" \
                 $(id -u --name)
 
+            # add the 'travis' user to the groups inside the docker container
             for GROUP_ID in $(id -G) $(getent group sudo | cut -d: -f3); do
                 exe docker exec -it -u root docker-ci \
                     adduser \
@@ -198,6 +203,7 @@ function sf_ci_run() {
                     $(getent group ${GROUP_ID} | cut -d: -f1);
             done
 
+            # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
             exe docker exec -it -u root docker-ci \
                 chown -R $(id -u):$(id -g) /home/linuxbrew
         fi
