@@ -28,8 +28,8 @@ git config --global user.email "${IMAGE_NAME}.${IMAGE_TAG}@docker"
 git config --global user.name "${IMAGE_NAME} ${IMAGE_TAG}"
 
 # GID UID
-GID_INDEX=999
-UID_INDEX=999
+GID_INDEX=1999
+UID_INDEX=1999
 
 # NON-ROOT SUDO USER
 GID_INDEX=$((GID_INDEX + 1))
