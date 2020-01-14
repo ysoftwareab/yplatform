@@ -15,10 +15,11 @@ function ci_run_deploy_docker_image() {
     [[ -e "/etc/os-release" ]] || return
 
     RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+    RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
     RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
     DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
     DOCKER_IMAGE_TAG=${GIT_HASH_SHORT}
-    DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/Dockerfile.${RELEASE_ID}.${RELEASE_VERSION_CODENAME}
+    DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
     [[ -f "${DOCKERFILE}" ]] || return
 
     # NOTE jq must be preinstalled
@@ -33,6 +34,7 @@ function ci_run_deploy_docker_image() {
     exe docker build . \
         --file ${DOCKERFILE} \
         --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+        --build-arg FROM=${RELEASE_ID}:${RELEASE_VERSION_ID} \
         --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
         --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
 
