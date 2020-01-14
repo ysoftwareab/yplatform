@@ -153,8 +153,8 @@ function sf_os() {
     [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || {
         [[ ! -d /support-firecloud.bootstrapped ]] || {
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped exists."
-            echo_info "${FUNCNAME[0]}: Assumming that OS is already bootstrapped (Docker image)."
-            return 0
+            echo_info "${FUNCNAME[0]}: Assumming that OS is already bootstrapped with minimal/common dependencies."
+            export SF_BOOTSTRAP_SKIP_COMMON=true
         }
     }
 
