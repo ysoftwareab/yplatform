@@ -54,7 +54,5 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     chown -R root:root .
     git config url."https://github.com/".insteadOf git@github.com:
     sudo --preserve-env -H -u sf ./ci/linux/bootstrap
-    # shouldn't it already be owned by the sf user?
-    chown -R ${UID_INDEX}:${GID_INDEX} /home/linuxbrew
     touch /support-firecloud.bootstrapped
 }
