@@ -160,6 +160,8 @@ function sf_ci_run() {
                 SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
             fi
 
+            echo_do "Instantiating Docker..."
+
             # pull docker image
             exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
 
@@ -206,6 +208,8 @@ function sf_ci_run() {
             # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
             exe docker exec -it -u root docker-ci \
                 chown -R $(id -u):$(id -g) /home/linuxbrew
+
+            echo_done
         fi
     fi
 
