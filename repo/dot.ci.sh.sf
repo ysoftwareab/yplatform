@@ -102,9 +102,9 @@ function sf_run_docker() {
         --name docker-ci \
         --env CI=true \
         --env-file <(cat ~/build.sh | \
-                         grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
-                         sed "s/travis_cmd export\\\\ //g" | \
-                         xargs -L1 echo) \
+            grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
+            sed "s/travis_cmd export\\\\ //g" | \
+            xargs -L1 echo) \
         --env-file <(printenv | grep -e "^TRAVIS") \
         --volume ${HOME}:${HOME} \
         --network=host \
