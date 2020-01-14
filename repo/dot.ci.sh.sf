@@ -107,6 +107,8 @@ function sf_run_docker() {
                          xargs -L1 echo) \
         --env-file <(printenv | grep -e "^TRAVIS") \
         --volume ${HOME}:${HOME} \
+        --network=host \
+        --ipc=host \
         ${SF_TRAVIS_DOCKER_IMAGE}
 
     exe docker exec -it -u root docker-ci \
