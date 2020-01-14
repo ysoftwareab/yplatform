@@ -43,6 +43,7 @@ function ci_run_deploy_docker_image() {
 
     exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 
+    # don't push as 'latest' tag if the tag has been updated after the current commit
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
         exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
