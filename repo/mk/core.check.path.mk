@@ -30,6 +30,10 @@ SF_PATH_FILES_IGNORE += \
 	-e "^CONST\.inc\.secret$$" \
 
 SF_PATH_FILES_IGNORE += \
+	-e "^Dockerfile" \
+	-e "/Dockerfile" \
+
+SF_PATH_FILES_IGNORE += \
 	-e "^Makefile" \
 	-e "/Makefile" \
 
