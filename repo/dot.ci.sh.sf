@@ -90,7 +90,9 @@ function sf_pyenv_init() {
 
 
 function sf_run_docker() {
-    echo_do "Instantiating Docker..."
+    SF_TRAVIS_DOCKER_IMAGE=${1}
+
+    echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 
     # pull docker image
     exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
@@ -223,7 +225,7 @@ function sf_ci_run() {
                 SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${SF_HASH_SHORT}"
             fi
 
-            SF_TRAVIS_DOCKER_IMAGE=${SF_TRAVIS_DOCKER_IMAGE} sf_run_docker
+            sf_run_docker ${SF_TRAVIS_DOCKER_IMAGE}
         fi
     fi
 
