@@ -144,7 +144,7 @@ function sf_ci_run() {
 
     if [[ "${TRAVIS:-}" != "true" ]]; then
         true
-    elif [[ "${SF_TRAVIS_DOCKER:-}" = "true" ]]; then
+    elif [[ -f /support-firecloud.docker-ci ]]; then
         echo_info "Running inside the docker-ci container."
     elif [[ "${OS_SHORT:-}" != "linux" ]]; then
         echo_info "Skipping the docker-ci container because the host OS is not linux."
@@ -168,7 +168,6 @@ function sf_ci_run() {
             # run the docker container, while passing relevant env vars and mounting HOME folder
             exe docker run -d -it --rm \
                 --name docker-ci \
-                --env SF_TRAVIS_DOCKER=true \
                 --env CI=true \
                 --env-file <(cat ~/build.sh | \
                     grep --only-matching "^travis_cmd export\\\\ [^ ]\+" | \
@@ -177,6 +176,9 @@ function sf_ci_run() {
                 --env-file <(printenv | grep -e "^TRAVIS") \
                 --volume ${HOME}:${HOME} \
                 ${SF_TRAVIS_DOCKER_IMAGE}
+
+            exe docker exec -it -u root docker-ci \
+                touch /support-firecloud.docker-ci
 
             # create same groups (and gids) that the 'travis' user belongs to inside the docker container
             for GROUP_ID in $(id -G); do
