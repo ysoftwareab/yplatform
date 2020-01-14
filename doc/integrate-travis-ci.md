@@ -74,6 +74,21 @@ or checking them out via `git fetch refs/jobs/<job_id> && git log -p FETCH_HEAD`
 (or even `git checkout FETCH_HEAD`) from a local repo.
 
 
+## Docker
+
+In order to speed up builds and increase stability and predictability,
+we try to run the Travis pipeline in a Docker container running the same OS as host,
+and having the same user and home folder contents as the host.
+
+**NOTE** This means that Travis directives like `addons` in `.travis.yml` are redundant,
+because they will only affect the host machine, and not the Docker container where the pipeline runs.
+
+The Docker image is by default `tobiipro/sf-<os>-<os_version>-common`,
+but it can be specified via an environment variable `SF_TRAVIS_DOCKER_IMAGE` in the Travis UI.
+
+Alternatively, you can disable running the pipeline in a Docker container, via `SF_TRAVIS_DOCKER_IMAGE=false`.
+
+
 ## Debugging
 
 If you experience failures and you want to debug inside a Travis worker,
@@ -150,7 +165,6 @@ you need to add `TRANSCRYPT_PASSWORD` variable in Travis Web UI.
 The decryption of the repository will happen automatically in non-pull-request builds,
 if `.travis.yml` runs `./travis.sh before_install` in `before_install`
 (default in the [`.travis.yml` template](../repo/dot.travis.yml); see [actual command](../repo/dot.travis.sh)).
-
 
 ### Migrating secrets from existing repo
 

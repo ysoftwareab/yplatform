@@ -1,12 +1,3 @@
-# 1. Notifications
-notifications:
-  slack:
-    rooms:
-      # cloud-ci
-      - secure: "EFN/yGMW+CNrwyqBzJiJOFZIytEIGsz2zBO/s34sCHwk8UukrOJBqSgv1LycjudPr6MizY5ax/IOZkG6fs8ce2Z8qJKNdQC2OHKVXq5Rr5x2HMg3ihoqhEVJhohS2B337TcF6/0WHZ/BT32tOFI1M2Z3WGByxsvrRFTa5eFDxRz+KfyOiWAKjTgY5cG5Sjr3Cmy9vQTFQkWgkSKvIemOCF7q1REFPAg917EvIaZfY2nUT9w9thtvIL3u2JUmWEda+X13oTm5ywEeFo8AYK8CR1PnVfi9O/172Gh8jhPzcjbkl6kEO5E73xPhCAnAoBgIaeQ9cq8kn3uZQeG0cHve55Os8kRGjT/ZFCa/c4XuFkQnLLlNRSJBlQ76EmhU43TianvnwJt/s9H1+ak9pypY5NYe/bx3NMd0BuhkhHB/zcKq96x/ZE7yiJcpsMw+7voVR+CNec4WsrukEDfiily+9A9M9+cB66z25dpsbKIVe6REer+MD9RTwc2n8M00TBmnB14KGQAE8HEXdzTSF5LWcT1T4nxgHeRKMur185KSovAFEB+93CApAN1NU/ooZRqpYkOLd6weDl6c5il4tZ7iPgDmSlLS9a+17lJ4GwNk9pxd398inYV9XSZGF5ZZykSN9LDipdx1VnRrVW/tSS3B9dt6jlvscB5sWbfr9+k5m7o="
-    on_success: change
-    on_pull_requests: false
-
 # 2. Env
 # env:
 
@@ -15,6 +6,7 @@ notifications:
 branches:
   only:
     - master
+    - docker
 
 # 4. Bootstrap
 # os: linux
