@@ -218,6 +218,8 @@ function sf_ci_run() {
 ${0} $@ > <(pv -q -L 3k) 2> <(pv -q -L 3k)"
 
         if [[ "${1}" = "before_install" ]]; then
+            sudo apt-get install -y --force-yes pv
+
             if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
                 RELEASE_ID=$(source /etc/os-release && echo ${ID})
                 RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
