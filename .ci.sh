@@ -5,15 +5,45 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 SF_TRAVIS_DOCKER_IMAGE=false
+DOCKER_ORG=${DOCKER_ORG:-tobiipro}
 
 function ci_run_before_deploy() {
     true
 }
 
-function ci_run_deploy_docker_image() {
-    DOCKER_ORG=${DOCKER_ORG:-tobiipro}
+function ci_run_deploy_docker_image_hubdockercom() {
     [[ -n "${DOCKER_USERNAME:-}" ]] || return
     [[ -n "${DOCKER_PASSWORD:-}" ]] || return
+
+    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+
+    exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+
+    PUBLISH_AS_LATEST_TAG=$1
+    if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+    fi
+}
+
+function ci_run_deploy_docker_image_dockerpkggithubcom() {
+    [[ -n "${GH_TOKEN:-}" ]] || return
+
+    GH_DOCKER_HUB=docker.pkg.github.com
+
+    echo "${GH_TOKEN}" | docker login -u tobiiprotools --password-stdin ${GH_DOCKER_HUB}
+
+    exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+    exe docker push ${GH_DOCKER_HUB}/${DOCKER_ORG}/${CI_REPO_SLUG}:${DOCKER_IMAGE_TAG}
+
+    PUBLISH_AS_LATEST_TAG=$1
+    if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        exe docker push ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+    fi
+}
+
+function ci_run_deploy_docker_image() {
     [[ -e "/etc/os-release" ]] || return
 
     RELEASE_ID="$(source /etc/os-release && echo ${ID})"
@@ -39,15 +69,13 @@ function ci_run_deploy_docker_image() {
         --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
         --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
 
-    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-    exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
-
     # don't push as 'latest' tag if the tag has been updated after the current commit
+    PUBLISH_AS_LATEST_TAG=false
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
-        exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        PUBLISH_AS_LATEST_TAG=true
     fi
+    ci_run_deploy_docker_image_hubdockercom ${PUBLISH_AS_LATEST_TAG}
+    ci_run_deploy_docker_image_dockerpkggithubcom ${PUBLISH_AS_LATEST_TAG}
 }
 
 function ci_run_deploy() {
