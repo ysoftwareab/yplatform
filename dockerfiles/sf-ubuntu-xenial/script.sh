@@ -55,4 +55,9 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     git config url."https://github.com/".insteadOf git@github.com:
     sudo --preserve-env -H -u sf ./ci/linux/bootstrap
     touch /support-firecloud.bootstrapped
+
+    # hack to optimize usage in travis and not do 'chown -R' (slow) after each 'docker run'
+    # see https://github.com/docker/for-linux/issues/388
+    # TODO see repo/dot.ci.sh.sf sf_run_docker
+    chown -R 2000:2000 /home/linuxbrew
 }

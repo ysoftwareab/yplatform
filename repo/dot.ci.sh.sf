@@ -141,9 +141,10 @@ function sf_run_docker() {
             $(getent group ${GROUP_ID} | cut -d: -f1);
     done
 
+    # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
     # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
-    exe docker exec -it -u root docker-ci \
-        chown -R $(id -u):$(id -g) /home/linuxbrew
+    # exe docker exec -it -u root docker-ci \
+    #     chown -R $(id -u):$(id -g) /home/linuxbrew
 
     echo_done
 }
