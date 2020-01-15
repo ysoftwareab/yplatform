@@ -61,3 +61,11 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     # TODO see repo/dot.ci.sh.sf sf_run_docker
     chown -R 2000:2000 /home/linuxbrew
 }
+
+# CLEANUP
+(
+    cd /support-firecloud
+    git gc --prune=all
+)
+rm -rf /var/lib/apt/lists/* # aptitude cache
+rm -rf /home/sf/.cache # linuxbrew cache
