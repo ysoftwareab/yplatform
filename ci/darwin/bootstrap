@@ -11,7 +11,15 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
     ) || true
 }
 
+if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+echo_info "SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+echo_skip "ci/brew-bootstrap.inc.sh"
+else
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+fi
+
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+brew_update
 brew_brewfile_inc_sh
 brew_list
 

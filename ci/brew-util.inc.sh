@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function brew_update() {
+    echo_do "brew: Updating..."
+    brew update
+    brew outdated
+    echo_done
+}
+
 function brew_upgrade() {
     while read -u3 NAME; do
         [[ -n "${NAME}" ]] || continue
