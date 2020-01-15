@@ -184,20 +184,20 @@ printenv | grep MY_SECRET_VAR_PREFIX_
 
 ### Slack
 
-* Go to https://tobii.slack.com/apps/, find "Travis CI" and there existing integration between Travis and Tobii Slack
-* Click "pencil" button ("Edit configuration") and note `<token>`
-* Open terminal in the repo folder
+* Go to https://tobii.slack.com/apps/manage, find "Travis CI" and there existing integration between Travis and Tobii Slack
+* Click "pencil" button ("Edit configuration") and note down `<token>`
+* Open terminal in the repository folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets).
-Assuming that you want notifications in #atex-ci channel command will look like:
-  * in a case of public repo `support-firecloud/bin/travis-encrypt "tobii:<token>#atex-ci"`
-  * in a case of private repo `travis encrypt "tobii:<token>#atex-ci"` (you will need to run `travis login --pro` before that)
+Assuming that you want notifications in #cloud-ci channel command will look like:
+  * in a case of public repo `support-firecloud/bin/travis-encrypt "tobii:<token>#cloud-ci"`
+  * in a case of private repo `travis encrypt --pro "tobii:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
 * Add secret in the `.travis.yml` and configure other options
 ```yaml
 notifications:
   email: true
   slack:
     rooms:
-      # atex-ci
+      # cloud-ci
       - secure: "<your encrypted token here>"
     on_success: change
     on_pull_requests: false
