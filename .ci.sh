@@ -31,8 +31,6 @@ function ci_run_deploy_docker_image() {
             xargs -0 date +%s -d || \
             echo 0)
 
-    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-
     exe docker build . \
         --file ${DOCKERFILE} \
         --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
@@ -40,6 +38,8 @@ function ci_run_deploy_docker_image() {
         --build-arg IMAGE_NAME=${DOCKER_IMAGE_NAME} \
         --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
         --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+
+    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 
