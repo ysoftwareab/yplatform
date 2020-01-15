@@ -115,10 +115,6 @@ function sf_run_docker() {
         touch /support-firecloud.docker-ci
 
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
-    exe docker exec -it -u root docker-ci \
-        addgroup \
-        --gid 2000 \
-        travis || true;
     for GROUP_ID in $(id -G); do
         exe docker exec -it -u root docker-ci \
             addgroup \
@@ -129,7 +125,7 @@ function sf_run_docker() {
     # create same user (and uid) that the 'travis' user has inside the docker container
     exe docker exec -it -u root docker-ci \
         adduser \
-        --uid 2000 \
+        --uid $(id -u) \
         --ingroup $(id -g --name) \
         --home /home/$(id -u --name) \
         --shell /bin/sh \
@@ -144,6 +140,10 @@ function sf_run_docker() {
             $(id -u --name) \
             $(getent group ${GROUP_ID} | cut -d: -f1);
     done
+
+    # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
+    exe docker exec -it -u root docker-ci \
+        chown -R $(id -u):$(id -g) /home/linuxbrew
 
     echo_done
 }
