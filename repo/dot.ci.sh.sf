@@ -155,7 +155,7 @@ function sf_os() {
         [[ ! -f /support-firecloud.bootstrapped ]] || {
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped exists."
             echo_info "${FUNCNAME[0]}: Assumming that OS is already bootstrapped with minimal/common dependencies."
-            export SF_BOOTSTRAP_SKIP_COMMON=true
+            export SF_SKIP_COMMON_BOOTSTRAP=true
         }
     }
 

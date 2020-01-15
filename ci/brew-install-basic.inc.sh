@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "${SF_BOOTSTRAP_SKIP_COMMON:-}" = "true" ]]; then
-echo_info "brew: SF_BOOTSTRAP_SKIP_COMMON=${SF_BOOTSTRAP_SKIP_COMMON}"
+if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
 echo_skip "brew: Installing basic packages..."
 else
 
