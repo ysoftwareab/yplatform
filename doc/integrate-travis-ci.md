@@ -182,10 +182,10 @@ printenv | grep MY_SECRET_VAR_PREFIX_
 
 ## Notifications
 
-### Slack
+### Slack with Travis CI token
 
 * Go to https://tobii.slack.com/apps/manage, find "Travis CI" and there existing integration between Travis and Tobii Slack
-* Click "pencil" button ("Edit configuration") and note down `<token>`
+* Click "pencil" button ("Edit configuration") and note down `Token`
 * Open terminal in the repository folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets).
 Assuming that you want notifications in #cloud-ci channel command will look like:
@@ -202,6 +202,17 @@ notifications:
     on_success: change
     on_pull_requests: false
 ```
+
+### Slack with webhook
+
+If you are using another CI that supports Slack webhooks instead,
+or if you use a tool like [slack-echo](../bin/slack-echo) to send Slack messages,
+you can find the webhook URL like this:
+
+* Go to  https://tobii.slack.com/apps/manage/custom-integrations
+* Click "Incoming Webhooks" and find "cloud-ci"
+* Click "pencil" button ("Edit configuration") and note down `Webhook URL` under "Integration Settings"
+* Add an environment variable (e.g. via the Travis UI) named `SLACK_WEBHOOK` with the value of `Webhook URL`
 
 
 ## Releases
