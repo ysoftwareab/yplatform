@@ -60,6 +60,17 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     # see https://github.com/docker/for-linux/issues/388
     # TODO see repo/dot.ci.sh.sf sf_run_docker
     chown -R 2000:2000 /home/linuxbrew
+
+    # make 'docker run --rm -it --user sf <image>' behave like a dev machine
+    cat <<EOF >> /home/sf/.bash_aliases
+source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
+EOF
+    chown sf:sf /home/sf/.bash_aliases
+
+    cat <<EOF >> /home/sf/.gitconfig
+[include]
+    path = /support-firecloud/generic/dot.gitconfig
+EOF
 }
 
 # CLEANUP
