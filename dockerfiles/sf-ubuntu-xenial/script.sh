@@ -63,23 +63,26 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 }
 
 # CLEANUP
-function git_clean() {
-    git reflog expire --expire=all --all
-    git tag -l | xargs git tag -d
-    git gc --prune=all
+function dir_clean() {
+    du -hcs $1
+    rm -rf $1
+    du -hcs $1
 }
 
-(
-    cd /support-firecloud
-    git_clean
-)
-rm -rf /var/lib/apt/lists/* # aptitude cache
-rm -rf /home/sf/.cache # linuxbrew cache
-(
-    cd /home/linuxbrew/.linuxbrew/Homebrew
-    git_clean
-)
-(
-    cd /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
-    git_clean
-)
+function git_dir_clean() {
+    du -hcs $1
+    (
+        cd $1
+        git reflog expire --expire=all --all
+        git tag -l | xargs git tag -d
+        git gc --prune=all
+    )
+    du -hcs $1
+}
+
+dir_clean /var/lib/apt/lists/* # aptitude cache
+dir_clean /home/sf/.cache # linuxbrew cache
+
+git_dir_clean /support-firecloud
+git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
+git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
