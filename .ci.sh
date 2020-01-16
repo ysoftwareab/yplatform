@@ -19,43 +19,46 @@ function ci_run_deploy_docker_image_hubdockercom() {
 
     exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
 
-    PUBLISH_AS_LATEST_TAG=$1
+    local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
-        exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+        exe docker push ${TAG}
     fi
 }
 
 function ci_run_deploy_docker_image_dockerpkggithubcom() {
     [[ -n "${GH_TOKEN:-}" ]] || return
 
-    GH_DOCKER_HUB=docker.pkg.github.com
+    local GH_DOCKER_HUB=docker.pkg.github.com
 
     echo "${GH_TOKEN}" | docker login -u tobiiprotools --password-stdin ${GH_DOCKER_HUB}
 
-    exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
-    exe docker push ${GH_DOCKER_HUB}/${DOCKER_ORG}/${CI_REPO_SLUG}:${DOCKER_IMAGE_TAG}
+    local TAG=${GH_DOCKER_HUB}/${DOCKER_ORG}/${CI_REPO_SLUG}:${DOCKER_IMAGE_TAG}
+    exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
+    exe docker push ${TAG}
 
-    PUBLISH_AS_LATEST_TAG=$1
+    local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
-        exe docker push ${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+        exe docker push ${TAG}
     fi
 }
 
 function ci_run_deploy_docker_image() {
     [[ -e "/etc/os-release" ]] || return
 
-    RELEASE_ID="$(source /etc/os-release && echo ${ID})"
-    RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
-    RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
-    DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
-    DOCKER_IMAGE_TAG=${GIT_HASH_SHORT}
-    DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
+    local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+    local RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
+    local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+    local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
+    local DOCKER_IMAGE_TAG=${GIT_HASH_SHORT}
+    local DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
     [[ -f "${DOCKERFILE}" ]] || return
 
     # NOTE jq must be preinstalled
-    TIMESTAMP_LATEST=$(
+    local TIMESTAMP_LATEST=$(
         curl https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
             jq -r .last_updated | \
             xargs -0 date +%s -d || \
@@ -70,7 +73,7 @@ function ci_run_deploy_docker_image() {
         --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
 
     # don't push as 'latest' tag if the tag has been updated after the current commit
-    PUBLISH_AS_LATEST_TAG=false
+    local PUBLISH_AS_LATEST_TAG=false
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
         PUBLISH_AS_LATEST_TAG=true
     fi
