@@ -96,5 +96,5 @@ dir_clean /var/lib/apt/lists/* # aptitude cache
 dir_clean /home/sf/.cache # linuxbrew cache
 
 git_dir_clean /support-firecloud
-git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
-git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
+# git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
+# git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
