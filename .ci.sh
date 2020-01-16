@@ -22,7 +22,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
     fi
 }
@@ -41,7 +41,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
     fi
 }
