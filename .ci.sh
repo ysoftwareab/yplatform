@@ -17,13 +17,18 @@ function ci_run_deploy_docker_image_hubdockercom() {
 
     echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
-    exe docker push ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    echo_do "Pushing ${TAG}..."
+    exe docker push ${TAG}
+    echo_done
 
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
+        echo_do "Pushing ${TAG}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
+        echo_done
     fi
 }
 
@@ -35,14 +40,18 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     echo "${GH_TOKEN}" | docker login -u tobiiprotools --password-stdin ${GH_DOCKER_HUB}
 
     local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    echo_do "Pushing ${TAG}..."
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
     exe docker push ${TAG}
+    echo_done
 
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        echo_do "Pushing ${TAG}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
+        echo_done
     fi
 }
 
