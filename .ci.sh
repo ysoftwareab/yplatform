@@ -34,7 +34,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     echo "${GH_TOKEN}" | docker login -u tobiiprotools --password-stdin ${GH_DOCKER_HUB}
 
-    local TAG=${GH_DOCKER_HUB}/${DOCKER_ORG}/${CI_REPO_SLUG}:${DOCKER_IMAGE_TAG}
+    local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}:${DOCKER_IMAGE_TAG}
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
     exe docker push ${TAG}
 
