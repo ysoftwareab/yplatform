@@ -238,6 +238,11 @@ ${0} $@ 2>&1 | pv -q -L 3k"
                 SF_HASH_SHORT=$(cd ${SUPPORT_FIRECLOUD_DIR} && git rev-parse --short HEAD 2>/dev/null)
                 SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${SF_HASH_SHORT}"
             fi
+            # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag, set the tag to the hash of SF
+            if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+                SF_HASH_SHORT=$(cd ${SUPPORT_FIRECLOUD_DIR} && git rev-parse --short HEAD 2>/dev/null)
+                SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${SF_HASH_SHORT}"
+            fi
 
             sf_run_docker ${SF_TRAVIS_DOCKER_IMAGE}
         fi
