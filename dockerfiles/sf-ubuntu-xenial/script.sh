@@ -87,6 +87,7 @@ function git_dir_clean() {
         git reflog expire --expire=all --all
         git tag -l | xargs git tag -d
         git gc --prune=all
+        git clean -xdf .
     )
     du -hcs $1
 }
