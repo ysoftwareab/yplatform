@@ -47,7 +47,6 @@ WEB_BASE_URL ?=
 .PHONY: test-cypress
 test-cypress:
 	if [[ "$(words $(SF_CYPRESS_TEST_FILES))" != "0" ]]; then \
-		echo "files exist"; \
 		if [ -z "$(WEB_BASE_URL)" ]; then \
 			$(MAKE) test-cypress-with-server; \
 		else \
