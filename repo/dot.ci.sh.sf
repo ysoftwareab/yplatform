@@ -94,11 +94,11 @@ function sf_run_docker() {
 
     echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 
-    echo_do "Pulling docker image..."
+    echo_do "Pulling docker-ci image..."
     exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
-    echo_do "Running the docker container, while passing relevant env vars and mounting HOME folder..."
+    echo_do "Running the docker-ci container, while passing relevant env vars and mounting HOME folder..."
     exe docker run -d -it --rm \
         --name docker-ci \
         --env CI=true \
@@ -113,7 +113,7 @@ function sf_run_docker() {
         ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
-    echo_do "Instrumenting the docker container..."
+    echo_do "Instrumenting the docker-ci container..."
     exe docker exec -it -u root docker-ci \
         touch /support-firecloud.docker-ci
 
@@ -149,7 +149,7 @@ function sf_run_docker() {
     # exe docker exec -it -u root docker-ci \
     #     chown -R $(id -u):$(id -g) /home/linuxbrew
 
-    echo_done # "Instrumenting the docker container..."
+    echo_done # "Instrumenting the docker-ci container..."
 
     echo_done # "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 }
