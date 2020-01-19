@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+function ci_run_install() {
+    # defer to ci_run_script
+    true
+}
+
+
 function ci_run_script_env_git() {
     make snapshot
     make dist
@@ -12,6 +18,7 @@ function ci_run_script_env_git() {
     ${GIT_ROOT}/bin/provision-env
     [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
 }
+
 
 function ci_run_script_env() {
     PKG_VSN=$(cat package.json | jq -r ".version")
@@ -30,11 +37,6 @@ function ci_run_script_env() {
 
     ${GIT_ROOT}/bin/provision-env
     [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
-}
-
-
-function ci_run_install() {
-    true
 }
 
 
@@ -60,6 +62,7 @@ function ci_run_script_teardown_env() {
 function ci_run_script() {
     # handle PRs
     [[ "${CI_IS_PR}" != "true" ]] || {
+        sf_ci_run_install
         sf_ci_run_script
         return 0
     }
@@ -80,6 +83,7 @@ function ci_run_script() {
             ;;
         # handle git-env branches
         master|*-env)
+            sf_ci_run_install
             sf_ci_run_script
             ci_run_script_env_git
             return 0
