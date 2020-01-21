@@ -62,10 +62,13 @@ endef
 , := ,
 
 # $( )
-space :=
-space +=
-$(space) :=
-$(space) +=
+# NOT WORKING AFTER GNUMake 4.3
+# space :=
+# space +=
+# $(space) :=
+# $(space) +=
+space := $(empty) $(empty)
+$(space) := $(empty) $(empty)
 
 # $(=)
 equals := =
