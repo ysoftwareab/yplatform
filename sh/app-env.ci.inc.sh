@@ -90,6 +90,7 @@ function ci_run_script() {
             ;;
     esac
 
+    sf_ci_run_install
     sf_ci_run_script
 }
 
