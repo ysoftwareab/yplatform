@@ -4,7 +4,6 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-SF_TRAVIS_DOCKER_IMAGE=false
 DOCKER_ORG=${DOCKER_ORG:-tobiipro}
 
 function ci_run_before_deploy() {
@@ -91,6 +90,9 @@ function ci_run_deploy_docker_image() {
 }
 
 function ci_run_deploy() {
+    # don't deploy on cron jobs
+    [[ "${CI_IS_CRON:-}" != "true" ]] || return
+
     [[ -z "${SF_DEPLOY_DOCKER_IMAGE:-}" ]] || ci_run_deploy_docker_image
 }
 
