@@ -1,7 +1,9 @@
 name: CI
 on:
   push:
-    branches: master
+    branches:
+      - master
+      - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
 aliases:
   env: &env
@@ -58,29 +60,28 @@ jobs:
         if: always()
       - *notify-slack
 
-  deploy:
-    needs: main
-    if: github.ref == 'refs/heads/master'
-    strategy:
-      fail-fast: false
-      matrix:
-        os:
-          - ubuntu-16.04
-          - ubuntu-18.04
-        sf_ci_brew_install:
-          - minimal
-          - common
-    name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-    runs-on: ${{ matrix.os }}
-    env:
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      # SF_DEPLOY_DOCKER_IMAGE: true
-      <<: *env
-    steps:
-      - *checkout
-      - *checkout-submodules
-      - run: ./.ci.sh before_deploy
-      - run: ./.ci.sh deploy
-      - run: ./.ci.sh after_deploy || true
-      - *notify-slack
+  # deploy:
+  #   needs: main
+  #   if: startWith(github.ref, 'refs/tags/') == true
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       os:
+  #         - ubuntu-16.04
+  #         - ubuntu-18.04
+  #       sf_ci_brew_install:
+  #         - minimal
+  #         - common
+  #   name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+  #   runs-on: ${{ matrix.os }}
+  #   env:
+  #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+  #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #     <<: *env
+  #   steps:
+  #     - *checkout
+  #     - *checkout-submodules
+  #     - run: ./.ci.sh before_deploy
+  #     - run: ./.ci.sh deploy
+  #     - run: ./.ci.sh after_deploy || true
+  #     - *notify-slack
