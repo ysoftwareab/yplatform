@@ -34,13 +34,13 @@ aliases:
       p_cache_name: linux-xenial-minimal
       p_install: minimal
 
-  - job-main-linux-xenial-common: &job-main-linux-xenial-common
+  - job-main-linux-xenial-dev: &job-main-linux-xenial-dev
       p_ci_is_cron: "false"
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:xenial
-      p_cache_name: linux-xenial-common
-      p_install: common
+      p_cache_name: linux-xenial-dev
+      p_install: dev
 
   - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
       p_ci_is_cron: "false"
@@ -145,7 +145,7 @@ jobs:
     steps:
       - *job-main-steps
 
-  main-linux-xenial-common:
+  main-linux-xenial-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
@@ -166,9 +166,9 @@ workflows:
       - main-linux-xenial-minimal:
           <<: *filter-main
           <<: *job-main-linux-xenial-minimal
-      - main-linux-xenial-common:
+      - main-linux-xenial-dev:
           <<: *filter-main
-          <<: *job-main-linux-xenial-common
+          <<: *job-main-linux-xenial-dev
       # - main-macos-xcode101-dev:
       #     <<: *filter-main
       #     <<: *job-main-macos-xcode101-dev
@@ -184,8 +184,8 @@ workflows:
       - main-linux-xenial-minimal:
           <<: *job-main-linux-xenial-minimal
           p_ci_is_cron: "true"
-      - main-linux-xenial-common:
-          <<: *job-main-linux-xenial-common
+      - main-linux-xenial-dev:
+          <<: *job-main-linux-xenial-dev
           p_ci_is_cron: "true"
       # - main-macos-xcode101-dev:
       #     <<: *job-main-macos-xcode101-dev

@@ -58,6 +58,8 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 function ci_run_deploy_docker_image() {
     [[ -e "/etc/os-release" ]] || return
 
+    [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
+
     local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
     local RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"

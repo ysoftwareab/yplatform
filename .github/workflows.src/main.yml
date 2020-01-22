@@ -41,7 +41,7 @@ jobs:
           - macos-latest
         sf_ci_brew_install:
           - minimal
-          - common
+          - dev
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
@@ -71,7 +71,7 @@ jobs:
   #         - ubuntu-18.04
   #       sf_ci_brew_install:
   #         - minimal
-  #         - common
+  #         - dev
   #   name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
   #   runs-on: ${{ matrix.os }}
   #   env:
