@@ -33,25 +33,15 @@ echo_done
 # FIXME temporary fix
 # See https://github.com/pypa/pipenv/issues/3395
 # See https://github.com/pypa/virtualenv/issues/1270
-echo_do "brew: Installing 'pipenv 2018.10.13'..."
-case $(uname -s) in
-    Darwin)
-        HOMEBREW_CORE_GUC=https://raw.githubusercontent.com/Homebrew/homebrew-core
-        PIPENV_2018_10_13=${HOMEBREW_CORE_GUC}/305b5e94929c8d2d07ebceb8a720b0365fe5b35d/Formula/pipenv.rb
-        ;;
-    Linux)
-        HOMEBREW_CORE_GUC=https://raw.githubusercontent.com/Linuxbrew/homebrew-core
-        PIPENV_2018_10_13=${HOMEBREW_CORE_GUC}/494b0638a632244d25aaf2bd2292ae54c99ffa94/Formula/pipenv.rb
-        ;;
-    *)
-        echo_err "brew: $(uname -s) is an unsupported OS."
-        return 1
-        ;;
-esac
+
+# pipenv hasn't been released in a while, so we take a newer unreleased version straight from the git repo
+# https://github.com/pypa/pipenv/commit/2549656dc09e132d8ba2fa6327c939f5f9a951b7 was chosen
+# because it has a green CI run https://github.com/pypa/pipenv/runs/361861300
+PIPENV_TAG=2549656dc09e132d8ba2fa6327c939f5f9a951b7
+echo_do "brew: Installing pipenv@${PIPENV_TAG} via pip3..."
 brew uninstall --force pipenv
-brew install ${PIPENV_2018_10_13}
-brew pin pipenv
-exe_and_grep_q "pipenv --version | head -1" "^pipenv, version 2018.10.13"
+pip3 install git+https://github.com/pypa/pipenv.git@${PIPENV_TAG}
+exe_and_grep_q "pipenv --version | head -1" "^pipenv, version 2018.11.27.dev0"
 echo_done
 
 fi
