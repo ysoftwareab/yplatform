@@ -8,6 +8,7 @@ endif
 include support-firecloud/repo/mk/generic.common.mk
 include support-firecloud/repo/mk/js.deps.npm.mk
 include support-firecloud/repo/mk/js.check.eslint.mk
+include support-firecloud/repo/mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 
