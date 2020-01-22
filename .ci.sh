@@ -93,10 +93,13 @@ function ci_run_deploy_docker_image() {
 }
 
 function ci_run_deploy() {
-    # don't deploy on cron jobs
-    [[ "${CI_IS_CRON:-}" != "true" ]] || return
+    PKG_VSN=$(cat package.json | jq -r ".version")
+    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
+        echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
+        return 1
+    }
 
-    [[ -z "${SF_DEPLOY_DOCKER_IMAGE:-}" ]] || ci_run_deploy_docker_image
+    ci_run_deploy_docker_image
 }
 
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
