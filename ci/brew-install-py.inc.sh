@@ -1,11 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
-echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-echo_skip "brew: Installing Python packages..."
-else
-
 echo_do "brew: Installing Python packages..."
 BREW_FORMULAE="$(cat <<-EOF
 python@2
@@ -43,5 +38,3 @@ brew uninstall --force pipenv
 pip3 install git+https://github.com/pypa/pipenv.git@${PIPENV_TAG}
 exe_and_grep_q "pipenv --version | head -1" "^pipenv, version 2018.11.27.dev0"
 echo_done
-
-fi
