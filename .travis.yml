@@ -71,12 +71,12 @@ jobs:
       env: CACHE_NAME=linux-bionic-minimal SF_CI_BREW_INSTALL=minimal
       if: type IN (push, cron)
 
-    - stage: test
-      name: "Linux Bionic 18.04 with common brew"
-      os: linux
-      dist: bionic
-      env: CACHE_NAME=linux-bionic-common SF_CI_BREW_INSTALL=common
-      if: type IN (push, cron)
+    # - stage: test
+    #   name: "Linux Bionic 18.04 with common brew"
+    #   os: linux
+    #   dist: bionic
+    #   env: CACHE_NAME=linux-bionic-common SF_CI_BREW_INSTALL=common
+    #   if: type IN (push, cron)
 
     - stage: test
       name: "OSX High Sierra 10.14 (Xcode 10.2) with dev brew"
