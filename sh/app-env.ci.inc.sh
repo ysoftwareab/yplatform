@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function ci_run_install() {
-    # defer to ci_run_script
+    # defer calling 'sf_ci_run_install' to the 'script' stage
     true
 }
 
@@ -62,7 +62,7 @@ function ci_run_script_teardown_env() {
 function ci_run_script() {
     # handle PRs
     [[ "${CI_IS_PR}" != "true" ]] || {
-        sf_ci_run_install
+        sf_ci_run_install # see ci_run_install above
         sf_ci_run_script
         return 0
     }
@@ -83,14 +83,14 @@ function ci_run_script() {
             ;;
         # handle git-env branches
         master|*-env)
-            sf_ci_run_install
+            sf_ci_run_install # see ci_run_install above
             sf_ci_run_script
             ci_run_script_env_git
             return 0
             ;;
     esac
 
-    sf_ci_run_install
+    sf_ci_run_install # see ci_run_install above
     sf_ci_run_script
 }
 
