@@ -83,4 +83,4 @@ jobs:
       os: osx
       osx_image: xcode10.2
       env: CACHE_NAME=osx-xcode10.2-dev SF_CI_BREW_INSTALL=dev
-      if: type IN (push, cron)
+      if: type IN (push, cron) AND tag is blank
