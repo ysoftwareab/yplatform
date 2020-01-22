@@ -9,6 +9,8 @@ else
 echo_do "brew: Installing common packages..."
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-node.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-py.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-aws.inc.sh
 echo_done
 
 fi
