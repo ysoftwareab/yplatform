@@ -6,7 +6,7 @@ SF_PROMOTE_ENVS += \
 # ------------------------------------------------------------------------------
 
 .PHONY: promote/%
-promote/%: ## promote/<env>/<tag> Promote tag to env branch.
+promote/%: guard-env-GIT_REMOTE ## promote/<env>/<tag> Promote tag to env branch.
 	$(eval ENV_NAME := $(shell dirname "$*"))
 	$(eval ENV_BRANCH := env/$(ENV_NAME))
 	$(eval TAG := $(shell basename "$*"))
