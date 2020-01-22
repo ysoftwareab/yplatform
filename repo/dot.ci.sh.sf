@@ -429,10 +429,14 @@ function sf_ci_run_notifications_slack() {
             ;;
     esac
 
+    local FEMALE_OR_MALE=female
+    test $(( ${RANDOM} % 2 )) -eq 0 || FEMALE_OR_MALE=male
     exe ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo \
-        "Build #ID (${GIT_HASH_SHORT}) of ${CI_REPO_SLUG}@${GIT_BRANCH:-${CI_TAG}} \
+        --from "$(git config user.name)" \
+        --icon ":${FEMALE_OR_MALE}-technologist:" \
+        "Build ${CI_JOB_ID} (${GIT_HASH_SHORT}) of ${CI_REPO_SLUG}@${GIT_BRANCH:-${CI_TAG}} \
         by $(git log -1 --pretty=format:%cn) \
-        failed"
+        completed with status '${CI_STATUS}'."
 }
 
 function sf_ci_run_notifications() {
