@@ -88,6 +88,35 @@ function sf_pyenv_init() {
     fi
 }
 
+function sf_enable_swap() {
+    local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
+    local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
+    local MEM_GIB_SWAP=/mnt/${MEM_GIB}GiB.swap
+    echo_do "Enabling swap..."
+    cat /proc/swaps
+    sudo fallocate -l ${MEM_GIB}g ${MEM_GIB_SWAP}
+    sudo chmod 600 ${MEM_GIB_SWAP}
+    sudo mkswap ${MEM_GIB_SWAP}
+    sudo swapon ${MEM_GIB_SWAP}
+    sudo sysctl vm.swappiness=10
+    echo_done
+}
+
+
+function sf_disable_swap() {
+    local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
+    local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
+    local MEM_GIB_SWAP=/mnt/${MEM_GIB}GiB.swap
+    [[ -e ${MEM_GIB_SWAP} ]] || {
+        echo_skip "Disabling swap..."
+        return 0
+    }
+    echo_do "Disabling swap..."
+    sudo swapoff ${MEM_GIB_SWAP}
+    sudo rm ${MEM_GIB_SWAP}
+    echo_done
+}
+
 
 function sf_run_docker() {
     SF_TRAVIS_DOCKER_IMAGE=${1}
@@ -253,6 +282,11 @@ ${0} $@ 2>&1 | pv -q -L 3k"
         fi
     fi
 
+    if [[ "${1}" = "before_install" ]]; then
+        [[ "${TRAVIS:-}" != "true" ]] || {
+            [[ -f /support-firecloud.docker-ci ]] || sf_enable_swap
+        }
+    fi
     eval "${CMD}"
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
