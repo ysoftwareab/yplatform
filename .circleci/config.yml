@@ -53,11 +53,9 @@ aliases:
   - filter-main: &filter-main
       filters:
         branches:
-          only:
-            - master
+          only: master
         tags:
-          only:
-            - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
+          only: /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
 
 executors:
@@ -178,7 +176,9 @@ workflows:
   nightly:
     triggers:
       - schedule:
-          <<: *filter-main
+          filters:
+            branches:
+              only: master
           cron: "0 0 * * *"
     jobs:
       - main-linux-xenial-minimal:
