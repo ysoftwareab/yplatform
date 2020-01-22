@@ -6,7 +6,7 @@
 branches:
   only:
     - master
-    - docker
+    - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
 # 4. Bootstrap
 # os: linux
