@@ -67,6 +67,7 @@ endef
 # space +=
 # $(space) :=
 # $(space) +=
+empty :=
 space := $(empty) $(empty)
 $(space) := $(empty) $(empty)
 
