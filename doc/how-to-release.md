@@ -58,8 +58,8 @@ Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm
 An example flow for publishing [`minlog`](https://github.com/tobiipro/minlog)
 which internally is using
 
-* [repo/mk/js.common.node.mk](repo/mk/js.common.node.mk)
-* [repo/mk/js.publish.npg.mk](repo/mk/js.publish.npg.mk)
+* [repo/mk/node.common.mk](repo/mk/node.common.mk)
+* [repo/mk/core.misc.release.npg.mk](repo/mk/core.misc.release.npg.mk)
 
 ```
 cd path/to/minlog
@@ -139,14 +139,14 @@ deploy:
       tags: true
 ```
 
-The secure `api_key` should contain `tobiiprotools`'s Github token 
-(can be found in the **designated safe location**) and must be encrypted with Travis CLI like 
+The secure `api_key` should contain `tobiiprotools`'s Github token
+(can be found in the **designated safe location**) and must be encrypted with Travis CLI like
 
 ```shell
 travis --pro encrypt <GH_TOKEN>
 ```
 
-Read more at travis-ci.md#travis-yml-secrets. 
+Read more at travis-ci.md#travis-yml-secrets.
 
 **NOTE** The generation of the artifacts via `make dist` will happen automatically,
 if `.travis.yml` runs `./travis.sh before_deploy` in `before_deploy`
