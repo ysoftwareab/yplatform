@@ -396,13 +396,10 @@ EOF
 
     echo_done
 
-    local JOB_GITHUB_UI_URL1=https://github.com/${CI_REPO_SLUG}/tree/jobs/${CI_JOB_ID}
-    local JOB_GITHUB_UI_URL2=https://github.com/${CI_REPO_SLUG}/tree/${JOB_GIT_HASH}
+    local JOB_GITHUB_UI_URL=https://github.com/${CI_REPO_SLUG}/tree/${JOB_GIT_HASH}
 
     echo
-    echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL1}"
-    echo
-    echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL2}"
+    echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL}"
     echo
 
     # (Try to) Remove job artifacts older than 7 days ago
