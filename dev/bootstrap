@@ -8,7 +8,8 @@ cd ${SUPPORT_FIRECLOUD_DIR}
 git reset
 git stash --all
 git checkout master
-git pull
+git fetch
+git reset --hard origin/master
 git clean -xdf .
 
 # Bootstrap OS
