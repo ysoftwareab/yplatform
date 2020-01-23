@@ -75,8 +75,8 @@ jobs:
   #   name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
   #   runs-on: ${{ matrix.os }}
   #   env:
-  #     DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
   #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   #     <<: *env
   #   steps:
   #     - *checkout

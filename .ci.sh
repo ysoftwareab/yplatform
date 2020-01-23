@@ -13,9 +13,9 @@ function ci_run_before_deploy() {
 
 function ci_run_deploy_docker_image_hubdockercom() {
     [[ -n "${DOCKER_USERNAME:-}" ]] || return
-    [[ -n "${DOCKER_PASSWORD:-}" ]] || return
+    [[ -n "${DOCKER_TOKEN:-}" ]] || return
 
-    echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+    echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."
