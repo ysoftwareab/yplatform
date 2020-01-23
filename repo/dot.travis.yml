@@ -14,6 +14,7 @@ notifications:
 branches:
   only:
     - master
+    - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
 # 4. Bootstrap
 os: linux
