@@ -88,8 +88,14 @@ function ci_run_deploy_docker_image() {
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
         PUBLISH_AS_LATEST_TAG=true
     fi
+
     ci_run_deploy_docker_image_hubdockercom ${PUBLISH_AS_LATEST_TAG}
-    ci_run_deploy_docker_image_dockerpkggithubcom ${PUBLISH_AS_LATEST_TAG}
+
+    # DONT USE docker.pkg.github.com
+    # 1. it requires credentials even for downloading *public* packages
+    # 2. *public* packages cannot be deleted, neither entirely, nor specific versions
+    # https://help.github.com/en/github/managing-packages-with-github-packages/deleting-a-package
+    # ci_run_deploy_docker_image_dockerpkggithubcom ${PUBLISH_AS_LATEST_TAG}
 }
 
 function ci_run_deploy() {
