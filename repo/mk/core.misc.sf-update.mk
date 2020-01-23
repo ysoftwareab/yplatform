@@ -21,12 +21,10 @@ _support-firecloud/update:
 .PHONY: support-firecloud/update
 support-firecloud/update: _support-firecloud/update ## Update support-firecloud to latest version.
 	$(GIT) -C $(SF_SUBMODULE_PATH) fetch --force --tags
-	$(eval SF_LATEST_VSN := $(shell $(GIT) -C $(SF_SUBMODULE_PATH) tag \
+	$(MAKE) support-firecloud/update/$(shell $(GIT) -C $(SF_SUBMODULE_PATH) tag \
 		--list \
 		--sort=version:refname "v*" | \
-		$(TAIL) -n1) | \
-		$(SED) "s/^v//")
-	$(MAKE) support-firecloud/update/$(SF_LATEST_VSN)
+		$(TAIL) -n1)
 
 
 .PHONY: support-firecloud/update/v%
