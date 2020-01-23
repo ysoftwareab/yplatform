@@ -64,7 +64,7 @@ function ci_run_deploy_docker_image() {
     local RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
-    local DOCKER_IMAGE_TAG=${GIT_HASH_SHORT}
+    local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
     local DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
     [[ -f "${DOCKERFILE}" ]] || return
 

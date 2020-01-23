@@ -68,7 +68,7 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     usermod -u ${UID_INDEX} sf
     groupmod -g ${GID_INDEX} sf
 
-    touch /support-firecloud.bootstrapped
+    git rev-parse HEAD > /support-firecloud.bootstrapped
 
     # make 'docker run --rm -it --user sf <image>' behave like a dev machine
     cat <<EOF >> /home/sf/.bash_aliases

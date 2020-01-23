@@ -195,18 +195,26 @@ function sf_run_docker() {
 
 function sf_os() {
     [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || {
+        SF_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
         [[ ! -f /support-firecloud.bootstrapped ]] || {
+            SF_GIT_HASH_BOOTSTRAPPED=$(cat /support-firecloud.bootstrapped)
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped exists."
-            echo_info "${FUNCNAME[0]}: Assumming that OS is already bootstrapped with minimal/common dependencies."
-            echo_info "${FUNCNAME[0]}: Running with SF_SKIP_COMMON_BOOTSTRAP=true"
-            export SF_SKIP_COMMON_BOOTSTRAP=true
+            echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped references ${SF_GIT_HASH_BOOTSTRAPPED}."
+            echo_info "${FUNCNAME[0]}: ${SUPPORT_FIRECLOUD_DIR} references ${SF_GIT_HASH}."
+            if [[ "${SF_GIT_HASH}" = "${SF_GIT_HASH_BOOTSTRAPPED}" ]]; then
+                echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without minimal/common dependencies."
+                echo_info "${FUNCNAME[0]}: Running with SF_SKIP_COMMON_BOOTSTRAP=true."
+                export SF_SKIP_COMMON_BOOTSTRAP=true
+            else
+                echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
+            fi
         }
     }
 
     [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
-    echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
+    echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}."
 
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
@@ -272,18 +280,18 @@ ${0} $@ 2>&1 | pv -q -L 3k"
                 SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
             fi
             # if given a tobiipro/sf- image, but without a tag,
-            # set the tag to the hash of SF
+            # set the tag to the version of SF
             if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
                 [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-                SF_HASH_SHORT=$(cd ${SUPPORT_FIRECLOUD_DIR} && git rev-parse --short HEAD 2>/dev/null)
-                SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${SF_HASH_SHORT}"
+                DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+                SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
             fi
             # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
-            # set the tag to the hash of SF
+            # set the tag to the version of SF
             if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
                 [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-                SF_HASH_SHORT=$(cd ${SUPPORT_FIRECLOUD_DIR} && git rev-parse --short HEAD 2>/dev/null)
-                SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${SF_HASH_SHORT}"
+                DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+                SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
             fi
 
             sf_run_docker ${SF_TRAVIS_DOCKER_IMAGE}
