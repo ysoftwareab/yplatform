@@ -181,12 +181,12 @@ workflows:
               only: master
           cron: "0 0 * * *"
     jobs:
-      - main-linux-xenial-minimal:
+      - nightly-linux-xenial-minimal:
           <<: *job-main-linux-xenial-minimal
           p_ci_is_cron: "true"
-      - main-linux-xenial-dev:
+      - nightly-linux-xenial-dev:
           <<: *job-main-linux-xenial-dev
           p_ci_is_cron: "true"
-      # - main-macos-xcode101-dev:
+      # - nightly-macos-xcode101-dev:
       #     <<: *job-main-macos-xcode101-dev
       #     p_ci_is_cron: "true"
