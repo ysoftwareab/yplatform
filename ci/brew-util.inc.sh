@@ -115,9 +115,19 @@ function brew_list() {
     echo_done
 }
 
-# apt_install is not related to brew, but it is here for convenience,
-# to make it available in Brewfile.inc.sh files
-function apt_install() {
+# apt-* functions are not related to brew,
+# but they are here for convenience, to make them available in Brewfile.inc.sh files
+
+function apt-get-update() {
+    # try to handle "Hash Sum mismatch" error
+    apt-get update -y --fix-missing 2>&1 || {
+        apt-get clean
+        rm -rf /var/lib/apt/lists/*
+        apt-get update -y --fix-missing
+    }
+}
+
+function apt-get-install() {
     while read -u3 DPKG; do
         [[ -n "${DPKG}" ]] || continue
 
