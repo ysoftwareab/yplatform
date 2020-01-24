@@ -1,8 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-apt-get-install() {
-    apt-get install -y --no-install-recommends $*
+function apt-get-update() {
+    # try to handle "Hash Sum mismatch" error
+    apt-get update -y --fix-missing 2>&1 || {
+        apt-get clean
+        rm -rf /var/lib/apt/lists/*
+        apt-get update -y --fix-missing
+    }
+}
+
+function apt-get-install() {
+    apt-get install -y --force-yes $*
 }
 
 export CI=true
@@ -11,11 +20,10 @@ export DEBIAN_FRONTEND=noninteractive
 # export SF_CI_BREW_INSTALL= # --build-arg
 
 # DEPS
-apt-get update -y --fix-missing
+apt-get-update
 apt-get-install apt-transport-https
 apt-get-install software-properties-common ca-certificates
 apt-get-install git openssl ssh-client sudo
-rm -rf /var/lib/apt/lists/*
 
 # SSH
 mkdir -p /root/.ssh
@@ -105,6 +113,7 @@ function git_dir_clean() {
     du -hcs $1
 }
 
+apt-get clean
 dir_clean /var/lib/apt/lists/* # aptitude cache
 dir_clean /home/sf/.cache # linuxbrew cache
 
