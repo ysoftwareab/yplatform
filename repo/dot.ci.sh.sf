@@ -270,9 +270,12 @@ function sf_ci_run() {
 ${0} $@ 2>&1 | pv -q -L 3k"
 
         if [[ "${1}" = "before_install" ]]; then
-            sudo apt-get update
-            sudo apt-get install -y --force-yes expect # installs unbuffer
-            sudo apt-get install -y --force-yes pv
+            (
+                source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+                apt_update
+                apt_install expect # install unbuffer
+                apt_install pv
+            )
 
             if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
                 RELEASE_ID=$(source /etc/os-release && echo ${ID})
