@@ -9,7 +9,7 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-function apt-get-update() {
+function apt_update() {
     # try to handle "Hash Sum mismatch" error
     apt-get update -y --fix-missing 2>&1 || {
         apt-get clean
@@ -18,7 +18,7 @@ function apt-get-update() {
     }
 }
 
-function apt-get-install() {
+function apt_install() {
     while read -u3 DPKG; do
         [[ -n "${DPKG}" ]] || continue
 
@@ -31,7 +31,7 @@ function apt-get-install() {
 echo_do "aptitude: Updating..."
 apt_install "software-properties-common"
 apt-add-repository -y ppa:git-core/ppa
-apt-get-update
+apt_update
 echo_done
 
 apt_install locales

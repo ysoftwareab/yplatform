@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function apt-get-update() {
+function apt_update() {
     # try to handle "Hash Sum mismatch" error
     apt-get update -y --fix-missing 2>&1 || {
         apt-get clean
@@ -10,7 +10,7 @@ function apt-get-update() {
     }
 }
 
-function apt-get-install() {
+function apt_install() {
     apt-get install -y --force-yes $*
 }
 
@@ -20,10 +20,10 @@ export DEBIAN_FRONTEND=noninteractive
 # export SF_CI_BREW_INSTALL= # --build-arg
 
 # DEPS
-apt-get-update
-apt-get-install apt-transport-https
-apt-get-install software-properties-common ca-certificates
-apt-get-install git openssl ssh-client sudo
+apt_update
+apt_install apt-transport-https
+apt_install software-properties-common ca-certificates
+apt_install git openssl ssh-client sudo
 
 # SSH
 mkdir -p /root/.ssh
