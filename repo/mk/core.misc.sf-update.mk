@@ -15,12 +15,11 @@ _support-firecloud/update:
 		exit 1; \
 	}
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
-	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
+	$(GIT) -C $(SF_SUBMODULE_PATH) fetch --force --tags
 
 
 .PHONY: support-firecloud/update
 support-firecloud/update: _support-firecloud/update ## Update support-firecloud to latest version.
-	$(GIT) -C $(SF_SUBMODULE_PATH) fetch --force --tags
 	$(MAKE) support-firecloud/update/$(shell $(GIT) -C $(SF_SUBMODULE_PATH) tag \
 		--list \
 		--sort=version:refname "v*" | \
@@ -29,6 +28,7 @@ support-firecloud/update: _support-firecloud/update ## Update support-firecloud 
 
 .PHONY: support-firecloud/update/v%
 support-firecloud/update/v%: _support-firecloud/update ## Update support-firecloud to a specific version.
+	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
 	$(eval SF_VSN := $(@:support-firecloud/update/v%=%))
 	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to $(SF_VSN)..."
 	$(GIT) -C $(SF_SUBMODULE_PATH) reset --hard refs/tags/v$(SF_VSN)
