@@ -2,8 +2,8 @@
 set -euo pipefail
 
 function apt_update() {
-    # try to handle "Hash Sum mismatch" error
     apt-get update -y --fix-missing 2>&1 || {
+        # try to handle "Hash Sum mismatch" error
         apt-get clean
         rm -rf /var/lib/apt/lists/*
         apt-get update -y --fix-missing

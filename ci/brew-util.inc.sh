@@ -119,8 +119,8 @@ function brew_list() {
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function apt_update() {
-    # try to handle "Hash Sum mismatch" error
     apt-get update -y --fix-missing 2>&1 || {
+        # try to handle "Hash Sum mismatch" error
         apt-get clean
         rm -rf /var/lib/apt/lists/*
         apt-get update -y --fix-missing
