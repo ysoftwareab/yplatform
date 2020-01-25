@@ -34,7 +34,12 @@ _release:
 		GIT_TAG=`$(GIT) tag -l --points-at HEAD | $(HEAD) -1`; \
 		$(ECHO_INFO) "Merging in tag $${GIT_TAG}..."; \
 		$(GIT) reset @{u}; \
-		$(GIT) merge --no-ff refs/tags/$${GIT_TAG} -m "Merge tag $${GIT_TAG}"; \
+		$(GIT) merge --no-ff refs/tags/$${GIT_TAG} -m "Merge tag '$${GIT_TAG}'" || { \
+			$(ECHO_ERR) "Automatic merge of the $${GIT_TAG} release tag was not possible."; \
+			$(ECHO_INFO) "Please solve the merge conflicts e.g. by running 'git mergetool',"; \
+			$(ECHO_INFO) "and push manually e.g. by running 'git push'."; \
+			exit 1; \
+		}; \
 	}
 	$(GIT) push
 	@$(ECHO_DONE)
