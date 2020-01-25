@@ -7,6 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 #- travis-hide-secure-env-vars 1.0
 ## Usage: travis-hide-secure-env-vars [OPTION]
 ## Replace values of secure environment variables with '[secure]'.
+## NOTE that values cannot contain the | character.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -37,7 +38,8 @@ done
 cat >"${TMP_FILE}"
 
 ${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars --secure | sed "s/^[^=]\+=//g" | while read -r VALUE; do
-    sed -i "s/${VALUE}/[secure]/g" "${TMP_FILE}"
+    # using | as delimiter in order to allow \ in $VALUE
+    sed -i "s|${VALUE}|[secure]|g" "${TMP_FILE}"
 done
 
 cat "${TMP_FILE}"
