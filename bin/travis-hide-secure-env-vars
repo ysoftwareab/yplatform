@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- travis-hide-secure-env-vars 1.0
+## Usage: travis-hide-secure-env-vars [OPTION]
+## Replace values of secure environment variables with '[secure]'.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+cat >"${TMP_FILE}"
+
+${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars --secure | sed "s/^[^=]\+=//g" | while read -r VALUE; do
+    sed -i "s/${VALUE}/[secure]/g" "${TMP_FILE}"
+done
+
+cat "${TMP_FILE}"
