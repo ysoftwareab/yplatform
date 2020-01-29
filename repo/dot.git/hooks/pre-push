@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function on_exit() {
-    [[ "$?" != "0" ]] || return
+    [[ "$?" != "0" ]] || return 0
 
     echo "[ERR ] pre-push hook failed."
     echo "[INFO] If you want ignore the hook and push anyway, use 'git push --no-verify ...'."
