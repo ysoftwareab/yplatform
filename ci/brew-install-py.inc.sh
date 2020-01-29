@@ -18,11 +18,11 @@ done
 echo_done
 
 echo_do "brew: Testing Python packages..."
-exe_and_grep_q "python2 --version 2>&1 | head -1" "^Python 2\\." || prompt_q_to_continue
-exe_and_grep_q "python3 --version 2>&1 | head -1" "^Python 3\\." || prompt_q_to_continue
-exe_and_grep_q "pip2 --version | head -1" "^pip " || prompt_q_to_continue
-exe_and_grep_q "pip3 --version | head -1" "^pip " || prompt_q_to_continue
-exe_and_grep_q "pyenv --version | head -1" "^pyenv " || prompt_q_to_continue
+exe_and_grep_q "python2 --version 2>&1 | head -1" "^Python 2\\."
+exe_and_grep_q "python3 --version 2>&1 | head -1" "^Python 3\\."
+exe_and_grep_q "pip2 --version | head -1" "^pip "
+exe_and_grep_q "pip3 --version | head -1" "^pip "
+exe_and_grep_q "pyenv --version | head -1" "^pyenv "
 echo_done
 
 # FIXME temporary fix
@@ -36,5 +36,5 @@ PIPENV_TAG=2549656dc09e132d8ba2fa6327c939f5f9a951b7
 echo_do "brew: Installing pipenv@${PIPENV_TAG} via pip3..."
 brew uninstall --force pipenv
 pip3 install git+https://github.com/pypa/pipenv.git@${PIPENV_TAG}
-exe_and_grep_q "pipenv --version | head -1" "^pipenv, version 2018.11.27.dev0" || prompt_q_to_continue
+exe_and_grep_q "pipenv --version | head -1" "^pipenv, version 2018.11.27.dev0"
 echo_done

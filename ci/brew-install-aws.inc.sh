@@ -13,6 +13,6 @@ aws configure set s3.signature_version s3v4
 echo_done
 
 echo_do "brew: Testing AWS utils..."
-exe_and_grep_q "aws --version | head -1" "^aws-cli/1\\." || prompt_q_to_continue
-exe_and_grep_q "awslogs --version | head -1" "^awslogs 0\\." || prompt_q_to_continue
+exe_and_grep_q "aws --version | head -1" "^aws-cli/1\\."
+exe_and_grep_q "awslogs --version | head -1" "^awslogs 0\\."
 echo_done
