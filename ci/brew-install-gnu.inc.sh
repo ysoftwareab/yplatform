@@ -24,13 +24,13 @@ unset BREW_FORMULAE
 echo_done
 
 echo_do "brew: Testing GNU packages..."
-exe_and_grep_q "cat --version | head -1" "^cat (GNU coreutils) 8\\."
-exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\\."
-exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) 0.20\\."
-exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\."
-exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\."
-exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\\."
-exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\."
+exe_and_grep_q "cat --version | head -1" "^cat (GNU coreutils) 8\\." || prompt_q_to_continue
+exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\\." || prompt_q_to_continue
+exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) 0.20\\." || prompt_q_to_continue
+exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\." || prompt_q_to_continue
+exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\." || prompt_q_to_continue
+exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\\." || prompt_q_to_continue
+exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\." || prompt_q_to_continue
 echo_done
 
 fi

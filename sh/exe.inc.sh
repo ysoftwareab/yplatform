@@ -73,3 +73,12 @@ function exe_and_grep_q() {
         exit 1
     }
 }
+
+function prompt_q_to_continue() {
+    [[ "${CI:-}" != "true" ]] || return 0
+    local Q="${1:-Are you sure you want to continue?}"
+    echo "[Q   ] ${Q}"
+    echo "       Press ENTER to Continue."
+    echo "       Press Ctrl+C to Cancel."
+    read -p ""
+}

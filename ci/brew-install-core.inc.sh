@@ -18,9 +18,9 @@ unset BREW_FORMULAE
 echo_done
 
 echo_do "brew: Testing core packages..."
-exe_and_grep_q "bash --version | head -1" "^GNU bash, version [^123]\\."
-exe_and_grep_q "jq --version | head -1" "^jq\\-1\\."
-exe_and_grep_q "make --version | head -1" "^GNU Make 4\\."
+exe_and_grep_q "bash --version | head -1" "^GNU bash, version [^123]\\." || prompt_q_to_continue
+exe_and_grep_q "jq --version | head -1" "^jq\\-1\\." || prompt_q_to_continue
+exe_and_grep_q "make --version | head -1" "^GNU Make 4\\." || prompt_q_to_continue
 echo_done
 
 fi

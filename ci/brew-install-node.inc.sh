@@ -55,9 +55,9 @@ npm install --global json@9
 echo_done
 
 echo_do "brew: Testing NodeJS packages..."
-exe_and_grep_q "node --version | head -1" "^v"
-exe_and_grep_q "npm --version | head -1" "^6\."
-exe_and_grep_q "json --version | head -1" "^json 9\."
+exe_and_grep_q "node --version | head -1" "^v" || prompt_q_to_continue
+exe_and_grep_q "npm --version | head -1" "^6\." || prompt_q_to_continue
+exe_and_grep_q "json --version | head -1" "^json 9\." || prompt_q_to_continue
 echo_done
 
 fi
