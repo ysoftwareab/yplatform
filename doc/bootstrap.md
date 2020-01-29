@@ -85,8 +85,12 @@ All common system-wide dependencies can be installed by running
 then you know the script has failed while executing.
 
 **IMPORTANT. THE ONLY MANUAL STEP**
-is to append `source ~/git/firecloud/support-firecloud/sh/dev.inc.sh`
-to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.
+is to append to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.:
+
+```shell
+# keep the next line as the last line in your shell rc/profile file
+source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
+```
 
 Restart your shell, and you're good to go.
 
