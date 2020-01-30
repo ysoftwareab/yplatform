@@ -57,6 +57,8 @@
 
   "search.useIgnoreFiles": true,
 
+  "terminal.integrated.inheritEnv": false,
+
   "tslint.enable": true,
   "tslint.jsEnable": false,
   "tslint.alwaysShowStatus": true,
