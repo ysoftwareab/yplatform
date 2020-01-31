@@ -72,16 +72,11 @@ deps-npm:
 	$(eval NPM_LOGS_DIR := $(shell $(NPM) config get cache)/_logs)
 	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
 #	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	if [[ -f "package-lock.json" ]]; then \
-		$(NPM) ci; \
-	else \
-		$(NPM) install || { \
-			$(CAT) $(NPM_LOGS_DIR)/`ls -t $(NPM_LOGS_DIR) | $(HEAD) -1` | \
+	$(NPM) install || { \
+		$(CAT) $(NPM_LOGS_DIR)/`ls -t $(NPM_LOGS_DIR) | $(HEAD) -1` | \
 			$(GREP) -q "No matching version found for" && \
 			$(NPM) install; \
-			$(NPM) prune; \
-		}; \
-	fi
+	}
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/babel-preset-firecloud/npm-install-peer-dependencies; \
@@ -98,6 +93,7 @@ ifeq (true,$(CI))
 	}
 endif
 #	update git dependencies with semver range. 'npm install' doesn't
+	$(NPM) prune
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
 			$(JQ)  ".dependencies + .devDependencies" | \
@@ -113,12 +109,8 @@ endif
 .PHONY: deps-npm-prod
 deps-npm-prod:
 #	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	if [[ -f "package-lock.json" ]]; then \
-		$(NPM) ci --production; \
-	else \
-		$(NPM) install --production; \
-		$(NPM) prune --production; \
-	fi
+	$(NPM) install --production
+	$(NPM) prune --production
 #	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
