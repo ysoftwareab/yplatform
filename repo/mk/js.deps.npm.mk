@@ -125,5 +125,8 @@ deps-npm-prod:
 
 
 .PHONY: deps-npm-package-lock
-deps-npm-package-lock:
+deps-npm-package-lock: package-lock.json
+
+
+package-lock.json: package.json
 	$(NPM) install --package-lock-only
