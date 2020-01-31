@@ -162,10 +162,6 @@ package-lock.json: package.json
 	$(NPM) install --package-lock-only
 
 
-.PHONY: check-npm-config-package-lock
-check-npm-config-package-lock:
-
-
 .PHONY: check-package-json
 check-package-json:
 	$(GIT) diff --exit-code package.json || { \
