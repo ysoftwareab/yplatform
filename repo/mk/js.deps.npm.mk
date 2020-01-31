@@ -174,13 +174,14 @@ check-package-json:
 
 
 .PHONY: check-package-lock-json
-check-package-lock-json:
+check-package-lock-json: check-package-json
 	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
 		$(GIT) diff --exit-code package-lock.json || { \
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
-		[[ "package-lock.json" -nt "package.json" ]] || { \
+		[[ "$$($(GIT) log -1 --format='%at' -- package-lock.json)" -ge \
+			"$$($(GIT) log -1 --format='%at' -- package.json)" ]] || { \
 			$(ECHO_ERR) "package.json is newer than package-lock.json."; \
 			$(ECHO_ERR) "Please run 'make package-lock.json' and commit your changes."; \
 			exit 1; \
