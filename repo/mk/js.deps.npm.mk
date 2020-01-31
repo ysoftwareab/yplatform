@@ -27,6 +27,10 @@ SF_CLEAN_FILES += \
 SF_DEPS_TARGETS += \
 	deps-npm \
 
+SF_CHECK_TARGETS += \
+	check-package-json \
+	check-package-lock-json \
+
 ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE += \
 	-e "^package-lock.json$$" \
@@ -130,3 +134,26 @@ deps-npm-package-lock: package-lock.json
 
 package-lock.json: package.json
 	$(NPM) install --package-lock-only
+
+
+.PHONY: check-package-json
+check-package-json:
+	$(GIT) diff --exit-code package.json || { \
+		$(ECHO_ERR) "package.json has changed. Please commit your changes."; \
+		exit 1; \
+	}
+
+
+.PHONY: check-package-json-lock
+check-package-json-lock:
+	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
+		$(GIT) diff --exit-code package-lock.json || { \
+			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
+			exit 1; \
+		}; \
+		[[ "package-lock.json" -nt "package.json" ]] || { \
+			$(ECHO_ERR) "package.json is newer than package-lock.json."; \
+			$(ECHO_ERR) "Please run 'make package-lock.json' and commit your changes."; \
+			exit 1; \
+		}; \
+	fi
