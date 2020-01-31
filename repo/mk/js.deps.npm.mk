@@ -149,11 +149,20 @@ deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)
 
 
 .PHONY: deps-npm-package-lock
-deps-npm-package-lock: package-lock.json
+deps-npm-package-lock:
+	[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
+		$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
+		exit 1; \
+	}
+	$(MAKE) package-lock.json
 
 
 package-lock.json: package.json
 	$(NPM) install --package-lock-only
+
+
+.PHONY: check-npm-config-package-lock
+check-npm-config-package-lock:
 
 
 .PHONY: check-package-json
@@ -164,8 +173,8 @@ check-package-json:
 	}
 
 
-.PHONY: check-package-json-lock
-check-package-json-lock:
+.PHONY: check-package-lock-json
+check-package-lock-json:
 	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
 		$(GIT) diff --exit-code package-lock.json || { \
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
