@@ -159,7 +159,7 @@ deps-npm-package-lock:
 
 package-lock.json: package.json
 	$(RM) package-lock.json
-	$(NPM) install --package-lock-only
+	$(NPM) install
 
 
 .PHONY: check-package-json
