@@ -158,6 +158,7 @@ deps-npm-package-lock:
 
 
 package-lock.json: package.json
+	$(RM) package-lock.json
 	$(NPM) install --package-lock-only
 
 
