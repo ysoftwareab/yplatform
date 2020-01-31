@@ -21,6 +21,13 @@
 NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
+NPM_CI_OR_INSTALL := install
+ifeq (true,$(CI))
+ifneq (,$(wildcard package-lock.json))
+NPM_CI_OR_INSTALL := ci
+endif
+endif
+
 SF_CLEAN_FILES += \
 	node_modules \
 
@@ -71,13 +78,14 @@ deps-npm-unmet-peer:
 	fi
 
 
-.PHONY: deps-npm
-deps-npm:
-	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
-#	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
-ifeq (true,$(CI))
+.PHONY: deps-npm-ci
+deps-npm-ci:
 	$(NPM) ci
-else
+
+
+.PHONY: deps-npm-install
+deps-npm-install:
+	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
@@ -104,13 +112,21 @@ else
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --development; \
 	}
-endif
+
+
+.PHONY: deps-npm
+deps-npm: deps-npm-$(NPM_CI_OR_INSTALL)
+#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
-.PHONY: deps-npm-prod
-deps-npm-prod:
-#	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
+.PHONY: deps-npm-ci-prod
+deps-npm-ci-prod:
+	$(NPM) ci
+
+
+.PHONY: deps-npm-install-prod
+deps-npm-install-prod:
 	$(NPM) install --production
 #	remove extraneous dependencies
 	$(NPM) prune --production
@@ -124,6 +140,11 @@ deps-npm-prod:
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --production; \
 	}
+
+
+.PHONY: deps-npm-prod
+deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)
+#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
