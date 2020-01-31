@@ -73,14 +73,12 @@ deps-npm-unmet-peer:
 
 .PHONY: deps-npm
 deps-npm:
-	$(eval NPM_LOGS_DIR := $(shell $(NPM) config get cache)/_logs)
 	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
 #	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) install || { \
-		$(CAT) $(NPM_LOGS_DIR)/`ls -t $(NPM_LOGS_DIR) | $(HEAD) -1` | \
-			$(GREP) -q "No matching version found for" && \
-			$(NPM) install; \
-	}
+ifeq (true,$(CI))
+	$(NPM) ci
+else
+	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
 		node_modules/babel-preset-firecloud/npm-install-peer-dependencies; \
@@ -89,15 +87,14 @@ deps-npm:
 		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
 	fi
 #	check that installing peer dependencies didn't modify package.json
-ifeq (true,$(CI))
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
 		$(ECHO_ERR) "package.json has changed."; \
 		$(ECHO_ERR) "Run 'make deps-npm' locally, commit and push the changes before another CI run."; \
 		exit 1; \
 	}
-endif
-#	update git dependencies with semver range. 'npm install' doesn't
+#	remove extraneous dependencies
 	$(NPM) prune
+#	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
 			$(JQ)  ".dependencies + .devDependencies" | \
@@ -107,6 +104,7 @@ endif
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --development; \
 	}
+endif
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
@@ -114,6 +112,7 @@ endif
 deps-npm-prod:
 #	install. 'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) install --production
+#	remove extraneous dependencies
 	$(NPM) prune --production
 #	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
