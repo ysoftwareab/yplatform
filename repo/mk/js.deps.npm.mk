@@ -22,11 +22,11 @@ NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
 NPM_CI_OR_INSTALL := install
-# ifeq (true,$(CI))
-# ifneq (,$(wildcard package-lock.json))
-# NPM_CI_OR_INSTALL := ci
-# endif
-# endif
+ifeq (true,$(CI))
+ifneq (,$(wildcard package-lock.json))
+NPM_CI_OR_INSTALL := ci
+endif
+endif
 
 SF_CLEAN_FILES += \
 	node_modules \
