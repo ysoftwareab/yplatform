@@ -33,6 +33,20 @@ It is therefore **important that you clone these repositories recursively**, oth
 * Internals
   * [Offboarding](doc/offboarding.secret.md)
 
+
+## Structure
+
+* `/bin` has executable shell scripts
+* `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
+
+* `/ci` has scripts that help bootstrap a CI machine
+* `/dev` has scripts that help bootstrap a developer machine
+* `/dockerfiles` has Dockerfiles bootstrapped with `support-firecloud`
+
+* `/generic` has configuration that is not repo-specific
+* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
+
+
 ## License
 
 [Apache-2.0](LICENSE)
