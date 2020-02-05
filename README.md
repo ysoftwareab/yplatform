@@ -25,6 +25,7 @@ It is therefore **important that you clone these repositories recursively**, oth
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
   * [how to license](doc/how-to-license.md)
   * [integrate Travis CI](doc/integrate-travis-ci.md)
+  * [.ci.sh](doc/ci-sh.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md)
 * Amazon Web Services
   * [CloudFormation](repo/cfn/README.md)
