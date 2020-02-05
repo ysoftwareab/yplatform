@@ -59,7 +59,7 @@ then you need to
 * Add a `GH_TOKEN` secure environment variable to `.travis.yml`.
   This Github API token should have enough permissions to push to the repository.
 * Give access to the repo to `tobiiprotools` team with a level `Write`
-* Create a `.artifacts`
+* Create a `.artifacts` file
 
 The `.artifacts` file is a list of paths that would include artifacts e.g.
 
