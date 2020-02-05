@@ -24,8 +24,8 @@ sudo true || {
 # Execute the OS specific boostrap process.
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
 
-# Upgrade to homebrew's bash, if using system bash
-[[ "${SHELL:-}" != "/bin/bash" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
+# Offer to upgrade users login shell to homebrew's bash.
+${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
 
 # User feedback
 echo
