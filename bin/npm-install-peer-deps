@@ -1,0 +1,86 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- npm-install-peer-deps 1.0
+## Usage: npm-install-peer-deps [OPTION]... path/to/package.json
+## Install the peer dependencies mentioned in a package.json.
+##
+##   -i, --install-cmd  Command to install a peer dependency. Defaults to "npm install"
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+NPM_INSTALL_CMD="npm install"
+NPM_SORT_DEV_CMD="npm remove --save-dev some-pkg-that-doesnt-exist"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -i|--install-cmd)
+            NPM_INSTALL_CMD=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+case "$1" in
+    /*)
+        PKG_JSON="$1"
+        ;;
+    *)
+        PKG_JSON="./$1"
+        ;;
+esac
+
+node -e " \
+    peerDeps = require('${PKG_JSON}').peerDependencies; \
+    Object.keys(peerDeps).forEach(function(name) { \
+        console.log(name + '\t' + peerDeps[name]); \
+    }); \
+    " | {
+    NPM_PEER_DEPS=
+    while read LINE; do
+        NAME=$(echo "${LINE}" | cut -d $'\t' -f 1)
+        SPEC=$(echo "${LINE}" | cut -d $'\t' -f 2)
+
+        # is it already specified in dependencies or devDependencies?
+        node -p "try { \
+            var pkg = require('./package.json'); \
+            var spec = (pkg.dependencies || {})[\"${NAME}\"] || (pkg.devDependencies || {})[\"${NAME}\"]; \
+            spec === \"${SPEC}\"; \
+            } catch(err){false}" | \
+            grep -q "^false$" || {
+          # if yes, is it already installed?
+          node -p "try { \
+              var pkg = require('./node_modules/${NAME}/package.json'); \
+              pkg._from.replace(/^.[^@]+@/, '') === \"${SPEC}\"; \
+              } catch(err){false}" | \
+              grep -q "^false$" || \
+              continue
+        }
+
+        cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${SPEC}\"}" < package.json)" > package.json
+        # npx json -q -I -f package.json -e "this.devDependencies = this.devDependencies || {}"
+        # npx json -q -I -f package.json -e "this.devDependencies[\"${NAME}\"] = \"${SPEC}\""
+
+        NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${SPEC}"
+    done
+    [[ -z "${NPM_PEER_DEPS}" ]] || {
+      ${NPM_INSTALL_CMD} ${NPM_PEER_DEPS}
+      ${NPM_SORT_DEV_CMD}
+    }
+}

@@ -88,12 +88,14 @@ deps-npm-install:
 	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
-	if [[ -x node_modules/babel-preset-firecloud/npm-install-peer-dependencies ]]; then \
-		node_modules/babel-preset-firecloud/npm-install-peer-dependencies; \
-	fi
-	if [[ -x node_modules/eslint-config-firecloud/npm-install-peer-dependencies ]]; then \
-		node_modules/eslint-config-firecloud/npm-install-peer-dependencies; \
-	fi
+	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
+			--install-cmd "$(NPM) install" \
+			node_modules/babel-preset-firecloud/package.json
+	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
+			--install-cmd "$(NPM) install" \
+			node_modules/eslint-config-firecloud/package.json
 #	check that installing peer dependencies didn't modify package.json
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
 		$(ECHO_ERR) "package.json has changed."; \
