@@ -3,14 +3,20 @@ set -euo pipefail
 
 export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-# Reset and upgrade SF
 cd ${SUPPORT_FIRECLOUD_DIR}
-git reset
-git stash --all
-git checkout master
-git fetch
-git reset --hard origin/master
-git clean -xdf .
+
+# Resetting support-firecloud to the latest commit on 'origin/master'
+# iff the local branch is 'master'.
+# A development branch will therefore not be reset.
+SF_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+if [[ "${SF_GIT_BRANCH}" = "master" ]]; then
+    git reset
+    git stash --all
+    git checkout master
+    git fetch
+    git reset --hard origin/master
+    git clean -xdf .
+fi
 
 # Bootstrap OS
 OS=$(uname | tr "[A-Z]" "[a-z]")
