@@ -13,7 +13,7 @@ ${SUPPORT_FIRECLOUD_DIR}/ci/linux/bootstrap-sudo
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
 fi
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
 brew_brewfile_inc_sh
 brew_list
 
