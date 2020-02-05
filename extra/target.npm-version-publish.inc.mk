@@ -16,7 +16,7 @@ npm-postversion-publish: dist
 	VSN=$$(node -e "console.log(require('./package.json').version)"); \
 		$(GIT) commit --allow-empty -m $${VSN}-dist; \
 		$(GIT) tag v$${VSN}-dist; \
-		$(GIT) push -f origin \
+		$(GIT) push --no-verify -f origin \
 			master:master \
 			dist:dist \
 			v$${VSN}:refs/tags/v$${VSN} \
