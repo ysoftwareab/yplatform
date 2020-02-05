@@ -8,4 +8,4 @@ teardown-env: ## Teardown env
 		exit 1; \
 	}
 	$(GIT) commit --allow-empty -m "[sf teardown-$(ENV_NAME)]"
-	$(GIT) push -f
+	$(GIT) push --no-verify -f

@@ -47,7 +47,7 @@ promote/%: guard-env-GIT_REMOTE ## promote/<env>/<tag> Promote tag to env branch
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -p ""
-	$(GIT) push -f $(GIT_REMOTE) \
+	$(GIT) push --no-verify -f $(GIT_REMOTE) \
 		$(TAG_COMMIT):refs/heads/$(ENV_BRANCH) \
 		$(TAG_COMMIT):refs/tags/$(ENV_BRANCH)/$(MAKE_DATE)-$(MAKE_TIME)-$(TAG)
 	$(GIT) fetch

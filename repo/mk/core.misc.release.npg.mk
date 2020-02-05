@@ -41,7 +41,7 @@ _release:
 			exit 1; \
 		}; \
 	}
-	$(GIT) push
+	$(GIT) push --no-verify
 	@$(ECHO_DONE)
 
 

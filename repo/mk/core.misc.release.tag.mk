@@ -6,7 +6,7 @@
 .PHONY: _publish
 _publish: guard-env-GIT_REMOTE
 	@$(ECHO_DO) "Publishing version..."
-	$(GIT) push $(GIT_REMOTE) v`$(CAT) "package.json" | $(JQ) -r ".version"`
+	$(GIT) push --no-verify $(GIT_REMOTE) v`$(CAT) "package.json" | $(JQ) -r ".version"`
 	@$(ECHO_DONE)
 
 
@@ -38,5 +38,5 @@ _release:
 			exit 1; \
 		}; \
 	}
-	$(GIT) push
+	$(GIT) push --no-verify
 	@$(ECHO_DONE)
