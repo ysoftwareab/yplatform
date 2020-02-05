@@ -21,6 +21,7 @@ sudo true || {
     exit 1
 }
 
+# Execute the OS specific boostrap process.
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap
 
 # Upgrade to homebrew's bash, if using system bash
