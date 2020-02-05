@@ -33,7 +33,4 @@ GIT_TAGS=$(git describe --exact-match --tags HEAD 2>/dev/null || true)
         GIT_BRANCH=${TRAVIS_BRANCH}
         GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
     }
-
-    HOMEBREW_NO_ANALYTICS=1
-    HOMEBREW_NO_AUTO_UPDATE=1
 }
