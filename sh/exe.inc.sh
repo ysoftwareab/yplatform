@@ -73,3 +73,18 @@ function exe_and_grep_q() {
         return 1
     }
 }
+
+function prompt_q_to_continue() {
+    local Q="${1:-Are you sure you want to continue?}"
+    local CANCEL_KEY="${2:-Ctrl-C}"
+    echo "[Q   ] ${Q}"
+    echo "       Press ENTER to Continue."
+    echo "       Press ${CANCEL_KEY} to Cancel."
+    if [[ "${CI:-}" = "true" ]]; then
+        echo_info "CI pressed ENTER."
+        return 0
+    fi
+    read -p "" -n1
+    echo
+    [[ "${REPLY}" != "${CANCEL_KEY}" ]]
+}

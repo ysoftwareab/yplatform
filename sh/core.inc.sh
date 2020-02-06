@@ -14,6 +14,33 @@ VERBOSE=${V}
 
 [[ ${VERBOSE} != true ]] || set -x
 
+if [[ "${EUID}" = "0" ]]; then
+    # Root user doesn't need sudo.
+    export SUDO=
+elif printenv | grep -q "^SUDO="; then
+    # Don't change if already set.
+    # NOTE 'test -v SUDO' is only available in bash 4.2, but this script may run in bash 3+
+    true
+else
+    SUDO="$(which sudo)"
+    SUDO="${SUDO:-sf_nosudo}"
+    export SUDO
+fi
+
+if [[ "${SUDO}" = "sf_nosudo" ]]; then
+    # The user has exported SUDO= or has no sudo installed.
+    function sf_nosudo() {
+        echo "[ERR ] sudo required, but not available for running the following command:"
+        echo "       $@"
+        echo "[Q   ] Run the command yourself as root, then continue."
+        echo "       Press ENTER to Continue."
+        echo "       Press Ctrl-C to Cancel."
+        read -p ""
+        echo
+    }
+    export -f sf_nosudo
+fi
+
 ARCH=$(uname -m)
 ARCH_BIT=$(uname -m | grep -q "x86_64" && echo "64" || echo "32")
 ARCH_SHORT=$(uname -m | grep -q "x86_64" && echo "x64" || echo "x86")

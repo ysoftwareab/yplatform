@@ -2,6 +2,7 @@
 set -euo pipefail
 
 export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 cd ${SUPPORT_FIRECLOUD_DIR}
 
@@ -21,11 +22,20 @@ fi
 # Bootstrap OS
 OS=$(uname | tr "[A-Z]" "[a-z]")
 
-sudo true || {
-    >&2 echo "[ERROR] You need local admin rights to properly bootstrap." \
-    "If you don't have local admin rights, try contacting the IT department."
-    exit 1
-}
+# Check sudo permissions if using sudo.
+echo_info "Bootstrapping with SUDO=${SUDO}..."
+if [[ -z "${SUDO}" ]]; then
+    true
+elif [[ "${SUDO}" = "sf_nosudo" ]]; then
+    prompt_q_to_continue "sudo is not available. Do you have root access instead?"
+else
+    echo "Enter your sudo password for bootstrap."
+    ${SUDO} true || {
+        echo_err "You need sudo/root access (called 'local admin rights' on MacOS) to bootstrap properly." \
+            "If you don't have sudo/root access, try contacting the IT department."
+        exit 1
+    }
+fi
 
 # Execute the OS specific boostrap process.
 ${SUPPORT_FIRECLOUD_DIR}/ci/${OS}/bootstrap

@@ -7,7 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 [[ "${CI:-}" != "true" ]] || {
     # improve date-time (ntp) sync
     (
-        sudo sntp -sS time.apple.com
+        ${SUDO} sntp -sS time.apple.com
     ) || true
 }
 

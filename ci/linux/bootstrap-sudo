@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[ ${EUID} -eq 0 ] || {
-    sudo ${BASH_SOURCE[0]}
-    exit 0
-}
-
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+if [[ "${EUID}" != "0" ]]; then
+    # Restart this shell script as root.
+    ${SUDO} ${BASH_SOURCE[0]}
+    exit 0
+fi
 
 function apt_update() {
     apt-get update -y --fix-missing 2>&1 || {

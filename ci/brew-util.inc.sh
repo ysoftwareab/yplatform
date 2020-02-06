@@ -122,11 +122,11 @@ function brew_list() {
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function apt_update() {
-    sudo apt-get update -y --fix-missing 2>&1 || {
+    ${SUDO} apt-get update -y --fix-missing 2>&1 || {
         # try to handle "Hash Sum mismatch" error
-        sudo apt-get clean
-        sudo rm -rf /var/lib/apt/lists/*
-        sudo apt-get update -y --fix-missing
+        ${SUDO} apt-get clean
+        ${SUDO} rm -rf /var/lib/apt/lists/*
+        ${SUDO} apt-get update -y --fix-missing
     }
 }
 
@@ -135,7 +135,7 @@ function apt_install() {
         [[ -n "${DPKG}" ]] || continue
 
         echo_do "aptitude: Installing ${DPKG}..."
-        sudo apt-get install -y --force-yes "${DPKG}"
+        ${SUDO} apt-get install -y --force-yes "${DPKG}"
         echo_done
     done 3< <(echo "$@")
 }

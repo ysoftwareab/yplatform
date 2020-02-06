@@ -28,7 +28,16 @@ case $(uname -s) in
             brew update
         else
             echo_do "brew: Installing linuxbrew..."
-            </dev/null sh -c "$(curl -fqsS -L ${RAW_GUC_URL}/Linuxbrew/install/master/install.sh)"            echo_done
+            if [[ "${SUDO}" = "" ]] || [[ "${SUDO}" = "sf_nosudo" ]]; then
+                HOMEBREW_PREFIX=~/.linuxbrew
+                echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
+                mkdir -p ${HOMEBREW_PREFIX}
+                curl -fqsS -L https://github.com/Homebrew/brew/tarball/master | \
+                    tar xz --strip 1 -C ${HOMEBREW_PREFIX}
+                echo_done
+            else
+                </dev/null sh -c "$(curl -fqsS -L ${RAW_GUC_URL}//Linuxbrew/install/master/install.sh)"
+            fi
             echo_done
         fi
 
