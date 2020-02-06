@@ -66,10 +66,10 @@ function exe_and_grep_q() {
     local OUTPUT=$(eval "$1")
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
     echo_info "Testing if '${OUTPUT}' matches '$2'..."
-    which -a ${EXECUTABLE} | xargs -L1 ls -l
-    type ${EXECUTABLE}
+    which -a ${EXECUTABLE} | xargs -r -L1 ls -l || true
+    type ${EXECUTABLE} || true
     echo "${OUTPUT}" | grep -q "$2" || {
         echo_err "No match."
-        exit 1
+        return 1
     }
 }
