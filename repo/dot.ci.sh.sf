@@ -69,7 +69,7 @@ function sf_ci_run() {
 }
 
 [[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.travis-ci.inc.sh
-[[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.circle-ci.inc.sh}
+[[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.circle-ci.inc.sh
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.github-actions.inc.sh
 
 [[ -z "$*" ]] || sf_ci_run $@
