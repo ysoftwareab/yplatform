@@ -85,7 +85,8 @@ source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
 # unhack
 # see https://github.com/docker/for-linux/issues/388
 # TODO see repo/dot.ci.sh.sf sf_run_docker
-[ $(find /home/linuxbrew -maxdepth 0 -printf '%u\n') = $(id -u) ] || chown -R $(id -u):$(id -g) /home/linuxbrew
+[[ $(find /home/linuxbrew -maxdepth 0 -printf '%u\n') = $(id -u) ]] || \
+    chown -R $(id -u):$(id -g) /home/linuxbrew
 EOF
     chown sf:sf /home/sf/.bash_aliases
 
