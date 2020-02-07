@@ -12,17 +12,22 @@ Due to historical reasons, Travis CI being the first CI/CD platform we integrate
 but also because their pipeline makes sense, we follow their job lifecycle and their "stage" names,
 currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
 
-* `before_install`, see , see [repo/ci.sh/before-install.pre.inc.sh](../repo/ci.sh/before-install.pre.inc.sh) and [repo/ci.sh/before-install.inc.sh](../repo/ci.sh/before-install.inc.sh)
+* `before_install`
+  * see [repo/ci.sh/before-install.pre.inc.sh](../repo/ci.sh/before-install.pre.inc.sh)
+  * see [repo/ci.sh/before-install.inc.sh](../repo/ci.sh/before-install.inc.sh)
   * maybe run the Docker container for Travis CI. See [integrate-travis-ci.md#docker](integrate-travis-ci.md#docker)
   * check out code (including git submodules)
   * bootstrap the CI agent with system dependencies as instructed via `Brewfile.inc.sh`
-* `install`, see [repo/ci.sh/install.inc.sh](../repo/ci.sh/install.inc.sh)
+* `install`
+  * see [repo/ci.sh/install.inc.sh](../repo/ci.sh/install.inc.sh)
   * equivalent to running `make deps`
 *
 * `before_script`
-* `script`, see [repo/ci.sh/script.inc.sh](../repo/ci.sh/script.inc.sh)
+* `script`
+  * see [repo/ci.sh/script.inc.sh](../repo/ci.sh/script.inc.sh)
   * equivalent to running `make build check test`
-* `before_cache`, see [repo/ci.sh/before-cache.inc.sh](../repo/ci.sh/before-cache.inc.sh)
+* `before_cache`
+  * see [repo/ci.sh/before-cache.inc.sh](../repo/ci.sh/before-cache.inc.sh)
 * `after_success`
   * exit code doesn't affect build's success/failure
   * called only if the `script` stage succeeds
@@ -30,22 +35,26 @@ currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
   * exit code doesn't affect build's success/failure
   * called only if the `script` stage fails
 *
-* `before_deploy`, see [repo/ci.sh/before-deploy.inc.sh](../repo/ci.sh/before-deploy.inc.sh)
+* `before_deploy`
+  * see [repo/ci.sh/before-deploy.inc.sh](../repo/ci.sh/before-deploy.inc.sh)
   * equivalent to running `make snapshot && make dist`
 * `deploy`
 * `after_deploy`
   * exit code doesn't affect build's success/failure
 *
-* `after_script`, see [repo/ci.sh/after-script.inc.sh](../repo/ci.sh/after-script.inc.sh)
+* `after_script`
+  * see [repo/ci.sh/after-script.inc.sh](../repo/ci.sh/after-script.inc.sh)
   * maybe upload job artifacts. See [integrate-travis-ci.md#artifacts](integrate-travis-ci.md#artifacts)
   * exit code doesn't affect build's success/failure
   * called after `after_success` or `after_failure`, optionally `after_deploy`
 
 A couple of special "stages", not defined by Travis CI, exist as well:
-* `debug`, see [repo/ci.sh/debug.inc.sh](../repo/ci.sh/debug.inc.sh)
+* `debug`
+  * see [repo/ci.sh/debug.inc.sh](../repo/ci.sh/debug.inc.sh)
   * Travis CI has functionality to start an agent and then ssh into it
   * once you do, run `./.ci.sh debug`. See [integrate-travis-ci.md#debugging](integrate-travis-ci.md#debugging)
-* `notifications`, see [repo/ci.sh/notifications.inc.sh](../repo/ci.sh/notifications.inc.sh)
+* `notifications`
+  * see [repo/ci.sh/notifications.inc.sh](../repo/ci.sh/notifications.inc.sh)
   * Travis CI has built-in functionality for job notifications on success/failure.
     But other platforms, like Github Actions, do not have such functionality,
     therefore one needs an extra final stage to send out notifications.
