@@ -39,6 +39,15 @@ function brew_upgrade() {
     done 3< <(echo "$@")
 }
 
+# install erlang without wxmac bloat
+function brew_install_erlang() {
+    echo_do "brew: Installing erlang (without wxmac)..."
+    brew tap linuxbrew/xorg
+    comm -23 <(brew deps erlang) <(brew deps wxmac) | grep -v "^wxmac$" | xargs -r -L1 brew install
+    brew install --force erlang --ignore-dependencies || brew link --force --overwrite erlang
+    echo_done
+}
+
 function brew_install() {
     while read -u3 FORMULA; do
         [[ -n "${FORMULA}" ]] || continue
@@ -46,6 +55,16 @@ function brew_install() {
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
         local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+
+        case ${NAME} in
+            erlang)
+                brew_install_erlang
+                continue
+                ;;
+            *)
+                true
+                ;;
+        esac
 
         # is it already installed ?
         if brew list "${NAME}" >/dev/null 2>&1; then
