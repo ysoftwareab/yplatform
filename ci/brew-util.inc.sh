@@ -43,8 +43,14 @@ function brew_upgrade() {
 function brew_install_erlang() {
     echo_do "brew: Installing erlang, without wxmac..."
     set -x
+    echo 1tap
     brew tap linuxbrew/xorg
-    comm -23 <(brew deps erlang) <(brew deps wxmac) | grep -v "^wxmac$" | xargs -r -L1 brew install
+    local TMP_FILE=$(mktemp)
+    echo 2comm
+    comm -23 <(brew deps erlang) <(brew deps wxmac) | grep -v "^wxmac$" > ${TMP_FILE}
+    echo 2cat
+    cat ${TMP_FILE} | xargs -r -L1 brew install
+    echo 2brew
     brew install --force erlang --ignore-dependencies || brew link --force --overwrite erlang
     set +x
     echo_done
