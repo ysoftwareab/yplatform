@@ -44,5 +44,5 @@ TOUCH = $(call which,TOUCH,gtouch touch)
 TR = $(call which,TR,gtr tr)
 UNAME = $(call which,XARGS,guname uname)
 WATCH = $(call which,WATCH,gwatch watch)
-XARGS = $(call which,XARGS,gxargs xargs)
+XARGS = $(call which,XARGS,gxargs xargs) -r
 $(foreach VAR,READLINK REALPATH RM SED SEQ SHA256SUM SORT TAIL TAR TEE TOUCH TR UNAME WATCH XARGS,$(call make-lazy,$(VAR)))
