@@ -46,8 +46,12 @@ function brew_install_erlang() {
     echo 1tap
     brew tap linuxbrew/xorg
     local TMP_FILE=$(mktemp)
+    echo brewdepserlang
+    brew deps erlang
+    echo brewdepswxmac
+    brew deps wxmac
     echo 2comm
-    comm -23 <(brew deps erlang) <(brew deps wxmac) | grep -v "^wxmac$" > ${TMP_FILE}
+    comm -23 <(brew deps erlang | sort) <(brew deps wxmac | sort) | grep -v "^wxmac$" > ${TMP_FILE}
     echo 2cat
     cat ${TMP_FILE} | xargs -r -L1 brew install
     echo 2brew
