@@ -58,8 +58,8 @@ Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm
 An example flow for publishing [`minlog`](https://github.com/tobiipro/minlog)
 which internally is using
 
-* [repo/mk/node.common.mk](repo/mk/node.common.mk)
-* [repo/mk/core.misc.release.npg.mk](repo/mk/core.misc.release.npg.mk)
+* [repo/mk/node.common.mk](../repo/mk/node.common.mk)
+* [repo/mk/core.misc.release.npg.mk](../repo/mk/core.misc.release.npg.mk)
 
 ```
 cd path/to/minlog
@@ -102,8 +102,8 @@ We have this working for a few private repositories, integrated with Travis CI.
 
 An example flow which internally is using
 
-* [repo/mk/js.common.node.mk](repo/mk/js.common.node.mk)
-* [repo/mk/js.publish.tag.mk](repo/mk/js.publish.tag.mk)
+* [repo/mk/js.common.node.mk](../repo/mk/js.common.node.mk)
+* [repo/mk/js.publish.tag.mk](../repo/mk/js.publish.tag.mk)
 
 ```
 cd path/to/repo
