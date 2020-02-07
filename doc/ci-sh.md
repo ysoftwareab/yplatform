@@ -13,7 +13,7 @@ but also because their pipeline makes sense, we follow their job lifecycle and t
 currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
 
 * `before_install`
-  * maybe run the Docker container for Travis CI. See [./integrate-travis-ci.md#docker](integrate-travis-ci.md#docker)
+  * maybe run the Docker container for Travis CI. See [integrate-travis-ci.md#docker](integrate-travis-ci.md#docker)
   * check out code (including git submodules)
   * bootstrap the CI agent with system dependencies as instructed via `Brewfile.inc.sh`
 * `install`
@@ -37,14 +37,14 @@ currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
   * exit code doesn't affect build's success/failure
 *
 * `after_script`
-  * maybe upload job artifacts. See [./integrate-travis-ci.md#artifacts](integrate-travis-ci.md#artifacts)
+  * maybe upload job artifacts. See [integrate-travis-ci.md#artifacts](integrate-travis-ci.md#artifacts)
   * exit code doesn't affect build's success/failure
   * called after `after_success` or `after_failure`, optionally `after_deploy`
 
 A couple of special "stages", not defined by Travis CI, exist as well:
 * `debug`
   * Travis CI has functionality to start an agent and then ssh into it
-  * once you do, run `./.ci.sh debug`. See [./integrate-travis-ci.md#debugging](integrate-travis-ci.md#debugging)
+  * once you do, run `./.ci.sh debug`. See [integrate-travis-ci.md#debugging](integrate-travis-ci.md#debugging)
 * `notifications`
   * Travis CI has built-in functionality for job notifications on success/failure.
     But other platforms, like Github Actions, do not have such functionality,
@@ -56,14 +56,14 @@ Similarly, we can reproduce this pipeline in CircleCI, Github Actions, etc.
 
 See for yourself. Search `.ci.sh before_install` in
 
-* [../.travis.yml](.travis.yml)
-* [../.circleci/config.yml](.circleci/config.yml)
-* [../.github/workflows/main.yml](.github/workflows/main.yml)
+* [.travis.yml](../.travis.yml)
+* [.circleci/config.yml](../.circleci/config.yml)
+* [.github/workflows/main.yml](../.github/workflows/main.yml)
 
 
 ## Code execution
 
-A normal `.ci.sh` file would follow the template in [../repo/dot.ci.sh](repo/dot.ci.sh) e.g.
+A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot.ci.sh) e.g.
 
 ```shell
 #!/usr/bin/env bash
@@ -77,7 +77,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
 ```
 
-Code execution really starts at the bottom of [../repo/dot.ci.sh.sf](repo/dot.ci.sh.sf),
+Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
 where we actually call `sf_ci_run <stage>`.
 
 The `sf_ci_run` function will mainly check
@@ -87,7 +87,7 @@ The `sf_ci_run` function will mainly check
 
 `ci_run_<stage>` functions are custom implementations for each stage,
 while `sf_ci_run_<stage>` are default implementations,
-mainly wrapping the `make` targets defined in [../repo/mk](repo/mk).
+mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
 
 
 ## Patterns
@@ -95,8 +95,8 @@ mainly wrapping the `make` targets defined in [../repo/mk](repo/mk).
 Since several repositories might follow similar patterns in their CI/CD executions,
 we have grouped these custom `ci_run_<stage>` functions in
 
-* [../sh/app-env.inc.sh](sh/app-env.inc.sh) is a pattern for web apps, with external deployments
-* [../sh/app.inc.sh](sh/app.inc.sh) is a pattern for desktop/mobile apps, with github releases
+* [sh/app-env.inc.sh](../sh/app-env.inc.sh) is a pattern for web apps, with external deployments
+* [sh/app.inc.sh](../sh/app.inc.sh) is a pattern for desktop/mobile apps, with github releases
   * FIXME I believe this one was overengineered. Do we need to upload artifacts (installers) to AWS, etc?
 
 These patterns can be reused by simply changing the `.ci.sh` template above to include at the bottom:
