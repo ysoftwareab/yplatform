@@ -76,7 +76,7 @@ function ci_run_deploy_docker_image() {
             xargs -r -0 date +%s -d || \
             echo 0)
 
-    ${SUPPORT_FIRECLOUD}/dockerfiles/build \
+    ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build \
         --release-id ${RELEASE_ID} \
         --release-version-id ${RELEASE_VERSION_ID} \
         --release-version-codename ${RELEASE_VERSION_CODENAME} \
