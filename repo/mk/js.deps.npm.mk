@@ -97,16 +97,17 @@ deps-npm-install:
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			--install-cmd "$(NPM) install" \
 			node_modules/babel-preset-firecloud/package.json
 	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			--install-cmd "$(NPM) install" \
 			node_modules/eslint-config-firecloud/package.json
+#	hack. sort dependencies in package.json
+	$(NPM) remove --save-dev some-pkg-that-doesnt-exist
 #	check that installing peer dependencies didn't modify package.json
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
+		$(NPM) install; \
 		$(ECHO_ERR) "package.json has changed."; \
-		$(ECHO_ERR) "Run 'make deps-npm' locally, commit and push the changes before another CI run."; \
+		$(ECHO_ERR) "Please review and commit the changes."; \
 		exit 1; \
 	}
 #	remove extraneous dependencies
