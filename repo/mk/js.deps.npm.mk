@@ -11,11 +11,6 @@
 # produced by 'npm list' that you want to ignore e.g.:
 # npm ERR! peer dep missing: tslint@^5.16.0, required by tslint-config-firecloud
 #
-# For leaf repositories (i.e. not libraries), package-lock.json may present some stability.
-# In order to create a lock, add to your Makefile:
-# SF_DEPS_TARGETS += deps-npm-package-lock
-# and commit package-lock.json.
-#
 # ------------------------------------------------------------------------------
 
 NPM = $(call which,NPM,npm)
@@ -93,6 +88,12 @@ deps-npm-ci:
 .PHONY: deps-npm-install
 deps-npm-install:
 	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
+	[[ ! -f "package-lock.json" ]] || { \
+		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
+			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
+			exit 1; \
+		}; \
+	}
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
@@ -142,6 +143,12 @@ deps-npm-ci-prod:
 
 .PHONY: deps-npm-install-prod
 deps-npm-install-prod:
+	[[ ! -f "package-lock.json" ]] || { \
+		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
+			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
+			exit 1; \
+		}; \
+	}
 	$(NPM) install --production
 #	remove extraneous dependencies
 	$(NPM) prune --production
@@ -161,20 +168,6 @@ deps-npm-install-prod:
 deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
-
-
-.PHONY: deps-npm-package-lock
-deps-npm-package-lock:
-	[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
-		$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
-		exit 1; \
-	}
-	$(MAKE) package-lock.json
-
-
-package-lock.json: package.json
-	$(RM) package-lock.json
-	$(NPM) install
 
 
 .PHONY: check-package-json
