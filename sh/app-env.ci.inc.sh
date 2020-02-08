@@ -108,7 +108,7 @@ function ci_run_deploy() {
 
     local ASSETS_ARGS=$(
         echo "${ASSETS}" | \
-        xargs -I {} echo "--asset {}"
+        xargs -r -I {} echo "--asset {}"
     )
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
         --repo-slug ${CI_REPO_SLUG} \
