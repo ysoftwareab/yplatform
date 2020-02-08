@@ -16,7 +16,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     local JOB_GIT_REF=refs/jobs/${CI_JOB_ID}
 
     git checkout --orphan jobs/${CI_JOB_ID}
-    git ls-files -- "*/.gitignore" | xargs -L1 rm -f
+    git ls-files -- "*/.gitignore" | xargs -r -L1 rm -f
     git reset -- .
     cat .artifacts | xargs -r -L1 git add -f || true
 

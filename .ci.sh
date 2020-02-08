@@ -72,7 +72,7 @@ function ci_run_deploy_docker_image() {
     local TIMESTAMP_LATEST=$(
         curl https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
             jq -r .last_updated | \
-            xargs -0 date +%s -d || \
+            xargs -r -0 date +%s -d || \
             echo 0)
 
     exe docker build . \
