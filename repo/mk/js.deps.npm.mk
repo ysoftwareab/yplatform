@@ -24,7 +24,14 @@ $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 NPM_CI_OR_INSTALL := install
 ifeq (true,$(CI))
 ifneq (,$(wildcard package-lock.json))
+# npm ci doesn't play nice with git dependencies
+ifeq (,$(shell $(CAT) package.json | \
+	$(JQ)  ".dependencies + .devDependencies" | \
+	$(JQ) "to_entries" | \
+	$(JQ) ".[] | select(.value | contains(\"git\"))" | \
+	$(JQ) -r ".key"))
 NPM_CI_OR_INSTALL := ci
+endif
 endif
 endif
 
