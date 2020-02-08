@@ -30,5 +30,6 @@ EOF
     exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\."
     exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\\."
     exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\."
+    exe_and_grep_q "xargs --help" "no-run-if-empty"
     echo_done
 fi
