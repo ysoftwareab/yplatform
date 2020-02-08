@@ -43,7 +43,11 @@ function brew_upgrade() {
 function brew_install_erlang() {
     echo_do "brew: Installing erlang, without wxmac..."
     brew tap linuxbrew/xorg
-    comm -23 <(brew deps erlang) <(brew deps wxmac) | sed "/^wxmac$/d" | xargs -r -L1 brew install
+    # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
+    # comm -23 <(brew deps erlang) <(brew deps wxmac) | sed "/^wxmac$/d" | xargs -r -L1 brew install
+    for FORMULA in $(comm -23 <(brew deps erlang) <(brew deps wxmac) | sed "/^wxmac$/d"); do
+        brew install ${FORMULA}
+    done
     brew install --force erlang --ignore-dependencies || brew link --force --overwrite erlang
     echo_done
 }
@@ -54,7 +58,7 @@ function brew_install() {
 
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
-        local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -r -n 1 | sort -u)
+        local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
         case ${NAME} in
             erlang)
@@ -94,7 +98,7 @@ function brew_install() {
             local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
                 /usr/bin/python \
                     -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
-                xargs -n1 | \
+                xargs -n 1 | \
                 sort -u || true)"
             local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
             [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
