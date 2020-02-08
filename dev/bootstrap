@@ -6,11 +6,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 cd ${SUPPORT_FIRECLOUD_DIR}
 
-# Resetting support-firecloud to the latest commit on 'origin/master'
-# iff the local branch is 'master'.
-# A development branch will therefore not be reset.
 SF_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "${SF_GIT_BRANCH}" = "master" ]]; then
+    echo_warn "Pulling and resetting your local 'master' branch of support-firecloud"
+    echo_warn "to the latest commit on 'origin/master'..."
+    echo_info "Switch to another local branch to skip this behaviour."
     git reset
     git stash --all
     git checkout master
