@@ -95,16 +95,14 @@ deps-npm-install:
 	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
-	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || { \
+	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/babel-preset-firecloud/package.json; \
-		$(NPM) remove --save-dev some-pkg-that-doesnt-exist; \
-	}
-	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || { \
+			node_modules/babel-preset-firecloud/package.json
+	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/eslint-config-firecloud/package.json; \
-		$(NPM) remove --save-dev some-pkg-that-doesnt-exist; \
-	}
+			node_modules/eslint-config-firecloud/package.json
+#	hack. sort dependencies in package.json
+	$(NPM) remove --save-dev some-pkg-that-doesnt-exist
 #	check that installing peer dependencies didn't modify package.json
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
 		$(NPM) install; \
