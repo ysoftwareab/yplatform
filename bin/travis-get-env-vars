@@ -37,9 +37,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 if [[ "${SECURE}" = "true" ]]; then
-    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -L1 echo | grep -e "secure")"
+    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -r -L1 echo | grep -e "secure")"
 else
-    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -L1 echo)"
+    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -r -L1 echo)"
 fi
 
 echo "${TRAVIS_CMD_EXPORT}" | \

@@ -107,7 +107,7 @@ function git_dir_clean() {
     (
         cd $1
         git reflog expire --expire=all --all
-        git tag -l | xargs git tag -d
+        git tag -l | xargs -r git tag -d
         git gc --prune=all
         git clean -xdf .
     )

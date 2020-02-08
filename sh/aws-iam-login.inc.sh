@@ -82,7 +82,7 @@ function aws-iam-login-ns() {
 function _aws_profile_completer() {
     local WORD=${COMP_WORDS[COMP_CWORD]}
     local AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-~/.aws/credentials}
-    local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | xargs -I{} expr {} : "\[\(.*\)\]")"
+    local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | xargs -r -I{} expr {} : "\[\(.*\)\]")"
     COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
 }
 

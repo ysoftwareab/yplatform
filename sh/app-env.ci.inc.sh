@@ -104,7 +104,7 @@ function ci_run_deploy() {
     local ASSETS=${ASSETS:-$(ls dist/app.zip snapshot.zip)}
 
     echo_info "Assets for release:"
-    echo "${ASSETS}" | xargs ls -l
+    echo "${ASSETS}" | xargs -r ls -l
 
     local ASSETS_ARGS=$(
         echo "${ASSETS}" | \

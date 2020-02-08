@@ -54,7 +54,7 @@ function brew_install() {
 
         local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
         local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
-        local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+        local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -r -n 1 | sort -u)
 
         case ${NAME} in
             erlang)
