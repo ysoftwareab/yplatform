@@ -60,6 +60,7 @@ function ci_run_deploy_docker_image() {
 
     [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
 
+    # NOTE keep in sync with `dockerfiles/build`
     local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
     local RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
@@ -75,13 +76,15 @@ function ci_run_deploy_docker_image() {
             xargs -r -0 date +%s -d || \
             echo 0)
 
-    exe docker build . \
-        --file ${DOCKERFILE} \
-        --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
-        --build-arg FROM=${RELEASE_ID}:${RELEASE_VERSION_ID} \
-        --build-arg IMAGE_NAME=${DOCKER_IMAGE_NAME} \
-        --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-        --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+    ${SUPPORT_FIRECLOUD}/dockerfiles/build \
+        --release-id ${RELEASE_ID} \
+        --release-version-id ${RELEASE_VERSION_ID} \
+        --release-version-codename ${RELEASE_VERSION_CODENAME} \
+        --docker-org ${DOCKER_ORG} \
+        --docker-image-name ${DOCKER_IMAGE_NAME} \
+        --docker-image-tag ${DOCKER_IMAGE_TAG} \
+        --dockerfile ${DOCKERFILE} \
+        --sf-ci-brew-install ${SF_CI_BREW_INSTALL}
 
     # don't push as 'latest' tag if the tag has been updated after the current commit
     local PUBLISH_AS_LATEST_TAG=false

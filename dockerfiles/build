@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+RELEASE_ID=
+RELEASE_VERSION_ID=
+RELEASE_VERSION_CODENAME=
+
+DOCKER_ORG=tobiipro
+DOCKER_IMAGE_NAME=
+DOCKER_IMAGE_TAG=local
+DOCKERFILE=
+
+SF_CI_BREW_INSTALL=minimal
+
+[[ ! -f "/etc/os-release" ]] || {
+    RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+    RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
+    RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+}
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --release-id)
+            RELEASE_ID=$2
+            shift 2
+            ;;
+        --release-version-id)
+            RELEASE_VERSION_ID=$2
+            shift 2
+            ;;
+        --release-version-codename)
+            RELEASE_VERSION_CODENAME=$2
+            shift 2
+            ;;
+        --docker-org)
+            DOCKER_ORG=$2
+            shift 2
+            ;;
+        --docker-image-name)
+            DOCKER_IMAGE_NAME=$2
+            shift 2
+            ;;
+        --docker-image-tag)
+            DOCKER_IMAGE_TAG=$2
+            shift 2
+            ;;
+        --dockerfile)
+            DOCKERFILE=$2
+            shift 2
+            ;;
+        --sf-ci-brew-install)
+            SF_CI_BREW_INSTALL=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+[[ -n "${DOCKER_IMAGE_NAME}" ]] || DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
+DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
+
+[[ -f "${DOCKERFILE}" ]] || {
+    echo_err "${DOCKERFILE} doesn't exist."
+    exit 1
+}
+
+exe docker build ${SUPPORT_FIRECLOUD_DIR} \
+    --file ${DOCKERFILE} \
+    --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+    --build-arg FROM=${RELEASE_ID}:${RELEASE_VERSION_ID} \
+    --build-arg IMAGE_NAME=${DOCKER_IMAGE_NAME} \
+    --build-arg IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+    --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
