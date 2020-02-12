@@ -82,6 +82,7 @@ function sf_os() {
                 echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without minimal/common dependencies."
                 echo_info "${FUNCNAME[0]}: Running with SF_SKIP_COMMON_BOOTSTRAP=true."
                 export SF_SKIP_COMMON_BOOTSTRAP=true
+                export SF_LOG_BOOTSTRAP=true
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
             fi
