@@ -40,6 +40,7 @@ include core.inc.mk/target.help.inc.mk
 # Ref
 
 * http://blog.jgc.org/2013/02/updated-list-of-my-gnu-make-articles.html
+* https://tech.davis-hansson.com/p/make/
 
 # License
 
