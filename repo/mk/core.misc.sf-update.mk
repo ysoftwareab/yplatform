@@ -30,13 +30,11 @@ support-firecloud/update: _support-firecloud/update ## Update support-firecloud 
 support-firecloud/update/v%: _support-firecloud/update ## Update support-firecloud to a specific version.
 	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
 	$(eval SF_VSN := $(@:support-firecloud/update/v%=%))
+	$(eval SF_VSN_COMMIT := refs/tags/v$(SF_VSN))
+	$(eval SF_VSN_COMMIT_RANGE := $(SF_COMMIT)..$(SF_VSN_COMMIT))
 	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to $(SF_VSN)..."
-	$(GIT) -C $(SF_SUBMODULE_PATH) reset --hard refs/tags/v$(SF_VSN)
-	$(GIT) add $(SF_SUBMODULE_PATH)
-	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to $(SF_VSN)"
-	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	$(ECHO)
-	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
+	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH)@$(SF_VSN) since $(SF_COMMIT):"
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
 		--color \
@@ -44,10 +42,10 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 		--date=short \
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
-		$(SF_COMMIT).. | \
+		$(SF_VSN_COMMIT_RANGE) | \
 		$(GREP) --color -E "^|break" || true
 	$(ECHO)
-	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH) since $(SF_COMMIT):"
+	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH)@$(SF_VSN) since $(SF_COMMIT):"
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
 		--color \
@@ -55,10 +53,18 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 		--date=short \
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
-		$(SF_COMMIT).. | \
+		$(SF_VSN_COMMIT_RANGE) | \
 		$(GREP) --color -E "break" || true
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
-		diff --stat $(SF_COMMIT)..
+		diff --stat $(SF_VSN_COMMIT_RANGE)
 	$(ECHO)
+	$(ECHO) "[Q   ] Updating $(SF_MODULE_PATH) to $(SF_VSN). OK?"
+	$(ECHO) "       Press ENTER to Continue."
+	$(ECHO) "       Press Ctrl+C to Cancel."
+	read -p ""
+	$(GIT) -C $(SF_SUBMODULE_PATH) reset --hard $(SF_VSN_COMMIT)
+	$(GIT) add $(SF_SUBMODULE_PATH)
+	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to $(SF_VSN)"
+	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	$(ECHO_DONE)
