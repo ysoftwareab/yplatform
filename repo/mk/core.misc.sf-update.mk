@@ -29,12 +29,13 @@ support-firecloud/update: _support-firecloud/update ## Update support-firecloud 
 .PHONY: support-firecloud/update/v%
 support-firecloud/update/v%: _support-firecloud/update ## Update support-firecloud to a specific version.
 	$(eval SF_COMMIT := $(shell $(GIT) rev-parse HEAD^{commit}:$(SF_SUBMODULE_PATH)))
+	$(eval SF_VSN := $(shell $(GIT) tag -l --points-at HEAD | $(HEAD) -1 | $(SED) "s/^$$/$(SF_COMMIT)/"))
 	$(eval SF_UPDATE_VSN := $(@:support-firecloud/update/v%=%))
 	$(eval SF_UPDATE_COMMIT := refs/tags/v$(SF_UPDATE_VSN))
 	$(eval SF_UPDATE_COMMIT_RANGE := $(SF_COMMIT)..$(SF_UPDATE_COMMIT))
 	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to $(SF_UPDATE_VSN)..."
 	$(ECHO)
-	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH)@$(SF_VSN) since $(SF_COMMIT):"
+	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH)@$(SF_UPDATE_VSN) since $(SF_VSN):"
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
 		--color \
@@ -45,7 +46,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 		$(SF_UPDATE_COMMIT_RANGE) | \
 		$(GREP) --color -E "^|break" || true
 	$(ECHO)
-	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH)@$(SF_VSN) since $(SF_COMMIT):"
+	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH)@$(SF_UPDATE_VSN) since $(SF_VSN):"
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager log \
 		--color \
