@@ -33,7 +33,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 	$(eval SF_UPDATE_VSN := $(@:support-firecloud/update/v%=%))
 	$(eval SF_UPDATE_COMMIT := refs/tags/v$(SF_UPDATE_VSN))
 	$(eval SF_UPDATE_COMMIT_RANGE := $(SF_COMMIT)..$(SF_UPDATE_COMMIT))
-	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to $(SF_UPDATE_VSN)..."
+	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN)..."
 	$(ECHO)
 	$(ECHO_INFO) "Changes in $(SF_SUBMODULE_PATH)@$(SF_UPDATE_VSN) since $(SF_VSN):"
 	$(ECHO)
@@ -60,12 +60,12 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
 		diff --stat $(SF_UPDATE_COMMIT_RANGE)
 	$(ECHO)
-	$(ECHO) "[Q   ] Updating $(SF_MODULE_PATH) to $(SF_UPDATE_VSN). OK?"
+	$(ECHO) "[Q   ] Updating $(SF_MODULE_PATH) to v$(SF_UPDATE_VSN). OK?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -p ""
 	$(GIT) -C $(SF_SUBMODULE_PATH) reset --hard $(SF_UPDATE_COMMIT)
 	$(GIT) add $(SF_SUBMODULE_PATH)
-	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to $(SF_UPDATE_VSN)"
+	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN)"
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	$(ECHO_DONE)
