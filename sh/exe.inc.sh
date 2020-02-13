@@ -65,7 +65,7 @@ function printenv_with_name() {
 function exe_and_grep_q() {
     local OUTPUT=$(eval "$1")
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
-    echo_info "Testing if '${OUTPUT}' matches '$2'..."
+    echo_info "Testing if command '$1' with output '${OUTPUT}' matches '$2'..."
     # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
     # which -a ${EXECUTABLE} | xargs -r -L1 ls -l || true
     for EXECUTABLE_PATH in $(which -a ${EXECUTABLE}); do
