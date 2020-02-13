@@ -87,7 +87,7 @@ function brew_install() {
                 continue
             }
 
-            # do we require installation with specific options ?
+            # install without specific options ?
             [[ -n "${OPTIONS}" ]] || {
                 echo_skip "brew: Installing ${FORMULA}..."
                 brew_upgrade ${NAME}
