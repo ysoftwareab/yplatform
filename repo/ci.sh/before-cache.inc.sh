@@ -41,7 +41,7 @@ function sf_ci_run_before_cache_stats() {
     echo_do "Showing cache stats..."
 
     [[ "${TRAVIS:-}" != "true" ]] || {
-        local YAML2JSON="ruby -ryaml -rjson -e 'puts JSON.pretty_generate(YAML.load(ARGF))'"
+        local YAML2JSON="npx js-yaml"
         for f in $(eval "${YAML2JSON} .travis.yml" | jq -r ".cache.directories[]"); do
             eval "f=${f}"
             [[ -d "${f}" ]] || continue
