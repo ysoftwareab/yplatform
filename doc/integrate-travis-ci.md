@@ -56,9 +56,9 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If your job has artifacts, like logs that you'd like to access outside of the Travis CI job log,
 then you need to
 
-* Add a `GH_TOKEN` secure environment variable to `.travis.yml`.
+* Add a `GH_TOKEN` secure environment variable in the Travis CI web UI.
   This Github API token should have enough permissions to push to the repository.
-* Give access to the repo to `tobiiprotools` team with a level `Write`
+* Give access to the repo to `tobiipro/zz-tobiiprotools` team with a level `Write`.
 * Create a `.artifacts` file
 
 The `.artifacts` file is a list of paths that would include artifacts e.g.
