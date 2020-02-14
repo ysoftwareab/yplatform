@@ -5,9 +5,16 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 HAS_BREW_2=true
-# using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
-# exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || HAS_BREW_2=false
-exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2." || HAS_BREW_2=false
+
+if [ -x "$(command -v brew)" ]; then
+    # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
+    # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || HAS_BREW_2=false
+    exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2." || HAS_BREW_2=false
+else
+    echo_do "brew: Executable brew not found."
+    echo_done
+    HAS_BREW_2=false
+fi
 
 RAW_GUC_URL="https://raw.githubusercontent.com"
 
