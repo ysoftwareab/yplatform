@@ -8,7 +8,7 @@ else
     echo_do "brew: Installing basic packages..."
 
     BREW_FORMULAE="$(cat <<-EOF
-${SUPPORT_FIRECLOUD_DIR}/ci/retry.rb
+${SUPPORT_FIRECLOUD_DIR}/priv/retry.rb
 curl
 git
 rsync
