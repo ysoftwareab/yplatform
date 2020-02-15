@@ -104,7 +104,7 @@ support-firecloud/bin/repo-cfn-boostrap --stack-stem infra
 
 * `/<stack-stem>.cfn.json.err` would be the latest failed CloudFormation template
   * failed = invalid JSON or CloudFormation semantics
-  
+
 * `/<stack-stem>.cfn.json.bak` would be the live CloudFormation template of the current stack
 * `/<stack-stem>.cfn.policy.json.bak` would be the live CloudFormation policy of the current stack
 * `/<stack-stem>.drift.json.bak` would be the live CloudFormation drift results of the current stack
