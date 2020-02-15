@@ -7,7 +7,6 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
 else
     echo_do "brew: Installing minimal packages..."
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-core.inc.sh
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-basic.inc.sh
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-gnu.inc.sh
     echo_done
 fi
