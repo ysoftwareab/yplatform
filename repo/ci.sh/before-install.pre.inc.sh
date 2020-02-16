@@ -3,6 +3,7 @@
 function sf_run_travis_docker_image() {
     SF_TRAVIS_DOCKER_IMAGE=${1}
     CONTAINER_NAME=${2:-sf-docker-ci}
+    MOUNT_DIR=${3:-${HOME}}
 
     echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 
@@ -17,7 +18,7 @@ function sf_run_travis_docker_image() {
         --env USER=$(whoami) \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
         --env-file <(printenv | grep -e "^TRAVIS") \
-        --volume ${HOME}:${HOME} \
+        --volume ${MOUNT_DIR}:${MOUNT_DIR} \
         --privileged \
         --network=host \
         --ipc=host \
@@ -42,7 +43,7 @@ function sf_run_travis_docker_image() {
         adduser \
         --uid $(id -u) \
         --ingroup $(id -g --name) \
-        --home /home/$(id -u --name) \
+        --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
         --gecos "" \
