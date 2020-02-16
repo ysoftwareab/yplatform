@@ -2,6 +2,7 @@
 
 function sf_run_travis_docker_image() {
     SF_TRAVIS_DOCKER_IMAGE=${1}
+    CONTAINER_NAME=${2:-sf-docker-ci}
 
     echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 
@@ -9,9 +10,9 @@ function sf_run_travis_docker_image() {
     exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
-    echo_do "Running the docker-ci container, while passing relevant env vars and mounting HOME folder..."
+    echo_do "Running the ${CONTAINER_NAME} container, while passing relevant env vars and mounting ${MOUNT_DIR} folder..."
     exe docker run -d -it --rm \
-        --name docker-ci \
+        --name ${CONTAINER_NAME} \
         --env CI=true \
         --env USER=$(whoami) \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
@@ -23,8 +24,8 @@ function sf_run_travis_docker_image() {
         ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
-    echo_do "Instrumenting the docker-ci container..."
-    exe docker exec -it -u root docker-ci \
+    echo_do "Instrumenting the ${CONTAINER_NAME} container..."
+    exe docker exec -it -u root ${CONTAINER_NAME} \
         touch /support-firecloud.docker-ci
 
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
@@ -37,7 +38,7 @@ function sf_run_travis_docker_image() {
     done
 
     # create same user (and uid) that the 'travis' user has inside the docker container
-    exe docker exec -it -u root docker-ci \
+    exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
         --uid $(id -u) \
         --ingroup $(id -g --name) \
@@ -57,10 +58,10 @@ function sf_run_travis_docker_image() {
 
     # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
     # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
-    # exe docker exec -it -u root docker-ci \
+    # exe docker exec -it -u root ${CONTAINER_NAME} \
     #     chown -R $(id -u):$(id -g) /home/linuxbrew
 
-    echo_done # "Instrumenting the docker-ci container..."
+    echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
     echo_done # "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 }
