@@ -28,11 +28,12 @@ function sf_run_travis_docker_image() {
         touch /support-firecloud.docker-ci
 
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
-    for GROUP_ID in $(id -G); do
-        exe docker exec -it -u root docker-ci \
+    # NOTE using python instead of getent for compatibility with MacOS
+    for GROUP_NAME in $(id -G --name); do
+        exe docker exec -it -u root ${CONTAINER_NAME} \
             addgroup \
-            --gid ${GROUP_ID} \
-            $(getent group ${GROUP_ID} | cut -d: -f1) || true;
+            --gid $(python -c "import grp; print(grp.getgrnam(\"${GROUP_NAME}\").gr_gid)") \
+            ${GROUP_NAME} || true;
     done
 
     # create same user (and uid) that the 'travis' user has inside the docker container
@@ -47,11 +48,11 @@ function sf_run_travis_docker_image() {
         $(id -u --name)
 
     # add the 'travis' user to the groups inside the docker container
-    for GROUP_ID in $(id -G) $(getent group sudo | cut -d: -f3); do
-        exe docker exec -it -u root docker-ci \
+    for GROUP_NAME in $(id -G --name) sudo; do
+        exe docker exec -it -u root ${CONTAINER_NAME} \
             adduser \
             $(id -u --name) \
-            $(getent group ${GROUP_ID} | cut -d: -f1);
+            ${GROUP_NAME} || true;
     done
 
     # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
