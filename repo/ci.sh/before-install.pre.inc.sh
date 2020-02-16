@@ -5,7 +5,7 @@ function sf_run_travis_docker_image() {
 
     echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
 
-    echo_do "Pulling docker-ci image..."
+    echo_do "Pulling ${SF_TRAVIS_DOCKER_IMAGE} image..."
     exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
