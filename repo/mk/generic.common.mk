@@ -26,6 +26,7 @@ SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.sf-update.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.snapshot.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.transcrypt.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.docker-ci.mk \
 
 SF_GENERIC_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_GENERIC_COMMON_INCLUDES_DEFAULT))
 
