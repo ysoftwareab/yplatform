@@ -8,6 +8,7 @@ else
     echo_do "brew: Installing core packages..."
     # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
     BREW_FORMULAE="$(cat <<-EOF
+${SUPPORT_FIRECLOUD_DIR}/priv/editorconfig-checker.rb
 ${SUPPORT_FIRECLOUD_DIR}/priv/retry.rb
 bash
 curl
@@ -27,6 +28,7 @@ EOF
     echo_do "brew: Testing core packages..."
     exe_and_grep_q "bash --version | head -1" "^GNU bash, version [^123]\\."
     exe_and_grep_q "curl --version | head -1" "^curl 7\\."
+    exe_and_grep_q "editorconfig-checker --version | head -1" "^2\\."
     exe_and_grep_q "git --version | head -1" "^git version 2\\."
     exe_and_grep_q "jq --version | head -1" "^jq\\-1\\."
     exe_and_grep_q "make --version | head -1" "^GNU Make 4\\."

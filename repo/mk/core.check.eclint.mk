@@ -1,6 +1,9 @@
-# Adds a 'check-eclint' internal target to run 'eclint'
+# Adds a 'check-eclint' internal target to run 'editorconfig-checker', or fallback to deprecated 'eclint',
 # over SF_ECLINT_FILES (defaults to all committed and staged files).
 # The 'check-eclint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+#
+# The editorconfig-checker executable is lazy-found inside $PATH.
+# The arguments to the editorconfig-checker executable can be changed via ECCHECKER_ARGS.
 #
 # The eclint executable is lazy-found inside node_modules/.bin and $PATH.
 # The arguments to the eclint executable can be changed via ECLINT_ARGS.
@@ -17,8 +20,11 @@
 
 SF_IS_TRANSCRYPTED ?= false
 
+ECCHECKER = $(call which,ECCHECKER,editorconfig-checker)
 ECLINT = $(call npm-which,ECLINT,eclint)
-$(foreach VAR,ECLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,ECCHECKER ECLINT,$(call make-lazy,$(VAR)))
+
+ECCHECKER_ARGS += \
 
 ECLINT_ARGS += \
 
@@ -41,8 +47,12 @@ SF_CHECK_TARGETS += \
 .PHONY: check-eclint
 check-eclint:
 	[[ "$(words $(SF_ECLINT_FILES))" = "0" ]] || { \
-		$(ECLINT) check $(ECLINT_ARGS) $(SF_ECLINT_FILES) || { \
-			$(ECLINT) fix $(ECLINT_ARGS) $(SF_ECLINT_FILES) 2>/dev/null >&2; \
-			exit 1; \
-		}; \
+		if [[ "$(ECCHECKER)" = "ECCHECKER_NOT_FOUND" ]]; then \
+			$(ECLINT) check $(ECLINT_ARGS) $(SF_ECLINT_FILES) || { \
+				$(ECLINT) fix $(ECLINT_ARGS) $(SF_ECLINT_FILES) 2>/dev/null >&2; \
+				exit 1; \
+			}; \
+		else \
+			$(ECCHECKER) $(ECCHECKER_ARGS) $(SF_ECLINT_FILES); \
+		fi; \
 	}
