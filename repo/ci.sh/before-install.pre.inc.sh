@@ -13,6 +13,7 @@ function sf_run_travis_docker_image() {
     exe docker run -d -it --rm \
         --name docker-ci \
         --env CI=true \
+        --env USER=$(whoami) \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
         --env-file <(printenv | grep -e "^TRAVIS") \
         --volume ${HOME}:${HOME} \
