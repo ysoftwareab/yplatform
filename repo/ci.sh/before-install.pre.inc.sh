@@ -17,7 +17,7 @@ function sf_run_travis_docker_image() {
         --hostname ${CONTAINER_NAME} \
         --env CI=true \
         --env USER=$(whoami) \
-        --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
+        --env-file <([[ "${TRAVIS:-}" != "true" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
         --env-file <(printenv | grep -e "^TRAVIS") \
         --volume ${MOUNT_DIR}:${MOUNT_DIR} \
         --privileged \
