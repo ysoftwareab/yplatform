@@ -14,6 +14,7 @@ function sf_run_travis_docker_image() {
     echo_do "Running the ${CONTAINER_NAME} container, while passing relevant env vars and mounting ${MOUNT_DIR} folder..."
     exe docker run -d -it --rm \
         --name ${CONTAINER_NAME} \
+        --hostname ${CONTAINER_NAME} \
         --env CI=true \
         --env USER=$(whoami) \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
