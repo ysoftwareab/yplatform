@@ -11,7 +11,7 @@ function sf_run_travis_docker_image() {
     exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
     echo_done
 
-    echo_do "Running the ${CONTAINER_NAME} container, while passing relevant env vars and mounting ${MOUNT_DIR} folder..."
+    echo_do "Running the ${CONTAINER_NAME} container, proxying relevant env vars and mounting ${MOUNT_DIR} folder..."
     exe docker run -d -it --rm \
         --name ${CONTAINER_NAME} \
         --hostname ${CONTAINER_NAME} \
