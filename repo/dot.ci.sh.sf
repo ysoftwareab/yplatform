@@ -3,6 +3,13 @@
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
+set -a
+[[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
+if git config --local transcrypt.version >/dev/null; then
+    [[ ! -f ${GIT_ROOT}/CONST.inc.secret ]] || source ${GIT_ROOT}/CONST.inc.secret
+fi
+set +a
+
 source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/debug.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-install.pre.inc.sh

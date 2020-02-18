@@ -1,13 +1,5 @@
 #!/usr/bin/env bash
 
-set -a
-[[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
-if git config --local transcrypt.version >/dev/null; then
-    [[ ! -f ${GIT_ROOT}/CONST.inc.secret ]] || source ${GIT_ROOT}/CONST.inc.secret
-fi
-
-set +a
-
 export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-${GLOBAL_AWS_REGION}}
 export AWS_REGION=${AWS_REGION:-${AWS_DEFAULT_REGION}}
 
