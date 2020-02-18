@@ -9,7 +9,7 @@ and we sensible steer away from non-essential built-in features like installing 
 or installing system packages in the CI platform configurations.
 
 Due to historical reasons, Travis CI being the first CI/CD platform we integrated with,
-but also because their pipeline makes sense, we follow their job lifecycle and their "stage" names,
+but also because their pipeline makes sense, we follow their job lifecycle and their "phase" names,
 currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
 
 * `before_install`
@@ -30,10 +30,10 @@ currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
   * see [repo/ci.sh/before-cache.inc.sh](../repo/ci.sh/before-cache.inc.sh)
 * `after_success`
   * exit code doesn't affect build's success/failure
-  * called only if the `script` stage succeeds
+  * called only if the `script` phase succeeds
 * `after_failure`
   * exit code doesn't affect build's success/failure
-  * called only if the `script` stage fails
+  * called only if the `script` phase fails
 *
 * `before_deploy`
   * see [repo/ci.sh/before-deploy.inc.sh](../repo/ci.sh/before-deploy.inc.sh)
@@ -48,7 +48,7 @@ currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
   * exit code doesn't affect build's success/failure
   * called after `after_success` or `after_failure`, optionally `after_deploy`
 
-A couple of special "stages", not defined by Travis CI, exist as well:
+A couple of special "phases", not defined by Travis CI, exist as well:
 * `debug`
   * see [repo/ci.sh/debug.inc.sh](../repo/ci.sh/debug.inc.sh)
   * Travis CI has functionality to start an agent and then ssh into it
@@ -57,10 +57,10 @@ A couple of special "stages", not defined by Travis CI, exist as well:
   * see [repo/ci.sh/notifications.inc.sh](../repo/ci.sh/notifications.inc.sh)
   * Travis CI has built-in functionality for job notifications on success/failure.
     But other platforms, like Github Actions, do not have such functionality,
-    therefore one needs an extra final stage to send out notifications.
+    therefore one needs an extra final phase to send out notifications.
   * exit code doesn't affect build's success/failure
 
-For each stage in `.travis.yml`, we simply call `./.ci.sh <stage>`.
+For each phase in `.travis.yml`, we simply call `./.ci.sh <phase>`.
 Similarly, we can reproduce this pipeline in CircleCI, Github Actions, etc.
 
 See for yourself. Search `.ci.sh before_install` in
@@ -87,22 +87,22 @@ source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
 ```
 
 Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
-where we actually call `sf_ci_run <stage>`.
+where we actually call `sf_ci_run <phase>`.
 
 The `sf_ci_run` function will mainly check
 
-* if there's a `ci_run_<stage>` function defined, call it
-* otherwise, if there's a `sf_ci_run_<stage>`, call that one instead.
+* if there's a `ci_run_<phase>` function defined, call it
+* otherwise, if there's a `sf_ci_run_<phase>`, call that one instead.
 
-`ci_run_<stage>` functions are custom implementations for each stage,
-while `sf_ci_run_<stage>` are default implementations,
+`ci_run_<phase>` functions are custom implementations for each phase,
+while `sf_ci_run_<phase>` are default implementations,
 mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
 
 
 ## Patterns
 
 Since several repositories might follow similar patterns in their CI/CD executions,
-we have grouped these custom `ci_run_<stage>` functions in
+we have grouped these custom `ci_run_<phase>` functions in
 
 * [sh/app-env.inc.sh](../sh/app-env.inc.sh) is a pattern for web apps, with external deployments
 * [sh/app.inc.sh](../sh/app.inc.sh) is a pattern for desktop/mobile apps, with github releases
