@@ -115,7 +115,7 @@ See [this comment](https://github.com/isaacs/github/issues/1113) for more.
 
 Go to `Code` tab.
 
-Topics will make it easier to filter our repositories, both public and private ones.
+Topics will make it easier to filter our repositories, both public, internal and private ones.
 
 **Topics are also public, making them a good marketing trick. So unless the topic is generic, do prefix it with tobii- or tobii-pro- !!!**
 
