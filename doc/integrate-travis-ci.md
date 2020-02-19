@@ -21,8 +21,10 @@ It is recommended that on the repository's Travis CI settings page you
 * enable `Auto cancel branch builds`
 * enable `Auto cancel pull request builds`
 * add cronjob `master - daily - Always run`
-* (preferred, but not obligatory) replace default SSH key with `tobiiprotools`
-SSH key (can be found in **designated safe location**).
+* if this is an **internal/private** repository,
+  * replace the default SSH key of the Travis CI project with `svc-pro-github` user's SSH key (can be found in **the designated safe location**)
+  * on github.com, to the repository's `Settings` tab -> `Collaborators & Teams`,
+    and add the `zz-svc-pro-github` team with a level `Write` (`Read` is not enough if you want to enable artifacts or github releases)
 
 
 ## In the repo
@@ -41,7 +43,7 @@ and embed a status image for the `master` branch (or more) in `README.md`, in sh
   [2]: https://travis-ci.com/tobiipro/<repo>.svg?branch=master
 ```
 
-**NOTE** for private repositories, you'll want to go https://travis-ci.com/tobiipro/<repo>,
+**NOTE** for internal/private repositories, you'll want to go https://travis-ci.com/tobiipro/<repo>,
 click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
 
 Reference: https://docs.travis-ci.com/user/status-images/
@@ -57,8 +59,9 @@ If your job has artifacts, like logs that you'd like to access outside of the Tr
 then you need to
 
 * Add a `GH_TOKEN` secure environment variable in the Travis CI web UI.
+  Use the Github API token of the `svc-pro-github` user (can be found in **the designated safe location**).
   This Github API token should have enough permissions to push to the repository.
-* Give access to the repo to `tobiipro/zz-tobiiprotools` team with a level `Write`.
+* Give access to the repo to `tobiipro/zz-svc-pro-github` team with a level `Write`.
 * Create a `.artifacts` file
 
 The `.artifacts` file is a list of paths that would include artifacts e.g.
@@ -189,8 +192,8 @@ printenv | grep MY_SECRET_VAR_PREFIX_
 * Open terminal in the repository folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets).
 Assuming that you want notifications in #cloud-ci channel command will look like:
-  * in a case of public repo `support-firecloud/bin/travis-encrypt "tobii:<token>#cloud-ci"`
-  * in a case of private repo `travis encrypt --pro "tobii:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
+  * in a case of a public repository `support-firecloud/bin/travis-encrypt "tobii:<token>#cloud-ci"`
+  * in a case of an internal/private repository `travis encrypt --pro "tobii:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
 * Add secret in the `.travis.yml` and configure other options
 ```yaml
 notifications:
@@ -218,6 +221,6 @@ you can find the webhook URL like this:
 ## Releases
 
 If you are planning to release via Travis CI (primarily for high-level packages):
-* give access to the repo to `tobiiprotools` team with a level `Write`,
+* give access to the repo to `zz-svc-pro-github` team with a level `Write`,
 so it will be able to push releases
 * see [how to release](how-to-release.md#npm-packages-as-github-artifacts).
