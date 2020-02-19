@@ -31,7 +31,7 @@ and follow the instructions to supply the info.
 ## Creating a new repository on Github
 
 [When creating a new repository](https://github.com/organizations/tobiipro/repositories/new),
-it's recommended that you start with a **private** repository.
+it's recommended that you start with an **internal** if using Github Enterprise, or a **private** repository otherwise.
 
 Once you push your commits, you and your team members can then inspect and verify
 that everything looks ok, and only then make it public.
@@ -101,13 +101,13 @@ going to `Settings` tab -> `Branches` -> `Add rule`.
 * **optionally** select `Require pull request reviews before merging`
 * select `Require status checks to pass before merging`
   * select `Travis CI - Pull Request`
-    * if not available, set up Travis CI integration first
+    * if not available, [set up Travis CI integration first](./integrate-travis-ci.md)
 * click `Create`
 
 **NOTE** Do not enable `Require branches to be up to date before merging`,
 because rather than rebasing your PR branch on top of the destination branch,
 it will actually merge the destination (e.g. master) into your PR branch,
-creating a spaghetti commit history, which at times might even have negative consequences.
+creating a spaghetti commit history, which might even have really negative consequences.
 See [this comment](https://github.com/isaacs/github/issues/1113) for more.
 
 
