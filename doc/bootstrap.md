@@ -32,6 +32,7 @@ We access repositories via SSH (not HTTPS), so you need to
 * [set up an SSH key](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent), if you don't have one already
 * [and add it to your Github account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account)
 
+You also need to click "Enable SSO" at https://github.com/settings/keys for your SSH key.
 
 ## `git`
 
