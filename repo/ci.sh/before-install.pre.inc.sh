@@ -74,6 +74,31 @@ function sf_run_travis_docker_image() {
 }
 
 
+function sf_get_travis_docker_image() {
+    if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
+        local RELEASE_ID=$(source /etc/os-release && echo ${ID})
+        local RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
+        SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
+    fi
+    # if given a tobiipro/sf- image, but without a tag,
+    # set the tag to the version of SF
+    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
+        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+    fi
+    # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
+    # set the tag to the version of SF
+    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
+        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+    fi
+
+    echo "${SF_TRAVIS_DOCKER_IMAGE}"
+}
+
+
 function sf_run_travis_docker() {
     (
         source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
@@ -82,27 +107,7 @@ function sf_run_travis_docker() {
         apt_install pv
     )
 
-    if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
-        RELEASE_ID=$(source /etc/os-release && echo ${ID})
-        RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
-        SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
-    fi
-    # if given a tobiipro/sf- image, but without a tag,
-    # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-        DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
-    fi
-    # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
-    # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-        DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
-    fi
-
-    sf_run_travis_docker_image ${SF_TRAVIS_DOCKER_IMAGE}
+    sf_run_travis_docker_image "$(sf_get_travis_docker_image)"
 }
 
 

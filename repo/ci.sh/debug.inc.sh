@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[[ "$1" != "debug" ]] || {
+[[ "${1:-}" != "debug" ]] || {
     echo
     echo "  You can run specific stages like"
     echo "  ./.ci.sh before_install"

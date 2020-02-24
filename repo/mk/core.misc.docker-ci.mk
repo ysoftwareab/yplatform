@@ -2,18 +2,11 @@
 #
 # The docker image that is used by the docker-ci container can be adjusted by
 # setting SF_TRAVIS_DOCKER_IMAGE to another image available on the Docker Hub Registry.
-#
-# NOTE SF_TRAVIS_DOCKER_IMAGE should be in sync with SF_TRAVIS_DOCKER_IMAGE in .ci.sh
-# or any other CI configuration that sets the docker image.
-#
-# TODO ideally the duplication in Makefile and .ci.sh of SF_TRAVIS_DOCKER_IMAGE
-# should not exist, but switching to a CI with native docker integration,
-# is going to prove even harder to deduplicate. Rather than focus on deduplication,
-# an alternative is to have a check that the image is the same in all places.
+# By default, SF_TRAVIS_DOCKER_IMAGE is the same as for the .ci.sh script.
 #
 # ------------------------------------------------------------------------------
 
-SF_TRAVIS_DOCKER_IMAGE ?= tobiipro/sf-ubuntu-xenial-minimal
+SF_TRAVIS_DOCKER_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && sf_get_travis_docker_image)
 
 # ------------------------------------------------------------------------------
 
