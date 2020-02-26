@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-[[ "$1" != "debug" ]] || {
+[[ "${1:-}" != "debug" ]] || {
     echo
-    echo "  Creating a debugging subshell..."
+    echo "  You can run specific stages like"
+    echo "  ./.ci.sh before_install"
+    echo "  or you can run them all (before_install, install, before_script, script)"
+    echo "  ./.ci.sh all"
     echo
-    PS1="${debian_chroot:+($debian_chroot)}\u:\w\$ " ${SHELL}
+    # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
+    PS1="\w\$ " bash
     exit 0
 }
 

@@ -31,32 +31,37 @@ function sf_run_travis_docker_image() {
         touch /support-firecloud.docker-ci
 
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
-    # NOTE using python instead of getent for compatibility with MacOS
-    for GROUP_NAME in $(id -G --name); do
+    # NOTE groups can have whitespace, thus cannot use a regular for loop,
+    # and instead using a while loop with \0 delimiters
+    while IFS= read -rd '' GROUP_NAME; do
+        # NOTE using python instead of getent for compatibility with MacOS
         exe docker exec -it -u root ${CONTAINER_NAME} \
             addgroup \
             --gid $(python -c "import grp; print(grp.getgrnam(\"${GROUP_NAME}\").gr_gid)") \
-            ${GROUP_NAME} || true;
-    done
+            "${GROUP_NAME// /_}" || true;
+    done < <(id -G --name --zero)
 
     # create same user (and uid) that the 'travis' user has inside the docker container
+    local EFFECTIVE_GROUP_NAME="$(id -g --name)"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
         --uid $(id -u) \
-        --ingroup $(id -g --name) \
+        --ingroup "${EFFECTIVE_GROUP_NAME// /_}" \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
         --gecos "" \
-        $(id -u --name)
+        "$(id -u --name)"
 
     # add the 'travis' user to the groups inside the docker container
-    for GROUP_NAME in $(id -G --name) sudo; do
+    # NOTE groups can have whitespace, thus cannot use a regular for loop,
+    # and instead using a while loop with \0 delimiters
+    while IFS= read -rd '' GROUP_NAME; do
         exe docker exec -it -u root ${CONTAINER_NAME} \
             adduser \
-            $(id -u --name) \
-            ${GROUP_NAME} || true;
-    done
+            "$(id -u --name)" \
+            "${GROUP_NAME// /_}" || true;
+    done < <(id -G --name --zero; echo "sudo\0")
 
     # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
     # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
@@ -69,6 +74,31 @@ function sf_run_travis_docker_image() {
 }
 
 
+function sf_get_travis_docker_image() {
+    if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
+        local RELEASE_ID=$(source /etc/os-release && echo ${ID})
+        local RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
+        SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
+    fi
+    # if given a tobiipro/sf- image, but without a tag,
+    # set the tag to the version of SF
+    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
+        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+    fi
+    # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
+    # set the tag to the version of SF
+    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
+        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+    fi
+
+    echo "${SF_TRAVIS_DOCKER_IMAGE}"
+}
+
+
 function sf_run_travis_docker() {
     (
         source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
@@ -77,27 +107,7 @@ function sf_run_travis_docker() {
         apt_install pv
     )
 
-    if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
-        RELEASE_ID=$(source /etc/os-release && echo ${ID})
-        RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
-        SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal
-    fi
-    # if given a tobiipro/sf- image, but without a tag,
-    # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-        DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
-    fi
-    # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
-    # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
-        DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
-    fi
-
-    sf_run_travis_docker_image ${SF_TRAVIS_DOCKER_IMAGE}
+    sf_run_travis_docker_image "$(sf_get_travis_docker_image)"
 }
 
 
