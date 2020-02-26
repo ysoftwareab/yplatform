@@ -87,7 +87,7 @@ deps-npm-ci:
 
 .PHONY: deps-npm-install
 deps-npm-install:
-	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json && echo false || echo true))
+	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json >/dev/null && echo false || echo true))
 	[[ ! -f "package-lock.json" ]] || { \
 		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
 			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
