@@ -21,6 +21,12 @@ It is therefore **important that you clone these repositories recursively**, oth
   * [working with `make`](doc/working-with-make.md)
   * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
   * [how to release](doc/how-to-release.md)
+  * style
+    * `Use common sense and BE CONSISTENT. (Google)`
+    * [shell](doc/style-sh.md)
+    * [Makefile](doc/style-mk.md)
+    * [JavaScript/TypeScript](https://github.com/tobiipro/eslint-config-firecloud)
+    * [SASS](https://github.com/tobiipro/sass-lint-config-firecloud)
 * set up a new `git` repository
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
   * [how to license](doc/how-to-license.md)
