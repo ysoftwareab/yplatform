@@ -104,7 +104,7 @@ $(STACK_TPL_FILES): %.cfn.json: %-setup ## Generate stack template.
 			exit 1; \
 		} \
 	} else { \
-		$(ECHO_WARN) "$(S3_INFRA_BUCKET) does not exist."; \
+		$(ECHO_WARN) "Cannot access $(TMP_S3_URL)."; \
 		$(ECHO_WARN) "Validating the template will not take place."; \
 		$(ECHO_WARN) "You will also need to manually create this stack via AWS console."; \
 	} fi
