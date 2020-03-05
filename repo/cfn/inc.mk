@@ -108,8 +108,8 @@ $(STACK_TPL_FILES): %.cfn.json: %-setup ## Generate stack template.
 		$(ECHO_WARN) "Validating the template will not take place."; \
 		$(ECHO_WARN) "You will also need to manually create this stack via AWS console."; \
 	} fi
-	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
-		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
+#	[[ $(DOT) = "GRAPHVIZ_DOT_NOT_FOUND" ]] || \
+#		$(CAT) $@ | $(AWS_CFN2DOT) | $(DOT) -Tpng -o$@.png
 	$(call $(STACK_STEM)-post)
 	$(ECHO_DONE)
 
