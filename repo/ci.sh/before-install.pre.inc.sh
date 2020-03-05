@@ -33,20 +33,22 @@ function sf_run_travis_docker_image() {
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
     # and instead using a while loop with \0 delimiters
-    while IFS= read -rd '' GROUP_NAME; do
+    while IFS= read -u3 -rd '' GROUP_NAME; do
         # NOTE using python instead of getent for compatibility with MacOS
         exe docker exec -it -u root ${CONTAINER_NAME} \
             addgroup \
+            --force-badname \
             --gid $(python -c "import grp; print(grp.getgrnam(\"${GROUP_NAME}\").gr_gid)") \
-            "${GROUP_NAME// /_}" || true;
-    done < <(id -G --name --zero)
+            "${GROUP_NAME}" || true;
+    done 3< <(id -G --name --zero)
 
     # create same user (and uid) that the 'travis' user has inside the docker container
     local EFFECTIVE_GROUP_NAME="$(id -g --name)"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
+        --force-badname \
         --uid $(id -u) \
-        --ingroup "${EFFECTIVE_GROUP_NAME// /_}" \
+        --ingroup "${EFFECTIVE_GROUP_NAME}" \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
@@ -56,12 +58,19 @@ function sf_run_travis_docker_image() {
     # add the 'travis' user to the groups inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
     # and instead using a while loop with \0 delimiters
-    while IFS= read -rd '' GROUP_NAME; do
+    while IFS= read -u3 -rd '' GROUP_NAME; do
         exe docker exec -it -u root ${CONTAINER_NAME} \
             adduser \
+            --force-badname \
             "$(id -u --name)" \
-            "${GROUP_NAME// /_}" || true;
-    done < <(id -G --name --zero; echo "sudo\0")
+            "${GROUP_NAME}" || true;
+    done 3< <(id -G --name --zero)
+
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        adduser \
+        --force-badname \
+        "$(id -u --name)" \
+        sudo || true;
 
     # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
     # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
