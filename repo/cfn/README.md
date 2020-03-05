@@ -49,15 +49,15 @@ This has a few striking benefits, like:
 .
 +-- cfn
     +-- env-web
+        +-- index.js        ~  ../../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
         +-- s3.web.cfn.js
         +-- kms.web.cfn.js
     +-- infra
+        +-- index.js        ~  ../../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
         +-- iam.cfn.js
     +-- .gitignore          ~  ../support-firecloud/repo/cfn/tpl.gitignore
     +-- Makefile            ~  ../support-firecloud/repo/cfn/tpl.Makefile
-    +-- env-web.cfn.js      ~  ../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
     +-- env-web.inc.mk      ~  ../support-firecloud/repo/cfn/tpl.stack-stem.inc.mk
-    +-- infra.cfn.js        ~  ../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
     +-- infra.inc.mk        ~  ../support-firecloud/repo/cfn/tpl.stack-stem.inc.mk
 ```
 
@@ -65,8 +65,11 @@ Above is an example of a folder structure in a repo with a `cfn` folder,
 holding 2 stack templates: `env-web` and `infra`.
 
 Each subfolder has `*.cfn.js` files that export partial CloudFormation templates.
-By default, thanks to the `env-web.cfn.js` for instance,
+By default, thanks to the `index.js`,
 they will all get deep merged to produce the final template.
+
+It is important to highlight that you don't need to use JavaScript to generate your templates.
+You can use Python instead for example, just by setting `CFN_INDEX_FILE := main.py` in `cfn/Makefile`.
 
 The difference is that the `infra` stack is universal, 1 per AWS account,
 while the `env-web` stack is per environment, n per AWS account.
