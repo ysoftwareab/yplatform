@@ -155,4 +155,12 @@ ARTIFACT=README.md
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
+ARTIFACT=package.json
+[[ -e ${ARTIFACT} ]] || {
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/package.json ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Created ${ARTIFACT}."
+    echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
+}
+
 echo -e "${ARTIFACTS}" | sort -u
