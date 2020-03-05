@@ -54,6 +54,11 @@ It is therefore **important that you clone these repositories recursively**, oth
 * `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
 
 
+## Writing
+
+https://developers.google.com/tech-writing/overview
+
+
 ## License
 
 [Apache-2.0](LICENSE)
