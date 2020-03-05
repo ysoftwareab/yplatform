@@ -80,6 +80,7 @@ ARTIFACT=${CFN_DIR}/Makefile
 
 ARTIFACT=${CFN_DIR}/${STACK_STEM}/index.js
 [[ -e ${ARTIFACT} ]] || {
+    mkdir -p $(dirname ${ARTIFACT})
     cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem/index.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
