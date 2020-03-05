@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+AWS_CLI_CACHE_FILE_TMP=$(mktemp)
+function on_exit() {
+    rm -rf ${AWS_CLI_CACHE_FILE_TMP}
+}
+trap on_exit EXIT
+
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
@@ -8,27 +14,32 @@ AWS_PROFILE=${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-}}
 [[ -n ${AWS_PROFILE} ]] || exit 0
 
 AWS_PROFILE_ROLE_ARN=$(aws configure get role_arn || true)
-[[ -n ${AWS_PROFILE_ROLE_ARN} ]] || exit 0
-STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}
-STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
 
-# AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
-# gross assumption, but aws-cli/boto changed to hash-named filenames
-AWS_CLI_CACHE_FILE=
-for f in $(ls -t ~/.aws/cli/cache/); do
-    cat ~/.aws/cli/cache/$f | \
-        jq -r ".AssumedRoleUser.Arn" | \
-        grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
-        AWS_CLI_CACHE_FILE=$f && \
-        break || \
-            true
-done
-[[ -n ${AWS_CLI_CACHE_FILE} ]] || exit 0
+if [[ -z ${AWS_PROFILE_ROLE_ARN} ]]; then
+    # profile is a user profile
+    aws sts get-session-token > ${AWS_CLI_CACHE_FILE_TMP}
+    AWS_CLI_CACHE_FILE=${AWS_CLI_CACHE_FILE_TMP}
+else
+    # profile is a role profile
+    STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}
+    STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
 
-AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ~/.aws/cli/cache/${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.Expiration")
+    # AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
+    # gross assumption, but aws-cli/boto changed to hash-named filenames
+    AWS_CLI_CACHE_FILE=
+    for f in $(ls -t ~/.aws/cli/cache/); do
+        cat ~/.aws/cli/cache/$f | \
+            jq -r ".AssumedRoleUser.Arn" | \
+            grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
+            AWS_CLI_CACHE_FILE=~/.aws/cli/cache/$f && \
+            break || \
+                true
+    done
+    [[ -n ${AWS_CLI_CACHE_FILE} ]] || exit 0
+fi
+
+AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.Expiration")
 [[ $(date -d "${AWS_CLI_CACHE_FILE_EXPIRATION}" +%s) -ge $(date +%s) ]] || exit 0
-
-AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${AWS_CLI_CACHE_FILE}
 
 [[ -n ${AWS_SECRET_ACCESS_KEY:-} ]] || \
    AWS_SECRET_ACCESS_KEY=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.SecretAccessKey")
