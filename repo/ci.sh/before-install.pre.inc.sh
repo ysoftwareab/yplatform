@@ -15,6 +15,7 @@ function sf_run_docker_ci_image() {
     exe docker run -d -it --rm \
         --name ${CONTAINER_NAME} \
         --hostname ${CONTAINER_NAME} \
+        --add-host ${CONTAINER_NAME}:127.0.0.1 \
         --env CI=true \
         --env USER=$(whoami) \
         --env-file <([[ "${TRAVIS:-}" != "true" ]] || ${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
