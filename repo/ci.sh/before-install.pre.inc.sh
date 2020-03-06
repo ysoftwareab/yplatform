@@ -96,8 +96,12 @@ function sf_run_travis_docker_image() {
 
 function sf_get_travis_docker_image() {
     if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
-        local RELEASE_ID=$(source /etc/os-release && echo ${ID})
-        local RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
+        local RELEASE_ID
+        local RELEASE_VERSION_CODENAME
+        [[ ! -f /etc/os-release ]] || {
+            RELEASE_ID=$(source /etc/os-release && echo ${ID})
+            RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
+        }
         SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
     fi
     # if given a tobiipro/sf- image, but without a tag,
