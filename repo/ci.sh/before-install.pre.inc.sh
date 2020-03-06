@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-function sf_run_travis_docker_image() {
+function sf_run_docker_ci_image() {
     local SF_DOCKER_CI_IMAGE=${1}
     local CONTAINER_NAME=${2:-sf-docker-ci}
     local MOUNT_DIR=${3:-${HOME}}
@@ -94,7 +94,7 @@ function sf_run_travis_docker_image() {
 }
 
 
-function sf_get_travis_docker_image() {
+function sf_get_docker_ci_image() {
     if [[ -z "${SF_DOCKER_CI_IMAGE:-}" ]]; then
         local RELEASE_ID
         local RELEASE_VERSION_CODENAME
@@ -123,7 +123,7 @@ function sf_get_travis_docker_image() {
 }
 
 
-function sf_run_travis_docker() {
+function sf_run_docker_ci() {
     (
         source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
         apt_update
@@ -131,7 +131,7 @@ function sf_run_travis_docker() {
         apt_install pv
     )
 
-    sf_run_travis_docker_image "$(sf_get_travis_docker_image)"
+    sf_run_docker_ci_image "$(sf_get_docker_ci_image)"
 }
 
 

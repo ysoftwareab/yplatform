@@ -57,7 +57,7 @@ function sf_ci_run() {
         CMD="unbuffer ${CMD} | pv -q -L 3k"
 
         if [[ "${1}" = "before_install" ]]; then
-            sf_run_travis_docker
+            sf_run_docker_ci
         fi
     fi
 
