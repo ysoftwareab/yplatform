@@ -7,6 +7,7 @@
     echo "  or you can run them all (before_install, install, before_script, script)"
     echo "  ./.ci.sh all"
     echo
+    export CI_DEBUG_MODE=true
     # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
     PS1="\w\$ " bash
     exit 0
