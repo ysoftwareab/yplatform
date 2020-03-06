@@ -123,7 +123,7 @@ function sf_get_docker_ci_image() {
 }
 
 
-function sf_run_docker_ci() {
+function sf_run_docker_ci_in_travis() {
     (
         source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
         apt_update
