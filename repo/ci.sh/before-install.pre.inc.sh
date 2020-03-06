@@ -72,21 +72,27 @@ function sf_run_docker_ci_image() {
         "$(id -u --name)" \
         sudo || true;
 
-    # see https://github.com/docker/for-linux/issues/388
-    # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
-    # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully,
-    # but running chown is too slow. We have an optimization for CI envs, but we need it locally.
-    [[ "${CI:-}" = "true" ]] || {
-        echo_do "Taking ownership over ${HOME}..."
-        exe docker exec -it -u root ${CONTAINER_NAME} \
-            chown $(id -u):$(id -g) ${HOME}
-        echo_done
-
+    # TODO see https://github.com/docker/for-linux/issues/388
+    # the user needs to own /home/linuxbrew in order to run linuxbrew successfully, but recursive chown is slow.
+    local HOME_LINUXBREW_OWNER_GROUP=$(
+        docker exec -it -u root ${CONTAINER_NAME} stat -c "%u:%g" /home/linuxbrew
+    )
+    if [[ "${HOME_LINUXBREW_OWNER_GROUP}" = "$(id -u):$(id -g)" ]]; then
+        echo_info "/home/linuxbrew seems already owned by current user."
+        echo_skip "Taking ownership over /home/linuxbrew..."
+    else
         echo_do "Taking ownership over /home/linuxbrew..."
         exe docker exec -it -u root ${CONTAINER_NAME} \
             chown -R $(id -u):$(id -g) /home/linuxbrew
         echo_done
-    }
+    fi
+
+    # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
+    # to allow for special folders/files e.g. ~/.cache to be accessible for writing
+    echo_do "Taking ownership over ${HOME}..."
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        chown $(id -u):$(id -g) ${HOME}
+    echo_done
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
