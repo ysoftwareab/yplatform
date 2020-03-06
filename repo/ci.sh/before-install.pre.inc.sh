@@ -77,6 +77,11 @@ function sf_run_travis_docker_image() {
     # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully,
     # but running chown is too slow. We have an optimization for CI envs, but we need it locally.
     [[ "${CI:-}" = "true" ]] || {
+        echo_do "Taking ownership over ${HOME}..."
+        exe docker exec -it -u root ${CONTAINER_NAME} \
+            chown $(id -u):$(id -g) ${HOME}
+        echo_done
+
         echo_do "Taking ownership over /home/linuxbrew..."
         exe docker exec -it -u root ${CONTAINER_NAME} \
             chown -R $(id -u):$(id -g) /home/linuxbrew
