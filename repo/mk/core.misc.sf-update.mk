@@ -60,7 +60,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update support-fireclo
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
 		diff --stat $(SF_UPDATE_COMMIT_RANGE)
 	$(ECHO)
-	$(ECHO) "[Q   ] Updating $(SF_MODULE_PATH) to v$(SF_UPDATE_VSN). OK?"
+	$(ECHO) "[Q   ] Updating $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN). OK?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -p ""
