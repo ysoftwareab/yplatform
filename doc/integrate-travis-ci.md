@@ -87,9 +87,9 @@ and having the same user and home folder contents as the host.
 because they will only affect the host machine, and not the Docker container where the pipeline runs.
 
 The Docker image is by default `tobiipro/sf-<os>-<os_version>-common`,
-but it can be specified via an environment variable `SF_TRAVIS_DOCKER_IMAGE` in the Travis UI.
+but it can be specified via an environment variable `SF_DOCKER_CI_IMAGE` in the Travis UI.
 
-Alternatively, you can disable running the pipeline in a Docker container, via `SF_TRAVIS_DOCKER_IMAGE=false`.
+Alternatively, you can disable running the pipeline in a Docker container, via `SF_DOCKER_CI_IMAGE=false`.
 
 
 ## Debugging

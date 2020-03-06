@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 function sf_run_travis_docker_image() {
-    local SF_TRAVIS_DOCKER_IMAGE=${1}
+    local SF_DOCKER_CI_IMAGE=${1}
     local CONTAINER_NAME=${2:-sf-docker-ci}
     local MOUNT_DIR=${3:-${HOME}}
 
-    echo_do "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
+    echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
 
-    echo_do "Pulling ${SF_TRAVIS_DOCKER_IMAGE} image..."
-    exe docker pull ${SF_TRAVIS_DOCKER_IMAGE}
+    echo_do "Pulling ${SF_DOCKER_CI_IMAGE} image..."
+    exe docker pull ${SF_DOCKER_CI_IMAGE}
     echo_done
 
     echo_do "Running the ${CONTAINER_NAME} container, proxying relevant env vars and mounting ${MOUNT_DIR} folder..."
@@ -23,7 +23,7 @@ function sf_run_travis_docker_image() {
         --privileged \
         --network=host \
         --ipc=host \
-        ${SF_TRAVIS_DOCKER_IMAGE}
+        ${SF_DOCKER_CI_IMAGE}
     echo_done
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
@@ -90,36 +90,36 @@ function sf_run_travis_docker_image() {
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
-    echo_done # "Spinning up Docker for ${SF_TRAVIS_DOCKER_IMAGE}..."
+    echo_done # "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
 }
 
 
 function sf_get_travis_docker_image() {
-    if [[ -z "${SF_TRAVIS_DOCKER_IMAGE:-}" ]]; then
+    if [[ -z "${SF_DOCKER_CI_IMAGE:-}" ]]; then
         local RELEASE_ID
         local RELEASE_VERSION_CODENAME
         [[ ! -f /etc/os-release ]] || {
             RELEASE_ID=$(source /etc/os-release && echo ${ID})
             RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
         }
-        SF_TRAVIS_DOCKER_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
+        SF_DOCKER_CI_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
     fi
     # if given a tobiipro/sf- image, but without a tag,
     # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^tobiipro/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^tobiipro/sf- ]] && \
+        [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+        SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
     # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
     # set the tag to the version of SF
-    if [[ ${SF_TRAVIS_DOCKER_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
-        [[ ! "${SF_TRAVIS_DOCKER_IMAGE}" =~ /:/ ]]; then
+    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
+        [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_TRAVIS_DOCKER_IMAGE="${SF_TRAVIS_DOCKER_IMAGE}:${DOCKER_IMAGE_TAG}"
+        SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
 
-    echo "${SF_TRAVIS_DOCKER_IMAGE}"
+    echo "${SF_DOCKER_CI_IMAGE}"
 }
 
 
