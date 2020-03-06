@@ -15,7 +15,7 @@ docker-ci:
 	$(eval CONTAINER_NAME := $(shell echo "sf-docker-ci-$$(basename $(PWD))"))
 	source $(SUPPORT_FIRECLOUD_DIR)/sh/common.inc.sh && \
 		source $(SUPPORT_FIRECLOUD_DIR)/repo/ci.sh/before-install.pre.inc.sh && \
-		sf_run_docker_ci_image $(SF_DOCKER_CI_IMAGE) $(CONTAINER_NAME) $(PWD)
+		sf_run_docker_ci_image $(SF_DOCKER_CI_IMAGE) $(PWD) $(CONTAINER_NAME)
 	$(ECHO) "[WARN] Make sure to export relevant environment variables!"
 	$(ECHO) "       e.g. secrets in the web UI of Travis CI."
 	docker exec -it -w $(PWD) -u $$(id -u):$$(id -g) $(CONTAINER_NAME) ./.ci.sh debug || true

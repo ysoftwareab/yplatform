@@ -2,8 +2,8 @@
 
 function sf_run_docker_ci_image() {
     local SF_DOCKER_CI_IMAGE=${1}
-    local CONTAINER_NAME=${2:-sf-docker-ci}
-    local MOUNT_DIR=${3:-${HOME}}
+    local MOUNT_DIR=${2:-${PWD}}
+    local CONTAINER_NAME=${3:-sf-docker-ci}
 
     echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
 
@@ -131,7 +131,7 @@ function sf_run_docker_ci_in_travis() {
         apt_install pv
     )
 
-    sf_run_docker_ci_image "$(sf_get_docker_ci_image)"
+    sf_run_docker_ci_image "$(sf_get_docker_ci_image)" "${HOME}" sf-docker-ci-travis
 }
 
 
