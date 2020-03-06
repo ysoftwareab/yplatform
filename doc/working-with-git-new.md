@@ -27,6 +27,15 @@ support-firecloud/bin/repo-node-bootstrap
 
 and follow the instructions to supply the info.
 
+In order to wrap up and complete the initial commit, run
+
+```shell
+# make sure you use the latest release, instead of the latest commit on master
+make support-firecloud/update
+
+git add .
+git commit -m "initial commit"
+```
 
 ## Creating a new repository on Github
 
