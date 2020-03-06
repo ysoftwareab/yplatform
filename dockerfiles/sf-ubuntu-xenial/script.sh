@@ -16,7 +16,8 @@ function apt_install() {
 
 export CI=true
 export DEBIAN_FRONTEND=noninteractive
-# export IMAGE_TAG= # --build-arg
+# export SF_DOCKER_CI_IMAGE_NAME= # --build-arg
+# export SF_DOCKER_CI_IMAGE_TAG= # --build-arg
 # export SF_CI_BREW_INSTALL= # --build-arg
 
 # DEPS
@@ -32,8 +33,8 @@ echo "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
 chmod 600 /root/.ssh/config
 
 # GIT
-git config --global user.email "${IMAGE_NAME}.${IMAGE_TAG}@docker"
-git config --global user.name "${IMAGE_NAME} ${IMAGE_TAG}"
+git config --global user.email "${SF_DOCKER_CI_IMAGE_NAME}.${SF_DOCKER_CI_IMAGE_TAG}@docker"
+git config --global user.name "${SF_DOCKER_CI_IMAGE_NAME} ${SF_DOCKER_CI_IMAGE_TAG}"
 
 # GID UID
 GID_INDEX=999
