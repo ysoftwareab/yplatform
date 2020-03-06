@@ -72,10 +72,14 @@ function sf_run_travis_docker_image() {
         "$(id -u --name)" \
         sudo || true;
 
+    # see https://github.com/docker/for-linux/issues/388
     # TODO see dockerfiles/sf-ubuntu-xenial/script.sh
-    # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully
-    # exe docker exec -it -u root ${CONTAINER_NAME} \
-    #     chown -R $(id -u):$(id -g) /home/linuxbrew
+    # the 'travis' user needs to own /home/linuxbrew in order to run linuxbrew successfully,
+    # but running chown is too slow. We have an optimization for CI envs, but we need it locally.
+    [[ "${CI:-}" = "true" ]] || {
+        exe docker exec -it -u root ${CONTAINER_NAME} \
+            chown -R $(id -u):$(id -g) /home/linuxbrew
+    }
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
