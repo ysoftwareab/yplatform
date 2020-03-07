@@ -25,8 +25,8 @@ It is therefore **important that you clone these repositories recursively**, oth
     * `Use common sense and BE CONSISTENT. (Google)`
     * [shell](doc/style-sh.md)
     * [Makefile](doc/style-mk.md)
-    * [JavaScript/TypeScript](https://github.com/tobiipro/eslint-config-firecloud)
-    * [SASS](https://github.com/tobiipro/sass-lint-config-firecloud)
+    * [JavaScript/TypeScript](https://github.com/rokmoln/eslint-config-firecloud)
+    * [SASS](https://github.com/rokmoln/sass-lint-config-firecloud)
 * set up a new `git` repository
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
   * [how to license](doc/how-to-license.md)
@@ -64,9 +64,9 @@ https://developers.google.com/tech-writing/overview
 [Apache-2.0](LICENSE)
 
 
-  [1]: https://travis-ci.com/tobiipro/support-firecloud
-  [2]: https://travis-ci.com/tobiipro/support-firecloud.svg?branch=master
+  [1]: https://travis-ci.com/rokmoln/support-firecloud
+  [2]: https://travis-ci.com/rokmoln/support-firecloud.svg?branch=master
   [3]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master
   [4]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master.svg?style=svg
-  [5]: https://github.com/tobiipro/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
-  [6]: https://github.com/tobiipro/support-firecloud/workflows/CI/badge.svg?branch=master
+  [5]: https://github.com/rokmoln/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
+  [6]: https://github.com/rokmoln/support-firecloud/workflows/CI/badge.svg?branch=master
