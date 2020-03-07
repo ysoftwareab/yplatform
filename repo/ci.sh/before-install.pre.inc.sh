@@ -78,11 +78,12 @@ function sf_run_docker_ci_image() {
     local HOME_LINUXBREW_OWNER_GROUP=$(
         docker exec -it -u root ${CONTAINER_NAME} stat -c "%u:%g" /home/linuxbrew
     )
-    if [[ "${HOME_LINUXBREW_OWNER_GROUP}" = "$(id -u):$(id -g)" ]]; then
+    local CURRENT_OWNER_GROUP="$(id -u):$(id -g)"
+    if [[ "${HOME_LINUXBREW_OWNER_GROUP}" = "${CURRENT_OWNER_GROUP}" ]]; then
         echo_info "/home/linuxbrew seems already owned by current user."
-        echo_skip "Taking ownership over /home/linuxbrew..."
+        echo_skip "Taking ownership of /home/linuxbrew from ${HOME_LINUXBREW_OWNER_GROUP} to ${CURRENT_OWNER_GROUP}..."
     else
-        echo_do "Taking ownership over /home/linuxbrew..."
+        echo_do "Taking ownership of /home/linuxbrew from ${HOME_LINUXBREW_OWNER_GROUP} to ${CURRENT_OWNER_GROUP}..."
         exe docker exec -it -u root ${CONTAINER_NAME} \
             chown -R $(id -u):$(id -g) /home/linuxbrew
         echo_done
