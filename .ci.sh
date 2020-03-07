@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 SF_DOCKER_CI_IMAGE=false
-DOCKER_ORG=${DOCKER_ORG:-tobiipro}
+DOCKER_ORG=${DOCKER_ORG:-rokmoln}
 
 function ci_run_before_deploy() {
     true
@@ -33,11 +33,12 @@ function ci_run_deploy_docker_image_hubdockercom() {
 }
 
 function ci_run_deploy_docker_image_dockerpkggithubcom() {
+    [[ -n "${GH_USERNAME:-}" ]] || return
     [[ -n "${GH_TOKEN:-}" ]] || return
 
     local GH_DOCKER_HUB=docker.pkg.github.com
 
-    echo "${GH_TOKEN}" | docker login -u tobiiprotools --password-stdin ${GH_DOCKER_HUB}
+    echo "${GH_TOKEN}" | docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
 
     local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."

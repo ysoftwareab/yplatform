@@ -42,9 +42,9 @@ function sf_private_submodules() {
         echo -e "machine github.com\n  login ${GH_TOKEN}" >> ~/.netrc
 
         # cover git submodules's canonical ssh url
-        git config --global url.https://github.com/tobiipro/.insteadOf git@github.com:tobiipro/
+        git config --global url.https://github.com/rokmoln/.insteadOf git@github.com:rokmoln/
         # cover npm package.json's canonical git+ssh url
-        git config --global url.https://github.com/tobiipro/.insteadOf ssh://git@github.com/tobiipro/
+        git config --global url.https://github.com/rokmoln/.insteadOf ssh://git@github.com/rokmoln/
         echo_done
     }
 }

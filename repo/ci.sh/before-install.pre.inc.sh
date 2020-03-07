@@ -109,18 +109,18 @@ function sf_get_docker_ci_image() {
             RELEASE_ID=$(source /etc/os-release && echo ${ID})
             RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME})
         }
-        SF_DOCKER_CI_IMAGE=tobiipro/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
+        SF_DOCKER_CI_IMAGE=rokmoln/sf-${RELEASE_ID:-ubuntu}-${RELEASE_VERSION_CODENAME:-xenial}-minimal
     fi
-    # if given a tobiipro/sf- image, but without a tag,
+    # if given a rokmoln/sf- image, but without a tag,
     # set the tag to the version of SF
-    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^tobiipro/sf- ]] && \
+    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
-    # if given a docker.pkg.github.com/tobiipro/support-firecloud/sf- image, but without a tag
+    # if given a docker.pkg.github.com/rokmoln/support-firecloud/sf- image, but without a tag
     # set the tag to the version of SF
-    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/tobiipro/support-firecloud/sf- ]] && \
+    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/rokmoln/support-firecloud/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
