@@ -66,7 +66,7 @@ https://developers.google.com/tech-writing/overview
 
   [1]: https://travis-ci.com/rokmoln/support-firecloud
   [2]: https://travis-ci.com/rokmoln/support-firecloud.svg?branch=master
-  [3]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master
-  [4]: https://circleci.com/gh/tobiipro/support-firecloud/tree/master.svg?style=svg
+  [3]: https://circleci.com/gh/rokmoln/support-firecloud/tree/master
+  [4]: https://circleci.com/gh/rokmoln/support-firecloud/tree/master.svg?style=svg
   [5]: https://github.com/rokmoln/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
   [6]: https://github.com/rokmoln/support-firecloud/workflows/CI/badge.svg?branch=master
