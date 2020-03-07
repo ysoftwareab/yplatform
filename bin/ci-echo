@@ -28,10 +28,10 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-ANY_PYTHON=$(which python python2 python3 2>/dev/null | grep -v -e "not found" | head -1 || echo true)
+ANY_PYTHON=$(which python python2 python3 2>/dev/null | grep -v -e "not found" | head -1 || echo "ANY_PYTHON_NOT_FOUND")
 
 function fallback_echo() {
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
+    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
     local GROUP="${@:2}"
     local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
@@ -93,7 +93,7 @@ function basic_travis_echo() {
 }
 
 function travis_echo() {
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
+    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
     local GROUP="${@:2}"
     local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
@@ -149,7 +149,7 @@ function basic_teamcity_echo() {
 function teamcity_echo() {
     local STATUS=NORMAL
     local STEP="$1"
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))")
+    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
     local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
     local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
 
@@ -191,14 +191,10 @@ function teamcity_echo() {
     echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
 }
 
-if [[ -n "${ANY_PYTHON}" ]]; then
-    if [[ "${TRAVIS:-}" = "true" ]]; then
-        travis_echo "$1" "${@:2}"
-    elif [[ -n "${TEAMCITY_VERSION:-}" ]]; then
-        teamcity_echo "$1" "${@:2}"
-    else
-        fallback_echo "$1" "${@:2}"
-    fi
+if [[ "${TRAVIS:-}" = "true" ]]; then
+    travis_echo "$1" "${@:2}"
+elif [[ -n "${TEAMCITY_VERSION:-}" ]]; then
+    teamcity_echo "$1" "${@:2}"
 else
     fallback_echo "$1" "${@:2}"
 fi
