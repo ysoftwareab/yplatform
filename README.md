@@ -1,8 +1,8 @@
 # support-firecloud
 
-* Travis CI: [![Travis CI Status][2]][1]
-* CircleCI [![CircleCI Status][4]][3]
-* Github Actions CI [![Github Actions CI Status][6]][5]
+* `Travis CI________` [![Travis CI Status][2]][1]
+* `CircleCI_________` [![CircleCI Status][4]][3]
+* `Github Actions CI` [![Github Actions CI Status][6]][5]
 
 Software and configuration that support TobiiPro's Cloud Services development.
 
