@@ -2,7 +2,8 @@
 # notifications:
 
 # 2. Env
-# env:
+env:
+  - SF_LOG_BOOSTRAP=true
 
 # 3. Git
 branches:
