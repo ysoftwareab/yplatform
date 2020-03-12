@@ -60,7 +60,8 @@ It is therefore **important that you clone these repositories recursively**, oth
 
 ## Writing
 
-https://developers.google.com/tech-writing/overview
+* https://developers.google.com/tech-writing/overview
+* https://github.com/google/styleguide/blob/gh-pages/docguide/philosophy.md
 
 
 ## License
