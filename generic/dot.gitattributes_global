@@ -55,6 +55,7 @@ Makefile* text
 *.odt binary diff=odf
 *.odp binary diff=odf
 *.pdf binary diff=pdf
+*.plist diff=plist filter=plist
 *.png binary diff=exif
 *.tar binary diff=tar
 *.tar.gz binary diff=tar-gz

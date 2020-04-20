@@ -30,6 +30,9 @@
     textconv            = odt2txt
 [diff "pdf"]
     textconv            = pdfinfo
+[diff "plist"]
+    textconv            = plutil -convert xml1 -o -
+    cachetextconv       = true
 [diff "tar"]
     textconv            = tar -O xf
 [diff "tar-gz"]
@@ -82,6 +85,9 @@
     smudge              = git-lfs smudge %f
     clean               = git-lfs clean %f
     required            = true
+[filter "plist"]
+    clean               = plutil -convert xml1 -o - -
+    smudge              = plutil -convert binary1 -o - -
 
 
 # MISC
