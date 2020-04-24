@@ -1,4 +1,5 @@
 - tag: master
+  type: series
   name: ci
   steps:
     # - name: ubuntu-xenial-minimal
