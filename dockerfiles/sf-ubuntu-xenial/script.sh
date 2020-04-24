@@ -39,22 +39,26 @@ git config --global user.name "${SF_DOCKER_CI_IMAGE_NAME} ${SF_DOCKER_CI_IMAGE_T
 # GID UID
 GID_INDEX=999
 UID_INDEX=999
+GNAME=sf
+UNAME=sf
 
 # NON-ROOT SUDO USER
+GNAME=codeship
 GID_INDEX=$((GID_INDEX + 1))
 addgroup \
     --gid ${GID_INDEX} \
-    sf
+    ${GNAME}
+UNAME=codeship
 UID_INDEX=$((UID_INDEX + 1))
 adduser \
     --uid ${UID_INDEX} \
-    --ingroup sf \
-    --home /home/sf \
+    --ingroup ${UNAME} \
+    --home /home/${UNAME} \
     --shell /bin/sh \
     --disabled-password \
     --gecos "" \
-    sf
-adduser sf sudo
+    ${UNAME}
+adduser ${UNAME} sudo
 echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # MAIN
@@ -66,16 +70,16 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     # hack to optimize usage in travis and not do 'chown -R' (slow) after each 'docker run'
     # see https://github.com/docker/for-linux/issues/388
     # TODO see repo/dot.ci.sh.sf sf_run_docker
-    usermod -u 2000 sf
-    groupmod -g 2000 sf
+    usermod -u 2000 ${UNAME}
+    groupmod -g 2000 ${GNAME}
 
-    sudo --preserve-env -H -u sf ./ci/linux/bootstrap
+    sudo --preserve-env -H -u ${UNAME} ./ci/linux/bootstrap
 
     # unhack
     # see https://github.com/docker/for-linux/issues/388
     # TODO see repo/dot.ci.sh.sf sf_run_docker
-    usermod -u ${UID_INDEX} sf
-    groupmod -g ${GID_INDEX} sf
+    usermod -u ${UID_INDEX} ${UNAME}
+    groupmod -g ${GID_INDEX} ${GNAME}
 
     git rev-parse HEAD > /support-firecloud.bootstrapped
 
@@ -89,9 +93,9 @@ source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
 [[ $(find /home/linuxbrew -maxdepth 0 -printf '%u\n') = $(id -u) ]] || \
     chown -R $(id -u):$(id -g) /home/linuxbrew
 EOF
-    chown sf:sf /home/sf/.bash_aliases
+    chown ${UNAME}:${GNAME} /home/${UNAME}/.bash_aliases
 
-    cat <<EOF >> /home/sf/.gitconfig
+    cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
 EOF
