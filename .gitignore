@@ -1,5 +1,6 @@
 /BUILD
 /VERSION
+/codeship.aes
 /node_modules
 /some-job-artifact.md
 /support-firecloud

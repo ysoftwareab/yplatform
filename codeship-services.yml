@@ -1,0 +1,35 @@
+# support-firecloud-ubuntu-xenial-minimal:
+sfuxm:
+  environment:
+    SF_CI_BREW_INSTALL: minimal
+    SF_LOG_BOOTSTRAP: true
+  build:
+    dockerfile: .codeship/ubuntu-xenial/Dockerfile
+    args:
+
+# support-firecloud-ubuntu-xenial-dev:
+sfuxd:
+  environment:
+    SF_CI_BREW_INSTALL: dev
+    SF_LOG_BOOTSTRAP: true
+  build:
+    dockerfile: .codeship/ubuntu-xenial/Dockerfile
+    args:
+
+# support-firecloud-ubuntu-bionic-minimal:
+sfubm:
+  environment:
+    SF_CI_BREW_INSTALL: minimal
+    SF_LOG_BOOTSTRAP: true
+  build:
+    dockerfile: .codeship/ubuntu-bionic/Dockerfile
+    args:
+
+# support-firecloud-ubuntu-bionic-dev:
+sfubd:
+  environment:
+    SF_CI_BREW_INSTALL: dev
+    SF_LOG_BOOTSTRAP: true
+  build:
+    dockerfile: .codeship/ubuntu-bionic/Dockerfile
+    args:
