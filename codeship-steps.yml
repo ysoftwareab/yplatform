@@ -1,19 +1,22 @@
-- tag: master
-  name: ci
+- name: ci
   steps:
     # - name: ubuntu-xenial-minimal
-    - name: ux-minimal
+    - tag: master
+      name: ux-minimal
       service: sfuxm
       command: bash -c "CI_STEP_NAME=ux-minimal ./.codeship/pipeline.sh"
     # - name: ubuntu-xenial-dev
-    - name: ux-dev
+    - tag: master
+      name: ux-dev
       service: sfuxd
       command: bash -c "CI_STEP_NAME=ux-dev ./.codeship/pipeline.sh"
     # - name: ubuntu-bionic-minimal
-    - name: ub-minimal
+    - tag: master
+      name: ub-minimal
       service: sfubm
       command: bash -c "CI_STEP_NAME=ub-minimal ./.codeship/pipeline.sh"
     # - name: ubuntu-bionic-dev
-    - name: ub-dev
+    - tag: master
+      name: ub-dev
       service: sfubd
       command: bash -c "CI_STEP_NAME=ub-dev ./.codeship/pipeline.sh"
