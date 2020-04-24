@@ -1,5 +1,4 @@
-# - type: parallel
-- type: serial
+- tag: master
   name: ci
   steps:
     # - name: ubuntu-xenial-minimal
