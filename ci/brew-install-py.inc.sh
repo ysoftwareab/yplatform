@@ -3,8 +3,7 @@ set -euo pipefail
 
 echo_do "brew: Installing Python packages..."
 BREW_FORMULAE="$(cat <<-EOF
-python@2
-python@3
+python
 pyenv
 EOF
 )"
@@ -12,15 +11,13 @@ brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 eval "$(pyenv init -)"
 mkdir -p ~/.pyenv/versions
-for f in $(brew --cellar python@2)/* $(brew --cellar python@3)/*; do
+for f in $(brew --cellar python)/*; do
     ln -sf $f ~/.pyenv/versions/
 done
 echo_done
 
 echo_do "brew: Testing Python packages..."
-exe_and_grep_q "python2 --version 2>&1 | head -1" "^Python 2\\."
 exe_and_grep_q "python3 --version 2>&1 | head -1" "^Python 3\\."
-exe_and_grep_q "pip2 --version | head -1" "^pip "
 exe_and_grep_q "pip3 --version | head -1" "^pip "
 exe_and_grep_q "pyenv --version | head -1" "^pyenv "
 echo_done
