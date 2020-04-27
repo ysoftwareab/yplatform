@@ -1,4 +1,5 @@
 - tag: master
+  exclude: .*\[skip ci\].*
   type: serial
   name: ci
   steps:
