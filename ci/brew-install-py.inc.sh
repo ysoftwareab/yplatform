@@ -4,11 +4,16 @@ set -euo pipefail
 echo_do "brew: Installing Python packages..."
 BREW_FORMULAE="$(cat <<-EOF
 python
-pyenv
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
+
+# NOTE installing pyenv separately, as it ends installing the perl formula, which fails in Ubuntu Bionic
+unset PYENV_ROOT
+curl -fqsS -L https://github.com/pyenv/pyenv-installer/raw/master/bin/pyenv-installer | bash
+export PATH="${HOME}/.pyenv/bin:${PATH}"
+
 eval "$(pyenv init -)"
 mkdir -p ~/.pyenv/versions
 for f in $(brew --cellar python)/*; do
