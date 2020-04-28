@@ -82,8 +82,8 @@ jobs:
       if: type IN (push, cron)
 
     - stage: test
-      name: "OSX High Sierra 10.14 (Xcode 10.2) with dev (common+) brew"
+      name: "OSX High Sierra 10.14 (Xcode 11.3) with dev (common+) brew"
       os: osx
-      osx_image: xcode10.2
-      env: CACHE_NAME=osx-xcode10.2-dev SF_CI_BREW_INSTALL=dev
+      osx_image: xcode11.3
+      env: CACHE_NAME=osx-xcode11.3-dev SF_CI_BREW_INSTALL=dev
       if: type IN (push, cron) AND tag is blank
