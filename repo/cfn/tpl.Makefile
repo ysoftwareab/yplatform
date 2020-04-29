@@ -20,8 +20,4 @@ STACK_NAME ?= $(patsubst env-%,$(ENV_NAME)-%,$(STACK_STEM))
 #
 # AWS_CFN_CU_STACK_ARGS :=
 
-# `eslint` arguments
-# e.g. --reporter html
-# ESLINT_ARGS :=
-
 include *.inc.mk
