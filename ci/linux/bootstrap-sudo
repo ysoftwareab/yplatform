@@ -59,12 +59,23 @@ build-essential
 curl
 file
 git
-python-minimal
 rsync
 uuid-runtime
 EOF
 )"
 apt_install "${DPKGS}"
+{
+    RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+    RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+    case "${RELEASE_ID}-${RELEASE_VERSION_CODENAME}" in
+        ubuntu-xenial | ubuntu-bionic)
+            apt_install python-minimal
+            ;;
+        *)
+            apt_install python3-minimal
+            ;;
+    esac
+}
 echo_done
 
 echo_do "aptitude: Listing packages..."
