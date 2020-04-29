@@ -6,9 +6,6 @@ SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.common.mk
 
 SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.git-hook-pre-push.mk \
-
-SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.build-version-files.mk \
 
 SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
