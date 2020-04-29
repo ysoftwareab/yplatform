@@ -1,1 +1,0 @@
-../sf-ubuntu-xenial/script.sh
