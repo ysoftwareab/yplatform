@@ -65,6 +65,7 @@
   "tslint.run": "onSave",
   "tslint.autoFixOnSave": true,
 
+  "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.format.enable": false,
   "typescript.tsdk": "./node_modules/typescript/lib"
 }
