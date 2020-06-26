@@ -8,6 +8,14 @@ function path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
 }
 
+# remove homebrew (linuxbrew) from PATH which is appended, not prepended (default homebrew behaviour)
+# see https://github.com/actions/virtual-environments/pull/789
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/bin:||" | sed "s|::|:|")
+    export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/sbin:||" | sed "s|::|:|")
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+}
+
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
     path_prepend /home/linuxbrew/.linuxbrew/sbin
     path_prepend /home/linuxbrew/.linuxbrew/bin
