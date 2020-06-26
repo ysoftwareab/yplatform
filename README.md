@@ -42,9 +42,6 @@ It is therefore **important that you clone these repositories recursively**, oth
   * [CloudFormation](repo/cfn/README.md)
   * [Identity Access Management](doc/aws-iam.md)
 
-* Internals
-  * [Offboarding](doc/offboarding.secret.md)
-
 
 ## Structure
 
