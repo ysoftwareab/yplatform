@@ -11,7 +11,9 @@ function apt_update() {
 }
 
 function apt_install() {
-    apt-get install -y --force-yes $*
+    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+    # apt-get install -y --force-yes $*
+    apt-get install -y ${FORCE_YES} $*
 }
 
 export CI=true

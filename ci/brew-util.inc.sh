@@ -155,11 +155,13 @@ function apt_update() {
 }
 
 function apt_install() {
+    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     while read -u3 DPKG; do
         [[ -n "${DPKG}" ]] || continue
 
         echo_do "aptitude: Installing ${DPKG}..."
-        ${SUDO} apt-get install -y --force-yes "${DPKG}"
+        # ${SUDO} apt-get install -y --force-yes "${DPKG}"
+        ${SUDO} apt-get install -y ${FORCE_YES} "${DPKG}"
         echo_done
     done 3< <(echo "$@")
 }
