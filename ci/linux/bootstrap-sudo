@@ -61,7 +61,7 @@ build-essential
 curl
 file
 git
-python-minimal
+python3-minimal
 rsync
 uuid-runtime
 EOF
