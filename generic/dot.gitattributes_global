@@ -33,7 +33,7 @@ Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.php text diff=php
 *.pl text diff=perl
 *.pm text diff=perl
-*.py text diff=python2
+*.py text diff=python
 *.sh text
 *.template text
 *.ts text
