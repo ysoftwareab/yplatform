@@ -27,6 +27,4 @@ export CI=true
 
 # remove homebrew (linuxbrew) from PATH which is appended, not prepended (default homebrew behaviour)
 # see https://github.com/actions/virtual-environments/pull/789
-echo "DEBUGPATH PATH=$PATH"
 export PATH=$(echo "${PATH}" | sed "s|:/usr/local/bin:/usr/local/sbin||")
-echo "DEBUGPATH2 PATH=$PATH"
