@@ -76,5 +76,5 @@ It is therefore **important that you clone these repositories recursively**, oth
   [4]: https://circleci.com/gh/rokmoln/support-firecloud/tree/master.svg?style=svg
   [5]: https://github.com/rokmoln/support-firecloud/actions?query=workflow%3ACI+branch%3Amaster
   [6]: https://github.com/rokmoln/support-firecloud/workflows/CI/badge.svg?branch=master
-  [7]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
-  [8]: https://app.codeship.com/projects/388210
+  [7]: https://app.codeship.com/projects/388210
+  [8]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
