@@ -4,6 +4,7 @@
 * `CircleCI_________` [![CircleCI Status][4]][3]
 * `Github Actions CI` [![Github Actions CI Status][6]][5]
 * `Codeship` [![Codeship Status][8]][7]
+* `Semaphore` [![Semaphore Status][10]][9]
 
 Software and configuration that support TobiiPro's Cloud Services development.
 
@@ -78,3 +79,5 @@ It is therefore **important that you clone these repositories recursively**, oth
   [6]: https://github.com/rokmoln/support-firecloud/workflows/CI/badge.svg?branch=master
   [7]: https://app.codeship.com/projects/388210
   [8]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
+  [9]: https://rokmoln.semaphoreci.com/branches/3afa32fb-b027-4a02-8e99-8a4ba73dac12
+  [10]: https://rokmoln.semaphoreci.com/badges/support-firecloud/branches/master.svg
