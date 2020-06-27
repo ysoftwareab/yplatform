@@ -18,6 +18,7 @@ SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
 
 # core.misc.release.mk depends on core.misc.version.mk
 SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.promote.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.version.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.misc.release.mk \
 
