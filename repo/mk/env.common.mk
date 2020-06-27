@@ -1,4 +1,4 @@
-# This is a collection of "must have" targets for environment repositories.
+# This is a collection of "must have" targets for repositories with environments.
 #
 # ------------------------------------------------------------------------------
 
