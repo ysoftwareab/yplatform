@@ -82,7 +82,7 @@ Addon pieces by type of repository:
   * [core.release.tag.mk](core.release.tag.mk)
   * [env.common.mk](env.common.mk) (FIXME)
     * [env.promote-tag-to-env-branch.mk](env.promote-tag-to-env-branch.mk)
-    * [env.teardown-env.mk](env.teardown-env.mk)
+    * [env.teardown.mk](env.teardown.mk)
 * JavaScript/NodeJS
   * [js.deps.private.mk](js.deps.private.mk)
   * [js.build.cp-dts.mk](js.build.cp-dts.mk)
