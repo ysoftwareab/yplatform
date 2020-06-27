@@ -1,0 +1,54 @@
+version: v1.0
+name: main
+
+execution_time_limit:
+  hours: 1
+
+auto_cancel:
+  queued:
+    when: 'true'
+
+# fail_fast:
+#   stop:
+#     when: 'true'
+
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+
+blocks:
+  - name: main
+    skip:
+      when: branch != 'master'
+    task:
+      env_vars:
+        - name: SF_CI_BREW_INSTALL
+          value: dev
+        - name: SF_LOG_BOOTSTRAP
+          value: 'true'
+      prologue:
+        commands:
+          - cache restore
+          - checkout
+          - git submodule sync
+          - git submodule update --init --recursive
+      jobs:
+        - name: main
+          commands:
+            - ./.ci.sh before_install
+            - ./.ci.sh install
+            - ./.ci.sh before_script
+            - ./.ci.sh script
+      epilogue:
+        on_fail:
+          commands:
+            - ./.ci.sh after_failure
+        on_pass:
+          commands:
+            - ./.ci.sh after_success
+        always:
+          commands:
+            - ./.ci.sh after_script
+            - ./.ci.sh before_cache
+            - cache store
