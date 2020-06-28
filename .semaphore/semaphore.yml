@@ -18,7 +18,7 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: main
+  - name: main_block
     skip:
       when: branch != 'master'
     task:
@@ -34,7 +34,7 @@ blocks:
           - git submodule sync
           - git submodule update --init --recursive
       jobs:
-        - name: main
+        - name: main_job
           commands:
             - ./.ci.sh before_install
             - ./.ci.sh install
