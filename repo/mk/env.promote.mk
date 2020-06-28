@@ -1,8 +1,3 @@
-SF_PROMOTE_ENVS += \
-	dev \
-	prod-staging \
-	prod \
-
 # ------------------------------------------------------------------------------
 
 .PHONY: _promote-env-setup/%
