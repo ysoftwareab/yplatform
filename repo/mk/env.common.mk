@@ -1,4 +1,11 @@
-# This is a collection of "must have" targets for repositories with environments.
+# This is a collection of "must have" targets for repositories with "environments",
+# like "cloud" apps.
+#
+# The convention states that such a repository can have multiple live environments,
+# all driven by the "env/<name>" branches.
+#
+# Promoting a tag to such a branch should be followed by the CI picking up the push,
+# and deploying that tag's artifacts to the respective named environment.
 #
 # ------------------------------------------------------------------------------
 
