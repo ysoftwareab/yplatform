@@ -55,7 +55,10 @@
   "sasslint.enable": true,
   "sasslint.run": "onSave",
 
+  "search.followSymlinks": true,
   "search.useIgnoreFiles": true,
+
+  "telemetry.enableTelemetry": false,
 
   "terminal.integrated.inheritEnv": false,
 
@@ -67,5 +70,7 @@
 
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.format.enable": false,
-  "typescript.tsdk": "./node_modules/typescript/lib"
+  "typescript.tsdk": "./node_modules/typescript/lib",
+
+  "workbench.settings.enableNaturalLanguageSearch": false
 }
