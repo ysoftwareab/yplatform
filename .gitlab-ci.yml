@@ -13,7 +13,7 @@ variables:
       # and creating a sudoer user and then running gitlab jobs through it failed
       name: homebrew/ubuntu16.04
     only:
-      - gitlab-ci
+      - master
       # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
     cache:
       key: ${CI_COMMIT_REF_SLUG}
