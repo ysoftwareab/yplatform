@@ -69,6 +69,7 @@
   "tslint.autoFixOnSave": true,
 
   "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.format.enable": false,
   "typescript.tsdk": "./node_modules/typescript/lib",
 
