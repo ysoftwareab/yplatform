@@ -1,0 +1,53 @@
+variables:
+  FORCE_UNSAFE_CONFIGURE: "1"
+  GIT_SUBMODULE_STRATEGY: recursive
+  SF_CI_BREW_INSTALL: minimal
+  SF_LOG_BOOTSTRAP: "true"
+
+.aliases:
+  - &shared
+    image:
+      # name: ubuntu:16.04
+      # NOTE using the prebuilt docker image of homebrew (linuxbrew)
+      # because homebrew cannot be installed as root,
+      # and creating a sudoer user and then running gitlab jobs through it failed
+      name: homebrew/ubuntu16.04
+    only:
+      - gitlab-ci
+      # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
+    cache:
+      key: ${CI_COMMIT_REF_SLUG}
+      paths:
+        # common
+        - $HOME/.local
+        - $HOME/.npm
+        # darwin
+        - $HOME/.homebrew
+        - $HOME/Library/Caches/Homebrew
+        - $HOME/Library/Caches/pip
+        # linux
+        - $HOME/.cache/Homebrew
+        - $HOME/.cache/pip
+        - $HOME/.linuxbrew
+
+
+main_job:
+  <<: *shared
+  script:
+    - |
+      set -euo pipefail;
+      cd ${CI_PROJECT_DIR};
+      ./.ci.sh before_install &&
+        ./.ci.sh install &&
+        ./.ci.sh before_script &&
+        ./.ci.sh script && CI_STATUS=success || CI_STATUS=failure;
+      if [ "${CI_STATUS}" = "success" ]; then
+        ./.ci.sh before_cache || true;
+        ./.ci.sh after_success || true;
+        ./.ci.sh after_script || true;
+      fi;
+      if [ "${CI_STATUS}" = "failure" ]; then
+        ./.ci.sh after_failure || true;
+        ./.ci.sh after_script || true;
+        exit 1;
+      fi;
