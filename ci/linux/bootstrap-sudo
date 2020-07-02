@@ -11,12 +11,14 @@ if [[ "${EUID}" != "0" ]]; then
 fi
 
 function apt_update() {
+    echo_do "aptitude: Updating..."
     apt-get update -y --fix-missing 2>&1 || {
         # try to handle "Hash Sum mismatch" error
         apt-get clean
         rm -rf /var/lib/apt/lists/*
         apt-get update -y --fix-missing
     }
+    echo_done
 }
 
 function apt_install() {
@@ -31,11 +33,9 @@ function apt_install() {
     done 3< <(echo "$@")
 }
 
-echo_do "aptitude: Updating..."
 apt_install "software-properties-common"
 apt-add-repository -y ppa:git-core/ppa
 apt_update
-echo_done
 
 apt_install locales
 locale-gen en_US en_US.UTF-8
