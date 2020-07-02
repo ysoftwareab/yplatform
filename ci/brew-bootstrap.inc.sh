@@ -20,7 +20,9 @@ RAW_GUC_URL="https://raw.githubusercontent.com"
 case $(uname -s) in
     Darwin)
         if [[ "${HAS_BREW_2}" = "true" ]]; then
+            echo_do "brew: Updating homebrew..."
             brew update
+            echo_done
         else
             echo_do "brew: Installing homebrew..."
             </dev/null ruby -e "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install)"
@@ -31,7 +33,9 @@ case $(uname -s) in
         ;;
     Linux)
         if [[ "${HAS_BREW_2}" = "true" ]]; then
+            echo_do "brew: Updating linuxbrew..."
             brew update
+            echo_done
         else
             echo_do "brew: Installing linuxbrew..."
             if [[ "${SUDO}" = "" ]] || [[ "${SUDO}" = "sf_nosudo" ]]; then
