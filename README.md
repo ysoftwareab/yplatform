@@ -5,7 +5,7 @@
 * `Github Actions CI` [![Github Actions CI Status][6]][5]
 * `Codeship_________` [![Codeship Status][8]][7]
 * `Semaphore________` [![Semaphore Status][10]][9]
-* `Gitlab CI________` [![Gitlab CI][12]][11]
+* `Gitlab CI________` [![Gitlab CI Status][12]][11]
 * `AppVeyor________` [![AppVeyor Status][14]][13]
 
 Software and configuration that support TobiiPro's Cloud Services development.
