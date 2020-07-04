@@ -68,9 +68,7 @@ function exe_and_grep_q() {
     echo_info "Testing if command '$1' with output '${OUTPUT}' matches '$2'..."
     # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
     # which -a ${EXECUTABLE} | xargs -r -L1 ls -l || true
-    for EXECUTABLE_PATH in $(which -a ${EXECUTABLE}); do
-        ls -l ${EXECUTABLE_PATH}
-    done
+    which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do ls -l "${EXECUTABLE_PATH}"; done
     type ${EXECUTABLE} || true
     echo "${OUTPUT}" | grep -q "$2" || {
         echo_err "No match."
