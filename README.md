@@ -6,6 +6,7 @@
 * `Codeship_________` [![Codeship Status][8]][7]
 * `Semaphore________` [![Semaphore Status][10]][9]
 * `Gitlab CI________` [![Gitlab CI][12]][11]
+* `AppVeyor________` [![AppVeyor Status][14]][13]
 
 Software and configuration that support TobiiPro's Cloud Services development.
 
@@ -81,3 +82,5 @@ It is therefore **important that you clone these repositories recursively**, oth
   [10]: https://rokmoln.semaphoreci.com/badges/support-firecloud/branches/master.svg
   [11]: https://gitlab.com/rokmoln/support-firecloud/commits/master
   [12]: https://gitlab.com/rokmoln/support-firecloud/badges/master/pipeline.svg
+  [13]: https://ci.appveyor.com/project/andreineculau/support-firecloud/branch/master
+  [14]: https://ci.appveyor.com/api/projects/status/da744jauw31fi66h/branch/master?svg=true
