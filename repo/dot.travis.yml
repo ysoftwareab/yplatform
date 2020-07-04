@@ -9,6 +9,7 @@ notifications:
 
 # 2. Env
 # env:
+#   global:
 
 # 3. Git
 branches:

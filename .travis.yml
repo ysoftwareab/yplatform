@@ -3,7 +3,8 @@
 
 # 2. Env
 env:
-  - SF_LOG_BOOTSTRAP=true
+  global:
+    - SF_LOG_BOOTSTRAP=true
 
 # 3. Git
 branches:
