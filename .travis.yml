@@ -106,7 +106,7 @@ jobs:
     - stage: test
       name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with dev (common+) brew"
       os: windows
-      env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=SF_LOG_BOOTSTRAP:CI
+      env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
       # if: type IN (push, cron) AND tag is blank
       language: shell # leaving it to "generic" would cause the machine not to boot
       before_install:
