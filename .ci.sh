@@ -57,7 +57,11 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 }
 
 function ci_run_deploy_docker_image() {
-    [[ -e "/etc/os-release" ]] || return
+    # safety pin: release only on Travis
+    [[ "${TRAVIS:-}" = "true" ]] || return
+
+    # safety pin: release only on Linux
+    [[ "${TRAVIS_OS_NAME:-}" = "linux" ]] || return
 
     [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
 
