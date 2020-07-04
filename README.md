@@ -8,13 +8,28 @@
 * `Gitlab CI________` [![Gitlab CI Status][12]][11]
 * `AppVeyor________` [![AppVeyor Status][14]][13]
 
-Software and configuration that support TobiiPro's Cloud Services development.
+`support-firecloud` is software and configuration that supports various cycles of software development:
+* as a standalone checkout, it provides
+  * bootstrapping for a developer MacOS/Linux machine
+    * make common GNU utilities up-to-date on Linux and accesible on MacOS (BSD)
+  * a builder for canonical Docker images
+  * common per-user configuration (e.g. git)
+  * various utility scripts
+  * documentation of common tasks (e.g. licensing, managing secrets)
+* as a submodule checkout, it provides
+  * bootstrapping for a CI machine
+    * the bootstrapping is so generic that it is very easy to use `support-firecloud` in a multitude of CI solutions
+  * a robust yet flexible build system based on GNU Make
+  * an AWS CloudFormation build system based on GNU Make
+  * common per-repo configuration (e.g. vscode)
+  * various utility scripts
+
+This initially supported TobiiPro's Cloud Services development.
 
 
-**IMPORTANT:** Almost all github.com/tobiipro repositories have `support-firecloud` as a git submodule.
-It is therefore **important that you clone these repositories recursively**, otherwise `make` **will** fail.
-* use `git clone --recursive ...`
-* or run `git submodule update --init --recursive` after cloning.
+**IMPORTANT:** Repositories that have `support-firecloud` as a git submodule, need to be cloned **recursively**:
+* by using `git clone --recursive ...`
+* or by running `git submodule update --init --recursive` after cloning.
 
 
 ## Documentation
