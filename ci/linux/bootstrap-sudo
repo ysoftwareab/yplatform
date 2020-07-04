@@ -37,7 +37,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt_install debconf-utils
 echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections
 
-apt_install "software-properties-common"
+apt_install software-properties-common
 apt-add-repository -y ppa:git-core/ppa
 apt_update
 
