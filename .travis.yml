@@ -116,6 +116,7 @@ jobs:
         - wsl bash -c 'sudo adduser --ingroup travis --home /home/travis --shell /bin/bash --disabled-password --gecos "" travis'
         - wsl bash -c 'sudo adduser travis sudo'
         - wsl bash -c 'sudo echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers'
+        - wsl --user travis sudo chown -R travis:travis .
         - wsl --user travis ./.ci.sh before_install
       install: wsl --user travis ./.ci.sh install
       before_script: wsl --user travis ./.ci.sh before_script
