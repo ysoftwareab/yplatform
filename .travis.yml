@@ -103,25 +103,25 @@ jobs:
       env: CACHE_NAME=osx-xcode11.3-dev SF_CI_BREW_INSTALL=dev
       if: type IN (push, cron) AND tag is blank
 
-    - stage: test
-      name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with dev (common+) brew"
-      os: windows
-      env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
-      if: type IN (push, cron) AND tag is blank
-      language: shell # leaving it to "generic" would cause the machine not to boot
-      before_install:
-        - git config core.autocrlf false && git add --renormalize . && git reset --hard # crlf -> lf
-        - choco install wsl-ubuntu-1804
-        - wsl bash -c 'sudo addgroup travis'
-        - wsl bash -c 'sudo adduser --ingroup travis --home /home/travis --shell /bin/bash --disabled-password --gecos "" travis'
-        - wsl bash -c 'sudo adduser travis sudo'
-        - wsl bash -c 'sudo echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers'
-        - wsl --user travis sudo chown -R travis:travis ./
-        - wsl --user travis ls -la .git/
-        - wsl --user travis ./.ci.sh before_install
-      install: wsl --user travis ./.ci.sh install
-      before_script: wsl --user travis ./.ci.sh before_script
-      script: wsl --user travis ./.ci.sh script
-      after_success: wsl --user travis ./.ci.sh after_success
-      after_failure: wsl --user travis ./.ci.sh after_failure
-      after_script: wsl --user travis ./.ci.sh after_script
+    # - stage: test
+    #   name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with dev (common+) brew"
+    #   os: windows
+    #   env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
+    #   if: type IN (push, cron) AND tag is blank
+    #   language: shell # leaving it to "generic" would cause the machine not to boot
+    #   before_install:
+    #     - git config core.autocrlf false && git add --renormalize . && git reset --hard # crlf -> lf
+    #     - choco install wsl-ubuntu-1804
+    #     - wsl bash -c 'sudo addgroup travis'
+    #     - wsl bash -c 'sudo adduser --ingroup travis --home /home/travis --shell /bin/bash --disabled-password --gecos "" travis'
+    #     - wsl bash -c 'sudo adduser travis sudo'
+    #     - wsl bash -c 'sudo echo "%sudo ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers'
+    #     - wsl --user travis sudo chown -R travis:travis ./
+    #     - wsl --user travis ls -la .git/
+    #     - wsl --user travis ./.ci.sh before_install
+    #   install: wsl --user travis ./.ci.sh install
+    #   before_script: wsl --user travis ./.ci.sh before_script
+    #   script: wsl --user travis ./.ci.sh script
+    #   after_success: wsl --user travis ./.ci.sh after_success
+    #   after_failure: wsl --user travis ./.ci.sh after_failure
+    #   after_script: wsl --user travis ./.ci.sh after_script
