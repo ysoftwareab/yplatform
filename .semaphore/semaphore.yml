@@ -31,7 +31,7 @@ blocks:
         commands:
           - cache restore
           - checkout
-          - git submodule sync
+          - git submodule sync --recursive
           - git submodule update --init --recursive
       jobs:
         - name: main_job

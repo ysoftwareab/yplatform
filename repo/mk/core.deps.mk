@@ -17,7 +17,7 @@ SF_DEPS_TARGETS += \
 
 .PHONY: deps-git
 deps-git:
-	$(GIT) submodule sync
+	$(GIT) submodule sync --recursive
 	$(GIT) submodule update --init --recursive
 
 

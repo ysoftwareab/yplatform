@@ -92,7 +92,7 @@ commands:
       - run: date +%v > ~/week-number
       - checkout
       - jq/install
-      - run: git submodule sync
+      - run: git submodule sync --recursive
       - run: git submodule update --init --recursive
       - *step_restore_cache
       - run: ./.ci.sh before_install

@@ -15,7 +15,7 @@ init:
   - git config --global core.autocrlf input
 
 install:
-  - git submodule sync
+  - git submodule sync --recursive
   - git submodule update --init --recursive
   - wsl --user appveyor ./.ci.sh before_install
   - wsl --user appveyor ./.ci.sh install
