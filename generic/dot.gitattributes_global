@@ -28,6 +28,8 @@ Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.csv text
 *.h text diff=cpp
 *.html text diff=html
+*.inc text
+*.ini text
 *.java text diff=java
 *.js text
 *.json text
