@@ -62,6 +62,7 @@ Makefile* text
 *.tgz binary
 *.xlsx binary
 *.zip binary diff=zip
+yarn.lock -diff
 
 # 3rd-party exclusions =========================================================
 # e.g. /path -whitespace -text
