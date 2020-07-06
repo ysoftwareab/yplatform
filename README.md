@@ -6,7 +6,7 @@
 * `Codeship_________` [![Codeship Status][8]][7]
 * `Semaphore________` [![Semaphore Status][10]][9]
 * `Gitlab CI________` [![Gitlab CI Status][12]][11]
-* `AppVeyor________` [![AppVeyor Status][14]][13]
+* `AppVeyor_________` [![AppVeyor Status][14]][13]
 
 `support-firecloud` is software and configuration that supports various cycles of software development:
 * as a standalone checkout, it provides
