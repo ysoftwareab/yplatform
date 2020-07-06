@@ -4,8 +4,15 @@
 # Codeship
 codeship.aes
 
-# Emacs
+# Editor - Emacs
 *#*
+
+# Editor - Visual Studio Code
+.vscode/*.json
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+!.vscode/tasks.json
 
 # ESLint
 .eslintcache
@@ -19,17 +26,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# OSX
+# OS - OSX
 .DS_Store
 Icon?
 
-# Visual Studio Code
-.vscode/*.json
-!.vscode/extensions.json
-!.vscode/launch.json
-!.vscode/settings.json
-!.vscode/tasks.json
-
-# Windows
+# OS - Windows
 ehthumbs.db
 Thumbs.db
