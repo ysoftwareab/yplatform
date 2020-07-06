@@ -64,7 +64,7 @@ Makefile* text
 *.zip binary diff=zip
 
 # 3rd-party exclusions =========================================================
-# e.g. /path -whitespace -text -tailf-max-line-length
+# e.g. /path -whitespace -text
 
 # Ignore when exporting ========================================================
 .gitattributes export-ignore
