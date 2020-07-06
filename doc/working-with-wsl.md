@@ -38,7 +38,6 @@ Good luck!
 
 ## Random notes
 
-Appveyor CI seems to support a Windows VM with WSL enabled, though the VM may take 3-4 minutes to start up. Refs:
-
-* https://github.com/appveyor/ci/issues/1295
-* https://ci.appveyor.com/project/appveyor-tests/win2k19-azure/builds/24024378
+If you are having permission issues, or can't set any permissions at all, you might need to run
+`wsl sudo cp priv/wsl.conf /etc/wsl.conf` (or similar, mind the uid=1000 and gid=1000).
+See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0 .
