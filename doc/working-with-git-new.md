@@ -11,7 +11,7 @@ git init
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-git submodule add -b master git://github.com/tobiipro/support-firecloud.git
+git submodule add -b master git://github.com/rokmoln/support-firecloud.git
 git submodule update --init --recursive
 ```
 
@@ -54,7 +54,7 @@ Please name the repository appropriately, where appropriately stands for, but no
   * an accronym: [KATT](https://github.com/for-GET/katt)
 * if not unique then prefixed or suffixed with team name and mentioning software ecosystem
   * prefixed: firecloud-dashboard
-  * suffixed: [support-firecloud](https://github.com/tobiipro/support-firecloud)
+  * suffixed: [support-firecloud](https://github.com/rokmoln/support-firecloud)
   * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/tobiipro/eslint-config-firecloud)
 
 A description is optional by Github standards, but we require it.
