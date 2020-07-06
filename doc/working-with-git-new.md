@@ -11,8 +11,7 @@ git init
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-git submodule add -b master git://github.com/rokmoln/support-firecloud.git
-git submodule update --init --recursive
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/rokmoln/support-firecloud/master/bin/sf-install)"
 ```
 
 In order to bootstrap/scaffold the repository, run
