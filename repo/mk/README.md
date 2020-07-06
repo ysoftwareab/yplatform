@@ -85,6 +85,7 @@ Addon pieces by type of repository:
     * [env.teardown.mk](env.teardown.mk)
 * JavaScript/NodeJS
   * [js.deps.private.mk](js.deps.private.mk)
+  * [js.deps.yarn.mk](js.deps.yarn.mk)
   * [js.build.cp-dts.mk](js.build.cp-dts.mk)
   * [js.build.webpack.mk](js.build.webpack.mk)
   * [js.check.d.ts.mk](js.check.d.ts.mk)
