@@ -110,7 +110,7 @@ jobs:
       if: type IN (push, cron) AND tag is blank
       language: shell # leaving it to "generic" would cause the machine not to boot
       before_install:
-        - git config core.autocrlf input && git add --renormalize . && git reset --hard # crlf -> lf
+        - git config core.autocrlf false && git add --renormalize . && git reset --hard # crlf -> lf
         - choco install wsl-ubuntu-1804
         # - wsl --setdefault Ubuntu-18.04
         - wsl bash -c 'sudo addgroup --gid 1000 travis'
