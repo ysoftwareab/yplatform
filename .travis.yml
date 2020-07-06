@@ -102,13 +102,13 @@ jobs:
       os: osx
       osx_image: xcode11.3
       env: CACHE_NAME=osx-xcode11.3-dev SF_CI_BREW_INSTALL=dev
-      if: type IN (push, cron) AND tag is blank
+      if: type IN (push, cron) AND tag IS blank
 
     - stage: test
       name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with dev (common+) brew"
       os: windows
       env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
-      if: branch IN (wsl) AND type IN (push, cron) AND tag is blank
+      if: branch IN (wsl) AND type IN (push, cron) AND tag IS blank
       language: shell # leaving it to "generic" would cause the machine not to boot
       before_install:
         - git config core.autocrlf false && git add --renormalize . && git reset --hard # crlf -> lf
