@@ -21,6 +21,7 @@ yarn-error.log*
 
 # OSX
 .DS_Store
+Icon?
 
 # Visual Studio Code
 .vscode/*.json
@@ -28,3 +29,7 @@ yarn-error.log*
 !.vscode/launch.json
 !.vscode/settings.json
 !.vscode/tasks.json
+
+# Windows
+ehthumbs.db
+Thumbs.db
