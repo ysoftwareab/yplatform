@@ -84,7 +84,7 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     git rev-parse HEAD > /support-firecloud.bootstrapped
 
     # make 'docker run --rm -it --user sf <image>' behave like a dev machine
-    cat <<EOF >> /home/sf/.bash_aliases
+    cat <<EOF >> /home/${UNAME}/.bash_aliases
 source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
 
 # unhack
@@ -121,7 +121,7 @@ function git_dir_clean() {
 
 apt-get clean
 dir_clean /var/lib/apt/lists/* # aptitude cache
-dir_clean /home/sf/.cache # linuxbrew cache
+dir_clean /home/${UNAME}/.cache # linuxbrew cache
 
 git_dir_clean /support-firecloud
 # git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
