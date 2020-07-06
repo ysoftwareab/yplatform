@@ -19,31 +19,46 @@
 Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 
 # Text =========================================================================
+*.bat text
 *.c text diff=cpp
+*.cmd text
 *.cpp text diff=cpp
 *.cs text diff=csharp
+*.css text
+*.csv text
 *.h text diff=cpp
 *.html text diff=html
 *.java text diff=java
 *.js text
 *.json text
+*.markdown text
 *.md text
+*.mjs text
 *.mk text
 *.perl text diff=perl
 *.php text diff=php
 *.pl text diff=perl
 *.pm text diff=perl
+*.ps1 text
 *.py text diff=python
 *.sh text
+*.sql text
 *.template text
 *.ts text
+*.txt text
+*.xml text
+*.yaml text
+*.yml text
 .editorconfig text
 .gitattributes text
 .gitconfig text
+.gitmodules text
+.mailmap text
 .npmignore text
 Makefile* text
 
 # Binaries =====================================================================
+*.7z binary
 *.docx binary diff=docx
 *.exe binary diff=bin
 *.gif binary diff=exif
@@ -51,6 +66,7 @@ Makefile* text
 *.gz binary diff=gz
 *.ico binary
 *.jpg binary diff=exif
+*.jpeg binary diff=exif
 *.odf binary diff=odf
 *.odt binary diff=odf
 *.odp binary diff=odf
@@ -59,13 +75,17 @@ Makefile* text
 *.png binary diff=exif
 *.tar binary diff=tar
 *.tar.gz binary diff=tar-gz
+*.tif binary
+*.tiff binary
 *.tgz binary
 *.xlsx binary
 *.zip binary diff=zip
-yarn.lock -diff
 
 # 3rd-party exclusions =========================================================
 # e.g. /path -whitespace -text
+*.patch -text
+*.svg -diff
+yarn.lock -diff
 
 # Ignore when exporting ========================================================
 .gitattributes export-ignore
