@@ -17,6 +17,9 @@ codeship.aes
 # ESLint
 .eslintcache
 
+# Logs
+*.log
+
 # NodeJS
 .npm/
 .tern-port
