@@ -1,6 +1,7 @@
 /BUILD
 /VERSION
 /codeship.aes
+/generic/github-global-gitignore/
 /node_modules
 /some-job-artifact.md
 /support-firecloud

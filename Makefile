@@ -24,6 +24,7 @@ SF_PATH_FILES_IGNORE := \
 	$(SF_PATH_FILES_IGNORE) \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
+	-e "^generic/dot\.gitignore_global\.base$$" \
 	-e "^repo/AUTHORS$$" \
 	-e "^repo/Brewfile.inc.sh$$" \
 	-e "^repo/cfn/tpl\.Makefile$$" \
@@ -35,6 +36,8 @@ SF_PATH_FILES_IGNORE := \
 SF_ECLINT_FILES_IGNORE := \
 	$(SF_ECLINT_FILES_IGNORE) \
 	-e "^bin/" \
+	-e "^generic/dot.gitignore_global$$" \
+	-e "^generic/dot.gitignore_global.base$$" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
@@ -57,6 +60,21 @@ SF_TEST_TARGETS := \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
+
+GITHUB_GLOBAL_GITIGNORE_BASE_URL := https://raw.githubusercontent.com/github/gitignore/master/Global
+
+GITHUB_GLOBAL_GITIGNORES := \
+	Backup \
+	Diff \
+	Emacs \
+	Linux \
+	Patch \
+	Vim \
+	VisualStudioCode \
+	Windows \
+	macOS \
+
+GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitignore,$(GITHUB_GLOBAL_GITIGNORES))
 
 # ------------------------------------------------------------------------------
 
@@ -98,4 +116,21 @@ test-repo-mk:
 		$(ECHO_DO) "Testing $${mk}..."; \
 		$(MAKE) -f $${mk} help; \
 		$(ECHO_DONE); \
+	done
+
+
+generic/github-global-gitignore/%.gitignore:
+	$(CURL) -o $@ $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$*.gitignore
+
+
+.PHONY: generic/dot.gitignore_global
+generic/dot.gitignore_global: $(GITHUB_GLOBAL_GITIGNORES) ## Regenerate generic/dot.gitignore_global.
+	$(ECHO) -e "\n# BEGIN $@.base\n" > $@
+	$(CAT) $@.base >> $@
+	$(ECHO) -e "\n# END $@.base\n" >> $@
+	for GITHUB_GLOBAL_GITIGNORE in $(GITHUB_GLOBAL_GITIGNORES); do \
+		$(ECHO) -e "################################################################################" >> $@; \
+		$(ECHO) -e "\n# BEGIN $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$${GITHUB_GLOBAL_GITIGNORE}.gitignore\n" >> $@; \
+		$(CAT) $${GITHUB_GLOBAL_GITIGNORE} >> $@; \
+		$(ECHO) -e "\n# END $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$${GITHUB_GLOBAL_GITIGNORE}.gitignore\n" >> $@; \
 	done

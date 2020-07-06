@@ -1,0 +1,8 @@
+# Backup
+*~
+
+# Codeship
+codeship.aes
+
+# ESLint
+.eslintcache
