@@ -45,12 +45,10 @@ GNAME=sf
 UNAME=sf
 
 # NON-ROOT SUDO USER
-GNAME=codeship
 GID_INDEX=$((GID_INDEX + 1))
 addgroup \
     --gid ${GID_INDEX} \
     ${GNAME}
-UNAME=codeship
 UID_INDEX=$((UID_INDEX + 1))
 adduser \
     --uid ${UID_INDEX} \
