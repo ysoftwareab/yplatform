@@ -25,7 +25,7 @@ case $(uname -s) in
             echo_done
         else
             echo_do "brew: Installing homebrew..."
-            </dev/null ruby -e "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install)"
+            </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
             echo_done
         fi
 
@@ -46,7 +46,7 @@ case $(uname -s) in
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
                 echo_done
             else
-                </dev/null sh -c "$(curl -fqsS -L ${RAW_GUC_URL}/Linuxbrew/install/master/install.sh)"
+                </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
             fi
             echo_done
         fi
