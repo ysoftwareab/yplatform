@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VSN=2.0.3
+VSN=2.1.0
 
 RB_FILE=${BASH_SOURCE[0]%.tpl}
 # ID must be the PascalCase version of the RB_FILE
