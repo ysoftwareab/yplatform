@@ -6,5 +6,8 @@
     "glen-84.sass-lint",
     "ms-vscode.vscode-typescript-tslint-plugin",
     "orta.vscode-jest"
+  ],
+  "unwantedRecommendations": [
+    "esbenp.prettier-vscode"
   ]
 }
