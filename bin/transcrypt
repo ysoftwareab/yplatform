@@ -129,6 +129,7 @@ run_safety_checks() {
 	if [[ $requires_clean_repo ]] && [[ $HEAD_EXISTS ]] && [[ $IS_BARE == 'false' ]]; then
 		# check if the repo is dirty
 		if ! git diff-index --quiet HEAD --; then
+			git diff-index HEAD --
 			die 1 'the repo is dirty; commit or stash your changes before running transcrypt'
 		fi
 	fi
