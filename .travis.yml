@@ -110,8 +110,10 @@ jobs:
       env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
       if: branch IN (wsl) AND type IN (push, cron) AND tag IS blank
       language: shell # leaving it to "generic" would cause the machine not to boot
+      git:
+        autocrlf: false
+        symlinks: true
       before_install:
-        - git config core.autocrlf false && git add --renormalize . && git reset --hard # crlf -> lf
         - choco install wsl-ubuntu-1804
         # - wsl --setdefault Ubuntu-18.04
         - wsl bash -c 'sudo addgroup --gid 1000 travis'
