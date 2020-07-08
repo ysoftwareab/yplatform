@@ -8,17 +8,29 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: travis-get-env-vars [OPTION]
 ## Print out the environment variables set for a Travis CI job.
 ##
-##   --secure       Show only the secure environment variables.
+##   --secure       List only the secure environment variables.
+##   --wslenv       List only the names of the environment variables, separated by : as required by WSLENV.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+[[ "${TRAVIS:-}" = "true" ]] || {
+    echo_warn "Must be running inside Travis CI."
+    echo_warn "Expected TRAVIS=true but got TRAVIS=${TRAVIS:-}."
+    exit 0
+}
+
 SECURE=false
+WSLENV=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --secure)
             SECURE=true
+            shift 1
+            ;;
+        --wslenv)
+            WSLENV=true
             shift 1
             ;;
         -h|--help)
@@ -36,12 +48,33 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-if [[ "${SECURE}" = "true" ]]; then
-    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -r -L1 echo | grep -e "secure")"
-else
-    TRAVIS_CMD_EXPORT="$(cat ~/build.sh | grep -e "^travis_cmd export" | xargs -r -L1 echo)"
-fi
+function maybe_wslenv() {
+    if [[ "${WSLENV}" = "true" ]]; then
+        sed "s/=.\+//" | sed ':a;N;$!ba;s/\n/:/g'
+    else
+        cat
+    fi
+}
 
-echo "${TRAVIS_CMD_EXPORT}" | \
-    grep --only-matching "^travis_cmd export [^ ]\+" | \
-    sed "s/travis_cmd export //g"
+function maybe_secure() {
+    if [[ "${SECURE}" = "true" ]]; then
+        grep -e "secure"
+    else
+        cat
+    fi
+}
+
+# environment variables prefixed with TRAVIS
+TRAVIS_ENV="$(printenv | grep -e "^TRAVIS")"
+
+# custom environment variables coming from Travis UI or .travis.yml
+TRAVIS_CMD_EXPORT=
+cat ~/build.sh |
+    grep -e "^travis_cmd export" |
+    xargs -r -L1 echo |
+    maybe_secure |
+    grep --only-matching "^travis_cmd export [^ ]\+" |
+    sed "s/travis_cmd export //g" |
+    read -r TRAVIS_CMD_EXPORT || true
+
+echo "${TRAVIS_ENV}${TRAVIS_CMD_EXPORT}" | maybe_wslenv
