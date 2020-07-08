@@ -30,7 +30,12 @@ echo_done
 echo_do "brew: Unlink keg-only packages..."
 BREW_FORMULAE="$(brew info --json=v1 --installed | \
     jq -r 'map(select(.keg_only == true and .linked_keg != null)) | map(.name) | .[]')"
-echo "${BREW_FORMULAE}"
-echo -n "${BREW_FORMULAE}" | xargs -r -L1 brew unlink
+echo -n "${BREW_FORMULAE}" | while read -r BREW_FORMULA; do
+    echo_info "brew unlink ${BREW_FORMULA}"
+    brew unlink ${BREW_FORMULA} || {
+        echo_warn "Failed to unlink formula ${BREW_FORMULA}."
+        echo_skip "brew unlink ${BREW_FORMULA}"
+    }
+done
 unset BREW_FORMULAE
 echo_done
