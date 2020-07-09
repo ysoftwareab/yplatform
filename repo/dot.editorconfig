@@ -20,9 +20,6 @@ indent_style = tab
 [*.py]
 indent_size = 4
 
-[*.ts]
-indent_size = none
-
 [*.sh]
 indent_size = 4
 
