@@ -74,6 +74,7 @@ function exe_and_grep_q() {
         echo_err "No match."
         return 1
     }
+    echo_info "It matches."
 }
 
 function prompt_q_to_continue() {
