@@ -18,24 +18,39 @@ function brew_upgrade() {
 
         # install any missing dependencies
         local MISSING="$(brew missing ${NAME})"
-        [[ -z "${MISSING}" ]] || brew install ${MISSING}
+        [[ -z "${MISSING}" ]] || {
+            echo_info "brew: Found missing dependencies for ${NAME}: ${MISSING}."
+            echo_do "brew: Installing missing dependencies for ${NAME}..."
+            brew install ${MISSING}
+            echo_done
+        }
 
         # link, if not already
+        echo_do "brew: Linking ${NAME}..."
         if [[ "${CI:-}" != "true" ]]; then
             brew link ${NAME} || true
         else
             brew link --force --overwrite ${NAME} || true
         fi
+        echo_done
 
         # is it pinned?
-        brew list ${NAME} --pinned | grep -q "^${NAME}$" && continue || true
+        if brew list ${NAME} --pinned | grep -q "^${NAME}$"; then
+            echo_info "brew: ${NAME} is pinned."
+            echo_skip "brew: Upgrading ${NAME}..."
+            continue
+        fi
 
         # is it already up-to-date?
-        brew outdated ${NAME} >/dev/null 2>&1 || {
-            echo_do "brew: Upgrading ${NAME}..."
-            brew upgrade ${NAME}
-            echo_done
-        }
+        if ! brew outdated ${NAME} >/dev/null 2>&1; then
+            echo_info "brew: ${NAME} is up-to-date."
+            echo_skip "brew: Upgrading ${NAME}..."
+            continue
+        fi
+
+        echo_do "brew: Upgrading ${NAME}..."
+        brew upgrade ${NAME}
+        echo_done
     done 3< <(echo "$@")
 }
 
