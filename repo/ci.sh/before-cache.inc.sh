@@ -31,9 +31,6 @@ function sf_ci_run_before_cache_brew() {
         ${HOMEBREW_PREFIX}/Homebrew/ \
         ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew/
     echo_done
-
-    # FIXME remove after 2019-03-01
-    rm -rf ${CI_CACHE_HOMEBREW_PREFIX}/Cellar/*
 }
 
 
