@@ -28,7 +28,11 @@ echo | xargs -r false || {
 echo_done
 
 echo_do "brew: Unlink keg-only packages..."
-BREW_FORMULAE="$(brew info --json=v1 --installed | \
+# FIXME revert when Travis/Homebrew stops complaining about
+# 'No such file or directory - /usr/local/opt/mercurial/bin/hg'
+# See https://travis-ci.com/github/rokmoln/support-firecloud/jobs/358742904#L5350
+# BREW_FORMULAE="$(brew info --json=v1 --installed | \
+BREW_FORMULAE="$(brew info --json=v1 --installed || true | \
     jq -r 'map(select(.keg_only == true and .linked_keg != null)) | map(.name) | .[]')"
 echo -n "${BREW_FORMULAE}" | while read -r BREW_FORMULA; do
     echo_info "brew unlink ${BREW_FORMULA}"
