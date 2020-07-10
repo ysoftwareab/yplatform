@@ -5,6 +5,10 @@
 #	build-something-else \
 #
 # ------------------------------------------------------------------------------
+#
+# Adds a 'dist' target as an alias to 'build', for closer following GNU conventions.
+#
+# ------------------------------------------------------------------------------
 
 SF_BUILD_TARGETS += \
 
@@ -17,3 +21,8 @@ build: ## Build.
 		$(MAKE) $(SF_BUILD_TARGETS); \
 		$(ECHO_DONE); \
 	}
+
+
+.PHONY: dist
+dist: build
+	:
