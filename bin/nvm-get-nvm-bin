@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+BREW_NVM_DIR=$(brew --prefix nvm)
+
+source ${BREW_NVM_DIR}/nvm.sh --no-use
+nvm use >/dev/null
+echo ${NVM_BIN}
