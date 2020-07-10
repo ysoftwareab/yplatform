@@ -24,10 +24,3 @@ if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
     CI_TAG=${GITHUB_REF#refs\/tags\/}
 fi
 export CI=true
-
-# Github ACtions CI already installs node@12 via homebrew,
-# which will make 'brew install node' to fail when linking.
-# See https://github.com/rokmoln/support-firecloud/runs/859398271
-for NODE_FORMULA in $(brew ls | grep -e "^node@"); do
-    brew unlink ${NODE_FORMULA}
-done
