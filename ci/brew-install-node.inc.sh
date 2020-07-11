@@ -61,11 +61,26 @@ EOF
     npm install --global --force npm@6 || ${IS_WSL}
     npm install --global json@9
 
+    # nvm
+    brew_install nvm
+    (
+        source $(brew --prefix nvm)/nvm.sh --no-use
+        nvm alias default system
+        [[ ! -f .nvmrc ]] && {
+            nvm use
+            nvm install $(nvm current) --reinstall-packages-from=system
+        }
+    )
+
     echo_done
 
     echo_do "brew: Testing NodeJS packages..."
     exe_and_grep_q "node --version | head -1" "^v"
     exe_and_grep_q "npm --version | head -1" "^6\."
     exe_and_grep_q "json --version | head -1" "^json 9\."
+    (
+        source $(brew --prefix nvm)/nvm.sh --no-use
+        exe_and_grep_q "nvm --version | head -1" "^0\."
+    )
     echo_done
 fi
