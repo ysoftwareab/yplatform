@@ -2,9 +2,10 @@
 #
 # ------------------------------------------------------------------------------
 
-SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
-
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/generic.common.mk
+# NOTE might be enough with core.common.mk
+ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
+	$(error Please include generic.common.mk, before including py.common.mk .)
+endfi
 
 SF_PY_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/py.deps.pipenv.mk \

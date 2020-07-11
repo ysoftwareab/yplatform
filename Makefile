@@ -13,8 +13,6 @@ include support-firecloud/repo/mk/core.misc.release.tag.mk
 # ------------------------------------------------------------------------------
 
 COMMON_MKS := $(wildcard repo/mk/*.common.mk)
-# FIXME env.common.mk isn't an "entrypoint" makefile, like the rest
-COMMON_MKS := $(filter-out repo/mk/env.common.mk,$(COMMON_MKS))
 
 SF_CLEAN_FILES := \
 	$(SF_CLEAN_FILES) \
@@ -114,7 +112,7 @@ test-repo-mk:
 	$(MAKE) help
 	for mk in $(COMMON_MKS); do \
 		$(ECHO_DO) "Testing $${mk}..."; \
-		$(MAKE) -f $${mk} help; \
+		$(MAKE) -f repo/mk/generic.common.mk -f $${mk} help; \
 		$(ECHO_DONE); \
 	done
 
