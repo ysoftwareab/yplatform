@@ -64,7 +64,9 @@ EOF
     # nvm
     brew_install nvm
     (
+        set +u
         source $(brew --prefix nvm)/nvm.sh --no-use
+
         nvm alias default system
         [[ ! -f .nvmrc ]] && {
             nvm use
@@ -79,6 +81,7 @@ EOF
     exe_and_grep_q "npm --version | head -1" "^6\."
     exe_and_grep_q "json --version | head -1" "^json 9\."
     (
+        set +u
         source $(brew --prefix nvm)/nvm.sh --no-use
         exe_and_grep_q "nvm --version | head -1" "^0\."
     )
