@@ -1,14 +1,3 @@
-# get generic environment variables
-ifneq (,$(wildcard .env))
-include .env
-export $(shell $(SED) 's/=.*//' .env)
-endif
-
-# get Makefile-specific environment variables
-ifneq (,$(wildcard .makerc))
-include .makerc
-endif
-
 CORE_INC_MK_DIR ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 SHELL := bash
