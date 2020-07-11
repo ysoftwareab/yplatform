@@ -12,6 +12,17 @@ export PATH
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
+# get generic environment variables
+ifneq (,$(wildcard .env))
+include .env
+export $(shell sed 's/=.*//' .env)
+endif
+
+# get Makefile-specific environment variables
+ifneq (,$(wildcard .makerc))
+include .makerc
+endif
+
 ifdef TRAVIS_BRANCH
 GIT_BRANCH = $(TRAVIS_BRANCH)
 endif
