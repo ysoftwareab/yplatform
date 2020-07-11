@@ -1,3 +1,9 @@
+# get generic environment variables
+-include .env
+
+# get Makefile-specific environment variables
+-include .makerc
+
 CORE_INC_MK_DIR ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
 SHELL := bash
