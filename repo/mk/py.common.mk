@@ -5,7 +5,7 @@
 # NOTE might be enough with core.common.mk
 ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
 	$(error Please include generic.common.mk, before including py.common.mk .)
-endfi
+endif
 
 SF_PY_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/py.deps.pipenv.mk \
