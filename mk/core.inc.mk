@@ -5,7 +5,7 @@ export $(shell $(SED) 's/=.*//' .env)
 endif
 
 # get Makefile-specific environment variables
-ifneq (,$(wildcard .makercv))
+ifneq (,$(wildcard .makerc))
 include .makerc
 endif
 
