@@ -18,7 +18,5 @@ source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/aws-iam-login.inc.sh
 
 path_prepend ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/dev/bin
 path_append ./node_modules/.bin
-# remove old symlink if possible
-rm /usr/local/bin/node-esm 2>/dev/null || true
 
 export SF_DEV_INC_SH=true
