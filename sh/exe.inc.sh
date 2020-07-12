@@ -72,7 +72,7 @@ function exe_and_grep_q() {
         which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do ls -l "${EXECUTABLE_PATH}"; done
         type ${EXECUTABLE} || true
     else
-        echo "${EXECUTABLE} is $(type -t ${EXECUTABLE})"
+        echo "${EXECUTABLE} is $(type -t ${EXECUTABLE} || true)"
     fi
     echo "${OUTPUT}" | grep -q "$2" || {
         echo_err "No match."
