@@ -20,7 +20,7 @@ _support-firecloud/update:
 
 .PHONY: support-firecloud/update
 support-firecloud/update: _support-firecloud/update ## Update support-firecloud to latest version.
-	$(MAKE) support-firecloud/update/$(shell $(GIT) -C $(SF_SUBMODULE_PATH) tag \
+	$(MAKE) support-firecloud/update/$$($(GIT) -C $(SF_SUBMODULE_PATH) tag \
 		--list \
 		--sort=version:refname "v*" | \
 		$(TAIL) -n1)

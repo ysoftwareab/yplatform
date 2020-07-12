@@ -21,5 +21,5 @@ endif
 # ------------------------------------------------------------------------------
 
 .git/hooks/pre-push: $(SUPPORT_FIRECLOUD_DIR)/repo/dot.git/hooks/pre-push
-	$(MKDIR) $(shell dirname $@)
+	$(MKDIR) $$(dirname $@)
 	$(CP) $< $@

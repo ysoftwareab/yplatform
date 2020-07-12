@@ -31,12 +31,12 @@ BABEL_ARGS += \
 # ------------------------------------------------------------------------------
 
 $(LIB_JS_FROM_JS_FILES): lib/%.js: src/%.js $(SRC_JS_FILES) $(BABELRC)
-	$(MKDIR) $(shell dirname $@)
+	$(MKDIR) $$(dirname $@)
 	$(BABEL) $< $(BABEL_ARGS) --out-file $@
 
 
 $(LIB_JS_FROM_TS_FILES): lib/%.js: src/%.ts $(SRC_JS_FILES) $(BABELRC)
-	$(MKDIR) $(shell dirname $@)
+	$(MKDIR) $$(dirname $@)
 	$(BABEL) $< $(BABEL_ARGS) --out-file $@
 
 

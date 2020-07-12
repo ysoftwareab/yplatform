@@ -13,7 +13,7 @@ jet-steps:
 		--ci-build-id 0 \
 		--ci-commit-description $(GIT_DESCRIBE) \
 		--ci-commit-id $(GIT_HASH) \
-		--ci-commit-message "$(shell $(GIT) log -1 --format=%s $(GIT_HASH))" \
-		--ci-committer-email "$(shell $(GIT) log -1 --format=%ce $(GIT_HASH))" \
-		--ci-committer-name "$(shell $(GIT) log -1 --format=%cn $(GIT_HASH))" \
-		--ci-repo-name "$(shell $(GIT) remote -v 2>/dev/null | $(GREP) -oP "(?<=github.com.).+" | $(GREP) -oP ".+(?= \(fetch\))" | $(HEAD) -n1 | $(SED) "s/.git$$//")" \
+		--ci-commit-message "$$($(GIT) log -1 --format=%s $(GIT_HASH))" \
+		--ci-committer-email "$$($(GIT) log -1 --format=%ce $(GIT_HASH))" \
+		--ci-committer-name "$$($(GIT) log -1 --format=%cn $(GIT_HASH))" \
+		--ci-repo-name "$$($(GIT) remote -v 2>/dev/null | $(GREP) -oP "(?<=github.com.).+" | $(GREP) -oP ".+(?= \(fetch\))" | $(HEAD) -n1 | $(SED) "s/.git$$//")" \
