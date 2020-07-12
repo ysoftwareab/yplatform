@@ -68,7 +68,7 @@ EOF
         source $(brew --prefix nvm)/nvm.sh --no-use
 
         nvm alias default system
-        [[ ! -f .nvmrc ]] && {
+        [[ ! -f .nvmrc ]] || {
             nvm use
             nvm install $(nvm current) --reinstall-packages-from=system
         }
