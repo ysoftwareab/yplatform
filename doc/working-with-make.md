@@ -4,6 +4,11 @@
 You can read about that in the [GNU make manual](https://www.gnu.org/software/make/manual/make.html),
 and many other online resources.
 
+But why `make`???
+[Because](https://tech.trivago.com/2019/12/20/makefiles-in-2019-why-they-still-matter/)
+[that's](https://bost.ocks.org/mike/make/)
+[why](https://www.cs.mtsu.edu/~untch/2170/public/make_utility.pdf).
+
 ## Standardized targets
 
 No matter which is the primary language,
