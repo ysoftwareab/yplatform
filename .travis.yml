@@ -32,6 +32,8 @@ cache:
     - $HOME/.cache/Homebrew
     - $HOME/.cache/pip
     - $HOME/.linuxbrew
+    # windows
+    - $HOME/AppData/Local/Temp/chocolatey
 
 # 5. Steps
 before_install: ./.ci.sh before_install
