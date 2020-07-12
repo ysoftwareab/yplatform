@@ -22,7 +22,7 @@ elif printenv | grep -q "^SUDO="; then
     # NOTE 'test -v SUDO' is only available in bash 4.2, but this script may run in bash 3+
     true
 else
-    SUDO="$(which sudo)"
+    SUDO="$(which sudo 2>/dev/null || true)"
     SUDO="${SUDO:-sf_nosudo}"
     export SUDO
 fi
