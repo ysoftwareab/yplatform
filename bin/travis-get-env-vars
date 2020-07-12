@@ -50,7 +50,7 @@ done
 
 function maybe_wslenv() {
     if [[ "${WSLENV}" = "true" ]]; then
-        sed "s/=.\*//" | sed ':a;N;$!ba;s/\n/:/g'
+        sed "s/=.\*//" | tr '\n' ':'
     else
         cat
     fi
