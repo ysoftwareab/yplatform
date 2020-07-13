@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "support-firecloud",
-  "description": "Software and configuration that support TobiiPro's Cloud Services development.",
+  "description": "Software and configuration that supports various cycles of software development.",
   "version": "0.2.35",
   "license": "Apache-2.0",
   "devDependencies": {

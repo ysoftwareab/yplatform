@@ -13,7 +13,7 @@ But why `make`???
 ## Standardized targets
 
 No matter which is the primary language,
-repositories owned by TobiiPro Cloud Services should at all costs implement the following targets:
+repositories should at all costs implement the following targets:
 
 * `make help` to show most important targets, and their description
 * `make bootstrap` should bootstrap your system with global dependencies
@@ -68,4 +68,4 @@ we make use of partial `Makefile`s that when combined cover a great deal of the 
 while still allowing for customization/extensibility where needed.
 
 For more information, see [support-firecloud/repo/mk](../repo/mk/README.md) and check out different `Makefile`s
-of the [`tobiipro` GitHub repos](https://github.com/tobiipro).
+of the [`rokmoln` GitHub repos](https://github.com/rokmoln).

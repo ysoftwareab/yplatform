@@ -29,7 +29,7 @@ This also allows the user to use a newer bash than the version built into their 
 ## Strict mode
 
 All shell scripts use `set -euo pipefail`.
-Why? Read [the unnoficial bash strict mode](https://github.com/tobiipro/sass-lint-config-firecloud).
+Why? Read [the unnoficial bash strict mode](https://github.com/rokmoln/sass-lint-config-firecloud).
 
 Did you read it? Now read it again.
 

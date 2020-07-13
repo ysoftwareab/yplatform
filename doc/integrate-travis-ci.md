@@ -5,11 +5,11 @@ in a continuous manner, whenever new commits are pushed or on code from pull req
 
 We currently use Travis CI and thus prefer it for consistency, but other CIs are ok given reasonable consideration.
 
-A very first step to setup an integration with Travis CI is to visit https://github.com/organizations/tobiipro/settings/installations,
+A very first step to setup an integration with Travis CI is to visit https://github.com/organizations/rokmoln/settings/installations,
 press `Configure` next to `Travis CI` and make sure that Travis
 has access to your repo in the `Repository access` section dropdown.
 
-Then go to https://travis-ci.com/profile/tobiipro
+Then go to https://travis-ci.com/profile/rokmoln
 and find your repo in the list to open its settings.
 
 
@@ -39,11 +39,11 @@ and embed a status image for the `master` branch (or more) in `README.md`, in sh
 
 ...
 
-  [1]: https://travis-ci.com/tobiipro/<repo>
-  [2]: https://travis-ci.com/tobiipro/<repo>.svg?branch=master
+  [1]: https://travis-ci.com/rokmoln/<repo>
+  [2]: https://travis-ci.com/rokmoln/<repo>.svg?branch=master
 ```
 
-**NOTE** for internal/private repositories, you'll want to go https://travis-ci.com/tobiipro/<repo>,
+**NOTE** for internal/private repositories, you'll want to go https://travis-ci.com/rokmoln/<repo>,
 click the status image, select 'Image URL' and copy the SVG URL (the link has a unique token).
 
 Reference: https://docs.travis-ci.com/user/status-images/
@@ -61,7 +61,7 @@ then you need to
 * Add a `GH_TOKEN` secure environment variable in the Travis CI web UI.
   Use the Github API token of the `svc-pro-github` user (can be found in **the designated safe location**).
   This Github API token should have enough permissions to push to the repository.
-* Give access to the repo to `tobiipro/zz-svc-pro-github` team with a level `Write`.
+* Give access to the repo to `rokmoln/zz-svc-pro-github` team with a level `Write`.
 * Create a `.artifacts` file
 
 The `.artifacts` file is a list of paths that would include artifacts e.g.
@@ -86,7 +86,7 @@ and having the same user and home folder contents as the host.
 **NOTE** This means that Travis directives like `addons` in `.travis.yml` are redundant,
 because they will only affect the host machine, and not the Docker container where the pipeline runs.
 
-The Docker image is by default `tobiipro/sf-<os>-<os_version>-common`,
+The Docker image is by default `rokmoln/sf-<os>-<os_version>-common`,
 but it can be specified via an environment variable `SF_DOCKER_CI_IMAGE` in the Travis UI.
 
 Alternatively, you can disable running the pipeline in a Docker container, via `SF_DOCKER_CI_IMAGE=false`.
@@ -187,13 +187,13 @@ printenv | grep MY_SECRET_VAR_PREFIX_
 
 ### Slack with Travis CI token
 
-* Go to https://tobii.slack.com/apps/manage, find "Travis CI" and there existing integration between Travis and Tobii Slack
+* Go to https://some-org-name.slack.com/apps/manage, find "Travis CI" and there existing integration between Travis and your Slack
 * Click "pencil" button ("Edit configuration") and note down `Token`
 * Open terminal in the repository folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets).
 Assuming that you want notifications in #cloud-ci channel command will look like:
-  * in a case of a public repository `support-firecloud/bin/travis-encrypt "tobii:<token>#cloud-ci"`
-  * in a case of an internal/private repository `travis encrypt --pro "tobii:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
+  * in a case of a public repository `support-firecloud/bin/travis-encrypt "rokmoln:<token>#cloud-ci"`
+  * in a case of an internal/private repository `travis encrypt --pro "rokmoln:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
 * Add secret in the `.travis.yml` and configure other options
 ```yaml
 notifications:
@@ -212,7 +212,7 @@ If you are using another CI that supports Slack webhooks instead,
 or if you use a tool like [slack-echo](../bin/slack-echo) to send Slack messages,
 you can find the webhook URL like this:
 
-* Go to  https://tobii.slack.com/apps/manage/custom-integrations
+* Go to  https://some-org-name.slack.com/apps/manage/custom-integrations
 * Click "Incoming Webhooks" and find "cloud-ci"
 * Click "pencil" button ("Edit configuration") and note down `Webhook URL` under "Integration Settings"
 * Add an environment variable (e.g. via the Travis UI) named `SLACK_WEBHOOK` with the value of `Webhook URL`
