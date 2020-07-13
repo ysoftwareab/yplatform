@@ -43,3 +43,18 @@ if which brew >/dev/null 2>&1; then
 
     unset HOMEBREW_PREFIX
 fi
+
+if type make | grep -e "alias|function"; then
+    echo >&2 "[INFO] Refusing to overload 'make' with support-firecloud/sh/exe-env.inc.sh:make."
+    echo >&2 "[INFO] It is already overloaded by an alias/function: $(type make)."
+else
+    function make() {
+        [[ -x make.sh ]] || [[ -n "${SF_MAKE_SH_PASS:-}" ]] || {
+            $(command -v make) $@
+            return $?
+        }
+        echo >&2 "[INFO] Found a ${PWD}/make.sh. Executing that instead of $(command -v make)."
+        export SF_MAKE_SH_PASS=1
+        ./make.sh $@
+    }
+fi
