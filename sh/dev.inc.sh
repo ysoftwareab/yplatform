@@ -16,7 +16,7 @@ fi
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/aws-iam-login.inc.sh
 
-path_prepend ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/dev/bin
-path_append ./node_modules/.bin
+sf_path_prepend ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/dev/bin
+sf_path_append ./node_modules/.bin
 
 export SF_DEV_INC_SH=true
