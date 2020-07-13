@@ -67,9 +67,11 @@ function exe_and_grep_q() {
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
     echo_info "Testing if command '$1' with output '${OUTPUT}' matches '$2'..."
     if [[ $(type -t ${EXECUTABLE}) = "file" ]]; then
-        # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
-        # which -a ${EXECUTABLE} | xargs -r -L1 ls -l || true
-        which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do ls -l "${EXECUTABLE_PATH}"; done
+        which -a ${EXECUTABLE}
+        which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do
+            echo "${EXECUTABLE_PATH}" | grep -q "^/" || continue
+            ls -l "${EXECUTABLE_PATH}"
+        done
         type ${EXECUTABLE} || true
     else
         echo "${EXECUTABLE} is $(type -t ${EXECUTABLE} || true)"
