@@ -50,10 +50,10 @@ if type make | grep -e "alias|function"; then
 else
     function make() {
         [[ -x make.sh ]] || [[ -n "${SF_MAKE_SH_PASS:-}" ]] || {
-            $(command -v make) $@
+            $(which -a make | grep "^/" | head -1) $@
             return $?
         }
-        echo >&2 "[INFO] Found a ${PWD}/make.sh. Executing that instead of $(command -v make)."
+        echo >&2 "[INFO] Found a ${PWD}/make.sh. Executing that instead of $(which -a make | grep "^/" | head -1)."
         export SF_MAKE_SH_PASS=1
         ./make.sh $@
     }
