@@ -46,6 +46,8 @@ SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk \
+
+SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.node.mk \
 
 SF_CORE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_CORE_COMMON_INCLUDES_DEFAULT))
