@@ -65,6 +65,7 @@ The high-level colletions of pieces are as follows:
   * [core.misc.release.mk](core.misc.release.mk)
   * [core.misc.sf-update.mk](core.misc.sf-update.mk)
   * [core.misc.snapshot.mk](core.misc.snapshot.mk)
+  * [core.misc.tpl.mk](core.misc.tpl.mk)
   * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
   * [core.misc.version.mk](core.misc.version.mk)
 
