@@ -1,8 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BREW_NVM_DIR=$(brew --prefix nvm)
+which nvm >/dev/null 2>&1 || {
+    BREW_NVM_DIR=$(brew --prefix nvm 2>/dev/null || true)
+    NVM_SH=
+    [[ ! -f ${HOME}/.nvm/nvm.sh ]] || NVM_SH=${HOME}/.nvm/nvm.sh
+    [[ ! -f ${XDG_CONFIG_HOME:-}/nvm/nvm.sh ]] || NVM_SH=${XDG_CONFIG_HOME}/nvm/nvm.sh
+    [[ ! -f ${BREW_NVM_DIR}/nvm.sh ]] || NVM_SH=${BREW_NVM_DIR}/nvm.sh
 
-source ${BREW_NVM_DIR}/nvm.sh --no-use
+    [[ -n ${NVM_SH} ]] || {
+        echo >&2 "[WARN] Couldn't find nvm in any of the known locations."
+        exit 0
+    }
+    source ${NVM_SH} --no-use
+}
+
 nvm use >/dev/null 2>&1
 echo ${NVM_BIN:-}
