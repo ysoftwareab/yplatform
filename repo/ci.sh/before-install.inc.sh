@@ -120,7 +120,7 @@ function sf_os() {
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
-        sf_run_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
+        sf_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
         return 0
     fi
 
@@ -131,7 +131,7 @@ function sf_os() {
     while :;do echo -n " ."; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
-    sf_run_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+    sf_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
