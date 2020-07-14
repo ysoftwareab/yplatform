@@ -70,6 +70,18 @@ function sf_transcrypt() {
 }
 
 
+function sf_os_bootstrap() {
+    BOOTSTRAP_SCRIPT_USER=$1
+    BOOTSTRAP_SCRIPT=$2
+
+    if [[ "$(id -u --name)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
+        ${BOOTSTRAP_SCRIPT}
+    else
+        sudo --preserve-env -H -u ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
+    fi
+}
+
+
 function sf_os() {
     [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || {
         SF_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
@@ -108,7 +120,7 @@ function sf_os() {
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
-        sudo --preserve-env -H -u ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
+        sf_run_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
         return 0
     fi
 
@@ -119,7 +131,7 @@ function sf_os() {
     while :;do echo -n " ."; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
-    sudo --preserve-env -H -u ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+    sf_run_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
