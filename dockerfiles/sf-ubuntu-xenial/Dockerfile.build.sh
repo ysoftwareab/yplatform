@@ -121,7 +121,7 @@ function git_dir_clean() {
 
 apt-get clean
 dir_clean /var/lib/apt/lists/* # aptitude cache
-dir_clean /home/${UNAME}/.cache # linuxbrew cache
+dir_clean /home/${UNAME}/.cache/* # linuxbrew cache
 
 git_dir_clean /support-firecloud
 # git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
