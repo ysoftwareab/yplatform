@@ -99,11 +99,11 @@ function sf_os() {
     # see https://github.com/docker/for-linux/issues/388
     local BOOTSTRAP_SCRIPT_USER=$(id -u --name)
     if which brew >/dev/null 2>&1; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(brew --prefix))
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(brew --prefix)/Homebrew)
     elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(/home/linuxbrew/.linuxbrew/bin/brew --prefix))
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
     elif test -x ~/.linuxbrew/bin/brew; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(~/.linuxbrew/bin/brew --prefix))
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(~/.linuxbrew/bin/brew --prefix)/Homebrew)
     fi
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
