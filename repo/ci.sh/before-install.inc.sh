@@ -70,9 +70,36 @@ function sf_transcrypt() {
 }
 
 
-function sf_os_bootstrap() {
-    BOOTSTRAP_SCRIPT_USER=$1
-    BOOTSTRAP_SCRIPT=$2
+function sf_os_get_dir_owner() {
+    local GNU_STAT=$(stat --version | head -1 | grep -q "GNU" && echo true || echo false)
+    case ${GNU_STAT} in
+        true)
+            local STAT_FORMAT_ARG="-c"
+            local STAT_FORMAT_USER="%U"
+            ;;
+        false) # assume BSD
+            local STAT_FORMAT_ARG="-f"
+            local STAT_FORMAT_USER="%Su"
+            ;;
+    esac
+
+    stat ${STAT_FORMAT_ARG} ${STAT_FORMAT_USER} $1
+}
+
+function sf_os_bootstrap_with_script() {
+    BOOTSTRAP_SCRIPT=$1
+
+    # recursive chown is slow in Docker, but linuxbrew requires the invoking user to own the linuxbrew folders
+    # so the bootstrap script (which invokes linuxbrew) needs to run as the same user that is owning the folders
+    # see https://github.com/docker/for-linux/issues/388
+    local BOOTSTRAP_SCRIPT_USER=$(id -u -n)
+    if which brew >/dev/null 2>&1; then
+        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(brew --prefix)/Homebrew)
+    elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
+        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
+    elif test -x ~/.linuxbrew/bin/brew; then
+        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(~/.linuxbrew/bin/brew --prefix)/Homebrew)
+    fi
 
     if [[ "$(id -u --name)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
         ${BOOTSTRAP_SCRIPT}
@@ -106,21 +133,10 @@ function sf_os() {
     }
     echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}."
 
-    # recursive chown is slow in Docker, but linuxbrew requires the invoking user to own the linuxbrew folders
-    # so the bootstrap script (which invokes linuxbrew) needs to run as the same user that is owning the folders
-    # see https://github.com/docker/for-linux/issues/388
-    local BOOTSTRAP_SCRIPT_USER=$(id -u --name)
-    if which brew >/dev/null 2>&1; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(brew --prefix)/Homebrew)
-    elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
-    elif test -x ~/.linuxbrew/bin/brew; then
-        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(~/.linuxbrew/bin/brew --prefix)/Homebrew)
-    fi
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
-        sf_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
+        sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}
         return 0
     fi
 
@@ -131,7 +147,7 @@ function sf_os() {
     while :;do echo -n " ."; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
-    sf_os_bootstrap ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+    sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
