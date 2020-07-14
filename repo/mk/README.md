@@ -46,14 +46,16 @@ The pieces **MUST** be included in this order:
 
 The high-level colletions of pieces are as follows:
 
-* [core.common.mk](core.common.mk) - the "bare minimum" for generic repositories
+* [core.common.mk](core.common.mk) - for bare minimum repositories
   * [core.clean.mk](core.clean.mk)
   * [core.deps.mk](core.deps.mk)
   * [core.build.mk](core.build.mk)
   * [core.check.mk](core.check.mk)
+  * [core.node.mk](core.node.mk)
   * [core.test.mk](core.test.mk)
   * [core.vendor.mk](core.vendor.mk)
-* [generic.common.mk](generic.common.mk) - [core.common.mk](core.common.mk) + the "must have" for generic repositories
+* [generic.common.mk](generic.common.mk) - for generic repositories
+  * [core.common.mk](core.common.mk)
   * [core.deps.git-hook-pre-push.mk](core.deps.git-hook-pre-push.mk)
   * [core.check.eclint.mk](core.check.eclint.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
@@ -65,14 +67,14 @@ The high-level colletions of pieces are as follows:
   * [core.misc.snapshot.mk](core.misc.snapshot.mk)
   * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
   * [core.misc.version.mk](core.misc.version.mk)
-* [js.common.mk](js.common.mk) - [generic.common.mk](generic.common.mk) + the "must have" for JavaScript repositories
-  * [js.deps.npm.mk](js.deps.npm.mk)
-* [node.common.mk](node.common.mk) - [js.common.mk](js.common.mk) + the "must have" for NodeJS repositories
-  * [js.build.babel.mk](js.build.babel.mk)
-* [py.common.mk](py.common.mk) - [generic.common.mk](generic.common.mk) + the "must have" for Python repositories
-  * [py.deps.pipenv.mk](py.deps.pipenv.mk)
 
-**NOTE** It is only `*.common.mk` makefiles that can `include`. All others are atomic.
+Miscelaneous "must haves" require [generic.common.mk](generic.common.mk):
+* [js.common.mk](js.common.mk) - for generic JavaScript repositories
+  * [js.deps.npm.mk](js.deps.npm.mk)
+* [node.common.mk](node.common.mk) - for NodeJS JavaScript repositories
+  * [js.build.babel.mk](js.build.babel.mk)
+* [py.common.mk](py.common.mk) - for Python repositories
+  * [py.deps.pipenv.mk](py.deps.pipenv.mk)
 
 Addon pieces by type of repository:
 * generic
