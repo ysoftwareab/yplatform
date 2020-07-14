@@ -72,8 +72,9 @@ function sf_run_docker_ci_image() {
         "$(id -u --name)" \
         sudo || true;
 
-    # TODO see https://github.com/docker/for-linux/issues/388
     # the user needs to own /home/linuxbrew in order to run linuxbrew successfully, but recursive chown is slow.
+    # grep for DOCKER_CHOWN_HACK in the repo for relevant pieces
+    # see https://github.com/docker/for-linux/issues/388
     local HOME_LINUXBREW_OWNER_GROUP=$(
         docker exec -it -u root ${CONTAINER_NAME} stat -c "%u:%g" /home/linuxbrew
     )
