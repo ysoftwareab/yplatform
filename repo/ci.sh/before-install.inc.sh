@@ -94,10 +94,21 @@ function sf_os() {
     }
     echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}."
 
+    # recursive chown is slow in Docker, but linuxbrew requires the invoking user to own the linuxbrew folders
+    # so the bootstrap script (which invokes linuxbrew) needs to run as the same user that is owning the folders
+    # see https://github.com/docker/for-linux/issues/388
+    local BOOTSTRAP_SCRIPT_USER=$(id -u --name)
+    if which brew >/dev/null 2>&1; then
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(brew --prefix))
+    elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(/home/linuxbrew/.linuxbrew/bin/brew --prefix))
+    elif test -x ~/.linuxbrew/bin/brew; then
+        BOOTSTRAP_SCRIPT_USER=$(stat -c "%U" $(~/.linuxbrew/bin/brew --prefix))
+    fi
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
-        ${BOOTSTRAP_SCRIPT}
+        sudo --preserve-env -H -u ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
         return 0
     fi
 
@@ -108,7 +119,7 @@ function sf_os() {
     while :;do echo -n " ."; sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
-    ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+    sudo --preserve-env -H -u ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}

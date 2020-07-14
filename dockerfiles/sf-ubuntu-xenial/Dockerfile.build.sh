@@ -67,31 +67,9 @@ echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
     chown -R root:root .
     git config url."https://github.com/".insteadOf git@github.com:
 
-    # hack to optimize usage in travis and not do 'chown -R' (slow) after each 'docker run'
-    # grep for DOCKER_CHOWN_HACK in the repo for relevant pieces
-    # see https://github.com/docker/for-linux/issues/388
-    usermod -u 2000 ${UNAME}
-    groupmod -g 2000 ${GNAME}
-
     sudo --preserve-env -H -u ${UNAME} ./ci/linux/bootstrap
 
-    # grep for DOCKER_CHOWN_HACK in the repo for relevant pieces
-    # see https://github.com/docker/for-linux/issues/388
-    usermod -u ${UID_INDEX} ${UNAME}
-    groupmod -g ${GID_INDEX} ${GNAME}
-
     git rev-parse HEAD > /support-firecloud.bootstrapped
-
-    # make 'docker run --rm -it --user sf <image>' behave like a dev machine
-    cat <<EOF >> /home/${UNAME}/.bash_aliases
-source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
-
-# grep for DOCKER_CHOWN_HACK in the repo for relevant pieces
-# see https://github.com/docker/for-linux/issues/388
-[[ $(find /home/linuxbrew -maxdepth 0 -printf '%u\n') = $(id -u) ]] || \
-    chown -R $(id -u):$(id -g) /home/linuxbrew
-EOF
-    chown ${UNAME}:${GNAME} /home/${UNAME}/.bash_aliases
 
     cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]

@@ -72,23 +72,6 @@ function sf_run_docker_ci_image() {
         "$(id -u --name)" \
         sudo || true;
 
-    # the user needs to own /home/linuxbrew in order to run linuxbrew successfully, but recursive chown is slow.
-    # grep for DOCKER_CHOWN_HACK in the repo for relevant pieces
-    # see https://github.com/docker/for-linux/issues/388
-    local HOME_LINUXBREW_OWNER_GROUP=$(
-        docker exec -it -u root ${CONTAINER_NAME} stat -c "%u:%g" /home/linuxbrew
-    )
-    local CURRENT_OWNER_GROUP="$(id -u):$(id -g)"
-    if [[ "${HOME_LINUXBREW_OWNER_GROUP}" = "${CURRENT_OWNER_GROUP}" ]]; then
-        echo_info "/home/linuxbrew seems already owned by current user."
-        echo_skip "Taking ownership of /home/linuxbrew from ${HOME_LINUXBREW_OWNER_GROUP} to ${CURRENT_OWNER_GROUP}..."
-    else
-        echo_do "Taking ownership of /home/linuxbrew from ${HOME_LINUXBREW_OWNER_GROUP} to ${CURRENT_OWNER_GROUP}..."
-        exe docker exec -it -u root ${CONTAINER_NAME} \
-            chown -R $(id -u):$(id -g) /home/linuxbrew
-        echo_done
-    fi
-
     # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
     echo_do "Taking ownership over ${HOME}..."
