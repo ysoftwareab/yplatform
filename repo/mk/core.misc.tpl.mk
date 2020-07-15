@@ -10,7 +10,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_TPL_FILES := $(shell $(FIND_Q_NOSYM) . -type f -name "*.tpl" -print)
+SF_TPL_FILES := $(shell $(FIND_Q_NOSYM) . -type f -executable -name "*.tpl" -print)
 
 SF_TPL_FILES_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES))
 
