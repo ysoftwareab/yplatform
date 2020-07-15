@@ -52,6 +52,7 @@ The high-level colletions of pieces are as follows:
   * [core.build.mk](core.build.mk)
   * [core.check.mk](core.check.mk)
   * [core.node.mk](core.node.mk)
+  * [core.shell.mk](core.shell.mk)
   * [core.test.mk](core.test.mk)
   * [core.vendor.mk](core.vendor.mk)
 * [generic.common.mk](generic.common.mk) - for generic repositories

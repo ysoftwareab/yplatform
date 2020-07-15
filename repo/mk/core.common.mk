@@ -45,6 +45,7 @@ SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.shell.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk \
 
 SF_CORE_COMMON_INCLUDES_DEFAULT += \
