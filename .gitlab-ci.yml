@@ -13,6 +13,7 @@ variables:
       # and creating a sudoer user and then running gitlab jobs through it failed
       name: homebrew/ubuntu16.04
     only:
+      - /^gitlab/ # gitlab branches
       - master
       # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
     cache:

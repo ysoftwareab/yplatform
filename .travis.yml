@@ -9,6 +9,7 @@ env:
 # 3. Git
 branches:
   only:
+    - /^travis/ # travis branches
     - master
     - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
     - wsl

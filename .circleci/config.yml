@@ -53,7 +53,9 @@ aliases:
   - filter-main: &filter-main
       filters:
         branches:
-          only: master
+          only:
+            - /^circleci/ # circleci branches
+            - master
         tags:
           only: /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 

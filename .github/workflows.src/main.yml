@@ -2,6 +2,7 @@ name: CI
 on:
   push:
     branches:
+      - /^github/ # github branches
       - master
       - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
