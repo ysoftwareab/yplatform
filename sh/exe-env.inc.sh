@@ -46,7 +46,7 @@ fi
 
 function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
-    [[ -x make.sh ]] || [[ -n "${SF_MAKE_SH_PASS:-}" ]] || {
+    [[ -x make.sh ]] || [[ -z "${SF_MAKE_SH_PASS:-}" ]] || {
         ${MAKE_COMMAND} $@
         return $?
     }
