@@ -6,7 +6,7 @@
 .PHONY: _publish
 _publish: guard-env-GIT_REMOTE
 	@$(ECHO_DO) "Publishing version..."
-	$(GIT) push --no-verify $(GIT_REMOTE) v`$(CAT) "package.json" | $(JQ) -r ".version"`
+	$(GIT) push --no-verify $(GIT_REMOTE) v$$($(CAT) "package.json" | $(JQ) -r ".version")
 	@$(ECHO_DONE)
 
 
@@ -19,7 +19,7 @@ _release:
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else `git push` fails
-	[[ `$(GIT) rev-list --count HEAD..@{u}` = 0 ]] || { \
+	[[ $$($(GIT) rev-list --count HEAD..@{u}) = 0 ]] || { \
 		$(ECHO_INFO) "Upstream has new commits..."; \
 		$(GIT) --no-pager log \
 			--color \
@@ -27,8 +27,8 @@ _release:
 			--date=short \
 			--pretty=format:"%h %ad %s" \
 			--no-decorate \
-			`$(GIT) rev-parse HEAD`..`$(GIT) rev-parse @{u}`; \
-		GIT_TAG=`$(GIT) tag -l --points-at HEAD | $(HEAD) -1`; \
+			$$($(GIT) rev-parse HEAD`..`$(GIT) rev-parse @{u}); \
+		GIT_TAG=$$($(GIT) tag -l --points-at HEAD | $(HEAD) -1); \
 		$(ECHO_INFO) "Merging in tag $${GIT_TAG}..."; \
 		$(GIT) reset --hard @{u}; \
 		$(GIT) merge --no-ff refs/tags/$${GIT_TAG} -m "Merge tag '$${GIT_TAG}'" || { \
