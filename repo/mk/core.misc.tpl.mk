@@ -10,7 +10,17 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_TPL_FILES := $(shell $(FIND_Q_NOSYM) . -type f -executable -name "*.tpl" -print)
+SF_TPL_FILES_IGNORE += \
+	-e "^$$" \
+	$(SF_VENDOR_FILES_IGNORE) \
+
+SF_TPL_FILES += $(shell $(GIT_LS) . | \
+	$(GREP) -e "\\.tpl$$" | \
+	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
+	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
+	$(GREP) -v $(SF_JSONLINT_FILES_IGNORE) | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 
 SF_TPL_FILES_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES))
 
@@ -18,10 +28,9 @@ SF_TPL_FILES_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES))
 
 .PHONY: $(SF_TPL_FILES_GEN)
 $(SF_TPL_FILES_GEN): %: %.tpl
-	if $$($(ECHO) "$(SF_TPL_FILES)" | $(GREP) -q "$<"); then \
-		$(ECHO_INFO) "$< was removed from SF_TPL_FILES."; \
-		$(ECHO_SKIP) "Generating $@ from template $<..."; \
-	else \
+#	NOTE A file pattern can be added to SF_TPL_FILES_IGNORE
+#	after the line above is expanded (when this file is parsed.
+	if $$($(ECHO) "$(SF_TPL_FILES)" | $(GREP) -q -v $(SF_TPL_FILES_IGNORE)); then \
 		$(ECHO_DO) "Generating $@ from template $<..."; \
 		$< > $@; \
 		$(ECHO_DONE); \
