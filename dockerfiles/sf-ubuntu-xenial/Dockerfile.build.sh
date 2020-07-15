@@ -59,7 +59,7 @@ adduser \
     --gecos "" \
     ${UNAME}
 adduser ${UNAME} sudo
-echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 # MAIN
 {
