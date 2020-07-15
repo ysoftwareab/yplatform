@@ -10,6 +10,8 @@
 #
 # ------------------------------------------------------------------------------
 
+SF_IS_TRANSCRYPTED ?= false
+
 SF_TPL_FILES_IGNORE += \
 	-e "^$$" \
 	$(SF_VENDOR_FILES_IGNORE) \
