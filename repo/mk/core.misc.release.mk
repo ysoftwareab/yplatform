@@ -66,7 +66,7 @@ endif
 
 
 .PHONY: $(RELEASE_TARGETS)
-# NOTE: below is a workaround for `make help-all` to work
+# NOTE: below is a workaround for 'make help-all' to work
 release/patch:
 release/minor:
 release/major:
@@ -86,7 +86,7 @@ release/v%: ## Release a new specific version.
 
 
 .PHONY: $(RELEASE_SEMANTIC_TARGETS)
-# NOTE: below is a workaround for `make help` to work
+# NOTE: below is a workaround for 'make help' to work
 release/bugfix: ## Release a new semantic version with bugfix level.
 release/feature: ## Release a new semantic version with feature level.
 release/breaking: ## Release a new semantic version with breaking level.

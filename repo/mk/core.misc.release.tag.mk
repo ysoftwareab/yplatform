@@ -18,7 +18,7 @@ _release:
 	$(MAKE) deps check version/v$(VSN) _publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
-#	if upstream diverged, create merge commit or else `git push` fails
+#	if upstream diverged, create merge commit or else 'git push' fails
 	[[ $$($(GIT) rev-list --count HEAD..@{u}) = 0 ]] || { \
 		$(ECHO_INFO) "Upstream has new commits..."; \
 		$(GIT) --no-pager log \
@@ -27,7 +27,7 @@ _release:
 			--date=short \
 			--pretty=format:"%h %ad %s" \
 			--no-decorate \
-			$$($(GIT) rev-parse HEAD`..`$(GIT) rev-parse @{u}); \
+			$$($(GIT) rev-parse HEAD)..$$($(GIT) rev-parse @{u}); \
 		GIT_TAG=$$($(GIT) tag -l --points-at HEAD | $(HEAD) -1); \
 		$(ECHO_INFO) "Merging in tag $${GIT_TAG}..."; \
 		$(GIT) reset --hard @{u}; \

@@ -9,9 +9,9 @@ SF_DEPS_TARGETS += \
 .PHONY: deps--node_modules_private
 deps-node_modules_private:
 	DEPS=""; \
-	for DEP_NAME in `$(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'`; do \
-		DEP_VSN=`$(CAT) "package.json" | $(JQ) -r ".privateDependencies.\"$${DEP_NAME}\""`; \
-		BUNDLED_DEP_VSN=`$(CAT) "node_modules_private/lib/node_modules/$${DEP_NAME}/package.json" | $(JQ) -r "._from"`; \
+	for DEP_NAME in $$($(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'); do \
+		DEP_VSN=$$($(CAT) "package.json" | $(JQ) -r ".privateDependencies.\"$${DEP_NAME}\""); \
+		BUNDLED_DEP_VSN=$$($(CAT) "node_modules_private/lib/node_modules/$${DEP_NAME}/package.json" | $(JQ) -r "._from"); \
 		[[ "$${DEP_VSN}" = "$${BUNDLED_DEP_VSN}" ]] || { \
 			$(ECHO_ERR) "node_modules_private/lib/node_modules/$${DEP_NAME} is outdated."; \
 			$(ECHO_ERR) "Found    $${DEP_VSN}."; \
@@ -25,8 +25,8 @@ deps-node_modules_private:
 .PHONY: node_modules_private
 node_modules_private: ## Refresh node_modules_private folder.
 	DEPS=""; \
-	for DEP_NAME in `$(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'`; do \
-		DEP_VSN=`$(CAT) "package.json" | $(JQ) -r ".privateDependencies $${DEP_NAME}"`; \
+	for DEP_NAME in $$($(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'); do \
+		DEP_VSN=$$($(CAT) "package.json" | $(JQ) -r ".privateDependencies $${DEP_NAME}"); \
 		DEPS="$${DEPS} $${DEP_NAME}@$${DEP_VSN}"; \
 	done; \
 	$(RM) node_modules_private/etc || true; \

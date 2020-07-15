@@ -31,7 +31,7 @@ snapshot:
 	$(RM) $(SF_SNAPSHOT_ZIP)
 	$(RM) $(SF_SNAPSHOT_DIR)
 	$(MKDIR) $(SF_SNAPSHOT_DIR)
-	for f in `$(GIT_LS_SUB)` `$(GIT_LS_NEW) | $(GREP) -v $(SF_SNAPSHOT_FILES_IGNORE)`; do \
+	for f in $$($(GIT_LS_SUB)) $$($(GIT_LS_NEW) | $(GREP) -v $(SF_SNAPSHOT_FILES_IGNORE)); do \
 		$(CP) --parents $${f} $(SF_SNAPSHOT_DIR)/; \
 	done
 	$(ECHO) -n "$(GIT_HASH)" > $(SF_SNAPSHOT_DIR)/$(SF_SNAPSHOT_GIT_HASH)
@@ -44,7 +44,7 @@ snapshot:
 reset-to-snapshot:
 	@$(ECHO_DO) "Resetting to $(SF_SNAPSHOT_ZIP)..."
 	$(UNZIP) $(SF_SNAPSHOT_ZIP) $(SF_SNAPSHOT_GIT_HASH)
-	$(GIT) reset --hard `$(CAT) ${SF_SNAPSHOT_GIT_HASH}`
+	$(GIT) reset --hard $$($(CAT) ${SF_SNAPSHOT_GIT_HASH})
 	$(GIT) reset --soft $(GIT_HASH_SHORT)
 	$(GIT) clean -xdf -e $(SF_SNAPSHOT_ZIP) -- .
 	$(GIT) reset

@@ -25,7 +25,7 @@ $(foreach VAR,PKG_VSN PKG_VSN_MAJOR PKG_VSN_PUBLIC,$(call make-lazy,$(VAR)))
 # ------------------------------------------------------------------------------
 
 .PHONY: $(VERSION_TARGETS)
-# NOTE: below is a workaround for `make help-all` to work
+# NOTE: below is a workaround for 'make help-all' to work
 version/patch:
 version/minor:
 version/major:

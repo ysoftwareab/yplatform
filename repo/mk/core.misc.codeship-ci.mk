@@ -1,4 +1,4 @@
-# Adds a 'jet-steps' target to start `jet steps` with proper configuration.
+# Adds a 'jet-steps' target to start 'jet steps' with proper configuration.
 #
 # ------------------------------------------------------------------------------
 
