@@ -74,13 +74,13 @@ echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
     cat <<EOF >> /home/${UNAME}/.bash_aliases
 source /support-firecloud/sh/dev.inc.sh
 EOF
-    chown ${UNAME}:${GNAME} ~/.bash_aliases
+    chown ${UNAME}:${GNAME} /home/${UNAME}/.bash_aliases
 
     cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
 EOF
-    chown ${UNAME}:${GNAME} ~/.gitconfig
+    chown ${UNAME}:${GNAME} /home/${UNAME}/.gitconfig
 
     touch ~/.sudo_as_admin_successful
     chown ${UNAME}:${GNAME} ~/.sudo_as_admin_successful
