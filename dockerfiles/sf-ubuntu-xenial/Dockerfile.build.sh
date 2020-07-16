@@ -74,11 +74,13 @@ echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
     cat <<EOF >> /home/${UNAME}/.bash_aliases
 source /support-firecloud/sh/dev.inc.sh
 EOF
+    chown ${UNAME}:${GNAME} ~/.bash_aliases
 
     cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
 EOF
+    chown ${UNAME}:${GNAME} ~/.gitconfig
 }
 
 # CLEANUP
