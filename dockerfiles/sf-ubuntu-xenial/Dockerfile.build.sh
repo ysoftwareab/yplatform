@@ -82,8 +82,8 @@ EOF
 EOF
     chown ${UNAME}:${GNAME} /home/${UNAME}/.gitconfig
 
-    touch ~/.sudo_as_admin_successful
-    chown ${UNAME}:${GNAME} ~/.sudo_as_admin_successful
+    touch /home/${UNAME}/.sudo_as_admin_successful
+    chown ${UNAME}:${GNAME} /home/${UNAME}/.sudo_as_admin_successful
 }
 
 # CLEANUP
