@@ -17,13 +17,12 @@ unset BREW_FORMULAE
     set +u
     source $(brew --prefix nvm)/nvm.sh --no-use
 
-    nvm install node
-    nvm reinstall-packages system
-
-    [[ ! -f .nvmrc ]] || {
+    if [[ -f .nvmrc ]]; then
         nvm install
-        nvm reinstall-packages system
-    }
+    else
+        nvm install node
+    fi
+    nvm reinstall-packages system
 )
 echo_done
 
