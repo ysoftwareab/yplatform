@@ -19,7 +19,7 @@ function sf_path_append() {
 if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
     sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
     sf_path_prepend /home/linuxbrew/.linuxbrew/bin
-elif [ -x ~/.linuxbrew/bin/brew ]; then
+elif [ -x ${HOME}/.linuxbrew/bin/brew ]; then
     sf_path_prepend ${HOME}/.linuxbrew/sbin
     sf_path_prepend ${HOME}/.linuxbrew/bin
 fi
@@ -41,7 +41,7 @@ if which brew >/dev/null 2>&1; then
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/zip/bin
 
-    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
+    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=${HOME}/.nvm
     type nvm >/dev/null 2>&1 || {
         NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
         [ -z "${NVM_INSTALLATION_DIR}" ] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
