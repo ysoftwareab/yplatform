@@ -51,6 +51,7 @@ if which brew >/dev/null 2>&1; then
     unset HOMEBREW_PREFIX
 fi
 
+# NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
     if [[ -z "${SF_MAKE_SH_PASS:-}" ]] && [[ -x make.sh ]]; then
@@ -58,5 +59,12 @@ function make() {
         SF_MAKE_SH_PASS=1 ./make.sh $@
         return $?
     fi
+    ${MAKE_COMMAND} $@
+}
+
+# for when you want to skip ./make.sh
+# NOTE caveat: it doesn't work properly if 'make' is already an alias|function
+function make.bak() {
+    local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
     ${MAKE_COMMAND} $@
 }
