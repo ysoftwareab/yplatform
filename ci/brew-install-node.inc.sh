@@ -10,7 +10,13 @@ set -euo pipefail
     done
 }
 
-function node_install_from_brew() {
+
+if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+    echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+    echo_skip "brew: Installing NodeJS packages..."
+else
+    echo_do "brew: Installing NodeJS packages..."
+
     # force node bottle on CI, compiling node fails or takes forever
     NODE_FORMULA=node
     [[ "${CI:-}" != "true" ]] || {
@@ -49,50 +55,17 @@ EOF
 )"
     brew_install "${BREW_FORMULAE}"
     unset BREW_FORMULAE
-}
-
-function node_install_from_nvm() {
-    brew_install nvm
-    [[ ! -f .nvmrc ]] || (
-        set +u
-        source $(brew --prefix nvm)/nvm.sh --no-use
-
-        nvm install
-        nvm reinstall-packages system
-        nvm alias default $(nvm current)
-    )
-}
-
-
-if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
-    echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-    echo_skip "brew: Installing NodeJS packages..."
-else
-    echo_do "brew: Installing NodeJS packages..."
-    node_install_from_brew
-    node_install_from_nvm
 
     # allow npm upgrade to fail on WSL; fails with EACCESS
     IS_WSL=$([[ -e /proc/version ]] && cat /proc/version | grep -q -e "Microsoft" && echo true || echo false)
     npm install --global --force npm@6 || ${IS_WSL}
     npm install --global json@9
-    [[ ! -f .nvmrc ]] || (
-        set +u
-        source $(brew --prefix nvm)/nvm.sh --no-use
 
-        nvm use
-        nvm reinstall-packages system
-    )
     echo_done
 
     echo_do "brew: Testing NodeJS packages..."
     exe_and_grep_q "node --version | head -1" "^v"
     exe_and_grep_q "npm --version | head -1" "^6\."
     exe_and_grep_q "json --version | head -1" "^json 9\."
-    (
-        set +u
-        source $(brew --prefix nvm)/nvm.sh --no-use
-        exe_and_grep_q "nvm --version | head -1" "^0\."
-    )
     echo_done
 fi
