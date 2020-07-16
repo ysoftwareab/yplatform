@@ -39,7 +39,7 @@ apt_update
 
 export DEBIAN_FRONTEND=noninteractive
 apt_install debconf-utils
-echo '* libraries/restart-without-asking boolean true' | sudo debconf-set-selections
+echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
 
 apt_install locales
 locale-gen en_US en_US.UTF-8
