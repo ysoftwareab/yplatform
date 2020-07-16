@@ -1,6 +1,6 @@
-- tag:
-    - ^codeship # codeship branches
-    - master
+- tag: (^codeship|^master$)
+    # - /^codeship/ # codeship branches
+    # - master
     # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
   exclude: .*\[skip ci\].*
   type: serial
