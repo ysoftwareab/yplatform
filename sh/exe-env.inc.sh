@@ -41,12 +41,12 @@ if which brew >/dev/null 2>&1; then
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/zip/bin
 
+    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
     type nvm >/dev/null 2>&1 || {
         NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
         [ -z "${NVM_INSTALLATION_DIR}" ] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
         unset NVM_INSTALLATION_DIR
     }
-    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
 
     unset HOMEBREW_PREFIX
 fi
