@@ -46,6 +46,7 @@ if which brew >/dev/null 2>&1; then
         [ -z "${NVM_INSTALLATION_DIR}" ] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
         unset NVM_INSTALLATION_DIR
     }
+    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
 
     unset HOMEBREW_PREFIX
 fi

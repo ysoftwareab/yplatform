@@ -2,6 +2,10 @@
 set -euo pipefail
 
 echo_do "brew: Installing NVM packages..."
+
+[ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
+mkdir -p ${NVM_DIR}
+
 BREW_FORMULAE="$(cat <<-EOF
 nvm
 EOF
@@ -9,13 +13,19 @@ EOF
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 
-[[ ! -f .nvmrc ]] || (
+(
     set +u
     source $(brew --prefix nvm)/nvm.sh --no-use
 
-    nvm install
+    nvm install node
     nvm reinstall-packages system
-    nvm alias default $(nvm current)
+    nvm alias default node
+
+    [[ ! -f .nvmrc ]] || {
+        nvm install
+        nvm reinstall-packages system
+        nvm alias default $(nvm current)
+    }
 )
 echo_done
 
