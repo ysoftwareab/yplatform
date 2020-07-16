@@ -53,8 +53,7 @@ function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
     if [[ -z "${SF_MAKE_SH_PASS:-}" ]] && [[ -x make.sh ]]; then
         echo >&2 "[INFO] Found a ${PWD}/make.sh. Executing that instead of ${MAKE_COMMAND}."
-        export SF_MAKE_SH_PASS=1
-        ./make.sh $@
+        SF_MAKE_SH_PASS=1 ./make.sh $@
         return $?
     fi
     ${MAKE_COMMAND} $@
