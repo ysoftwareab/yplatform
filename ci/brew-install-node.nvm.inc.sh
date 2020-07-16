@@ -19,12 +19,10 @@ unset BREW_FORMULAE
 
     nvm install node
     nvm reinstall-packages system
-    nvm alias default node
 
     [[ ! -f .nvmrc ]] || {
         nvm install
         nvm reinstall-packages system
-        nvm alias default $(nvm current)
     }
 )
 echo_done
