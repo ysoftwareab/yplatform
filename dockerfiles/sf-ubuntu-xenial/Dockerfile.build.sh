@@ -71,6 +71,10 @@ echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
     git rev-parse HEAD > /support-firecloud.bootstrapped
 
+    cat <<EOF >> /home/${UNAME}/.bash_aliases
+source /support-firecloud/sh/dev.inc.sh
+EOF
+
     cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
