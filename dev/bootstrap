@@ -31,8 +31,8 @@ elif [[ "${SUDO}" = "sf_nosudo" ]]; then
 else
     echo "Enter your sudo password for bootstrap."
     ${SUDO} true || {
-        echo_err "You need sudo/root access (called 'local admin rights' on MacOS) to bootstrap properly." \
-            "If you don't have sudo/root access, try contacting the IT department."
+        echo_err "You need sudo/root access (called 'local admin rights' on MacOS) to bootstrap properly."
+        echo_err "If you don't have sudo/root access, try contacting the IT department."
         exit 1
     }
 fi
