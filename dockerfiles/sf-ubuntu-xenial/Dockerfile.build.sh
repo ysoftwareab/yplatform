@@ -81,6 +81,9 @@ EOF
     path = /support-firecloud/generic/dot.gitconfig
 EOF
     chown ${UNAME}:${GNAME} ~/.gitconfig
+
+    touch ~/.sudo_as_admin_successful
+    chown ${UNAME}:${GNAME} ~/.sudo_as_admin_successful
 }
 
 # CLEANUP
