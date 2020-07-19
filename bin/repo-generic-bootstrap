@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- repo-generic-bootstrap 1.0
-## Usage: repo-node-boostrap [OPTION]
+## Usage: repo-generic-boostrap [OPTION]
 ## Bootstrap a repo as a generic repo.
 ##
 ##   --diff         Bootstrap a temporary folder for comparing
