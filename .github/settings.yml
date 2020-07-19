@@ -1,5 +1,5 @@
 repository:
-  # See https://docs.github.com/en/rest/reference/repos#edit for all available settings.
+  # https://docs.github.com/en/rest/reference/repos#edit
   name: support-firecloud
   description: Software and configuration that supports various cycles of software development.
   default_branch: master
@@ -8,3 +8,14 @@ repository:
   allow_merge_commit: true
   allow_rebase_merge: false
   delete_branch_on_merge: true
+branches:
+  - name: master
+    protection:
+      # https://docs.github.com/en/rest/reference/repos#update-branch-protection
+      required_status_checks:
+        contexts:
+          - Travis CI - Pull Request
+      required_pull_request_reviews:
+        dismiss_stale_reviews: true
+        # require_code_owner_reviews: true
+        required_approving_review_count: 1
