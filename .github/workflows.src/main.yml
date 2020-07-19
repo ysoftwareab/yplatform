@@ -2,9 +2,9 @@ name: CI
 on:
   push:
     branches:
-      - /^github/ # github branches
+      - github.* # github branches
       - master
-      - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
+      - v[0-9]+.[0-9]+.[0-9]+ # version tags
 
 aliases:
   env: &env
