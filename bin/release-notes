@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- release-notes 1.0
+## Usage: release-notes [OPTION]
+## Generate release notes from a git commit range.
+##
+##   --pkg-name     The package name.
+##   --pkg-vsn      The package version.
+##                  Defaults to the tag/commit of of the end of the git commit rage.
+##   --from         The beginning of the git commit range.
+##                  Defaults to the latest version tag in the range.
+##   --to           The end of the git commit range.
+##                  Defaults to HEAD.
+##   --pattern      The version pattern to filter tags by.
+##                  Defaults to "^v"
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
+PKG_NAME=
+PKG_VSN=
+RANGE_FROM=
+RANGE_TO=HEAD
+VERSION_PATTERN="^v"
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --pkg-name)
+            PKG_NAME=$2
+            shift 2
+            ;;
+        --pkg-vsn)
+            PKG_VSN=$2
+            shift 2
+            ;;
+        --from)
+            RANGE_FROM=$2
+            shift 2
+            ;;
+        --to)
+            RANGE_TO=$2
+            shift 2
+            ;;
+        --pattern)
+            VERSION_PATTERN=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+RANGE_FROM_VSN=$(git tag --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
+RANGE_TO_VSN=$(git tag --points-at ${RANGE_TO} | { grep -e "${VERSION_PATTERN}" || true; })
+PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
+
+if [[ -z "${RANGE_FROM}" ]]; then
+    PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ | \
+    xargs -L1 git tag --points-at | \
+    { grep -e "${VERSION_PATTERN}" || true; } |
+    sort -V |
+    tac)"
+    if [[ -n "${PREV_VSNS}" ]]; then
+        RANGE_FROM=$(echo "${PREV_VSNS}" | head -1)
+    else
+        RANGE_FROM=${FIRST_COMMIT}
+    fi
+fi
+
+echo "# ${PKG_NAME} ${PKG_VSN:-${RANGE_TO}} Release Notes"
+
+echo
+echo "---"
+echo
+
+if [[ -z "${RANGE_FROM}" ]]; then
+    echo "### Highlights"
+else
+    echo "### Highlights since ${RANGE_FROM}"
+fi
+echo
+echo "* None"
+
+echo
+echo "---"
+echo
+
+if [[ -z "${RANGE_FROM}" ]]; then
+    echo "### Breaking commits"
+else
+    echo "### Breaking commits since ${RANGE_FROM}"
+fi
+echo
+
+git --no-pager log \
+		--date=short \
+		--graph \
+		--no-decorate \
+		--pretty=format:"%h %ad %s" \
+    --boundary \
+    --no-color \
+		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
+    sed "s/^o/*/" | \
+    sed "s/^ /./" | \
+    sed "s/ *$//" | \
+    grep -E "^break" || \
+    echo -n "* None"
+echo
+
+echo
+echo "---"
+echo
+
+if [[ -z "${RANGE_FROM}" ]]; then
+    echo "### Commits"
+else
+    echo "### Commits since ${RANGE_FROM}"
+fi
+echo
+
+git --no-pager log \
+		--date=short \
+		--graph \
+		--no-decorate \
+		--pretty=format:"%h %ad %s" \
+    --boundary \
+    --no-color \
+		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
+    sed "s/^o/*/" | \
+    sed "s/^ /./" | \
+    sed "s/ *$//" || \
+    echo -n "* None"
+echo

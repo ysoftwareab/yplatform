@@ -13,9 +13,9 @@ _publish: guard-env-GIT_REMOTE
 .PHONY: _release
 _release:
 	@$(ECHO_DO) "Release new $(VSN) version..."
-	# $(MAKE) nuke all test version/v$(VSN) _publish
+	# $(MAKE) nuke all test version/v$(PKG_VSN_NEW) _publish
 	# no need for 'nuke all test'
-	$(MAKE) deps check version/v$(VSN) _publish
+	$(MAKE) deps check version/v$(PKG_VSN_NEW) _publish
 	sleep 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else 'git push' fails
