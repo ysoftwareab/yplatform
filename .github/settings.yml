@@ -1,7 +1,7 @@
 repository:
   # See https://docs.github.com/en/rest/reference/repos#edit for all available settings.
   name: support-firecloud
-  description: Software and configuration that supports various cycles of software development.
+  description: Software and configuration that supports various cycles of software development. Probot test.
   default_branch: master
   license_template: apache-2.0
   allow_squash_merge: false
