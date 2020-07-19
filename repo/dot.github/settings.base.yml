@@ -5,7 +5,9 @@ repository:
   allow_squash_merge: false
   allow_merge_commit: true
   allow_rebase_merge: false
-  delete_branch_on_merge: true
+  # NOTE don't enable delete_branch_on_merge because it will actually disable it no matter the value
+  # see https://github.com/probot/settings/issues/134#issuecomment-642441997
+  # delete_branch_on_merge: true
 branches:
   - name: master
     protection:
