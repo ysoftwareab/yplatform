@@ -1,0 +1,10 @@
+repository:
+  # See https://docs.github.com/en/rest/reference/repos#edit for all available settings.
+  name: support-firecloud
+  description: Software and configuration that supports various cycles of software development.
+  default_branch: master
+  license_template: apache-2.0
+  allow_squash_merge: false
+  allow_merge_commit: true
+  allow_rebase_merge: false
+  delete_branch_on_merge: true
