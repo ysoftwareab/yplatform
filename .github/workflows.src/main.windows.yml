@@ -47,6 +47,10 @@ jobs:
     env:
       <<: *env
     steps:
+      - shell: bash
+        run: |-
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - *checkout
       - *checkout-submodules
       - shell: bash
