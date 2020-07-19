@@ -63,7 +63,7 @@ Once you've created the Github repository, remember to (see sections below):
 
 ### Add teams and collaborators
 
-Go to `Settings` tab -> `Collaborators & Teams`.
+Go to `Settings` tab -> `Manage access`.
 
 * add entire teams, not individual team members
 * if adding your team (who owns the repo), give it admin access
@@ -73,11 +73,10 @@ Go to `Settings` tab -> `Collaborators & Teams`.
 ### Security Alerts
 
 Allow Github to perform analysis of the dependency graph and provide security alerts by
-going to `Settings` tab -> `Options` -> `Data services`.
+going to `Settings` tab -> `Security & Analysis`.
 
-* select `Allow GitHub to perform read-only analysis of this repository`
-* select `Dependency graph`
-* select `Security alerts`
+* enable `Dependabot alerts`
+* enable `Dependabot security updates`
 
 
 ### Merge button and protected master branch
@@ -107,6 +106,7 @@ going to `Settings` tab -> `Branches` -> `Add rule`.
 * select `Require status checks to pass before merging`
   * select `Travis CI - Pull Request`
     * if not available, [set up Travis CI integration first](./integrate-travis-ci.md)
+* **optionally** select `Require signed commits`
 * click `Create`
 
 **NOTE** Do not enable `Require branches to be up to date before merging`,
