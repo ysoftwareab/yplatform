@@ -1,0 +1,18 @@
+support-firecloud v0.2.25 Release Notes
+
+Highlights since v0.2.24:
+
+* None
+
+Breaking commits since v0.2.24:
+
+* None
+
+Commits since v0.2.24:
+
+* 2b38708 2020-03-06 0.2.25
+* 2307d71 2020-03-06 trigger bootstrap log in 'make docker-ci'
+* fc72533 2020-03-06 when running locally, we need to own the HOME folder
+* f725ce1 2020-03-06 time the slow chown
+* ec934f0 2020-03-06 need to chown /home/linuxbrew when running docker-ci locally
+o cf7835c 2020-03-05 0.2.24

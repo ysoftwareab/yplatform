@@ -1,0 +1,16 @@
+support-firecloud v0.2.45 Release Notes
+
+Highlights since v0.2.44:
+
+* None
+
+Breaking commits since v0.2.44:
+
+* None
+
+Commits since v0.2.44:
+
+* 1893126 2020-07-19 0.2.45
+* 0bb47cc 2020-07-19 add release-notes, based on #154
+* ae9114a 2020-07-19 generate notes when creating a new release. fix #154
+o 2cfa755 2020-07-16 0.2.44

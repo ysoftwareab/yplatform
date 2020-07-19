@@ -1,0 +1,22 @@
+support-firecloud v0.2.42 Release Notes
+
+Highlights since v0.2.41:
+
+* None
+
+Breaking commits since v0.2.41:
+
+* None
+
+Commits since v0.2.41:
+
+* d27bc7a 2020-07-16 0.2.42
+* d914c58 2020-07-16 remove ubuntu warning about using sudo
+* 399478a 2020-07-16 chown files created in sf's home
+* d369624 2020-07-16 add a make.bak for convenience
+* 8fc7441 2020-07-16 remove sudo=sudo from gitlab
+* 475dbf3 2020-07-16 clarify SUDO
+* b07c86c 2020-07-16 redundant sudo
+* 606d404 2020-07-16 style
+* 93f61a6 2020-07-16 prefer my gmail address over the tobii one
+o e91acf2 2020-07-16 0.2.41

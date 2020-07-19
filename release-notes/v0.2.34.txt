@@ -1,0 +1,30 @@
+support-firecloud v0.2.34 Release Notes
+
+Highlights since v0.2.33:
+
+* None
+
+Breaking commits since v0.2.33:
+
+* None
+
+Commits since v0.2.33:
+
+* 7e9d0d1 2020-07-06 0.2.34
+* c180de3 2020-07-06 style
+* 7daa3e3 2020-07-06 reuse UNAME
+* 83e8177 2020-07-06 fix bad naming
+* 0ef8069 2020-07-06 whitespace
+* 8dea9b6 2020-07-06 wsl run only on wsl branch for now
+* 2f3979f 2020-07-06 Revert "transcrypt: try core.autocrlf=input to not mark the repo dirty"
+* b3e9f03 2020-07-06 Revert "wsl: another take at EOL"
+* d6f3c43 2020-07-06 wsl: another take at EOL
+* f89a1e0 2020-07-06 transcrypt: try core.autocrlf=input to not mark the repo dirty
+* afcb057 2020-07-06 add docs for better wsl integration
+* 0bd3986 2020-07-06 fix wsl on travis: chmod on .git/config.lock failed: Operation not permitted
+* 8ca659d 2020-07-05 git submodule sync --recursive
+* 401f0a8 2020-07-05 disable wsl under travis until green
+* f1bbf9c 2020-07-05 fixup! wsl: chown to travis user
+* 9b4d067 2020-07-05 wsl: chown to travis user
+* 3e2c6c3 2020-07-05 fixup! run on travis via wsl
+o c5163ad 2020-07-05 0.2.33

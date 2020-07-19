@@ -1,0 +1,46 @@
+support-firecloud v0.2.35 Release Notes
+
+Highlights since v0.2.34:
+
+* None
+
+Breaking commits since v0.2.34:
+
+* None
+
+Commits since v0.2.34:
+
+* 3c8b809 2020-07-11 0.2.35
+* 52f42ec 2020-07-10 fixup! remove nodejs installed by github actions team
+* eab2703 2020-07-10 remove nodejs installed by github actions team
+* f8721f6 2020-07-10 fixup! add script that returns NVM_BIN after 'nvm use'
+* 3986428 2020-07-10 add logging for brew_upgrade
+* d42b174 2020-07-10 add script that returns NVM_BIN after 'nvm use'
+* aec745e 2020-07-10 remove old code
+* 8f9e880 2020-07-10 workaround for error when unlinking keg-only brew packages on travis
+* de93743 2020-07-10 echo on successful exe_and_grep_q
+* 667b3d2 2020-07-10 hide ridiculous amount of output from 'brew update'
+* 0136856 2020-07-09 stop ignoring editorconfig.indent_style for .ts - it looks like there are no more complaints about jsdoc comments
+* c0ffa7a 2020-07-08 do only a best-try with unlinking keg-only packages
+* f6ec276 2020-07-08 editorconfig: set tab width to default to 2, even for GNU Make
+* 4fc5197 2020-07-08 pipe all travis env to WSL. see #175
+* 73a571e 2020-07-08 breaking: bin/travis-get-env-vars will output both custom AND TRAVIS_ prefix vars. learned --wslenv
+* 6223db0 2020-07-07 don't recommend prettier, in favour of eslint. it may reformat willy-nilly and introduce PR noise
+* e417622 2020-07-07 revert 8dea9b6
+* 98048f6 2020-07-07 travis: fix crlf on wsl
+* dc4f091 2020-07-07 transcrypt: be verbose when you say the repo is dirty
+* 9cbb71d 2020-07-07 bump homebrew installers
+* 01984a1 2020-07-07 bump editorconfig-checker
+* 65fd973 2020-07-06 updated generic/dot.gitattributes_global
+* f6da408 2020-07-06 remove redundant instruction after sf-install script
+* af2d61b 2020-07-06 updated generic/dot.gitattributes_global
+* 8cd268c 2020-07-06 don't diff yarn.lock
+* 2e50d31 2020-07-06 remove old tailf mention
+* 4c469b6 2020-07-06 generate generic/dot.gitignore_global based on https://github.com/github/gitignore
+* 4caa8a8 2020-07-06 ignore .log files by default
+* e6c2912 2020-07-06 add js.deps.yarn.mk
+* 4712257 2020-07-06 add editor&os sections in gitignore
+* 4f0ea22 2020-07-06 ignore more OS files
+* 90784de 2020-07-06 add sf-install script
+* 84a4c2a 2020-07-06 tobiipro/support-firecloud -> rokmoln/support-firecloud
+o 7e9d0d1 2020-07-06 0.2.34

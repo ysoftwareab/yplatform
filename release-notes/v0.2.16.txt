@@ -1,0 +1,15 @@
+support-firecloud v0.2.16 Release Notes
+
+Highlights since v0.2.15:
+
+* None
+
+Breaking commits since v0.2.15:
+
+* None
+
+Commits since v0.2.15:
+
+* 7aaa3a9 2020-02-08 0.2.16
+* fb46ef4 2020-02-08 fixup! add dockerfiles/build
+o 20dd105 2020-02-08 0.2.15

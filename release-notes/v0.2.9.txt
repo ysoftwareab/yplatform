@@ -1,0 +1,15 @@
+support-firecloud v0.2.9 Release Notes
+
+Highlights since v0.2.8:
+
+* None
+
+Breaking commits since v0.2.8:
+
+* None
+
+Commits since v0.2.8:
+
+* 41026e2 2020-02-08 0.2.9
+* 487b9c5 2020-02-08 fixup! fixup! hygiene: always use -r with xargs
+o 05c0d65 2020-02-08 0.2.8

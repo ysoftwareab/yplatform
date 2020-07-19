@@ -1,0 +1,42 @@
+support-firecloud v0.2.31 Release Notes
+
+Highlights since v0.2.30:
+
+* None
+
+Breaking commits since v0.2.30:
+
+* None
+
+Commits since v0.2.30:
+
+* 6ef324a 2020-04-29 0.2.31
+* 5b57426 2020-04-29 naming
+* a2553ad 2020-04-29 Revert "test ubuntu focal"
+* b76cd6c 2020-04-28 test ubuntu focal
+* bc4809e 2020-04-28 disable bionic-dev. fails to install pyenv via linuxbrew (stuck with cpan -i XML::Parser)
+* 59489f1 2020-04-28 travis: macos with xcode 11.3, instead of 10.14
+* 375465e 2020-04-28 Revert "try installing pyenv standalone"
+* fca481b 2020-04-28 try installing pyenv standalone
+* 8913481 2020-04-27 order
+* 6ea26ac 2020-04-27 add pattern to skip ci
+* 2ea3595 2020-04-27 bootstrap: add aws an py to dev; side-effect: test everything in ci
+* b627312 2020-04-27 it's faster for pip3 to download a github zip than to git clone
+* f132499 2020-04-27 there's no more python@2 and python@3 in homebrew
+* 7e7fcb5 2020-04-24 typo: series -> serial
+* 5da7828 2020-04-24 codeship needs a 'type', if no 'service'
+* d658aea 2020-04-24 Revert "codeship doesn't like using a 'tag' without a 'service'"
+* b060be1 2020-04-24 codeship doesn't like using a 'tag' without a 'service'
+* 7a6b7ae 2020-04-24 improve env vars in codeship
+* 369e455 2020-04-24 run only on master
+*   a01fa16 2020-04-24 Merge pull request #168 from rokmoln/codeship-ci
+|\
+| * 6fcfad8 2020-04-24 run on codeship pro
+|/
+* b5dd387 2020-04-24 reuse UNAME GNAME vars
+* f732790 2020-04-20 handle macos plist binaries
+* 5e07e8d 2020-03-13 add ref to google's docguide
+* 0af529e 2020-03-09 Revert "typo"
+* 4949388 2020-03-08 style
+* 5ce3f49 2020-03-08 travis: SF_LOG_BOOTSTRAP=true
+o 011a601 2020-03-09 0.2.30

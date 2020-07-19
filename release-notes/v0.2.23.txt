@@ -1,0 +1,40 @@
+support-firecloud v0.2.23 Release Notes
+
+Highlights since v0.2.22:
+
+* None
+
+Breaking commits since v0.2.22:
+
+* None
+
+Commits since v0.2.22:
+
+* 15bbd39 2020-03-05 0.2.23
+* a888532 2020-03-05 add link to google tech writing course
+* ad9a5a7 2020-03-05 fixup! handle users/groups with whitespace
+* 465e215 2020-03-03 make sure deps are available when running 'make check' within 'make release'
+* d5c6fae 2020-02-27 add style guides. fix #146
+* a6f3583 2020-02-27 update release docs. fix #140
+* 707256f 2020-02-26 gitconfig: preserve is deprecated. use merges. fix #158
+*   ed0f5de 2020-02-26 Merge pull request #155 from tobiipro/editorconfig-checker
+|\
+| * a1536ed 2020-02-17 add editorconfig-checker. fix #149
+* |   f65b89c 2020-02-26 Merge pull request #157 from tobiipro/local-docker-ci
+|\ \
+| * | 131b685 2020-02-25 source SF_TRAVIS_DOCKER_IMAGE from .ci.sh for 'make docker-ci'
+| * | aa2b8ff 2020-02-24 handle users/groups with whitespace
+| * | be2ca37 2020-02-17 add docker-ci target. ref #152
+* | | fe6e98a 2020-02-26 fix PACKAGE_JSON_WAS_CHANGED
+|/ /
+* | 5762f6c 2020-02-24 mark local variables
+* | 9995796 2020-02-24 remove erik
+* | 27a67fb 2020-02-20 Added "Enable SSO" documentation
+* | 7c724cf 2020-02-19 Update working-with-git-new.md
+* | 2b005cf 2020-02-19 Update integrate-travis-ci.md
+* | 6b96586 2020-02-19 Update working-with-git-new.md
+* | d750096 2020-02-18 typo: stage -> phase
+* | 040d04c 2020-02-18 source CONST.inc and CONST.inc.secret in all .ci.sh
+o | 33bf263 2020-02-18 0.2.22
+./
+o f98948c 2020-02-15 lint

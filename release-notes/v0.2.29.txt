@@ -1,0 +1,15 @@
+support-firecloud v0.2.29 Release Notes
+
+Highlights since v0.2.28:
+
+* None
+
+Breaking commits since v0.2.28:
+
+* None
+
+Commits since v0.2.28:
+
+* b2dcecd 2020-03-07 0.2.29
+* 0a7e17d 2020-03-07 fixup! better naming for travis specific function. rename sf_run_docker_ci -> sf_run_docker_ci_in_travis
+o 665ac4c 2020-03-07 0.2.28

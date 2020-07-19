@@ -1,0 +1,15 @@
+support-firecloud v0.2.1 Release Notes
+
+Highlights since v0.2.0:
+
+* None
+
+Breaking commits since v0.2.0:
+
+* None
+
+Commits since v0.2.0:
+
+* dd4a2a2 2020-01-23 0.2.1
+* a0f7985 2020-01-23 using docker tokens now. DOCKER_PASSWORD -> DOCKER_TOKEN
+o 9fe3681 2020-01-23 0.2.0

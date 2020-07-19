@@ -1,0 +1,42 @@
+support-firecloud v0.2.37 Release Notes
+
+Highlights since v0.2.36:
+
+* None
+
+Breaking commits since v0.2.36:
+
+* None
+
+Commits since v0.2.36:
+
+* d468031 2020-07-15 0.2.37
+* 3bc8a48 2020-07-15 fixup! use same UID/GID as travis even in WSL
+* a7f72b6 2020-07-15 build only wsl in branch wsl
+* 85c6dea 2020-07-14 KISS about make overload
+* 0198d05 2020-07-14 overload make even if not present YET
+* 7ce03b1 2020-07-14 handle BSD stat
+* 5453d96 2020-07-14 fixup! cannot sudo on some CIs e.g. CircleCI
+* 3c42d6b 2020-07-14 updated bin/dockerfile-from-image
+* 32a6b81 2020-07-14 cannot sudo on some CIs e.g. CircleCI
+* 3b39d65 2020-07-14 fixup! try not to hack around slow dockerfile chown, and run 'make bootstrap' under the /home/linuxbrew owner
+* 64ef5c5 2020-07-14 fixup! ability to overload 'make' in a shell session that has exe-env.inc.sh sourced. fix #179
+* c3ede4d 2020-07-14 more robust way to get NVM_BIN
+* 9138cf3 2020-07-14 try not to hack around slow dockerfile chown, and run 'make bootstrap' under the /home/linuxbrew owner
+* d71c87f 2020-07-14 mark relevant pieces for docker-chown hack
+* 676af70 2020-07-14 use same UID/GID as travis even in WSL
+* 221df74 2020-07-14 don't remove the linuxbrew cache folder, might get recreated later with the wrong permissions
+* 655dd13 2020-07-14 add core.misc.tpl.mk
+* 950399e 2020-07-14 sort
+* bfad741 2020-07-14 style
+* 77df9ce 2020-07-14 updated repo/mk/README.md
+* 7bce631 2020-07-14 ignore Pipfile.lock from filename checking
+* 7101e93 2020-07-13 editorconfig for csv files
+* a3e248a 2020-07-13 fixup! ability to overload 'make' in a shell session that has exe-env.inc.sh sourced. fix #179
+* 7947e78 2020-07-13 which might output other things than executable paths, like alias/function definitions
+*   da78d03 2020-07-13 Merge pull request #180 from rokmoln/make.sh
+|\
+| * d5e0de6 2020-07-13 ability to overload 'make' in a shell session that has exe-env.inc.sh sourced. fix #179
+* | d687829 2020-07-13 breaking: namespace path_{append,prepend} to sf_path_{append,prepend}, since they live in a dev's shell
+|/
+o 307f367 2020-07-13 0.2.36

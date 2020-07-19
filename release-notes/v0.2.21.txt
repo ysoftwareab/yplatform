@@ -1,0 +1,14 @@
+support-firecloud v0.2.21 Release Notes
+
+Highlights since v0.2.20:
+
+* None
+
+Breaking commits since v0.2.20:
+
+* None
+
+Commits since v0.2.20:
+
+* b204e2f 2020-02-17 0.2.21
+o 5777d4f 2020-02-17 0.2.20

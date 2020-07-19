@@ -1,0 +1,23 @@
+support-firecloud v0.2.44 Release Notes
+
+Highlights since v0.2.43:
+
+* None
+
+Breaking commits since v0.2.43:
+
+* None
+
+Commits since v0.2.43:
+
+* 2cfa755 2020-07-16 0.2.44
+* b7b141a 2020-07-16 updated .mailmap
+* bc1d3c6 2020-07-16 no need to install both latest and nvmrc-version of node
+* 5e94ccd 2020-07-16 no reason for default aliases in nvm. it also messes up a developer's machine
+* 5fbb5a8 2020-07-16 Revert "fixup! introduce ci-specific prefixes to build only on one CI"
+* 9927500 2020-07-16 fixup! introduce ci-specific prefixes to build only on one CI
+* c4d52db 2020-07-16 fixup! introduce ci-specific prefixes to build only on one CI
+* d20c581 2020-07-16 updated .mailmap
+* 3787166 2020-07-16 updated .mailmap
+* e6dee53 2020-07-16 updated .mailmap
+o 05638bb 2020-07-16 0.2.43
