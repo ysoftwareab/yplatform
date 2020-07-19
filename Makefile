@@ -81,9 +81,8 @@ $(GITHUB_WORKFLOWS): .github/workflows/%: .github/workflows.src/% $(GITHUB_WORKF
 
 
 .PHONY: check-github-workflows
-check-github-workflows:
+check-github-workflows: $(GITHUB_WORKFLOWS)
 	for GITHUB_WORKFLOW in $(GITHUB_WORKFLOWS); do \
-		$(MAKE) $${GITHUB_WORKFLOW}; \
 		$(GIT) diff --exit-code $${GITHUB_WORKFLOW} || { \
 			$(ECHO_ERR) "$${GITHUB_WORKFLOW} has uncommitted changes."; \
 			exit 1; \
