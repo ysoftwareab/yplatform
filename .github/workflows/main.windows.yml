@@ -5,7 +5,7 @@ name: CI Windows
     branches:
       - github.*
       - master
-      - v[0-9]+.[0-9]+.[0-9]+
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 jobs:
   main:
     strategy:
@@ -24,6 +24,10 @@ jobs:
       SF_LOG_BOOTSTRAP: true
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
     steps:
+      - shell: bash
+        run: |-
+          git config --global core.autocrlf false
+          git config --global core.eol lf
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 submodules
         shell: bash
@@ -75,3 +79,4 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: wsl --user github bash -c "./.ci.sh notifications || true"
         if: always()
+
