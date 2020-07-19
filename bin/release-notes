@@ -82,28 +82,24 @@ if [[ -z "${RANGE_FROM}" ]]; then
     fi
 fi
 
-echo "# ${PKG_NAME} ${PKG_VSN:-${RANGE_TO}} Release Notes"
+echo "${PKG_NAME} ${PKG_VSN:-${RANGE_TO}} Release Notes"
 
-echo
-echo "---"
 echo
 
 if [[ -z "${RANGE_FROM}" ]]; then
-    echo "### Highlights"
+    echo "Highlights:"
 else
-    echo "### Highlights since ${RANGE_FROM}"
+    echo "Highlights since ${RANGE_FROM}:"
 fi
 echo
 echo "* None"
 
 echo
-echo "---"
-echo
 
 if [[ -z "${RANGE_FROM}" ]]; then
-    echo "### Breaking commits"
+    echo "Breaking commits:"
 else
-    echo "### Breaking commits since ${RANGE_FROM}"
+    echo "Breaking commits since ${RANGE_FROM}:"
 fi
 echo
 
@@ -115,7 +111,6 @@ git --no-pager log \
     --boundary \
     --no-color \
 		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
-    sed "s/^o/*/" | \
     sed "s/^ /./" | \
     sed "s/ *$//" | \
     grep -E "^break" || \
@@ -123,13 +118,11 @@ git --no-pager log \
 echo
 
 echo
-echo "---"
-echo
 
 if [[ -z "${RANGE_FROM}" ]]; then
-    echo "### Commits"
+    echo "Commits:"
 else
-    echo "### Commits since ${RANGE_FROM}"
+    echo "Commits since ${RANGE_FROM}:"
 fi
 echo
 
@@ -141,7 +134,6 @@ git --no-pager log \
     --boundary \
     --no-color \
 		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
-    sed "s/^o/*/" | \
     sed "s/^ /./" | \
     sed "s/ *$//" || \
     echo -n "* None"

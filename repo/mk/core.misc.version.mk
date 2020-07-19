@@ -53,20 +53,20 @@ release-notes/%:
 	@$(ECHO_DO) "Generating release notes for $(VSN_TAG)..."
 	$(MKDIR) release-notes
 	if [[ "$(RANGE_TO)" =~ ^v ]] || [[ "$(VSN_TAG)" != "HEAD" ]]; then \
-		$(GIT) diff --exit-code -- release-notes/$(VSN_TAG).md 2>/dev/null || { \
-			$(ECHO_ERR) "release-notes/$(VSN_TAG).md has changed. Please commit your changes."; \
+		$(GIT) diff --exit-code -- release-notes/$(VSN_TAG).txt 2>/dev/null || { \
+			$(ECHO_ERR) "release-notes/$(VSN_TAG).txt has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/release-notes \
 			--pkg-name $(PKG_NAME) \
 			--pkg-vsn $(VSN_TAG) \
 			--to $(RANGE_TO) \
-			> release-notes/$(VSN_TAG).md; \
+			> release-notes/$(VSN_TAG).txt; \
 		if [[ -t 0 ]] && [[ -t 1 ]]; then \
-			$(EDITOR) release-notes/$(VSN_TAG).md; \
+			$(EDITOR) release-notes/$(VSN_TAG).txt; \
 		else \
 			$(ECHO_INFO) "No tty."; \
-			$(ECHO_SKIP) "$(EDITOR) release-notes/$(VSN_TAG).md"; \
+			$(ECHO_SKIP) "$(EDITOR) release-notes/$(VSN_TAG).txt"; \
 		fi \
 	else \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/release-notes \
@@ -87,12 +87,10 @@ _version:
 	}
 	@$(ECHO_DO) "Bumping $(PKG_VSN_NEW) version..."
 	VSN_TAG=$(VSN_TAG) $(MAKE) release-notes/HEAD
-	$(GIT) diff --exit-code -- release-notes/$(VSN_TAG).md 2>/dev/null || { \
-		$(GIT) add release-notes/$(VSN_TAG).md; \
-		$(GIT) commit -m "$(PKG_VSN_NEW) release notes"; \
-	}
+	$(GIT) add release-notes/$(VSN_TAG).txt
+	$(GIT) commit -m "$(PKG_VSN_NEW) release notes"
 	$(NPM) version $(PKG_VSN_NEW)
 	$(GIT) tag $(VSN_TAG) $(VSN_TAG)^{} -f \
-		-m "$(PKG_VSN_NEW)" \
-		-m "$$($(CAT) release-notes/$(VSN_TAG).md)"
+		-m "" \
+		-m "$$($(CAT) release-notes/$(VSN_TAG).txt)"
 	@$(ECHO_DONE)
