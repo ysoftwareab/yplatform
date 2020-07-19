@@ -58,7 +58,11 @@ A description is optional by Github standards, but we require it.
 No need to initialize a repository with a `README.md`, nor add a `.gitignore` or a `LICENSE`.
 Just push these files from your local copy.
 
-Once you've created the Github repository, remember to (see sections below):
+Once you've created the Github repository, remember to apply the settings below.
+
+**NOTE** You can apply most of them by editing installing
+the Probot Settings app](https://probot.github.io/apps/settings/),
+and editing`.github/settings.yml` with the `name` and `description`.
 
 
 ### Add teams and collaborators
