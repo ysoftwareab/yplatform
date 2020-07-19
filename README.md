@@ -24,7 +24,7 @@
   * common per-repo configuration (e.g. vscode)
   * various utility scripts
 
-This initially supported TobiiPro's Cloud Services development.
+This initially supported [TobiiPro's Cloud Services development](https://github.com/tobiipro/support-firecloud).
 
 
 **IMPORTANT:** Repositories that have `support-firecloud` as a git submodule, need to be cloned **recursively**:
