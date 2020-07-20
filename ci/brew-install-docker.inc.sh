@@ -7,12 +7,6 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
 else
     echo_do "brew: Installing Docker packages..."
 
-    BREW_FORMULAE="$(cat <<-EOF
-docker
-docker-compose
-EOF
-)"
-
     case $(uname -s) in
         Darwin)
             HAS_DOCKER=true
@@ -24,20 +18,42 @@ EOF
             if ${HAS_DOCKER}; then
                 echo_skip "Installing Docker via 'brew cask'."
             else
-                echo_do "Installing Docker via 'brew cask'..."
-                brew cask install docker
-                echo_done
+                if [[ "${CI:-}" = "true" ]]; then
+                    echo_skip "Installing Docker via 'brew cask'..."
+                    echo_do "Installing Docker via 'brew'..."
+                    brew_install docker
+                    brew_install docker-compose
+                    echo_done
+                else
+                    echo_do "Installing Docker via 'brew cask'..."
+                    brew cask install docker
+                    echo_done
+                fi
             fi
             ;;
         Linux)
-            brew_install "${BREW_FORMULAE}"
+            (
+                RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+                RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
+                RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+                case ${RELEASE_ID}-${RELEASE_VERSION_CODENAME} in
+                    ubuntu-focal)
+                        # docker-compose via linuxbrew fails on Ubuntu 20.04
+                        apt_install docker
+                        apt_install docker-compose
+                        ;;
+                    *)
+                        brew_install docker
+                        brew_install docker-compose
+                        ;;
+                esac
+            )
             ;;
         *)
             echo_err "${OS} is an unsupported OS for installing Docker."
             return 1
             ;;
     esac
-    unset BREW_FORMULAE
 
     echo_done
 
