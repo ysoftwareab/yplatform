@@ -1,0 +1,45 @@
+support-firecloud v0.2.47 Release Notes
+
+Highlights since v0.2.46:
+
+* None
+
+Breaking commits since v0.2.46:
+
+* None
+
+Commits since v0.2.46:
+
+* d532a23 2020-07-20 typo
+* e1d34ed 2020-07-20 use first executable explicitly, just like definition of make.bak in sh/exe-env.inc.sh
+* 047e4ee 2020-07-20 no need for using command
+* 44b43a1 2020-07-20 increase verbosity around installing docker
+* 44e15bb 2020-07-20 fix regex
+* 01557e9 2020-07-20 make docker part of common bootstrap
+* f3427b6 2020-07-20 add ci/brew-install-docker.inc.sh for convenience
+* c92c08d 2020-07-20 ignore priv/editorconfig-checker.rb.tpl. intended to be called manually
+* bb50226 2020-07-20 style changes when regenerating
+* a165ad0 2020-07-20 indentation
+* a300cb8 2020-07-20 many bugfixes in repo/mk/core.misc.tpl.mk
+* 41439be 2020-07-20 use new pattern
+* ed61297 2020-07-20 use core.misc.tpl.mk pattern for the generation of github workflows
+* 2a9e992 2020-07-20 pass on env vars to wsl on github actions
+* 23cab2b 2020-07-20 fixup! style
+* 55f7bc0 2020-07-20 make sure workflows are built before checking
+* 2f155fa 2020-07-20 fixup! fix crlf endings on github actions wsl
+* 184bad9 2020-07-20 fix crlf endings on github actions wsl
+* ddfc65a 2020-07-19 test running on github wsl. see #176
+* eb69556 2020-07-19 explicit shell on github actions
+* 2cca79a 2020-07-19 typo secrets.SLACK_WEBHHOK -> secrets.SLACK_WEBHOOK
+* 846e053 2020-07-19 style
+* b662878 2020-07-19 fix github actions wildcards based on https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#filter-pattern-cheat-sheet
+* 1091aff 2020-07-19 disable delete_branch_on_merge due to bug in probot-settings
+* 3861d85 2020-07-19 try to use the _extends in Probot Settings, and add a default settings.yml to each repo
+* 6c68023 2020-07-19 probot: enable branch protection
+* 8c78890 2020-07-19 Revert "test probot"
+* 0375e87 2020-07-19 test probot
+* e2dc87e 2020-07-19 first version of probot settings. see https://github.com/probot/settings
+* 9bd646b 2020-07-19 typo
+* 22cfb0a 2020-07-19 update docs for new github UI. fix #182
+* 18583c2 2020-07-19 add link to https://github.com/tobiipro/support-firecloud
+o 5dcab64 2020-07-19 0.2.46
