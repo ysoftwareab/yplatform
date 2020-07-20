@@ -46,7 +46,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
-    steps:
+      WSLENV: CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
+  steps:
       - shell: bash
         run: |-
           git config --global core.autocrlf false
