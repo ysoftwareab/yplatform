@@ -37,6 +37,9 @@ SF_ECLINT_FILES_IGNORE += \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
+SF_TPL_FILES_IGNORE += \
+	-e "^priv/editorconfig-checker\.rb\.tpl$$" \
+
 SF_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
