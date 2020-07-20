@@ -7,4 +7,4 @@
     exit 1;
 }
 
-$(command -v make) $@
+$(which -a make | grep "^/" | head -1) $@
