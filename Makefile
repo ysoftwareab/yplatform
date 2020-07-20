@@ -40,19 +40,6 @@ SF_ECLINT_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
-GITHUB_WORKFLOWS_SRC := $(shell $(FIND_Q_NOSYM) .github/workflows.src -type f -name "*.yml" -print)
-
-GITHUB_WORKFLOWS := \
-	$(patsubst .github/workflows.src/%,.github/workflows/%,$(GITHUB_WORKFLOWS_SRC)) \
-
-SF_CHECK_TARGETS := \
-	$(SF_CHECK_TARGETS) \
-	check-github-workflows \
-
-SF_BUILD_TARGETS := \
-	$(SF_BUILD_TARGETS) \
-	$(GITHUB_WORKFLOWS) \
-
 SF_TEST_TARGETS := \
 	$(SF_TEST_TARGETS) \
 	test-secret \
@@ -75,20 +62,6 @@ GITHUB_GLOBAL_GITIGNORES := \
 GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitignore,$(GITHUB_GLOBAL_GITIGNORES))
 
 # ------------------------------------------------------------------------------
-
-$(GITHUB_WORKFLOWS): .github/workflows/%: .github/workflows.src/% $(GITHUB_WORKFLOWS_SRC)
-	(echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE ($<)"; cat $< | bin/yaml-expand) > $@
-
-
-.PHONY: check-github-workflows
-check-github-workflows: $(GITHUB_WORKFLOWS)
-	for GITHUB_WORKFLOW in $(GITHUB_WORKFLOWS); do \
-		$(GIT) diff --exit-code $${GITHUB_WORKFLOW} || { \
-			$(ECHO_ERR) "$${GITHUB_WORKFLOW} has uncommitted changes."; \
-			exit 1; \
-		} \
-	done
-
 
 .PHONY: test-secret
 test-secret:
