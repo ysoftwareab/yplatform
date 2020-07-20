@@ -6,7 +6,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 HAS_BREW_2=true
 
-if [[ -x "$(command -v brew)" ]]; then
+if which brew >/dev/null 2>&1; then
     # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
     # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || HAS_BREW_2=false
     exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2\." || HAS_BREW_2=false
