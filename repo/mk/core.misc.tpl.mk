@@ -30,15 +30,17 @@ SF_TPL_FILES += $(shell $(GIT_LS) . | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_TPL_FILES_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES))
+# TODO maybe move the SED above instead?!
+SF_TPL_FILES_MAKE = $(patsubst '%',%,$(SF_TPL_FILES))
+SF_TPL_FILES_MAKE_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES_MAKE))
 
 SF_CHECK_TARGETS += \
 	check-tpl-files \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: $(SF_TPL_FILES_GEN)
-$(SF_TPL_FILES_GEN): %: %.tpl
+.PHONY: $(SF_TPL_FILES_MAKE_GEN)
+$(SF_TPL_FILES_MAKE_GEN): %: %.tpl
 #	NOTE A file pattern can be added to SF_TPL_FILES_IGNORE
 #	after the line above is expanded (when this file is parsed).
 	if $$($(ECHO) "$<" | $(GREP) -q -v $(SF_TPL_FILES_IGNORE)); then \
@@ -51,16 +53,13 @@ $(SF_TPL_FILES_GEN): %: %.tpl
 .PHONY: check-tpl-files
 check-tpl-files:
 	for SF_TPL_FILE in $(SF_TPL_FILES); do \
+		$(MAKE) $${SF_TPL_FILE%.tpl}; \
 		$(GIT) diff --exit-code $${SF_TPL_FILE} || { \
 			$(ECHO_ERR) "$${SF_TPL_FILE} has uncommitted changes."; \
 			exit 1; \
 		}; \
-		SF_TPL_FILE_TIME="$$($(GIT) log --pretty=format:%cd -n 1 --date=iso -- "$${SF_TPL_FILE}")"; \
-    SF_TPL_FILE_TIME="$$($(DATE) -j -f "%Y-%m-%d %H:%M:%S %z" "$${SF_TPL_FILE_TIME}" "+%s")"; \
-		SF_TPL_FILE_GEN_TIME="$$($(GIT) log --pretty=format:%cd -n 1 --date=iso -- "$${SF_TPL_FILE%.tpl}")"; \
-    SF_TPL_FILE_GEN_TIME="$$($(DATE) -j -f "%Y-%m-%d %H:%M:%S %z" "$${SF_TPL_FILE_GEN_TIME}" "+%s")"; \
-		[[ "$${SF_TPL_FILE_TIME}" -gt "$${SF_TPL_FILE_GEN_TIME}" ]] || { \
-			$(ECHO_ERR) "$${SF_TPL_FILE} has changes newer than $${SF_TPL_FILE%.tpl}."; \
+		$(GIT) diff --exit-code $${SF_TPL_FILE%.tpl} || { \
+			$(ECHO_ERR) "$${SF_TPL_FILE%.tpl} has uncommitted changes."; \
 			exit 1; \
-		} \
+		}; \
 	done
