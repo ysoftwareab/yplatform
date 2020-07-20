@@ -14,12 +14,10 @@ include support-firecloud/repo/mk/core.misc.release.tag.mk
 
 COMMON_MKS := $(wildcard repo/mk/*.common.mk)
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+SF_CLEAN_FILES += \
 	support-firecloud \
 
-SF_PATH_FILES_IGNORE := \
-	$(SF_PATH_FILES_IGNORE) \
+SF_PATH_FILES_IGNORE += \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^generic/dot\.gitignore_global\.base$$" \
@@ -31,8 +29,7 @@ SF_PATH_FILES_IGNORE := \
 	-e "^repo/NOTICE$$" \
 	-e "^repo/UNLICENSE$$" \
 
-SF_ECLINT_FILES_IGNORE := \
-	$(SF_ECLINT_FILES_IGNORE) \
+SF_ECLINT_FILES_IGNORE += \
 	-e "^bin/" \
 	-e "^generic/dot.gitignore_global$$" \
 	-e "^generic/dot.gitignore_global.base$$" \
@@ -40,8 +37,7 @@ SF_ECLINT_FILES_IGNORE := \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
-SF_TEST_TARGETS := \
-	$(SF_TEST_TARGETS) \
+SF_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
