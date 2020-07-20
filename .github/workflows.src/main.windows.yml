@@ -47,7 +47,7 @@ jobs:
     env:
       <<: *env
       WSLENV: CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
-  steps:
+    steps:
       - shell: bash
         run: |-
           git config --global core.autocrlf false

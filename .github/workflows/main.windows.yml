@@ -23,6 +23,7 @@ jobs:
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      WSLENV: 'CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP'
     steps:
       - shell: bash
         run: |-
