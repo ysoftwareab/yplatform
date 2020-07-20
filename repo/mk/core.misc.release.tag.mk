@@ -12,7 +12,7 @@ _publish: guard-env-GIT_REMOTE
 
 .PHONY: _release
 _release:
-	@$(ECHO_DO) "Release new $(VSN) version..."
+	@$(ECHO_DO) "Release new $(PKG_VSN_NEW) version..."
 	# $(MAKE) nuke all test version/v$(PKG_VSN_NEW) _publish
 	# no need for 'nuke all test'
 	$(MAKE) deps check version/v$(PKG_VSN_NEW) _publish
