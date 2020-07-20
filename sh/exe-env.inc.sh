@@ -54,10 +54,10 @@ fi
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
-    if [[ -z "${SF_MAKE_SH_PASS:-}" ]] && [[ -x make.sh ]]; then
+    if [[ -z "${SF_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
         echo >&2 "[INFO] Running    ${PWD}/make.sh"
         echo >&2 "       instead of ${MAKE_COMMAND}."
-        SF_MAKE_SH_PASS=1 ./make.sh $@
+        SF_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh $@
         return $?
     fi
     ${MAKE_COMMAND} $@
