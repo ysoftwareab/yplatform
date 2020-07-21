@@ -25,7 +25,6 @@ deps-yarn:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN) install \
-		--check-files \
 		--frozen-lockfile \
 		--non-interactive
 
@@ -35,7 +34,6 @@ deps-yarn-prod:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN) install \
-		--check-files \
 		--frozen-lockfile \
 		--non-interactive \
 		--production
