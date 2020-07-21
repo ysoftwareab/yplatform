@@ -30,7 +30,7 @@ SF_TPL_FILES += $(shell $(GIT_LS) . | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-# TODO maybe move the SED above instead?!
+# TODO maybe remove the SED above instead?!
 SF_TPL_FILES_MAKE = $(patsubst '%',%,$(SF_TPL_FILES))
 SF_TPL_FILES_MAKE_GEN = $(patsubst %.tpl,%,$(SF_TPL_FILES_MAKE))
 
@@ -51,14 +51,8 @@ $(SF_TPL_FILES_MAKE_GEN): %: %.tpl
 
 .PHONY: check-tpl-files
 check-tpl-files:
-	for SF_TPL_FILE in $(SF_TPL_FILES); do \
-		$(MAKE) $${SF_TPL_FILE%.tpl}; \
-		$(GIT) diff --exit-code $${SF_TPL_FILE} || { \
-			$(ECHO_ERR) "$${SF_TPL_FILE} has uncommitted changes."; \
-			exit 1; \
-		}; \
-		$(GIT) diff --exit-code $${SF_TPL_FILE%.tpl} || { \
-			$(ECHO_ERR) "$${SF_TPL_FILE%.tpl} has uncommitted changes."; \
-			exit 1; \
-		}; \
-	done
+	$(MAKE) $(SF_TPL_FILES_MAKE_GEN)
+	$(GIT) diff --exit-code $(SF_TPL_FILES_MAKE) $(SF_TPL_FILES_MAKE_GEN) || { \
+		$(ECHO_ERR) "Some templates or generated files have uncommitted changes."; \
+		exit 1; \
+	}
