@@ -58,7 +58,7 @@ else
                         # BEGIN https://docs.docker.com/compose/install/
                         DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
                         curl -L -o /usr/local/bin/docker-compose \
-                             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
+                            "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
                         chmod +x /usr/local/bin/docker-compose
                         # END https://docs.docker.com/compose/install/
                         ;;
