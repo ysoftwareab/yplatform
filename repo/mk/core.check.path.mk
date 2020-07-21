@@ -54,8 +54,9 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-path
 check-path:
-	[[ "$(words $(SF_PATH_FILES))" = "0" ]] || { \
-		for f in $(SF_PATH_FILES); do \
+	SF_PATH_FILES_TMP=($(SF_PATH_FILES)); \
+	[[ "$${#SF_PATH_FILES_TMP[@]}" = "0" ]] || { \
+		for f in $${SF_PATH_FILES_TMP[@]}; do \
 			$(ECHO) "$${f}" | $(GREP) -qv "$(SF_PATH_LINT_RE)" || continue; \
 			$(ECHO_ERR) "$${f} not following file/folder naming convention '$(SF_PATH_LINT_RE)'."; \
 			exit 1; \

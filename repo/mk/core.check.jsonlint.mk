@@ -40,6 +40,7 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-jsonlint
 check-jsonlint:
-	[[ "$(words $(SF_JSONLINT_FILES))" = "0" ]] || { \
-		$(JSONLINT) $(JSONLINT_ARGS) $(SF_JSONLINT_FILES); \
+	SF_JSONLINT_FILES_TMP=($(SF_JSONLINT_FILES)); \
+	[[ "$${#SF_JSONLINT_FILES_TMP[@]}" = "0" ]] || { \
+		$(JSONLINT) $(JSONLINT_ARGS) $${SF_JSONLINT_FILES_TMP[@]}; \
 	}

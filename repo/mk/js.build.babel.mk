@@ -42,6 +42,7 @@ $(LIB_JS_FROM_TS_FILES): lib/%.js: src/%.ts $(SRC_JS_FILES) $(BABELRC)
 
 .PHONY: build-babel
 build-babel:
-	[[ "$(words $(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES))" = "0" ]] || { \
-		$(MAKE) $(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES); \
+	SF_BABEL_FILES_TMP=($(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES)); \
+	[[ "$${#SF_BABEL_FILES_TMP[@]}" = "0" ]] || { \
+		$(MAKE) $${SF_BABEL_FILES_TMP[@]}; \
 	}

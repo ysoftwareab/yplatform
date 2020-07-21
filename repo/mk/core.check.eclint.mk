@@ -46,13 +46,14 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-eclint
 check-eclint:
-	[[ "$(words $(SF_ECLINT_FILES))" = "0" ]] || { \
+	SF_ECLINT_FILES_TMP=($(SF_ECLINT_FILES)); \
+	[[ "$${#SF_ECLINT_FILES_TMP[@]}" = "0" ]] || { \
 		if [[ "$(ECCHECKER)" = "ECCHECKER_NOT_FOUND" ]]; then \
-			$(ECLINT) check $(ECLINT_ARGS) $(SF_ECLINT_FILES) || { \
-				$(ECLINT) fix $(ECLINT_ARGS) $(SF_ECLINT_FILES) 2>/dev/null >&2; \
+			$(ECLINT) check $(ECLINT_ARGS) $${SF_ECLINT_FILES_TMP[@]} || { \
+				$(ECLINT) fix $(ECLINT_ARGS) $${SF_ECLINT_FILES_TMP[@]} 2>/dev/null >&2; \
 				exit 1; \
 			}; \
 		else \
-			$(ECCHECKER) $(ECCHECKER_ARGS) $(SF_ECLINT_FILES); \
+			$(ECCHECKER) $(ECCHECKER_ARGS) $${SF_ECLINT_FILES_TMP[@]}; \
 		fi; \
 	}

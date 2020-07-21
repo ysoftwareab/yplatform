@@ -20,9 +20,10 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-tslint
 check-tslint:
-	[[ "$(words $(TS_FILES))" = "0" ]] || { \
-		$(TSLINT) $(TSLINT_ARGS) $(TS_FILES) || { \
-			$(TSLINT) $(TSLINT_ARGS) --fix $(TS_FILES) 2>/dev/null >&2; \
+	SF_TSLINT_FILES_TMP=($(SF_TSLINT_FILES)); \
+	[[ "$${#SF_TSLINT_FILES_TMP[@]}" = "0" ]] || { \
+		$(TSLINT) $(TSLINT_ARGS) $${SF_TSLINT_FILES_TMP[@]} || { \
+			$(TSLINT) $(TSLINT_ARGS) --fix $${SF_TSLINT_FILES_TMP[@]} 2>/dev/null >&2; \
 			exit 1; \
 		}; \
 	}

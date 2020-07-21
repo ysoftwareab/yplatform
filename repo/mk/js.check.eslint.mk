@@ -49,9 +49,10 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-eslint
 check-eslint:
-	[[ "$(words $(SF_ESLINT_FILES))" = "0" ]] || { \
-		$(ESLINT) $(ESLINT_ARGS) $(SF_ESLINT_FILES) || { \
-			$(ESLINT) $(ESLINT_ARGS) --fix $(SF_ESLINT_FILES) 2>/dev/null >&2; \
+	SF_ESLINT_FILES_TMP=($(SF_ESLINT_FILES)); \
+	[[ "$${#SF_ESLINT_FILES_TMP[@]}" = "0" ]] || { \
+		$(ESLINT) $(ESLINT_ARGS) $${SF_ESLINT_FILES_TMP[@]} || { \
+			$(ESLINT) $(ESLINT_ARGS) --fix $${SF_ESLINT_FILES_TMP[@]} 2>/dev/null >&2; \
 			exit 1; \
 		}; \
 	}

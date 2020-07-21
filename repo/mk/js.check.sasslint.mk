@@ -43,6 +43,7 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-sasslint
 check-sasslint:
-	[[ "$(words $(SF_SASSLINT_FILES))" = "0" ]] || { \
-		$(SASSLINT) $(SASSLINT_ARGS) $(SF_SASSLINT_FILES); \
+	SF_SASSLINT_FILES_TMP=($(SF_SASSLINT_FILES)); \
+	[[ "$${#SF_SASSLINT_FILES_TMP[@]}" = "0" ]] || { \
+		$(SASSLINT) $(SASSLINT_ARGS) $${SF_SASSLINT_FILES_TMP[@]}; \
 	}
