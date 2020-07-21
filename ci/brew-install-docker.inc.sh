@@ -36,11 +36,31 @@ else
                 RELEASE_ID="$(source /etc/os-release && echo ${ID})"
                 RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
                 RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+                # docker-compose via linuxbrew fails on Ubuntu 20.04
+                # https://travis-ci.com/github/rokmoln/support-firecloud/jobs/362746866#L2781
                 case ${RELEASE_ID}-${RELEASE_VERSION_CODENAME} in
                     ubuntu-focal)
-                        # docker-compose via linuxbrew fails on Ubuntu 20.04
-                        apt_install docker
-                        apt_install docker-compose
+                        # BEGIN https://docs.docker.com/engine/install/ubuntu/
+                        apt-get remove docker docker-engine docker.io containerd runc
+                        apt_install \
+                            apt-transport-https \
+                            ca-certificates \
+                            curl \
+                            gnupg-agent \
+                            software-properties-common
+                        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+                        apt-key fingerprint 0EBFCD88
+                        add-apt-repository \
+                            "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+                        apt_update
+                        apt_install docker-ce docker-ce-cli containerd.io
+                        # ENV https://docs.docker.com/engine/install/ubuntu/
+                        # BEGIN https://docs.docker.com/compose/install/
+                        DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
+                        curl -L -o /usr/local/bin/docker-compose \
+                             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
+                        chmod +x /usr/local/bin/docker-compose
+                        # END https://docs.docker.com/compose/install/
                         ;;
                     *)
                         brew_install docker
