@@ -22,7 +22,7 @@ endif
 
 .PHONY: deps-yarn
 deps-yarn:
-#	'yarn install' witll also remove extraneous dependencies
+#	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN) install \
 		--check-files \
@@ -32,7 +32,7 @@ deps-yarn:
 
 .PHONY: deps-yarn-prod
 deps-yarn-prod:
-#	'yarn install' witll also remove extraneous dependencies
+#	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN) install \
 		--check-files \
