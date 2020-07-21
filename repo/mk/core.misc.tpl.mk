@@ -39,7 +39,6 @@ SF_CHECK_TARGETS += \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: $(SF_TPL_FILES_MAKE_GEN)
 $(SF_TPL_FILES_MAKE_GEN): %: %.tpl
 #	NOTE A file pattern can be added to SF_TPL_FILES_IGNORE
 #	after the line above is expanded (when this file is parsed).

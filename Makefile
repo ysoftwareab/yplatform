@@ -62,6 +62,12 @@ GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitig
 
 # ------------------------------------------------------------------------------
 
+.github/workflows/main.yml: .github/workflows.src/main.yml
+
+
+.github/workflows/main.windows.yml: .github/workflows.src/main.windows.yml
+
+
 .PHONY: test-secret
 test-secret:
 ifeq ($(SF_IS_TRANSCRYPTED),true)
