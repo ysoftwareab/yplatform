@@ -1,0 +1,20 @@
+support-firecloud v0.2.48 Release Notes
+
+Highlights since v0.2.47:
+
+* None
+
+Breaking commits since v0.2.47:
+
+* None
+
+Commits since v0.2.47:
+
+* e1534dd 2020-07-21 optimize templates
+* 86f2e12 2020-07-21 try to fix Argument list too long. fix #174
+* b2e76be 2020-07-20 SF_MAKE_SH_PASS -> SF_MAKE_COMMAND. dedupe code finding 'real' make
+* 997070c 2020-07-20 wording
+* 204bd1f 2020-07-20 docker style
+* f6e55c6 2020-07-20 handle installing docker on ubuntu-focal and darwin in CI
+* 397fba5 2020-07-20 clearer error message
+o 81f9351 2020-07-20 0.2.47
