@@ -5,7 +5,7 @@ ARG SF_DOCKER_CI_IMAGE_NAME
 ARG SF_DOCKER_CI_IMAGE_TAG
 ARG SF_CI_BREW_INSTALL
 
-SHELL ["/bin/bash", "-c"]
+SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 COPY . /support-firecloud
 RUN SF_DOCKER_CI_IMAGE_NAME=${SF_DOCKER_CI_IMAGE_NAME} \
