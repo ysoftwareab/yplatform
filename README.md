@@ -3,7 +3,7 @@
 `support-firecloud` is software and configuration that supports various cycles of software development:
 * as a standalone checkout, it provides
   * bootstrapping for a developer MacOS/Linux machine
-    * make common GNU utilities up-to-date on Linux and accesible on MacOS (BSD)
+    * bring common GNU utilities up-to-date on Linux and make them accesible on MacOS (BSD)
   * a builder for canonical Docker images
   * common per-user configuration (e.g. git)
   * various utility scripts
