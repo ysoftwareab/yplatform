@@ -65,13 +65,13 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-RANGE_FROM_VSN=$(git tag --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
-RANGE_TO_VSN=$(git tag --points-at ${RANGE_TO} | { grep -e "${VERSION_PATTERN}" || true; })
+RANGE_FROM_VSN=$(git tag -l --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
+RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep -e "${VERSION_PATTERN}" || true; })
 PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
 
 if [[ -z "${RANGE_FROM}" ]]; then
     PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ | \
-    xargs -L1 git tag --points-at | \
+    xargs -L1 git tag -l --points-at | \
     { grep -e "${VERSION_PATTERN}" || true; } |
     sort -V |
     tac)"
