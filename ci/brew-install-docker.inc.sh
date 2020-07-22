@@ -44,12 +44,9 @@ else
                         for PKG in docker docker-engine docker.io containerd runc; do
                             ${SUDO} apt-get remove ${PKG} || true;
                         done
-                        apt_install \
-                            apt-transport-https \
-                            ca-certificates \
-                            curl \
-                            gnupg-agent \
-                            software-properties-common
+                        for PKG in apt-transport-https ca-certificates curl gnupg-agent software-properties-common; do
+                            apt_install ${PKG};
+                        done
                         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | ${SUDO} apt-key add -
                         ${SUDO} apt-key fingerprint 0EBFCD88
                         ${SUDO} add-apt-repository \
