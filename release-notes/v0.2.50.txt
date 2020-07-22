@@ -1,0 +1,29 @@
+support-firecloud v0.2.50 Release Notes
+
+Highlights since v0.2.49:
+
+* None
+
+Breaking commits since v0.2.49:
+
+* None
+
+Commits since v0.2.49:
+
+* 8876201 2020-07-22 fix SUPPORT_FIRECLOUD_DIR. how did it f work so long?
+* d669c85 2020-07-22 add SF_COMMIT, SF_VSN, SF_VSN_DESCRIBE
+* f9f63ca 2020-07-22 git tag -l is implied, but make it explicit
+* 24223a4 2020-07-22 e
+* 94bf14b 2020-07-22 clarify which is the main CI
+* fc0ade2 2020-07-22 sync apt_install with brew_install
+* e456dec 2020-07-22 brew uninstall doesn't take formula options
+* c118df5 2020-07-22 fixup! use official docker docs for installing on ubuntu 20.04
+* 831363b 2020-07-22 handle template executables in the current folder
+* 4e7cddb 2020-07-22 fixup! use official docker docs for installing on ubuntu 20.04
+* eeec8d3 2020-07-22 fixup! use official docker docs for installing on ubuntu 20.04
+* cbb90c7 2020-07-22 fixup! use official docker docs for installing on ubuntu 20.04
+* f37fb23 2020-07-22 whitespace
+* 4316061 2020-07-22 set shell options in dockerfiles
+* f15f894 2020-07-22 use official docker docs for installing on ubuntu 20.04
+* 6ba4f49 2020-07-21 make.sh should show targets
+o 18eb0dd 2020-07-21 0.2.49
