@@ -2,7 +2,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SUPPORT_FIRECLOUD_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))/../..))
+SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/../..)
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.common.mk
 
 SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
