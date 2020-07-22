@@ -41,25 +41,25 @@ else
                 case ${RELEASE_ID}-${RELEASE_VERSION_CODENAME} in
                     ubuntu-focal)
                         # BEGIN https://docs.docker.com/engine/install/ubuntu/
-                        apt-get remove docker docker-engine docker.io containerd runc
+                        ${SUDO} apt-get remove docker docker-engine docker.io containerd runc
                         apt_install \
                             apt-transport-https \
                             ca-certificates \
                             curl \
                             gnupg-agent \
                             software-properties-common
-                        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
-                        apt-key fingerprint 0EBFCD88
-                        add-apt-repository \
+                        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | ${SUDO} apt-key add -
+                        ${SUDO} apt-key fingerprint 0EBFCD88
+                        ${SUDO} add-apt-repository \
                             "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
                         apt_update
                         apt_install docker-ce docker-ce-cli containerd.io
                         # ENV https://docs.docker.com/engine/install/ubuntu/
                         # BEGIN https://docs.docker.com/compose/install/
                         DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
-                        curl -L -o /usr/local/bin/docker-compose \
+                        ${SUDO} curl -L -o /usr/local/bin/docker-compose \
                             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
-                        chmod +x /usr/local/bin/docker-compose
+                        ${SUDO} chmod +x /usr/local/bin/docker-compose
                         # END https://docs.docker.com/compose/install/
                         ;;
                     *)
