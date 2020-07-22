@@ -126,7 +126,7 @@ function brew_install() {
             echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
 
             if [[ "${TRAVIS:-}" = "true" ]]; then
-                brew uninstall ${FORMULA}
+                brew uninstall ${NAME}
             else
                 echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
                 return 1
