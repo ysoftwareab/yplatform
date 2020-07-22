@@ -44,7 +44,7 @@ $(SF_TPL_FILES_MAKE_GEN): %: %.tpl
 #	after the line above is expanded (when this file is parsed).
 	if $$($(ECHO) "$<" | $(GREP) -q -v $(SF_TPL_FILES_IGNORE)); then \
 		$(ECHO_DO) "Generating $@ from template $<..."; \
-		$< > $@; \
+		$$($(REALPATH) $<) > $@; \
 		$(ECHO_DONE); \
 	fi
 
