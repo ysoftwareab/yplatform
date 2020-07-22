@@ -44,15 +44,23 @@ else
                         for PKG in docker docker-engine docker.io containerd runc; do
                             ${SUDO} apt-get remove ${PKG} || true;
                         done
-                        for PKG in apt-transport-https ca-certificates curl gnupg-agent software-properties-common; do
-                            apt_install ${PKG};
-                        done
+
+                        apt_install apt-transport-https
+                        apt_install ca-certificates
+                        apt_install curl
+                        apt_install gnupg-agent
+                        apt_install software-properties-common
+
                         curl -fsSL https://download.docker.com/linux/ubuntu/gpg | ${SUDO} apt-key add -
                         ${SUDO} apt-key fingerprint 0EBFCD88
                         ${SUDO} add-apt-repository \
-                            "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+                                "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
                         apt_update
-                        apt_install docker-ce docker-ce-cli containerd.io
+
+                        apt_install docker-ce
+                        apt_install docker-ce-cli
+                        apt_install containerd.io
+
                         # ENV https://docs.docker.com/engine/install/ubuntu/
                         # BEGIN https://docs.docker.com/compose/install/
                         DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
