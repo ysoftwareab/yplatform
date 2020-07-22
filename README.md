@@ -1,12 +1,4 @@
-# support-firecloud
-
-* `Travis CI________` [![Travis CI Status][2]][1]
-* `CircleCI_________` [![CircleCI Status][4]][3]
-* `Github Actions CI` [![Github Actions CI Status][6]][5]
-* `Codeship_________` [![Codeship Status][8]][7]
-* `Semaphore________` [![Semaphore Status][10]][9]
-* `Gitlab CI________` [![Gitlab CI Status][12]][11]
-* `AppVeyor_________` [![AppVeyor Status][14]][13]
+# support-firecloud [![Travis CI Status][2]][1]
 
 `support-firecloud` is software and configuration that supports various cycles of software development:
 * as a standalone checkout, it provides
@@ -19,6 +11,13 @@
 * as a submodule checkout, it provides
   * bootstrapping for a CI machine
     * the bootstrapping is so generic that it is very easy to use `support-firecloud` in a multitude of CI solutions
+      * `Travis CI________` [![Travis CI Status][2]][1]
+      * `CircleCI_________` [![CircleCI Status][4]][3]
+      * `Github Actions CI` [![Github Actions CI Status][6]][5]
+      * `Codeship_________` [![Codeship Status][8]][7]
+      * `Semaphore________` [![Semaphore Status][10]][9]
+      * `Gitlab CI________` [![Gitlab CI Status][12]][11]
+      * `AppVeyor_________` [![AppVeyor Status][14]][13]
   * a robust yet flexible build system based on GNU Make
   * an AWS CloudFormation build system based on GNU Make
   * common per-repo configuration (e.g. vscode)
