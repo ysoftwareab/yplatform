@@ -41,7 +41,9 @@ else
                 case ${RELEASE_ID}-${RELEASE_VERSION_CODENAME} in
                     ubuntu-focal)
                         # BEGIN https://docs.docker.com/engine/install/ubuntu/
-                        ${SUDO} apt-get remove docker docker-engine docker.io containerd runc
+                        for PKG in docker docker-engine docker.io containerd runc; do
+                            ${SUDO} apt-get remove ${PKG} || true;
+                        done
                         apt_install \
                             apt-transport-https \
                             ca-certificates \
