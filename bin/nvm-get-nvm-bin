@@ -15,5 +15,5 @@ which nvm >/dev/null 2>&1 || {
     source ${NVM_SH} --no-use
 }
 
-nvm use >/dev/null 2>&1 || nvm install >/dev/null 2>&1
+nvm use >/dev/null 2>&1
 echo ${NVM_BIN:-}
