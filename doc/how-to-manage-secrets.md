@@ -76,16 +76,16 @@ directed to a recipient (an email or a `gpg` key id).
 ```shell
 cd path/to/repo
 
-# check that you have a gpg public key for <user@tobii.com> in your local gpg keychain
+# check that you have a gpg public key for <user@example.com> in your local gpg keychain
 # if not, see working-with-gpg.md for how to import someone's gpg public key
-gpg --list-keys <user@tobii.com>
+gpg --list-keys <user@example.com>
 
-# export the password in an encrypted message for <user@tobii.com>
-./transcrypt --export-gpg <user@tobii.com>
+# export the password in an encrypted message for <user@example.com>
+./transcrypt --export-gpg <user@example.com>
 
 # commit the encrypted message
 mkdir -p .transcrypt
-cp $(ls -t $(git rev-parse --git-dir)/crypt/*@tobii.com.asc | head -n1) .transcrypt/
+cp $(ls -t $(git rev-parse --git-dir)/crypt/*@example.com.asc | head -n1) .transcrypt/
 git add .transcrypt
 git commit -m "add transcrypt recipient"
 ```
@@ -96,7 +96,7 @@ git commit -m "add transcrypt recipient"
 cd path/to/repo
 make decrypt
 
-# ./transcrypt -y --import-gpg .transcrypt/<yourself@tobii.com>.asc
+# ./transcrypt -y --import-gpg .transcrypt/<yourself@example.com>.asc
 ```
 
 When finished working with the secrets, flush (remove) credentials `./transcrypt -y -f`.

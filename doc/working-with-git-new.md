@@ -128,7 +128,7 @@ Topics will make it easier to filter our repositories, both public, internal and
 
 **Topics are also public, making them a good marketing trick. So unless the topic is generic, do prefix it with rokmoln !!!**
 
-* team/project name e.g. `tobii-firecloud`, `tobii-pro-sdk`
+* team/project name e.g. `company-frontend`, `company-merlin`
 * purpose e.g, `eslint-config` or `eslint-plugin`
 * related software e.g. `eslint`
 * etc
