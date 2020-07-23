@@ -1,0 +1,17 @@
+support-firecloud v0.2.51 Release Notes
+
+Highlights since v0.2.50:
+
+* None
+
+Breaking commits since v0.2.50:
+
+* None
+
+Commits since v0.2.50:
+
+* 61b03ca 2020-07-23 less verbose output from overloaded make
+* 0ca0283 2020-07-23 Revert "nvm-get-nvm-bin should handle not-installed node versions"
+* fb881f8 2020-07-23 SF_VSN and SF_VSN_DESCRIBE should have no leading v
+* 50b4f08 2020-07-22 indentation has meaning in make. fix '*** recipe commences before first target.  Stop.'
+o 26d86ba 2020-07-22 0.2.50
