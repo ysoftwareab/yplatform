@@ -14,11 +14,11 @@ include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 SF_COMMIT :=
 SF_VSN := $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
-SF_VSN_DESCRIBE := v$(SF_VSN)-dirty
+SF_VSN_DESCRIBE := $(SF_VSN)-dirty
 ifneq (,$(wildcard $(SUPPORT_FIRECLOUD_DIR)/.git))
 	SF_COMMIT := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) rev-parse HEAD^{commit})
-	SF_VSN := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) tag -l --points-at HEAD | $(HEAD) -1)
-	SF_VSN_DESCRIBE := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) describe --first-parent --always --dirty)
+	SF_VSN := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) tag -l --points-at HEAD | $(HEAD) -1 | $(SED) "s/^v//")
+	SF_VSN_DESCRIBE := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) describe --first-parent --always --dirty | $(SED) "s/^v//")
 endif
 
 # get generic environment variables
