@@ -17,9 +17,9 @@ SF_VSN := $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".vers
 SF_VSN_DESCRIBE := $(SF_VSN)-dirty
 SF_VSN_TAG :=
 ifneq (,$(wildcard $(SUPPORT_FIRECLOUD_DIR)/.git))
-	SF_COMMIT := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) rev-parse HEAD^{commit})
-	SF_VSN_DESCRIBE := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) describe --first-parent --always --dirty | $(SED) "s/^v//")
-	SF_VSN_TAG := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) tag -l --points-at HEAD | $(GREP) "s/^v//" | $(HEAD) -1)
+SF_COMMIT := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) rev-parse HEAD^{commit} 2>/dev/null)
+SF_VSN_DESCRIBE := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) describe --first-parent --always --dirty 2>/dev/null | $(SED) "s/^v//")
+SF_VSN_TAG := $(shell $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) tag -l --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
 
 # get generic environment variables
