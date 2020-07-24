@@ -1,0 +1,17 @@
+support-firecloud v0.2.53 Release Notes
+
+Highlights since v0.2.52:
+
+* None
+
+Breaking commits since v0.2.52:
+
+* None
+
+Commits since v0.2.52:
+
+* 25e046a 2020-07-24 ignore make.sh.successful
+* f1af99f 2020-07-24 clarify that paths can be changed
+* 83fa49d 2020-07-24 use git-url instead of ssh-url since it might not work for some. pushing will work just fine, once they bootstrap their .gitconfig
+* 532212d 2020-07-24 fixup! breaking: split python bootstrapping. pyenv and pipenv are big & problematic
+o 63c409b 2020-07-24 0.2.52
