@@ -12,8 +12,13 @@ which nvm >/dev/null 2>&1 || {
         echo >&2 "[WARN] Couldn't find nvm in any of the known locations."
         exit 0
     }
+    set +u
     source ${NVM_SH} --no-use
+    set -u
 }
 
-nvm use >/dev/null 2>&1
+set +u
+nvm use >/dev/null 2>&1 || true
+set -u
+
 echo ${NVM_BIN:-}
