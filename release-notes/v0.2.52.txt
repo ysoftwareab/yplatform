@@ -1,0 +1,23 @@
+support-firecloud v0.2.52 Release Notes
+
+Highlights since v0.2.51:
+
+* None
+
+Breaking commits since v0.2.51:
+
+* None
+
+Commits since v0.2.51:
+
+* e40f3ec 2020-07-24 style
+* a9c1cf3 2020-07-24 handle nvm's undefined vars and 'nvm use' failures
+* 98f44da 2020-07-24 stop env_reset and secure_path for sf user
+* f4f4f40 2020-07-24 fixup! ignore git errors when guessing sf vsn
+* b2c3680 2020-07-24 ignore git errors when guessing sf vsn
+* aff6449 2020-07-24 fixup! SF_VSN should always be set even if HEAD is not a tag
+* ac35978 2020-07-24 SF_VSN should always be set even if HEAD is not a tag
+* 85faca5 2020-07-24 fixup! less verbose output from overloaded make
+* 3315ce4 2020-07-24 fix wrong path shown in 'make help-all'
+* ce9c025 2020-07-24 remove tobii references
+o a71bbc4 2020-07-23 0.2.51
