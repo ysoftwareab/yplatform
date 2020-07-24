@@ -55,7 +55,7 @@ fi
 function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
     if [[ -z "${SF_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
-        [[ ! -f make.sh.successful ]] || {
+        [[ -f make.sh.successful ]] || {
             echo >&2 "[INFO] Running    ${PWD}/make.sh $@"
             echo >&2 "       instead of ${MAKE_COMMAND} $@"
         }
