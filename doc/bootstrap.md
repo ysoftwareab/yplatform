@@ -58,7 +58,10 @@ in your `~/.gitconfig` prepend AT THE TOP
     path = ~/git/firecloud/support-firecloud/generic/dot.gitconfig
 ```
 
-Alternatively, either for earlier `git` versions or if you'd like to use the `git` config globally,
+**NOTE** You can change the path `~/git/firecloud` accordingly, or duplicate the snippet with additional paths.
+
+If you have an older `git` version than 2.13 or **if you'd like to use the `git` config globally**,
+in all git repositories no matter if they reside under `~/git/firecloud` or elsewhere,
 in your `~/.gitconfig` prepend AT THE TOP
 
 ```
