@@ -45,7 +45,7 @@ you can easily create a symlink `ln -s ~/Documents/Firecloud ~/git/firecloud` an
 
 ```shell
 cd # make sure that you are at home dir (~)
-git clone git@github.com:rokmoln/support-firecloud.git ~/git/firecloud/support-firecloud
+git clone git://github.com/rokmoln/support-firecloud.git ~/git/firecloud/support-firecloud
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitignore_global
 ln -s {~/git/firecloud/support-firecloud/generic/dot,}.gitattributes_global
 ```
