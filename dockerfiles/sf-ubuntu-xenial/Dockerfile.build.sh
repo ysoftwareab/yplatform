@@ -60,6 +60,8 @@ adduser \
     ${UNAME}
 adduser ${UNAME} sudo
 echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
+echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 
 # MAIN
 {
