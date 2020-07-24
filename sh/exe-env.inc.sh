@@ -63,7 +63,7 @@ function make() {
         local EXIT_CODE=$?
         # á la Ubuntu's ~/.sudo_as_admin_successful
         [[ ${EXIT_CODE} -ne 0 ]] || touch make.sh.successful
-        return $?
+        return ${EXIT_CODE}
     fi
     ${MAKE_COMMAND} $@
 }
