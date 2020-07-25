@@ -6,6 +6,14 @@
 # Adds a 'version/v<SEMVER>' internal target to set the version to the given SEMVER value.
 #
 # ------------------------------------------------------------------------------
+#
+# All 'version/*' internal targets will generate release notes in the 'release-notes' folder.
+# If interactive (most common), it will open up the editor for manual changes,
+# specifically adding highlights.
+# Upon exiting the editor, if the notes are empty, the version bump is aborted.
+#
+# ------------------------------------------------------------------------------
+
 
 VERSION_LEVELS := \
 	patch \
@@ -64,6 +72,10 @@ release-notes/%:
 			> release-notes/$(VSN_TAG).txt; \
 		if [[ -t 0 ]] && [[ -t 1 ]]; then \
 			$(EDITOR) release-notes/$(VSN_TAG).txt; \
+			[[ -s release-notes/$(VSN_TAG).txt ]] || { \
+				$(ECHO_ERR) "Aborting due to empty release-notes/$(VSN_TAG).txt.";
+				exit 1; \
+			} \
 		else \
 			$(ECHO_INFO) "No tty."; \
 			$(ECHO_SKIP) "$(EDITOR) release-notes/$(VSN_TAG).txt"; \
