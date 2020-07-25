@@ -12,18 +12,19 @@ export PATH
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
-SF_COMMIT :=
-SF_VSN := $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
-SF_VSN_DESCRIBE := $(SF_VSN)-dirty
-SF_VSN_TAG :=
+SF_COMMIT =
+SF_VSN = $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
+SF_VSN_DESCRIBE = $(SF_VSN)-dirty
+SF_VSN_TAG =
 ifneq (,$(wildcard $(SUPPORT_FIRECLOUD_DIR)/.git))
-SF_COMMIT := $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+SF_COMMIT = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	rev-parse HEAD^{commit})
-SF_VSN_DESCRIBE := $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+SF_VSN_DESCRIBE = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	describe --first-parent --always --dirty | $(SED) "s/^v//")
-SF_VSN_TAG := $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+SF_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	tag -l --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
+$(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy,$(VAR)))
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
