@@ -13,11 +13,20 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^.transcrypt/" \
 	-e "^transcrypt$$" \
 
+KEYBASE = $(call which,KEYBASE,keybase)
+$(foreach VAR,KEYBASE,$(call make-lazy,$(VAR)))
+
 # ------------------------------------------------------------------------------
 
 .PHONY: decrypt
 decrypt: ## Decrypt this repository with transcrypt.
-	$(ECHO) "[Q   ] Which identity do you want to use to decrypt this repository?"
-	ls -1 .transcrypt | $(SED) "s/\.asc$$//g" | $(SED) "s/^/       /g"
-	read ID && \
-		./transcrypt -y --import-gpg .transcrypt/$${ID}.asc
+	$(eval KEYBASE_USER := $(shell $(KEYBASE) whoami 2>/dev/null))
+	if [[ -f ".transcrypt/$(KEYBASE_USER)@keybase.io.asc" ]]; then \
+		$(ECHO_INFO) "Using keybase identity $(KEYBASE_USER)@keybase.io to decrypt this repository."; \
+		./transcrypt -y --import-gpg .transcrypt/$(KEYBASE_USER)@keybase.io.asc; \
+	else \
+		$(ECHO) "[Q   ] Which identity do you want to use to decrypt this repository?"; \
+		$(LS) -1 .transcrypt | $(SED) "s/\.asc$$//g" | $(SED) "s/^/       /g"; \
+		read ID && \
+			./transcrypt -y --import-gpg .transcrypt/$${ID}.asc; \
+	fi
