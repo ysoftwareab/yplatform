@@ -37,12 +37,13 @@ SF_ECLINT_FILES_IGNORE += \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
-SF_TPL_FILES += \
+SF_CHECK_TPL_FILES += \
 	.github/workflows/main.yml \
 	.github/workflows/main.windows.yml \
 
 SF_DEPS_TARGETS += \
-	$(SF_TPL_FILES) \
+	.github/workflows/main.yml \
+	.github/workflows/main.windows.yml \
 
 SF_TEST_TARGETS += \
 	test-secret \
