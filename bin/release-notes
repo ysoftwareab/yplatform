@@ -113,7 +113,7 @@ git --no-pager log \
 		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
     sed "s/^ /./" | \
     sed "s/ *$//" | \
-    grep -E "^break" || \
+    grep -E "break" || \
     echo -n "* None"
 echo
 
