@@ -79,6 +79,7 @@ Go to `Settings` tab -> `Manage access`.
 Allow Github to perform analysis of the dependency graph and provide security alerts by
 going to `Settings` tab -> `Security & Analysis`.
 
+* enable `Dependency graph`
 * enable `Dependabot alerts`
 * enable `Dependabot security updates`
 
