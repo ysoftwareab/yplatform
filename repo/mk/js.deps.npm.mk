@@ -165,7 +165,7 @@ deps-npm-install-prod:
 
 
 .PHONY: deps-npm-prod
-deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)
+deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)-prod
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
