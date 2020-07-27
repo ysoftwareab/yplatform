@@ -1,10 +1,10 @@
-# Add a 'generate-from-template' function to generate files from "template" files.
+# Add a 'sf-generate-from-template' function to generate files from "template" files.
 # E.g. .vscode/settings.json from .vscode/settings.json.tpl
 # where the latter is an executable that outputs the content of the former.
 #
 # SF_TPL_FILES += some/file.json.tpl
 #
-# some/file.json: some/file.json.tpl; $(call generate-from-template)
+# some/file.json: some/file.json.tpl; $(call sf-generate-from-template)
 #
 # You can now add 'some/file.json' or the entire $(SF_TPL_FILES)
 # as an individual target's dependency, or as an additional entry to SF_DEPS_TARGETS.
@@ -21,7 +21,7 @@
 
 SF_TPL_FILES += \
 
-define generate-from-template
+define sf-generate-from-template
 	$(shell $(ECHO_DO) "Generating $@ from template $<...")
 	$(shell $(shell $(REALPATH) $<) > $@)
 	$(shell $(ECHO_DONE))

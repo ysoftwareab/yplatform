@@ -67,11 +67,11 @@ GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitig
 # ------------------------------------------------------------------------------
 
 .github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main.yml
-	$(call generate-from-template)
+	$(call sf-generate-from-template)
 
 
 .github/workflows/main.windows.yml: .github/workflows/main.windows.yml.tpl .github/workflows.src/main.windows.yml
-	$(call generate-from-template)
+	$(call sf-generate-from-template)
 
 
 .PHONY: test-secret
