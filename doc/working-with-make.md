@@ -69,3 +69,11 @@ while still allowing for customization/extensibility where needed.
 
 For more information, see [support-firecloud/repo/mk](../repo/mk/README.md) and check out different `Makefile`s
 of the [`rokmoln` GitHub repos](https://github.com/rokmoln).
+
+
+## References
+
+* https://www.gnu.org/software/make/manual/make.html
+* https://www.integralist.co.uk/posts/building-systems-with-make/
+* https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/How_Mozilla_s_build_system_works/Makefiles_-_Best_practices_and_suggestions
+* http://web.mit.edu/gnu/doc/html/make_toc.html
