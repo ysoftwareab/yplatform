@@ -3,6 +3,11 @@
 #
 # ------------------------------------------------------------------------------
 #
+# Adds a '.transcrypt/<ID>.asc' target to help share the transcrypt password
+# with another GPG identity in a secure manner.
+#
+# ------------------------------------------------------------------------------
+#
 # Adds a SF_IS_TRANSCRYPTED variable to check if the repository has been decrypted.
 #
 # ------------------------------------------------------------------------------
@@ -30,3 +35,10 @@ decrypt: ## Decrypt this repository with transcrypt.
 		read ID && \
 			./transcrypt -y --import-gpg .transcrypt/$${ID}.asc; \
 	fi
+
+
+.PHONY: ./transcrypt/%.asc
+.transcrypt/%.asc:
+	./transcrypt --export-gpg $*
+	$(MKDIR) $$(dirname $@)
+	$(MV) .git/crypt/$*.asc $@
