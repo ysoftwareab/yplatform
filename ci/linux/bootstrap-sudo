@@ -14,10 +14,10 @@ function apt_update() {
     echo_do "aptitude: Updating..."
     apt-get update -y --fix-missing 2>&1 || {
         # try to handle "Hash Sum mismatch" error
-        apt-get clean
-        rm -rf /var/lib/apt/lists/*
+        exe apt-get clean
+        exe rm -rf /var/lib/apt/lists/*
         # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        apt-get update -o Acquire::CompressionTypes::Order::=gz
+        exe apt-get update -o Acquire::CompressionTypes::Order::=gz
         apt-get update -y --fix-missing
     }
     echo_done
