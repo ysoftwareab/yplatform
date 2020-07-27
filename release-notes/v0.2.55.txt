@@ -1,0 +1,17 @@
+support-firecloud v0.2.55 Release Notes
+
+Highlights since v0.2.54:
+
+* None
+
+Breaking commits since v0.2.54:
+
+* 6d46f79 2020-07-27 breaking: SF_TPL_FILES -> SF_CHECK_TPL_FILES
+* 74748a1 2020-07-27 breaking generate-from-template -> sf-generate-from-template
+
+
+Commits since v0.2.54:
+
+* 6d46f79 2020-07-27 breaking: SF_TPL_FILES -> SF_CHECK_TPL_FILES
+* 74748a1 2020-07-27 breaking generate-from-template -> sf-generate-from-template
+o afa2902 2020-07-27 0.2.54
