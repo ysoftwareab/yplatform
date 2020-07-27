@@ -101,9 +101,9 @@ jobs:
       if: type IN (push, cron) AND tag IS blank AND NOT branch IN (wsl)
 
     - stage: test
-      name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with dev (common+) brew"
+      name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with minimal brew"
       os: windows
-      env: CACHE_NAME=wsl-linux-bionic-dev SF_CI_BREW_INSTALL=dev WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
+      env: CACHE_NAME=wsl-linux-bionic-minimal SF_CI_BREW_INSTALL=minimal WSLENV=CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
       if: type IN (push, cron) AND tag IS blank
       language: shell # leaving it to "generic" would cause the machine not to boot
       git:

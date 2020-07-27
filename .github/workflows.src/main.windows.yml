@@ -41,7 +41,6 @@ jobs:
           - windows-latest
         sf_ci_brew_install:
           - minimal
-          - dev
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:

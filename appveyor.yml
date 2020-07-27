@@ -5,8 +5,9 @@ branches:
     - master
 
 environment:
+  SF_CI_BREW_INSTALL: minimal
   SF_LOG_BOOTSTRAP: "true"
-  WSLENV: SF_LOG_BOOTSTRAP
+  WSLENV: SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP
 
 image: Visual Studio 2019
 platform: Any CPU
