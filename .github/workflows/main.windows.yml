@@ -42,6 +42,8 @@ jobs:
 
           # - wsl --setdefault Ubuntu-18.04
 
+          wsl bash -c "cat /etc/os-release"
+
           wsl bash -c "sudo addgroup --gid 2000 github"
 
           wsl bash -c "sudo adduser --uid 2000 --ingroup github --home /home/github --shell /bin/bash

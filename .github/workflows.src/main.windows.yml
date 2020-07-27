@@ -57,6 +57,7 @@ jobs:
         run: |-
           choco install wsl-ubuntu-1804
           # - wsl --setdefault Ubuntu-18.04
+          wsl bash -c "cat /etc/os-release"
           wsl bash -c "sudo addgroup --gid 2000 github"
           wsl bash -c "sudo adduser --uid 2000 --ingroup github --home /home/github --shell /bin/bash --disabled-password --gecos \"\" github"
           wsl bash -c "sudo adduser github sudo"

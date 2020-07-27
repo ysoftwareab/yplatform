@@ -18,6 +18,7 @@ init:
 install:
   - git submodule sync --recursive
   - git submodule update --init --recursive
+  - wsl --user appveyor bash -c "cat /etc/os-release"
   - wsl --user appveyor ./.ci.sh before_install
   - wsl --user appveyor ./.ci.sh install
 

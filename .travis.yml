@@ -112,6 +112,7 @@ jobs:
       before_install:
         - choco install wsl-ubuntu-1804
         # - wsl --setdefault Ubuntu-18.04
+        - wsl bash -c "cat /etc/os-release"
         - wsl bash -c "sudo addgroup --gid 2000 travis"
         - wsl bash -c "sudo adduser --uid 2000 --ingroup travis --home /home/travis --shell /bin/bash --disabled-password --gecos \"\" travis"
         - wsl bash -c "sudo adduser travis sudo"
