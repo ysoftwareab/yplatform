@@ -129,6 +129,7 @@ function sf_run_docker_ci_in_travis() {
 function sf_enable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
+    [[ -z "${WSLENV:-}" ]] || return 0
     [[ ! -f /support-firecloud.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
@@ -148,6 +149,7 @@ function sf_enable_travis_swap() {
 function sf_disable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
+    [[ -z "${WSLENV:-}" ]] || return 0
     [[ ! -f /support-firecloud.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
