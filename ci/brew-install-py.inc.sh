@@ -4,7 +4,6 @@ set -euo pipefail
 echo_do "brew: Installing Python packages..."
 BREW_FORMULAE="$(cat <<-EOF
 python
-gcc
 EOF
 )"
 brew_install "${BREW_FORMULAE}"

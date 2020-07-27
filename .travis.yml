@@ -94,13 +94,6 @@ jobs:
       if: type IN (push, cron) AND NOT branch IN (wsl)
 
     - stage: test
-      name: "Linux Focal 20.04 with dev (common+) brew"
-      os: linux
-      dist: focal
-      env: CACHE_NAME=linux-focal-dev SF_CI_BREW_INSTALL=dev
-      if: type IN (push, cron) AND NOT branch IN (wsl)
-
-    - stage: test
       name: "OSX High Sierra 10.14 (Xcode 11.3) with dev (common+) brew"
       os: osx
       osx_image: xcode11.3
