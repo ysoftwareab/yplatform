@@ -1,0 +1,21 @@
+support-firecloud v0.2.56 Release Notes
+
+Highlights since v0.2.55:
+
+* None
+
+Breaking commits since v0.2.55:
+
+* None
+
+Commits since v0.2.55:
+
+* 6759883 2020-07-27 more verbose output when trying to fix hash sum mismatch
+* 0ab961b 2020-07-27 'make decrypt' handles also plain-text password. fix #185
+* 4243c6d 2020-07-27 check unmet peer deps for yarn. fix #184
+* 7a44730 2020-07-27 another try at fixing 'hash sum mismatch' on ubuntu apt-get update
+* a22d8ba 2020-07-27 typo in deps-npm-prod
+* 8efe8de 2020-07-27 implement a 'yarn ci' mode
+* d39206a 2020-07-27 suggest enabling 'Dependency graph'
+* 5193ac6 2020-07-27 add '.transcrypt/%.asc' convenience target. for now without helper text, since it's not a common thing to do
+o 00741f6 2020-07-27 0.2.55
