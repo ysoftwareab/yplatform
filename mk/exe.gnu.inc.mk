@@ -12,6 +12,7 @@ DATE = $(call which,DATE,gdate date)
 DIFF = $(call which,DIFF,gdiff diff)
 FIND = $(call which,FIND,gfind find)
 ECHO = $(call which,ECHO,gecho echo)
+EXPR = $(call which,EXPR,gexpr expr)
 GREP = $(call which,GREP,ggrep grep)
 $(foreach VAR,AWK BASENAME CAT CHMOD CHOWN COMM CP CUT DATE DIFF FIND ECHO GREP,$(call make-lazy,$(VAR)))
 
