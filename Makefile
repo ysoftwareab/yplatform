@@ -37,8 +37,12 @@ SF_ECLINT_FILES_IGNORE += \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
 
-SF_TPL_FILES_IGNORE += \
-	-e "^priv/editorconfig-checker\.rb\.tpl$$" \
+SF_TPL_FILES += \
+	.github/workflows/main.yml \
+	.github/workflows/main.windows.yml \
+
+SF_DEPS_TARGETS += \
+	$(SF_TPL_FILES) \
 
 SF_TEST_TARGETS += \
 	test-secret \
@@ -62,10 +66,12 @@ GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitig
 
 # ------------------------------------------------------------------------------
 
-.github/workflows/main.yml: .github/workflows.src/main.yml
+.github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main.yml
+	$(call generate-from-template)
 
 
-.github/workflows/main.windows.yml: .github/workflows.src/main.windows.yml
+.github/workflows/main.windows.yml: .github/workflows/main.windows.yml.tpl .github/workflows.src/main.windows.yml
+	$(call generate-from-template)
 
 
 .PHONY: test-secret
