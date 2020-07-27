@@ -73,7 +73,7 @@ release-notes/%:
 		if [[ -t 0 ]] && [[ -t 1 ]]; then \
 			$(EDITOR) release-notes/$(VSN_TAG).txt; \
 			[[ -s release-notes/$(VSN_TAG).txt ]] || { \
-				$(ECHO_ERR) "Aborting due to empty release-notes/$(VSN_TAG).txt.";
+				$(ECHO_ERR) "Aborting due to empty release-notes/$(VSN_TAG).txt."; \
 				exit 1; \
 			} \
 		else \
