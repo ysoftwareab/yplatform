@@ -10,6 +10,8 @@ Breaking commits since v0.2.46:
 
 Commits since v0.2.46:
 
+* 81f9351 2020-07-20 0.2.47
+* 159c9ab 2020-07-20 0.2.47 release notes
 * d532a23 2020-07-20 typo
 * e1d34ed 2020-07-20 use first executable explicitly, just like definition of make.bak in sh/exe-env.inc.sh
 * 047e4ee 2020-07-20 no need for using command

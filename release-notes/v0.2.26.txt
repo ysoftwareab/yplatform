@@ -6,7 +6,8 @@ Highlights since v0.2.25:
 
 Breaking commits since v0.2.25:
 
-* None
+* 7b351a2 2020-03-06 breaking: rename SF_TRAVIS_DOCKER_IMAGE -> SF_DOCKER_CI_IMAGE
+
 
 Commits since v0.2.25:
 

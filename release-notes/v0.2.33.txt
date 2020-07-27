@@ -6,7 +6,12 @@ Highlights since v0.2.32:
 
 Breaking commits since v0.2.32:
 
-* None
+* e5d6893 2020-07-04 breaking: split python bootstrapping. pyenv and pipenv are big & problematic
+* cdaccaa 2020-06-28 breaking: move SF_PROMOTE_ENVS from repo/mk/env.promote.mk to repo/mk/env.common.mk
+* 1e360c9 2020-06-27 breaking: rename env.promote-tag-to-env-branch.mk -> env.promote.mk
+* 3c32f2f 2020-06-27 breaking: rename target promote/* -> promote-env/*
+* 9a85e1d 2020-06-27 breaking: rename env.teardown-env.mk -> env.teardown.mk
+
 
 Commits since v0.2.32:
 

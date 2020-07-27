@@ -6,7 +6,56 @@ Highlights since 00256e02d19597749fe57c63d7417a253e87252b:
 
 Breaking commits since 00256e02d19597749fe57c63d7417a253e87252b:
 
-* None
+* 714a86b 2020-01-09 breaking: remove backward compat for travis_run_* funs and dot.travis.sh.sf
+* 812293b 2019-11-02 breaking: build/check for ts, following the same pattern for js
+* 6e13568 2019-10-28 fixup! breaking: rename js.build.{d.,cp-d}ts.mk
+* 3d4e3a4 2019-10-28 breaking: rename js.build.{d.,cp-d}ts.mk
+* 9f35170 2019-10-25 print in clear breaking changes
+* 829ca99 2019-09-18 Revert "breaking: stop installing json (npm) as global dep. see #129"
+* 8172970 2019-09-18 breaking: stop installing json (npm) as global dep. see #129
+* 579da0b 2019-09-05 breaking: remove backward compat symlinks
+* b2f68a7 2019-09-05 breaking: rename core.misc.release-*.mk to core.misc.release.*.mk
+* b65ca23 2019-09-05 fixup! breaking: document and normalize repo/mk/js.check.d.ts.mk
+* 19d967a 2019-09-04 breaking: rename js.common.node.mk to node.common.mk
+* 516ff3d 2019-09-04 fixup! breaking: rename generic.misc.source-const-inc.mk to core.misc.source-const-inc.mk
+* af128e9 2019-09-04 breaking: rename core.sf-update.mk to core.misc.sf-update.mk
+* 932d4a8 2019-09-04 breaking: rename core.bootstrap.mk to core.misc.bootstrap.mk
+* 56d3b78 2019-09-04 breaking: move bootstrap and sf-update from core.common to generic.common
+* d0898dd 2019-09-04 breaking: rename publish/release/version files from js to core namespace
+* 72d7298 2019-09-04 breaking: document and simplify release targets. several targets become internal
+* 144bdf2 2019-09-03 breaking: rename repo/mk/core.vendor.transcrypt.mk to repo/mk/core.misc.transcrypt.mk
+* b7222ff 2019-09-03 breaking: rename generic.misc.source-const-inc.mk to core.misc.source-const-inc.mk
+* d066aab 2019-09-03 breaking: rename generic.misc.merge-upstream.mk to core.misc.merge-upstream.mk
+* 1a83fbf 2019-09-02 breaking: document and normalize repo/mk/js.check.d.ts.mk
+* 8438ba1 2019-09-02 breaking: stop supporting Brewfile-<OS>.inc.sh. OS branching can be done in Brewfile.inc.sh alone
+* f8bacc0 2019-08-30 fixup! breaking: 'make bootstrap' will now skip common deps. 'make bootstrap/scratch' is legacy behaviour
+* 4622e9d 2019-08-30 fixup! fixup! breaking: 'make bootstrap' will now skip common deps. 'make bootstrap/scratch' is legacy behaviour
+* 336d5ac 2019-08-30 fixup! breaking: 'make bootstrap' will now skip common deps. 'make bootstrap/scratch' is legacy behaviour
+* d449264 2019-08-27 breaking: 'make bootstrap' will now skip common deps. 'make bootstrap/scratch' is legacy behaviour
+* fbde57e 2019-07-07 breaking: stop linting individual cfn stacks. delegate that to Makefile in repo root
+* f35fcbb 2019-05-21 breaking: remove old symlinks in bin/, they are now in sh/
+* | 7529de1 2019-05-15 breaking: rename generic.misc.promote-tag-to-env-branch.mk to env.promote-tag-to-env-branch.mk
+* 31b16b4 2019-04-13 breaking: eslint will catch .ts files as well
+* 2170c19 2019-04-12 breaking: stop using typescript-formatter
+* | 8deab23 2019-03-29 breaking: remove py and aws packages from common packages
+* | 6087b79 2019-03-20 breaking: rename app.ci.inc.sh to app-env.ci.inc.sh
+* fd64826 2019-01-31 breaking: switch to using .artifacts instead of .gitignore.artifacts
+* fc40ae1 2019-01-17 breaking: rm js.lint.eslint.mk
+* 5905846 2019-01-17 breaking: rename lint-* targets to check-*
+* | 66f602b 2019-01-17 clean up support-firecloud/update and highlight breaking changes
+* 94f449b 2019-01-10 breaking: rename /priv to /sh
+* 83a1281 2019-01-08 breaking: require sourcing support-firecloud/bin/dev.inc.sh and not depend on --with-default-names. fix #69
+* b355581 2018-12-11 fixup! breaking: cfn/stack.cfn.js needs to be in cfn/stack/index.cfn.js
+| * f8c3dc0 2018-11-13 breaking: cfn/stack.cfn.js needs to be in cfn/stack/index.cfn.js
+| * 16d204f 2018-10-19 Fix issues due to line breaks
+* 1928167 2018-04-04 fix bootstrap. break not continue
+* 3efa2f1 2018-04-02 breaking: JS_FILES -> SF_ESLINT_FILES
+* 789fc76 2018-03-31 breaking: SF_ prefix on all FILES&similar vars
+* ef00a4a 2018-02-25 breaking: aws-get-stack-* have no positional arguments
+* 020eb43 2018-02-15 breaking: split out eslint targets
+* e828858 2018-02-15 breaking: refactor repo makefiles
+* a64b5b5 2018-02-15 breaking: split npm-publish-git target to its own makefile
+
 
 Commits since 00256e02d19597749fe57c63d7417a253e87252b:
 

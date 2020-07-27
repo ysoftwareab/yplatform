@@ -6,7 +6,8 @@ Highlights since v0.2.27:
 
 Breaking commits since v0.2.27:
 
-* None
+* ec6400e 2020-03-07 breaking: remove convenience scripts bin/app-github-get-{dist,snapshot}
+
 
 Commits since v0.2.27:
 

@@ -10,6 +10,8 @@ Breaking commits since v0.2.48:
 
 Commits since v0.2.48:
 
+* 18eb0dd 2020-07-21 0.2.49
+* d8d4512 2020-07-21 0.2.49 release notes
 * f67954f 2020-07-21 simplify templates once again
 * 9f5e496 2020-07-21 skip --check-files on yarn install for perf. dev's responsibility to keep node_modules clean
 * e9909a1 2020-07-21 typo

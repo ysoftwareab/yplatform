@@ -6,7 +6,8 @@ Highlights since v0.2.18:
 
 Breaking commits since v0.2.18:
 
-* None
+* | adb2b15 2020-02-15 breaking: merge brew-install-basic into brew-install-core
+
 
 Commits since v0.2.18:
 

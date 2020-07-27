@@ -6,7 +6,10 @@ Highlights since v0.2.35:
 
 Breaking commits since v0.2.35:
 
-* None
+* ce68b80 2020-07-12 fixup! breaking: *.common.mk files will need to include generic.common.mk first
+* 4a08783 2020-07-11 breaking: *.common.mk files will need to include generic.common.mk first
+* 9e3cdf1 2020-07-11 breaking: include .env and .makerc
+
 
 Commits since v0.2.35:
 

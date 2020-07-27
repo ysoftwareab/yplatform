@@ -10,6 +10,8 @@ Breaking commits since v0.2.51:
 
 Commits since v0.2.51:
 
+* 63c409b 2020-07-24 0.2.52
+* 13bde23 2020-07-24 0.2.52 release notes
 * e40f3ec 2020-07-24 style
 * a9c1cf3 2020-07-24 handle nvm's undefined vars and 'nvm use' failures
 * 98f44da 2020-07-24 stop env_reset and secure_path for sf user

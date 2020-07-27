@@ -10,6 +10,8 @@ Breaking commits since v0.2.45:
 
 Commits since v0.2.45:
 
+* 5dcab64 2020-07-19 0.2.46
+* 5a14efc 2020-07-19 0.2.46 release notes
 * d797ec9 2020-07-19 fixup! add release-notes, based on #154
 * 4f073ac 2020-07-19 fixup! generate notes when creating a new release. fix #154
 o 1893126 2020-07-19 0.2.45

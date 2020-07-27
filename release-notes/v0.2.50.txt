@@ -10,6 +10,8 @@ Breaking commits since v0.2.49:
 
 Commits since v0.2.49:
 
+* 26d86ba 2020-07-22 0.2.50
+* 1b50f5d 2020-07-22 0.2.50 release notes
 * 8876201 2020-07-22 fix SUPPORT_FIRECLOUD_DIR. how did it f work so long?
 * d669c85 2020-07-22 add SF_COMMIT, SF_VSN, SF_VSN_DESCRIBE
 * f9f63ca 2020-07-22 git tag -l is implied, but make it explicit

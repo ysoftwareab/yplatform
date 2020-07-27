@@ -6,7 +6,8 @@ Highlights since v0.2.34:
 
 Breaking commits since v0.2.34:
 
-* None
+* 73a571e 2020-07-08 breaking: bin/travis-get-env-vars will output both custom AND TRAVIS_ prefix vars. learned --wslenv
+
 
 Commits since v0.2.34:
 

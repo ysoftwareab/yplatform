@@ -6,7 +6,8 @@ Highlights since v0.2.12:
 
 Breaking commits since v0.2.12:
 
-* None
+* 77a4865 2020-02-08 breaking: npm-install-peer-deps will only modify package.json, not run 'npm install'
+
 
 Commits since v0.2.12:
 

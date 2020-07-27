@@ -6,7 +6,9 @@ Highlights since v0.2.2:
 
 Breaking commits since v0.2.2:
 
-* None
+* 0ceb97c 2020-01-24 Revert "breaking: rename apt_install to apt-get-install. add apt-get-update util function"
+* f22f989 2020-01-24 breaking: rename apt_install to apt-get-install. add apt-get-update util function
+
 
 Commits since v0.2.2:
 

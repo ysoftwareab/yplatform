@@ -10,6 +10,8 @@ Breaking commits since v0.2.47:
 
 Commits since v0.2.47:
 
+* 5c3cd98 2020-07-21 0.2.48
+* da47eb8 2020-07-21 0.2.48 release notes
 * e1534dd 2020-07-21 optimize templates
 * 86f2e12 2020-07-21 try to fix Argument list too long. fix #174
 * b2e76be 2020-07-20 SF_MAKE_SH_PASS -> SF_MAKE_COMMAND. dedupe code finding 'real' make

@@ -6,10 +6,13 @@ Highlights since v0.2.52:
 
 Breaking commits since v0.2.52:
 
-* None
+* 532212d 2020-07-24 fixup! breaking: split python bootstrapping. pyenv and pipenv are big & problematic
+
 
 Commits since v0.2.52:
 
+* db56f51 2020-07-24 0.2.53
+* 2bcf21e 2020-07-24 0.2.53 release notes
 * 25e046a 2020-07-24 ignore make.sh.successful
 * f1af99f 2020-07-24 clarify that paths can be changed
 * 83fa49d 2020-07-24 use git-url instead of ssh-url since it might not work for some. pushing will work just fine, once they bootstrap their .gitconfig

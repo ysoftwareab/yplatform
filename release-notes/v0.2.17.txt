@@ -6,7 +6,8 @@ Highlights since v0.2.16:
 
 Breaking commits since v0.2.16:
 
-* None
+* 1db81aa 2020-02-08 breaking: remove deps-npm-package-lock target
+
 
 Commits since v0.2.16:
 
