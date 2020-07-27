@@ -32,8 +32,15 @@ decrypt: ## Decrypt this repository with transcrypt.
 	else \
 		$(ECHO) "[Q   ] Which identity do you want to use to decrypt this repository?"; \
 		$(LS) -1 .transcrypt | $(SED) "s/\.asc$$//g" | $(SED) "s/^/       /g"; \
-		read ID && \
-			./transcrypt -y --import-gpg .transcrypt/$${ID}.asc; \
+		$(ECHO_INFO) "Alternatively you can enter the plain-text password."; \
+		read ID_OR_PASS && \
+			if [[ -f .transcrypt/$${ID_OR_PASS}.asc ]]; then \
+				$(ECHO_INFO) "Decrypting with identity .transcrypt/$${ID_OR_PASS}.asc ."; \
+				./transcrypt -y --import-gpg .transcrypt/$${ID_OR_PASS}.asc; \
+			else \
+				$(ECHO_INFO) "Decrypting with plain-text password."; \
+				./transcrypt -y -p $${ID_OR_PASS}; \
+			fi \
 	fi
 
 
