@@ -1,0 +1,29 @@
+support-firecloud v0.2.54 Release Notes
+
+Highlights since v0.2.53:
+
+* None
+
+Breaking commits since v0.2.53:
+
+* 72f2e36 2020-07-27 fix release-notes script. gave empty breaking notes
+* 434f014 2020-07-27 breaking: change from implicit to explicit SF_TPL_FILES for performance reasons
+
+
+Commits since v0.2.53:
+
+* c4a0308 2020-07-27 regenerate release-notes
+* 910c345 2020-07-27 remove empty release-notes
+* 72f2e36 2020-07-27 fix release-notes script. gave empty breaking notes
+* ac542f3 2020-07-27 fixup! abort version bump if release notes are empty
+* 2d80e7b 2020-07-27 add some make references
+* 434f014 2020-07-27 breaking: change from implicit to explicit SF_TPL_FILES for performance reasons
+* e66ed3f 2020-07-27 Revert "try out a fix for awscli on ubuntu-focal"
+* 617c141 2020-07-27 Revert "fixup! try out a fix for awscli on ubuntu-focal"
+* b35eee8 2020-07-27 fixup! try out a fix for awscli on ubuntu-focal
+* aae6dff 2020-07-27 try out a fix for awscli on ubuntu-focal
+* ecfd653 2020-07-25 make lazy version-related vars
+* b2bf2d0 2020-07-25 integrate 'make decrypt' with keybase
+* bf270b4 2020-07-25 abort version bump if release notes are empty
+* 84baf1e 2020-07-24 fix exit code for 'make' overload
+o db56f51 2020-07-24 0.2.53
