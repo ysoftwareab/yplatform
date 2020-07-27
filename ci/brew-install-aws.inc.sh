@@ -3,7 +3,7 @@ set -euo pipefail
 
 echo_do "brew: Installing AWS utils..."
 BREW_FORMULAE="$(cat <<-EOF
-https://github.com/Homebrew/linuxbrew-core/blob/dcdc755deab824ed59d40614ff9255555d7ef32b/Formula/awscli.rb
+https://raw.githubusercontent.com/Homebrew/linuxbrew-core/dcdc755deab824ed59d40614ff9255555d7ef32b/Formula/awscli.rb
 EOF
 )"
 brew_install "${BREW_FORMULAE}"
