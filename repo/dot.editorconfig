@@ -37,7 +37,7 @@ max_line_length = none
 [.travis.yml]
 max_line_length = none
 
-[Makefile]
+[Makefile*]
 indent_style = tab
 
 [package.json]
