@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo_do "brew: Uninstall all packages..."
+BREW_FORMULAE="$(brew list)"
+[[ -z "${BREW_FORMULAE}" ]] || \
+    brew uninstall --ignore-dependencies --force ${BREW_FORMULAE}
+unset BREW_FORMULAE
+echo_done
+
 echo_do "brew: Installing CI packages..."
 # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
 BREW_FORMULAE="$(cat <<-EOF
@@ -25,21 +32,4 @@ echo | xargs -r false || {
     exe_and_grep_q "xargs --help 2>&1" "no\\-run\\-if\\-empty"
     exit 1
 }
-echo_done
-
-echo_do "brew: Unlink keg-only packages..."
-# FIXME revert when Travis/Homebrew stops complaining about
-# 'No such file or directory - /usr/local/opt/mercurial/bin/hg'
-# See https://travis-ci.com/github/rokmoln/support-firecloud/jobs/358742904#L5350
-# BREW_FORMULAE="$(brew info --json=v1 --installed | \
-BREW_FORMULAE="$(brew info --json=v1 --installed || true | \
-    jq -r 'map(select(.keg_only == true and .linked_keg != null)) | map(.name) | .[]')"
-echo -n "${BREW_FORMULAE}" | while read -r BREW_FORMULA; do
-    echo_info "brew unlink ${BREW_FORMULA}"
-    brew unlink ${BREW_FORMULA} || {
-        echo_warn "Failed to unlink formula ${BREW_FORMULA}."
-        echo_skip "brew unlink ${BREW_FORMULA}"
-    }
-done
-unset BREW_FORMULAE
 echo_done
