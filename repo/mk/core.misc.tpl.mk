@@ -22,9 +22,9 @@
 SF_CHECK_TPL_FILES += \
 
 define sf-generate-from-template
-	$(shell $(ECHO_DO) "Generating $@ from template $<...")
-	$(shell $(shell $(REALPATH) $<) > $@)
-	$(shell $(ECHO_DONE))
+	$(ECHO_DO) "Generating $@ from template $<..."
+	$(shell $(REALPATH) $<) > $@
+	$(ECHO_DONE)
 endef
 
 SF_CHECK_TARGETS += \
