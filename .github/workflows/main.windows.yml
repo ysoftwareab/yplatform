@@ -81,3 +81,4 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: wsl --user github bash -c "./.ci.sh notifications || true"
         if: always()
+
