@@ -28,7 +28,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
-ANY_PYTHON=$(which python python2 python3 2>/dev/null | grep -v -e "not found" | head -1 || echo "ANY_PYTHON_NOT_FOUND")
+ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -1 || true)
+ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 
 function fallback_echo() {
     local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
