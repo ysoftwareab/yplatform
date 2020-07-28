@@ -1,0 +1,34 @@
+support-firecloud v0.2.57 Release Notes
+
+Highlights since v0.2.56:
+
+* None
+
+Breaking commits since v0.2.56:
+
+* None
+
+Commits since v0.2.56:
+
+* 3485540 2020-07-28 more verbose about 'apt-get update' second try
+* 7cf687a 2020-07-28 try to fix random Makefile 127 error for template files
+* dcade30 2020-07-28 fixup! another try at fixing 'hash sum mismatch' on ubuntu apt-get update
+* 5f458ba 2020-07-28 run printenv during bootstrap only when SF_PRINTENV_BOOTSTRAP=true, in order to prevent leaks
+* 25ffa4d 2020-07-28 don't change cwd without going back
+* 81161a4 2020-07-28 cleanup: unset vars
+* 074ff6b 2020-07-28 updated .github/workflows/main.windows.yml
+* 12c2177 2020-07-28 skip ci packages if common bootstrapped
+* f9b5afc 2020-07-28 uninstall all brew packages in ci for a cleaner slate
+* f7fe7d3 2020-07-28 add note about the weird definition of ANY_PYTHON
+* 497c178 2020-07-28 fix ci-echo on macos
+* f5db16a 2020-07-28 use absolute paths
+* 36dd5ba 2020-07-28 simplify nanoseconds calculation in ci-echo
+* 5ebc6ab 2020-07-28 skip travis-swap in wsl
+* f6eb3cf 2020-07-28 fix trailing equal sign from travis-get-env-vars
+* e8ae8a5 2020-07-27 appveyor: try to use same pattern as on travis and github actions
+* 706d8f6 2020-07-27 print /etc/os-release on wsl for debugging purposes
+* 114084f 2020-07-27 test minimal configuration on wsl, due to time/performance constraints
+* a901cbe 2020-07-27 remove ubuntu-focal fixes. it simply looks likes it doesn't have enough traction yet, so don't optimize for it
+* f45c950 2020-07-27 fixup! try to use an older bottle for awscli that used to work on ubuntu-focal
+* 3cff421 2020-07-27 try to use an older bottle for awscli that used to work on ubuntu-focal
+o 7a99f49 2020-07-27 0.2.56
