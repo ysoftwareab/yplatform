@@ -28,6 +28,8 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+# FIXME weird behavior on MacOS leads to ANY_PYTHON="/usr/bin/python ANY_PYTHON_NOT_FOUND"
+# ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -1 || echo "ANY_PYTHON_NOT_FOUND")
 ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -1 || true)
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 
