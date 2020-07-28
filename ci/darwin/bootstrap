@@ -23,7 +23,7 @@ brew_update
 brew_brewfile_inc_sh
 brew_list
 
-[[ "${CI:-}" != "true" ]] || {
+[[ "${SF_PRINTENV_BOOTSTRAP:-}" != "true" ]] || {
     echo_do "Printenv..."
     printenv
     echo_done

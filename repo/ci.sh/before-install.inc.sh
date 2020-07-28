@@ -133,7 +133,9 @@ function sf_os() {
     [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
         SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
-    echo_info "${FUNCNAME[0]}: Running with SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}."
+    echo_info "${FUNCNAME[0]}: Running with"
+    echo_info "${FUNCNAME[0]}: SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
+    echo_info "${FUNCNAME[0]}: SF_PRINTENV_BOOTSTRAP=${SF_PRINTENV_BOOTSTRAP:-}"
 
     local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
 
