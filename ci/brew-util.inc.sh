@@ -165,6 +165,8 @@ function apt_update() {
         # try to handle "Hash Sum mismatch" error
         ${SUDO} apt-get clean
         ${SUDO} rm -rf /var/lib/apt/lists/*
+        # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
+        ${SUDO} apt-get update -o Acquire::CompressionTypes::Order::=gz
         ${SUDO} apt-get update -y --fix-missing
     }
 }
