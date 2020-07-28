@@ -25,6 +25,7 @@ jobs:
       GH_TOKEN: '${{ secrets.GH_TOKEN }}'
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
     steps:
       - uses: actions/checkout@v2
@@ -58,4 +59,3 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
         if: always()
-
