@@ -1,0 +1,16 @@
+support-firecloud v0.2.58 Release Notes
+
+Highlights since v0.2.57:
+
+* None
+
+Breaking commits since v0.2.57:
+
+* None
+
+Commits since v0.2.57:
+
+* 2eb5daa 2020-07-28 travis user should keep env and PATH
+* e11ff94 2020-07-28 split into test and publish stages
+* 3d83431 2020-07-28 editorconfig: all Makefile* can be tab indented
+o a706687 2020-07-28 0.2.57
