@@ -58,8 +58,12 @@ dpkg-reconfigure locales
     apt_install tzdata
     dpkg-reconfigure tzdata
 
-    timedatectl set-ntp no
+    if which -a timedatectl; then
+        timedatectl set-ntp no || true
+    fi
     apt_install ntp
+    # test that ntpd is working
+    ntpq -p
 ) || true
 
 # Basic
