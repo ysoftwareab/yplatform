@@ -52,6 +52,8 @@
 
   "json.format.enable": true,
 
+  "prettier.requireConfig": true,
+
   "sasslint.enable": true,
   "sasslint.run": "onSave",
 
