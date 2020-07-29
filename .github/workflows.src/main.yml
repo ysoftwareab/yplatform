@@ -55,6 +55,8 @@ jobs:
       - *checkout
       - *checkout-submodules
       - shell: bash
+        run: sudo chown $(id -u):$(id -g) . ~
+      - shell: bash
         run: ./.ci.sh before_install
       - shell: bash
         run: ./.ci.sh install
