@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+git ls-files --no-modified -z | while IFS= read -r -d $'\0' FILE; do
+    {
+        TIMESTAMP="$(git log -1 --format="%ct" HEAD -- "${FILE}")"
+        TZ=UTC touch -h -m -d "@${TIMESTAMP}" "${FILE}"
+    } &
+done
