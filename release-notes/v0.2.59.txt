@@ -1,0 +1,27 @@
+support-firecloud v0.2.59 Release Notes
+
+Highlights since v0.2.58:
+
+* None
+
+Breaking commits since v0.2.58:
+
+* None
+
+Commits since v0.2.58:
+
+* 4a4361c 2020-07-29 need to call apt_update early on to possibly fix 'hash sum mismatch' errors
+* d916117 2020-07-29 add V environment to github actions CI
+* 51daeee 2020-07-29 disable prettier for markdown
+* 3650e6f 2020-07-29 disable prettier for json and yaml. removes empty lines arbitrarily
+* bf97d53 2020-07-29 don't enable prettier if not configured ffs
+* dec574e 2020-07-29 yml: prefer double quotes
+* 618f2c9 2020-07-29 remove trailing newline from generated yml
+* 10f3755 2020-07-29 fixup! allow configurable SF_PRINTENV_BOOTSTRAP
+*   685c2ae 2020-07-29 Merge tag 'v0.2.58'
+|\
+* | ef20dc9 2020-07-29 allow configurable SF_PRINTENV_BOOTSTRAP
+* | 21617a0 2020-07-29 sync 'apt_update' functions
+o | 2eb5daa 2020-07-28 travis user should keep env and PATH
+./
+o a4df270 2020-07-29 0.2.58
