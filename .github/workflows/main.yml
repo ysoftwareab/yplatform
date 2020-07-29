@@ -38,8 +38,6 @@ jobs:
           git -c "http.extraheader=$auth_header" -c protocol.version=2 \
           submodule update --init --force --recursive --depth=1
       - shell: bash
-        run: 'sudo chown $(id -u):$(id -g) . ~'
-      - shell: bash
         run: ./.ci.sh before_install
       - shell: bash
         run: ./.ci.sh install

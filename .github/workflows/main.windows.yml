@@ -60,8 +60,6 @@ jobs:
           # See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
 
           wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
-
-          # wsl bash -c "sudo chown github:github . ~"
       - shell: bash
         run: wsl --user github bash -c "./.ci.sh before_install"
       - shell: bash
