@@ -55,6 +55,7 @@
   "prettier.requireConfig": true,
   "prettier.disableLanguages": [
     "json",
+    "markdown",
     "yaml"
   ],
 
