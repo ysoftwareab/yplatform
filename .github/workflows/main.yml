@@ -59,3 +59,4 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
         if: always()
+
