@@ -25,9 +25,10 @@ data = yml.safeLoad(yml.safeDump(data, {
   noRefs: true
 }));
 delete data.aliases;
-console.log(yml.safeDump(data, {
+let expandedData = yml.safeDump(data, {
   lineWidth: 120
-}));
+});
+console.log(expandedData.replace(/\n+$/, ''));
 EOF
 )"
 node -e "${SCRIPT}"
