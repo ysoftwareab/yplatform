@@ -7,6 +7,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 [[ "${CI:-}" != "true" ]] || {
     # improve date-time (ntp) sync
     (
+        ${SUDO} touch /var/db/ntp-kod
+        ${SUDO} chown root:wheel /var/db/ntp-kod
         ${SUDO} sntp -sS time.apple.com
     ) || true
 }
