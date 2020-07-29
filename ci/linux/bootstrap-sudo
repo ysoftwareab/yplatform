@@ -38,7 +38,9 @@ function apt_install() {
 }
 
 apt_install software-properties-common
+apt_update
 apt-add-repository -y ppa:git-core/ppa
+# doing apt_update again because some apt-add-repository invocations will not update the index
 apt_update
 
 export DEBIAN_FRONTEND=noninteractive
