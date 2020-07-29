@@ -4,7 +4,7 @@ on:
     branches:
       - github.* # github branches
       - master
-      - 'v[0-9]+.[0-9]+.[0-9]+' # version tags
+      - "v[0-9]+.[0-9]+.[0-9]+" # version tags
 
 aliases:
   env: &env
@@ -73,7 +73,7 @@ jobs:
 
   # deploy:
   #   needs: main
-  #   if: startWith(github.ref, 'refs/tags/') == true
+  #   if: startWith(github.ref, "refs/tags/") == true
   #   strategy:
   #     fail-fast: false
   #     matrix:
