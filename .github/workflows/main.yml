@@ -27,6 +27,7 @@ jobs:
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
     steps:
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 submodules

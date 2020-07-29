@@ -23,6 +23,7 @@ jobs:
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
       WSLENV: 'CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP'
     steps:
       - shell: bash
