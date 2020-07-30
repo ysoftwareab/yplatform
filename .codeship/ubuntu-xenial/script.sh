@@ -31,8 +31,10 @@ apt_install git openssl ssh-client sudo
 # SSH
 mkdir -p /root/.ssh
 chmod 700 /root/.ssh
-echo "Host *\n\tStrictHostKeyChecking no\n" >> /root/.ssh/config
+echo -e "Host github.com\n  StrictHostKeyChecking yes\n  CheckHostIP no" >/root/.ssh/config
 chmod 600 /root/.ssh/config
+echo "github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==" >/root/.ssh/known_hosts
+chmod 600 /root/.ssh/known_hosts
 
 # GIT
 git config --global user.email "bot@codeship.com"
@@ -60,3 +62,7 @@ adduser \
     ${UNAME}
 adduser ${UNAME} sudo
 echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
+echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
+cp -RP /root/.ssh /home/${UNAME}/
+chown -R sf:sf /home/${UNAME}/.ssh
