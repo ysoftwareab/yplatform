@@ -69,6 +69,8 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 }
 
 function ci_run_deploy_docker_image() {
+    # NOTE jq must be preinstalled
+
     # safety pin: release only on Travis
     [[ "${TRAVIS:-}" = "true" ]] || return
 
@@ -77,30 +79,18 @@ function ci_run_deploy_docker_image() {
 
     [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
 
-    # NOTE keep in sync with `dockerfiles/build`
     local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
-    local RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
-    local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
-    local DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
-    [[ -f "${DOCKERFILE}" ]] || return
 
-    # NOTE jq must be preinstalled
     local TIMESTAMP_LATEST=$(
         curl https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
             jq -r .last_updated | \
             xargs -r -0 date +%s -d || \
             echo 0)
 
-    ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build \
-        --release-id ${RELEASE_ID} \
-        --release-version-id ${RELEASE_VERSION_ID} \
-        --release-version-codename ${RELEASE_VERSION_CODENAME} \
-        --docker-org ${DOCKER_ORG} \
-        --docker-image-name ${DOCKER_IMAGE_NAME} \
+    ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/build \
         --docker-image-tag ${DOCKER_IMAGE_TAG} \
-        --dockerfile ${DOCKERFILE} \
         --sf-ci-brew-install ${SF_CI_BREW_INSTALL}
 
     # don't push as 'latest' tag if the tag has been updated after the current commit

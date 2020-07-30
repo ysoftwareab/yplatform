@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 RELEASE_ID=
@@ -10,45 +10,19 @@ RELEASE_VERSION_CODENAME=
 
 DOCKER_ORG=rokmoln
 DOCKER_IMAGE_NAME=
-DOCKER_IMAGE_TAG=local
+DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")-local
 DOCKERFILE=
 
 SF_CI_BREW_INSTALL=minimal
 
-[[ ! -f "/etc/os-release" ]] || {
-    RELEASE_ID="$(source /etc/os-release && echo ${ID})"
-    RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
-    RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
-}
-
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --release-id)
-            RELEASE_ID=$2
-            shift 2
-            ;;
-        --release-version-id)
-            RELEASE_VERSION_ID=$2
-            shift 2
-            ;;
-        --release-version-codename)
-            RELEASE_VERSION_CODENAME=$2
-            shift 2
-            ;;
-        --docker-org)
-            DOCKER_ORG=$2
-            shift 2
-            ;;
         --docker-image-name)
             DOCKER_IMAGE_NAME=$2
             shift 2
             ;;
         --docker-image-tag)
             DOCKER_IMAGE_TAG=$2
-            shift 2
-            ;;
-        --dockerfile)
-            DOCKERFILE=$2
             shift 2
             ;;
         --sf-ci-brew-install)
@@ -70,14 +44,17 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 
+MYSELF=${BASH_SOURCE[0]}
+OS_RELEASE=$(dirname ${MYSELF})/os-release
+
+RELEASE_ID="$(source ${OS_RELEASE} && echo ${ID})"
+RELEASE_VERSION_ID="$(source ${OS_RELEASE} && echo ${VERSION_ID})"
+RELEASE_VERSION_CODENAME="$(source ${OS_RELEASE} && echo ${VERSION_CODENAME})"
+
+[[ -n "${DOCKERFILE}" ]] || DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
 [[ -n "${DOCKER_IMAGE_NAME}" ]] || DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
-DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/Dockerfile
 
-[[ -f "${DOCKERFILE}" ]] || {
-    echo_err "${DOCKERFILE} doesn't exist."
-    exit 1
-}
-
+echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
 exe docker build ${SUPPORT_FIRECLOUD_DIR} \
     --file ${DOCKERFILE} \
     --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
@@ -85,3 +62,4 @@ exe docker build ${SUPPORT_FIRECLOUD_DIR} \
     --build-arg SF_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
     --build-arg SF_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
     --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+echo_done
