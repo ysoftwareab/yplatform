@@ -24,12 +24,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
 brew_update
 brew_brewfile_inc_sh
 brew_list
-
-[[ "${SF_PRINTENV_BOOTSTRAP:-}" != "true" ]] || {
-    echo_do "Printenv..."
-    printenv
-    echo_done
-}
+brew_printenv
 
 # see https://github.com/Homebrew/brew/issues/5013
 hash -r
