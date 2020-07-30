@@ -21,7 +21,7 @@ SF_DEPS_TARGETS += \
 deps-git:
 	$(GIT) submodule sync --recursive
 	$(GIT) submodule update --init --recursive
-	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
+	# $(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
 
 
 .PHONY: deps
