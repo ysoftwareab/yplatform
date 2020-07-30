@@ -1,0 +1,17 @@
+support-firecloud v0.2.61 Release Notes
+
+Highlights since v0.2.60:
+
+* None
+
+Breaking commits since v0.2.60:
+
+* None
+
+Commits since v0.2.60:
+
+* e3be328 2020-07-31 fix git configuration for multiple insteadOf
+* c47cb71 2020-07-31 add simple build util for each dockerfile
+* acfad6c 2020-07-30 enable strict host checking, github.com is known
+* daed57f 2020-07-31 if GH_TOKEN, use https instead of ssh for all github.com repos, not just github.com/rokmoln
+o 2de145e 2020-07-30 0.2.60
