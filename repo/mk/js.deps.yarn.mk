@@ -48,9 +48,10 @@ endif
 # and the latter is both faster and requires no network
 .PHONY: deps-yarn-unmet-peer
 deps-yarn-unmet-peer:
+	$(eval YARN_LOCK_TMP := $(shell $(MKTEMP)))
 	$(eval YARN_IMPORT_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
-	$(RM) yarn.lock
+	$(MV) yarn.lock $(YARN_LOCK_TMP)
 	$(YARN) import >$(YARN_IMPORT_TMP) 2>&1
 	diff -U0 \
 		<(cat yarn.lock.unmet-peer 2>/dev/null | \
@@ -73,6 +74,7 @@ deps-yarn-unmet-peer:
 		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-warning" | $(SED) "s/^\-//g"; \
 		$(ECHO); \
 	fi
+	$(MV) $(YARN_LOCK_TMP) yarn.lock
 	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \
 		exit 1; \
 	fi
