@@ -1,0 +1,29 @@
+support-firecloud v0.2.60 Release Notes
+
+Highlights since v0.2.59:
+
+* None
+
+Breaking commits since v0.2.59:
+
+* None
+
+Commits since v0.2.59:
+
+* 0c32a5c 2020-07-30 bypass make overload for --help and --version
+* 0652c75 2020-07-30 emergency fix: make is overloaded in sh/exe-env.inc.sh
+* 320eb89 2020-07-30 fix for 'yarn import' making improvements over older yarn.lock files
+* 474926e 2020-07-30 set mtime only in CI
+* 75ce9a1 2020-07-30 temp: skip mtime
+* 14482a1 2020-07-30 remove quotes because ~ doesn't expand
+* 9064881 2020-07-30 fix typo in js.deps.yarn.mk
+* 22d8443 2020-07-30 partial printenv even without SF_PRINTENV_BOOTSTRAP=true, list pwd and HOME contents
+* 5688b31 2020-07-29 Revert "github actions: the pwd mount uses uid=1001 gid=116, thus impossible to create files in the root of the repo"
+* 16bc9ab 2020-07-29 Revert "fixup! github actions: the pwd mount uses uid=1001 gid=116, thus impossible to create files in the root of the repo"
+* e2a7cbd 2020-07-29 fixup! github actions: the pwd mount uses uid=1001 gid=116, thus impossible to create files in the root of the repo
+* c6f70d5 2020-07-29 handle missing file on macos when syncing the time
+* 8af5160 2020-07-29 regenerate
+* d3f8b3f 2020-07-29 'make deps-git' will now also set file modification time to commit time
+* 629514e 2020-07-29 improve ntpd installation
+* 55332f8 2020-07-29 github actions: the pwd mount uses uid=1001 gid=116, thus impossible to create files in the root of the repo
+o 2d917a7 2020-07-29 0.2.59
