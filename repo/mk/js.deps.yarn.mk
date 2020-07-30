@@ -83,7 +83,7 @@ deps-yarn:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN) $(YARN_CI_OR_INSTALL)
-	$(MAKE) deps-npm-unmet-peer
+	$(MAKE) deps-yarn-unmet-peer
 
 
 .PHONY: deps-yarn-prod
@@ -91,4 +91,4 @@ deps-yarn-prod:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
 	$(YARN)  $(YARN_CI_OR_INSTALL) --production
-	$(MAKE) deps-npm-unmet-peer
+	$(MAKE) deps-yarn-unmet-peer
