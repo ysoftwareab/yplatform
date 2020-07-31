@@ -30,8 +30,8 @@ function sf_run_docker_ci_image() {
     exe docker exec -it -u root ${CONTAINER_NAME} \
         touch /support-firecloud.docker-ci
 
-    local GID=$(id -g)
-    local UID=$(id -u)
+    # local GID=$(id -g)
+    # local UID=$(id -u)
     local GNAME=$(id -g --name)
     local UNAME=$(id -u --name)
 
