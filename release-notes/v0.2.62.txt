@@ -1,0 +1,14 @@
+support-firecloud v0.2.62 Release Notes
+
+Highlights since v0.2.61:
+
+* None
+
+Breaking commits since v0.2.61:
+
+* None
+
+Commits since v0.2.61:
+
+* eeaf15a 2020-07-31 fixup! add simple build util for each dockerfile
+o 0a76644 2020-07-31 0.2.61
