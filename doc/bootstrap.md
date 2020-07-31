@@ -16,13 +16,14 @@
 Notifications are nice, and even necessary to have,
 but they need to come in the right amount and on proper channels.
 
-The right amount can be fixed by going to https://github.com/settings/notifications
-and **turning off `Automatically watch repositories`**.
+The right amount can be fixed by going to https://github.com/settings/notifications and
+* **turning off `Notifications > Automatic watching > Automatically watch repositories`**
+* **turning off `Email notification preferences > Pull Request pushes`**.
 
 The proper channels can be fixed by going to https://github.com/settings/emails
-and registering your work email address, if you haven't done so already.
+and registering your secondary email addresses, like your work address, if you haven't done so already.
 Once that is done, go to https://github.com/settings/notifications#organization_routing
-and select the work email address.
+and select your appropriate email addresses for each organization.
 
 
 ## Add your SSH key to your Github account
