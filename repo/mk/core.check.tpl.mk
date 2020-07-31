@@ -38,8 +38,11 @@ SF_CHECK_TARGETS += \
 
 .PHONY: check-tpl-files
 check-tpl-files:
-	$(MAKE) $(SF_CHECK_TPL_FILES)
-	$(GIT) diff --exit-code $(SF_CHECK_TPL_FILES) || { \
-		$(ECHO_ERR) "Some template-generated files have uncommitted changes."; \
-		exit 1; \
+	SF_CHECK_TPL_FILES_TMP=($(SF_CHECK_TPL_FILES)); \
+	[[ "$${#SF_CHECK_TPL_FILES_TMP[@]}" = "0" ]] || { \
+		$(MAKE) $${SF_CHECK_TPL_FILES_TMP[@]}; \
+		$(GIT) diff --exit-code $${SF_CHECK_TPL_FILES_TMP[@]} || { \
+			$(ECHO_ERR) "Some template-generated files have uncommitted changes."; \
+			exit 1; \
+		} \
 	}
