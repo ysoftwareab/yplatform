@@ -14,6 +14,21 @@ include support-firecloud/repo/mk/core.misc.release.tag.mk
 
 COMMON_MKS := $(wildcard repo/mk/*.common.mk)
 
+GITHUB_GLOBAL_GITIGNORE_BASE_URL := https://raw.githubusercontent.com/github/gitignore/master/Global
+
+GITHUB_GLOBAL_GITIGNORES := \
+	Backup \
+	Diff \
+	Emacs \
+	Linux \
+	Patch \
+	Vim \
+	VisualStudioCode \
+	Windows \
+	macOS \
+
+GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitignore,$(GITHUB_GLOBAL_GITIGNORES))
+
 SF_CLEAN_FILES += \
 	support-firecloud \
 
@@ -49,21 +64,6 @@ SF_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
-
-GITHUB_GLOBAL_GITIGNORE_BASE_URL := https://raw.githubusercontent.com/github/gitignore/master/Global
-
-GITHUB_GLOBAL_GITIGNORES := \
-	Backup \
-	Diff \
-	Emacs \
-	Linux \
-	Patch \
-	Vim \
-	VisualStudioCode \
-	Windows \
-	macOS \
-
-GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitignore,$(GITHUB_GLOBAL_GITIGNORES))
 
 # ------------------------------------------------------------------------------
 
