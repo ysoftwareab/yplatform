@@ -30,10 +30,10 @@ function sf_run_docker_ci_image() {
     exe docker exec -it -u root ${CONTAINER_NAME} \
         touch /support-firecloud.docker-ci
 
-    # local GID=$(id -g)
-    # local UID=$(id -u)
-    local GNAME=$(id -g --name)
-    local UNAME=$(id -u --name)
+    GID=$(id -g)
+    UID=$(id -u)
+    GNAME=$(id -g --name)
+    UNAME=$(id -u --name)
 
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
