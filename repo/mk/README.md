@@ -47,28 +47,30 @@ The pieces **MUST** be included in this order:
 The high-level colletions of pieces are as follows:
 
 * [core.common.mk](core.common.mk) - for bare minimum repositories
+  * [core.vendor.mk](core.vendor.mk)
   * [core.clean.mk](core.clean.mk)
   * [core.deps.mk](core.deps.mk)
   * [core.build.mk](core.build.mk)
   * [core.check.mk](core.check.mk)
-  * [core.node.mk](core.node.mk)
   * [core.shell.mk](core.shell.mk)
   * [core.test.mk](core.test.mk)
-  * [core.vendor.mk](core.vendor.mk)
+  * [core.node.mk](core.node.mk)
 * [generic.common.mk](generic.common.mk) - for generic repositories
   * [core.common.mk](core.common.mk)
   * [core.deps.git-hook-pre-push.mk](core.deps.git-hook-pre-push.mk)
+  * [core.build.build-version-files.mk](core.build.build-version-files.mk)
+  * [core.check.path.mk](core.check.path.mk)
+  * [core.check.tpl.mk](core.check.tpl.mk)
   * [core.check.eclint.mk](core.check.eclint.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
-  * [core.check.path.mk](core.check.path.mk)
-  * [core.build.build-version-files.mk](core.build.build-version-files.mk)
-  * [core.misc.bootstrap.mk](core.misc.bootstrap.mk)
+  * [core.misc.promote.mk](core.misc.promote.mk)
+  * [core.misc.version.mk](core.misc.version.mk)
   * [core.misc.release.mk](core.misc.release.mk)
+  * [core.misc.docker-ci.mk](core.misc.docker-ci.mk)
+  * [core.misc.bootstrap.mk](core.misc.bootstrap.mk)
   * [core.misc.sf-update.mk](core.misc.sf-update.mk)
   * [core.misc.snapshot.mk](core.misc.snapshot.mk)
-  * [core.misc.tpl.mk](core.misc.tpl.mk)
   * [core.misc.transcrypt.mk](core.misc.transcrypt.mk)
-  * [core.misc.version.mk](core.misc.version.mk)
 
 Miscelaneous "must haves" require [generic.common.mk](generic.common.mk):
 * [js.common.mk](js.common.mk) - for generic JavaScript repositories
