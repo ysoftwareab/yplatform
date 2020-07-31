@@ -30,6 +30,11 @@ function sf_run_docker_ci_image() {
     exe docker exec -it -u root ${CONTAINER_NAME} \
         touch /support-firecloud.docker-ci
 
+    local GID=$(id -g)
+    local UID=$(id -u)
+    local GNAME=$(id -g --name)
+    local UNAME=$(id -u --name)
+
     # create same groups (and gids) that the 'travis' user belongs to inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
     # and instead using a while loop with \0 delimiters
@@ -43,40 +48,39 @@ function sf_run_docker_ci_image() {
     done 3< <(id -G --name --zero)
 
     # create same user (and uid) that the 'travis' user has inside the docker container
-    local EFFECTIVE_GROUP_NAME="$(id -g --name)"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
         --force-badname \
-        --uid $(id -u) \
-        --ingroup "${EFFECTIVE_GROUP_NAME}" \
+        --uid ${UID} \
+        --ingroup "${GNAME}" \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
         --gecos "" \
-        "$(id -u --name)"
+        "${UNAME}"
 
     # add the 'travis' user to the groups inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
     # and instead using a while loop with \0 delimiters
-    while IFS= read -u3 -rd '' GROUP_NAME; do
+    while IFS= read -u3 -rd '' SECONDARY_GNAME; do
         exe docker exec -it -u root ${CONTAINER_NAME} \
             adduser \
             --force-badname \
-            "$(id -u --name)" \
-            "${GROUP_NAME}" || true;
+            "${UNAME}" \
+            "${SECONDARY_GNAME}" || true;
     done 3< <(id -G --name --zero)
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
         --force-badname \
-        "$(id -u --name)" \
+        "${UNAME}" \
         sudo || true;
 
     # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
     echo_do "Taking ownership over ${HOME}..."
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        chown $(id -u):$(id -g) ${HOME}
+        chown ${UID}:${GID} ${HOME}
     echo_done
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
