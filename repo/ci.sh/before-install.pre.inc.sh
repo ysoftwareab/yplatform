@@ -59,6 +59,13 @@ function sf_run_docker_ci_image() {
         --gecos "" \
         "${UNAME}"
 
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
+
     # add the 'travis' user to the groups inside the docker container
     # NOTE groups can have whitespace, thus cannot use a regular for loop,
     # and instead using a while loop with \0 delimiters
