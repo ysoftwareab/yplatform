@@ -60,7 +60,7 @@ function sf_run_docker_ci_image() {
         adduser \
         --force-badname \
         "${UNAME}" \
-        sudo || true;
+        sudo;
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
