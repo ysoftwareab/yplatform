@@ -65,4 +65,4 @@ echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 cp -RP /root/.ssh /home/${UNAME}/
-chown -R sf:sf /home/${UNAME}/.ssh
+chown -R ${UNAME}:${GNAME} /home/${UNAME}/.ssh
