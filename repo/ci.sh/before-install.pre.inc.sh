@@ -35,24 +35,21 @@ function sf_run_docker_ci_image() {
     local GNAME=$(id -g --name)
     local UNAME=$(id -u --name)
 
-    # create same groups (and gids) that the 'travis' user belongs to inside the docker container
-    # NOTE groups can have whitespace, thus cannot use a regular for loop,
-    # and instead using a while loop with \0 delimiters
-    while IFS= read -u3 -rd '' GROUP_NAME; do
-        # NOTE using python instead of getent for compatibility with MacOS
-        exe docker exec -it -u root ${CONTAINER_NAME} \
-            addgroup \
-            --force-badname \
-            --gid $(python -c "import grp; print(grp.getgrnam(\"${GROUP_NAME}\").gr_gid)") \
-            "${GROUP_NAME}" || true;
-    done 3< <(id -G --name --zero)
+    # create same group (and gid) that the 'travis' user has, inside the docker container
+    exe docker exec -it -u root ${CONTAINER_NAME} \
+        bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || addgroup \
+        --gid ${GID2} \
+        \"${GNAME}\""
 
-    # create same user (and uid) that the 'travis' user has inside the docker container
+    local GNAME_REAL=$(docker exec -it -u root ${CONTAINER_NAME} \
+        getent group ${GID2} | cut -d: -f1)
+
+    # create same user (and uid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
         --force-badname \
         --uid ${UID2} \
-        --ingroup "${GNAME}" \
+        --ingroup ${GNAME_REAL} \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
@@ -65,17 +62,6 @@ function sf_run_docker_ci_image() {
         bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
-
-    # add the 'travis' user to the groups inside the docker container
-    # NOTE groups can have whitespace, thus cannot use a regular for loop,
-    # and instead using a while loop with \0 delimiters
-    while IFS= read -u3 -rd '' SECONDARY_GNAME; do
-        exe docker exec -it -u root ${CONTAINER_NAME} \
-            adduser \
-            --force-badname \
-            "${UNAME}" \
-            "${SECONDARY_GNAME}" || true;
-    done 3< <(id -G --name --zero)
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
         adduser \
