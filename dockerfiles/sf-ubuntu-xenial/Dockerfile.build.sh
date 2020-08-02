@@ -52,13 +52,15 @@ UNAME=sf
 
 # NON-ROOT SUDO USER
 GID_INDEX=$((GID_INDEX + 1))
-addgroup \
+cat /etc/group | cut -d":" -f3 | grep -q "^${GID_INDEX}$" || addgroup \
     --gid ${GID_INDEX} \
     ${GNAME}
+GNAME_REAL=$(getent group ${GID_INDEX} | cut -d: -f1)
+
 UID_INDEX=$((UID_INDEX + 1))
 adduser \
     --uid ${UID_INDEX} \
-    --ingroup ${UNAME} \
+    --ingroup ${GNAME_REAL} \
     --home /home/${UNAME} \
     --shell /bin/sh \
     --disabled-password \
@@ -69,7 +71,7 @@ echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 cp -RP /root/.ssh /home/${UNAME}/
-chown -R sf:sf /home/${UNAME}/.ssh
+chown -R ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh
 
 # MAIN
 {
