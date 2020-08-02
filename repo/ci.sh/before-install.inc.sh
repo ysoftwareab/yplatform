@@ -102,7 +102,7 @@ function sf_os_bootstrap_with_script() {
     fi
 
     if [[ "$(id -u --name)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
-        echo_info "Running ${BOOTSTRAP_SCRIPT} as current user ${BOOTSTRAP_SCRIPT_USER}."
+        echo_info "Running ${BOOTSTRAP_SCRIPT} as current user $(id -u --name)."
         ${BOOTSTRAP_SCRIPT}
     else
         echo_info "Running ${BOOTSTRAP_SCRIPT} as another user ${BOOTSTRAP_SCRIPT_USER}."
