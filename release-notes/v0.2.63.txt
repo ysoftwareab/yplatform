@@ -1,0 +1,39 @@
+support-firecloud v0.2.63 Release Notes
+
+Highlights since v0.2.62:
+
+* None
+
+Breaking commits since v0.2.62:
+
+* 4bf17e6 2020-08-03 fixup! breaking: bin/travis-get-env-vars will output both custom AND TRAVIS_ prefix vars. learned --wslenv
+
+
+Commits since v0.2.62:
+
+* 8af1073 2020-08-03 need login shell otherwise you get 'permission denied' (?)
+* 97a7bf7 2020-08-03 use fully qualified arguments
+* 0cfb3f4 2020-08-03 print correct username
+* 4bf17e6 2020-08-03 fixup! breaking: bin/travis-get-env-vars will output both custom AND TRAVIS_ prefix vars. learned --wslenv
+* eeb92c7 2020-08-02 use uid:gid in chown
+* ef226bc 2020-08-02 dockefiles: handle 'gid already exists'
+* a7645ab 2020-08-02 enforce docker-ci user as sudoer
+* ae00a93 2020-08-02 order
+* 3c5919b 2020-08-02 probably not necessary to recreate the same groups inside docker-ci
+* 02d3397 2020-08-02 fixup! handle envsubst 0.21
+* da9aeb7 2020-08-02 handle envsubst 0.21
+* d0fa4f5 2020-08-02 codeship: better naming. sync with dockerfiles folders
+* 5c2eeb5 2020-08-02 fixup! enable strict host checking, github.com is known
+* a0f86b5 2020-07-31 update docs for Github notifications
+* 65b1d41 2020-07-31 fixup! call 'id' less times
+* 63acdd6 2020-07-31 fixup! call 'id' less times
+* b0a3d09 2020-07-31 fixup! call 'id' less times
+* 12784b9 2020-07-31 handle empty SF_CHECK_TPL_FILES, sync pattern with other check targets
+* 08efe9b 2020-07-31 updated repo/mk/README.md
+* d0fb7c9 2020-07-31 rename core.misc.tpl.mk to core.check.tpl.mk
+* aed279d 2020-07-31 allow docker-ci user to do passwordless sudo
+* 0edfa43 2020-07-31 call 'id' less times
+* 6415b07 2020-07-31 travis: test osx and wsl only as a cronjob (takes very very long >30minutes)
+* 7d2c88c 2020-07-31 sort
+* c472220 2020-07-31 make scripts more copy-paste friendly to other repos
+o 4678af7 2020-07-31 0.2.62
