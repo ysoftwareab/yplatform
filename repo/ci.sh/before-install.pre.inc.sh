@@ -57,17 +57,17 @@ function sf_run_docker_ci_image() {
         "${UNAME}"
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
+        adduser \
+        --force-badname \
+        "${UNAME}" \
+        sudo || true;
+
+    exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
-
-    exe docker exec -it -u root ${CONTAINER_NAME} \
-        adduser \
-        --force-badname \
-        "${UNAME}" \
-        sudo || true;
 
     # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
