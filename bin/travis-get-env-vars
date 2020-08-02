@@ -68,13 +68,14 @@ function maybe_secure() {
 TRAVIS_ENV="$(printenv | grep -e "^TRAVIS")"
 
 # custom environment variables coming from Travis UI or .travis.yml
-TRAVIS_CMD_EXPORT=
-cat ~/build.sh |
+TRAVIS_CMD_EXPORT="$(cat ~/build.sh |
     grep -e "^travis_cmd export" |
     xargs -r -L1 echo |
     maybe_secure |
     grep --only-matching "^travis_cmd export [^ ]\+" |
-    sed "s/travis_cmd export //g" |
-    read -r TRAVIS_CMD_EXPORT || true
+    sed "s/travis_cmd export //g" || true)"
 
-echo "${TRAVIS_ENV}${TRAVIS_CMD_EXPORT}" | maybe_wslenv
+{
+    echo "${TRAVIS_CMD_EXPORT}"
+    echo "${TRAVIS_ENV}"
+} | maybe_wslenv
