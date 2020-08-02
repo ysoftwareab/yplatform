@@ -86,16 +86,16 @@ chown -R ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh
     cat <<EOF >> /home/${UNAME}/.bash_aliases
 source /support-firecloud/sh/dev.inc.sh
 EOF
-    chown ${UNAME}:${GNAME} /home/${UNAME}/.bash_aliases
+    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
 
     cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
 EOF
-    chown ${UNAME}:${GNAME} /home/${UNAME}/.gitconfig
+    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
 
     touch /home/${UNAME}/.sudo_as_admin_successful
-    chown ${UNAME}:${GNAME} /home/${UNAME}/.sudo_as_admin_successful
+    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.sudo_as_admin_successful
 }
 
 # CLEANUP
