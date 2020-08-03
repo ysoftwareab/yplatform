@@ -45,15 +45,17 @@ endif
 # yarn only prints unmet peer dependencies on 'yarn install' and 'yarn import',
 # and the latter is both faster and requires no network
 .PHONY: deps-yarn-unmet-peer
-deps-yarn-unmet-peer: .yarn-install.log
+deps-yarn-unmet-peer:
 	$(eval YARN_LOCK_TMP := $(shell $(MKTEMP)))
 	$(eval YARN_IMPORT_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
+	$(MV) yarn.lock $(YARN_LOCK_TMP)
+	$(YARN) import >$(YARN_IMPORT_TMP) 2>&1
 	diff -U0 \
 		<(cat yarn.lock.unmet-peer 2>/dev/null | \
 			$(GREP) --only-matching -e "warning \"[^\"]\+\" has unmet peer dependency \"[^\"]\+\"" | \
 			$(SORT) -u || true) \
-		<(cat .yarn-install.log 2>/dev/null | \
+		<(cat $(YARN_IMPORT_TMP) 2>/dev/null | \
 			$(GREP) --only-matching -e "warning \"[^\"]\+\" has unmet peer dependency \"[^\"]\+\"" | \
 			$(SORT) -u || true) \
 		>$(UNMET_PEER_DIFF_TMP) || $(TOUCH) $(UNMET_PEER_DIFF_TMP)
@@ -70,6 +72,7 @@ deps-yarn-unmet-peer: .yarn-install.log
 		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-warning" | $(SED) "s/^\-//g"; \
 		$(ECHO); \
 	fi
+	$(MV) $(YARN_LOCK_TMP) yarn.lock
 	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \
 		exit 1; \
 	fi
@@ -79,7 +82,7 @@ deps-yarn-unmet-peer: .yarn-install.log
 deps-yarn:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
-	$(YARN) $(YARN_CI_OR_INSTALL) | $(TEE) .yarn-install.log
+	$(YARN) $(YARN_CI_OR_INSTALL)
 ifeq (true,$(CI))
 	$(MAKE) deps-yarn-unmet-peer
 endif
@@ -89,7 +92,7 @@ endif
 deps-yarn-prod:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
-	$(YARN)  $(YARN_CI_OR_INSTALL) --production | $(TEE) .yarn-install.log
+	$(YARN)  $(YARN_CI_OR_INSTALL) --production
 ifeq (true,$(CI))
 	$(MAKE) deps-yarn-unmet-peer
 endif
