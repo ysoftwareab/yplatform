@@ -1,0 +1,14 @@
+support-firecloud v0.2.65 Release Notes
+
+Highlights since v0.2.64:
+
+* None
+
+Breaking commits since v0.2.64:
+
+* None
+
+Commits since v0.2.64:
+
+* 5e97a52 2020-08-03 Revert "need login shell otherwise you get 'permission denied' (?)"
+o 4d555dc 2020-08-03 0.2.64
