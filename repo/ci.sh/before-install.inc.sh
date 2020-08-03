@@ -106,7 +106,7 @@ function sf_os_bootstrap_with_script() {
         ${BOOTSTRAP_SCRIPT}
     else
         echo_info "Running ${BOOTSTRAP_SCRIPT} as another user ${BOOTSTRAP_SCRIPT_USER}."
-        sudo --preserve-env --set-home --login --user ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
+        sudo --preserve-env --set-home --user ${BOOTSTRAP_SCRIPT_USER} ${BOOTSTRAP_SCRIPT}
     fi
 }
 
