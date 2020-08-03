@@ -1,0 +1,14 @@
+support-firecloud v0.2.64 Release Notes
+
+Highlights since v0.2.63:
+
+* None
+
+Breaking commits since v0.2.63:
+
+* None
+
+Commits since v0.2.63:
+
+* 29a31a6 2020-08-03 allow sf user (bootstrap user) to read /home/travis, where support-firecloud resides
+o a3d7666 2020-08-03 0.2.63
