@@ -6,7 +6,7 @@ echo_do "brew: Installing Python pyenv packages..."
 # workaround for failing to install `perl` (pyenv > autoconf > perl)
 # fatal error: xlocale.h: No such file or directory
 if [[ "${OS_SHORT}" = "linux" ]] && [[ ! -f /usr/include/xlocale.h ]]; then
-    ln -s /usr/include/locale.h /usr/include/xlocale.h
+    ${SUDO} ln -s /usr/include/locale.h /usr/include/xlocale.h
 fi
 
 BREW_FORMULAE="$(cat <<-EOF
