@@ -17,7 +17,6 @@ $(foreach VAR,YARN,$(call make-lazy,$(VAR)))
 # see https://github.com/yarnpkg/yarn/issues/5869
 YARN_CI_OR_INSTALL := install \
 	--non-interactive \
-	--skip-integrity-check \
 
 ifeq (true,$(CI))
 YARN_CI_OR_INSTALL := install \
@@ -25,7 +24,6 @@ YARN_CI_OR_INSTALL := install \
 	--frozen-lockfile \
 	--no-progress \
 	--non-interactive \
-	--skip-integrity-check \
 
 endif
 
