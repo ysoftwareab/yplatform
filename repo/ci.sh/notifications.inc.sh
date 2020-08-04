@@ -14,7 +14,7 @@ function sf_ci_run_notifications_slack() {
     esac
 
     local FEMALE_OR_MALE=female
-    test $(expr ${RANDOM} % 2 ) -eq 0 || FEMALE_OR_MALE=male
+    test $(( ${RANDOM} % 2 )) -eq 0 || FEMALE_OR_MALE=male
     exe ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo \
         --from "$(git config user.name)" \
         --icon ":${FEMALE_OR_MALE}-technologist:" \

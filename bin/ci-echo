@@ -63,7 +63,7 @@ function fallback_echo() {
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_START=$(${ANY_PYTHON} -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
-                    GROUP_DURATION=$(expr ${GROUP_FINISH} - ${GROUP_START})
+                    GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
                     rm -f ${GROUP_MARKER}
                 }
             }
@@ -115,7 +115,7 @@ function travis_echo() {
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_START=$(${ANY_PYTHON} -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
-                    GROUP_DURATION=$(expr ${GROUP_FINISH} - ${GROUP_START})
+                    GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
                     rm -f ${GROUP_MARKER}
                 }
             }
