@@ -1,8 +1,28 @@
-# Backup
-*~
-
 # Codeship
 codeship.aes
+
+# Emacs
+# A slimmer version of https://github.com/github/gitignore/blob/87ec1bd/Global/Emacs.gitignore
+# see https://github.com/github/gitignore/pull/1980#issuecomment-668782387
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+# Org-mode
+.org-id-locations
+*_archive
+# flymake-mode
+*_flymake.*
+# Flycheck
+flycheck_*.el
+# projectiles files
+.projectile
+# directory configuration
+.dir-locals.el
 
 # ESLint
 .eslintcache

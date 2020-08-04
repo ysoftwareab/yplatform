@@ -6,10 +6,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 GITHUB_GLOBAL_GITIGNORE_BASE_URL="https://raw.githubusercontent.com/github/gitignore/master/Global"
 
+# Removing the Emacs gitignore template because it's overly agressive,
+# ignoring things like  all "server" or "dist" folders.
 GITHUB_GLOBAL_GITIGNORES="\
     Backup \
     Diff \
-    Emacs \
     Linux \
     Patch \
     Vim \
