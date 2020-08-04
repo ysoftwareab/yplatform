@@ -8,10 +8,12 @@ codeship.aes
 
 # ESLint
 .eslintcache
+
 # END generic/dot.gitignore_global.base
+
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Backup.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Backup.gitignore
 
 *.bak
 *.gho
@@ -19,20 +21,20 @@ codeship.aes
 *.orig
 *.tmp
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Backup.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Backup.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Diff.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Diff.gitignore
 
 *.patch
 *.diff
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Diff.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Diff.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Emacs.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Emacs.gitignore
 
 # -*- mode: gitignore; -*-
 *~
@@ -84,11 +86,11 @@ flycheck_*.el
 /network-security.data
 
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Emacs.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Emacs.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Linux.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
 
 *~
 
@@ -104,20 +106,20 @@ flycheck_*.el
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Linux.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Patch.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Patch.gitignore
 
 *.orig
 *.rej
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Patch.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Patch.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Vim.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Vim.gitignore
 
 # Swap
 [._]*.s[a-v][a-z]
@@ -139,11 +141,11 @@ tags
 # Persistent undo
 [._]*.un~
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Vim.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Vim.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/VisualStudioCode.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/VisualStudioCode.gitignore
 
 .vscode/*
 !.vscode/settings.json
@@ -155,11 +157,11 @@ tags
 # Local History for Visual Studio Code
 .history/
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/VisualStudioCode.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/VisualStudioCode.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Windows.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Windows.gitignore
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -186,11 +188,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/Windows.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/Windows.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/macOS.gitignore.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
 
 # General
 .DS_Store
@@ -219,5 +221,5 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/generic/github-global-gitignore/macOS.gitignore.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
 

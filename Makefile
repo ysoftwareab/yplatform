@@ -14,21 +14,6 @@ include support-firecloud/repo/mk/core.misc.release.tag.mk
 
 COMMON_MKS := $(wildcard repo/mk/*.common.mk)
 
-GITHUB_GLOBAL_GITIGNORE_BASE_URL := https://raw.githubusercontent.com/github/gitignore/master/Global
-
-GITHUB_GLOBAL_GITIGNORES := \
-	Backup \
-	Diff \
-	Emacs \
-	Linux \
-	Patch \
-	Vim \
-	VisualStudioCode \
-	Windows \
-	macOS \
-
-GITHUB_GLOBAL_GITIGNORES := $(patsubst %,generic/github-global-gitignore/%.gitignore,$(GITHUB_GLOBAL_GITIGNORES))
-
 SF_CLEAN_FILES += \
 	support-firecloud \
 
@@ -36,6 +21,7 @@ SF_PATH_FILES_IGNORE += \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^generic/dot\.gitignore_global\.base$$" \
+	-e "^generic/dot\.gitignore_global\.tpl$$" \
 	-e "^repo/AUTHORS$$" \
 	-e "^repo/Brewfile.inc.sh$$" \
 	-e "^repo/cfn/tpl\.Makefile$$" \
@@ -101,18 +87,6 @@ test-repo-mk:
 	done
 
 
-generic/github-global-gitignore/%.gitignore:
-	$(CURL) -o $@ $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$*.gitignore
-
-
 .PHONY: generic/dot.gitignore_global
-generic/dot.gitignore_global: $(GITHUB_GLOBAL_GITIGNORES) ## Regenerate generic/dot.gitignore_global.
-	$(ECHO) -e "\n# BEGIN $@.base\n" > $@
-	$(CAT) $@.base >> $@
-	$(ECHO) -e "\n# END $@.base\n" >> $@
-	for GITHUB_GLOBAL_GITIGNORE in $(GITHUB_GLOBAL_GITIGNORES); do \
-		$(ECHO) -e "################################################################################" >> $@; \
-		$(ECHO) -e "\n# BEGIN $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$${GITHUB_GLOBAL_GITIGNORE}.gitignore\n" >> $@; \
-		$(CAT) $${GITHUB_GLOBAL_GITIGNORE} >> $@; \
-		$(ECHO) -e "\n# END $(GITHUB_GLOBAL_GITIGNORE_BASE_URL)/$${GITHUB_GLOBAL_GITIGNORE}.gitignore\n" >> $@; \
-	done
+generic/dot.gitignore_global: generic/dot.gitignore_global.tpl ## Regenerate generic/dot.gitignore_global.
+	$(call sf-generate-from-template)
