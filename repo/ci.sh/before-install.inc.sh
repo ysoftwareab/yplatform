@@ -152,12 +152,14 @@ function sf_os() {
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
     sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+        hash -r
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
         tail -n1000 ${TMP_SF_OS_LOG}
         sleep 10 # see https://github.com/travis-ci/travis-ci/issues/6018
         return 1
     }
+    hash -r
     echo
     kill ${WHILE_LOOP_PID} && trap " " EXIT
 }
