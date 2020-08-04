@@ -130,7 +130,7 @@ function sf_enable_travis_swap() {
     [[ ! -f /support-firecloud.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
-    local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
+    local MEM_GIB=$(expr \(${MEM_MIB}*2 + 1023\) / 1024)
     local MEM_GIB_SWAP=/mnt/${MEM_GIB}GiB.swap
     echo_do "Enabling swap..."
     cat /proc/swaps
@@ -150,7 +150,7 @@ function sf_disable_travis_swap() {
     [[ ! -f /support-firecloud.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
-    local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
+    local MEM_GIB=$(expr \(${MEM_MIB}*2 + 1023\) / 1024)
     local MEM_GIB_SWAP=/mnt/${MEM_GIB}GiB.swap
     [[ -e ${MEM_GIB_SWAP} ]] || {
         echo_skip "Disabling swap..."
