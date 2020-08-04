@@ -81,6 +81,7 @@ uuid-runtime
 EOF
 )"
 apt_install "${DPKGS}"
+unset DPKGS
 echo_done
 
 echo_do "aptitude: Listing packages..."
