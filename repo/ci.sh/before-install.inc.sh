@@ -148,7 +148,7 @@ function sf_os() {
     echo_info "${FUNCNAME[0]}: Redirecting into ${TMP_SF_OS_LOG} to minimize CI log..."
 
     echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"
-    while :;do echo -n " ."; sleep 60; done &
+    while :;do echo -n " ."; /bin/sleep 60; done &
     local WHILE_LOOP_PID=$!
     trap "kill ${WHILE_LOOP_PID}" EXIT
     sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
