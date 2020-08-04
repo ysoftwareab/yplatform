@@ -9,6 +9,32 @@ if [[ "${OS_SHORT}" = "linux" ]] && [[ ! -f /usr/include/xlocale.h ]]; then
     ${SUDO} ln -s /usr/include/locale.h /usr/include/xlocale.h
 fi
 
+# pyenv deps https://github.com/pyenv/pyenv/wiki/Common-build-problems
+if [[ "${OS_SHORT}" = "linux" ]]; then
+    DPKGS="$(cat <<-EOF
+build-essential
+libssl-dev
+zlib1g-dev
+libbz2-dev
+libreadline-dev
+libsqlite3-dev
+wget
+curl
+llvm
+libncurses5-dev
+libncursesw5-dev
+xz-utils
+tk-dev
+libffi-dev
+liblzma-dev
+python-openssl
+git
+EOF
+)"
+apt_install "${DPKGS}"
+unset DPKGS
+fi
+
 BREW_FORMULAE="$(cat <<-EOF
 pyenv
 EOF
