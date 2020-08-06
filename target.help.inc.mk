@@ -1,6 +1,6 @@
 .PHONY: help
 help: ## Show this help message.
-	@echo "usage: $$(basename $(MAKE)) [targets]"
+	@echo "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
 	@echo
 	@echo "Available targets:"
 	@for Makefile in $(MAKEFILE_LIST); do \
@@ -10,7 +10,7 @@ help: ## Show this help message.
 
 .PHONY: help-all
 help-all: ## Show this help message, including all intermediary targets and source Makefiles.
-	@echo "usage: $$(basename $(MAKE)) [targets]"
+	@echo "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
 	@echo
 	@echo "Available targets:"
 	@for Makefile in $(MAKEFILE_LIST); do \
