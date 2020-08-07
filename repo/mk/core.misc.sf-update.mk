@@ -19,7 +19,7 @@ _support-firecloud/update:
 
 
 .PHONY: support-firecloud/update
-support-firecloud/update: _support-firecloud/update ## Update support-firecloud to latest version.
+support-firecloud/update: _support-firecloud/update ## Update 'support-firecloud' to latest version.
 	$(MAKE) support-firecloud/update/$$($(GIT) -C $(SF_SUBMODULE_PATH) tag \
 		--list \
 		--sort=version:refname "v*" | \
@@ -27,7 +27,7 @@ support-firecloud/update: _support-firecloud/update ## Update support-firecloud 
 
 
 .PHONY: support-firecloud/update/v%
-support-firecloud/update/v%: _support-firecloud/update ## Update support-firecloud to a specific version.
+support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecloud' to a specific version.
 	$(eval SF_UPDATE_VSN := $(@:support-firecloud/update/v%=%))
 	$(eval SF_UPDATE_COMMIT := refs/tags/v$(SF_UPDATE_VSN))
 	$(eval SF_UPDATE_COMMIT_RANGE := $(SF_COMMIT)..$(SF_UPDATE_COMMIT))
