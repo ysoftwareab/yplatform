@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- env-merge 1.0
+## Usage: env-merge FILE...
+## Merge a collection of FILEs in ENV format.
+## The definition of ENV format is anything that passes two tests:
+## 1. 'source file.env' (POSIX shell)
+## 2. 'include file.env' (GNU Makefile)
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+
+CONTENT="$(
+for FILE in $@; do
+    cat "${FILE}" | sed "s|$| # ${FILE}|g"
+done
+)"
+
+echo "${CONTENT}" | \
+    grep "^[^=]\+=" | \
+    tac | \
+    sort -u -t= -k1,1 | \
+    tac
