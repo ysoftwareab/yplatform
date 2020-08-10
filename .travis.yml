@@ -96,13 +96,6 @@ jobs:
       dist: bionic
       env: CACHE_NAME=linux-bionic-dev SF_CI_BREW_INSTALL=dev
 
-    - &stage-linux-focal-minimal
-      stage: test
-      name: "Linux Focal 20.04 with minimal brew"
-      os: linux
-      dist: focal
-      env: CACHE_NAME=linux-focal-minimal SF_CI_BREW_INSTALL=minimal
-
 # test-cron --------------------------------------------------------------------
 
     - &stage-osx-xcode11-3-dev
@@ -160,7 +153,4 @@ jobs:
       stage: publish
 
     - <<: *stage-linux-bionic-dev
-      stage: publish
-
-    - <<: *stage-linux-focal-minimal
       stage: publish
