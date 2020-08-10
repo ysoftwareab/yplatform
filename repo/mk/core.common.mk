@@ -28,8 +28,9 @@ $(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy,$(VAR
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
-include .env
-export $(shell sed 's/=.*//' .env)
+$(shell test .env.mk -nt .env || cat .env | sed "s/\\$$/\\$$\\$$/g" >.env.mk)
+include .env.mk
+export $(shell sed 's/=.*//' .env.mk)
 endif
 
 # get Makefile-specific environment variables
