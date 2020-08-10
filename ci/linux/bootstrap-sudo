@@ -78,6 +78,7 @@ git
 python3-minimal
 rsync
 uuid-runtime
+zlib1g-dev
 EOF
 )"
 apt_install "${DPKGS}"
