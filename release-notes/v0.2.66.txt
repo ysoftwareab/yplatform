@@ -1,0 +1,38 @@
+support-firecloud v0.2.66 Release Notes
+
+Highlights since v0.2.65:
+
+* None
+
+Breaking commits since v0.2.65:
+
+* None
+
+Commits since v0.2.65:
+
+* 32a03dc 2020-08-10 fix for current linuxbrew > ruby > nokogiri > libxml2 > zlib
+* 42b6c97 2020-08-10 use command variables for handling .env
+* 0272504 2020-08-10 handle dollars in .env
+* 34b2a9c 2020-08-09 add simple env-merge script
+* f59687d 2020-08-07 style
+* 7019553 2020-08-06 handle arguments in $(MAKE)
+* 5e8f2a0 2020-08-05 set PIPENV_VERBOSITY=-1 to silence 'Courtesy Notice: Pipenv found itself running within a virtual environment...'
+* 78a8dd3 2020-08-05 rehash after bootstrap script, since many things get un/installed
+* 59edba6 2020-08-04 use fully qualified path, or else sleep (from brew) will not be found anymore
+* 6a1b375 2020-08-04 Revert "call expr instead of $((...)). fix #186"
+* 3831095 2020-08-04 fixup! travis: test osx and wsl only as a cronjob (takes very very long >30minutes)
+* 323936d 2020-08-04 call expr instead of $((...)). fix #186
+* a6a4be3 2020-08-04 don't use github's gitignore for Emacs because it ignore non-emacs specific files/folders. fix #189
+* 305425b 2020-08-04 use sf-generate-from-template pattern for global gitignore
+* 65e7386 2020-08-04 unset DPKGS
+* 86c95cc 2020-08-04 install pyenv on linux
+* 2ed2eec 2020-08-04 fix help-all: some targets didn't show up due to bad regex
+* 62432af 2020-08-04 try to use newer pipenv
+* 2d7af7a 2020-08-04 need EXPR
+* 4ca6fcc 2020-08-04 Revert "'yarn import' is too damn slow on a big repo"
+* 4dd4a92 2020-08-03 'yarn import' is too damn slow on a big repo
+* 7d9fdb7 2020-08-03 fixup! pyenv/autoconf/perl: workaround for missing xlocale.h
+* 2fe8576 2020-08-03 deps-yarn-unmet-peer is really really slow. run only in CI
+* 66d083f 2020-08-03 yarn: skipping integrity check make things slower actually
+* c952255 2020-08-03 pyenv/autoconf/perl: workaround for missing xlocale.h
+o 2f41a6f 2020-08-03 0.2.65
