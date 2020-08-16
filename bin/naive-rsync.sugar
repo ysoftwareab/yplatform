@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCAN_FOLDER_TMP="$(mktemp)"
+function on_exit() {
+    rm -f "${SCAN_FOLDER_TMP}"
+}
+trap on_exit EXIT
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+${SUPPORT_FIRECLOUD_DIR}/bin/naive-rsync "$1" > "${SCAN_FOLDER_TMP}"
+${SUPPORT_FIRECLOUD_DIR}/bin/naive-rsync --reference "${SCAN_FOLDER_TMP}" "$2"

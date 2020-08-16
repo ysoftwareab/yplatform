@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REF_TMP="$(mktemp)"
+function on_exit() {
+    rm -f "${REF_TMP}"
+}
+trap on_exit EXIT
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+${SUPPORT_FIRECLOUD_DIR}/bin/naive-rsync.go "$1" > "${REF_TMP}"
+${SUPPORT_FIRECLOUD_DIR}/bin/naive-rsync.go -reference "${REF_TMP}" "$2"

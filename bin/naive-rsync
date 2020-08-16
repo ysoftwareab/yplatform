@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+TMP_FOLDER="$(mktemp -d)"
+function on_exit() {
+    rm -rf "${TMP_FOLDER}"
+}
+trap on_exit EXIT
+
+#- naive-rsync 1.0
+## Usage: naive-rsync [OPTION] [FOLDER]
+## Apply a two-folder-sync algorithm by first caching source folder state into a reference,
+## and later using that reference remotely to compare with a target folder.
+##
+## FOLDER defaults to current working directory.
+##
+##   --reference    Path to reference.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+SOURCE_REFERENCE=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --reference)
+            SOURCE_REFERENCE="$2"
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+FOLDER="${1:-${PWD}}"
+
+function scan_folder() {
+    local FOLDER="$1"
+    (
+        cd "${FOLDER}" >/dev/null
+        find . -type d,f -printf "%p\t%s\t%y\n" | tail -n+2 | sed "s/[0-9]\+\td$/0\td/g" | sort | sed "s|^\./||g"
+    )
+}
+
+function compare_folder_references() {
+    local Q_DELETE="${TMP_FOLDER}/q-delete"
+    local Q_CREATE="${TMP_FOLDER}/q-create"
+    local Q_COPY="${TMP_FOLDER}/q-copy"
+    comm --nocheck-order <(cat "$1") <(cat "$2") -13 >"${Q_DELETE}"
+    comm --nocheck-order <(cat "$1") <(cat "$2") -23 >"${Q_CREATE}"
+    cat "${Q_CREATE}" | grep "f$" >"${Q_COPY}"
+    cat "${Q_CREATE}" | grep "d$" | ${SUPPORT_FIRECLOUD_DIR}/bin/sponge "${Q_CREATE}"
+
+    cat "${Q_DELETE}" | cut -d$'\t' -f1 | sed "s|^|delete '|g" | sed "s|$|'|g"
+    cat "${Q_CREATE}" | cut -d$'\t' -f1 | sed "s|^|create '|g" | sed "s|$|'|g"
+    cat "${Q_COPY}" | cut -d$'\t' -f1 | sed "s|^|copy '|g" | sed "s|$|'|g"
+}
+
+if [[ -n "${SOURCE_REFERENCE}" ]]; then
+    TARGET_REFERENCE="${TMP_FOLDER}/target-reference"
+    scan_folder "${FOLDER}" > "${TARGET_REFERENCE}"
+    compare_folder_references "${SOURCE_REFERENCE}" "${TARGET_REFERENCE}"
+else
+    scan_folder "${FOLDER}"
+fi
+
+# NOTE: prioritizing delete and create over copy,
+# since they take less time, thus higher chances to make a leap in the overall sync progress
+
+# NOTE: delete = rm -rf; sometimes operations are noop because of the ordering
+# e.g. delete ./folder; delete ./folder/file
