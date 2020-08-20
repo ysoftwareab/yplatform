@@ -17,7 +17,7 @@ if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
 fi
 CI_IS_CRON=false
 if [[ "${GITHUB_EVENT_NAME}" = "" ]]; then
-    CI_IS_PR=true
+    CI_IS_CRON=true
 fi
 CI_TAG=
 if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
