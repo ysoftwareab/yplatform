@@ -24,5 +24,7 @@ build: ## Build.
 
 
 .PHONY: dist
-dist: build
-	:
+# NOTE don't list build as a dependency, in order to allow 'dist' to be fully overloaded
+# dist: build
+dist:
+	$(MAKE) build
