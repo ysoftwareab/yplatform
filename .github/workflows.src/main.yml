@@ -56,20 +56,27 @@ jobs:
       - *checkout
       - *checkout-submodules
       - shell: bash
-        run: ./.ci.sh before_install
+        run: |
+          ./.ci.sh before_install
       - shell: bash
-        run: ./.ci.sh install
+        run: |
+          ./.ci.sh install
       - shell: bash
-        run: ./.ci.sh before_script
+        run: |
+          ./.ci.sh before_script
       - shell: bash
-        run: ./.ci.sh script
+        run: |
+          ./.ci.sh script
       - shell: bash
-        run: ./.ci.sh after_failure || true
+        run: |
+          ./.ci.sh after_failure || true
         if: failure()
       - shell: bash
-        run: ./.ci.sh after_success || true
+        run: |
+          ./.ci.sh after_success || true
       - shell: bash
-        run: ./.ci.sh after_script || true
+        run: |
+          ./.ci.sh after_script || true
         if: always()
       # - shell: bash
       #   run: |
