@@ -104,7 +104,7 @@ RELEASES_URL="https://api.github.com/repos/${REPO_SLUG}/releases"
 NAME=${NAME:-${TAG}}
 BODY=${BODY:-${TAG}}
 TARGET=${TARGET:-${GIT_HASH}}
-echo_info "Creating a draft release ${NAME} tagged ${TAG} from ${TARGET}..."
+echo_info "Creating a draft release ${NAME} tagged ${TAG} from ${TARGET} in Github repository ${REPO_SLUG}..."
 curl \
     -fqsS \
     -X POST \
