@@ -71,6 +71,12 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_script || true
         if: always()
+      # - shell: bash
+      #   run: |
+      #     ./.ci.sh before_deploy
+      #     ./.ci.sh deploy
+      #     ./.ci.sh after_deploy
+      #   if: startsWith(github.ref, "refs/tags/v")
       - *notify-slack
 
   # deploy:
