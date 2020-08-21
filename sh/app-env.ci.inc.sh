@@ -113,6 +113,7 @@ function ci_run_deploy() {
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
         --repo-slug ${CI_REPO_SLUG} \
         --tag "v${PKG_VSN}" \
+        --body "$(cat release-notes/v${PKG_VSN}.txt)" \
         --target $(git rev-parse HEAD) \
         ${ASSETS_ARGS} \
         --token ${GH_TOKEN}
