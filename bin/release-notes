@@ -21,7 +21,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD)
+FIRST_COMMIT=$(git rev-list --max-parents=0 HEAD | tail -1)
 PKG_NAME=
 PKG_VSN=
 RANGE_FROM=
