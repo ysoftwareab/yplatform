@@ -5,16 +5,15 @@
 # ------------------------------------------------------------------------------
 
 .PHONY: _promote
-_promote: guard-env-SF_PROMOTE_CHANNEL guard-env-SF_PROMOTE_CHANNELS guard-env-SF_PROMOTE_BRANCH guard-env-GIT_REMOTE
-	$(eval TAG := $(shell basename "$*"))
-	$(eval TAG_COMMIT := $(shell $(GIT) rev-list -n1 $(TAG)))
+_promote: guard-env-SF_PROMOTE_CHANNEL guard-env-SF_PROMOTE_CHANNELS guard-env-SF_PROMOTE_BRANCH guard-env-SF_PROMOTE_TAG guard-env-GIT_REMOTE
+	$(eval TAG_COMMIT := $(shell $(GIT) rev-list -n1 $(SF_PROMOTE_TAG)))
 	$(ECHO) "$(SF_PROMOTE_CHANNELS)" | $(GREP) -q -e "\(^\|\s\)$(SF_PROMOTE_CHANNEL)\(\s\|$$\)" || { \
 		$(ECHO_ERR) "$(SF_PROMOTE_CHANNEL) is not a known promotion channel."; \
 		$(ECHO_INFO) "Known promotion channels: $(SF_PROMOTE_CHANNELS)."; \
 		exit 1; \
 	}
-	$(GIT) tag --list | $(GREP) -q "^$(TAG)$$" || { \
-		$(ECHO_ERR) "$(TAG) is not a tag."; \
+	$(GIT) tag --list | $(GREP) -q "^$(SF_PROMOTE_TAG)$$" || { \
+		$(ECHO_ERR) "$(SF_PROMOTE_TAG) is not a tag."; \
 		exit 1; \
 	}
 	$(GIT) fetch
@@ -41,11 +40,11 @@ _promote: guard-env-SF_PROMOTE_CHANNEL guard-env-SF_PROMOTE_CHANNELS guard-env-S
 		$(GIT_REMOTE)/$(SF_PROMOTE_BRANCH)..$(TAG_COMMIT) | \
 		$(GREP) --color -E "break" || true
 	$(ECHO)
-	$(ECHO) "[Q   ] Still want to promote $(TAG) to $(SF_PROMOTE_BRANCH)?"
+	$(ECHO) "[Q   ] Still want to promote $(SF_PROMOTE_TAG) to $(SF_PROMOTE_BRANCH)?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
 	read -p ""
 	$(GIT) push --no-verify -f $(GIT_REMOTE) \
 		$(TAG_COMMIT):refs/heads/$(SF_PROMOTE_BRANCH) \
-		$(TAG_COMMIT):refs/tags/$(SF_PROMOTE_BRANCH)/$(MAKE_DATE)-$(MAKE_TIME)-$(TAG)
+		$(TAG_COMMIT):refs/tags/$(SF_PROMOTE_BRANCH)/$(MAKE_DATE)-$(MAKE_TIME)-$(SF_PROMOTE_TAG)
 	$(GIT) fetch
