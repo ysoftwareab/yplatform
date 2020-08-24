@@ -105,6 +105,10 @@ NAME=${NAME:-${TAG}}
 BODY=${BODY:-${TAG}}
 TARGET=${TARGET:-${GIT_HASH}}
 echo_info "Creating a draft release ${NAME} tagged ${TAG} from ${TARGET} in Github repository ${REPO_SLUG}..."
+
+NAME_AS_JSON="$(jq --null-input --arg NAME "${NAME}" '$NAME')"
+BODY_AS_JSON="$(jq --null-input --arg BODY "${BODY}" '$BODY')"
+
 curl \
     -fqsS \
     -X POST \
@@ -113,8 +117,8 @@ curl \
 {
   \"tag_name\": \"${TAG}\",
   \"target_commitish\": \"${TARGET}\",
-  \"name\": \"${NAME}\",
-  \"body\": \"${BODY}\",
+  \"name\": ${NAME_AS_JSON},
+  \"body\": ${BODY_AS_JSON},
   \"draft\": true,
   \"prerelease\": ${PRERELEASE}
 }
