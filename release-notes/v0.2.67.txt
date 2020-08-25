@@ -1,0 +1,27 @@
+support-firecloud v0.2.67 Release Notes
+
+Highlights since v0.2.66:
+
+* None
+
+Breaking commits since v0.2.66:
+
+* None
+
+Commits since v0.2.66:
+
+* 27d2d0e 2020-08-24 set default EDITOR to 'vi' if env variable is not set
+* 6a6ffd4 2020-08-24 quick fixes to get 'make promote-env/' to work
+* 52e285d 2020-08-24 name and body can have unescaped json chars. handle them
+* 9df5ece 2020-08-21 handle multiple parentless commits in release-notes
+* 41cfd34 2020-08-21 add release notes as body to github release
+* 2f83b93 2020-08-21 updated .github/workflows/main.yml
+* 8196598 2020-08-21 style
+* 1b93f82 2020-08-21 add placeholder for deploy phase in github actions ci
+* 6ef4d4a 2020-08-21 github actions ci matches on globs not regexps
+* a4623e8 2020-08-21 increase verbosity of github-create-release to see if REPO_SLUG is correct
+* 062b367 2020-08-21 fix CI_IS_CRON for github actions
+* 206c10b 2020-08-20 allow 'dist' target to be fully overloaded
+* ae27b60 2020-08-11 fix reversed order in env-merge
+* 2abdf3a 2020-08-10 disable ubuntu-focal
+o b8362aa 2020-08-10 0.2.66
