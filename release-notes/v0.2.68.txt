@@ -1,0 +1,14 @@
+support-firecloud v0.2.68 Release Notes
+
+Highlights since v0.2.67:
+
+* None
+
+Breaking commits since v0.2.67:
+
+* None
+
+Commits since v0.2.67:
+
+* 6212765 2020-08-26 remove --no-builtin-rules MAKEFLAG or else sub-calls to make fail to compile C source code
+o bde347a 2020-08-25 0.2.67
