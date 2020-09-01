@@ -1,6 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+#- nvm-get-nvm-bin 1.0
+## Usage: nvm-get-nvm-bin
+## Print the NVM_DIR environment variables as it would be set after enabling 'nvm'.
+## NOTE: requires the presence of a '.nvmrc' file.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
 which nvm >/dev/null 2>&1 || {
     BREW_NVM_DIR=$(brew --prefix nvm 2>/dev/null || true)
     NVM_SH=
