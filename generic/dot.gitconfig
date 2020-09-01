@@ -93,8 +93,6 @@
 # MISC
 [advice]
     detachedHead        = false
-[fetch]
-    recurseSubmodules   = on-demand #true
 [gc]
     auto                = 0
 [log]
@@ -113,7 +111,6 @@
     ff                  = only
 [push]
     default             = current
-    recurseSubmodules   = check
     followTags          = true
 [rerere]
     autoupdate          = true
@@ -121,6 +118,8 @@
 [status]
     submoduleSummary    = true
     relativePaths       = true
+[submodule]
+    recurse = true
 [svn]
     rmdir               = true
 [url "git@github.com:"]
