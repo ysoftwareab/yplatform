@@ -122,5 +122,7 @@
     recurse = true
 [svn]
     rmdir               = true
+
 [url "git@github.com:"]
-    pushInsteadOf       = git://github.com/
+    insteadOf           = "github:"
+    insteadOf           = "git://github.com/"
