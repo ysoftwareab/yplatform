@@ -27,9 +27,14 @@ function bootstrap_brew() {
             echo_done
             ;;
         true-Darwin)
-            echo_do "brew: Updating homebrew..."
-            brew update >/dev/null
-            echo_done
+            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+                echo_skip "brew: Updating homebrew..."
+            else
+                echo_do "brew: Updating homebrew..."
+                brew update >/dev/null
+                echo_done
+            fi
             ;;
         false-Linux)
             echo_do "brew: Installing linuxbrew..."
@@ -46,9 +51,14 @@ function bootstrap_brew() {
             echo_done
             ;;
         true-Linux)
-            echo_do "brew: Updating linuxbrew..."
-            brew update >/dev/null
-            echo_done
+            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+                echo_skip "brew: Updating homebrew..."
+            else
+                echo_do "brew: Updating linuxbrew..."
+                brew update >/dev/null
+                echo_done
+            fi
             ;;
         *)
             echo_err "brew: $(uname -s) is an unsupported OS."
@@ -96,7 +106,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 [[ "${CI}" != "true" ]] || {
     bootstrap_brew_ci_cache
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
-    brew_update
+    [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || brew_update
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 }
 
