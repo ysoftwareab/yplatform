@@ -5,6 +5,7 @@ name: CI Windows
     branches:
       - github*
       - master
+    tags:
       - v*.*.*
 jobs:
   main:
