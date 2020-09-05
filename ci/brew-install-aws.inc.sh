@@ -8,6 +8,8 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
+# see https://github.com/Homebrew/linuxbrew-core/issues/21062
+brew link --force awscli
 aws configure set s3.signature_version s3v4
 echo_done
 
