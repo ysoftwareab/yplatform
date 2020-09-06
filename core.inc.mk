@@ -1,6 +1,6 @@
 CORE_INC_MK_DIR ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 
-SHELL := bash
+SHELL := env MAKEFLAGS= MFLAGS= bash
 # .SHELLFLAGS := -euo pipefail -O globstar -c # BASH v4
 .SHELLFLAGS := -euo pipefail -c
 .DEFAULT_GOAL := all
