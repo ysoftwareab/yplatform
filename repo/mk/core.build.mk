@@ -6,11 +6,18 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'dist' target as an alias to 'build', for closer following GNU conventions.
+# Adds a 'dist' target as an extensible alias to 'build', closely following GNU conventions.
+#
+# To add another dist target do
+# SF_DIST_TARGETS += \
+#	dist-something-else \
 #
 # ------------------------------------------------------------------------------
 
 SF_BUILD_TARGETS += \
+
+SF_DIST_TARGETS += \
+	build \
 
 # ------------------------------------------------------------------------------
 
@@ -24,7 +31,9 @@ build: ## Build.
 
 
 .PHONY: dist
-# NOTE don't list build as a dependency, in order to allow 'dist' to be fully overloaded
-# dist: build
 dist:
-	$(MAKE) build
+	[[ "$(words $(SF_DIST_TARGETS))" = "0" ]] || { \
+		$(ECHO_DO) "Packaging a distribution..."; \
+		$(MAKE) $(SF_DIST_TARGETS); \
+		$(ECHO_DONE); \
+	}
