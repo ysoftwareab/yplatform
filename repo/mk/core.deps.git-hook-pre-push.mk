@@ -11,6 +11,15 @@
 # SF_DEPS_TARGETS := $(filter-out .git/hooks/pre-push,$(SF_DEPS_TARGETS))
 #
 # ------------------------------------------------------------------------------
+#
+# Adds a '.git/hooks/pre-push/run' internal target that will be the actual code of the hook.
+# By default, it runs 'make check'.
+#
+# To add another pre-push target do
+# SF_GIT_HOOKS_PRE_PUSH_TARGETS += \
+#	do-something-else \
+#
+# ------------------------------------------------------------------------------
 
 ifneq (,$(wildcard .git))
 SF_DEPS_TARGETS += \
@@ -18,8 +27,18 @@ SF_DEPS_TARGETS += \
 
 endif
 
+SF_GIT_HOOKS_PRE_PUSH_TARGETS += \
+	check \
+
 # ------------------------------------------------------------------------------
 
 .git/hooks/pre-push: $(SUPPORT_FIRECLOUD_DIR)/repo/dot.git/hooks/pre-push
 	$(MKDIR) $$(dirname $@)
 	$(CP) $< $@
+
+
+.PHONY: .git/hooks/pre-push/run
+.git/hooks/pre-push/run:
+	[[ "$(words $(SF_GIT_HOOKS_PRE_PUSH_TARGETS))" = "0" ]] || { \
+		$(MAKE) $(SF_GIT_HOOKS_PRE_PUSH_TARGETS); \
+	}
