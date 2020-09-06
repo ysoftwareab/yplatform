@@ -10,12 +10,7 @@ SHELL := bash
 .NOTPARALLEL:
 
 MAKEFLAGS += --warn-undefined-variables
-# MAKEFLAGS will always be exported down to subshells, meaning calls to '$(MAKE)' will also
-# run with the same MAKEFLAGS as the main process.
-# Adding '--no-builtin-rules' means that
-# all sub-calls to '$(MAKE)' will fail if they depend on builtin rules.
-# Ideally we could disable the builin-rules for the current make process alone
-# MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --no-builtin-rules
 
 CI ?=
 
