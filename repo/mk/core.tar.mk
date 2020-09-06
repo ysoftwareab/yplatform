@@ -9,10 +9,10 @@
 
 SF_TARBALL := archive-$(GIT_HASH)
 ifneq ($(GIT_TAGS),)
-	SF_TARBALL := archive-$(shell $(GIT) tag -l --points-at HEAD | $(HEAD) -1)
+SF_TARBALL := archive-$(shell $(GIT) tag -l --points-at HEAD | $(HEAD) -1)
 else
 ifneq ($(GIT_BRANCH),)
-	SF_TARBALL := archive-$(GIT_BRANCH)-$(GIT_HASH)
+SF_TARBALL := archive-$(GIT_BRANCH)-$(GIT_HASH)
 endif
 endif
 
