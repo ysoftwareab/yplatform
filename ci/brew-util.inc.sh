@@ -142,7 +142,7 @@ function brew_install_one() {
     # is it already installed ?
     if brew list "${NAME}" >/dev/null 2>&1; then
         # is it a url/path to a formula.rb file
-        [[ "${FULLNAME}" = "${NAME}" ]] || {
+        [[ "${FULLNAME}" = "${FULLNAME%.rb}" ]] || {
             brew uninstall ${NAME}
 
             echo_do "brew: Installing ${FORMULA}..."
