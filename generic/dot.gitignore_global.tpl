@@ -10,7 +10,6 @@ GITHUB_GLOBAL_GITIGNORE_BASE_URL="https://raw.githubusercontent.com/github/gitig
 # ignoring things like  all "server" or "dist" folders.
 GITHUB_GLOBAL_GITIGNORES="\
     Backup \
-    Diff \
     Linux \
     Patch \
     Vim \

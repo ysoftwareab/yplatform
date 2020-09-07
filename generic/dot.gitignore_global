@@ -45,15 +45,6 @@ flycheck_*.el
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Diff.gitignore
-
-*.patch
-*.diff
-
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Diff.gitignore
-
-################################################################################
-
 # BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
 
 *~
@@ -164,7 +155,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -186,4 +177,3 @@ Temporary Items
 .apdisk
 
 # END https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
-
