@@ -8,8 +8,8 @@ else
     echo_do "brew: Installing core packages..."
     # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
     BREW_FORMULAE="$(cat <<-EOF
-${SUPPORT_FIRECLOUD_DIR}/priv/editorconfig-checker.rb
-${SUPPORT_FIRECLOUD_DIR}/priv/retry.rb
+${SUPPORT_FIRECLOUD_DIR}/Formula/editorconfig-checker.rb
+${SUPPORT_FIRECLOUD_DIR}/Formula/retry.rb
 bash
 curl
 findutils

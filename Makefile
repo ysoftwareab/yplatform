@@ -18,6 +18,7 @@ SF_CLEAN_FILES += \
 	support-firecloud \
 
 SF_PATH_FILES_IGNORE += \
+	-e "^Formula/" \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^generic/dot\.gitignore_global\.base$$" \
