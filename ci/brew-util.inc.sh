@@ -127,15 +127,10 @@ function brew_install_one() {
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
-    case ${NAME} in
-        erlang)
-            brew_install_one_erlang
-            return 0
-            ;;
-        *)
-            true
-            ;;
-    esac
+    if [[ "$(type -t "brew_install_one_${NAME}")" = "function" ]]; then
+        eval "brew_install_one_${NAME}"
+        return 0
+    fi
 
     # is it already installed ?
     if brew list "${NAME}" >/dev/null 2>&1; then
