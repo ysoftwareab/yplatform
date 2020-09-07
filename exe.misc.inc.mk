@@ -18,9 +18,10 @@ GIT_LS_NEW = $(GIT_LS) --others --directory --no-empty-directory
 GIT_LS_SUB = $(CAT) .gitmodules | $(GREP) "path =" | $(SED) "s/.*path = //"
 $(foreach VAR,GIT GIT_LS GIT_LS_NEW GIT_LS_SUB,$(call make-lazy,$(VAR)))
 
+PATCH_STDOUT = $(PATCH) -o -
 UNZIP = $(call which,UNZIP,unzip) -oq
 VISUAL ?= $(EDITOR)
 ZIP_NOSYM = $(call which,ZIP_NOSYM,zip) -r
 ZIP = $(ZIP_NOSYM) -y
 ZIPINFO = $(call which,ZIPINFO,zipinfo)
-$(foreach VAR,UNZIP VISUAL ZIP_NOSYM ZIP ZIPINFO,$(call make-lazy,$(VAR)))
+$(foreach VAR,PATCH_STDOUT UNZIP VISUAL ZIP_NOSYM ZIP ZIPINFO,$(call make-lazy,$(VAR)))
