@@ -3,8 +3,8 @@
 Full WSL Documentation: https://docs.microsoft.com/en-us/windows/wsl/ .
 
 WSL is a feature of Windows 10 introduced in the Anniversary Update in 2016 and improved since.
-It allows you to install different Linux distros
-to run under Windows without the need for a full virtual machine.
+It allows you to install different Linux distros to run under Windows
+with bidirectional access to file systems and ability to run processes cross-platform.
 
 See https://en.wikipedia.org/wiki/Windows_Subsystem_for_Linux for more info.
 
