@@ -149,7 +149,7 @@ function brew_install_one() {
             if [[ "${CI:-}" != "true" ]]; then
                 brew install ${FORMULA}
             else
-                brew install --force ${FORMULA} || brew link --force --overwrite ${FORMULA}
+                brew install --force ${FORMULA} || brew link --force --overwrite ${NAME}
             fi
             echo_done
 
