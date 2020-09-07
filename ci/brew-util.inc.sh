@@ -109,14 +109,21 @@ function brew_upgrade() {
 
 # install erlang without wxmac bloat
 function brew_install_one_erlang() {
-    echo_do "brew: Installing erlang, without wxmac..."
+    local FORMULA="$@"
+
+    local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
+    local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
+    local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+
+    echo_do "brew: Installing ${NAME}, without wxmac..."
     brew tap linuxbrew/xorg
     # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
-    # comm -23 <(brew deps erlang) <(brew deps wxmac) | sed "/^wxmac$/d" | xargs -r -L1 brew install
-    for FORMULA in $(comm -23 <(brew deps erlang) <(brew deps wxmac) | sed "/^wxmac$/d"); do
-        brew install ${FORMULA}
+    # comm -23 <(brew deps ${NAME}) <(brew deps wxmac) | sed "/^wxmac$/d" | xargs -r -L1 brew install
+    for DEP_NAME in $(comm -23 <(brew deps ${NAME}) <(brew deps wxmac) | sed "/^wxmac$/d"); do
+        brew install ${DEP_NAME}
     done
-    brew install --force erlang --ignore-dependencies || brew link --force --overwrite erlang
+    brew install --force --ignore-dependencies ${FULLNAME} ${OPTIONS} || \
+        brew link --force --overwrite ${NAME}
     echo_done
 }
 
@@ -128,7 +135,7 @@ function brew_install_one() {
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
     if [[ "$(type -t "brew_install_one_${NAME}")" = "function" ]]; then
-        eval "brew_install_one_${NAME}"
+        eval "brew_install_one_${NAME} '${FORMULA}'"
         return 0
     fi
 
