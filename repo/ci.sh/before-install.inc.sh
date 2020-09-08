@@ -101,8 +101,8 @@ function sf_os_bootstrap_with_script() {
         BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(~/.linuxbrew/bin/brew --prefix)/Homebrew)
     fi
 
-    if [[ "$(id -u --name)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
-        echo_info "Running ${BOOTSTRAP_SCRIPT} as current user $(id -u --name)."
+    if [[ "$(id -u -n)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
+        echo_info "Running ${BOOTSTRAP_SCRIPT} as current user $(id -u -n)."
         ${BOOTSTRAP_SCRIPT}
     else
         echo_info "Running ${BOOTSTRAP_SCRIPT} as another user ${BOOTSTRAP_SCRIPT_USER}."

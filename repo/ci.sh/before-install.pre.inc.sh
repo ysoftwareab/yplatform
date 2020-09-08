@@ -32,8 +32,8 @@ function sf_run_docker_ci_image() {
 
     local GID2=$(id -g)
     local UID2=$(id -u)
-    local GNAME=$(id -g --name)
-    local UNAME=$(id -u --name)
+    local GNAME=$(id -g -n)
+    local UNAME=$(id -u -n)
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
