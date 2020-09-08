@@ -1,0 +1,69 @@
+support-firecloud v0.2.69 Release Notes
+
+Highlights since v0.2.68:
+
+* None
+
+Breaking commits since v0.2.68:
+
+* 7832093 2020-09-08 break into brew_install_one_core
+* ea86921 2020-09-07 break into singular functions
+
+
+Commits since v0.2.68:
+
+* fdf18e4 2020-09-08 fixup! brew has stopped supporting 'brew install <url>'
+* 4236906 2020-09-08 brew has stopped supporting 'brew install <url>'
+* 3a0e374 2020-09-08 install git-lfs by default
+* 4f5822e 2020-09-08 fix compatibility with Darwin id, use -n instead of --name
+* b7321db 2020-09-08 silence useless error: 'stat: illegal option -- -'
+* efd5676 2020-09-08 fixup! split brew-util.inc.sh
+* 53e12a9 2020-09-08 add emacs mode headers
+* ad6098f 2020-09-08 fixup! split brew-util.inc.sh
+* 7832093 2020-09-08 break into brew_install_one_core
+* 9c5e4f5 2020-09-07 mv homebrew formulas to Formula folder (convention for homebrew taps)
+* 3be16c9 2020-09-08 split brew-util.inc.sh
+* d2675a2 2020-09-08 order
+* c69b527 2020-09-08 print brew config
+*   4f4e653 2020-09-08 Merge branch 'no-brew-update' into master
+|\
+| * b8aead2 2020-09-02 skip 'brew update' when SF_SKIP_COMMON_BOOTSTRAP=true, to increase bootstrap stability
+| * 710e830 2020-09-02 split into bootstrap_has_brew
+| * 2681a15 2020-09-02 use semantic functions
+|/
+* 55c376d 2020-09-07 brew upgrade cannot take formula-install args, only name
+* 00eeb87 2020-09-07 proper check for formula.rb
+* feb65d3 2020-09-08 add template helpers for patch/patched
+* 87d5c48 2020-09-08 canonical git-lfs filter
+* 283e60a 2020-09-07 send entire FORMULA to custom formula handlers
+* 2ac7c59 2020-09-07 generalize brew_install_one custom handlers
+* ea86921 2020-09-07 break into singular functions
+* a0f1646 2020-09-07 better editorconfig
+* 4ac6675 2020-09-07 don't gitignore diff/patch files
+* df40dd8 2020-09-07 decrease prio of fixing jest's coverage
+* b5fe908 2020-09-08 move perl to minimal
+* 8a29ade 2020-09-08 fix 'fatal error: xlocale.h: No such file or directory' when installing perl
+* d92966c 2020-09-07 optimization: install perl via homebrew early on
+* c954779 2020-09-07 allow extensible pre-push git hook. fixes #193
+* 50c44d1 2020-09-06 add SF_DIST_TARGETS for a more flexible 'make dist'
+* e63411c 2020-09-06 updated repo/mk/core.inc.mk
+* eea5b41 2020-09-06 style
+*   71725ff 2020-09-06 Merge pull request #177 from rokmoln/make-tar
+|\
+| * b16ac7b 2020-09-05 add 'make tar'
+|/
+* ece9548 2020-09-06 it's simply impossible to call wsl/wslconfig
+* 4a2dd9b 2020-09-05 fix github filters for tags
+* a6c0ba1 2020-09-05 fix github filters: globs not regex
+* e6b435d 2020-09-05 fixup! fixup! try setting wsl default distro
+* f70492d 2020-09-05 fixup! try setting wsl default distro
+* 7b4f747 2020-09-05 try setting wsl default distro
+* 80d3b73 2020-09-05 fixup! workaround for brew/awscli bug. see https://github.com/Homebrew/linuxbrew-core/issues/21062
+* 44fbe40 2020-09-05 workaround for brew/awscli bug. see https://github.com/Homebrew/linuxbrew-core/issues/21062
+* fecc337 2020-09-05 workaround for failing cheksum on 'choco install wsl-ubuntu-1804'
+* 30ce5d3 2020-09-05 less verbose 'choco install'
+* b6e5e7d 2020-09-01 add header to nvm-get-nvm-bin
+* ad0c38d 2020-09-01 always use ssh for github
+* d8b2761 2020-09-01 gitconfig: use new pull.rebase=preserve
+* 0c2690a 2020-09-01 gitconfig: use new submodules.recurse
+o e2b993f 2020-08-27 0.2.68
