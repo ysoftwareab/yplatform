@@ -4,6 +4,8 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
+source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+
 function bootstrap_has_brew() {
     if which brew >/dev/null 2>&1; then
         # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
@@ -27,6 +29,7 @@ function bootstrap_brew() {
             echo_done
             ;;
         true-Darwin)
+            brew_config
             if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
                 echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
                 echo_skip "brew: Updating homebrew..."
@@ -51,6 +54,7 @@ function bootstrap_brew() {
             echo_done
             ;;
         true-Linux)
+            brew_config
             if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
                 echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
                 echo_skip "brew: Updating homebrew..."
@@ -105,7 +109,7 @@ bootstrap_brew
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 [[ "${CI}" != "true" ]] || {
     bootstrap_brew_ci_cache
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+    brew_config
     [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || brew_update
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 }

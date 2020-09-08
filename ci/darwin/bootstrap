@@ -23,6 +23,8 @@ fi
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
 brew_update
 brew_brewfile_inc_sh
+
+brew_config
 brew_list
 brew_printenv
 

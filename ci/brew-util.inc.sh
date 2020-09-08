@@ -211,6 +211,12 @@ function brew_brewfile_inc_sh() {
     source ${BREWFILE_INC_SH}
 }
 
+function brew_config() {
+    echo_do "brew: Printing config..."
+    brew config
+    echo_done
+}
+
 function brew_list() {
     echo_do "brew: Listing packages..."
     brew list --versions
