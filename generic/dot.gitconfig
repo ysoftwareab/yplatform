@@ -82,9 +82,10 @@
 
 # FILTERS
 [filter "git-lfs"]
-    smudge              = git-lfs smudge %f
-    clean               = git-lfs clean %f
+    smudge              = git-lfs smudge -- %f
+    clean               = git-lfs clean -- %f
     required            = true
+    process             = git-lfs filter-process
 [filter "plist"]
     clean               = plutil -convert xml1 -o - -
     smudge              = plutil -convert binary1 -o - -
