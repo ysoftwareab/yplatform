@@ -27,6 +27,20 @@ define sf-generate-from-template
 	$(ECHO_DONE)
 endef
 
+define sf-generate-from-template-patch # patch: original patched
+	$(ECHO_DO) "Generating $@ from original $< and patched $1..."
+	# $(DIFF) -u original patched > patch
+	$(DIFF) -u --label $< --label $1 $< $1 > $@ || true
+	$(ECHO_DONE)
+endef
+
+define sf-generate-from-template-patched # patched: original patch
+	$(ECHO_DO) "Generating $@ from original $< and patch $1..."
+	# $(CAT) patch | $(PATCH_STDOUT) original > patched
+	$(CAT) $1 | $(PATCH_STDOUT) $< > $@
+	$(ECHO_DONE)
+endef
+
 SF_CHECK_TARGETS += \
 	check-tpl-files \
 
