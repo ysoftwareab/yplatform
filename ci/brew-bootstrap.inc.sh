@@ -4,39 +4,39 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-HAS_BREW_2=true
+function bootstrap_has_brew() {
+    if which brew >/dev/null 2>&1; then
+        # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
+        # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || return 1
+        exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2\." || return 1
+    else
+        echo_info "brew: Executable brew not found."
+        return 1
+    fi
+}
 
-if which brew >/dev/null 2>&1; then
-    # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
-    # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || HAS_BREW_2=false
-    exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2\." || HAS_BREW_2=false
-else
-    echo_info "brew: Executable brew not found."
-    HAS_BREW_2=false
-fi
+function bootstrap_brew() {
+    local HAS_BREW_2=true
+    bootstrap_has_brew || HAS_BREW_2=false
+    local RAW_GUC_URL="https://raw.githubusercontent.com"
 
-RAW_GUC_URL="https://raw.githubusercontent.com"
-
-case $(uname -s) in
-    Darwin)
-        if [[ "${HAS_BREW_2}" = "true" ]]; then
-            echo_do "brew: Updating homebrew..."
-            brew update >/dev/null
-            echo_done
-        else
+    case ${HAS_BREW_2}-$(uname -s) in
+        false-Darwin)
             echo_do "brew: Installing homebrew..."
             </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
             echo_done
-        fi
-
-        CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
-        ;;
-    Linux)
-        if [[ "${HAS_BREW_2}" = "true" ]]; then
-            echo_do "brew: Updating linuxbrew..."
-            brew update >/dev/null
-            echo_done
-        else
+            ;;
+        true-Darwin)
+            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+                echo_skip "brew: Updating homebrew..."
+            else
+                echo_do "brew: Updating homebrew..."
+                brew update >/dev/null
+                echo_done
+            fi
+            ;;
+        false-Linux)
             echo_do "brew: Installing linuxbrew..."
             if [[ "${SUDO}" = "" ]] || [[ "${SUDO}" = "sf_nosudo" ]]; then
                 HOMEBREW_PREFIX=~/.linuxbrew
@@ -49,24 +49,43 @@ case $(uname -s) in
                 </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
             fi
             echo_done
-        fi
+            ;;
+        true-Linux)
+            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
+                echo_skip "brew: Updating homebrew..."
+            else
+                echo_do "brew: Updating linuxbrew..."
+                brew update >/dev/null
+                echo_done
+            fi
+            ;;
+        *)
+            echo_err "brew: $(uname -s) is an unsupported OS."
+            return 1
+            ;;
+    esac
+}
 
-        CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
-        ;;
-    *)
-        echo_err "brew: $(uname -s) is an unsupported OS."
-        return 1
-        ;;
-esac
-unset HAS_BREW_2
-unset RAW_GUC_URL
+function bootstrap_brew_ci_cache() {
+    local HOMEBREW_PREFIX=$(brew --prefix)
+    local HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
+    case $(uname -s) in
+        Darwin)
+            local CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            ;;
+        Linux)
+            local CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            ;;
+        *)
+            echo_err "brew: $(uname -s) is an unsupported OS."
+            return 1
+            ;;
+    esac
+    local CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
+    [[ "${HOMEBREW_PREFIX_FULL}" != "${CI_CACHE_HOMEBREW_PREFIX_FULL}" ]] || return 0
 
-HOMEBREW_PREFIX=$(brew --prefix)
-HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-[[ "${CI}" != "true" ]] || [[ "${HOMEBREW_PREFIX_FULL}" = "${CI_CACHE_HOMEBREW_PREFIX_FULL}" ]] || {
     echo_do "brew: Restoring cache..."
     if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
         echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
@@ -81,14 +100,13 @@ CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pw
     fi
     echo_done
 }
-unset CI_CACHE_HOMEBREW_PREFIX
-unset CI_CACHE_HOMEBREW_PREFIX_FULL
-unset HOMEBREW_PREFIX
-unset HOMEBREW_PREFIX_FULL
 
-[[ "${CI:-}" != "true" ]] || {
+bootstrap_brew
+source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
+[[ "${CI}" != "true" ]] || {
+    bootstrap_brew_ci_cache
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
-    brew_update
+    [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || brew_update
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 }
 
