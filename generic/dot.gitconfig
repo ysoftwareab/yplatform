@@ -1,3 +1,5 @@
+# -*- mode: GitConfig -*-
+
 # CORE
 [core]
     attributesfile      = ~/.gitattributes_global

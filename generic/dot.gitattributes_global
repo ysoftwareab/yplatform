@@ -1,3 +1,5 @@
+# -*- mode: Gitattributes -*-
+
 # A primer on a few git attributes
 # whitespace=space-before-tab = do not allow spaces followed by tabs
 # whitespace=tab-in-indent    = do not allow indentation by tabs

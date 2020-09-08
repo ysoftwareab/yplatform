@@ -23,6 +23,8 @@ for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
         ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore
 done
 
+echo "# -*- mode: Gitignore -*-"
+echo
 echo "# BEGIN generic/dot.gitignore_global.base"
 echo
 cat ${GIT_ROOT}/generic/dot.gitignore_global.base

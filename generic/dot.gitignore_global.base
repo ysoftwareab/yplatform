@@ -1,3 +1,5 @@
+# -*- mode: Gitignore -*-
+
 # Codeship
 codeship.aes
 
