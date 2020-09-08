@@ -21,17 +21,12 @@ function brew_install_one_erlang() {
     echo_done
 }
 
-function brew_install_one() {
+function brew_install_one_core() {
     local FORMULA="$@"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
-
-    if [[ "$(type -t "brew_install_one_${NAME}")" = "function" ]]; then
-        eval "brew_install_one_${NAME} '${FORMULA}'"
-        return 0
-    fi
 
     # is it already installed ?
     if brew list "${NAME}" >/dev/null 2>&1; then
@@ -84,6 +79,21 @@ function brew_install_one() {
     echo_do "brew: Installing ${FORMULA}..."
     brew install ${FORMULA}
     echo_done
+}
+
+function brew_install_one() {
+    local FORMULA="$@"
+
+    local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
+    local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
+    # local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
+
+    if [[ "$(type -t "brew_install_one_${NAME}")" = "function" ]]; then
+        eval "brew_install_one_${NAME} '${FORMULA}'"
+        return 0
+    fi
+
+    brew_install_one_core "${FORMULA}"
 }
 
 function brew_install() {
