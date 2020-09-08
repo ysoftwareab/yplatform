@@ -71,7 +71,7 @@ function sf_transcrypt() {
 
 
 function sf_os_get_dir_owner() {
-    local GNU_STAT=$(stat --version | head -1 | grep -q "GNU" && echo true || echo false)
+    local GNU_STAT=$(stat --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
     case ${GNU_STAT} in
         true)
             local STAT_FORMAT_ARG="-c"
