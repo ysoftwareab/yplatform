@@ -1,0 +1,13 @@
+--- Formula/patch-src/erlang.original.rb
++++ Formula/patch-src/erlang.rb
+@@ -25,7 +25,9 @@
+   depends_on "fop" => :build
+   depends_on "libtool" => :build
+   depends_on "openssl@1.1"
+-  depends_on "wxmac" # for GUI apps like observer
++  unless ENV["CI"]
++    depends_on "wxmac" # for GUI apps like observer
++  end
+ 
+   uses_from_macos "m4" => :build
+ 

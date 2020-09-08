@@ -40,6 +40,7 @@ function brew_upgrade_one() {
     fi
 
     echo_do "brew: Upgrading ${NAME}..."
+    # FIXME needs to handle patched formulas
     brew upgrade ${NAME}
     echo_done
 }
