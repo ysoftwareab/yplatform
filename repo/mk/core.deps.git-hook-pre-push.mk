@@ -10,6 +10,9 @@
 # can be skipped via:
 # SF_DEPS_TARGETS := $(filter-out .git/hooks/pre-push,$(SF_DEPS_TARGETS))
 #
+# The git hook's stdin is captured in $(GIT_HOOK_STDIN),
+# while the arguments are captured in $(GIT_HOOK_ARGS).
+#
 # ------------------------------------------------------------------------------
 #
 # Adds a '.git/hooks/pre-push/run' internal target that will be the actual code of the hook.
@@ -29,6 +32,7 @@ endif
 
 SF_GIT_HOOKS_PRE_PUSH_TARGETS += \
 	check \
+	.git/hooks/pre-push/run/git-lfs \
 
 # ------------------------------------------------------------------------------
 
@@ -42,3 +46,9 @@ SF_GIT_HOOKS_PRE_PUSH_TARGETS += \
 	[[ "$(words $(SF_GIT_HOOKS_PRE_PUSH_TARGETS))" = "0" ]] || { \
 		$(MAKE) $(SF_GIT_HOOKS_PRE_PUSH_TARGETS); \
 	}
+
+
+# if there's no git-lfs installed
+.PHONY: .git/hooks/pre-push/run/git-lfs
+.git/hooks/pre-push/run/git-lfs:
+	echo "$(GIT_HOOK_STDIN)" | $(GIT) lfs pre-push $(GIT_HOOK_ARGS)

@@ -14,6 +14,7 @@ bash
 curl
 findutils
 git
+git-lfs
 jq
 make
 rsync
