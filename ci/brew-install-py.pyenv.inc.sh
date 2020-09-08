@@ -3,12 +3,6 @@ set -euo pipefail
 
 echo_do "brew: Installing Python pyenv packages..."
 
-# workaround for failing to install `perl` (pyenv > autoconf > perl)
-# fatal error: xlocale.h: No such file or directory
-if [[ "${OS_SHORT}" = "linux" ]] && [[ ! -f /usr/include/xlocale.h ]]; then
-    ${SUDO} ln -s /usr/include/locale.h /usr/include/xlocale.h
-fi
-
 # pyenv deps https://github.com/pyenv/pyenv/wiki/Common-build-problems
 if [[ "${OS_SHORT}" = "linux" ]]; then
     DPKGS="$(cat <<-EOF
