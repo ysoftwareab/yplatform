@@ -54,6 +54,7 @@ function brew_install_one_core() {
             # NOTE true when up-to-date, false otherwise
             if brew outdated ${NAME} >/dev/null; then
                 echo_skip "brew: Installing ${FORMULA}..."
+                return 0
             else
                 brew uninstall --ignore-dependencies ${NAME}
             fi
@@ -70,6 +71,7 @@ function brew_install_one_core() {
             # NOTE true when up-to-date, false otherwise
             if brew outdated ${NAME} >/dev/null; then
                 echo_skip "brew: Installing ${FORMULA}..."
+                return 0
             else
                 brew uninstall --ignore-dependencies ${NAME}
             fi
