@@ -51,9 +51,12 @@ function brew_install_one_core() {
 
         # install without specific options ?
         [[ -n "${OPTIONS}" ]] || {
-            echo_skip "brew: Installing ${FORMULA}..."
-            brew_upgrade ${NAME}
-            return 0
+            # NOTE true when up-to-date, false otherwise
+            if brew outdated ${NAME} >/dev/null; then
+                echo_skip "brew: Installing ${FORMULA}..."
+            else
+                brew uninstall --ignore-dependencies ${NAME}
+            fi
         }
 
         # is it already installed with the required options ?
@@ -64,16 +67,19 @@ function brew_install_one_core() {
             sort -u || true)"
         local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
         [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
-            echo_skip "brew: Installing ${FORMULA}..."
-            brew_upgrade ${NAME}
-            return 0
+            # NOTE true when up-to-date, false otherwise
+            if brew outdated ${NAME} >/dev/null; then
+                echo_skip "brew: Installing ${FORMULA}..."
+            else
+                brew uninstall --ignore-dependencies ${NAME}
+            fi
         }
 
         echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
         echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
 
         if [[ "${TRAVIS:-}" = "true" ]]; then
-            brew uninstall ${NAME}
+            brew uninstall --ignore-dependencies ${NAME}
         else
             echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
             return 1
