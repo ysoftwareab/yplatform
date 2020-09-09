@@ -1,4 +1,8 @@
+# -*- mode: Gitignore -*-
+
 # BEGIN generic/dot.gitignore_global.base
+
+# -*- mode: Gitignore -*-
 
 # Codeship
 codeship.aes
@@ -155,7 +159,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
@@ -177,3 +181,4 @@ Temporary Items
 .apdisk
 
 # END https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
+
