@@ -33,6 +33,18 @@ flycheck_*.el
 # ESLint
 .eslintcache
 
+# Logs
+*.log*
+
+# NodeJS
+.npm/
+.tern-port
+.yarn-integrity
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
 # END generic/dot.gitignore_global.base
 
 ################################################################################
