@@ -3,7 +3,7 @@ set -euo pipefail
 
 echo_do "brew: Installing NVM packages..."
 
-[ -n "${NVM_DIR:-}" ] || export NVM_DIR=~/.nvm
+[ -n "${NVM_DIR:-}" ] || export NVM_DIR=${HOME}/.nvm
 mkdir -p ${NVM_DIR}
 
 BREW_FORMULAE="$(cat <<-EOF

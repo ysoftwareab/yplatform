@@ -39,7 +39,7 @@ function sf_ga_checkout() {
 function sf_private_submodules() {
     [[ -z "${GH_TOKEN:-}" ]] || {
         echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
-        echo -e "machine github.com\n  login ${GH_TOKEN}" >> ~/.netrc
+        echo -e "machine github.com\n  login ${GH_TOKEN}" >> ${HOME}/.netrc
 
         # cover git submodules's canonical ssh url
         git config --global --replace-all url.https://github.com/.insteadOf git@github.com:
@@ -97,8 +97,8 @@ function sf_os_bootstrap_with_script() {
         BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(brew --prefix)/Homebrew)
     elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
         BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
-    elif test -x ~/.linuxbrew/bin/brew; then
-        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(~/.linuxbrew/bin/brew --prefix)/Homebrew)
+    elif test -x ${HOME}/.linuxbrew/bin/brew; then
+        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(${HOME}/.linuxbrew/bin/brew --prefix)/Homebrew)
     fi
 
     if [[ "$(id -u -n)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then

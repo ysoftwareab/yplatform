@@ -36,9 +36,9 @@ EOF
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 eval "$(pyenv init -)"
-mkdir -p ~/.pyenv/versions
+mkdir -p ${HOME}/.pyenv/versions
 for PYTHON_VSN in $(brew --cellar python)/*; do
-    ln -sf ${PYTHON_VSN} ~/.pyenv/versions/
+    ln -sf ${PYTHON_VSN} ${HOME}/.pyenv/versions/
 done
 unset PYTHON_VSN
 echo_done

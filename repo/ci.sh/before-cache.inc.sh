@@ -8,10 +8,10 @@ function sf_ci_run_before_cache_brew() {
 
     case $(uname -s) in
         Darwin)
-            CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            CI_CACHE_HOMEBREW_PREFIX=${HOME}/.homebrew
             ;;
         Linux)
-            CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            CI_CACHE_HOMEBREW_PREFIX=${HOME}/.linuxbrew
             ;;
         *)
             echo_err "${FUNCNAME[0]}: $(uname -s) is an unsupported OS."

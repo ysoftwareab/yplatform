@@ -42,7 +42,7 @@ function bootstrap_brew() {
         false-Linux)
             echo_do "brew: Installing linuxbrew..."
             if [[ "${SUDO}" = "" ]] || [[ "${SUDO}" = "sf_nosudo" ]]; then
-                HOMEBREW_PREFIX=~/.linuxbrew
+                HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
                 curl -fqsS -L https://github.com/Homebrew/brew/tarball/master | \
@@ -76,10 +76,10 @@ function bootstrap_brew_ci_cache() {
     local HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
     case $(uname -s) in
         Darwin)
-            local CI_CACHE_HOMEBREW_PREFIX=~/.homebrew
+            local CI_CACHE_HOMEBREW_PREFIX=${HOME}/.homebrew
             ;;
         Linux)
-            local CI_CACHE_HOMEBREW_PREFIX=~/.linuxbrew
+            local CI_CACHE_HOMEBREW_PREFIX=${HOME}/.linuxbrew
             ;;
         *)
             echo_err "brew: $(uname -s) is an unsupported OS."
