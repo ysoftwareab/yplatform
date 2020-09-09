@@ -42,6 +42,7 @@ SF_ECLINT_FILES_IGNORE += \
 SF_CHECK_TPL_FILES += \
 	.github/workflows/main.yml \
 	.github/workflows/main.windows.yml \
+	generic/dot.gitignore_global \
 
 SF_DEPS_TARGETS += \
 	.github/workflows/main.yml \
@@ -88,6 +89,5 @@ test-repo-mk:
 	done
 
 
-.PHONY: generic/dot.gitignore_global
-generic/dot.gitignore_global: generic/dot.gitignore_global.tpl ## Regenerate generic/dot.gitignore_global.
+generic/dot.gitignore_global: generic/dot.gitignore_global.tpl generic/dot.gitignore_global.base ## Regenerate generic/dot.gitignore_global.
 	$(call sf-generate-from-template)
