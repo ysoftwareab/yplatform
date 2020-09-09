@@ -1,0 +1,17 @@
+support-firecloud v0.2.70 Release Notes
+
+Highlights since v0.2.69:
+
+* None
+
+Breaking commits since v0.2.69:
+
+* None
+
+Commits since v0.2.69:
+
+* 36af21f 2020-09-09 fixup! replace backticks
+* 359f18b 2020-09-09 check that generic/dot.gitignore_global follows template
+* 645ba01 2020-09-09 fixup! use sf-generate-from-template pattern for global gitignore
+* 013f86a 2020-09-09 regenerate generic/dot.gitignore_global
+o 560a0e7 2020-09-08 0.2.69
