@@ -8,6 +8,16 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util/print.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util/update.inc.sh
 
 function brew_brewfile_inc_sh() {
+    echo_warn "Hiding 'apt_update' as 'apt_update_force'."
+    echo_info "Running 'apt_update_force' will make the system unpredictable."
+    eval "$(declare -f apt_update)_force"
+    unset apt_update
+
+    echo_warn "Hiding 'brew_update' as 'brew_update_force'."
+    echo_info "Running 'brew_update_force' will make the system unpredictable."
+    eval "$(declare -f brew_update)_force"
+    unset brew_update
+
     local BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
     [[ -f "${BREWFILE_INC_SH}" ]] || {
         echo_err "No ${BREWFILE_INC_SH} file present."
