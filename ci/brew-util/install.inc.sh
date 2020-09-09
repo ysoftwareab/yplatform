@@ -1,23 +1,27 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# install erlang without wxmac bloat
-function brew_install_one_erlang() {
+function brew_install_one_patched() {
     local FORMULA="$@"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
-    echo_do "brew: Installing ${NAME}, without wxmac..."
-    brew tap linuxbrew/xorg
-    # using a for loop because 'xargs -r' is not part of the BSD version (MacOS)
-    # comm -23 <(brew deps ${NAME}) <(brew deps wxmac) | sed "/^wxmac$/d" | xargs -r -L1 brew install
-    for DEP_NAME in $(comm -23 <(brew deps ${NAME}) <(brew deps wxmac) | sed "/^wxmac$/d"); do
-        brew install ${DEP_NAME}
-    done
-    brew install --force --ignore-dependencies ${FULLNAME} ${OPTIONS} || \
-        brew link --force --overwrite ${NAME}
+    local DIR=${GIT_ROOT}/Formula/patch-lib
+    mkdir -p ${DIR}
+
+    local PATCH=${GIT_ROOT}/Formula/${NAME}.patch
+    local ORIGINAL=${DIR}/${NAME}.original.rb
+    local PATCHED=${DIR}/${NAME}.rb
+
+    echo_do "brew: Patching ${NAME} with ${PATCH} as ${PATCHED}..."
+    brew cat ${NAME} > ${ORIGINAL}
+    patch -o - ${ORIGINAL} ${PATCH} > ${PATCHED}
+    echo_done
+
+    echo_do "brew: Installing ${NAME} from ${PATCHED}..."
+    brew_install_one_core ${PATCHED} ${OPTIONS}
     echo_done
 }
 
@@ -47,9 +51,12 @@ function brew_install_one_core() {
 
         # install without specific options ?
         [[ -n "${OPTIONS}" ]] || {
-            echo_skip "brew: Installing ${FORMULA}..."
-            brew_upgrade ${NAME}
-            return 0
+            # NOTE true when up-to-date, false otherwise
+            if brew outdated ${NAME} >/dev/null; then
+                echo_skip "brew: Installing ${FORMULA}..."
+            else
+                brew uninstall --ignore-dependencies ${NAME}
+            fi
         }
 
         # is it already installed with the required options ?
@@ -60,16 +67,19 @@ function brew_install_one_core() {
             sort -u || true)"
         local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
         [[ -n "${NOT_FOUND_OPTIONS}" ]] || {
-            echo_skip "brew: Installing ${FORMULA}..."
-            brew_upgrade ${NAME}
-            return 0
+            # NOTE true when up-to-date, false otherwise
+            if brew outdated ${NAME} >/dev/null; then
+                echo_skip "brew: Installing ${FORMULA}..."
+            else
+                brew uninstall --ignore-dependencies ${NAME}
+            fi
         }
 
         echo_err "${NAME} is already installed with options '${USED_OPTIONS}',"
         echo_err "but not the required '${NOT_FOUND_OPTIONS}'."
 
         if [[ "${TRAVIS:-}" = "true" ]]; then
-            brew uninstall ${NAME}
+            brew uninstall --ignore-dependencies ${NAME}
         else
             echo_err "Consider uninstalling ${NAME} with 'brew uninstall ${NAME}' and rerun the bootstrap!"
             return 1
@@ -88,10 +98,11 @@ function brew_install_one() {
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
     # local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
-    if [[ "$(type -t "brew_install_one_${NAME}")" = "function" ]]; then
-        eval "brew_install_one_${NAME} '${FORMULA}'"
+    # if we have a patch file, then use it to install the formula
+    [[ ! -f Formula/${NAME}.patch ]] || {
+        brew_install_one_patched "$@"
         return 0
-    fi
+    }
 
     brew_install_one_core "${FORMULA}"
 }

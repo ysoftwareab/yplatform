@@ -1,0 +1,13 @@
+--- Formula/patch-src/awscli.original.rb
++++ Formula/patch-src/awscli.rb
+@@ -44,7 +44,9 @@
+       }
+     EOS
+ 
+-    system libexec/"bin/python3", "scripts/gen-ac-index", "--include-builtin-index"
++    unless ENV["CI"]
++      system libexec/"bin/python3", "scripts/gen-ac-index", "--include-builtin-index"
++    end
+   end
+ 
+   def caveats
