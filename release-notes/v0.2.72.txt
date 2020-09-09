@@ -1,0 +1,18 @@
+support-firecloud v0.2.72 Release Notes
+
+Highlights since v0.2.71:
+
+* None
+
+Breaking commits since v0.2.71:
+
+* None
+
+Commits since v0.2.71:
+
+*   8704d35 2020-09-09 Merge pull request #199 from rokmoln/use-brew-patches
+|\
+| * e14d25a 2020-09-09 do without brew_upgrade
+| * b91329d 2020-09-08 use patch files to install erlang/perl
+| o 3855853 2020-09-09 fixup! skip 'brew update' when SF_SKIP_COMMON_BOOTSTRAP=true, to increase bootstrap stability
+o 524bc7e 2020-09-09 0.2.71
