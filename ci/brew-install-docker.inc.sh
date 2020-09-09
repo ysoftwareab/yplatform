@@ -74,7 +74,9 @@ else
                         ;;
                     *)
                         brew_install docker
-                        brew_install docker-compose
+                        # workaround for "Illegal instruction", see https://github.com/rokmoln/support-firecloud/issues/198
+                        # brew_install docker-compose
+                        brew_install "docker-compose --build-from-source"
                         ;;
                 esac
                 unset RELEASE_ID
