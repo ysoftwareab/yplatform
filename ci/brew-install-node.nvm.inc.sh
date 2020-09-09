@@ -22,7 +22,9 @@ unset BREW_FORMULAE
     else
         nvm install node
     fi
-    nvm reinstall-packages system
+    if nvm alias system | grep -q system; then
+        nvm reinstall-packages system
+    fi
 )
 echo_done
 
