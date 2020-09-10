@@ -20,6 +20,24 @@ function apt_install() {
     apt-get install -y ${FORCE_YES} $*
 }
 
+function dir_clean() {
+    du -hcs $1
+    rm -rf $1
+    du -hcs $1
+}
+
+function git_dir_clean() {
+    du -hcs $1
+    (
+        cd $1
+        git reflog expire --expire=all --all
+        git tag -l | xargs -r git tag -d
+        git gc --prune=all
+        git clean -xdf .
+    )
+    du -hcs $1
+}
+
 export CI=true
 export DEBIAN_FRONTEND=noninteractive
 # export SF_DOCKER_CI_IMAGE_NAME= # --build-arg
@@ -73,53 +91,38 @@ echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 cp -RP /root/.ssh /home/${UNAME}/
 chown -R ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh
 
-# MAIN
-{
-    cd /support-firecloud
-    chown -R root:root .
-    git config url."https://github.com/".insteadOf git@github.com:
+# MAIN /support-firecloud
+cd /support-firecloud
+chown -R root:root .
+git config url."https://github.com/".insteadOf git@github.com:
 
-    sudo --preserve-env -H -u ${UNAME} ./ci/linux/bootstrap
+sudo --preserve-env -H -u ${UNAME} ./ci/linux/bootstrap
 
-    git rev-parse HEAD > /support-firecloud.bootstrapped
+git rev-parse HEAD > /support-firecloud.bootstrapped
 
-    cat <<EOF >> /home/${UNAME}/.bash_aliases
+git_dir_clean /support-firecloud
+make BUILD
+make VERSION
+
+# MAIN ~
+cat <<EOF >> /home/${UNAME}/.bash_aliases
 source /support-firecloud/sh/dev.inc.sh
 EOF
-    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
 
-    cat <<EOF >> /home/${UNAME}/.gitconfig
+cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
     path = /support-firecloud/generic/dot.gitconfig
 EOF
-    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
 
-    touch /home/${UNAME}/.sudo_as_admin_successful
-    chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.sudo_as_admin_successful
-}
+touch /home/${UNAME}/.sudo_as_admin_successful
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.sudo_as_admin_successful
 
 # CLEANUP
-function dir_clean() {
-    du -hcs $1
-    rm -rf $1
-}
-
-function git_dir_clean() {
-    du -hcs $1
-    (
-        cd $1
-        git reflog expire --expire=all --all
-        git tag -l | xargs -r git tag -d
-        git gc --prune=all
-        git clean -xdf .
-    )
-    du -hcs $1
-}
-
 apt-get clean
 dir_clean /var/lib/apt/lists/* # aptitude cache
 dir_clean /home/${UNAME}/.cache/* # linuxbrew cache
 
-git_dir_clean /support-firecloud
 # git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
 # git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
