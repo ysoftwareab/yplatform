@@ -9,8 +9,9 @@ function brew_install_one_patched() {
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
     local DIR=${GIT_ROOT}/Formula/patch-lib
+    mkdir -p ${DIR}
 
-    local PATCH=${GIT_ROOT}/Formula/${NAME}.patch
+    local PATCH=${GIT_ROOT}/Formula/${NAME}.${OS_SHORT}.patch
     local ORIGINAL=${DIR}/${NAME}.original.rb
     local PATCHED=${DIR}/${NAME}.rb
 
@@ -103,7 +104,7 @@ function brew_install_one() {
     # local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
     # if we have a patch file, then use it to install the formula
-    [[ ! -f Formula/${NAME}.patch ]] || {
+    [[ ! -f Formula/${NAME}.${OS_SHORT}.patch ]] || {
         brew_install_one_patched "$@"
         return 0
     }
