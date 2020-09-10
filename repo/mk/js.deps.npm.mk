@@ -182,14 +182,15 @@ check-package-json:
 check-package-lock-json: check-package-json
 	$(eval PACKAGE_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package.json))
 	$(eval PACKAGE_LOCK_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package-lock.json))
+	$(eval JQ_EXPR := "{a: .name, b: .version, c: .dependencies, d: .devDependencies}")
 	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
 		$(GIT) diff --exit-code package-lock.json || { \
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
 		diff \
-			<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S "{dependencies: .dependencies, devDependencies: .devDependencies}") \
-			<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S "{dependencies: .dependencies, devDependencies: .devDependencies}") || { \
+			<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) \
+			<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) || { \
 			$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \
 			$(ECHO_INFO) "package.json modified last at $(PACKAGE_JSON_HASH)"; \
 			$(ECHO_INFO) "package-lock.json modified last at $(PACKAGE_LOCK_JSON_HASH)"; \
