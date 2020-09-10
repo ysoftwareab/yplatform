@@ -185,4 +185,10 @@ check-package-lock-json: check-package-json
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
+		[[ "$$($(GIT) log -1 --format='%at' -- package-lock.json)" -ge \
+			"$$($(GIT) log -1 --format='%at' -- package.json)" ]] || { \
+			$(ECHO_ERR) "package.json is newer than package-lock.json."; \
+			$(ECHO_ERR) "Please run 'make package-lock.json' and commit your changes."; \
+			exit 1; \
+		}; \
 	fi
