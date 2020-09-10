@@ -36,6 +36,14 @@ jobs:
       V: '${{ secrets.V }}'
       WSLENV: 'CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP'
     steps:
+      - name: Ubuntu
+        shell: bash
+        run: |
+          # see https://github.com/actions/virtual-environments/issues/1568
+          sudo git -C $(brew --prefix)/Homebrew checkout HEAD .
+          sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core checkout HEAD .
+          sudo chown -R $(id -u):$(id -g) /home/linuxbrew/.linuxbrew
+        if: 'startsWith(matrix.os, ''ubuntu-'')'
       - name: Windows
         shell: bash
         run: >
