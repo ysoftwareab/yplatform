@@ -1,0 +1,40 @@
+support-firecloud v0.2.73 Release Notes
+
+Highlights since v0.2.72:
+
+* None
+
+Breaking commits since v0.2.72:
+
+* 59c7c6f 2020-09-09 fixup! breaking: apt/brew_update are not available in Brewfile.inc.sh anymore. IF NEEDED use apt/brew_update_force.
+* 224f407 2020-09-09 breaking: apt/brew_update are not available in Brewfile.inc.sh anymore. IF NEEDED use apt/brew_update_force.
+
+
+Commits since v0.2.72:
+
+* c35e34b 2020-09-11 Revert "make sure NVM_DIR exists"
+* 98d97ea 2020-09-11 fix travis-wsl
+* 1b57f45 2020-09-11 include full 'uname -a' in BUILD/VERSION file
+* 20ae653 2020-09-11 include BUILD and VERSION file on a sf docker image
+* 8aee341 2020-09-11 on linux, docker/-compose via official installation, not linuxbrew. ref #198
+* 973000e 2020-09-11 Revert "workaround for 'Illegal instruction' for docker-compose. ref #198"
+* 94a50a2 2020-09-10 fix file permission on github ubuntu. see see https://github.com/actions/virtual-environments/issues/1568
+* a778814 2020-09-10 use os-specific patches since linuxbrew != homebrew
+* f5cdd52 2020-09-10 fix for missing apt_update after 224f407099fc096f6651d2748ebf3554b27c98a5
+* 01297c6 2020-09-10 'patch -o -' not available in macos builtin version 2.5.8
+* f4914d4 2020-09-10 run same github workflow for all platforms
+* 59353db 2020-09-10 check name and version as well, since they are included in package-lock.json
+* 6a7e7f5 2020-09-10 redundant to check timestamps, and running a diff is not a high performance cost
+* 0fe506c 2020-09-10 fix help message: 'make package-json.lock' doesn't exist since 1db81aa
+* 0b37b5e 2020-09-10 if package.json was modified after package-lock.json, check if dependencies have changed
+* 041dc75 2020-09-10 Revert "fix complaint about package.json is newer than package-lock.json. package.json can be edited without changing deps"
+* a986a3b 2020-09-10 make sure NVM_DIR exists
+* a61301d 2020-09-10 don't assume there's a system node installed
+* 6db181c 2020-09-10 prefer HOME over ~, and not rely on shell expansion
+* 8024b90 2020-09-09 'Permission denied' to mkdir Formula/patch-lib on github actions CI. unsure why
+* f0abf51 2020-09-09 fix complaint about package.json is newer than package-lock.json. package.json can be edited without changing deps
+* 59c7c6f 2020-09-09 fixup! breaking: apt/brew_update are not available in Brewfile.inc.sh anymore. IF NEEDED use apt/brew_update_force.
+* 0628592 2020-09-09 fixup! do without brew_upgrade
+* 224f407 2020-09-09 breaking: apt/brew_update are not available in Brewfile.inc.sh anymore. IF NEEDED use apt/brew_update_force.
+* ff0bb2f 2020-09-09 use -u for apt-add-repository
+o fb688b6 2020-09-09 0.2.72
