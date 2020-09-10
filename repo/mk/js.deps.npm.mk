@@ -196,7 +196,7 @@ check-package-lock-json: check-package-json
 				$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \
 				$(ECHO_INFO) "package.json modified last at $(PACKAGE_JSON_HASH)"; \
 				$(ECHO_INFO) "package-lock.json modified last at $(PACKAGE_LOCK_JSON_HASH)"; \
-				$(ECHO_INFO) "Please run 'make package-lock.json' and commit your changes."; \
+				$(ECHO_INFO) "Please run 'make deps-npm' and commit your changes to package-lock.json."; \
 				exit 1; \
 			}; \
 		}; \
