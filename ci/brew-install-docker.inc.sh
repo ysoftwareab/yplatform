@@ -33,53 +33,47 @@ else
             unset HAS_DOCKER
             ;;
         Linux)
-            (
-                RELEASE_ID="$(source /etc/os-release && echo ${ID})"
-                RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
-                RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
-                # docker-compose via linuxbrew fails on Ubuntu 20.04
-                # https://travis-ci.com/github/rokmoln/support-firecloud/jobs/362746866#L2781
-                case ${RELEASE_ID}-${RELEASE_VERSION_CODENAME} in
-                    ubuntu-focal)
-                        # BEGIN https://docs.docker.com/engine/install/ubuntu/
-                        for PKG in docker docker-engine docker.io containerd runc; do
-                            ${SUDO} apt-get remove ${PKG} || true;
-                        done
-                        unset PKG
+            # docker-compose via linuxbrew will throw 'Illegal instruction' for e.g. 'docker-compose --version'
+            # brew_install docker
+            # brew_install docker-compose
 
-                        apt_install apt-transport-https
-                        apt_install ca-certificates
-                        apt_install curl
-                        apt_install gnupg-agent
-                        apt_install software-properties-common
+            RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+            RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
+            RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
 
-                        curl -fsSL https://download.docker.com/linux/ubuntu/gpg | ${SUDO} apt-key add -
-                        ${SUDO} apt-key fingerprint 0EBFCD88
-                        ${SUDO} add-apt-repository -u \
-                                "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+            # BEGIN https://docs.docker.com/engine/install/ubuntu/
+            for PKG in docker docker-engine docker.io containerd runc; do
+                ${SUDO} apt-get remove ${PKG} || true;
+            done
+            unset PKG
 
-                        apt_install docker-ce
-                        apt_install docker-ce-cli
-                        apt_install containerd.io
+            apt_install apt-transport-https
+            apt_install ca-certificates
+            apt_install curl
+            apt_install gnupg-agent
+            apt_install software-properties-common
 
-                        # ENV https://docs.docker.com/engine/install/ubuntu/
-                        # BEGIN https://docs.docker.com/compose/install/
-                        DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
-                        ${SUDO} curl -L -o /usr/local/bin/docker-compose \
-                            "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
-                        ${SUDO} chmod +x /usr/local/bin/docker-compose
-                        unset DOCKER_COMPOSE_LATEST_URL
-                        # END https://docs.docker.com/compose/install/
-                        ;;
-                    *)
-                        brew_install docker
-                        brew_install docker-compose
-                        ;;
-                esac
-                unset RELEASE_ID
-                unset RELEASE_VERSION_ID
-                unset RELEASE_VERSION_CODENAME
-            )
+            curl -fsSL https://download.docker.com/linux/${RELEASE_ID}/gpg | ${SUDO} apt-key add -
+            ${SUDO} apt-key fingerprint 0EBFCD88
+            ${SUDO} add-apt-repository -u \
+                "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${RELEASE_ID} $(lsb_release -cs) stable"
+
+            apt_install docker-ce
+            apt_install docker-ce-cli
+            apt_install containerd.io
+            # ENV https://docs.docker.com/engine/install/ubuntu/
+
+            # BEGIN https://docs.docker.com/compose/install/
+            DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
+            ${SUDO} curl -L -o /usr/local/bin/docker-compose \
+                "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
+            ${SUDO} chmod +x /usr/local/bin/docker-compose
+            unset DOCKER_COMPOSE_LATEST_URL
+            # END https://docs.docker.com/compose/install/
+
+            unset RELEASE_ID
+            unset RELEASE_VERSION_ID
+            unset RELEASE_VERSION_CODENAME
             ;;
         *)
             echo_err "$(uname -s) is an unsupported OS for installing Docker."
