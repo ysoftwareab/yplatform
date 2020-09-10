@@ -9,12 +9,14 @@ on:
 
 aliases:
   env: &env
+    GITHUB_MATRIX_OS: ${{ matrix.os }}
     GH_TOKEN: ${{ secrets.GH_TOKEN }}
     SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     SF_LOG_BOOTSTRAP: true
     SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
     TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
     V: ${{ secrets.V }}
+    WSLENV: 'CI:SF_CI_BREW_INSTALL:SF_LOG_BOOTSTRAP'
   checkout: &checkout
     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
     uses: actions/checkout@v2
@@ -45,39 +47,115 @@ jobs:
           - ubuntu-18.04
           - ubuntu-20.04
           - macos-latest
+          - windows-latest
         sf_ci_brew_install:
           - minimal
           - dev
+        exclude:
+          # too time consuming
+          - os: windows-latest
+            sf_ci_brew_install: dev
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
     steps:
-      - *checkout
-      - *checkout-submodules
-      - shell: bash
+      - name: Windows
+        shell: bash
         run: |
-          ./.ci.sh before_install
-      - shell: bash
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          # why --ignore-checksum? see https://chocolatey.org/packages/wsl-ubuntu-1804#comment-5026624059
+          choco install wsl-ubuntu-1804 --no-progress --ignore-checksum
+          wsl bash -c "cat /etc/os-release"
+          wsl bash -c "sudo addgroup --gid 2000 github"
+          wsl bash -c "sudo adduser --uid 2000 --ingroup github --home /home/github --shell /bin/bash --disabled-password --gecos \"\" github"
+          wsl bash -c "sudo adduser github sudo"
+          wsl bash -c "sudo echo \"github ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
+        if: startsWith(matrix.os, 'windows-')
+
+      - uses: actions/checkout@v2
+      - name: Run actions/checkout@v2 submodules
+        shell: bash
         run: |
-          ./.ci.sh install
-      - shell: bash
+          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          git submodule sync --recursive
+          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
+          submodule update --init --force --recursive --depth=1
+
+      - name: Windows
+        shell: bash
         run: |
-          ./.ci.sh before_script
-      - shell: bash
+          # Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted
+          # See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
+          wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
+        if: startsWith(matrix.os, 'windows-')
+
+      - name: before_install
+        shell: bash
         run: |
-          ./.ci.sh script
-      - shell: bash
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh before_install"
+          else
+            ./.ci.sh before_install
+          fi
+
+      - name: install
+        shell: bash
         run: |
-          ./.ci.sh after_failure || true
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh install"
+          else
+            ./.ci.sh install
+          fi
+
+      - name: before_script
+        shell: bash
+        run: |
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh before_script"
+          else
+            ./.ci.sh before_script
+          fi
+
+      - name: script
+        shell: bash
+        run: |
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh script"
+          else
+            ./.ci.sh script
+          fi
+
+      - name: after_failure
+        shell: bash
+        run: |
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh after_failure || true"
+          else
+            ./.ci.sh after_failure || true
+          fi
         if: failure()
-      - shell: bash
+
+      - name: after_success
+        shell: bash
         run: |
-          ./.ci.sh after_success || true
-      - shell: bash
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh after_success || true"
+          else
+            ./.ci.sh after_success || true
+          fi
+
+      - name: after_script
+        shell: bash
         run: |
-          ./.ci.sh after_script || true
+          if echo "${GITHUB_MATRIX_OS}" | grep -q "^windows\-"; then
+            wsl --user github bash -c "./.ci.sh after_script || true"
+          else
+            ./.ci.sh after_script || true
+          fi
         if: always()
+
       # - shell: bash
       #   run: |
       #     ./.ci.sh before_deploy
