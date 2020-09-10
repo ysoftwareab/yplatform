@@ -180,15 +180,24 @@ check-package-json:
 
 .PHONY: check-package-lock-json
 check-package-lock-json: check-package-json
+	$(eval PACKAGE_JSON_TS := $(shell $(GIT) log -1 --format='%at' -- package.json))
+	$(eval PACKAGE_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package.json))
+	$(eval PACKAGE_LOCK_JSON_TS := $(shell $(GIT) log -1 --format='%at' -- package-lock.json))
+	$(eval PACKAGE_LOCK_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package-lock.json))
 	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
 		$(GIT) diff --exit-code package-lock.json || { \
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
-		[[ "$$($(GIT) log -1 --format='%at' -- package-lock.json)" -ge \
-			"$$($(GIT) log -1 --format='%at' -- package.json)" ]] || { \
-			$(ECHO_ERR) "package.json is newer than package-lock.json."; \
-			$(ECHO_ERR) "Please run 'make package-lock.json' and commit your changes."; \
-			exit 1; \
+		[[ "$(PACKAGE_LOCK_JSON_TS)" -ge "$(PACKAGE_JSON_TS)" ]] || { \
+			diff \
+				<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S "{dependencies: .dependencies, devDependencies: .devDependencies}") \
+				<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S "{dependencies: .dependencies, devDependencies: .devDependencies}") || { \
+				$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \
+				$(ECHO_INFO) "package.json modified last at $(PACKAGE_JSON_HASH)"; \
+				$(ECHO_INFO) "package-lock.json modified last at $(PACKAGE_LOCK_JSON_HASH)"; \
+				$(ECHO_INFO) "Please run 'make package-lock.json' and commit your changes."; \
+				exit 1; \
+			}; \
 		}; \
 	fi
