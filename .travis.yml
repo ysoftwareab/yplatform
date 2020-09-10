@@ -115,8 +115,8 @@ jobs:
         autocrlf: false
         symlinks: true
       before_install:
-        - choco install wsl-ubuntu-1804
-        # - wsl --setdefault Ubuntu-18.04
+        # why --ignore-checksum? see https://chocolatey.org/packages/wsl-ubuntu-1804#comment-5026624059
+        - choco install wsl-ubuntu-1804 --no-progress --ignore-checksum
         - wsl bash -c "cat /etc/os-release"
         - wsl bash -c "sudo addgroup --gid 2000 travis"
         - wsl bash -c "sudo adduser --uid 2000 --ingroup travis --home /home/travis --shell /bin/bash --disabled-password --gecos \"\" travis"
