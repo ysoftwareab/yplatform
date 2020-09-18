@@ -107,23 +107,23 @@ Formula/patch-src/%.original.rb:
 	else \
 		$(BREW) cat $* > $@; \
 	fi
-	if [[ -f Formula/$*.$(OS_SHORT).patch ]]; then \
+	if [[ -f Formula/$*.linux.patch ]]; then \
 		$(MAKE) Formula/patch-src/$*.rb || { \
-			$(ECHO_ERR) "Failed to apply old patch Formula/$*.$(OS_SHORT).patch and update patched file Formula/patch-src/$*.rb."; \
+			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
 			exit 1; \
 		} \
 	else \
 		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
 	fi
 	$(EDITOR) Formula/patch-src/$*.rb
-	$(MAKE) Formula/$*.$(OS_SHORT).patch
+	$(MAKE) Formula/$*.linux.patch
 
 
-.PHONY: Formula/%.$(OS_SHORT).patch
-Formula/%.$(OS_SHORT).patch: Formula/patch-src/%.original.rb
+.PHONY: Formula/%.linux.patch
+Formula/%.linux.patch: Formula/patch-src/%.original.rb
 	$(call sf-generate-from-template-patch,Formula/patch-src/$*.rb)
 
 
 .PHONY: Formula/patch-src/%.rb
 Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patched,Formula/$*.patch)
+	$(call sf-generate-from-template-patched,Formula/$*.linux.patch)
