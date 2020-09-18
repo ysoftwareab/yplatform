@@ -129,7 +129,7 @@ unreleased/%:
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(*).. | \
-		$(GREP) --color -E "^|break" || true
+		$(GREP) --color -i -E "^|break" || true
 	$(ECHO)
 	$(ECHO_INFO) "Breaking changes since $(*):"
 	$(ECHO)
@@ -140,4 +140,4 @@ unreleased/%:
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(*).. | \
-		$(GREP) --color -E "break" || true
+		$(GREP) --color -i -E "break" || true

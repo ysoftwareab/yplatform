@@ -42,7 +42,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecl
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(SF_UPDATE_COMMIT_RANGE) | \
-		$(GREP) --color -E "^|break" || true
+		$(GREP) --color -i -E "^|break" || true
 	$(ECHO)
 	$(ECHO_INFO) "Breaking changes in $(SF_SUBMODULE_PATH)@$(SF_UPDATE_VSN) since $(SF_VSN) $(SF_COMMIT):"
 	$(ECHO)
@@ -53,7 +53,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecl
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(SF_UPDATE_COMMIT_RANGE) | \
-		$(GREP) --color -E "break" || true
+		$(GREP) --color -i -E "break" || true
 	$(ECHO)
 	$(GIT) -C $(SF_SUBMODULE_PATH) --no-pager \
 		diff --stat $(SF_UPDATE_COMMIT_RANGE)

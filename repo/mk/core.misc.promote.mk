@@ -27,7 +27,7 @@ _promote: guard-env-SF_PROMOTE_CHANNEL guard-env-SF_PROMOTE_CHANNELS guard-env-S
 		--pretty=format:"%h %ad %s" \
 		--no-decorate \
 		$(GIT_REMOTE)/$(SF_PROMOTE_BRANCH)..$(TAG_COMMIT) | \
-		$(GREP) --color -E "^|break" || true
+		$(GREP) --color -i -E "^|break" || true
 	$(ECHO)
 	$(ECHO_INFO) "Breaking changes ready to be promoted:"
 	$(ECHO)
