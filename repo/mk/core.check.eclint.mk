@@ -20,7 +20,7 @@
 
 SF_IS_TRANSCRYPTED ?= false
 
-ECCHECKER = $(call which,ECCHECKER,editorconfig-checker)
+ECCHECKER = $(call which,ECCHECKER,editorconfig-checker) --ignore-defaults
 ECLINT = $(call npm-which,ECLINT,eclint)
 $(foreach VAR,ECCHECKER ECLINT,$(call make-lazy,$(VAR)))
 
