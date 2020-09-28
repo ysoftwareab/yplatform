@@ -102,13 +102,19 @@ deps-npm-install:
 	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
 			node_modules/eslint-config-firecloud/package.json
-#	hack. sort dependencies in package.json
-	if $(CAT) package.json | $(GREP) -q "\"dependencies\""; then \
-		$(NPM) remove --save-prod some-pkg-that-doesnt-exist; \
-	fi
-	if $(CAT) package.json | $(GREP) -q "\"devDpendencies\""; then \
-		$(NPM) remove --save-dev some-pkg-that-doesnt-exist; \
-	fi
+#	sort dependencies in package.json
+	$(CAT) package.json | \
+		$(JQ) ". \
+			+ (if .dependencies \
+				then {dependencies: (.dependencies|to_entries|sort_by(.key)|from_entries)} \
+				else .dependencies \
+				end) \
+			+ (if .devDependencies \
+				then {devDependencies: (.devDependencies|to_entries|sort_by(.key)|from_entries)} \
+				else .devDependencies \
+				end) \
+		" | \
+		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
 #	check that installing peer dependencies didn't modify package.json
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
 		$(NPM) install; \
