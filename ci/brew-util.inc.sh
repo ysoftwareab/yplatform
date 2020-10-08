@@ -12,8 +12,8 @@ function brew_brewfile_inc_sh() {
     echo_info "Running 'force_apt_update' will make the system unpredictable."
     eval "force_$(declare -f apt_update)"
     eval "apt_update() { \
-        echo '[ERR ] Updating Aptitude will make the system unpredictable.'; \
-        echo '[INFO] Call \'force_apt_update\' if you really need to, instead of \'apt_update\'.'; \
+        echo \"[ERR ] Updating Aptitude will make the system unpredictable.\"; \
+        echo \"[INFO] Call 'force_apt_update' if you really need to, instead of 'apt_update'.\"; \
         exit 1; \
     }"
 
@@ -21,8 +21,8 @@ function brew_brewfile_inc_sh() {
     echo_info "Running 'force_brew_update' will make the system unpredictable."
     eval "force_$(declare -f brew_update)"
     eval "brew_update() { \
-        echo '[ERR ] Updating HomeBrew will make the system unpredictable.'; \
-        echo '[INFO] Call \'force_brew_update\' if you really need to, instead of \'brew_update\'.'; \
+        echo \"[ERR ] Updating HomeBrew will make the system unpredictable.\"; \
+        echo \"[INFO] Call 'force_brew_update' if you really need to, instead of 'brew_update'.\"; \
         exit 1; \
     }"
 
