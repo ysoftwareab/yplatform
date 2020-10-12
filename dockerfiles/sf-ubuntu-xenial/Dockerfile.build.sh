@@ -23,7 +23,6 @@ function apt_install() {
 function dir_clean() {
     du -hcs $1
     rm -rf $1
-    du -hcs $1
 }
 
 function git_dir_clean() {
