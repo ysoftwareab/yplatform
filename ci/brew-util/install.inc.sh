@@ -47,6 +47,10 @@ function brew_install_one_core() {
             else
                 brew install --force ${FORMULA} || brew link --force --overwrite ${NAME}
             fi
+            brew info --json=v1 ${NAME} | \
+                /usr/bin/python -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["linked_keg"] or "null")' | \
+                grep -q -v "^null$" || \
+                brew link --force --overwrite ${NAME}
             echo_done
 
             return 0
@@ -93,6 +97,10 @@ function brew_install_one_core() {
 
     echo_do "brew: Installing ${FORMULA}..."
     brew install ${FORMULA}
+    brew info --json=v1 ${NAME} | \
+        /usr/bin/python -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["linked_keg"] or "null")' | \
+        grep -q -v "^null$" || \
+        brew link --force --overwrite ${NAME}
     echo_done
 }
 
