@@ -1,0 +1,21 @@
+support-firecloud v0.2.74 Release Notes
+
+Highlights since v0.2.73:
+
+* None
+
+Breaking commits since v0.2.73:
+
+* None
+
+Commits since v0.2.73:
+
+* e720fae 2020-10-08 fixup! add replace-functions for apt_update and brew_update, instead of unsetting them, to provide help info
+* ee229c1 2020-09-28 sort dependencies without 'npm remove' hack, which might erroneously modify package-lock.json
+* a65d56c 2020-09-24 add replace-functions for apt_update and brew_update, instead of unsetting them, to provide help info
+* cff0ff6 2020-09-24 fix wsl showing all files empty, hash 0000000000000000000000000000000000000000
+* 35cb9d7 2020-09-22 ignore editorchecker's defaults
+* fe95e7f 2020-09-18 improve linuxbrew-patching mechanism
+* 867e5c6 2020-09-18 remove perl.rb patching, as fix is available upstream https://github.com/Homebrew/linuxbrew-core/commit/1e29440f25e7b66959f686e2c4316edf9ee456e3
+* 0a9b7d8 2020-09-18 match case-insensitive 'break' in commit messages when looking for breaking changes
+o 3c35914 2020-09-11 0.2.73
