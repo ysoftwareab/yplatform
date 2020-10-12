@@ -1,0 +1,15 @@
+support-firecloud v0.2.75 Release Notes
+
+Highlights since v0.2.74:
+
+* None
+
+Breaking commits since v0.2.74:
+
+* None
+
+Commits since v0.2.74:
+
+* 40a91cc 2020-10-12 fix warning about jq not found
+* f9a7253 2020-10-12 fixup! include BUILD and VERSION file on a sf docker image
+o 0566f9d 2020-10-12 0.2.74
