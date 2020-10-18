@@ -91,6 +91,14 @@ but it can be specified via an environment variable `SF_DOCKER_CI_IMAGE` in the 
 
 Alternatively, you can disable running the pipeline in a Docker container, via `SF_DOCKER_CI_IMAGE=false`.
 
+Starting 2020-11-01, Docker will impose rate limits for pulling public images from hub.docker.com.
+In order to not risk getting rate-limited, one should authenticate the calls.
+Credentials can be passed via environment variables:
+
+* `SF_DOCKER_CI_USERNAME`, defaults to another environment variable `DOCKER_USERNAME`
+* `SF_DOCKER_CI_TOKEN`, defaults to another environment variable `DOCKER_TOKEN`
+* `SF_DOCKER_CI_SERVER`, defaults to `hub.docker.com`
+
 
 ## Debugging
 

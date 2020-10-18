@@ -1,11 +1,22 @@
 #!/usr/bin/env bash
 
+function sf_run_docker_ci_login() {
+    SF_DOCKER_CI_USERNAME="${SF_DOCKER_CI_USERNAME:-${DOCKER_USERNAME:-}}"
+    SF_DOCKER_CI_TOKEN="${SF_DOCKER_CI_TOKEN:-${DOCKER_TOKEN:-}}"
+
+    [[ -n "${SF_DOCKER_CI_USERNAME:-}" ]] || return
+    [[ -n "${SF_DOCKER_CI_TOKEN:-}" ]] || return
+    echo "${SF_DOCKER_CI_TOKEN}" | exe docker login -u "${SF_DOCKER_CI_USERNAME}" --password-stdin ${SF_DOCKER_CI_SERVER:-}
+}
+
 function sf_run_docker_ci_image() {
     local SF_DOCKER_CI_IMAGE=${1}
     local MOUNT_DIR=${2:-${PWD}}
     local CONTAINER_NAME=${3:-sf-docker-ci}
 
     echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
+
+    sf_run_docker_ci_login
 
     echo_do "Pulling ${SF_DOCKER_CI_IMAGE} image..."
     exe docker pull ${SF_DOCKER_CI_IMAGE}
