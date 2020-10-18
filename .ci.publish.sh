@@ -27,7 +27,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
     [[ -n "${DOCKER_USERNAME:-}" ]] || return
     [[ -n "${DOCKER_TOKEN:-}" ]] || return
 
-    echo "${DOCKER_TOKEN}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+    echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."
@@ -50,7 +50,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     local GH_DOCKER_HUB=docker.pkg.github.com
 
-    echo "${GH_TOKEN}" | docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
+    echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
 
     local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."
