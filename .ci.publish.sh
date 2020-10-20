@@ -3,6 +3,12 @@
 SF_DOCKER_CI_IMAGE=false
 DOCKER_ORG=${DOCKER_ORG:-rokmoln}
 
+# publish to hub.docker.com if given
+# DOCKER_USERNAME/DOCKER_TOKEN
+
+# publish to docker.pkg.github.com if given
+# GH_USERNAME/GH_TOKEN
+
 function ci_run_before_install() {
     true
 }
