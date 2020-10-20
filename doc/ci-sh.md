@@ -8,6 +8,37 @@ All CI/CD instrumentation is to be written in proper shell scripts,
 and we sensible steer away from non-essential built-in features like installing specific language versions,
 or installing system packages in the CI platform configurations.
 
+## Code execution
+
+A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot.ci.sh) e.g.
+
+```shell
+#!/usr/bin/env bash
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+# function ci_run_<phase>() {
+# }
+
+source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
+```
+
+Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
+where we actually call `sf_ci_run <phase>`.
+
+The `sf_ci_run` function will mainly check
+
+* if there's a `ci_run_<phase>` function defined, call it
+* otherwise, if there's a `sf_ci_run_<phase>`, call that one instead.
+
+`ci_run_<phase>` functions are custom implementations for each phase,
+while `sf_ci_run_<phase>` are default implementations,
+mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
+
+
+## Phases
+
 Due to historical reasons, Travis CI being the first CI/CD platform we integrated with,
 but also because their pipeline makes sense, we follow their job lifecycle and their "phase" names,
 currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
@@ -68,35 +99,6 @@ See for yourself. Search `.ci.sh before_install` in
 * [.travis.yml](../.travis.yml)
 * [.circleci/config.yml](../.circleci/config.yml)
 * [.github/workflows/main.yml](../.github/workflows/main.yml)
-
-
-## Code execution
-
-A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot.ci.sh) e.g.
-
-```shell
-#!/usr/bin/env bash
-
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
-
-# function ci_run_<step>() {
-# }
-
-source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
-```
-
-Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
-where we actually call `sf_ci_run <phase>`.
-
-The `sf_ci_run` function will mainly check
-
-* if there's a `ci_run_<phase>` function defined, call it
-* otherwise, if there's a `sf_ci_run_<phase>`, call that one instead.
-
-`ci_run_<phase>` functions are custom implementations for each phase,
-while `sf_ci_run_<phase>` are default implementations,
-mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
 
 
 ## Patterns
