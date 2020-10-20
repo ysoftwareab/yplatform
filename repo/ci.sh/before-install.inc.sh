@@ -36,17 +36,17 @@ function sf_ga_checkout() {
 }
 
 
-    [[ -z "${GH_TOKEN:-}" ]] || {
-        echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
-        echo -e "machine github.com\n  login ${GH_TOKEN}" >> ${HOME}/.netrc
 function sf_github_https() {
+    [[ -n "${GH_TOKEN:-}" ]] || return 0
 
-        # cover git submodules's canonical ssh url
-        git config --global --replace-all url.https://github.com/.insteadOf git@github.com:
-        # cover npm package.json's canonical git+ssh url
-        git config --global --add url.https://github.com/.insteadOf ssh://git@github.com/
-        echo_done
-    }
+    echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
+    echo -e "machine github.com\n  login ${GH_TOKEN}" >> ${HOME}/.netrc
+
+    # cover git submodules's canonical ssh url
+    git config --global --replace-all url.https://github.com/.insteadOf git@github.com:
+    # cover npm package.json's canonical git+ssh url
+    git config --global --add url.https://github.com/.insteadOf ssh://git@github.com/
+    echo_done
 }
 
 
