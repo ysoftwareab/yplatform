@@ -64,7 +64,8 @@ function sf_transcrypt() {
     fi
 
     echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
-    ./transcrypt -y -c aes-256-cbc -p "${TRANSCRYPT_PASSWORD}"
+    ./transcrypt -y -c "${TRANSCRYPT_CIPHER:-aes-256-cbc}" -p "${TRANSCRYPT_PASSWORD}"
+    unset TRANSCRYPT_CIPHER
     unset TRANSCRYPT_PASSWORD
     echo_done
 }
