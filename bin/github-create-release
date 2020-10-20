@@ -14,8 +14,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   --name         The release name
 ##   --body         The release body
 ##   --prerelease   Mark this release as a prerelease
-##   --asset        The path to an asset. Multiple assets can be given
-##   --token        The OAuth Token, if the repository is private
+##   --token        The OAuth Token
+##   --asset        DEPRECATED. Please call 'github-add-asset' separately
+##                  The path to an asset. Multiple assets can be given
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
