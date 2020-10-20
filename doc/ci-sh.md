@@ -47,6 +47,42 @@ while `sf_ci_run_<phase>` are default implementations,
 mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
 
 
+## Customization via environment variables
+
+Customizations can take place in two ways:
+either write a `ci_run_<phase>` function in `.ci.sh` as mentioned above, or set environment variables.
+
+Here's a list of the environment variables that customize the code execution:
+
+* **BOOTSTRAP**
+  * `SF_LOG_BOOTSTRAP`
+    * set to `true` to enable printing the whole bootstrap log which is hidden by default
+  * `SF_PRINTENV_BOOTSTRAP`
+    * set to `true` to enables printing all environment variables
+
+* **GITHUB**
+  * `SF_GITHUB_TOKEN`
+    * enables authenticated HTTPS for git calls to github.com instead of SSH
+    * defaults to another environment variable `GH_TOKEN`
+
+* **TRANSCRYPT**
+  * `SF_TRANSCRYPT_PASSWORD`
+    * enables automatic setup of `transcrypt`.
+    * see [how-to-manage-secrets.md](how-to-manage-secrets.md)
+  * `SF_TRANSCRYPT_CIPHER`
+    * customizes the `transcrypt` cipher, defaults to `aes-256-cbc`
+
+* **DOCKER ON TRAVIS CI**
+  * `SF_DOCKER_CI_IMAGE`
+    * customizes the Docker image for `docker pull`
+    * set to `false` to disable running inside a Docker image altogether
+  * `SF_DOCKER_CI_USERNAME`/`SF_DOCKER_CI_TOKEN`
+    * enable pulling the Docker image with credentials
+    * defaults to another environment variable `DOCKER_USERNAME`/`DOCKER_TOKEN`
+  * `SF_DOCKER_CI_SERVER`
+    * customizes the identity server for `docker login`
+
+
 ## Phases
 
 Due to historical reasons, Travis CI being the first CI/CD platform we integrated with,
