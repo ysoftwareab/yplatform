@@ -9,24 +9,36 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Download a github release asset (aka binary).
 ##
 ##   --repo-slug    The github repository slug: account/repo
-##   --slug         The asset slug: release/filename
+##   --tag          The release tag
+##   --asset        The asset filename
 ##   --token        The OAuth Token, if the repository is private
+##   --slug         DEPRECATED. Short for "tag/asset". Please use '--tag' and '--asset'
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
 REPO_SLUG=
-SLUG=
+TAG=
+ASSET=
 GH_TOKEN=
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --asset)
+            ASSET=$2
+            shift 2
+            ;;
         --repo-slug)
             REPO_SLUG=$2
             shift 2
             ;;
         --slug)
-            SLUG=$2
+            TAG="$(dirname "$2")"
+            ASSET="$(basename "$2")"
+            shift 2
+            ;;
+        --tag)
+            TAG=$2
             shift 2
             ;;
         --token)
@@ -53,19 +65,22 @@ done
     exit 1
 }
 
-[[ -n ${SLUG} ]] || {
-    echo_err "Please provide a --slug."
+[[ -n ${TAG} ]] || {
+    echo_err "Please provide a --tag."
+    exit 1
+}
+
+[[ -n ${ASSET} ]] || {
+    echo_err "Please provide a --asset."
     exit 1
 }
 
 if [[ -n ${GH_TOKEN} ]]; then
-    TAG=$(dirname ${SLUG})
-    FILE=$(basename ${SLUG})
     RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
     ASSETS_URL=$(curl -fqsS -H "authorization: token ${GH_TOKEN}" "${RELEASE_URL}" | \
         jq -r ".assets_url")
     ASSET_URL=$(curl -fqsS -H "authorization: token ${GH_TOKEN}" "${ASSETS_URL}" | \
-        jq -r ". | map(select(.name == \"${FILE}\"))[0].url")
+        jq -r ". | map(select(.name == \"${ASSET}\"))[0].url")
     [[ -n ${ASSET_URL} ]] || {
         echo_err "Couldn't find an asset ${SLUG} for repo ${REPO_SLUG}."
         exit 1
