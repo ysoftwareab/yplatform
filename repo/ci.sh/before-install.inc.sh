@@ -37,10 +37,11 @@ function sf_ga_checkout() {
 
 
 function sf_github_https() {
-    [[ -n "${GH_TOKEN:-}" ]] || return 0
+    SF_GITHUB_TOKEN=${SF_GITHUB_TOKEN:-${GH_TOKEN:-}}
+    [[ -n "${SF_GITHUB_TOKEN:-}" ]] || return 0
 
-    echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
-    echo -e "machine github.com\n  login ${GH_TOKEN}" >> ${HOME}/.netrc
+    echo_do "Found SF_GITHUB_TOKEN, setting up github.com HTTPS authentication..."
+    echo -e "machine github.com\n  login ${SF_GITHUB_TOKEN}" >> ${HOME}/.netrc
 
     # cover git submodules's canonical ssh url
     git config --global --replace-all url.https://github.com/.insteadOf git@github.com:
