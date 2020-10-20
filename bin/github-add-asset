@@ -1,0 +1,98 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- github-add-asset 1.0
+## Usage: github-add-asset [OPTION]
+## Upload a github release asset (aka binary).
+##
+##   --repo-slug    The github repository slug: account/repo
+##   --tag          The release tag
+##   --asset        The path to the asset
+##   --token        The OAuth Token
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_FILE}
+}
+trap on_exit EXIT
+
+REPO_SLUG=
+TAG=
+ASSET=
+GH_TOKEN=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --asset)
+            ASSET=$2
+            shift 2
+            ;;
+        --repo-slug)
+            REPO_SLUG=$2
+            shift 2
+            ;;
+        --tag)
+            TAG=$2
+            shift 2
+            ;;
+        --token)
+            GH_TOKEN=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+[[ -n ${REPO_SLUG} ]] || {
+    echo_err "Please provide a --repo-slug."
+    exit 1
+}
+
+[[ -n ${TAG} ]] || {
+    echo_err "Please provide a --tag."
+    exit 1
+}
+
+[[ -n ${ASSET} ]] || {
+    echo_err "Please provide a --asset."
+    exit 1
+}
+
+RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
+
+curl \
+    -fqsS \
+    -H "authorization: token ${GH_TOKEN}" \
+    -o ${TMP_FILE} \
+    "${RELEASE_URL}"
+echo
+
+UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+
+UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
+echo_info "Uploading ${ASSET}..."
+curl \
+    -fqsS \
+    -X POST \
+    -H "authorization: token ${GH_TOKEN}" \
+    -H "content-type: application/octet-stream" \
+    --data-binary @${ASSET} \
+    "${UPLOAD_ASSET_URL}"
+echo
