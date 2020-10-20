@@ -36,10 +36,10 @@ function sf_ga_checkout() {
 }
 
 
-function sf_private_submodules() {
     [[ -z "${GH_TOKEN:-}" ]] || {
         echo_do "Found GH_TOKEN, setting up github.com HTTPS authentication..."
         echo -e "machine github.com\n  login ${GH_TOKEN}" >> ${HOME}/.netrc
+function sf_github_https() {
 
         # cover git submodules's canonical ssh url
         git config --global --replace-all url.https://github.com/.insteadOf git@github.com:
@@ -173,7 +173,7 @@ function sf_pyenv_init() {
 
 
 function sf_ci_run_before_install() {
-    sf_private_submodules
+    sf_github_https
     sf_transcrypt
     sf_os
     sf_pyenv_init
