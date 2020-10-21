@@ -6,7 +6,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- github-create-release 1.0
 ## Usage: github-create-release [OPTION]
-## Create a github release with assets (aka binaries).
+## Create/Update a github release with assets (aka binaries).
 ##
 ##   --repo-slug    The github repository slug: account/repo
 ##   --tag          The release tag
@@ -101,6 +101,7 @@ done
 }
 
 RELEASES_URL="https://api.github.com/repos/${REPO_SLUG}/releases"
+RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
 
 NAME=${NAME:-${TAG}}
 BODY=${BODY:-${TAG}}
@@ -114,7 +115,20 @@ curl \
     -fqsS \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
-    -d "\
+    -o ${TMP_FILE} \
+    "${RELEASE_URL}" && EXISTS=true || EXISTS=false
+echo
+
+if [[ "${EXISTS}" = "true" ]]; then
+    RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
+    RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
+    UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+
+    curl \
+        -fqsS \
+        -X PATCH \
+        -H "authorization: token ${GH_TOKEN}" \
+        -d "\
 {
   \"tag_name\": \"${TAG}\",
   \"target_commitish\": \"${TARGET}\",
@@ -124,13 +138,32 @@ curl \
   \"prerelease\": ${PRERELEASE}
 }
 " \
-    -o ${TMP_FILE} \
-    "${RELEASES_URL}"
-echo
+        -o ${TMP_FILE} \
+        "${RELEASE_URL}"
+    echo
+else
+    curl \
+        -fqsS \
+        -X POST \
+        -H "authorization: token ${GH_TOKEN}" \
+        -d "\
+{
+  \"tag_name\": \"${TAG}\",
+  \"target_commitish\": \"${TARGET}\",
+  \"name\": ${NAME_AS_JSON},
+  \"body\": ${BODY_AS_JSON},
+  \"draft\": true,
+  \"prerelease\": ${PRERELEASE}
+}
+" \
+        -o ${TMP_FILE} \
+        "${RELEASES_URL}"
+    echo
 
-RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
-RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
-UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+    RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
+    RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
+    UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+fi
 
 for ASSET in ${ASSETS}; do
     [[ -s ${ASSET} ]] || {
