@@ -27,7 +27,9 @@ while [[ $# -gt 0 ]]; do
 done
 
 which nvm >/dev/null 2>&1 || {
-    BREW_NVM_DIR=$(brew --prefix nvm 2>/dev/null || true)
+    # using a less exact call because 'brew --prefix nvm' is very very slow
+    # BREW_NVM_DIR=$(brew --prefix nvm 2>/dev/null || true)
+    BREW_NVM_DIR=$(brew --prefix)/opt/nvm
     NVM_SH=
     [[ ! -f ${HOME}/.nvm/nvm.sh ]] || NVM_SH=${HOME}/.nvm/nvm.sh
     [[ ! -f ${XDG_CONFIG_HOME:-}/nvm/nvm.sh ]] || NVM_SH=${XDG_CONFIG_HOME}/nvm/nvm.sh

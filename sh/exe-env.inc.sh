@@ -43,7 +43,9 @@ if which brew >/dev/null 2>&1; then
 
     [ -n "${NVM_DIR:-}" ] || export NVM_DIR=${HOME}/.nvm
     type nvm >/dev/null 2>&1 || {
-        NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
+        # using a less exact call because 'brew --prefix nvm' is very very slow
+        # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
+        NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
         [ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
         unset NVM_INSTALLATION_DIR
     }
