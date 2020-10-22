@@ -24,3 +24,6 @@ if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
     CI_TAG=${GITHUB_REF#refs\/tags\/}
 fi
 export CI=true
+
+# see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
+brew tap | grep "^local/" | xargs brew untap
