@@ -12,9 +12,9 @@ set -euo pipefail
         ls -la /usr/local/bin/aws_completer
 
         cd /usr/local
-        cat aws-cli/.install-metada
+        cat aws-cli/.install-metadata
         # delete e.g. /usr/local/bin/aws
-        cat aws-cli/.install-metada | xargs -L1 sudo rm -f
+        cat aws-cli/.install-metadata | xargs -L1 sudo rm -f
         sudo rm -rf aws-cli # faster than the two lines below
         # pkgutil --only-files --files com.amazon.aws.cli2 | xargs -L1 sudo rm -f
         # pkgutil --only-dirs --files com.amazon.aws.cli2 | /usr/bin/tail -r | xargs -L1 sudo rmdir
