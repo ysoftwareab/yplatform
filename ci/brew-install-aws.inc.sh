@@ -8,6 +8,8 @@ set -euo pipefail
     # See https://github.com/rokmoln/support-firecloud/runs/1291359454
     pkgutil --pkgs | grep -q "^com\.amazon\.aws\.cli2" && HAS_AWSCLI_PKG=true || HAS_AWSCLI_PKG=false
     [[ "${HAS_AWSCLI_PKG}" = "false" ]] || (
+        ls -la /usr/local/bin/aws
+
         cd /usr/local
         pkgutil --only-files --files com.amazon.aws.cli2 | tr '\n' '\0' | xargs -n 1 -0 sudo rm -f
         pkgutil --only-dirs --files com.amazon.aws.cli2 | tail -r | tr '\n' '\0' | xargs -n 1 -0 sudo rmdir
