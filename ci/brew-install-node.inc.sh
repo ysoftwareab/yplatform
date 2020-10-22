@@ -2,7 +2,7 @@
 set -euo pipefail
 
 [[ ${GITHUB_ACTIONS:=} != "true" ]] || {
-    # Github ACtions CI already installs node@12 via homebrew,
+    # Github Actions CI already installs node@12 via homebrew,
     # which will make 'brew install node' to fail when linking.
     # See https://github.com/rokmoln/support-firecloud/runs/859398271
     for NODE_FORMULA in $(brew ls | grep -e "^node@"); do
