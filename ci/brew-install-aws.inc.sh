@@ -9,7 +9,9 @@ set -euo pipefail
     pkgutil --pkgs | grep -q "^com\.amazon\.aws\.cli2" && HAS_AWSCLI_PKG=true || HAS_AWSCLI_PKG=false
     [[ "${HAS_AWSCLI_PKG}" = "false" ]] || (
         ls -la /usr/local/bin/aws
+        ls -la /usr/local/bin/aws_completer
 
+        cd /usr/local
         pkgutil --only-files --files com.amazon.aws.cli2 | xargs -L1 sudo rm -f
         pkgutil --only-dirs --files com.amazon.aws.cli2 | /usr/bin/tail -r | xargs -L1 sudo rmdir
 
