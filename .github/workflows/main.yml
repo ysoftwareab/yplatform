@@ -45,9 +45,6 @@ jobs:
           sudo git -C $(brew --prefix)/Homebrew checkout HEAD .
           sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core status
           sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core checkout HEAD .
-          sudo ls -la /home/linuxbrew/.linuxbrew
-          sudo chown -R $(id -u):$(id -g) /home/linuxbrew/.linuxbrew
-          sudo ls -la /home/linuxbrew/.linuxbrew
         if: 'startsWith(matrix.os, ''ubuntu-'')'
       - name: Windows
         shell: bash
