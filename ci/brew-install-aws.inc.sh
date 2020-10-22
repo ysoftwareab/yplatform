@@ -12,11 +12,14 @@ set -euo pipefail
         ls -la /usr/local/bin/aws_completer
 
         cd /usr/local
-        pkgutil --only-files --files com.amazon.aws.cli2 | xargs -L1 sudo rm -f
-        pkgutil --only-dirs --files com.amazon.aws.cli2 | /usr/bin/tail -r | xargs -L1 sudo rmdir
+        cat aws-cli/.install-metada
+        # delete e.g. /usr/local/bin/aws
+        cat aws-cli/.install-metada | xargs -L1 sudo rm -f
+        sudo rm -rf aws-cli # faster than the two lines below
+        # pkgutil --only-files --files com.amazon.aws.cli2 | xargs -L1 sudo rm -f
+        # pkgutil --only-dirs --files com.amazon.aws.cli2 | /usr/bin/tail -r | xargs -L1 sudo rmdir
 
-        sudo rm /usr/local/bin/aws
-        sudo rm /usr/local/bin/aws_completer
+        sudo pkgutil --forget com.amazon.aws.cli2
     )
     unset HAS_AWSCLI_PKG
 }
