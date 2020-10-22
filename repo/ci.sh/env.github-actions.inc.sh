@@ -26,4 +26,6 @@ fi
 export CI=true
 
 # see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
-brew tap | grep "^local/" | xargs brew untap
+for BREW_TAP in $(brew tap | grep "^local/"); do
+    brew untap "${BREW_TAP}"
+done
