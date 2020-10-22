@@ -35,6 +35,14 @@ function bootstrap_brew() {
                 echo_skip "brew: Updating homebrew..."
             else
                 echo_do "brew: Updating homebrew..."
+
+                [[ ${GITHUB_ACTIONS:=} != "true" ]] || {
+                    # see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
+                    for BREW_TAP in $(brew tap | grep "^local/"); do
+                        brew untap "${BREW_TAP}"
+                    done
+                }
+
                 brew update >/dev/null
                 echo_done
             fi
