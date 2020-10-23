@@ -12,26 +12,34 @@ EOF
 )"
 brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
-
-(
-    set +u
-    source $(brew --prefix nvm)/nvm.sh --no-use
-
-    if [[ -f .nvmrc ]]; then
-        nvm install
-    else
-        nvm install node
-    fi
-    if nvm alias system | grep -q system; then
-        nvm reinstall-packages system
-    fi
-)
 echo_done
 
-echo_do "brew: Testing NVM packages..."
-(
+[[ ! -f .nvmrc ]] || (
     set +u
     source $(brew --prefix nvm)/nvm.sh --no-use
-    exe_and_grep_q "nvm --version | head -1" "^0\."
+
+    nvm install
+
+    if nvm list --no-colors | grep -q system; then
+        nvm reinstall-packages system
+
+        # the command above skips 'npm'
+        SYSTEM_NPM_VSN=$(nvm use system >/dev/null; npm --version)
+        cd ${NVM_DIR}/versions/node/$(node --version)/lib
+        npm install --global-style npm@${SYSTEM_NPM_VSN}
+        cd -
+    fi
 )
+
+[[ ! -f .nvmrc ]] || {
+    echo_info "Enabling NVM..."
+    set +u
+    source $(brew --prefix nvm)/nvm.sh --no-use
+
+    echo_info "Activating node $(cat .nvmrc) via NVM (as per .nvmrc)..."
+    nvm use
+}
+
+echo_do "brew: Testing NVM packages..."
+exe_and_grep_q "nvm --version | head -1" "^0\."
 echo_done
