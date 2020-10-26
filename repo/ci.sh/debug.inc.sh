@@ -8,6 +8,10 @@
     echo "  ./.ci.sh all"
     echo
     export CI_DEBUG_MODE=true
+
+    # export all functions $(e.g. nvm)
+    source <(declare -F | sed "s/^declare /export /g")
+
     # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
     PS1="\w\$ " bash
     exit 0
