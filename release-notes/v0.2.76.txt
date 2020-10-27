@@ -1,0 +1,47 @@
+support-firecloud v0.2.76 Release Notes
+
+Highlights since v0.2.75:
+
+* None
+
+Breaking commits since v0.2.75:
+
+* None
+
+Commits since v0.2.75:
+
+* 2074d6d 2020-10-27 node@15 with npm@7 is full of bugs. lock to node LTS (currently 14)
+* e65bfea 2020-10-26 add 'verbose/%' helper target
+* 4191486 2020-10-26 export all shell functions when entering debug mode (CI)
+* 5ae6236 2020-10-22 fixup! uninstall aws-cli pkg from github-actions
+* 194db23 2020-10-22 fixup! uninstall aws-cli pkg from github-actions
+* 5b18800 2020-10-22 fixup! uninstall aws-cli pkg from github-actions
+* d997401 2020-10-22 fixup! uninstall aws-cli pkg from github-actions
+* 28764de 2020-10-22 print aws symlink on github-actions
+* 98fcf5f 2020-10-22 uninstall aws-cli pkg from github-actions
+* 43af9c9 2020-10-22 typo
+* 9e14412 2020-10-22 fixup! workaround for github-actions homebrew. see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
+* ce1a85a 2020-10-22 fixup! increase verbosity for workarounds for github-actions and linuxbrew
+* 3ac24cd 2020-10-22 no need for chown workaround for github-actions and linuxbrew. see https://github.com/actions/virtual-environments/issues/1568#issuecomment-713848273
+* 1b6bc3c 2020-10-22 fixup! workaround for github-actions homebrew. see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
+* 16137b9 2020-10-22 workaround for github-actions homebrew. see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
+* 7002774 2020-10-22 increase verbosity for workarounds for github-actions and linuxbrew
+* b28aaee 2020-10-21 perf: replace $(brew --prefix nvm) with $(brew --prefix)/opt/nvm
+* c4f5a99 2020-10-21 github-create-release: update release if it already exists
+* aa157b7 2020-10-20 github-create-release: depreate --asset in favour of github-add-asset standalone
+* b5a01f0 2020-10-20 add github-add-asset
+* a023fc9 2020-10-20 github-get-asset: deprecate --slug in favour of --tag and --asset
+* 7d024bd 2020-10-20 increase verbosity when pushing images to docker registries
+* 0195a44 2020-10-20 document env vars for support-firecloud
+* f686aba 2020-10-20 document environment variables that customize the CI
+* ddb8c22 2020-10-20 allow $SF_GITHUB_TOKEN for github https, alternative to $GH_TOKEN
+* 3d7301a 2020-10-20 bouncer pattern
+* ff975c8 2020-10-20 allow custom transcrypt cipher via $TRANSCRYPT_CIPHER
+* 657f3da 2020-10-20 better naming
+* 17c1b2b 2020-10-20 document wrapping an existing phase implementation
+* 79fdd7b 2020-10-20 editorial
+* 519215a 2020-10-18 allow {SF_DOCKER_CI,DOCKER}_{USERNAME,TOKEN} as env vars to perform 'docker login' for using SF_DOCKER_CI_IMAGE
+* 31404d7 2020-10-18 increase verbosity
+* 65410ce 2020-10-13 retry 'brew update'
+* b495bae 2020-10-12 handle 'brew install <already-installed-but-not-linked-formula>'. https://github.com/rokmoln/support-firecloud/runs/1240870408?check_suite_focus=true#step:7:1400
+o 44dffd2 2020-10-12 0.2.75
