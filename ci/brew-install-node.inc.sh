@@ -72,6 +72,12 @@ EOF
     unset BREW_FORMULAE
     unset NODE_FORMULA
 
+    # TODO remove once we can use node@14 (or npm@6)
+    # see https://github.com/Homebrew/homebrew-core/pull/63410
+    brew unlink node
+    brew install ${SUPPORT_FIRECLOUD_DIR}/priv/node.rb || true
+    brew switch node 14.14.0
+
     # allow npm upgrade to fail on WSL; fails with EACCESS
     IS_WSL=$([[ -e /proc/version ]] && cat /proc/version | grep -q -e "Microsoft" && echo true || echo false)
     npm install --global --force npm@6 || ${IS_WSL}
