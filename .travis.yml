@@ -100,7 +100,7 @@ jobs:
 
     - &stage-osx-xcode11-3-dev
       stage: test-cron
-      name: "OSX High Sierra 10.14 (Xcode 11.3) with dev (common+) brew"
+      name: "OSX Mojave 10.14 (Xcode 11.3) with dev (common+) brew"
       os: osx
       osx_image: xcode11.3
       env: CACHE_NAME=osx-xcode11-3-dev SF_CI_BREW_INSTALL=dev
