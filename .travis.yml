@@ -58,7 +58,7 @@ stages:
   - name: test
     if: type IN (push, cron)
   - name: test-cron
-    if: type IN (cron)
+    if: type IN (cron) OR commit_message =~ /test\-cron/
   - name: test-pr
     if: type IN (pull_request)
   - name: publish
