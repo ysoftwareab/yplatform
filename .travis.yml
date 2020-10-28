@@ -105,6 +105,13 @@ jobs:
       osx_image: xcode11.3
       env: CACHE_NAME=osx-xcode11-3-dev SF_CI_BREW_INSTALL=dev
 
+    - &stage-osx-xcode12-dev
+      stage: test-cron
+      name: "OSX Catalina 10.15 (Xcode 12) with dev (common+) brew"
+      os: osx
+      osx_image: xcode12
+      env: CACHE_NAME=osx-xcode12-dev SF_CI_BREW_INSTALL=dev
+
     - &stage-wsl-linux-bionic-minimal
       stage: test-cron
       name: "Windows Server 1809 (WSL) with Linux Bionic 18.04 with minimal brew"
