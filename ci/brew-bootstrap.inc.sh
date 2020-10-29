@@ -48,7 +48,7 @@ function bootstrap_brew() {
             fi
             ;;
         false-Linux)
-            echo_do "brew: Installing linuxbrew..."
+            echo_do "brew: Installing homebrew..."
             if [[ "${SUDO}" = "" ]] || [[ "${SUDO}" = "sf_nosudo" ]]; then
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
@@ -67,7 +67,7 @@ function bootstrap_brew() {
                 echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
                 echo_skip "brew: Updating homebrew..."
             else
-                echo_do "brew: Updating linuxbrew..."
+                echo_do "brew: Updating homebrew..."
                 brew update >/dev/null
                 echo_done
             fi
