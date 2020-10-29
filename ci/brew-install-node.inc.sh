@@ -1,17 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[[ ${GITHUB_ACTIONS:=} != "true" ]] || {
-    # Github Actions CI already installs node@12 via homebrew,
-    # which will make 'brew install node' to fail when linking.
-    # See https://github.com/rokmoln/support-firecloud/runs/859398271
-    for NODE_FORMULA in $(brew ls | grep -e "^node@"); do
-        brew unlink ${NODE_FORMULA}
-    done
-    unset NODE_FORMULA
-}
-
-
 if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
     echo_skip "brew: Installing NodeJS packages..."
