@@ -25,13 +25,11 @@ cache:
     - $HOME/.local
     - $HOME/.npm
     # darwin
-    - $HOME/.homebrew
     - $HOME/Library/Caches/Homebrew
     - $HOME/Library/Caches/pip
     # linux
     - $HOME/.cache/Homebrew
     - $HOME/.cache/pip
-    - $HOME/.linuxbrew
     # windows
     - $HOME/AppData/Local/Temp/chocolatey
 

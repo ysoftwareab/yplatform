@@ -79,44 +79,9 @@ function bootstrap_brew() {
     esac
 }
 
-function bootstrap_brew_ci_cache() {
-    local HOMEBREW_PREFIX=$(brew --prefix)
-    local HOMEBREW_PREFIX_FULL=$(cd ${HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-    case $(uname -s) in
-        Darwin)
-            local CI_CACHE_HOMEBREW_PREFIX=${HOME}/.homebrew
-            ;;
-        Linux)
-            local CI_CACHE_HOMEBREW_PREFIX=${HOME}/.linuxbrew
-            ;;
-        *)
-            echo_err "brew: $(uname -s) is an unsupported OS."
-            return 1
-            ;;
-    esac
-    local CI_CACHE_HOMEBREW_PREFIX_FULL=$(cd ${CI_CACHE_HOMEBREW_PREFIX} 2>/dev/null && pwd || true)
-
-    [[ "${HOMEBREW_PREFIX_FULL}" != "${CI_CACHE_HOMEBREW_PREFIX_FULL}" ]] || return 0
-
-    echo_do "brew: Restoring cache..."
-    if [[ -d "${CI_CACHE_HOMEBREW_PREFIX}/Homebrew" ]]; then
-        echo_do "brew: Restoring ${HOMEBREW_PREFIX}/Homebrew..."
-        RSYNC_CMD="rsync -a --delete ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew/ ${HOMEBREW_PREFIX}/Homebrew/"
-        ${RSYNC_CMD} || {
-            exe ls -la ${CI_CACHE_HOMEBREW_PREFIX}/Homebrew || true
-            exe ls -la ${HOMEBREW_PREFIX}/Homebrew || true
-            ${RSYNC_CMD} --verbose
-        }
-        unset RSYNC_CMD
-        echo_done
-    fi
-    echo_done
-}
-
 bootstrap_brew
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 [[ "${CI}" != "true" ]] || {
-    bootstrap_brew_ci_cache
     brew_config
     [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || brew_update
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
