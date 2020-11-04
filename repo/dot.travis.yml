@@ -29,13 +29,11 @@ cache:
     - $HOME/.local
     - $HOME/.npm
     # darwin
-    - $HOME/.homebrew
     - $HOME/Library/Caches/Homebrew
     - $HOME/Library/Caches/pip
     # linux
     - $HOME/.cache/Homebrew
     - $HOME/.cache/pip
-    - $HOME/.linuxbrew
 
 # 5. Steps
 before_install: ./.ci.sh before_install

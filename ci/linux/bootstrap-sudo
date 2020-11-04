@@ -74,7 +74,6 @@ curl
 file
 git
 python3-minimal
-rsync
 uuid-runtime
 zlib1g-dev
 EOF
