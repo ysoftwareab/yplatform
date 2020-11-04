@@ -3,16 +3,8 @@ set -euo pipefail
 
 if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-    echo_skip "brew: Uninstall all packages..."
     echo_skip "brew: Installing CI packages..."
 else
-    echo_do "brew: Uninstall all packages..."
-    BREW_FORMULAE="$(brew list)"
-    [[ -z "${BREW_FORMULAE}" ]] || \
-        brew uninstall --ignore-dependencies --force ${BREW_FORMULAE}
-    unset BREW_FORMULAE
-    echo_done
-
     echo_do "brew: Installing CI packages..."
     # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
     BREW_FORMULAE="$(cat <<-EOF

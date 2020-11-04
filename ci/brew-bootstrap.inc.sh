@@ -18,9 +18,22 @@ function bootstrap_has_brew() {
 }
 
 function bootstrap_brew() {
+    local RAW_GUC_URL="https://raw.githubusercontent.com"
+    [[ "${CI}" != "true" ]] || {
+        if which brew >/dev/null 2>&1; then
+            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+                echo_skip "brew: Uninstalling homebrew..."
+            else
+                echo_do "brew: Uninstalling homebrew..."
+                </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/uninstall.sh)"
+                echo_done
+                hash -r
+            fi
+        fi
+    }
+
     local HAS_BREW_2=true
     bootstrap_has_brew || HAS_BREW_2=false
-    local RAW_GUC_URL="https://raw.githubusercontent.com"
 
     case ${HAS_BREW_2}-$(uname -s) in
         false-Darwin)
@@ -115,6 +128,7 @@ function bootstrap_brew_ci_cache() {
 
 bootstrap_brew
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
+
 [[ "${CI}" != "true" ]] || {
     bootstrap_brew_ci_cache
     brew_config
