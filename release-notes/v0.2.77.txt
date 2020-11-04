@@ -1,0 +1,34 @@
+support-firecloud v0.2.77 Release Notes
+
+Highlights since v0.2.76:
+
+* None
+
+Breaking commits since v0.2.76:
+
+* None
+
+Commits since v0.2.76:
+
+* 44c5239 2020-11-04 generalize commit messages for all stages
+*   02cdffb 2020-11-04 Merge pull request #208 from rokmoln/no-rsync
+|\
+| * d5bfb2d 2020-10-29 try removing homebrew cache (needs rsync)
+| * 2644b74 2020-10-29 try bootstrapping without rsync
+* |   2802557 2020-11-04 Merge pull request #206 from rokmoln/uninstall-homebrew
+|\ \
+| |/
+|/|
+| * 26e6ff1 2020-10-29 remove homebrew entirely in CI for a cleaner bootstrap
+* | 09a5f9e 2020-10-29 remove possibility to use TRAVIS_NODE_VERSION
+* | e40d512 2020-10-29 editorial: linuxbrew -> homebrew
+|/
+* 0221566 2020-10-28 install perl via apt on linux, if 'brew install perl' fails
+* d825ae4 2020-10-28 add ubuntu focal to travis
+* bfe54a0 2020-10-28 test-cron
+* c161fb8 2020-10-28 add ability to run cronjob stage triggered via commit message
+* 7a63bac 2020-10-28 github actions: test on bigsur
+* b77b7f8 2020-10-28 github actions: use specific macos/windows versions
+* 0ea8c86 2020-10-28 add xcode12/catalina on travis tests
+* aea43aa 2020-10-28 typo: macos 10.14 is mojave, not high sierra
+o 2c054fd 2020-10-27 0.2.76
