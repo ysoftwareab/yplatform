@@ -54,11 +54,11 @@ after_deploy: ./.ci.sh after_deploy
 
 stages:
   - name: test
-    if: type IN (push, cron)
+    if: type IN (push, cron) OR commit_message =~ /ci-push/
   - name: test-cron
-    if: type IN (cron) OR commit_message =~ /test\-cron/
+    if: type IN (cron) OR commit_message =~ /ci-cron/
   - name: test-pr
-    if: type IN (pull_request)
+    if: type IN (pull_request) OR commit_message =~ /ci-pull-request/
   - name: publish
     if: type IN (push) AND tag IS present
 
