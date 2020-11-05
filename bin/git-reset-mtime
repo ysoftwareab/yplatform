@@ -12,8 +12,8 @@ function repo-reset-mtime() {
             grep -Fvxf <(test -e .gitmodules && git config --file .gitmodules --get-regexp path | cut -d' ' -f2 || true) | \
             while read FILE; do
                 {
-                    TIMESTAMP="$(git log --pretty=format:%cd --date=format:%Y%m%d%H%M.%S -1 HEAD -- "${FILE}")"
-                    touch -h -m -t "${TIMESTAMP}" "${FILE}"
+                    TIMESTAMP="$(TZ=UTC git log --pretty=format:%cd --date=format-local:%Y%m%d%H%M.%S -1 HEAD -- "${FILE}")"
+                    TZ=UTC touch -h -m -t "${TIMESTAMP}" "${FILE}"
                 } &
             done
         [[ ! -e .gitmodules ]] || git config --file .gitmodules --get-regexp path | cut -d' ' -f2 | while read SUBMODULE; do
