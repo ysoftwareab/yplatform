@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#- is-wsl 1.0
+## Usage: is-wsl
+## Test if running under Windows Subsystem for Linux.
+
+uname | grep -q -i "linux" || exit 1
+
+# https://stackoverflow.com/a/57836260/465684
+[[ -n "${IS_WSL:-}" ]] && exit 0 || true
+
+# https://github.com/Microsoft/WSL/issues/423#issuecomment-221627364
+if [[ -e /proc/version ]]; then
+   cat /proc/version | grep -q -i "Microsoft\|WSL" && exit 0 || true
+fi
+
+# https://github.com/Microsoft/WSL/issues/423#issuecomment-221627364
+if [[ -e /proc/sys/kernel/osrelease ]]; then
+   cat /proc/sys/kernel/osrelease | grep -q -i "Microsoft\|WSL" && exit 0 || true
+fi
+
+command -v explorer.exe 2>/dev/null >&2 && exit 0 || true
+
+exit 1
