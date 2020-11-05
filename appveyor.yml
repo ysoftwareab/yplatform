@@ -19,6 +19,7 @@ init:
 install:
   - git submodule sync --recursive
   - git submodule update --init --recursive
+  - wsl bash -c "id -un; id -ug; ls -la"
   - wsl bash -c "cat /etc/os-release"
   - wsl bash -c "./.ci.sh before_install"
   - wsl bash -c "./.ci.sh install"
