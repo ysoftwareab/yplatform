@@ -33,7 +33,7 @@ ifeq (,$(CI))
 		$(ECHO_SKIP) "Resetting mtime based on git log..."
 else
 	$(ECHO_DO) "Resetting mtime based on git log..."
-	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
+	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime || true
 	$(ECHO_DONE)
 endif
 

@@ -3,6 +3,11 @@
 function repo-reset-mtime() {
     (
         cd $1
+	      [[ "$(git rev-parse --is-shallow-repository)" = "false" ]] || {
+            >&2 echo "[ERR ] Cannot call git-reset-mtime inside a shallow clone."
+            exit 1
+        }
+
         git ls-files | \
             grep -Fvxf <(test -e .gitmodules && git config --file .gitmodules --get-regexp path | cut -d' ' -f2 || true) | \
             while read FILE; do
