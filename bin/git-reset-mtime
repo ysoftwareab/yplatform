@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 #- git-reset-mtime 1.0
 ## Usage: git-reset-mtime
