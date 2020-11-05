@@ -15,7 +15,12 @@
 
 SF_DEPS_TARGETS += \
 	deps-git-submodules \
+
+ifeq (,$(CI))
+SF_DEPS_TARGETS += \
 	deps-git-reset-mtime \
+
+endif
 
 # ------------------------------------------------------------------------------
 
@@ -29,13 +34,9 @@ deps-git-submodules:
 
 .PHONY: deps-git-reset-mtime
 deps-git-reset-mtime:
-ifeq (,$(CI))
-		$(ECHO_SKIP) "Resetting mtime based on git log..."
-else
 	$(ECHO_DO) "Resetting mtime based on git log..."
 	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime || true
 	$(ECHO_DONE)
-endif
 
 
 .PHONY: deps
