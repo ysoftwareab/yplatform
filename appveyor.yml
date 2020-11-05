@@ -3,6 +3,7 @@ version: "{build}"
 branches:
   only:
     - master
+    - /appveyor.*/
 
 environment:
   SF_CI_BREW_INSTALL: minimal
