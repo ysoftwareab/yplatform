@@ -22,7 +22,7 @@ deps-git:
 	$(GIT) submodule sync --recursive
 	$(GIT) submodule update --init --recursive
 ifneq (,$(CI))
-	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
+	$(GIT) rev-parse --is-shallow-repository || $(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
 endif
 
 
