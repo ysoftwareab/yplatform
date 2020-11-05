@@ -26,4 +26,9 @@ function repo-reset-mtime() {
     )
 }
 
-repo-reset-mtime .
+git rev-parse --git-dir >/dev/null 2>&1 || {
+    echo >&2 "[ERR ] git-reset-mtime only works inside a git repo."
+    exit 1
+}
+
+repo-reset-mtime $(git rev-parse --show-toplevel)
