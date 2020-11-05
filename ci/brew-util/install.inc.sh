@@ -48,7 +48,7 @@ function brew_install_one_core() {
                 brew install --force ${FORMULA} || brew link --force --overwrite ${NAME}
             fi
             brew info --json=v1 ${NAME} | \
-                /usr/bin/python -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["linked_keg"] or "null")' | \
+                /usr/bin/python -c 'import sys,json;print("".join(json.load(sys.stdin)[0]["linked_keg"] or "null"))' | \
                 grep -q -v "^null$" || \
                 brew link --force --overwrite ${NAME}
             echo_done
@@ -70,7 +70,7 @@ function brew_install_one_core() {
         # is it already installed with the required options ?
         local USED_OPTIONS="$(brew info --json=v1 ${NAME} | \
             /usr/bin/python \
-                -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["installed"][0]["used_options"])' | \
+                -c 'import sys,json;print("".join(json.load(sys.stdin)[0]["installed"][0]["used_options"]))' | \
             xargs -n 1 | \
             sort -u || true)"
         local NOT_FOUND_OPTIONS="$(comm -23 <(echo "${OPTIONS}") <(echo "${USED_OPTIONS}"))"
@@ -98,7 +98,7 @@ function brew_install_one_core() {
     echo_do "brew: Installing ${FORMULA}..."
     brew install ${FORMULA}
     brew info --json=v1 ${NAME} | \
-        /usr/bin/python -c 'import sys,json;print "".join(json.load(sys.stdin)[0]["linked_keg"] or "null")' | \
+        /usr/bin/python -c 'import sys,json;print("".join(json.load(sys.stdin)[0]["linked_keg"] or "null"))' | \
         grep -q -v "^null$" || \
         brew link --force --overwrite ${NAME}
     echo_done
