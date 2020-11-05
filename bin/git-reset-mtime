@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+#- git-reset-mtime 1.0
+## Usage: git-reset-mtime
+## Reset mtimeDownload a github release asset (aka binary).
+
 function repo-reset-mtime() {
     (
         cd $1
