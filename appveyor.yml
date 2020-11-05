@@ -18,14 +18,14 @@ init:
 install:
   - git submodule sync --recursive
   - git submodule update --init --recursive
-  - wsl --user appveyor bash -c "cat /etc/os-release"
-  - wsl --user appveyor bash -c "./.ci.sh before_install"
-  - wsl --user appveyor bash -c "./.ci.sh install"
+  - wsl bash -c "cat /etc/os-release"
+  - wsl bash -c "./.ci.sh before_install"
+  - wsl bash -c "./.ci.sh install"
 
 # before_build:
 build_script:
-  - wsl --user appveyor bash -c "./.ci.sh before_script"
-  - wsl --user appveyor bash -c "./.ci.sh script"
+  - wsl bash -c "./.ci.sh before_script"
+  - wsl bash -c "./.ci.sh script"
 # after_build:
 
 # before_test:
@@ -33,11 +33,11 @@ build_script:
 # after_test:
 
 on_success:
-  - wsl --user appveyor bash -c "./.ci.sh after_success"
+  - wsl bash -c "./.ci.sh after_success"
 on_failure:
-  - wsl --user appveyor bash -c "./.ci.sh after_failure"
+  - wsl bash -c "./.ci.sh after_failure"
 on_finish:
-  - wsl --user appveyor bash -c "./.ci.sh after_script"
+  - wsl bash -c "./.ci.sh after_script"
 
 # before_deploy:
 # deply_script:
