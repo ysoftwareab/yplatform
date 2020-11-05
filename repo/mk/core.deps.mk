@@ -6,23 +6,35 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds an internal 'deps-git' target will
-# - install git submodules
-# - reset file modification time to last-commit time
+# Adds an internal 'deps-git-submodules' target that will sync git submodules.
+#
+# Adds an internal 'deps-git-reset-mtime' target that will
+# reset file modification time to last-commit time.
 #
 # ------------------------------------------------------------------------------
 
 SF_DEPS_TARGETS += \
-	deps-git \
+	deps-git-submodules \
+	deps-git-reset-mtime \
 
 # ------------------------------------------------------------------------------
 
-.PHONY: deps-git
-deps-git:
+.PHONY: deps-git-submodules
+deps-git-submodules:
+	$(ECHO_DO) "Syncing git submodules..."
 	$(GIT) submodule sync --recursive
 	$(GIT) submodule update --init --recursive
-ifneq (,$(CI))
-	$(GIT) rev-parse --is-shallow-repository || $(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
+	$(ECHO_DONE)
+
+
+.PHONY: deps-git-reset-mtime
+deps-git-reset-mtime:
+ifeq (,$(CI))
+		$(ECHO_SKIP) "Resetting mtime based on git log..."
+else
+	$(ECHO_DO) "Resetting mtime based on git log..."
+	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime
+	$(ECHO_DONE)
 endif
 
 
