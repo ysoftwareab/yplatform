@@ -79,14 +79,9 @@ function fallback_echo() {
 }
 
 function basic_travis_echo() {
-    # local ANSI_RED="\033[31;1m"
-    # local ANSI_GREEN="\033[32;1m"
-    # local ANSI_RESET="\033[0m"
-    local ANSI_CLEAR_LINE="\033[0K"
-
     local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set +x
-    echo -en "$@\\r${ANSI_CLEAR_LINE}"
+    echo "$@"
     eval "${XTRACE_STATE}"
 }
 
