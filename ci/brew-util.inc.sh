@@ -21,7 +21,7 @@ function brew_brewfile_inc_sh() {
     echo_info "Running 'force_brew_update' will make the system unpredictable."
     eval "force_$(declare -f brew_update)"
     eval "brew_update() { \
-        echo \"[ERR ] Updating HomeBrew will make the system unpredictable.\"; \
+        echo \"[ERR ] Updating Homebrew will make the system unpredictable.\"; \
         echo \"[INFO] Call 'force_brew_update' if you really need to, instead of 'brew_update'.\"; \
         exit 1; \
     }"
