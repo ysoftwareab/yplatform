@@ -78,7 +78,7 @@ jobs:
           git config --global core.autocrlf false
           git config --global core.eol lf
           # why --ignore-checksum? see https://chocolatey.org/packages/wsl-ubuntu-1804#comment-5026624059
-          choco install wsl-ubuntu-1804 --no-progress --ignore-checksum
+          choco install wsl-ubuntu-1804 --yes --no-progress --ignore-checksum
           wsl bash -c "cat /etc/os-release"
           wsl bash -c "sudo addgroup --gid 2000 github"
           wsl bash -c "sudo adduser --uid 2000 --ingroup github --home /home/github --shell /bin/bash --disabled-password --gecos \"\" github"
