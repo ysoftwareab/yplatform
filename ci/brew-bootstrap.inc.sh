@@ -97,7 +97,13 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 
 [[ "${CI}" != "true" ]] || {
     brew_config
-    [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || brew_update
+    [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || {
+        if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
+            brew_lockfile
+        else
+            brew_update
+        fi
+    }
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
 }
 
