@@ -59,7 +59,7 @@ function fallback_echo() {
             local GROUP_DURATION=0
 
             [[ -n "${GROUP}" ]] || {
-                GROUP_MARKER=$(ls -t /tmp/ci_echo_fallback_block_* | head -n1 2>/dev/null || true)
+                GROUP_MARKER=$(ls -t /tmp/ci_echo_fallback_block_* 2>/dev/null | head -n1 || true)
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_START=$(${ANY_PYTHON} -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
@@ -106,7 +106,7 @@ function travis_echo() {
             local GROUP_DURATION=0
 
             [[ -n "${GROUP}" ]] || {
-                GROUP_MARKER=$(ls -t /tmp/ci_echo_travis_fold_* | head -n1 2>/dev/null || true)
+                GROUP_MARKER=$(ls -t /tmp/ci_echo_travis_fold_* 2>/dev/null | head -n1 || true)
                 [[ ! -f ${GROUP_MARKER} ]] || {
                     PWD_GROUP=$(cat ${GROUP_MARKER})
                     GROUP_START=$(${ANY_PYTHON} -c "import os.path; print('%i' % os.path.getmtime('${GROUP_MARKER}'))" 2>/dev/null || echo ${GROUP_START})
