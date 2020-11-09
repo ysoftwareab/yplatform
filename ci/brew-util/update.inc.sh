@@ -53,6 +53,7 @@ function brew_lockfile() {
                     continue
                     ;;
                 linux-homebrew/linuxbrew-core)
+                    echo_info "'homebrew/homebrew-core' is an alias for 'homebrew/linuxbrew-core' on $(OS_SHORT)."
                     TAP=homebrew/homebrew-core
                     ;;
             esac
