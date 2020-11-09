@@ -5,3 +5,8 @@ set -euo pipefail
 
 # https://github.com/microsoft/WSL/issues/4547#issuecomment-539824601
 cmd.exe /c "pushd $(wslpath -w "$(pwd)") && $@"
+
+# NOTE alternatively:
+# sudo apt-get install binfmt-support
+# sudo update-binfmts --install WindowsBat /init --extension bat
+# sudo update-binfmts --install WindowsCmd /init --extension cmd
