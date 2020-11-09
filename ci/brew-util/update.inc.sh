@@ -12,13 +12,13 @@ function brew_lockfile() {
     echo_info "Found a ${BREWFILE_LOCK}:"
     cat ${BREWFILE_LOCK}
 
-    local BREW_REMOTE=$(git -C "$(brew --prefix)/Homebrew" remote get-url origin)
-    echo_info "Homebrew remote: ${BREW_REMOTE}."
-
     local BREW_FROM=$(git -C "$(brew --prefix)/Homebrew" rev-list -1 HEAD)
-    local BREW_TO=$(cat "${BREWFILE_LOCK}" | grep "^${BREW_REMOTE} " | cut -d" " -f2 || true)
-    [[ -z "${BREW_TO}" ]] || {
-        local BREW_SHALLOW_SINCE=$(cat "${BREWFILE_LOCK}" | grep "^${BREW_REMOTE} " | cut -d" " -f3-)
+    local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^brew " || true)
+    if [[ -z "${BREW_LOCK}" ]]; then
+        echo_skip "Resetting Homebrew..."
+    else
+        local BREW_TO=$(echo "${BREW_LOCK}" | cut -d" " -f2)
+        local BREW_SHALLOW_SINCE=$(echo "${BREW_LOCK}" | cut -d" " -f3-)
 
         echo_do "Resetting Homebrew..."
         echo_info "Resetting Homebrew from ${BREW_FROM} to ${BREW_TO}."
@@ -30,17 +30,14 @@ function brew_lockfile() {
         echo_info "from $(git -C "$(brew --prefix)/Homebrew" log -1 --format="%cd" "${BREW_FROM}") ${BREW_FROM}"
         echo_info "to   $(git -C "$(brew --prefix)/Homebrew" log -1 --format="%cd" "${BREW_TO}") ${BREW_TO}"
         echo_done
-    }
+    fi
 
     (
         cd "$(brew --prefix)/Homebrew/Library/Taps"
-        cat ${BREWFILE_LOCK} | grep -v "^${BREW_REMOTE} " | while read -r BREW_TAP_LOCK; do
-            TAP_REMOTE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
+        cat ${BREWFILE_LOCK} | grep -v "^brew " | while read -r BREW_TAP_LOCK; do
+            TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
             TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2)
             TAP_SHALLOW_SINCE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f3-)
-
-            TAP=$(basename $(dirname "${TAP_REMOTE}"))/$(basename "${TAP_REMOTE}")
-            TAP=$(echo "${TAP}" | tr "A-Z" "a-z")
 
             case ${OS_SHORT}-${TAP} in
                 darwin-homebrew/linuxbrew-core)
