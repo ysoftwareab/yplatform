@@ -94,7 +94,9 @@ currently described at https://docs.travis-ci.com/user/job-lifecycle/ .
   * see [repo/ci.sh/before-install.inc.sh](../repo/ci.sh/before-install.inc.sh)
   * maybe run the Docker container for Travis CI. See [integrate-travis-ci.md#docker](integrate-travis-ci.md#docker)
   * check out code (including git submodules)
-  * bootstrap the CI agent with system dependencies as instructed via `Brewfile.inc.sh`
+  * bootstrap the CI agent with system dependencies as instructed via `Brewfile.lock` and `Brewfile.inc.sh`
+    * `Brewfile.lock` has `<giturl> <commitish> <date of commit-ish to fetch>` lines
+    * `Brewfile.inc.sh` can call any commands, but `brew_install` is preferred, to install system dependencies
 * `install`
   * see [repo/ci.sh/install.inc.sh](../repo/ci.sh/install.inc.sh)
   * equivalent to running `make deps`

@@ -21,6 +21,7 @@ SF_PATH_FILES_IGNORE += \
 SF_PATH_FILES_IGNORE += \
 	-e "^.github/" \
 	-e "^Brewfile.inc.sh$$" \
+	-e "^Brewfile.lock$$" \
 
 SF_PATH_FILES_IGNORE += \
 	-e "^AUTHORS$$" \
