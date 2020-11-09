@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# execute cmd/bat files from inside Windows Subsystem for Linux
+
+# https://github.com/microsoft/WSL/issues/4547#issuecomment-539824601
+cmd.exe /c "pushd $(wslpath -w "$(pwd)") && $@"
