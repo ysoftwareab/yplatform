@@ -76,7 +76,6 @@ function brew_lockfile() {
             echo_done
         done
     )
-    echo_done
 }
 
 function brew_update() {
