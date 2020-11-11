@@ -169,7 +169,6 @@ case $1 in
         ;;
     "[DONE]")
         REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
-        PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         GROUP_FINISH=$(date +%s)
         GROUP_START=${GROUP_FINISH}
@@ -186,6 +185,11 @@ case $1 in
 
                 echo "${GROUP_START} ${GROUP_DURATION} ${PWD_GROUP}" >> ${BENCHMARK}
             }
+        }
+
+        [[ -n "${PWD_GROUP:-}" ]] || {
+            >&2 echo "[ERR ] Looks like you've called 'ci-echo [DONE]' without calling 'ci-echo [DO  ]' first."
+            exit 1
         }
         ;;
 esac
