@@ -164,18 +164,21 @@ case $1 in
         REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
         PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
-        GROUP_MARKER=/tmp/ci_echo_group_${GROUP_START}_${RANDOM}
+        # GROUP_MARKER=/tmp/ci-echo-group-${PWD_GROUP}-${GROUP_START}_${RANDOM}
+        GROUP_MARKER=/tmp/ci-echo-group-${GROUP_START}-${RANDOM}
         echo -en "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
         ;;
     "[DONE]")
         REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
+        # PWD_GROUP_PREFIX="$(echo "${REL_PWD}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         GROUP_FINISH=$(date +%s)
         GROUP_START=${GROUP_FINISH}
         GROUP_DURATION=0
 
         [[ -n "${GROUP}" ]] || {
-            GROUP_MARKER=$(ls -t /tmp/ci_echo_group_* 2>/dev/null | head -n1 || true)
+            # GROUP_MARKER=$(ls -t /tmp/ci-echo-group-${PWD_GROUP_PREFIX}-* 2>/dev/null | head -n1 || true)
+            GROUP_MARKER=$(ls -t /tmp/ci-echo-group-* 2>/dev/null | head -n1 || true)
             [[ ! -f ${GROUP_MARKER} ]] || {
                 GROUP_START=$(cat ${GROUP_MARKER} | sed -n "1,1 p")
                 GROUP=$(cat ${GROUP_MARKER} | sed -n "2,2 p")
