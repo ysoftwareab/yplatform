@@ -8,11 +8,19 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: ci-echo STEP TEXT...
 ## Echo message with a STEP indicator for stdout or for TeamCity/Travis consumption.
 ##
+##   --benchmark    Benchmark file to use for benchmarking groups (DO-DONE durations).
+##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+BENCHMARK=/dev/null
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --benchmark)
+            BENCHMARK=$2
+            shift 2
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -173,6 +181,8 @@ case $1 in
                 PWD_GROUP=$(cat ${GROUP_MARKER} | sed -n "3,3 p")
                 GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
                 rm -f ${GROUP_MARKER}
+
+                echo "${GROUP_START} ${GROUP_DURATION} ${PWD_GROUP}" >> ${BENCHMARK}
             }
         }
 
