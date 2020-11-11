@@ -34,17 +34,21 @@ ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 
 function fallback_echo() {
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
-    local GROUP="${@:2}"
-    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
+    case $1 in
+        "[DO  ]"|"[DONE]")
+            local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
+            local GROUP="${@:2}"
+            local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
-    local COLOR_DIM="\e[2m"
-    local COLOR_RESET="\e[0m"
+            local COLOR_DIM="\e[2m"
+            local COLOR_RESET="\e[0m"
 
-    [[ "${CI}" != "true" ]] || {
-        COLOR_DIM=
-        COLOR_RESET=
-    }
+            [[ "${CI}" != "true" ]] || {
+                COLOR_DIM=
+                COLOR_RESET=
+            }
+            ;;
+    esac
 
     case $1 in
         "[DO  ]")
@@ -86,9 +90,13 @@ function basic_travis_echo() {
 }
 
 function travis_echo() {
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
-    local GROUP="${@:2}"
-    local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
+    case $1 in
+        "[DO  ]"|"[DONE]")
+            local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
+            local GROUP="${@:2}"
+            local PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
+            ;;
+    esac
 
     case $1 in
         "[DO  ]")
@@ -136,11 +144,15 @@ function basic_teamcity_echo() {
 }
 
 function teamcity_echo() {
-    local STATUS=NORMAL
-    local STEP="$1"
-    local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
     local MESSAGE="$(echo "${@:2}" | sed "s/'/|'/")"
-    local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
+    local STATUS=NORMAL
+
+    case $1 in
+        "[DO  ]"|"[DONE]")
+            local REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
+            local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
+            ;;
+    esac
 
     case $1 in
         "[NEXT]")
