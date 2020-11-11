@@ -9,7 +9,8 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
 export PATH
 
-CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo
+CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(CI_ECHO_BENCHMARK)
+CI_ECHO_BENCHMARK ?= /dev/null
 include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
 
 SF_COMMIT =
