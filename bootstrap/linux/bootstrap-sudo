@@ -56,7 +56,7 @@ dpkg-reconfigure locales
 echo_done
 
 if [[ "${CI:-}" != "true" ]]; then
-  echo_skip "Setup NTP to improve date-time sync..."
+    echo_skip "Setup NTP to improve date-time sync..."
 else
     echo_do "Setup NTP to improve date-time sync..."
     (
