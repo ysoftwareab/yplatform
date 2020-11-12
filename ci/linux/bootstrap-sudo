@@ -37,19 +37,25 @@ function apt_install() {
     done 3< <(echo "$@")
 }
 
+echo_do "Setup aptitude..."
 apt_install software-properties-common
 apt_update
 apt-add-repository -y -u ppa:git-core/ppa
+echo_done
 
+echo_do "Setup debconf-utils..."
 export DEBIAN_FRONTEND=noninteractive
 apt_install debconf-utils
 echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
+echo_done
 
+echo_do "Setup locales..."
 apt_install locales
 locale-gen en_US en_US.UTF-8
 dpkg-reconfigure locales
+echo_done
 
-# improve date-time (ntp) sync
+echo_do "Setup NTP to improve date-time sync..."
 (
     # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
     ln -sf /usr/share/zoneinfo/UTC /etc/localtime
@@ -63,6 +69,7 @@ dpkg-reconfigure locales
     # test that ntpd is working
     ntpq -p
 ) || true
+echo_done
 
 # Basic
 echo_do "aptitude: Installing basic packages..."
