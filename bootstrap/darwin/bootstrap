@@ -8,10 +8,10 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_info "SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
     echo_skip "ci/darwin/bootstrap-sudo"
     echo_skip "source ci/brew-bootstrap.inc.sh"
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 else
-    ${SUPPORT_FIRECLOUD_DIR}/ci/darwin/bootstrap-sudo
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
+    ${SUPPORT_FIRECLOUD_DIR}/bootstrap/darwin/bootstrap-sudo
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
 fi
 
 brew_brewfile_inc_sh

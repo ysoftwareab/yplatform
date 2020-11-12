@@ -139,7 +139,7 @@ function sf_os() {
     echo_info "${FUNCNAME[0]}: SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-}"
     echo_info "${FUNCNAME[0]}: SF_PRINTENV_BOOTSTRAP=${SF_PRINTENV_BOOTSTRAP:-}"
 
-    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap"
+    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/bootstrap/${OS_SHORT}/bootstrap"
 
     if [[ "${SF_LOG_BOOTSTRAP:-}" = "true" ]]; then
         sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}

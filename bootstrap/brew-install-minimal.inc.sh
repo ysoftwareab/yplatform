@@ -6,8 +6,8 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_skip "brew: Installing minimal packages..."
 else
     echo_do "brew: Installing minimal packages..."
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-core.inc.sh
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-gnu.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-gnu.inc.sh
 
     # installing perl for performance reasons, since it takes a very long time to install via homebrew,
     # and quite a few formulas require it

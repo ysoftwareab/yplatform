@@ -9,7 +9,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
     exit 1
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 
 SF_SKIP_COMMON_BOOTSTRAP=true brew_brewfile_inc_sh
 

@@ -14,22 +14,22 @@ if git config --local transcrypt.version >/dev/null; then
 fi
 set +a
 
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/debug.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/debug.inc.sh
 
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-install.pre.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-install.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/install.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-script.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/script.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-cache.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/after-success.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/after-failure.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/before-deploy.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/deploy.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/after-deploy.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/after-script.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.pre.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/install.inc.sh
+# source ${SUPPORT_FIRECLOUD_DIR}/ci/before-script.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/script.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/before-cache.inc.sh
+# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-success.inc.sh
+# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-failure.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/before-deploy.inc.sh
+# source ${SUPPORT_FIRECLOUD_DIR}/ci/deploy.inc.sh
+# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-deploy.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/after-script.inc.sh
 
-source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/notifications.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/notifications.inc.sh
 
 
 function sf_ci_run() {
@@ -85,10 +85,10 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
 }
 
-[[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.travis-ci.inc.sh
-[[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.circle-ci.inc.sh
-[[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.github-actions.inc.sh
-[[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.codeship.inc.sh
-[[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/repo/ci.sh/env.gitlab.inc.sh
+[[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.travis-ci.inc.sh
+[[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.circle-ci.inc.sh
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.github-actions.inc.sh
+[[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.codeship.inc.sh
+[[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
 
 [[ -z "$*" ]] || sf_ci_run $@

@@ -4,7 +4,7 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 
 function bootstrap_has_brew() {
     if which brew >/dev/null 2>&1; then
@@ -104,7 +104,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
             brew_update
         fi
     }
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-ci.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-ci.inc.sh
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh

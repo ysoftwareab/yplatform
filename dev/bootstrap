@@ -38,7 +38,7 @@ else
 fi
 
 # Execute the OS specific boostrap process.
-${SUPPORT_FIRECLOUD_DIR}/ci/${OS_SHORT}/bootstrap
+${SUPPORT_FIRECLOUD_DIR}/bootstrap/${OS_SHORT}/bootstrap
 
 # Offer to upgrade users login shell to homebrew's bash.
 ${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash

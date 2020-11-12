@@ -6,8 +6,8 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_skip "brew: Installing common packages..."
 else
     echo_do "brew: Installing common packages..."
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-minimal.inc.sh
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-node.inc.sh
-    source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-install-docker.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-minimal.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-docker.inc.sh
     echo_done
 fi
