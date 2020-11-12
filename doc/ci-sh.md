@@ -55,6 +55,9 @@ either write a `ci_run_<phase>` function in `.ci.sh` as mentioned above, or set 
 Here's a list of the environment variables that customize the code execution:
 
 * **BOOTSTRAP**
+  * `SUDO`
+    * set to `sf_nosudo` to bootstrap without sudo
+    * set to a custom `sudo` executable path
   * `SF_LOG_BOOTSTRAP`
     * set to `true` to enable printing the whole bootstrap log which is hidden by default
   * `SF_PRINTENV_BOOTSTRAP`
