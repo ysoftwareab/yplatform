@@ -121,14 +121,18 @@ function github_actions_echo() {
         "[DO  ]")
             >&2 echo
             >&2 echo -e "$(date +"%H:%M:%S") $1 ${GROUP}"
-            echo "::group::${PWD_GROUP}"
+            # FIXME nesting doesn't work properly
+            # see https://github.com/actions/runner/issues/802
+            # echo "::group::${PWD_GROUP}"
             >&2 echo -e "              > ${PWD_GROUP}"
             >&2 echo
             ;;
         "[DONE]")
             >&2 echo
             >&2 echo -e "              < ${PWD_GROUP}"
-            echo "::endgroup::"
+            # FIXME nesting doesn't work properly
+            # see https://github.com/actions/runner/issues/802
+            # echo "::endgroup::"
             >&2 echo -e "$(date +"%H:%M:%S") $1 ${GROUP}"
             >&2 echo -e "                in ${GROUP_DURATION} seconds"
             >&2 echo
