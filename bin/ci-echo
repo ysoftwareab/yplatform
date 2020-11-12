@@ -75,9 +75,6 @@ function fallback_echo() {
 }
 
 function basic_travis_echo() {
-    # FIXME stdout and stderr seems dephased in Travis running under WSL
-    [[ "${IS_WSL}" = "false" ]] || return 0
-
     # local ANSI_RED="\033[31;1m"
     # local ANSI_GREEN="\033[32;1m"
     # local ANSI_RESET="\033[0m"
@@ -247,7 +244,6 @@ case $1 in
 esac
 
 if [[ "${TRAVIS:-}" = "true" ]]; then
-    IS_WSL=$(${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl && echo true || echo false)
     travis_echo "$1" "${GROUP}"
 elif [[ -n "${GITHUB_ACTIONS:-}" ]]; then
     github_actions_echo "$1" "${GROUP}"
