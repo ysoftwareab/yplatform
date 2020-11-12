@@ -55,21 +55,25 @@ locale-gen en_US en_US.UTF-8
 dpkg-reconfigure locales
 echo_done
 
-echo_do "Setup NTP to improve date-time sync..."
-(
-    # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
-    ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-    apt_install tzdata
-    dpkg-reconfigure tzdata
+if [[ "${CI:-}" != "true" ]]; then
+  echo_skip "Setup NTP to improve date-time sync..."
+else
+    echo_do "Setup NTP to improve date-time sync..."
+    (
+        # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
+        ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+        apt_install tzdata
+        dpkg-reconfigure tzdata
 
-    if which -a timedatectl; then
-        timedatectl set-ntp no || true
-    fi
-    apt_install ntp
-    # test that ntpd is working
-    ntpq -p
-) || true
-echo_done
+        if which -a timedatectl; then
+            timedatectl set-ntp no || true
+        fi
+        apt_install ntp
+        # test that ntpd is working
+        ntpq -p
+    ) || true
+    echo_done
+fi
 
 # Basic
 echo_do "aptitude: Installing basic packages..."

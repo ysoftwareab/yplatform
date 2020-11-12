@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+if [[ "${EUID}" != "0" ]]; then
+    # Restart this shell script as root.
+    ${SUDO} ${BASH_SOURCE[0]}
+    exit 0
+fi
+
+if [[ "${CI:-}" != "true" ]]; then
+  echo_skip "Setup NTP to improve date-time sync..."
+else
+  echo_do "Setup NTP to improve date-time sync..."
+  (
+    touch /var/db/ntp-kod
+    chown root:wheel /var/db/ntp-kod
+    sntp -sS time.apple.com
+  ) || true
+  echo_done
+fi
