@@ -103,14 +103,14 @@ function travis_echo() {
         "[DONE]")
             >&2 echo
             >&2 echo -e "              < ${PWD_GROUP}"
-            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
-            >&2 echo "$(date +"%H:%M:%S")        in ${GROUP_DURATION} seconds"
 
             # 000000000 suffix means "in nanoseconds"
             basic_travis_echo "travis_time:end:${PWD_GROUP}:start=${GROUP_START}000000000,finish=${GROUP_FINISH}000000000,duration=${GROUP_DURATION}000000000"
             basic_travis_echo "travis_fold:end:${PWD_GROUP}"
             echo
 
+            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+            >&2 echo "$(date +"%H:%M:%S")        in ${GROUP_DURATION} seconds"
             >&2 echo
             ;;
         *)
