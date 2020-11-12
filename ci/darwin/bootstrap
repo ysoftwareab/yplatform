@@ -4,23 +4,23 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-if [[ "${CI:-}" != "true" ]]; then
-    echo_skip "Setup NTP to improve date-time sync..."
-else
-    echo_do "Setup NTP to improve date-time sync..."
-    (
-        ${SUDO} touch /var/db/ntp-kod
-        ${SUDO} chown root:wheel /var/db/ntp-kod
-        ${SUDO} sntp -sS time.apple.com
-    ) || true
-    echo_done
-fi
-
 if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_info "SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-    echo_skip "ci/brew-bootstrap.inc.sh"
+    echo_skip "source ci/brew-bootstrap.inc.sh"
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-util.inc.sh
 else
+    if [[ "${CI:-}" != "true" ]]; then
+        echo_skip "Setup NTP to improve date-time sync..."
+    else
+        echo_do "Setup NTP to improve date-time sync..."
+        (
+            ${SUDO} touch /var/db/ntp-kod
+            ${SUDO} chown root:wheel /var/db/ntp-kod
+            ${SUDO} sntp -sS time.apple.com
+        ) || true
+        echo_done
+    fi
+
     source ${SUPPORT_FIRECLOUD_DIR}/ci/brew-bootstrap.inc.sh
 fi
 
