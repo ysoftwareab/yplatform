@@ -4,10 +4,6 @@ set -euo pipefail
 CI=${CI:-}
 [[ "${CI}" != "1" ]] || CI=true
 
-# CIs have issues keeping stdout and stderr in sync because they parse the streams
-# e.g. to mask secret values
-[[ "${CI}" != "true" ]] || exec 2>&1
-
 V=${V:-${VERBOSE:-}}
 VERBOSE=${V}
 [[ "${VERBOSE}" != "1" ]] || VERBOSE=true

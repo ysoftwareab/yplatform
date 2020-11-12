@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+# CIs have issues keeping stdout and stderr in sync because they parse the streams
+# e.g. to mask secret values
+exec 2>&1
+
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
