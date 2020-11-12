@@ -119,6 +119,37 @@ function travis_echo() {
     esac
 }
 
+function github_actions_echo() {
+    case $1 in
+        "[DO  ]")
+            >&2 echo
+            >&2 echo -e "$(date +"%H:%M:%S") $1 ${GROUP}"
+            echo "::group::${PWD_GROUP}"
+            >&2 echo -e "              > ${PWD_GROUP}"
+            >&2 echo
+            ;;
+        "[DONE]")
+            >&2 echo
+            >&2 echo -e "              < ${PWD_GROUP}"
+            echo "::endgroup::"
+            >&2 echo -e "$(date +"%H:%M:%S") $1 ${GROUP}"
+            >&2 echo -e "                in ${GROUP_DURATION} seconds"
+            >&2 echo
+            ;;
+        "[WARN]")
+            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+            echo "::warning::${GROUP}"
+            ;;
+        "[ERR ]")
+            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+            echo "::error::${GROUP}"
+            ;;
+        *)
+            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+            ;;
+    esac
+}
+
 function basic_teamcity_echo() {
     local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set +x
@@ -218,6 +249,8 @@ esac
 if [[ "${TRAVIS:-}" = "true" ]]; then
     IS_WSL=$(${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl && echo true || echo false)
     travis_echo "$1" "${GROUP}"
+elif [[ -n "${GITHUB_ACTIONS:-}" ]]; then
+    github_actions_echo "$1" "${GROUP}"
 elif [[ -n "${TEAMCITY_VERSION:-}" ]]; then
     teamcity_echo "$1" "${GROUP}"
 else
