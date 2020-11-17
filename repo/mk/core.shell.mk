@@ -33,4 +33,4 @@ shell/tmate:
 	$(TMATE) -S $(TMATE_SOCKET) new-session -d "$(SHELL) -l"
 	$(TMATE) -S $(TMATE_SOCKET) wait tmate-ready
 	$(TMATE) -S $(TMATE_SOCKET) display -p "#{tmate_ssh}"
-	while test -e $(TMATE_SOCKET) && $(TMATE) -S $(TMATE_SOCKET) has-session; do sleep 1; done
+	while $(TEST) -e $(TMATE_SOCKET) && $(TMATE) -S $(TMATE_SOCKET) has-session; do $(SLEEP) 1; done

@@ -19,7 +19,7 @@ _publish:
 _release:
 	@$(ECHO_DO) "Release new $(PKG_VSN_NEW) version..."
 	$(MAKE) nuke all test version/v$(PKG_VSN_NEW) _publish
-	sleep 15 # allow CI to pick the new tag first
+	$(SLEEP) 15 # allow CI to pick the new tag first
 	$(GIT) fetch
 #	if upstream diverged, create merge commit or else 'git push' fails
 	[[ $$($(GIT) rev-list --count HEAD..@{u}) = 0 ]] || { \
