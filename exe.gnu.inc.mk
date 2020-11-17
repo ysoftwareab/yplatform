@@ -37,7 +37,12 @@ RM = $(call which,RM,grm rm) -rf
 SED = $(call which,SED,gsed sed)
 SEQ = $(call which,SEQ,gseq seq)
 SHA256SUM = $(call which,SHA256SUM,gsha256sum sha256sum)
+SLEEP = $(call which,SLEEP,gsleep sleep)
 SORT = $(call which,SORT,gsort sort)
+$(foreach VAR,READLINK REALPATH RM SED SEQ SHA256SUM SLEEP SORT,$(call make-lazy,$(VAR)))
+
+#-------------------------------------------------------------------------------
+
 TAIL = $(call which,TAIL,gtail tail)
 TAR = $(call which,TAR,gtar tar)
 TEE = $(call which,TEE,gtee tee)
@@ -48,4 +53,4 @@ UNAME = $(call which,XARGS,guname uname)
 WATCH = $(call which,WATCH,gwatch watch)
 WC = $(call which,WC,gwc wc)
 XARGS = $(call which,XARGS,gxargs xargs) -r
-$(foreach VAR,READLINK REALPATH RM SED SEQ SHA256SUM SORT TAIL TAR TEE TOUCH TR UNAME WATCH WC XARGS,$(call make-lazy,$(VAR)))
+$(foreach VAR,TAIL TAR TEE TOUCH TR UNAME WATCH WC XARGS,$(call make-lazy,$(VAR)))
