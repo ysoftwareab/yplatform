@@ -35,6 +35,13 @@ EOF
     fi
     echo_done
 
+    if git rev-parse --git-dir > /dev/null 2>&1; then
+        echo_do "Listing git status..."
+        git rev-parse --show-toplevel
+        git status
+        echo_done
+    fi
+
     echo_do "Listing current working directory..."
     pwd
     ls -la $(pwd)
