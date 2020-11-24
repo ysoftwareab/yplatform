@@ -63,4 +63,8 @@ function brew_list() {
     echo_do "brew: Listing packages..."
     brew list --versions
     echo_done
+
+    echo_do "brew: Listing dependency tree..."
+    brew deps --installed --tree
+    echo_done
 }
