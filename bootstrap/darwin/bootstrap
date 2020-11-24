@@ -14,7 +14,7 @@ else
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
 fi
 
-brew_brewfile_inc_sh
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
 brew_config
 brew_list
