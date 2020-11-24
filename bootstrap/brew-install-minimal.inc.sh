@@ -8,22 +8,6 @@ else
     echo_do "brew: Installing minimal packages..."
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-gnu.inc.sh
-
-    # installing perl for performance reasons, since it takes a very long time to install via homebrew,
-    # and quite a few formulas require it
-    # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
-    case ${OS_SHORT} in
-        darwin)
-            brew_install perl
-            ;;
-        linux)
-            # TODO installing via apt as a workaround for Travis Ubuntu 20.04 running gcc 9.2.1
-            # /usr/lib/gcc/x86_64-linux-gnu/9/include-fixed/bits/statx.h:38:25: error: missing binary operator before token "("
-            # #if __glibc_has_include ("__linux__/stat.h")
-            #                         ^
-            brew_install perl || apt_install perl
-            ;;
-    esac
-
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-perl.inc.sh
     echo_done
 fi
