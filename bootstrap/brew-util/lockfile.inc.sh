@@ -13,7 +13,7 @@ function brew_lockfile() {
     cat ${BREWFILE_LOCK}
 
     local BREW_FROM=$(git -C "$(brew --prefix)/Homebrew" rev-list -1 HEAD)
-    local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^brew " || true)
+    local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
     if [[ -z "${BREW_LOCK}" ]]; then
         echo_skip "Resetting Homebrew..."
     else
@@ -35,7 +35,7 @@ function brew_lockfile() {
     (
         cd "$(brew --prefix)/Homebrew/Library/Taps"
         cat ${BREWFILE_LOCK} | \
-            grep -v "^brew " | \
+            grep -v "^homebrew/brew " | \
             grep -v "^homebrew/install " | \
             while read -r BREW_TAP_LOCK; do
             TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)

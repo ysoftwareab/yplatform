@@ -23,7 +23,7 @@ function bootstrap_brew() {
     local BREW_GITREF=master
     local BREW_INSTALL_GITREF=master
     [[ ! -f ${BREWFILE_LOCK} ]] || {
-        local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^brew " || true)
+        local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
         local BREW_GITREF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
 
         local BREW_INSTALL_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/install " || true)
