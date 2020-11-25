@@ -36,7 +36,7 @@ function bootstrap_brew() {
     }
 
     local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
-z
+
     [[ "${CI}" != "true" ]] || {
         if which brew >/dev/null 2>&1; then
             if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
