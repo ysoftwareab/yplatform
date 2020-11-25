@@ -56,6 +56,10 @@ SF_CHECK_TPL_FILES += \
 	$(FORMULA_PATCH_FILES) \
 	$(FORMULA_PATCHED_FILES) \
 
+ifeq (true,$(CI))
+.PHONY: $(sf_CHECK_TPL_FILES)
+endif
+
 SF_DEPS_TARGETS += \
 	.github/workflows/main.yml \
 
