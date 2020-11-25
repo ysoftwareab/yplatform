@@ -15,12 +15,7 @@
 
 SF_DEPS_TARGETS += \
 	deps-git-submodules \
-
-ifeq (,$(CI))
-SF_DEPS_TARGETS += \
 	deps-git-reset-mtime \
-
-endif
 
 # ------------------------------------------------------------------------------
 
@@ -34,9 +29,14 @@ deps-git-submodules:
 
 .PHONY: deps-git-reset-mtime
 deps-git-reset-mtime:
-	$(ECHO_DO) "Resetting mtime based on git log..."
-	$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime || true
-	$(ECHO_DONE)
+	if [[ "$(git rev-parse --is-shallow-repository)" = "true" ]]; then \
+		$(ECHO_INFO) "Shallow git repository detected."; \
+		$(ECHO_SKIP) "Resetting mtime based on git log..."; \
+	else \
+		$(ECHO_DO) "Resetting mtime based on git log..."; \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime; \
+		$(ECHO_DONE); \
+	fi
 
 
 .PHONY: deps
