@@ -34,7 +34,10 @@ function brew_lockfile() {
 
     (
         cd "$(brew --prefix)/Homebrew/Library/Taps"
-        cat ${BREWFILE_LOCK} | grep -v "^brew " | while read -r BREW_TAP_LOCK; do
+        cat ${BREWFILE_LOCK} | \
+            grep -v "^brew " | \
+            grep -v "^homebrew/install " | \
+            while read -r BREW_TAP_LOCK; do
             TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
             TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2)
             TAP_SHALLOW_SINCE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f3-)

@@ -19,13 +19,25 @@ function bootstrap_has_brew() {
 
 function bootstrap_brew() {
     local RAW_GUC_URL="https://raw.githubusercontent.com"
+    local BREWFILE_LOCK=${GIT_ROOT}/Brewfile.lock
+    local BREW_GITREF=master
+    local BREW_INSTALL_GITREF=master
+    [[ ! -f ${BREWFILE_LOCK} ]] || {
+        local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^brew " || true)
+        local BREW_GITREF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
+
+        local BREW_INSTALL_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/install " || true)
+        local BREW_INSTALL_GITREF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
+    }
+    local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
+
     [[ "${CI}" != "true" ]] || {
         if which brew >/dev/null 2>&1; then
             if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/uninstall.sh)"
+                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/uninstall.sh)"
                 echo_done
                 hash -r
             fi
@@ -38,7 +50,7 @@ function bootstrap_brew() {
     case ${HAS_BREW_2}-$(uname -s) in
         false-Darwin)
             echo_do "brew: Installing homebrew..."
-            </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
+            </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
             echo_done
             ;;
         true-Darwin)
@@ -66,11 +78,11 @@ function bootstrap_brew() {
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
-                curl -fqsS -L https://github.com/Homebrew/brew/tarball/master | \
+                curl -fqsS -L https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
                 echo_done
             else
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${RAW_GUC_URL}/Homebrew/install/master/install.sh)"
+                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
             fi
             echo_done
             ;;
