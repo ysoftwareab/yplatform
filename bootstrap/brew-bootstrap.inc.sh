@@ -30,14 +30,14 @@ function bootstrap_brew() {
         local BREW_INSTALL_GITREF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
     }
     local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
-
+z
     [[ "${CI}" != "true" ]] || {
         if which brew >/dev/null 2>&1; then
             if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/uninstall.sh)"
+                <&- /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/uninstall.sh)"
                 echo_done
                 hash -r
             fi
@@ -50,7 +50,7 @@ function bootstrap_brew() {
     case ${HAS_BREW_2}-$(uname -s) in
         false-Darwin)
             echo_do "brew: Installing homebrew..."
-            </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
+            <&- /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
             echo_done
             ;;
         true-Darwin)
@@ -82,7 +82,7 @@ function bootstrap_brew() {
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
                 echo_done
             else
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
+                <&- /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
             fi
             echo_done
             ;;
