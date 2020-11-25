@@ -169,28 +169,30 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  # deploy:
-  #   needs: main
-  #   if: startWith(github.ref, "refs/tags/") == true
-  #   strategy:
-  #     fail-fast: false
-  #     matrix:
-  #       os:
-  #         - ubuntu-16.04
-  #         - ubuntu-18.04
-  #       sf_ci_brew_install:
-  #         - minimal
-  #         - dev
-  #   name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-  #   runs-on: ${{ matrix.os }}
-  #   env:
-  #     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  #     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  #     <<: *env
-  #   steps:
-  #     - *checkout
-  #     - *checkout-submodules
-  #     - run: ./.ci.sh before_deploy
-  #     - run: ./.ci.sh deploy
-  #     - run: ./.ci.sh after_deploy || true
-  #     - *notify-slack
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: main
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-16.04
+          - ubuntu-18.04
+        sf_ci_brew_install:
+          - minimal
+          - dev
+    name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ${{ matrix.os }}
+    env:
+      <<: *env
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    steps:
+      - *checkout
+      - *checkout-submodules
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
