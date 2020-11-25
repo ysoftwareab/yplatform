@@ -22,13 +22,19 @@ function bootstrap_brew() {
     local BREWFILE_LOCK=${GIT_ROOT}/Brewfile.lock
     local BREW_GITREF=master
     local BREW_INSTALL_GITREF=master
-    [[ ! -f ${BREWFILE_LOCK} ]] || {
-        local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
-        local BREW_GITREF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
 
-        local BREW_INSTALL_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/install " || true)
-        local BREW_INSTALL_GITREF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
+    [[ "${CI}" != "true" ]] || {
+        [[ ! -f ${BREWFILE_LOCK} ]] || {
+            local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
+            local BREW_GITREF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
+
+            local BREW_INSTALL_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/install " || true)
+            [[ -z "${BREW_INSTALL_LOCK}" ]] || {
+                local BREW_INSTALL_GITREF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
+            }
+        }
     }
+
     local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
 z
     [[ "${CI}" != "true" ]] || {
