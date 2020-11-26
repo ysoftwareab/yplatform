@@ -51,7 +51,7 @@ aliases:
 # ------------------------------------------------------------------------------
 
 jobs:
-  ci:
+  main:
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -65,7 +65,7 @@ jobs:
         sf_ci_brew_install:
           - minimal
           - dev
-    name: "ci/github/${{ github.event_name }}: ${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}"
+    name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
@@ -107,7 +107,7 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  ci-windows:
+  main-windows:
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -117,7 +117,7 @@ jobs:
         sf_ci_brew_install:
           - minimal
           # - dev # too time consuming
-    name: "ci/github/${{ github.event_name }}: ${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}"
+    name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
@@ -174,9 +174,9 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  cd:
-    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
-    needs: ci
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: main
     strategy:
       fail-fast: false
       matrix:
@@ -186,7 +186,7 @@ jobs:
         sf_ci_brew_install:
           - minimal
           - dev
-    name: "cd/github/${{ github.event_name }}-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}"
+    name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
