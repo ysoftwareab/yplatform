@@ -31,12 +31,14 @@ SF_ESLINT_FILES_IGNORE += \
 
 SF_ESLINT_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -e "\\.\\(js\\|ts\\)$$" | \
+	$(GREP) -Fvxf <($(FIND) $(GIT_ROOT) -type l -printf "%P\n") | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
 	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g") \
 	$(shell $(GIT_LS) . | while read FILE; do \
+		[[ ! -L "$${FILE}" ]] || continue; \
 		[[ -f "$${FILE}" ]] || continue; \
 		[[ -x "$${FILE}" ]] || continue; \
 		$(HEAD) -n1 "$${FILE}" | $(GREP) "\#" | $(GREP) -q -e "\bnode\b" || continue; \
