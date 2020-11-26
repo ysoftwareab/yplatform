@@ -29,7 +29,7 @@ deps-git-submodules:
 
 .PHONY: deps-git-reset-mtime
 deps-git-reset-mtime:
-	if [[ "$(git rev-parse --is-shallow-repository)" = "true" ]]; then \
+	if [[ "$$(git rev-parse --is-shallow-repository)" = "true" ]]; then \
 		$(ECHO_INFO) "Shallow git repository detected."; \
 		$(ECHO_SKIP) "Resetting mtime based on git log..."; \
 	else \
