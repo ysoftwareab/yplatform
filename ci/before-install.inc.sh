@@ -65,6 +65,9 @@ function sf_transcrypt() {
     fi
 
     echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
+    # see https://github.com/elasticdog/transcrypt/issues/37
+    # see https://stackoverflow.com/a/34808299/465684
+    git update-index -q --really-refresh
     ./transcrypt -y -c "${TRANSCRYPT_CIPHER:-aes-256-cbc}" -p "${TRANSCRYPT_PASSWORD}"
     unset TRANSCRYPT_CIPHER
     unset TRANSCRYPT_PASSWORD
