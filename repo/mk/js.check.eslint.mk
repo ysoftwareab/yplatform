@@ -1,5 +1,6 @@
 # Adds a 'check-eslint' target to run 'eslint'
-# over SF_ESLINT_FILES (defaults to all committed and staged *.js and *.ts files).
+# over SF_ESLINT_FILES (defaults to all committed and staged *.js and *.ts files,
+# as well as executable files with a shebang that mentiones 'node').
 # The 'check-eslint' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
 #
 # The eslint executable is lazy-found inside node_modules/.bin and $PATH.
