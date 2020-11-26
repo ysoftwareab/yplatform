@@ -5,7 +5,12 @@ on:
       - github* # github branches
       - master
     tags:
-      - v* # version tags
+      - 'v*' # version tags
+  pull_request:
+    branches:
+      - '**'
+  schedule:
+    - cron:  '0 0 * * *'
 
 aliases:
   env: &env
