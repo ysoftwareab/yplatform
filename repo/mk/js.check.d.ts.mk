@@ -29,7 +29,7 @@ SF_D_TS_FILES_IGNORE += \
 	$(SF_VENDOR_FILES_IGNORE) \
 
 SF_D_TS_FILES += $(shell $(GIT_LS) . | \
-	$(GREP) -e "\\.d.ts$$" | \
+	$(GREP) -e "\.d\.ts$$" | \
 	$(GREP) -Fvxf <($(FIND) $(GIT_ROOT) -type l -printf "%P\n") | \
 	$(GREP) -Fvxf <($(SF_IS_TRANSCRYPTED) || [[ ! -x $(GIT_ROOT)/transcrypt ]] || $(GIT_ROOT)/transcrypt -l) | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
