@@ -154,7 +154,7 @@ ci_run_deploy() {
 ```
 
 **NOTE** The generation of the artifacts (e.g. the mentioned `dist/app.zip` and `snapshot.zip`)
-happen via `make dist` which is [called by default in the `before_deploy`](../repo/ci.sh/before_deploy.inc.sh).
+happen via `make dist` which is [called by default in the `before_deploy`](../ci/before_deploy.inc.sh).
 
 
 ## `hotfix`
