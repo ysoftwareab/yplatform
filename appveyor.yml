@@ -15,6 +15,7 @@ platform: Any CPU
 
 init:
   - git config --global core.autocrlf input
+  - git config --global core.symlinks true
 
 install:
   - git submodule sync --recursive
