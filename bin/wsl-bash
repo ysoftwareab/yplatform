@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if >/dev/null 2>&1 which wsl.exe; then
+    wsl.exe --user ${WSLUSER:-root} -- bash "$@"
+else
+    bash "$@"
+fi

@@ -98,6 +98,8 @@ jobs:
       V: '${{ secrets.V }}'
       WSLENV: >-
         CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
+      WSLUSER: github
+      WSLGROUP: github
     steps:
       - name: 'Set up git (autocrlf, eol)'
         shell: bash
@@ -121,14 +123,14 @@ jobs:
 
           wsl bash -c "cat /etc/os-release"
 
-          wsl bash -c "sudo addgroup --gid 2000 github"
+          wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
 
-          wsl bash -c "sudo adduser --uid 2000 --ingroup github --home /home/github --shell /bin/bash
-          --disabled-password --gecos \"\" github"
+          wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash
+          --disabled-password --gecos \"\" ${WSLUSER}"
 
-          wsl bash -c "sudo adduser github sudo"
+          wsl bash -c "sudo adduser ${WSLUSER} sudo"
 
-          wsl bash -c "sudo echo \"github ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
+          wsl bash -c "sudo echo \"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
 
           # Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted
 
@@ -136,28 +138,28 @@ jobs:
 
           wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
       - shell: bash
-        run: wsl --user github bash -c "./.ci.sh before_install"
+        run: bin/wsl-bash -c "./.ci.sh before_install"
       - shell: bash
-        run: wsl --user github bash -c "./.ci.sh install"
+        run: bin/wsl-bash -c "./.ci.sh install"
       - shell: bash
-        run: wsl --user github bash -c "./.ci.sh before_script"
+        run: bin/wsl-bash -c "./.ci.sh before_script"
       - shell: bash
-        run: wsl --user github bash -c "./.ci.sh script"
+        run: bin/wsl-bash -c "./.ci.sh script"
       - if: always()
         shell: bash
-        run: wsl --user github bash -c "./.ci.sh after_failure || true"
+        run: bin/wsl-bash -c "./.ci.sh after_failure || true"
       - shell: bash
-        run: wsl --user github bash -c "./.ci.sh after_success || true"
+        run: bin/wsl-bash -c "./.ci.sh after_success || true"
       - if: always()
         shell: bash
-        run: wsl --user github bash -c "./.ci.sh after_script || true"
+        run: bin/wsl-bash -c "./.ci.sh after_script || true"
       - if: always()
         shell: bash
         env:
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
-        run: wsl --user github bash -c "./.ci.sh notifications || true"
+        run: bin/wsl-bash -c "./.ci.sh notifications || true"
   deploy:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main
