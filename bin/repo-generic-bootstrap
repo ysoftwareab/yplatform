@@ -90,6 +90,13 @@ ARTIFACT=.ci.sh
     done
 }
 
+ARTIFACT=.shellcheckrc
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.shellcheckrc ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Symlinked ${ARTIFACT}."
+}
+
 [[ -e .vscode ]] || {
     mkdir -p .vscode
     for ARTIFACT in ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/* ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode/.*; do
