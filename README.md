@@ -14,7 +14,7 @@
       * `AppVeyor_________` [![AppVeyor Status][14]][13]
       * `CircleCI_________` [![CircleCI Status][4]][3]
       * `Codeship_________` [![Codeship Status][8]][7]
-      * `Github Actions CI` [![Github Actions CI Status][1]][2]
+      * `Github Actions CI` [![Github Actions CI Status][2]][1]
       * `Gitlab CI________` [![Gitlab CI Status][12]][11]
       * `Semaphore________` [![Semaphore Status][10]][9]
       * `Travis CI________` [![Travis CI Status][6]][5]
