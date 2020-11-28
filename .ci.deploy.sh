@@ -37,7 +37,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
 
     local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."
-    echo exe docker push ${TAG}
+    exe docker push ${TAG}
     echo_done
 
     local PUBLISH_AS_LATEST_TAG=$1
@@ -45,7 +45,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
         local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
         echo_do "Pushing ${TAG} to hub.docker.com..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        echo exe docker push ${TAG}
+        exe docker push ${TAG}
         echo_done
     fi
 }
@@ -61,7 +61,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG}..."
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-    echo exe docker push ${TAG}
+    exe docker push ${TAG}
     echo_done
 
     local PUBLISH_AS_LATEST_TAG=$1
@@ -69,7 +69,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
         local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        echo exe docker push ${TAG}
+        exe docker push ${TAG}
         echo_done
     fi
 }
