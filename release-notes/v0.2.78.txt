@@ -1,0 +1,137 @@
+support-firecloud v0.2.78 Release Notes
+
+Highlights since v0.2.77:
+
+* None
+
+Breaking commits since v0.2.77:
+
+* 1b7e9bb 2020-11-28 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* | 04f9553 2020-11-26 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* a48eb9c 2020-11-25 breaking: rename brew to homebrew/brew in Brewfile.lock
+* a681cc3 2020-11-12 breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* 1d9248d 2020-11-12 breaking: move ci -> bootstrap, and repo/ci.sh -> ci
+* ea8980d 2020-11-05 fixup! breaking: split deps-git target into deps-git-submodule and deps-git-reset-mtime
+* c95f98b 2020-11-05 breaking: split deps-git target into deps-git-submodule and deps-git-reset-mtime
+
+
+Commits since v0.2.77:
+
+* 1b7e9bb 2020-11-28 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* 6fb82ac 2020-11-28 correct exit codes for deploy
+* 74e93fb 2020-11-28 fixup! enable deployment from github actions
+* 853d11d 2020-11-28 fixup! deprecate travis in favour of github actions as primary ci
+* 6fca363 2020-11-27 correct (stricter) check for shebang
+* 60c4e44 2020-11-27 appveyor: enable symlinks
+* bd2e7bf 2020-11-27 fixup! deprecate travis in favour of github actions as primary ci
+* 124959b 2020-11-27 try to set default user for wsl
+* 92b8bf2 2020-11-26 fixup! run github actions also on PRs and nightly
+* e8cabad 2020-11-26 Revert "align job names with other providers e.g. ci/circleci ci/semaphoreci/push etc"
+* 0eba435 2020-11-26 run github actions also on PRs and nightly
+* bcab17d 2020-11-26 align job names with other providers e.g. ci/circleci ci/semaphoreci/push etc
+*   c709ef5 2020-11-26 Merge pull request #214 from rokmoln/travis-to-github-ci
+|\
+| * 4698b59 2020-11-25 REMOVE dry-run deployment to hub.docker.com
+| * 1d470b4 2020-11-25 enable deployment from github actions
+| * 31a4201 2020-11-24 refactor github action's workflow
+| * bc06dee 2020-11-23 deprecate travis in favour of github actions as primary ci
+* | 04f9553 2020-11-26 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* | fd98bed 2020-11-26 bring back /dev/null as stdin or else homebrew/install gets stuck in wsl-appveyor
+* | 344a0fd 2020-11-26 correct regexp for grepping for json,d.ts,js,ts,css,sass files
+* | 646e87f 2020-11-26 mk: ignore symlinks from checks
+* | f13641e 2020-11-26 ignore more vendor files
+* | 51397f7 2020-11-26 clarify that check-eslint also checks 'node' shebang executables
+* | 058af43 2020-11-26 run verbose brew update on second try
+|/
+* 4335aa0 2020-11-26 closing stdin makes 'sudo -n -v 2>/dev/null' in homebrew/install crash with segmentation fault on WSL
+* 4834b27 2020-11-26 workaround for transcrypt complaining about dirty repo due to 'git diff-index' behaviour
+* 9b5750e 2020-11-26 fixup! skip git-reset-mtime in shallow repos, but not in all CIs
+* d647e4c 2020-11-26 regenerate templates in the CI regardless of mtime, in case we cannot run git-reset-mtime
+* 6597967 2020-11-26 skip git-reset-mtime in shallow repos, but not in all CIs
+* 0362926 2020-11-25 fixup! the proper way to close stdin is <&- not </dev/null
+* a6751cc 2020-11-25 fixup! lock also homebrew/install
+* cfe476a 2020-11-25 the proper way to close stdin is <&- not </dev/null
+* a48eb9c 2020-11-25 breaking: rename brew to homebrew/brew in Brewfile.lock
+* e9b4144 2020-11-25 lock also homebrew/install
+* 4d57d4f 2020-11-25 split brew_lockfile to separate file
+* 1869b57 2020-11-25 allow files to start with Brewfile
+* d3042f8 2020-11-24 print also homebrew's dependency tree
+* ff9d0d1 2020-11-24 switch out perl installation
+* 924e4fc 2020-11-24 list git status during bootstrap
+* 4708654 2020-11-24 move brew_brewfile_inc_sh to standalone brew-bootstrap-brewfile.inc.sh for consistency
+* 548f3e8 2020-11-24 remove git-lfs from core bootstrapping
+* 2377ae0 2020-11-24 symlink /usr/bin/python to /usr/bin/python3, if not available
+* 177a306 2020-11-17 use $(SLEEP) instead of sleep
+* 23e2f7f 2020-11-17 placeholder for tmate needing ~/.ssh/id_rsa
+* 9ff0361 2020-11-17 add shell/tmate
+* ea8dcfe 2020-11-12 fixup! align darwin bootstrap with linux bootstrap
+* a681cc3 2020-11-12 breaking: move ci -> bootstrap, and repo/ci.sh -> ci (update paths)
+* 1d9248d 2020-11-12 breaking: move ci -> bootstrap, and repo/ci.sh -> ci
+* 3e6d66b 2020-11-12 document SUDO
+* b95a1ff 2020-11-12 align darwin bootstrap with linux bootstrap
+* 8f51cb9 2020-11-12 skip setting up ntp on darwin when skipping common bootstrap
+* 4a80a11 2020-11-12 add more groupings to linux/darwin bootstrap
+* ee92677 2020-11-12 ci-echo: tweak travis output
+* 8ca836d 2020-11-12 fixup! ci-echo: support workflow commands in github actions
+* d2f26a7 2020-11-12 fixup! try redirect stderr to stdout in CI to keep streams in sync
+* 743cd1f 2020-11-12 try redirect stderr to stdout in CI to keep streams in sync
+* 781ea69 2020-11-12 Revert "ci-echo: skip travis grouping under wsl"
+* 24841f5 2020-11-12 ci-echo: support workflow commands in github actions
+* 960bb6b 2020-11-12 ci-echo: keep do-done pair outside the group folding on travis
+* 3cd857e 2020-11-12 ci-echo: skip travis grouping under wsl
+* 7cfa4a3 2020-11-12 ci-echo: basic_travis_echo writes to stdout without a newline. maybe fix output on wsl
+* 5d6219d 2020-11-12 Revert "uncertain why we need \r and ansi clear line on travis, but it messes up WSL printouts"
+* 815954c 2020-10-23 fix upgrading npm under nvm
+* b4390a0 2020-11-12 fixup! ci-echo: trial some improvements to do-done templates
+* a335914 2020-11-12 ci-echo: trial some improvements to do-done templates
+* 3f3bd2f 2020-11-12 ci-echo: placeholder for improving marker naming. needs a hash function or else filenames might be too big
+* ce6c849 2020-11-12 ci-echo: don't handle silently the lack of do-done pair
+* ebc1498 2020-11-12 fixup! support Brewfile.lock to lock homebrew and/or homebrew taps, but only in CI
+* 49e406f 2020-11-12 fixup! ci-echo: dry group durations
+* dcecbdb 2020-11-12 fixup! support Brewfile.lock to lock homebrew and/or homebrew taps, but only in CI
+* d2245c6 2020-11-11 allow CI_ECHO_BENCHMARK as global env var
+* 665f77a 2020-11-11 ci-echo: benchmark
+* 62bb182 2020-11-11 ci-echo:track GROUP_START without file modification time and python
+* 21faded 2020-11-11 ci-echo: dry group durations
+* f8ac114 2020-11-11 ci-echo: call python only when needed. keep it dry
+* d23602a 2020-11-09 add note about possible workaround to run cmd/bat files directly in wsl
+* ec9b59e 2020-11-09 add visual explanation for linuxbrew-core -> homebrew-core
+* f94dfa3 2020-11-09 add utility to run cmd/bat files from inside WSL
+* 0bf0a57 2020-11-09 handle cases like CircleCI where the remote url is in ssh format, instead of https
+*   1255488 2020-11-09 Merge pull request #209 from rokmoln/brewfile-lock
+|\
+| * f5fa507 2020-11-09 document briefly Brewfile.inc.sh and Brewfile.lock usage
+| * 05eefaf 2020-11-08 support Brewfile.lock to lock homebrew and/or homebrew taps, but only in CI
+|/
+* e993fc1 2020-11-09 disable all chocolatey prompts
+* 49b6d89 2020-11-08 ci-echo: fix noise from listing optional non-existing /tmp/ci_echo* files
+* 3eccbff 2020-11-07 typo
+* e10e604 2020-11-07 allow ci-pr as alias for ci-pull-request
+* ad19428 2020-11-07 fixup! generalize commit messages for all stages
+* 27283bd 2020-11-07 uncertain why we need \r and ansi clear line on travis, but it messes up WSL printouts
+* 1f007bc 2020-11-06 naming
+* 3183970 2020-11-06 indent
+* 758c34b 2020-11-06 use is-wsl instead of checking for undefined $WSLENV
+* b225a75 2020-11-06 normalize to use OS_SHORT instead of calling uname
+* 47f1036 2020-11-06 prefer $OS_SHORT vs $OS
+* 06ad0e0 2020-11-06 skip docker container on wsl
+* a31648e 2020-11-06 don't assume python2 syntax
+* 441645d 2020-11-06 handle missing jq during before-install.pre
+* f8c9aa5 2020-11-05 strict bash for git-reset-mtime
+* cf0c71c 2020-11-05 add is-wsl util
+* 89a67d6 2020-11-05 make sure git-reset-mtime runs inside a git repo
+* 55fc2a5 2020-11-05 docs for git-reset-mtime
+* d11b4c5 2020-11-05 remove generic.common.mk from COMMON_MKS, since it's the base
+* d270287 2020-11-05 make sure timezone is UTC when resetting mtime
+* ea8980d 2020-11-05 fixup! breaking: split deps-git target into deps-git-submodule and deps-git-reset-mtime
+* c33280f 2020-11-05 git-reset-mtime shouldn't run on shallow clones
+* c95f98b 2020-11-05 breaking: split deps-git target into deps-git-submodule and deps-git-reset-mtime
+* 8bcad0c 2020-11-05 reset modified-time only on non-shallow clones
+* 961d531 2020-11-05 fix permission error due to missing folder
+* d1340cd 2020-11-05 Revert "appveyor: debug permissions"
+* edd3010 2020-11-05 appveyor: debug permissions
+* 4f02281 2020-11-05 appveyor: build any branch that starts with appveyor
+* 54f6caa 2020-11-05 appveyor: remove redundant --user appveyor
+* ee085f7 2020-11-05 fixup! git-reset-mtime: better timestamps and submodule support
+* 6d5ced0 2020-11-05 git-reset-mtime: better timestamps and submodule support
+o 0ad71a5 2020-11-04 0.2.77
