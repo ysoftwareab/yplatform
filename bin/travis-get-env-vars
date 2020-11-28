@@ -50,7 +50,9 @@ done
 
 function maybe_wslenv() {
     if [[ "${WSLENV}" = "true" ]]; then
-        sed "s/=.*//" | tr '\n' ':'
+        cat | \
+            sed "s|TRAVIS_BUILD_DIR|TRAVIS_BUILD_DIR/p|g" | \
+            sed "s/=.*//" | tr '\n' ':'
     else
         cat
     fi
