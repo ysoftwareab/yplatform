@@ -95,7 +95,7 @@ cd /support-firecloud
 chown -R root:root .
 git config url."https://github.com/".insteadOf git@github.com:
 
-sudo --preserve-env -H -u ${UNAME} ./ci/linux/bootstrap
+sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
 
 git rev-parse HEAD > /support-firecloud.bootstrapped
 
