@@ -30,8 +30,8 @@ function ci_run_before_deploy() {
 }
 
 function ci_run_deploy_docker_image_hubdockercom() {
-    [[ -n "${DOCKER_USERNAME:-}" ]] || return
-    [[ -n "${DOCKER_TOKEN:-}" ]] || return
+    [[ -n "${DOCKER_USERNAME:-}" ]] || return 0
+    [[ -n "${DOCKER_TOKEN:-}" ]] || return 0
 
     echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
 
@@ -51,8 +51,8 @@ function ci_run_deploy_docker_image_hubdockercom() {
 }
 
 function ci_run_deploy_docker_image_dockerpkggithubcom() {
-    [[ -n "${GH_USERNAME:-}" ]] || return
-    [[ -n "${GH_TOKEN:-}" ]] || return
+    [[ -n "${GH_USERNAME:-}" ]] || return 0
+    [[ -n "${GH_TOKEN:-}" ]] || return 0
 
     local GH_DOCKER_HUB=docker.pkg.github.com
 
