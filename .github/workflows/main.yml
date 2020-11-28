@@ -50,6 +50,7 @@ jobs:
       - name: Run actions/checkout@v2 (submodules)
         shell: bash
         run: |
+          set -x
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 \
@@ -104,12 +105,14 @@ jobs:
       - name: 'Set up git (autocrlf, eol)'
         shell: bash
         run: |
+          set -x
           git config --global core.autocrlf false
           git config --global core.eol lf
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)
         shell: bash
         run: |
+          set -x
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 \
@@ -117,11 +120,14 @@ jobs:
       - name: Set up WSLENV
         shell: bash
         run: |
+          set -x
           GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | tr "\n" ":")"
           echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}:GITHUB_ENV/p:GITHUB_PATH/p" >> ${GITHUB_ENV}
       - name: Set up WSL
         shell: bash
         run: >
+          set -x
+
           # why --ignore-checksum? see https://chocolatey.org/packages/wsl-ubuntu-1804#comment-5026624059
 
           choco install wsl-ubuntu-1804 --yes --no-progress --ignore-checksum
@@ -194,6 +200,7 @@ jobs:
       - name: Run actions/checkout@v2 (submodules)
         shell: bash
         run: |
+          set -x
           auth_header="$(git config --local --get http.https://github.com/.extraheader)"
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 \
