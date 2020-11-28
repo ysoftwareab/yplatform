@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- github-get-env-vars 1.0
+## Usage: github-get-env-vars [OPTION]
+## Print out the environment variables set for a Github Actions workflow.
+##
+##   --wslenv       List only the names of the environment variables, separated by : as required by WSLENV.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+[[ "${GITHUB_ACTIONS:-}" = "true" ]] || {
+    echo_warn "Must be running inside Github Actions."
+    echo_warn "Expected GITHUB_ACTIONS=true but got GITHUB_ACTIONS=${GITHUB_ACTIONS:-}."
+    exit 0
+}
+
+WSLENV=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --wslenv)
+            WSLENV=true
+            shift 1
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            sh_script_usage
+            ;;
+    esac
+done
+
+function maybe_wslenv() {
+    if [[ "${WSLENV}" = "true" ]]; then
+        cat | \
+            sed "s|GITHUB_EVENT_PATH|GITHUB_EVENT_PATH/p|g" | \
+            sed "s|GITHUB_WORKSPACE|GITHUB_WORKSPACE/p|g" | \
+            sed "s/=.*//" | tr "\n" ":"
+    else
+        cat
+    fi
+}
+
+# environment variables prefixed with GITHUB_
+GITHUB_ENV="$(printenv | grep -e "^GITHUB_")"
+
+{
+    echo "${GITHUB_ENV}"
+} | maybe_wslenv
