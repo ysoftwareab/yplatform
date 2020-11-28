@@ -1,0 +1,21 @@
+support-firecloud v0.2.79 Release Notes
+
+Highlights since v0.2.78:
+
+* None
+
+Breaking commits since v0.2.78:
+
+* None
+
+Commits since v0.2.78:
+
+* 75af081 2020-11-28 run all github actions steps with trace for increase visibility
+* 6321ffb 2020-11-28 proxy GITHUB_* env vars to WSL
+* 8d9cd63 2020-11-28 Revert "set WSLENV to pass on GITHUB_* env vars"
+* 57e5354 2020-11-28 set WSLENV to pass on GITHUB_* env vars
+* 2af1aa1 2020-11-28 add github-get-env-vars equivalent to travis-get-env-vars
+* c2f6bbf 2020-11-28 travis-get-env-vars: mark TRAVIS_BUILD_DIR as path for WSLENV
+* 440c7b9 2020-11-28 expose $GITHUB_JOB to WSL
+* bc47b7f 2020-11-28 Revert "REMOVE dry-run deployment to hub.docker.com"
+o bb384e9 2020-11-28 0.2.78
