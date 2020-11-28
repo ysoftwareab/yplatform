@@ -33,9 +33,9 @@ aliases:
     shell: bash
     run: |
       set -x
-      sudo git -C $(brew --prefix)/Homebrew diff || true
+      sudo git -C $(brew --prefix)/Homebrew diff-index HEAD -- || true
       sudo git -C $(brew --prefix)/Homebrew checkout HEAD .
-      sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core diff || true
+      sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core diff-index HEAD -- || true
       sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core checkout HEAD .
   checkout: &checkout
     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout

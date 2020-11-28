@@ -42,9 +42,9 @@ jobs:
         shell: bash
         run: |
           set -x
-          sudo git -C $(brew --prefix)/Homebrew diff || true
+          sudo git -C $(brew --prefix)/Homebrew diff-index HEAD -- || true
           sudo git -C $(brew --prefix)/Homebrew checkout HEAD .
-          sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core diff || true
+          sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core diff-index HEAD -- || true
           sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core checkout HEAD .
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)
