@@ -40,8 +40,11 @@ SF_SHELLCHECK_FILES += $(shell $(GIT_LS) . | \
 		[[ -f "$${FILE}" ]] || continue; \
 		[[ -x "$${FILE}" ]] || continue; \
 		$(HEAD) -n1 "$${FILE}" | $(GREP) "^#\!/" | $(GREP) -q -e "\b\(bash\|sh\)\b" || continue; \
-		$(ECHO) "'$${FILE}'"; \
-	done)
+		$(ECHO) "$${FILE}"; \
+	done | \
+	$(GREP) -v $(SF_SHELLCHECK_FILES_IGNORE) | \
+	$(SED) "s/^/'/g" | \
+	$(SED) "s/$$/'/g")
 
 SF_CHECK_TARGETS += \
 	check-shellcheck \
