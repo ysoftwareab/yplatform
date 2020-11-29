@@ -107,26 +107,14 @@ function sf_get_docker_ci_image() {
     # set the tag to the version of SF
     if [[ ${SF_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
-        if which jq >/dev/null 2>&1; then
-            local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        else
-            local DOCKER_IMAGE_TAG=$(
-                cat ${SUPPORT_FIRECLOUD_DIR}/package.json | \
-                    /usr/bin/python -c 'import sys,json;print("".join(json.load(sys.stdin)["version"]))')
-        fi
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
     # if given a docker.pkg.github.com/rokmoln/support-firecloud/sf- image, but without a tag
     # set the tag to the version of SF
     if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/rokmoln/support-firecloud/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
-        if which jq >/dev/null 2>&1; then
-            local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        else
-            local DOCKER_IMAGE_TAG=$(
-                cat ${SUPPORT_FIRECLOUD_DIR}/package.json | \
-                    /usr/bin/python -c 'import sys,json;print("".join(json.load(sys.stdin)["version"]))')
-        fi
+        local DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
 
