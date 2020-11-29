@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 function on_exit() {
+    # shellcheck disable=SC2181
     [[ "$?" != "0" ]] || return 0
 
     echo "[ERR ] pre-push hook failed."

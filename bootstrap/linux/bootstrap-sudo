@@ -27,7 +27,7 @@ function apt_update() {
 
 function apt_install() {
     local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    while read -u3 DPKG; do
+    while read -r -u3 DPKG; do
         [[ -n "${DPKG}" ]] || continue
 
         echo_do "aptitude: Installing ${DPKG}..."

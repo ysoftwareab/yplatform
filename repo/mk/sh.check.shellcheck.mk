@@ -35,7 +35,7 @@ SF_SHELLCHECK_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -v $(SF_SHELLCHECK_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g") \
-	$(shell $(GIT_LS) . | while read FILE; do \
+	$(shell $(GIT_LS) . | while read -r FILE; do \
 		[[ ! -L "$${FILE}" ]] || continue; \
 		[[ -f "$${FILE}" ]] || continue; \
 		[[ -x "$${FILE}" ]] || continue; \

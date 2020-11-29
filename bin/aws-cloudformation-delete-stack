@@ -58,7 +58,7 @@ SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-ite
 if [[ -n ${EMPTY_S3} ]]; then
     for BUCKET_NAME in $(aws cloudformation describe-stack-resources ${STACK_NAME_ARG} | jq -r ".StackResources" | jq ".[] | select(.ResourceType == \"AWS::S3::Bucket\")" | jq -r ".PhysicalResourceId"); do
         # check if bucket exists
-        [[ $(aws s3api list-buckets | jq -r ".Buckets" | jq -".[] | select(.Name == \"${BUCKET_NAME}\"" | jq -r ".Name") = ${BUCKET_NAME} ]] || continue
+        [[ $(aws s3api list-buckets | jq -r ".Buckets" | jq -".[] | select(.Name == \"${BUCKET_NAME}\"" | jq -r ".Name") = "${BUCKET_NAME}" ]] || continue
 
         aws s3api put-bucket-versioning --bucket ${BUCKET_NAME} --versioning-configuration Status=Suspended
 

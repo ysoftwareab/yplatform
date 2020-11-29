@@ -57,7 +57,7 @@ function printenv_uniq() {
 }
 
 function printenv_with_name() {
-    for f in $*; do
+    for f in "$@"; do
         echo "${f}=$(printenv ${f} || echo "")"
     done
 }
@@ -93,7 +93,7 @@ function prompt_q_to_continue() {
         echo_info "CI pressed ENTER."
         return 0
     fi
-    read -p "" -n1
+    read -r -p "" -n1
     echo
     [[ "${REPLY}" != "${CANCEL_KEY}" ]]
 }

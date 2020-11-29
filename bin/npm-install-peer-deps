@@ -44,10 +44,11 @@ node -e " \
         console.log(name + '\t' + peerDeps[name]); \
     }); \
     " | {
-    while read LINE; do
+    while read -r LINE; do
         NAME=$(echo "${LINE}" | cut -d $'\t' -f 1)
         SPEC=$(echo "${LINE}" | cut -d $'\t' -f 2)
 
+        # shellcheck disable=SC2094
         cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${SPEC}\"}" < package.json)" > package.json
         # npx json -q -I -f package.json -e "this.devDependencies = this.devDependencies || {}"
         # npx json -q -I -f package.json -e "this.devDependencies[\"${NAME}\"] = \"${SPEC}\""

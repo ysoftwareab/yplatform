@@ -33,7 +33,7 @@ else
                 echo "[Q   ] Run the command yourself as root, then continue."
                 echo "       Press ENTER to Continue."
                 echo "       Press Ctrl-C to Cancel."
-                read -p ""
+                read -r -p ""
                 echo
             }
             export -f sf_nosudo
@@ -45,7 +45,7 @@ fi
 ARCH=$(uname -m)
 ARCH_BIT=$(uname -m | grep -q "x86_64" && echo "64" || echo "32")
 ARCH_SHORT=$(uname -m | grep -q "x86_64" && echo "x64" || echo "x86")
-OS=$(uname | tr "[A-Z]" "[a-z]")
+OS=$(uname | tr "[:upper:]" "[:lower:]")
 OS_SHORT=$(echo "${OS}" | sed "s/^\([a-z]\+\).*/\1/g")
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)

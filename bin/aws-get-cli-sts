@@ -27,7 +27,9 @@ else
     # AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
     # gross assumption, but aws-cli/boto changed to hash-named filenames
     AWS_CLI_CACHE_FILE=
+    # shellcheck disable=SC2045
     for f in $(ls -t ~/.aws/cli/cache/); do
+        # shellcheck disable=SC2015
         cat ~/.aws/cli/cache/$f | \
             jq -r ".AssumedRoleUser.Arn" | \
             grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \

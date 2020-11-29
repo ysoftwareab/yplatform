@@ -17,7 +17,7 @@ function apt_update() {
 function apt_install() {
     local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     # apt-get install -y --force-yes $*
-    apt-get install -y ${FORCE_YES} $*
+    apt-get install -y ${FORCE_YES} "$@"
 }
 
 export DEBIAN_FRONTEND=noninteractive
