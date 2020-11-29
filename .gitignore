@@ -1,6 +1,7 @@
 /BUILD
 /Formula/patch-lib/
 /VERSION
+/bin/jq-*
 /codeship.aes
 /generic/github-global-gitignore/
 /make.sh.successful
