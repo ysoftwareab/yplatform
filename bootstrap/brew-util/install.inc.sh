@@ -120,7 +120,7 @@ function brew_install_one() {
 }
 
 function brew_install() {
-    while read -u3 FORMULA; do
+    while read -r -u3 FORMULA; do
         [[ -n "${FORMULA}" ]] || continue
         brew_install_one ${FORMULA}
     done 3< <(echo "$@")

@@ -14,14 +14,14 @@ function repo-reset-mtime() {
         }
 
         git ls-files | \
-            grep -Fvxf <(test -e .gitmodules && git config --file .gitmodules --get-regexp path | cut -d' ' -f2 || true) | \
-            while read FILE; do
+            grep -Fvxf <(! test -e .gitmodules || git config --file .gitmodules --get-regexp path | cut -d' ' -f2) | \
+            while read -r FILE; do
                 {
                     TIMESTAMP="$(TZ=UTC git log --pretty=format:%cd --date=format-local:%Y%m%d%H%M.%S -1 HEAD -- "${FILE}")"
                     TZ=UTC touch -h -m -t "${TIMESTAMP}" "${FILE}"
                 } &
             done
-        [[ ! -e .gitmodules ]] || git config --file .gitmodules --get-regexp path | cut -d' ' -f2 | while read SUBMODULE; do
+        [[ ! -e .gitmodules ]] || git config --file .gitmodules --get-regexp path | cut -d' ' -f2 | while read -r SUBMODULE; do
             repo-reset-mtime "${SUBMODULE}"
         done
     )

@@ -177,6 +177,7 @@ function teamcity_echo() {
             ;;
         "[DONE]")
             [[ -n "${MESSAGE}" ]] || {
+                # shellcheck disable=SC2012
                 BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* | head -n1 2>/dev/null)
                 [[ ! -f ${BLOCK_MARKER} ]] || {
                     PWD_MESSAGE="$(cat ${BLOCK_MARKER})"
@@ -208,15 +209,15 @@ GROUP="${@:2}"
 case $1 in
     "[DO  ]")
         GROUP_START=$(date +%s)
-        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
-        PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
+        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
+        PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr "[:upper:]" "[:lower:]" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         # GROUP_MARKER=/tmp/ci-echo-group-${PWD_GROUP}-${GROUP_START}_${RANDOM}
         GROUP_MARKER=/tmp/ci-echo-group-${GROUP_START}-${RANDOM}
         echo -en "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
         ;;
     "[DONE]")
-        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || echo $(pwd))
+        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
         # PWD_GROUP_PREFIX="$(echo "${REL_PWD}" | tr 'A-Z' 'a-z' | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         GROUP_FINISH=$(date +%s)
@@ -224,6 +225,7 @@ case $1 in
         GROUP_DURATION=0
 
         [[ -n "${GROUP}" ]] || {
+            # shellcheck disable=SC2012
             # GROUP_MARKER=$(ls -t /tmp/ci-echo-group-${PWD_GROUP_PREFIX}-* 2>/dev/null | head -n1 || true)
             GROUP_MARKER=$(ls -t /tmp/ci-echo-group-* 2>/dev/null | head -n1 || true)
             [[ ! -f ${GROUP_MARKER} ]] || {

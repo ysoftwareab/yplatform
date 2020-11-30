@@ -72,7 +72,7 @@ EOF
         echo_info "Deleting ${JOB_GIT_REF}..."
         git push --no-verify -f origin :${JOB_GIT_REF} >/dev/null 2>&1
     }
-    while read -u3 JOB_GIT_REF; do
+    while read -r -u3 JOB_GIT_REF; do
         prune_job_git_ref ${JOB_GIT_REF} || true
     done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
 }

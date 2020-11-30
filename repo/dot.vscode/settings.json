@@ -65,6 +65,9 @@
   "search.followSymlinks": true,
   "search.useIgnoreFiles": true,
 
+  "shellcheck.enable": true,
+  "shellcheck.run": "onSave",
+
   "telemetry.enableTelemetry": false,
 
   "terminal.integrated.inheritEnv": false,

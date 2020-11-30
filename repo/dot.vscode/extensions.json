@@ -5,7 +5,8 @@
     "EditorConfig.editorconfig",
     "glen-84.sass-lint",
     "ms-vscode.vscode-typescript-tslint-plugin",
-    "orta.vscode-jest"
+    "orta.vscode-jest",
+    "swellaby.shellcheck"
   ],
   "unwantedRecommendations": [
     "esbenp.prettier-vscode"

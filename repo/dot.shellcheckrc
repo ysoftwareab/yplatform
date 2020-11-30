@@ -1,0 +1,57 @@
+# SC1090: Can't follow non-constant source. Use a directive to specify location
+disable=SC1090
+
+# SC1091: Not following: /etc/os-release was not specified as input (see shellcheck -x).
+disable=SC1091
+
+# SC2001: See if you can use ${variable//search/replace} instead.
+disable=SC2001
+
+# SC2002: Useless cat. Consider 'cmd < file | ..' or 'cmd file | ..' instead.
+disable=SC2002
+
+# SC2004: $/${} is unnecessary on arithmetic variables.
+disable=SC2004
+
+# SC2039: In POSIX sh, 'compgen' is undefined.
+# SC2039: In POSIX sh, 'complete' is undefined.
+# SC2039: In POSIX sh, 'declare' is undefined.
+# SC2039: In POSIX sh, 'local' is undefined.
+# SC2039: In POSIX sh, 'source' in place of '.' is undefined.
+# SC2039: In POSIX sh, [[ ]] is undefined.
+# SC2039: In POSIX sh, array references are undefined.
+# SC2039: In POSIX sh, arrays are undefined.
+# SC2039: In POSIX sh, naming functions outside [a-zA-Z_][a-zA-Z0-9_]* is undefined.
+disable=SC2039
+
+# SC2112: 'function' keyword is non-standard. Delete it.
+disable=SC2112
+
+# SC2129: Consider using { cmd1; cmd2; } >> file instead of individual redirects.
+disable=SC2129
+
+# SC2155: Declare and assign separately to avoid masking return values.
+disable=SC2155
+
+# SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
+disable=SC2164
+
+# ------------------------------------------------------------------------------
+
+# FIXME SC2086: Double quote to prevent globbing and word splitting.
+disable=SC2086
+
+# FIXME SC2046: Quote this to prevent word splitting.
+disable=SC2046
+
+# FIXME SC2034: ... appears unused. Verify use (or export if used externally).
+disable=SC2034
+
+# FIXME SC2068: Double quote array expansions to avoid re-splitting elements.
+disable=SC2068
+
+# FIXME SC2145: Argument mixes string and array. Use * or separate argument.
+disable=SC2145
+
+# FIXME SC2124: Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.
+disable=SC2124

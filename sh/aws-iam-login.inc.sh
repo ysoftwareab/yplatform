@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-function aws-iam-login() {
+aws-iam-login() {
     [ $# -eq 1 ] || {
         echo >&2 "Usage: aws-iam-login <profilename>"
         return 1
@@ -52,7 +52,7 @@ function aws-iam-login() {
     }
 }
 
-function aws-iam-login-ns() {
+aws-iam-login-ns() {
     [ $# -eq 2 ] || {
         echo >&2 "Usage: aws-iam-login-ns <profilename> <namespace>"
         return 1
@@ -79,10 +79,11 @@ function aws-iam-login-ns() {
     echo >&2 "[INFO] Credentials for ${NS_AWS_PROFILE} are now stored in ${NS}_ environment variables."
 }
 
-function _aws_profile_completer() {
+_aws_profile_completer() {
     local WORD=${COMP_WORDS[COMP_CWORD]}
     local AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-${HOME}/.aws/credentials}
     local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | xargs -r -I{} expr {} : "\[\(.*\)\]")"
+    # shellcheck disable=SC2207
     COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
 }
 
