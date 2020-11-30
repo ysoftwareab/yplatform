@@ -123,7 +123,12 @@ jobs:
         shell: bash
         run: |
           set -x
-          GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | tr "\n" ":")"
+          GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | \
+          sed "s|^GITHUB_ENV\$|GITHUB_ENV/p|" | \
+          sed "s|^GITHUB_EVENT_PATH\$|GITHUB_EVENT_PATH/p|" | \
+          sed "s|^GITHUB_PATH\$|GITHUB_PATH/p|" | \
+          sed "s|^GITHUB_WORKSPACE\$|GITHUB_WORKSPACE/p|" | \
+          tr "\n" ":")"
           echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
       - name: Set up WSL
         shell: bash
