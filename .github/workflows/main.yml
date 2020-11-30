@@ -124,7 +124,7 @@ jobs:
         run: |
           set -x
           GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | tr "\n" ":")"
-          echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}:GITHUB_ENV/p:GITHUB_PATH/p" >> ${GITHUB_ENV}
+          echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
       - name: Set up WSL
         shell: bash
         run: >
