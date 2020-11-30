@@ -30,7 +30,8 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         curl \
             -sS \
             "${CURL_TRAVIS_API_HEADERS[@]}" \
-            https://api.travis-ci.com/job/${TRAVIS_JOB_ID}/log | jq -r '.content' >log.sh-session || true
+            https://api.travis-ci.com/job/${TRAVIS_JOB_ID}/log | \
+            ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r '.content' >log.sh-session || true
         git add -f log.sh-session
     }
 

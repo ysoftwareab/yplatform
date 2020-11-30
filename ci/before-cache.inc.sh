@@ -5,7 +5,7 @@ function sf_ci_run_before_cache_stats() {
 
     [[ "${TRAVIS:-}" != "true" ]] || {
         local YAML2JSON="npx js-yaml"
-        for f in $(eval "${YAML2JSON} .travis.yml" | jq -r ".cache.directories[]"); do
+        for f in $(eval "${YAML2JSON} .travis.yml" | ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r ".cache.directories[]"); do
             eval "f=${f}"
             [[ -d "${f}" ]] || continue
             du -hcs ${f} | head -n+1

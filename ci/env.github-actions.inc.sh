@@ -8,7 +8,9 @@ CI_JOB_ID=${GITHUB_ACTION}
 CI_JOB_URL=https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME
 CI_PR_SLUG=
 if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-    CI_PR_SLUG=https://github.com/${GITHUB_REPOSITORY}/pull/$(jq -r .github.event.number ${GITHUB_EVENT_PATH})
+    CI_PR_NUMBER=$(${SUPPORT_FIRECLOUD_DIR}/bin/jq -r .github.event.number ${GITHUB_EVENT_PATH})
+    CI_PR_SLUG=https://github.com/${GITHUB_REPOSITORY}/pull/${CI_PR_NUMBER}
+    unset CI_PR_NUMBER
 fi
 CI_REPO_SLUG=${GITHUB_REPOSITORY}
 CI_IS_PR=false
