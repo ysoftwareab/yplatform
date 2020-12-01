@@ -77,6 +77,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
 
 * https://developers.google.com/tech-writing/overview
 * https://github.com/google/styleguide/blob/gh-pages/docguide/philosophy.md
+* https://www.julian.com/guide/write/intro
 
 
 ## License
