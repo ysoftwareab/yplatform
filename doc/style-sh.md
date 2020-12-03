@@ -16,6 +16,7 @@ Other notable mentions:
 * we haven't used constants, via `readonly` or `declare -r`, but it would be ok to
 * we haven't used the concept of a `main` function, but it would be a nice addition
 
+
 ## BASH
 
 All shell scripts use `bash`, thus the shebang `#!/usr/bin/env bash`.
@@ -57,7 +58,7 @@ test -f /some/file || {
 }
 ```
 
-Except this is a slightly more controversial (some may say 'less readable') version of
+The above is a slightly more controversial (some may say 'less readable') version of
 
 ```shell
 if ! test -f /some/file; then
@@ -65,9 +66,6 @@ if ! test -f /some/file; then
     then_some_more
 fi
 ```
-
-**BUT** the `if` version is not equivalent, because if the `! test -f /some/file` fails
-e.g. `test` is not an available command, then the script is terminated.
 
 Be aware though of the construct `test -f /some/file && do_this || do_that` because `do_that` can be executed
 both if `test -f /some/file`, or `do_this` fails.
