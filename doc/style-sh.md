@@ -13,10 +13,8 @@ with a few exceptions:
 
 Other notable mentions:
 
-* we haven't got to use [shellcheck](https://github.com/koalaman/shellcheck), but would be a nice addition
 * we haven't used constants, via `readonly` or `declare -r`, but it would be ok to
 * we haven't used the concept of a `main` function, but it would be a nice addition
-
 
 ## BASH
 
