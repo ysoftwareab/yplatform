@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-git config --global user.email "actions@github.com"
-git config --global user.name "Github Actions CI"
+git config --global user.email "gitlab@gitlab.com"
+git config --global user.name "Gitlab CI"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 # CI_JOB_ID=
