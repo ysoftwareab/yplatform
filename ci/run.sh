@@ -90,5 +90,6 @@ function sf_ci_run() {
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.github-actions.inc.sh
 [[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.codeship.inc.sh
 [[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
+[[ "${CIRRUS_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.cirrus-ci.inc.sh
 
 [[ -z "$*" ]] || sf_ci_run $@

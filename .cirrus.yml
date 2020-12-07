@@ -1,0 +1,34 @@
+timeout_in: 30m
+
+env:
+  SF_CI_BREW_INSTALL: minimal
+  SF_LOG_BOOTSTRAP: "true"
+  SF_PRINTENV_BOOTSTRAP: "false"
+  TRANSCRYPT_PASSWORD: ""
+  V: ""
+
+task:
+  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus*'
+  container:
+    # name: ubuntu:16.04
+    # NOTE using the prebuilt docker image of homebrew (linuxbrew)
+    # because homebrew cannot be installed as root,
+    # and creating a sudoer user and then running cirrus jobs through it failed
+    image: homebrew/ubuntu16.04
+  # see https://cirrus-ci.org/guide/tips-and-tricks/#custom-clone-command
+  clone_script: |
+    git clone --recursive --branch=$CIRRUS_BRANCH \
+      https://x-access-token:${CIRRUS_REPO_CLONE_TOKEN}@github.com/${CIRRUS_REPO_FULL_NAME}.git \
+      $CIRRUS_WORKING_DIR
+    [ -z "$CIRRUS_PR" ] || git fetch origin pull/$CIRRUS_PR/head:pull/$CIRRUS_PR
+    git reset --hard $CIRRUS_CHANGE_IN_REPO
+  clone_submodule_script: |
+    git submodule sync --recursive
+    git submodule update --init --recursive
+  before_install_script: ./.ci.sh before_install
+  install_script: ./.ci.sh install
+  before_script_script: ./.ci.sh before_script
+  script_script: ./.ci.sh script
+  after_success_script: ./.ci.sh after_success
+  # after_failure_script: ./.ci.sh after_failure
+  # after_script_script: ./.ci.sh after_script

@@ -13,6 +13,7 @@
     * the bootstrapping is so generic that it is very easy to use `support-firecloud` in a multitude of CI solutions
       * `AppVeyor_________` [![AppVeyor Status][14]][13]
       * `CircleCI_________` [![CircleCI Status][4]][3]
+      * `Cirrus CI________` [![Cirrus CI Status][16]][15]
       * `Codeship_________` [![Codeship Status][8]][7]
       * `Github Actions CI` [![Github Actions CI Status][2]][1]
       * `Gitlab CI________` [![Gitlab CI Status][12]][11]
@@ -51,7 +52,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
     * [SASS](https://github.com/rokmoln/sass-lint-config-firecloud)
 * set up a new `git` repository
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
-  * [how to license](doc/how-to-license.md)
+  * [how to license ](doc/how-to-license.md)
   * [integrate Travis CI](doc/integrate-travis-ci.md)
   * [.ci.sh](doc/ci-sh.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md)
@@ -99,3 +100,5 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
   [12]: https://gitlab.com/rokmoln/support-firecloud/badges/master/pipeline.svg
   [13]: https://ci.appveyor.com/project/andreineculau/support-firecloud/branch/master
   [14]: https://ci.appveyor.com/api/projects/status/da744jauw31fi66h/branch/master?svg=true
+  [15]: https://cirrus-ci.com/github/rokmoln/support-firecloud/master
+  [16]: https://api.cirrus-ci.com/github/rokmoln/support-firecloud.svg?branch=master
