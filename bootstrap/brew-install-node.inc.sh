@@ -69,7 +69,7 @@ EOF
 
     echo_do "brew: Testing NodeJS packages..."
     exe_and_grep_q "node --version | head -1" "^v"
-    exe_and_grep_q "npm --version | head -1" "^6\."
-    exe_and_grep_q "json --version | head -1" "^json 9\."
+    exe_and_grep_q "npm --version | head -1" "^6\\."
+    exe_and_grep_q "json --version | head -1" "^json 9\\."
     echo_done
 fi

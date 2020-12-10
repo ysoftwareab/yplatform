@@ -84,7 +84,7 @@ else
     echo_done
 
     echo_do "brew: Testing Docker packages..."
-    exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
-    exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version 1\."
+    exe_and_grep_q "docker --version | head -1" "^Docker version \\(19\\|20\\)\\."
+    exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version 1\\."
     echo_done
 fi

@@ -25,16 +25,16 @@ EOF
     echo_do "brew: Testing GNU packages..."
     exe_and_grep_q "cat --version | head -1" "^cat (GNU coreutils) 8\\."
     exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\\."
-    exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) 0.2[01]"
+    exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \\(0\\.20\\|0\\.21\\)"
     exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\."
     exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\."
     exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\\."
     exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\."
     # need an extra condition, because the original one fails intermitently
-    # exe_and_grep_q "xargs --help 2>&1" "no\\-run\\-if\\-empty"
+    # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
     echo | xargs -r false || {
         echo_err "Your xargs doesn't have a working -r (short for --no-run-of-empty) option."
-        exe_and_grep_q "xargs --help 2>&1" "no\\-run\\-if\\-empty"
+        exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
         exit 1
     }
     echo_done
