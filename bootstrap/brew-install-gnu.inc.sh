@@ -23,13 +23,13 @@ EOF
     echo_done
 
     echo_do "brew: Testing GNU packages..."
-    exe_and_grep_q "cat --version | head -1" "^cat (GNU coreutils) 8\\."
-    exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\\."
-    exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \\(0\\.20\\|0\\.21\\)"
-    exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\\."
-    exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\\."
-    exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\\."
-    exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\\."
+    exe_and_grep_q "cat --version | head -1" "^cat (GNU coreutils) 8\."
+    exe_and_grep_q "diff --version | head -1" "^diff (GNU diffutils) 3\."
+    exe_and_grep_q "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \(0\.20\|0\.21\)"
+    exe_and_grep_q "find --version | head -1" "^find (GNU findutils) 4\."
+    exe_and_grep_q "grep --version | head -1" "^grep (GNU grep) 3\."
+    exe_and_grep_q "sed --version | head -1" "^sed (GNU sed) 4\."
+    exe_and_grep_q "tar --version | head -1" "^tar (GNU tar) 1\."
     # need an extra condition, because the original one fails intermitently
     # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
     echo | xargs -r false || {

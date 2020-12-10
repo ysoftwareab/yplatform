@@ -11,6 +11,6 @@ unset BREW_FORMULAE
 echo_done
 
 echo_do "brew: Testing Python packages..."
-exe_and_grep_q "python3 --version 2>&1 | head -1" "^Python 3\\."
+exe_and_grep_q "python3 --version 2>&1 | head -1" "^Python 3\."
 exe_and_grep_q "pip3 --version | head -1" "^pip "
 echo_done

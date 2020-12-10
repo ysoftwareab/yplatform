@@ -41,5 +41,5 @@ echo_done
 }
 
 echo_do "brew: Testing NVM packages..."
-exe_and_grep_q "nvm --version | head -1" "^0\\."
+exe_and_grep_q "nvm --version | head -1" "^0\."
 echo_done
