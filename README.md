@@ -57,7 +57,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
   * [.ci.sh](doc/ci-sh.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md)
 * Amazon Web Services
-  * [CloudFormation](repo/cfn/README.md)
+  * [CloudFormation](aws-cfn.mk/README.md)
   * [Identity Access Management](doc/aws-iam.md)
 
 

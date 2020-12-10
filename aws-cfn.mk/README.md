@@ -49,16 +49,16 @@ This has a few striking benefits, like:
 .
 +-- cfn
     +-- env-web
-        +-- index.js        ~  ../../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
+        +-- index.js        ~  ../../support-firecloud/aws-cfn.mk/tpl.stack-stem.cfn.js
         +-- s3.web.cfn.js
         +-- kms.web.cfn.js
     +-- infra
-        +-- index.js        ~  ../../support-firecloud/repo/cfn/tpl.stack-stem.cfn.js
+        +-- index.js        ~  ../../support-firecloud/aws-cfn.mk/tpl.stack-stem.cfn.js
         +-- iam.cfn.js
-    +-- .gitignore          ~  ../support-firecloud/repo/cfn/tpl.gitignore
-    +-- Makefile            ~  ../support-firecloud/repo/cfn/tpl.Makefile
-    +-- env-web.inc.mk      ~  ../support-firecloud/repo/cfn/tpl.stack-stem.inc.mk
-    +-- infra.inc.mk        ~  ../support-firecloud/repo/cfn/tpl.stack-stem.inc.mk
+    +-- .gitignore          ~  ../support-firecloud/aws-cfn.mk/tpl.gitignore
+    +-- Makefile            ~  ../support-firecloud/aws-cfn.mk/tpl.Makefile
+    +-- env-web.inc.mk      ~  ../support-firecloud/aws-cfn.mk/tpl.stack-stem.inc.mk
+    +-- infra.inc.mk        ~  ../support-firecloud/aws-cfn.mk/tpl.stack-stem.inc.mk
 ```
 
 Above is an example of a folder structure in a repo with a `cfn` folder,

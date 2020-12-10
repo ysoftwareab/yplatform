@@ -58,14 +58,14 @@ mkdir -p ${CFN_DIR}
 
 ARTIFACT=${CFN_DIR}/.gitignore
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.gitignore ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.gitignore ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=${CFN_DIR}/Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.Makefile ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.Makefile ${ARTIFACT}
     sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
@@ -81,14 +81,14 @@ ARTIFACT=${CFN_DIR}/Makefile
 ARTIFACT=${CFN_DIR}/${STACK_STEM}/index.js
 [[ -e ${ARTIFACT} ]] || {
     mkdir -p $(dirname ${ARTIFACT})
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem/index.js ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.stack-stem/index.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=${CFN_DIR}/${STACK_STEM}.inc.mk
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/cfn/tpl.stack-stem.inc.mk ${ARTIFACT}
+    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.stack-stem.inc.mk ${ARTIFACT}
     sed -i "s|<STACK_STEM>|${STACK_STEM}|g" ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."

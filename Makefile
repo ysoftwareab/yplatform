@@ -34,17 +34,17 @@ SF_VENDOR_FILES_IGNORE += \
 
 SF_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
+	-e "^aws-cfn.mk/tpl\.Makefile$$" \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^generic/dot\.gitignore_global\.base$$" \
 	-e "^generic/dot\.gitignore_global\.tpl$$" \
 	-e "^repo/AUTHORS$$" \
 	-e "^repo/Brewfile.inc.sh$$" \
-	-e "^repo/cfn/tpl\.Makefile$$" \
-	-e "^repo/dot.github/" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/NOTICE$$" \
 	-e "^repo/UNLICENSE$$" \
+	-e "^repo/dot.github/" \
 
 SF_ECLINT_FILES_IGNORE += \
 	-e "^bin/" \
