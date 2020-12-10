@@ -65,7 +65,7 @@ function printenv_with_name() {
 function exe_and_grep_q() {
     local OUTPUT=$(eval "$1")
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
-    echo_info "Testing if command '$1' with output '${OUTPUT}' matches '$2'..."
+    echo_do "Testing if command '$1' with output '${OUTPUT}' matches '$2'..."
     if [[ $(type -t ${EXECUTABLE}) = "file" ]]; then
         which -a ${EXECUTABLE}
         which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do
@@ -77,10 +77,10 @@ function exe_and_grep_q() {
         echo "${EXECUTABLE} is $(type -t ${EXECUTABLE} || true)"
     fi
     echo "${OUTPUT}" | grep -q "$2" || {
-        echo_err "No match."
+        echo_err "Command '$1' with output '${OUTPUT}' does not match '$2'."
         return 1
     }
-    echo_info "It matches."
+    echo_done
 }
 
 function prompt_q_to_continue() {
