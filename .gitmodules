@@ -1,4 +1,4 @@
 [submodule "repo/core.inc.mk"]
-	path = repo/mk/core.inc.mk
+	path = build.mk/core.inc.mk
 	url = git://github.com/andreineculau/core.inc.mk.git
 	branch = master
