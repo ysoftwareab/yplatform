@@ -5,7 +5,7 @@ undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/repo/mk/generic.common.mk
+include support-firecloud/build.mk/generic.common.mk
 
 # ------------------------------------------------------------------------------
 

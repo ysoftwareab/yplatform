@@ -2,7 +2,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/../..)
+SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/..)
 
 # ------------------------------------------------------------------------------
 
@@ -11,7 +11,7 @@ export PATH
 
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(CI_ECHO_BENCHMARK)
 CI_ECHO_BENCHMARK ?= /dev/null
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.inc.mk/Makefile
+include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.inc.mk/Makefile
 
 SF_COMMIT =
 SF_VSN = $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
@@ -56,17 +56,17 @@ all: deps build check ## Fetch dependencies, build and check.
 SF_INCLUDES_IGNORE ?=
 
 SF_CORE_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.vendor.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.clean.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.deps.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.build.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.check.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.shell.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.test.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.vendor.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.clean.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.build.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.shell.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.test.mk \
 
 SF_CORE_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.node.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/core.tar.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.node.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.tar.mk \
 
 SF_CORE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_CORE_COMMON_INCLUDES_DEFAULT))
 

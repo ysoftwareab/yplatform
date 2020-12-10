@@ -1,6 +1,6 @@
 # Style for Makefiles
 
-[repo/mk](../repo/mk) and other Makefiles follow a consistent style described bellow.
+[build.mk](../build.mk) and other Makefiles follow a consistent style described bellow.
 
 
 ## Filename
@@ -18,11 +18,11 @@ undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/repo/mk/...
+include support-firecloud/build.mk/...
 ```
 
-Include `support-firecloud/repo/mk/generic.common.mk`,
-or at the very minimum, include `support-firecloud/repo/mk/core.common.mk`.
+Include `support-firecloud/build.mk/generic.common.mk`,
+or at the very minimum, include `support-firecloud/build.mk/core.common.mk`.
 
 This will mean that
 

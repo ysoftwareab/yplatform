@@ -44,7 +44,7 @@ The `sf_ci_run` function will mainly check
 
 `ci_run_<phase>` functions are custom implementations for each phase,
 while `sf_ci_run_<phase>` are default implementations,
-mainly wrapping the `make` targets defined in [repo/mk](../repo/mk).
+mainly wrapping the `make` targets defined in [build.mk](../build.mk).
 
 
 ## Customization via environment variables

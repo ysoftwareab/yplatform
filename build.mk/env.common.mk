@@ -14,8 +14,8 @@ ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including env.common.mk .)
 endif
 
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/env.promote.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/env.teardown.mk
+include $(SUPPORT_FIRECLOUD_DIR)/build.mk/env.promote.mk
+include $(SUPPORT_FIRECLOUD_DIR)/build.mk/env.teardown.mk
 
 # ------------------------------------------------------------------------------
 

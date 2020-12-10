@@ -1,4 +1,4 @@
-# support-firecloud/repo/mk
+# support-firecloud/build.mk
 
 Use these Makefile "puzzle" pieces by making your main `Makefile` look like this:
 
@@ -10,8 +10,8 @@ undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/repo/mk/generic.common.mk
-include support-firecloud/repo/mk/...
+include support-firecloud/build.mk/generic.common.mk
+include support-firecloud/build.mk/...
 
 # ------------------------------------------------------------------------------
 

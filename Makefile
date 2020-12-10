@@ -5,19 +5,19 @@ undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/repo/mk/generic.common.mk
-include support-firecloud/repo/mk/sh.check.shellcheck.mk
-include support-firecloud/repo/mk/js.deps.npm.mk
-include support-firecloud/repo/mk/js.check.eslint.mk
-include support-firecloud/repo/mk/core.misc.release.tag.mk
+include support-firecloud/build.mk/generic.common.mk
+include support-firecloud/build.mk/sh.check.shellcheck.mk
+include support-firecloud/build.mk/js.deps.npm.mk
+include support-firecloud/build.mk/js.check.eslint.mk
+include support-firecloud/build.mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
 
-COMMON_MKS := $(wildcard repo/mk/*.common.mk)
-COMMON_MKS := $(filter-out repo/mk/generic.common.mk,$(COMMON_MKS))
+COMMON_MKS := $(wildcard build.mk/*.common.mk)
+COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
 FORMULA_PATCH_FILES := $(shell $(GIT_LS) "Formula/*.patch")
 FORMULA_PATCHED_FILES := $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
@@ -102,7 +102,7 @@ test-repo-mk:
 	$(MAKE) help
 	for mk in $(COMMON_MKS); do \
 		$(ECHO_DO) "Testing $${mk}..."; \
-		$(MAKE) -f repo/mk/generic.common.mk -f $${mk} help; \
+		$(MAKE) -f build.mk/generic.common.mk -f $${mk} help; \
 		$(ECHO_DONE); \
 	done
 

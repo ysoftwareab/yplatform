@@ -8,7 +8,7 @@ $(error Please include generic.common.mk, before including js.common.mk .)
 endif
 
 SF_JS_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/repo/mk/js.deps.npm.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/js.deps.npm.mk \
 
 SF_JS_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_JS_COMMON_INCLUDES_DEFAULT))
 

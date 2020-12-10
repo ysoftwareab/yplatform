@@ -61,8 +61,8 @@ Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm
 An example flow for publishing [`minlog`](https://github.com/rokmoln/minlog)
 which in its [Makefile](https://github.com/rokmoln/minlog/blob/master/Makefile) is using
 
-* [repo/mk/node.common.mk](../repo/mk/node.common.mk)
-* [repo/mk/core.misc.release.npg.mk](../repo/mk/core.misc.release.npg.mk)
+* [build.mk/node.common.mk](../build.mk/node.common.mk)
+* [build.mk/core.misc.release.npg.mk](../build.mk/core.misc.release.npg.mk)
 
 ```
 cd path/to/minlog
@@ -99,8 +99,8 @@ We have this working for a few private repositories, integrated with Travis CI.
 
 An example of a repository which in its Makefile is using
 
-* [repo/mk/js.common.node.mk](../repo/mk/js.common.node.mk)
-* [repo/mk/js.publish.tag.mk](../repo/mk/js.publish.tag.mk)
+* [build.mk/js.common.node.mk](../build.mk/js.common.node.mk)
+* [build.mk/js.publish.tag.mk](../build.mk/js.publish.tag.mk)
 
 ```
 cd path/to/repo
