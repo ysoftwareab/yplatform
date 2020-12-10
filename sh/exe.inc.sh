@@ -13,6 +13,7 @@ function echo_do() {
     ${CI_ECHO} "[DO  ]" "$@"
 }
 
+# shellcheck disable=SC2120
 function echo_done() {
     ${CI_ECHO} "[DONE]" "$@"
 }
