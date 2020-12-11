@@ -1,9 +1,6 @@
 # SC1090: Can't follow non-constant source. Use a directive to specify location
 disable=SC1090
 
-# SC1091: Not following: /etc/os-release was not specified as input (see shellcheck -x).
-disable=SC1091
-
 # SC2001: See if you can use ${variable//search/replace} instead.
 disable=SC2001
 

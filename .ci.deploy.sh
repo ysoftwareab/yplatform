@@ -79,7 +79,9 @@ function ci_run_deploy_docker_image() {
 
     [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
 
+    # shellcheck disable=SC1091
     local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
+    # shellcheck disable=SC1091
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
