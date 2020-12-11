@@ -16,6 +16,7 @@ aliases:
   env: &env
     GITHUB_MATRIX_OS: ${{ matrix.os }}
     GH_TOKEN: ${{ secrets.GH_TOKEN }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     SF_LOG_BOOTSTRAP: true
     SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}

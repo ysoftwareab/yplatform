@@ -28,3 +28,4 @@ if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
     CI_TAG=${GITHUB_REF#refs\/tags\/}
 fi
 export CI=true
+export GH_TOKEN=${GH_TOKEN:-${GITHUB_TOKEN}}
