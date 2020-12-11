@@ -58,6 +58,8 @@ Here's a list of the environment variables that customize the code execution:
   * `SUDO`
     * set to `sf_nosudo` to bootstrap without sudo
     * set to a custom `sudo` executable path
+  * `SF_CI_ECHO_BENCHMARK`
+    * set to a file that will collect `bin/ci-echo` DO-DONE durations for benchmarking
   * `SF_LOG_BOOTSTRAP`
     * set to `true` to enable printing the whole bootstrap log which is hidden by default
   * `SF_PRINTENV_BOOTSTRAP`
