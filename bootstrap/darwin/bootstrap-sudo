@@ -6,7 +6,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 if [[ "${EUID}" != "0" ]]; then
     # Restart this shell script as root.
-    ${SUDO} ${BASH_SOURCE[0]}
+    ${SF_SUDO} ${BASH_SOURCE[0]}
     exit 0
 fi
 

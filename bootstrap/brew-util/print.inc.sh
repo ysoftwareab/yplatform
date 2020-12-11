@@ -27,7 +27,7 @@ function brew_printenv() {
 ^SHELL=
 ^SF_LOG_BOOTSTRAP=
 ^SF_PRINTENV_BOOTSTRAP=
-^SUDO=
+^SF_SUDO=
 ^TZ=
 ^USER=
 EOF

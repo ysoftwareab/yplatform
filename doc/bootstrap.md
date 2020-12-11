@@ -87,7 +87,7 @@ All common system-wide dependencies can be installed by running
 ```
 
 You can also try to bootstrap without using `sudo`.
-Run `SUDO=sf_nosudo ~/git/firecloud/support-firecloud/dev/bootstrap` instead.
+Run `SF_SUDO=sf_nosudo ~/git/firecloud/support-firecloud/dev/bootstrap` instead.
 
 **NOTE** If the bootstrap script above didn't finish by printing `Restart your shell, and you're good to go.`,
 then you know the script has failed while executing.

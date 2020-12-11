@@ -5,14 +5,14 @@ set -euo pipefail
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function apt_update() {
-    ${SUDO} apt-get update -y --fix-missing 2>&1 || {
+    ${SF_SUDO} apt-get update -y --fix-missing 2>&1 || {
         set -x
         # try to handle "Hash Sum mismatch" error
-        ${SUDO} apt-get clean
-        ${SUDO} rm -rf /var/lib/apt/lists/*
+        ${SF_SUDO} apt-get clean
+        ${SF_SUDO} rm -rf /var/lib/apt/lists/*
         # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        ${SUDO} apt-get update -o Acquire::CompressionTypes::Order::=gz
-        ${SUDO} apt-get update -y --fix-missing
+        ${SF_SUDO} apt-get update -o Acquire::CompressionTypes::Order::=gz
+        ${SF_SUDO} apt-get update -y --fix-missing
         set +x
     }
 }
@@ -21,8 +21,8 @@ function apt_install_one() {
     local DPKG="$@"
 
     echo_do "aptitude: Installing ${DPKG}..."
-    # ${SUDO} apt-get install -y --force-yes ${DPKG}
-    ${SUDO} apt-get install -y ${FORCE_YES} ${DPKG}
+    # ${SF_SUDO} apt-get install -y --force-yes ${DPKG}
+    ${SF_SUDO} apt-get install -y ${FORCE_YES} ${DPKG}
     echo_done
 }
 
