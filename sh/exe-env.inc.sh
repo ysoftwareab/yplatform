@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 function sf_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
@@ -16,7 +16,7 @@ function sf_path_append() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-if [ -x /home/linuxbrew/.linuxbrew/bin/brew ]; then
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
     sf_path_prepend /home/linuxbrew/.linuxbrew/bin
 elif [ -x ${HOME}/.linuxbrew/bin/brew ]; then
@@ -41,12 +41,12 @@ if which brew >/dev/null 2>&1; then
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/unzip/bin
     sf_path_prepend ${HOMEBREW_PREFIX}/opt/zip/bin
 
-    [ -n "${NVM_DIR:-}" ] || export NVM_DIR=${HOME}/.nvm
+    [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
     type nvm >/dev/null 2>&1 || {
         # using a less exact call because 'brew --prefix nvm' is very very slow
         # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
         NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
-        [ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
+        [[ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ]] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
         unset NVM_INSTALLATION_DIR
     }
 

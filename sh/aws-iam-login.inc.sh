@@ -1,7 +1,7 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
-aws-iam-login() {
-    [ $# -eq 1 ] || {
+function aws-iam-login() {
+    [[ $# -eq 1 ]] || {
         echo >&2 "Usage: aws-iam-login <profilename>"
         return 1
     }
@@ -36,24 +36,24 @@ aws-iam-login() {
 
     rm -f ${CREDENTIALS_TEMP}
 
-    [ -n "${AWS_ACCESS_KEY_ID}" ] || {
+    [[ -n "${AWS_ACCESS_KEY_ID}" ]] || {
         echo >&2 "No AWS_ACCESS_KEY_ID in the environment. Something went wrong."
         return 1
     }
 
-    [ -n "${AWS_SECRET_ACCESS_KEY}" ] || {
+    [[ -n "${AWS_SECRET_ACCESS_KEY}" ]] || {
         echo >&2 "No AWS_SECRET_ACCESS_KEY in the environment. Something went wrong."
         return 1
     }
 
-    [ -n "${AWS_SESSION_TOKEN}" ] || {
+    [[ -n "${AWS_SESSION_TOKEN}" ]] || {
         echo >&2 "No AWS_SESSION_TOKEN in the environment. Something went wrong."
         return 1
     }
 }
 
 aws-iam-login-ns() {
-    [ $# -eq 2 ] || {
+    [[ $# -eq 2 ]] || {
         echo >&2 "Usage: aws-iam-login-ns <profilename> <namespace>"
         return 1
     }
@@ -68,7 +68,7 @@ aws-iam-login-ns() {
     declare -x ${NS}_AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     declare -x ${NS}_AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
 
-    if [ -n "${LOCAL_AWS_PROFILE:-}" ]; then
+    if [[ -n "${LOCAL_AWS_PROFILE:-}" ]]; then
         aws-iam-login ${LOCAL_AWS_PROFILE}
     else
         echo >&2
@@ -79,7 +79,7 @@ aws-iam-login-ns() {
     echo >&2 "[INFO] Credentials for ${NS_AWS_PROFILE} are now stored in ${NS}_ environment variables."
 }
 
-_aws_profile_completer() {
+_aws-iam-login_completer() {
     local WORD=${COMP_WORDS[COMP_CWORD]}
     local AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-${HOME}/.aws/credentials}
     local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | xargs -r -I{} expr {} : "\[\(.*\)\]")"
@@ -87,5 +87,5 @@ _aws_profile_completer() {
     COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
 }
 
-complete -F _aws_profile_completer aws-iam-login
-complete -F _aws_profile_completer aws-iam-login-ns
+complete -F _aws-iam-login_completer aws-iam-login
+complete -F _aws-iam-login_completer aws-iam-login-ns
