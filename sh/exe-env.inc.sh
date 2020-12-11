@@ -58,7 +58,7 @@ function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
     case $1 in
         --help|--version)
-            ${MAKE_COMMAND} $@
+            ${MAKE_COMMAND} "$@"
             return $?
             ;;
     esac
@@ -67,18 +67,18 @@ function make() {
             echo >&2 "[INFO] Running    ${PWD}/make.sh $*"
             echo >&2 "       instead of ${MAKE_COMMAND} $*"
         }
-        SF_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh $@
+        SF_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
         local EXIT_CODE=$?
         # á la Ubuntu's ~/.sudo_as_admin_successful
         [[ ${EXIT_CODE} -ne 0 ]] || touch make.sh.successful
         return ${EXIT_CODE}
     fi
-    ${MAKE_COMMAND} $@
+    ${MAKE_COMMAND} "$@"
 }
 
 # for when you want to skip ./make.sh
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make.bak() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
-    ${MAKE_COMMAND} $@
+    ${MAKE_COMMAND} "$@"
 }

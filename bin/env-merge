@@ -16,7 +16,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 
 CONTENT="$(
-for FILE in $@; do
+for FILE in "$@"; do
     cat "${FILE}" | sed "s|$| # ${FILE}|g"
 done
 )"

@@ -26,6 +26,3 @@ disable=SC2086
 
 # FIXME SC2046: Quote this to prevent word splitting.
 disable=SC2046
-
-# FIXME SC2068: Double quote array expansions to avoid re-splitting elements.
-disable=SC2068

@@ -7,4 +7,4 @@
     exit 1;
 }
 
-${SF_MAKE_COMMAND} $@
+${SF_MAKE_COMMAND} "$@"

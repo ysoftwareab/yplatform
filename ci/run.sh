@@ -92,4 +92,4 @@ function sf_ci_run() {
 [[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
 [[ "${CIRRUS_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.cirrus-ci.inc.sh
 
-[[ -z "$*" ]] || sf_ci_run $@
+[[ -z "$*" ]] || sf_ci_run "$@"

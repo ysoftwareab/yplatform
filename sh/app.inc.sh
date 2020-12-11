@@ -129,7 +129,7 @@ function app_provision_cfn_stacks() {
         STACK_ITERATIONS[${STACK_STEM}]=$((${STACK_ITERATIONS[${STACK_STEM}]:-0} + 1))
         export STACK_ITERATION=${STACK_ITERATIONS[${STACK_STEM}]}
 
-        app_provision_cfn_stack ${STACK_STEM} $@
+        app_provision_cfn_stack ${STACK_STEM} "$@"
     done
 }
 
@@ -186,6 +186,6 @@ function app_teardown_cfn_stacks() {
         STACK_ITERATIONS[${STACK_STEM}]=$((${STACK_ITERATIONS[${STACK_STEM}]:-0} + 1))
         export STACK_ITERATION=${STACK_ITERATIONS[${STACK_STEM}]}
 
-        app_teardown_cfn_stack ${STACK_STEM} $@
+        app_teardown_cfn_stack ${STACK_STEM} "$@"
     done
 }
