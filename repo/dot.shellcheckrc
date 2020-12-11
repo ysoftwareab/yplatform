@@ -32,6 +32,3 @@ disable=SC2068
 
 # FIXME SC2145: Argument mixes string and array. Use * or separate argument.
 disable=SC2145
-
-# FIXME SC2124: Assigning an array to a string! Assign as array, or use * instead of @ to concatenate.
-disable=SC2124

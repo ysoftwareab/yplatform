@@ -21,6 +21,6 @@ GIT_MODIFIED_FILES="$(git diff --name-only)"
 }
 
 export GIT_HOOK_STDIN="$(cat /dev/stdin)"
-export GIT_HOOK_ARGS="$@"
+export GIT_HOOK_ARGS="$*"
 
 make .git/hooks/pre-push/run

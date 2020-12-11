@@ -204,7 +204,7 @@ function teamcity_echo() {
     echo "##teamcity[message text='${MESSAGE}' status='${STATUS}']"
 }
 
-GROUP="${@:2}"
+GROUP="${*:2}"
 
 case $1 in
     "[DO  ]")

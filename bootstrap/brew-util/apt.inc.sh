@@ -18,7 +18,7 @@ function apt_update() {
 }
 
 function apt_install_one() {
-    local DPKG="$@"
+    local DPKG="$*"
 
     echo_do "aptitude: Installing ${DPKG}..."
     # ${SF_SUDO} apt-get install -y --force-yes ${DPKG}

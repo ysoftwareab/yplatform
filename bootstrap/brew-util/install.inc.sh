@@ -2,7 +2,7 @@
 set -euo pipefail
 
 function brew_install_one_patched() {
-    local FORMULA="$@"
+    local FORMULA="$*"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
@@ -29,7 +29,7 @@ function brew_install_one_patched() {
 }
 
 function brew_install_one_core() {
-    local FORMULA="$@"
+    local FORMULA="$*"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
@@ -104,7 +104,7 @@ function brew_install_one_core() {
 }
 
 function brew_install_one() {
-    local FORMULA="$@"
+    local FORMULA="$*"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")

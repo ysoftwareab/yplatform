@@ -59,7 +59,7 @@ function sf_ci_run() {
         echo_info "Skipping the sf-docker-ci container because SF_DOCKER_CI_IMAGE=false."
     else
         local RUN_IN_SF_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
-        CMD="${RUN_IN_SF_DOCKER_CI} ${0} $@ 2>&1"
+        CMD="${RUN_IN_SF_DOCKER_CI} ${0} $* 2>&1"
         # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
         CMD="unbuffer ${CMD} | pv -q -L 3k"
 
