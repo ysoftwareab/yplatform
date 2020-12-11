@@ -16,13 +16,13 @@ disable=SC2004
 # SC2129: Consider using { cmd1; cmd2; } >> file instead of individual redirects.
 disable=SC2129
 
-# SC2155: Declare and assign separately to avoid masking return values.
-disable=SC2155
-
 # SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
 disable=SC2164
 
 # ------------------------------------------------------------------------------
+
+# FIXME SC2155: Declare and assign separately to avoid masking return values.
+disable=SC2155
 
 # FIXME SC2086: Double quote to prevent globbing and word splitting.
 disable=SC2086
