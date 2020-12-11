@@ -30,8 +30,8 @@ jobs:
     name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GH_TOKEN: '${{ secrets.GH_TOKEN }}'
+      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
@@ -93,8 +93,8 @@ jobs:
     name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GH_TOKEN: '${{ secrets.GH_TOKEN }}'
+      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
@@ -195,8 +195,8 @@ jobs:
     name: 'deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GH_TOKEN: '${{ secrets.GH_TOKEN }}'
+      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
