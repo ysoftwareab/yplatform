@@ -33,7 +33,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/notifications.inc.sh
 
 
 function sf_ci_run() {
-    >&2 echo "$(date +"%H:%M:%S") [DO  ] $@"
+    >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
 
     CMD=
     if [[ "$(type -t "ci_run_${1}")" = "function" ]]; then
@@ -43,7 +43,7 @@ function sf_ci_run() {
     else
         >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${1} or sf_ci_run_${1} function."
 
-        >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+        >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
         return 0
     fi
 
@@ -82,7 +82,7 @@ function sf_ci_run() {
 
     eval "${CMD}"
 
-    >&2 echo "$(date +"%H:%M:%S") [DONE] $@"
+    >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
 [[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.travis-ci.inc.sh

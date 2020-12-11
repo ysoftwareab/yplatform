@@ -29,6 +29,3 @@ disable=SC2046
 
 # FIXME SC2068: Double quote array expansions to avoid re-splitting elements.
 disable=SC2068
-
-# FIXME SC2145: Argument mixes string and array. Use * or separate argument.
-disable=SC2145

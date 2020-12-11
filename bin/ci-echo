@@ -82,7 +82,7 @@ function basic_travis_echo() {
 
     local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set +x
-    echo -en "$@\\r${ANSI_CLEAR_LINE}"
+    echo -en "$*\\r${ANSI_CLEAR_LINE}"
     eval "${XTRACE_STATE}"
 }
 
@@ -151,7 +151,7 @@ function github_actions_echo() {
 function basic_teamcity_echo() {
     local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set +x
-    echo "##teamcity[$@]"
+    echo "##teamcity[$*]"
     eval "${XTRACE_STATE}"
 }
 

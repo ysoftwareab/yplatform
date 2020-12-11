@@ -30,7 +30,7 @@ else
             # The user has exported SF_SUDO= or has no sudo installed.
             function sf_nosudo() {
                 echo "[ERR ] sudo required, but not available for running the following command:"
-                echo "       $@"
+                echo "       $*"
                 echo "[Q   ] Run the command yourself as root, then continue."
                 echo "       Press ENTER to Continue."
                 echo "       Press Ctrl-C to Cancel."
