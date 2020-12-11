@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
 
 git config --global user.email "cirrus@cirrus-ci.com"
 git config --global user.name "Cirrus CI"

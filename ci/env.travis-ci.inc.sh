@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
 
 git config --global user.email "travis@travis-ci.com"
 git config --global user.name "Travis CI"

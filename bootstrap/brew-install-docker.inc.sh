@@ -40,9 +40,9 @@ else
             # shellcheck disable=SC1091
             RELEASE_ID="$(source /etc/os-release && echo ${ID})"
             # shellcheck disable=SC1091
-            RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
+            # RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
             # shellcheck disable=SC1091
-            RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
+            # RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
 
             # BEGIN https://docs.docker.com/engine/install/ubuntu/
             for PKG in docker docker-engine docker.io containerd runc; do

@@ -19,9 +19,6 @@ if [[ "${SF_GIT_BRANCH}" = "master" ]]; then
     git clean -xdf .
 fi
 
-# Bootstrap OS
-OS=$(uname | tr "[:upper:]" "[:lower:]")
-
 # Check sudo permissions if using sudo.
 echo_info "Bootstrapping with SF_SUDO=${SF_SUDO}..."
 if [[ -z "${SF_SUDO}" ]]; then

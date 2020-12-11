@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
 
 git config --global user.email "gitlab@gitlab.com"
 git config --global user.name "Gitlab CI"

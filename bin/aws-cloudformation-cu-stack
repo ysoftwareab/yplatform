@@ -36,7 +36,6 @@ CREATE_CHANGE_SET=
 EXECUTE_CHANGE_SET=
 CHANGE_SET_NAME=
 CHANGE_SET_FILE=/dev/null
-UUID=
 
 while [[ $# -gt 0 ]]; do
     case "$1" in

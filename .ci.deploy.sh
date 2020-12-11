@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2034
 SF_DOCKER_CI_IMAGE=false
 DOCKER_ORG=${DOCKER_ORG:-rokmoln}
 
