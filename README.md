@@ -19,6 +19,10 @@
       * `Gitlab CI________` [![Gitlab CI Status][12]][11]
       * `Semaphore________` [![Semaphore Status][10]][9]
       * `Travis CI________` [![Travis CI Status][6]][5]
+        * Integration with Travis CI is unstable since it now requires a subscription.
+        * [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
+        * [Travis CI's new pricing plan threw a wrench in my open source works](https://www.jeffgeerling.com/blog/2020/travis-cis-new-pricing-plan-threw-wrench-my-open-source-works)
+        * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
   * a robust yet flexible build system based on GNU Make
   * an AWS CloudFormation build system based on GNU Make
   * common per-repo configuration (e.g. vscode)
