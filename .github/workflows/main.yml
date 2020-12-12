@@ -38,6 +38,7 @@ jobs:
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: 'Fix dirty homebrew. See https://github.com/actions/virtual-environments/issues/1568'
         shell: bash
@@ -101,6 +102,7 @@ jobs:
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
       WSLENV: >-
         CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
       WSLUSER: github
@@ -205,6 +207,7 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)

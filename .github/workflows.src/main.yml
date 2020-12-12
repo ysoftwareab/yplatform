@@ -74,6 +74,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
+      GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     steps:
       - *fix-homebrew
       - *checkout
@@ -126,6 +127,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       <<: *env
+      GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
       WSLENV: '${ENVSUBST_WSLENV}'
       WSLUSER: github
       WSLGROUP: github
@@ -211,6 +213,7 @@ jobs:
       <<: *env
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     steps:
       - *checkout
       - *checkout-submodules

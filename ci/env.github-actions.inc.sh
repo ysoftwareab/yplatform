@@ -6,7 +6,11 @@ git config --global user.email "actions@github.com"
 git config --global user.name "Github Actions CI"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
-CI_JOB_ID=${GITHUB_ACTION}
+# travis -> github actions
+# builds -> workflow runs
+# jobs   -> job runs
+# NOTE allow it to fail e.g. github-get-job-id depends on jq, and jq might nobe available
+CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/github-get-job-id || true)
 CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME"
 CI_PR_SLUG=
 if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
