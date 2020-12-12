@@ -19,7 +19,7 @@ function get_asset_sha256() {
   OS=$1
   ARCH=$2
 
-  curl -q -fsS -L "$(get_asset_url "${OS}" "${ARCH}")" | sha256sum | cut -d" " -f1
+  curl -fqsSL "$(get_asset_url "${OS}" "${ARCH}")" | sha256sum | cut -d" " -f1
 }
 
 function get_bin() {

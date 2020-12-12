@@ -78,7 +78,7 @@ done
 RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
 
 curl \
-    -fqsS \
+    -fqsSL \
     -H "authorization: token ${GH_TOKEN}" \
     -o ${TMP_FILE} \
     "${RELEASE_URL}"
@@ -89,7 +89,7 @@ UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
 UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
 echo_info "Uploading ${ASSET}..."
 curl \
-    -fqsS \
+    -fqsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
     -H "content-type: application/octet-stream" \

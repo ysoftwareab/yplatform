@@ -35,7 +35,7 @@ else
             RAW_GUC_URL="https://raw.githubusercontent.com"
             NODE_FORMULA_URL="${RAW_GUC_URL}/${BREW_REPO_SLUG}/${NODE_BOTTLE_COMMIT}/Formula/node.rb"
             NODE_FORMULA=$(mktemp -d)/node.rb
-            curl -fsSL "${NODE_FORMULA_URL}" -o ${NODE_FORMULA}
+            curl -fqsSL "${NODE_FORMULA_URL}" -o ${NODE_FORMULA}
             unset NODE_FORMULA_URL
             unset RAW_GUC_URL
         fi

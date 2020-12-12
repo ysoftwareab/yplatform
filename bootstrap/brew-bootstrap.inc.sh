@@ -43,7 +43,7 @@ function bootstrap_brew() {
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/uninstall.sh)"
+                </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/uninstall.sh)"
                 echo_done
                 hash -r
             fi
@@ -56,7 +56,7 @@ function bootstrap_brew() {
     case ${HAS_BREW_2}-$(uname -s) in
         false-Darwin)
             echo_do "brew: Installing homebrew..."
-            </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
+            </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             echo_done
             ;;
         true-Darwin)
@@ -84,11 +84,11 @@ function bootstrap_brew() {
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
-                curl -fqsS -L https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
+                curl -fqsSL https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
                 echo_done
             else
-                </dev/null /bin/bash -c "$(curl -fqsS -L ${BREW_INSTALL_URL}/install.sh)"
+                </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             fi
             echo_done
             ;;

@@ -112,7 +112,7 @@ NAME_AS_JSON="$(jq --null-input --arg NAME "${NAME}" '$NAME')"
 BODY_AS_JSON="$(jq --null-input --arg BODY "${BODY}" '$BODY')"
 
 curl \
-    -fqsS \
+    -fqsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
     -o ${TMP_FILE} \
@@ -125,7 +125,7 @@ if [[ "${EXISTS}" = "true" ]]; then
     UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
 
     curl \
-        -fqsS \
+        -fqsSL \
         -X PATCH \
         -H "authorization: token ${GH_TOKEN}" \
         -d "\
@@ -143,7 +143,7 @@ if [[ "${EXISTS}" = "true" ]]; then
     echo
 else
     curl \
-        -fqsS \
+        -fqsSL \
         -X POST \
         -H "authorization: token ${GH_TOKEN}" \
         -d "\
@@ -174,7 +174,7 @@ for ASSET in ${ASSETS}; do
     UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
     echo_info "Uploading ${ASSET}..."
     curl \
-        -fqsS \
+        -fqsSL \
         -X POST \
         -H "authorization: token ${GH_TOKEN}" \
         -H "content-type: application/octet-stream" \
@@ -185,7 +185,7 @@ done
 
 echo_info "Publishing release ${NAME}..."
 curl \
-    -fqsS \
+    -fqsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
     -d "\

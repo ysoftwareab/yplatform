@@ -56,7 +56,7 @@ else
             apt_install gnupg-agent
             apt_install software-properties-common
 
-            curl -fsSL https://download.docker.com/linux/${RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
+            curl -fqsSL https://download.docker.com/linux/${RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
             ${SF_SUDO} apt-key fingerprint 0EBFCD88
             ${SF_SUDO} add-apt-repository -u \
                 "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${RELEASE_ID} $(lsb_release -cs) stable"
@@ -68,7 +68,7 @@ else
 
             # BEGIN https://docs.docker.com/compose/install/
             DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
-            ${SF_SUDO} curl -L -o /usr/local/bin/docker-compose \
+            ${SF_SUDO} curl -fqsSL -o /usr/local/bin/docker-compose \
                 "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
             ${SF_SUDO} chmod +x /usr/local/bin/docker-compose
             unset DOCKER_COMPOSE_LATEST_URL

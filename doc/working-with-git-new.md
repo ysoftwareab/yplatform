@@ -11,7 +11,7 @@ git init
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/rokmoln/support-firecloud/master/bin/sf-install)"
+bash -c "$(curl -fqsSL https://raw.githubusercontent.com/rokmoln/support-firecloud/master/bin/sf-install)"
 ```
 
 In order to bootstrap/scaffold the repository, run

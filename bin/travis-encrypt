@@ -79,7 +79,7 @@ done
 
 KEY_URL="https://api.${TRAVIS_DOMAIN}/repos/${USERREPO}/key"
 KEY_RE='"key":"([^"]+)"'
-[[ "$(curl -fqsS "${KEY_URL}" 2>/dev/null || echo 'not found')" =~ ${KEY_RE} ]]
+[[ "$(curl -fqsSL "${KEY_URL}" 2>/dev/null || echo 'not found')" =~ ${KEY_RE} ]]
 KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
 
 if [[ "${KEY}" =~ "not found" ]]; then

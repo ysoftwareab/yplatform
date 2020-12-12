@@ -88,7 +88,7 @@ function ci_run_deploy_docker_image() {
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
     local TIMESTAMP_LATEST=$(
-        curl https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
+        curl -fqsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
             jq -r .last_updated | \
             xargs -r -0 date +%s -d || \
             echo 0)

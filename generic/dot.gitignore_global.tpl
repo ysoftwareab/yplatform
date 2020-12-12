@@ -20,7 +20,7 @@ GITHUB_GLOBAL_GITIGNORES="\
 
 mkdir -p ${GIT_ROOT}/generic/github-global-gitignore
 for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
-    curl -qfsS -o ${GIT_ROOT}/generic/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore \
+    curl -fqsSL -o ${GIT_ROOT}/generic/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore \
         ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore
 done
 
