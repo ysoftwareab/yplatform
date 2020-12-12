@@ -6,5 +6,8 @@
 /generic/github-global-gitignore/
 /make.sh.successful
 /node_modules
-/some-job-artifact.md
 /support-firecloud
+
+# artifacts
+/sf-ci-echo-benchmark
+/some-job-artifact.md
