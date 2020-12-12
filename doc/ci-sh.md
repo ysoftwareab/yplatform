@@ -2,7 +2,7 @@
 
 The CI/CD mindset of `support-firecloud` is to be 99% agnostic to the CI/CD platform it runs on.
 
-Therefore we don't run (write) actual code in the CI platform configurations e.g. `.travis.yml`.
+Therefore we don't run (write) actual code in the CI platform configurations.
 Instead we call a `.ci.sh` script and leave it to that.
 All CI/CD instrumentation is to be written in proper shell scripts,
 and we sensible steer away from non-essential built-in features like installing specific language versions,
@@ -144,14 +144,18 @@ A couple of special "phases", not defined by Travis CI, exist as well:
     therefore one needs an extra final phase to send out notifications.
   * exit code doesn't affect build's success/failure
 
-For each phase in `.travis.yml`, we simply call `./.ci.sh <phase>`.
+For each phase in the CI pipeline, we simply call `./.ci.sh <phase>`.
 Similarly, we can reproduce this pipeline in CircleCI, Github Actions, etc.
 
 See for yourself. Search `.ci.sh before_install` in
 
-* [.travis.yml](../.travis.yml)
+* [.appveyor.yml](../.appveyor.yml)
 * [.circleci/config.yml](../.circleci/config.yml)
+* [.cirrus.yml](../.cirrus.yml)
+* [.codeship-steps.yml](../.codeship-steps.yml)
 * [.github/workflows/main.yml](../.github/workflows/main.yml)
+* [.gitlab-ci.yml](../.gitlab-ci.yml)
+* [.travis.yml](../.travis.yml)
 
 
 ## Patterns

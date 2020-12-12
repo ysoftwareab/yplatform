@@ -4,7 +4,7 @@
 
 Many times, secrets are per user, or per runtime/CI configuration.
 In those cases, they probably should not be committed
-but instead sourced from the environment e.g. see the section below "Travis CI secrets".
+but instead sourced from the environment e.g. CI secrets.
 
 
 ## Generic secrets

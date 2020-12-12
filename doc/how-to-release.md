@@ -95,8 +95,6 @@ as dependencies for other packages i.e. this section is for webapp repositories,
 
 One could manually create a release, or create one automatically via the CI.
 
-We have this working for a few private repositories, integrated with Travis CI.
-
 An example of a repository which in its Makefile is using
 
 * [build.mk/js.common.node.mk](../build.mk/js.common.node.mk)
@@ -117,27 +115,15 @@ git commit -m "some changes"
 # and publish by pushing the v0.0.1 tag to the remote as is
 make release
 
-# this is then picked up by Travis CI, which will then publish the artifacts as a github release
+# this is then picked up by the CI, which will then publish the artifacts as a github release
 ```
 
-Travis CI is then configured with
+The CI is configured with
 
 1. a personal access token giving `:repo` access, via a `GH_TOKEN` environment variable
-2. a deploy flow, via `.travis.yml` with:
+2. a deploy flow for tags, via `.ci.sh deploy`
 
-```yml
-# 6. Deploy
-before_deploy: ./.ci.sh before_deploy
-deploy:
-  - provider: script
-    script: ./.ci.sh deploy
-    skip_cleanup: true
-    on:
-      tags: true
-after_deploy: ./.ci.sh after_deploy
-```
-
-`.ci.sh` is then configured with
+`.ci.sh` is configured with
 
 ```bash
 ci_run_deploy() {
@@ -193,7 +179,7 @@ git commit -m "some changes"
 # and publish by pushing the v0.0.1 tag to the remote as is
 make release/v.1.2.3-hotfix.1
 
-# this is then picked up by Travis CI, which will then publish the artifacts as a github release
+# this is then picked up by the CI, which will then publish the artifacts as a github release
 ```
 
 If you haven't done so already, please remember to merge your fixes to the `master` branch e.g. via `git cherry-pick`.

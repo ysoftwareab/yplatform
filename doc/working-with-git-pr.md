@@ -78,7 +78,7 @@ A pull request may address an already existing issue.
 In such a case, **make sure to reference the existing issue**, either in the commit message,
 or in the description of the PR. See https://help.github.com/articles/closing-issues-using-keywords/.
 
-A reviewer is required to act on the Pull Request only after the automated checks pass (e.g. associated Travis job).
+A reviewer is required to act on the Pull Request only after the automated checks pass.
 
 ## References
 
