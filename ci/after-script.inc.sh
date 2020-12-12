@@ -35,6 +35,18 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         git add -f log.sh-session
     }
 
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+        # (Try to) Create log.sh-session
+        local CURL_GITHUB_API_HEADERS=(-H "Accept: application/vnd.github.v3+json")
+        CURL_GITHUB_API_HEADERS+=(-H "Authorization: Bearer ${GH_TOKEN}")
+        touch log.sh-session
+        curl \
+            -fqsSL \
+            "${CURL_GITHUB_API_HEADERS[@]}" \
+            https://api.github.com/repos/${CI_REPO_SLUG}/actions/jobs/${GITHUB_ACTION}/logs >log.sh-session || true
+        git add -f log.sh-session
+    }
+
     # Create README.md
     cat <<-EOF >README.md
 ${JOB_GIT_REF}
