@@ -22,6 +22,6 @@ unset BREW_FORMULAE
 echo_done
 
 echo_do "brew: Testing dev packages..."
-exe_and_grep_q "jid --version | head -1" "^jid version 0\."
+exe_and_grep_q "jid --version | head -1" "^jid version v0\."
 exe_and_grep_q "tmate -V | head -1" "^tmate 2\."
 echo_done
