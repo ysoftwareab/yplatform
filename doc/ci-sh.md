@@ -47,6 +47,15 @@ while `sf_ci_run_<phase>` are default implementations,
 mainly wrapping the `make` targets defined in [build.mk](../build.mk).
 
 
+## Customization via git commit message
+
+If a git commit message contains `[skip ci]` and the CI doesn't automatically skip this commit,
+we will automatically `exit 0`.
+
+If a git commit message contains `[debug ci]`, we will start a [`tmate`](https://tmate.io) session
+and print the SSH/WEB links.
+
+
 ## Customization via environment variables
 
 Customizations can take place in two ways:
