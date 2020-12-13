@@ -23,14 +23,4 @@ shell:
 
 .PHONY: shell/tmate
 shell/tmate:
-	$(eval TMATE_SOCKET := $(shell $(MKTEMP)))
-	$(ECHO_INFO) "Install 'tmate' via 'brew install tmate'."
-	$(ECHO_INFO) "tmate socket: $(TMATE_SOCKET)"
-#	TODO Uncertain if tmate works without a pre-existing ~/.ssh/id_rsa
-#	$(MKDIR) ${HOME}/.ssh
-#	[[ -e $${HOME}/.ssh/id_rsa ]] || $(SSH_KEYGEN) -q -t rsa -b 4096 -N "" -f $${HOME}/.ssh/id_rsa
-	$(RM) $(TMATE_SOCKET)
-	$(TMATE) -S $(TMATE_SOCKET) new-session -d "$(SHELL) -l"
-	$(TMATE) -S $(TMATE_SOCKET) wait tmate-ready
-	$(TMATE) -S $(TMATE_SOCKET) display -p "#{tmate_ssh}"
-	while $(TEST) -e $(TMATE_SOCKET) && $(TMATE) -S $(TMATE_SOCKET) has-session; do $(SLEEP) 1; done
+	$(SUPPORT_FIRECLOUD_DIR)/bin/tmate-shell
