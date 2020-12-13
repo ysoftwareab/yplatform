@@ -3,7 +3,8 @@ set -euo pipefail
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
 
-export CI_ECHO=${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo
+SF_CI_ECHO_BENCHMARK=${SF_CI_ECHO_BENCHMARK:-/dev/null}
+export CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
 
 function echo_next() {
     ${CI_ECHO} "[NEXT]" "$@"
