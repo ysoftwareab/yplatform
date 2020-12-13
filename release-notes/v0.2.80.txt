@@ -1,0 +1,91 @@
+support-firecloud v0.2.80 Release Notes
+
+Highlights since v0.2.79:
+
+* None
+
+Breaking commits since v0.2.79:
+
+* 1932c58 2020-12-11 breaking: SUDO -> SF_SUDO
+* a6e0b68 2020-12-11 breaking: CI_ECHO_BENCHMARK -> SF_CI_ECHO_BENCHMARK
+* e5158c7 2020-12-10 breaking: remove bootstrap/\{macos,osx\} aliases
+* dbaae74 2020-12-10 breaking: repo/cfn -> aws-cfn.mk (cont)
+* c3ade23 2020-12-10 breaking: repo/cfn -> aws-cfn.mk
+* e546b46 2020-12-10 breaking: repo/mk -> build.mk (cont)
+* 424d40a 2020-12-10 breaking: repo/mk -> build.mk
+
+
+Commits since v0.2.79:
+
+* 517ef5e 2020-12-13 fixup! test dev packages
+* 0976152 2020-12-13 document skip/debug ci markers
+* fe37a48 2020-12-13 test dev packages
+* 4ccd22d 2020-12-13 add generic '[debug ci]' handling
+* 8eafc8b 2020-12-13 add generic '[skip ci]' handling if the CI doesn't handle it e.g. github actions
+* fbc6d93 2020-12-13 fix for SF_CI_ECHO_BENCHMARK getting ignored
+* 7cae0ba 2020-12-13 move tmate-shell logic to standalone script
+* 3258320 2020-12-13 order
+* f40108a 2020-12-13 allow .artifacts to include the fancy match patterns that .gitignore supports
+* 4d121a6 2020-12-13 correct CI_JOB_URL for github actions
+* 3e0254f 2020-12-13 add comment that log.sh-session in github actions doesn't work right now
+* bde95b3 2020-12-13 less mention of travis ci
+* 16ef671 2020-12-13 add comment about travis ci status
+* ff5c45e 2020-12-13 github-get-job-id: default GITHUB_JOB_NAME to GITHUB_JOB
+* c1941b0 2020-12-13 fixup! set SF_CI_ECHO_BENCHMARK
+* 87d01fc 2020-12-12 fix CI_JOB_ID in github actions
+* a4fad83 2020-12-12 normalize all curl calls to 'curl -fqsSL'
+* 7d28fff 2020-12-12 download github log as artifact
+* 76299e7 2020-12-12 set SF_CI_ECHO_BENCHMARK
+* c17df5d 2020-12-12 sort
+* 1d8fcba 2020-12-12 default GH_TOKEN to GITHUB_TOKEN in github actions
+* ba61257 2020-12-11 mark shellcheck directives as ok for now
+* 3232a8b 2020-12-11 fix 'Double quote array expansions to avoid re-splitting elements.'
+* c660dee 2020-12-11 fix 'Argument mixes string and array. Use * or separate argument.'
+* 9d2329c 2020-12-11 fix 'Assigning an array to a string. Assign as array, or use * instead of @ to concatenate.'
+* 94ac423 2020-12-11 fix '... appears unused. Verify use (or export if used externally).' complaints
+* 909f4f6 2020-12-11 inline 'Not following: /etc/os-release was not specified as input (see shellcheck -x).'
+* 2f96ff3 2020-12-11 correctly mark as fixme 'Declare and assign separately to avoid masking return values.'
+* 098dc30 2020-12-11 assume bash even for session scripts. we support zsh as well though
+* 1932c58 2020-12-11 breaking: SUDO -> SF_SUDO
+* 10668cb 2020-12-11 document SF_CI_ECHO_BENCHMARK
+* a6e0b68 2020-12-11 breaking: CI_ECHO_BENCHMARK -> SF_CI_ECHO_BENCHMARK
+* 23378aa 2020-12-11 fixup! cleanup calls to exe_and_grep_q
+* d742320 2020-12-10 cleanup calls to exe_and_grep_q
+* e5158c7 2020-12-10 breaking: remove bootstrap/\{macos,osx\} aliases
+* dbaae74 2020-12-10 breaking: repo/cfn -> aws-cfn.mk (cont)
+* c3ade23 2020-12-10 breaking: repo/cfn -> aws-cfn.mk
+* e546b46 2020-12-10 breaking: repo/mk -> build.mk (cont)
+* 424d40a 2020-12-10 breaking: repo/mk -> build.mk
+* 4017af3 2020-12-10 fixup! clarify exe_and_grep_q messaging
+* 166e1c5 2020-12-10 turn warn level to info for hiding update into force_update functions
+* 245c92d 2020-12-10 allow docker v20
+* 368f713 2020-12-10 clarify exe_and_grep_q messaging
+*   8f81f71 2020-12-08 Merge pull request #216 from rokmoln/cirrus
+|\
+| * 13f20d5 2020-12-08 cirrus: improve UI on github
+| * 88f2534 2020-12-07 add cirrus-ci pipeline
+|/
+* ef4d1dd 2020-12-07 typo
+* 7d71385 2020-12-07 style
+* 48f4ca7 2020-12-03 Update style-sh.md
+* c220f4d 2020-12-03 remove mention about not using shellcheck. see #212
+* ca6aec4 2020-12-01 add link about better writing
+* 7441f61 2020-12-01 is-wsl: add another check
+*   4a23152 2020-11-30 Merge pull request #212 from rokmoln/shellcheck
+|\
+| * 852294f 2020-11-29 fix check-eslint and check-shellcheckrc not always following ignore directives
+| * 428b0ce 2020-11-29 shellcheck lint
+| * 434f816 2020-11-27 add 'check-shellcheck' target
+|/
+* f69324c 2020-11-30 WSLENV should mark GITHUB_* path variables
+* b483618 2020-11-30 fixup! proxy GITHUB_* env vars to WSL
+* f826cfe 2020-11-30 use jq helper in ci/bootstrap phases since jq might not be available on the system
+* fdffcb3 2020-11-30 remove usage of python to parse jq, now that jq is surely available
+* a6d9752 2020-11-30 add jq helper, download jq if needed
+* 058c287 2020-11-29 fixup! fixup! fixup! fixup! deprecate travis in favour of github actions as primary ci
+* 80cc759 2020-11-29 fixup! fixup! fixup! fixup! deprecate travis in favour of github actions as primary ci
+* 65bb043 2020-11-29 fixup! fixup! fixup! deprecate travis in favour of github actions as primary ci
+* 051d59c 2020-11-29 fixup! fixup! deprecate travis in favour of github actions as primary ci
+* 63e4809 2020-11-28 fixup! try out another diff command with less verbosity
+* e82321f 2020-11-28 try out another diff command with less verbosity
+o 851fa74 2020-11-28 0.2.79
