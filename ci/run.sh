@@ -7,6 +7,14 @@ exec 2>&1
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
+if which git >/dev/null 2>&1; then
+    if git log -1 --format="%B" | grep -q "\[skip ci\]"; then
+        echo_info "Detected '[skip ci]' marker in git commit message."
+        echo_skip "$*"
+        exit 0
+    fi
+fi
+
 set -a
 [[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
 if git config --local transcrypt.version >/dev/null; then

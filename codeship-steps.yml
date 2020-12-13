@@ -2,7 +2,6 @@
     # - /^codeship/ # codeship branches
     # - master
     # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
-  exclude: .*\[skip ci\].*
   type: serial
   name: ci
   steps:
