@@ -18,7 +18,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     git checkout --orphan jobs/${CI_JOB_ID}
     git ls-files -- "*/.gitignore" | xargs -r -L1 rm -f
     git reset -- .
-    cat .artifacts | xargs -r -L1 git add -f || true
+    git ls-files -X .artifacts --other --ignored | xargs -r -L1 git add -f || true
 
     [[ "${TRAVIS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session

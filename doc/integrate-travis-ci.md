@@ -64,11 +64,12 @@ then you need to
 * Give access to the repo to `rokmoln/zz-svc-pro-github` team with a level `Write`.
 * Create a `.artifacts` file
 
-The `.artifacts` file is a list of paths that would include artifacts e.g.
+The `.artifacts` file is a `.gitignore`-like file that matches paths to artifacts e.g.
 
 ```
 some.log
 some/folder/*.log
+/root.log
 ```
 
 Once you do, your artifacts would be uploaded to a `refs/jobs/<job_id>` git ref,
