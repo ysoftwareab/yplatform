@@ -11,6 +11,7 @@ else
 git
 findutils
 jq
+tmate
 EOF
 )"
     brew_install "${BREW_FORMULAE}"
@@ -20,6 +21,7 @@ EOF
     echo_do "brew: Testing CI packages..."
     exe_and_grep_q "git --version | head -1" "^git version 2\."
     exe_and_grep_q "jq --version | head -1" "^jq-1\."
+    exe_and_grep_q "tmate -V | head -1" "^tmate 2\."
     # need an extra condition, because the original one fails intermitently
     # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
     echo | xargs -r false || {
@@ -28,4 +30,11 @@ EOF
         exit 1
     }
     echo_done
+fi
+
+if git log -1 --format="%B" | grep -q "\[debug ci\]"; then
+    echo_info "Detected '[debug ci]' marker in git commit message."
+    echo_info "Starting a tmate session and exiting"
+    ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+    exit 1
 fi
