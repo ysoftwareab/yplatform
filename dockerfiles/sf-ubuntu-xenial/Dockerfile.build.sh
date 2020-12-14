@@ -93,7 +93,7 @@ chown -R ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh
 # MAIN /support-firecloud
 cd /support-firecloud
 chown -R root:root .
-git config url."https://github.com/".insteadOf git@github.com:
+git config url."https://github.com/".insteadOf "git@github.com:"
 
 sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
 
