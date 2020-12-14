@@ -17,6 +17,7 @@ echo_done
 [[ ! -f .nvmrc ]] || (
     set +u
     source $(brew --prefix nvm)/nvm.sh --no-use
+    set -u
 
     nvm install
 
@@ -31,11 +32,12 @@ echo_done
     fi
 )
 
-[[ ! -f .nvmrc ]] || {
-    echo_info "Enabling NVM..."
-    set +u
-    source $(brew --prefix nvm)/nvm.sh --no-use
+echo_info "Enabling NVM..."
+set +u
+source $(brew --prefix nvm)/nvm.sh --no-use
+set -u
 
+[[ ! -f .nvmrc ]] || {
     echo_info "Activating node $(cat .nvmrc) via NVM (as per .nvmrc)..."
     nvm use
 }
