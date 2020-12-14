@@ -24,7 +24,10 @@ set +a
 
 source ${SUPPORT_FIRECLOUD_DIR}/ci/debug.inc.sh
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.pre.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/run.docker-ci.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/run.travis-docker.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/run.travis-swap.inc.sh
+
 source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/install.inc.sh
 # source ${SUPPORT_FIRECLOUD_DIR}/ci/before-script.inc.sh
@@ -91,11 +94,11 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
-[[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.travis-ci.inc.sh
 [[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.circle-ci.inc.sh
-[[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.github-actions.inc.sh
-[[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.codeship.inc.sh
-[[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
 [[ "${CIRRUS_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.cirrus-ci.inc.sh
+[[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.codeship.inc.sh
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.github-actions.inc.sh
+[[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
+[[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.travis-ci.inc.sh
 
 [[ -z "$*" ]] || sf_ci_run "$@"
