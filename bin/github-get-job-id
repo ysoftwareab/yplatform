@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-GH_TOKEN=${GH_TOKEN:-${GITHUB_TOKEN:-}}
+GH_TOKEN=${GH_TOKEN:-${GITHUB_TOKEN}}
 
 # works if job has no 'name' property, and defaults to the key in 'jobs'
 GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
