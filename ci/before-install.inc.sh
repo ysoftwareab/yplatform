@@ -39,7 +39,8 @@ function sf_ga_checkout() {
 function sf_github_https_deploy() {
     [[ -n "${SF_GH_TOKEN_DEPLOY:-}" ]] || return 0
 
-    echo_do "Found SF_GH_TOKEN_DEPLOY, setting up github.com HTTPS authentication for current github.com repo..."
+    echo_info "Found SF_GH_TOKEN_DEPLOY."
+    echo_do "Setting up HTTPS-protocol for current repo's origin..."
     exe git remote -v show
     exe git remote set-url origin https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git
     echo_done
@@ -47,19 +48,23 @@ function sf_github_https_deploy() {
 
 
 function sf_github_https() {
+    echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
+    # cover git canonical git url
+    git config --global --replace-all url."https://github.com/".insteadOf "git://github.com/"
+    echo_done
+
     SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
     [[ -n "${SF_GH_TOKEN:-}" ]] || {
         sf_github_https_deploy
         return 0
     }
 
-    echo_do "Found SF_GH_TOKEN, setting up github.com HTTPS authentication for all github.com repos..."
+    echo_info "Found SF_GH_TOKEN."
+    echo_do "Setting up HTTPS-protocol for all SSH-protocol github.com URLs..."
     echo -e "machine github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
 
     # cover git canonical ssh url
-    git config --global --replace-all url."https://github.com/".insteadOf "git@github.com:"
-    # cover git canonical git url
-    git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+    git config --global --add url."https://github.com/".insteadOf "git@github.com:"
     # cover npm package.json's canonical git+ssh url
     git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
     echo_done
