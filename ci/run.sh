@@ -55,35 +55,33 @@ function sf_ci_run() {
         return 0
     fi
 
-    if [[ "${TRAVIS:-}" != "true" ]]; then
-        true
-    elif [[ -f /support-firecloud.docker-ci ]]; then
-        echo_info "Running inside the sf-docker-ci container."
-    elif [[ "${OS_SHORT:-}" != "linux" ]]; then
-        echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
-    elif ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl; then
-        echo_info "Skipping the sf-docker-ci container because the host OS is Windows Subsystem for Linux."
-    elif [[ "${SF_DOCKER_CI_IMAGE:-}" = "false" ]]; then
-        echo_info "Skipping the sf-docker-ci container because SF_DOCKER_CI_IMAGE=false."
-    else
-        local RUN_IN_SF_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
-        CMD="${RUN_IN_SF_DOCKER_CI} ${0} $* 2>&1"
-        # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
-        CMD="unbuffer ${CMD} | pv -q -L 3k"
+    [[ "${TRAVIS:-}" != "true" ]] || {
+        if [[ -f /support-firecloud.docker-ci ]]; then
+            echo_info "Running inside the sf-docker-ci container."
+        elif [[ "${OS_SHORT:-}" != "linux" ]]; then
+            echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
+        elif ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl; then
+            echo_info "Skipping the sf-docker-ci container because the host OS is Windows Subsystem for Linux."
+        elif [[ "${SF_DOCKER_CI_IMAGE:-}" = "false" ]]; then
+            echo_info "Skipping the sf-docker-ci container because SF_DOCKER_CI_IMAGE=false."
+        else
+            local RUN_IN_SF_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
+            CMD="${RUN_IN_SF_DOCKER_CI} ${0} $* 2>&1"
+            # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
+            CMD="unbuffer ${CMD} | pv -q -L 3k"
 
-        if [[ "${1}" = "before_install" ]]; then
-            sf_run_docker_ci_in_travis
+            [[ "${1}" != "before_install" ]] || {
+                sf_run_docker_ci_in_travis
 
-            # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
-            ${RUN_IN_SF_DOCKER_CI} sudo adduser sf travis
+                # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
+                ${RUN_IN_SF_DOCKER_CI} sudo adduser sf travis
+            }
         fi
-    fi
 
-    if [[ "${1}" = "before_install" ]]; then
-        if [[ ! -f /support-firecloud.docker-ci ]]; then
-            sf_enable_travis_swap
-        fi
-    fi
+        [[ "${1}" != "before_install" ]] || {
+            [[ -f /support-firecloud.docker-ci ]] || sf_enable_travis_swap
+        }
+    }
 
     # print out the command before running it
     echo "$(pwd)\$ ${CMD}"
