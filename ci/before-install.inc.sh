@@ -56,8 +56,10 @@ function sf_github_https() {
     echo_do "Found SF_GH_TOKEN, setting up github.com HTTPS authentication for all github.com repos..."
     echo -e "machine github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
 
-    # cover git submodules's canonical ssh url
+    # cover git canonical ssh url
     git config --global --replace-all url."https://github.com/".insteadOf "git@github.com:"
+    # cover git canonical git url
+    git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover npm package.json's canonical git+ssh url
     git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
     echo_done
