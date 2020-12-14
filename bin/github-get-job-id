@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-GH_TOKEN=${GH_TOKEN:-${GITHUB_TOKEN}}
+SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY:-${SF_GH_TOKEN}}
 
 # works if job has no 'name' property, and defaults to the key in 'jobs'
 GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
@@ -9,7 +9,7 @@ GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
 curl \
     -fqsSL \
     -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: Bearer ${GH_TOKEN}" \
+    -H "Authorization: Bearer ${SF_GH_TOKEN_DEPLOY}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
     xargs -L1 basename

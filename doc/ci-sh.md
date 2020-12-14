@@ -75,9 +75,12 @@ Here's a list of the environment variables that customize the code execution:
     * set to a custom `sudo` executable path
 
 * **GITHUB**
-  * `SF_GITHUB_TOKEN`
+  * `SF_GH_TOKEN`
     * enables authenticated HTTPS for git calls to github.com instead of SSH
     * defaults to another environment variable `GH_TOKEN`
+  * `SF_GH_TOKEN_DEPLOY`
+    * a deploy token that enables read/push to the current repo
+    * defaults to another environment variable `GITHUB_TOKEN` in Github Actions (automatic deploy key)
 
 * **TRANSCRYPT**
   * `SF_TRANSCRYPT_PASSWORD`

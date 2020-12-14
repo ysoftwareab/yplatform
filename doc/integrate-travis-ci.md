@@ -58,7 +58,7 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If your job has artifacts, like logs that you'd like to access outside of the Travis CI job log,
 then you need to
 
-* Add a `GH_TOKEN` secure environment variable in the Travis CI web UI.
+* Add a `SF_GH_TOKEN_DEPLOY`, alternatively `SF_GH_TOKEN`, secure environment variable in the Travis CI web UI.
   Use the Github API token of the `svc-pro-github` user (can be found in **the designated safe location**).
   This Github API token should have enough permissions to push to the repository.
 * Give access to the repo to `rokmoln/zz-svc-pro-github` team with a level `Write`.
