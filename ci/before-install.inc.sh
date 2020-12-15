@@ -105,6 +105,12 @@ function sf_github_https() {
     echo_do "Printing ${HOME}/.gitconfig ..."
     cat ${HOME}/.gitconfig
     echo_done
+
+    GIT_HTTPS_URL="https://github.com/actions/runner.git"
+    [[ -z "${SF_GH_TOKEN:-}" ]] || \
+        exe_and_grep_q "git ls-remote --get-url git@github.com:actions/runner.git" "${GIT_HTTPS_URL}" -Fx
+    exe_and_grep_q "git ls-remote --get-url git://github.com/actions/runner.git" "${GIT_HTTPS_URL}" -Fx
+    exe_and_grep_q "git ls-remote --get-url github://actions/runner.git" "${GIT_HTTPS_URL}" -Fx
 }
 
 
