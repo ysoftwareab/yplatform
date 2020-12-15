@@ -55,6 +55,8 @@ we will automatically `exit 0`.
 If a git commit message contains `[debug ci]`, we will start a [`tmate`](https://tmate.io) session
 and print the SSH/WEB links.
 
+If a git commit message contains `[env FOO=bar]`, we will set the environment variable `FOO` to `bar`.
+
 
 ## Customization via environment variables
 

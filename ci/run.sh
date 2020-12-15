@@ -8,10 +8,23 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 if which git >/dev/null 2>&1; then
-    if git log -1 --format="%B" | grep -q "\[skip ci\]"; then
+    GIT_COMMIT_MSG=$(git log -1 --format="%B")
+    if echo "${GIT_COMMIT_MSG}" | grep -q "\[skip ci\]"; then
         echo_info "Detected '[skip ci]' marker in git commit message."
         echo_skip "$*"
         exit 0
+    fi
+
+    if echo "${GIT_COMMIT_MSG}" | grep -q "\[env [^=]\+=[^]]\+\]"; then
+        echo_info "Detected '[env key=value]' marker in git commit message."
+        echo "${GIT_COMMIT_MSG}" | \
+            grep --only-matching "\[env [^=]\+=[^]]\+\]" | \
+            sed "s/^\[env /export /g" | \
+            sed "s/\]\$//g" | while read -r EXPORT_KV; do
+            echo_info "${EXPORT_KV}"
+            eval "${EXPORT_KV}"
+        done
+        unset EXPORT_KV
     fi
 fi
 
