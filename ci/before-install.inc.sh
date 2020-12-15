@@ -37,7 +37,8 @@ function sf_ga_checkout() {
 
 
 function sf_github_https_deploy() {
-    [[ -n "${SF_GH_TOKEN_DEPLOY:-}" ]] || return 0
+    # if we have a deploy token, use that to authenticate https for the current repo
+    # and don't require SSH keys
 
     echo_info "Found SF_GH_TOKEN_DEPLOY."
     echo_do "Setting up HTTPS-protocol for current repo's origin..."
@@ -48,20 +49,32 @@ function sf_github_https_deploy() {
 
 
 function sf_github_https_insteadof_git() {
+    # NOTE git (over ssh) is a smarter protocol than https
+    # but requiring SSH keys, though there's no security server-side
+
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
     # cover git canonical git url
     git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+    # cover github url
+    git config --global --add url."https://github.com/".insteadOf "github://"
     echo_done
 }
 
 
-function sf_github_https_insteadof_ssh() {
+function sf_github_https_insteadof_all() {
+    # if we have a personal access token, use that to authenticate https
+    # and don't require SSH keys
+
     echo_info "Found SF_GH_TOKEN."
     echo_do "Setting up HTTPS-protocol for all SSH-protocol github.com URLs..."
     echo -e "machine github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
 
+    # cover git canonical git url
+    git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover git canonical ssh url
     git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+    # cover github url
+    git config --global --add url."https://github.com/".insteadOf "github://"
     # cover npm package.json's canonical git+ssh url
     git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
     echo_done
@@ -78,13 +91,12 @@ function sf_github_https() {
         touch ${HOME}/.gitconfig
     }
 
-    sf_github_https_insteadof_git
-
     SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
-        sf_github_https_insteadof_ssh
+        sf_github_https_insteadof_all
     else
-        sf_github_https_deploy
+        sf_github_https_insteadof_git
+        [[ -n "${SF_GH_TOKEN_DEPLOY:-}" ]] || sf_github_https_deploy
     fi
 
     # shellcheck disable=SC2094
