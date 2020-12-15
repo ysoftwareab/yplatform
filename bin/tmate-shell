@@ -18,6 +18,7 @@ tmate -S ${TMATE_SOCKET} wait tmate-ready
 while test -e ${TMATE_SOCKET} && tmate -S ${TMATE_SOCKET} has-session; do
     echo
     tmate -S ${TMATE_SOCKET} display -p "#{tmate_ssh}"
-    tmate -S ${TMATE_SOCKET} display -p "#{tmate_web}"
+    # NOTE skip web interface. it's convenient but buggy
+    # tmate -S ${TMATE_SOCKET} display -p "#{tmate_web}"
     sleep 60
 done
