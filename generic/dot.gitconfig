@@ -126,6 +126,8 @@
 [svn]
     rmdir               = true
 
+# prefer ssh over git (over ssh) and https
 [url "git@github.com:"]
-    insteadOf           = "github:"
     insteadOf           = "git://github.com/"
+    insteadOf           = "github:"
+    insteadOf           = "https://github.com/"
