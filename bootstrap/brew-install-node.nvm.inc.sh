@@ -14,11 +14,13 @@ brew_install "${BREW_FORMULAE}"
 unset BREW_FORMULAE
 echo_done
 
-[[ ! -f .nvmrc ]] || (
-    set +u
-    source $(brew --prefix nvm)/nvm.sh --no-use
-    set -u
+echo_do "Enabling NVM..."
+set +u
+source $(brew --prefix nvm)/nvm.sh --no-use
+set -u
+echo_done
 
+[[ ! -f .nvmrc ]] || {
     nvm install
 
     if nvm list --no-colors | grep -q system; then
@@ -30,14 +32,7 @@ echo_done
         npm install --global-style npm@${SYSTEM_NPM_VSN}
         cd -
     fi
-)
 
-echo_info "Enabling NVM..."
-set +u
-source $(brew --prefix nvm)/nvm.sh --no-use
-set -u
-
-[[ ! -f .nvmrc ]] || {
     echo_info "Activating node $(cat .nvmrc) via NVM (as per .nvmrc)..."
     nvm use
 }
