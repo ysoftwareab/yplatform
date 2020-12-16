@@ -81,7 +81,7 @@ function sf_github_https_insteadof_all() {
 }
 
 
-function sf_github_https() {
+function sf_github() {
     # NOTE we need to prepend to .gitconfig, or else settings are ignored
     # due to url settings in generic/dot.gitconfig
 
@@ -91,7 +91,16 @@ function sf_github_https() {
         touch ${HOME}/.gitconfig
     }
 
-    SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
+    # GH_TOKEN is a common way to pass a personal access token to CI jobs
+    export SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
+    if [[ "${GITHUB_ACTIONS:-}" = true ]]; then
+        # GITHUB_TOKEN is Github Actions' default deploy key
+        export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY:-${GITHUB_TOKEN:-}}
+    else
+        # GITHUB_TOKEN is also common way to pass a personal access token to CI jobs, IFF not on Github Actions
+        export SF_GH_TOKEN=${SF_GH_TOKEN:-${GITHUB_TOKEN:-}}
+    fi
+
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
         sf_github_https_insteadof_all
     else
@@ -242,7 +251,7 @@ function sf_pyenv_init() {
 
 
 function sf_ci_run_before_install() {
-    sf_github_https
+    sf_github
     sf_transcrypt
     sf_os
     sf_pyenv_init
