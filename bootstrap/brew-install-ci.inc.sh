@@ -32,6 +32,25 @@ EOF
     echo_done
 fi
 
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    [[ "${OS_SHORT}" != "darwin" ]] || {
+        echo_do "Uninstalling Python 2.7..."
+        set -x
+        # uninstall Python 2.7, or else we get symlink conflicts, etc
+        ${SF_SUDO} rm -rf /Applications/Python\ 2.7
+        ${SF_SUDO} rm -rf /Library/Frameworks/Python.framework
+        find /usr/local/bin -type l -print0 | \
+            xargs -0 stat -f "%N %Y" | \
+            grep "/Library/Frameworks/Python\.framework" | \
+            cut -d" " -f1 | while read -r PYTHON2_BIN; do
+            ${SF_SUDO} rm -rf ${PYTHON2_BIN}
+        done
+        unset PYTHON2_BIN
+        set +x
+        echo_done
+    }
+}
+
 if git log -1 --format="%B" | grep -q "\[debug ci\]"; then
     echo_info "Detected '[debug ci]' marker in git commit message."
     echo_info "Starting a tmate session and exiting"
