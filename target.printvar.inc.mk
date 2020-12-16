@@ -1,8 +1,30 @@
 # see https://blog.melski.net/2010/11/30/makefile-hacks-print-the-value-of-any-variable/
 
+# see https://www.gnu.org/software/make/manual/html_node/Origin-Function.html
+MAKEFILE_ORIGINS := \
+	default \
+	environment \
+	environment\ override \
+	file \
+	command\ line \
+	override \
+	automatic \
+	\%
+
+PRINTVARS_MAKEFILE_ORIGINS_TARGETS += \
+	$(patsubst %,printvars/%,$(MAKEFILE_ORIGINS)) \
+
+# ------------------------------------------------------------------------------
+
 .PHONY: printvars
-printvars: ## Print all Makefile variables.
-	@$(foreach V,$(sort $(.VARIABLES)), $(if $(filter-out environment% default automatic, $(origin $V)),$(warning $V=$($V) ($(value $V)))))
+printvars: printvars/file ## Print all Makefile variables (file origin).
+
+
+.PHONY: $(PRINTVARS_MAKEFILE_ORIGINS_TARGETS)
+$(PRINTVARS_MAKEFILE_ORIGINS_TARGETS):
+	@$(foreach V, $(sort $(filter-out $(PRINTVARS_VARIABLES_IGNORE),$(.VARIABLES))), \
+		$(if $(filter $(@:printvars/%=%), $(origin $V)), \
+			$(warning $V=$($V) ($(value $V))))))
 
 
 .PHONY: printvar-%
