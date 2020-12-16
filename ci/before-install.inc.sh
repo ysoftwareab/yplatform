@@ -105,7 +105,7 @@ function sf_github() {
         sf_github_https_insteadof_all
     else
         sf_github_https_insteadof_git
-        [[ -n "${SF_GH_TOKEN_DEPLOY:-}" ]] || sf_github_https_deploy
+        [[ -z "${SF_GH_TOKEN_DEPLOY:-}" ]] || sf_github_https_deploy
     fi
 
     # shellcheck disable=SC2094
