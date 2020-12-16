@@ -120,7 +120,7 @@ make release
 
 The CI is configured with
 
-1. a personal access token giving `:repo` access, via a `GH_TOKEN` environment variable
+1. a personal access token giving `:repo` access, via a `SF_GH_TOKEN` environment variable
 2. a deploy flow for tags, via `.ci.sh deploy`
 
 `.ci.sh` is configured with
@@ -135,7 +135,7 @@ ci_run_deploy() {
         --target $(git rev-parse HEAD) \
         --asset dist/app.zip \
         --asset snapshot.zip \
-        --token ${GH_TOKEN}
+        --token ${SF_GH_TOKEN}
 }
 ```
 

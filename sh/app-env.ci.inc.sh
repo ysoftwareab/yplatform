@@ -116,5 +116,5 @@ function ci_run_deploy() {
         --body "$(cat release-notes/v${PKG_VSN}.txt)" \
         --target $(git rev-parse HEAD) \
         ${ASSETS_ARGS} \
-        --token ${GH_TOKEN}
+        --token ${SF_GH_TOKEN}
 }
