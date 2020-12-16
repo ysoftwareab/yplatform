@@ -43,6 +43,15 @@ else
     export SF_SUDO
 fi
 
+# HOME is always set incorrectly to /github/home, even in containers
+# see https://github.com/actions/runner/issues/863
+HOME_REAL=$(eval echo "~$(id -u -n)")
+[[ "${HOME}" = "${HOME_REAL}" ]] || {
+    >&2 echo "[WARN] \$HOME was ${HOME}. It is now reset to ${HOME_REAL}."
+    export HOME="${HOME_REAL}"
+}
+unset HOME_REAL
+
 ARCH=$(uname -m)
 ARCH_BIT=$(uname -m | grep -q "x86_64" && echo "64" || echo "32")
 ARCH_SHORT=$(uname -m | grep -q "x86_64" && echo "x64" || echo "x86")
