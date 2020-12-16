@@ -43,15 +43,6 @@ else
     export SF_SUDO
 fi
 
-# HOME is always set incorrectly to /github/home, even in containers
-# see https://github.com/actions/runner/issues/863
-HOME_REAL=$(eval echo "~$(id -u -n)")
-[[ "${HOME}" = "${HOME_REAL}" ]] || {
-    >&2 echo "[WARN] \$HOME was ${HOME}. It is now reset to ${HOME_REAL}."
-    export HOME="${HOME_REAL}"
-}
-unset HOME_REAL
-
 ARCH=$(uname -m)
 ARCH_BIT=$(uname -m | grep -q "x86_64" && echo "64" || echo "32")
 ARCH_SHORT=$(uname -m | grep -q "x86_64" && echo "x64" || echo "x86")
@@ -66,9 +57,4 @@ GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
 GIT_TAGS=$(git describe --exact-match --tags HEAD 2>/dev/null || true)
 
-[[ "${CI}" != "true" ]] || {
-    [[ -z "${TRAVIS_BRANCH:-}" ]] || {
-        GIT_BRANCH=${TRAVIS_BRANCH}
-        GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
-    }
-}
+[[ "${CI}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/sh/core-ci.inc.sh
