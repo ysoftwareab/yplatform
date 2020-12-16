@@ -1,0 +1,40 @@
+support-firecloud v0.2.81 Release Notes
+
+Highlights since v0.2.80:
+
+* None
+
+Breaking commits since v0.2.80:
+
+* 80e83a1 2020-12-14 breaking: normalize SF_GH_TOKEN_DEPLOY and SF_GH_TOKEN (personal access token)
+
+
+Commits since v0.2.80:
+
+* dc43a70 2020-12-16 consolidate sh fixes for ci
+* a0d93ca 2020-12-16 there's no need for an account wide GH_TOKEN variable
+* 587131d 2020-12-16 fix old refs. GH_TOKEN is now SF_GH_TOKEN
+* 69f14f3 2020-12-16 consolidate github token handling
+* 2fb277c 2020-12-16 uninstall python 2.7 on github action's macos
+* cb7feeb 2020-12-16 simplify
+* e36298b 2020-12-16 try to fix HOME for containers on github actions
+* 3f8cc91 2020-12-15 test gitconfig for url conversion
+* 8aa85ab 2020-12-16 exe_and_grep_q learned grep arguments
+* 51eeaf2 2020-12-15 sponge: chown/chmod on osx has no --reference
+* aff5c01 2020-12-15 skip web url for tmate-shell
+* 2b9ab3a 2020-12-15 add support for [env KEY=value] in git commit message
+* 96fcf0a 2020-12-15 global gitconfig: prefer ssh over https as well
+* 6002fa8 2020-12-15 fixup! refactor sf_github_https. need to prepend instead of append to .gitconfig
+* dae97c6 2020-12-15 refactor sf_github_https. need to prepend instead of append to .gitconfig
+* 524ac4e 2020-12-15 github-get-job-id: clarify variable hierarchy
+* 9c5876f 2020-12-15 use https for git urls, regardless of SF_GH_TOKEN presence. rephrase
+* cf42d0e 2020-12-14 use https for git protocol as well, not just ssh. I *think* github implemented the git v2 protocol in november 2018, instead of falling back to https://
+* 7e6ab79 2020-12-14 style
+* 80e83a1 2020-12-14 breaking: normalize SF_GH_TOKEN_DEPLOY and SF_GH_TOKEN (personal access token)
+* 311fde1 2020-12-14 activate nvm even without a .nvmrc present
+* 4106ed7 2020-12-14 mark GITHUB_TOKEN as optional
+* dbdf582 2020-12-14 clarify default indent size for bin folder
+* d0f7c5b 2020-12-14 github-get-job-id: fail if GH_TOKEN/GITHUB_TOKEN is undefined
+* 54b6c31 2020-12-14 clarify that before-install.pre has nothing to do with a phase
+* 4fd4e4c 2020-12-14 clarify travis-specific code
+o a1e6dbe 2020-12-14 0.2.80
