@@ -40,6 +40,8 @@ endif
 
 # ------------------------------------------------------------------------------
 
+.VARIABLES_LAZY += \
+
 # Turn variable into a lazy variable, evaluated only once, on demand
 # ref http://blog.jgc.org/2016/07/lazy-gnu-make-variables.html
 # NOTE: requires make >3.81 (default on macos) due to https://savannah.gnu.org/patch/?7534 and similar
@@ -47,7 +49,7 @@ endif
 make-lazy-major-version-problematic := 3.81 3.82
 make-lazy-major-version-problematic := $(filter $(MAKE_VERSION),$(make-lazy-major-version-problematic))
 ifeq (,$(make-lazy-major-version-problematic))
-	make-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
+	make-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))$(eval .VARIABLES_LAZY += $1)
 else
 	$(warning The 'make-lazy' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 	make-lazy =

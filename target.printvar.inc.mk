@@ -27,6 +27,12 @@ $(PRINTVARS_MAKEFILE_ORIGINS_TARGETS):
 			$(warning $V=$($V) ($(value $V))))))
 
 
+.PHONY: printvars/lazy
+printvars/lazy:
+	@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
+		$(warning $V=$($V)))
+
+
 .PHONY: printvar-%
 printvar-%: ## Print one Makefile variable.
 	@echo $*=$($*)
