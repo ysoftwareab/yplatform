@@ -20,6 +20,10 @@ while [[ $# -gt 0 ]]; do
         --benchmark)
             BENCHMARK=$2
             shift 2
+            [[ -e ${BENCHMARK} ]] || {
+                touch ${BENCHMARK}
+                chmod a+rw ${BENCHMARK}
+            }
             ;;
         -h|--help)
             sh_script_usage
