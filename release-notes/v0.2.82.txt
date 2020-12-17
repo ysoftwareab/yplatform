@@ -1,0 +1,14 @@
+support-firecloud v0.2.82 Release Notes
+
+Highlights since v0.2.81:
+
+* None
+
+Breaking commits since v0.2.81:
+
+* None
+
+Commits since v0.2.81:
+
+* ac870df 2020-12-17 fixup! fixup! refactor sf_github_https. need to prepend instead of append to .gitconfig
+o 5db17dd 2020-12-16 0.2.81
