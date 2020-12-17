@@ -130,3 +130,9 @@ MAKE_SELF_PATH = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
 $(foreach VAR,TOP TOP_REL,$(call make-session-lazy,$(VAR)))
+
+# ------------------------------------------------------------------------------
+
+Makefile.lazy:
+	@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
+		$(ECHO) "$V:=$(subst ",\",$($V))" >> $@;)
