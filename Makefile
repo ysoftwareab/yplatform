@@ -19,8 +19,8 @@ $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
-FORMULA_PATCH_FILES := $(shell $(GIT_LS) "Formula/*.patch")
-FORMULA_PATCHED_FILES := $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
+FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
+FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
 
 SF_CLEAN_FILES += \
 	support-firecloud \
