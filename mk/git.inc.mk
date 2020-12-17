@@ -4,11 +4,11 @@ GIT_DESCRIBE = $(shell cd $(TOP) && $(GIT) describe --first-parent --always --di
 GIT_HASH = $(shell cd $(TOP) && $(GIT) rev-parse HEAD 2>/dev/null)
 GIT_HASH_SHORT = $(shell cd $(TOP) && $(GIT) rev-parse --short HEAD 2>/dev/null)
 GIT_TAGS = $(shell $(GIT) describe --exact-match --tags HEAD 2>/dev/null)
-$(foreach VAR,GIT_BRANCH GIT_BRANCH_SHORT GIT_DESCRIBE GIT_HASH GIT_HASH_SHORT GIT_TAGS,$(call make-session-lazy,$(VAR)))
+$(foreach VAR,GIT_BRANCH GIT_BRANCH_SHORT GIT_DESCRIBE GIT_HASH GIT_HASH_SHORT GIT_TAGS,$(call make-runtime-lazy,$(VAR)))
 
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_ROOT = $(shell cd $(TOP) && $(GIT) rev-parse --show-toplevel 2>/dev/null)
-$(foreach VAR,GIT_REMOTE GIT_ROOT,$(call make-session-lazy,$(VAR)))
+$(foreach VAR,GIT_REMOTE GIT_ROOT,$(call make-runtime-lazy,$(VAR)))
 
 GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && echo true || echo false)
 GIT_REPO_HAS_STAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^[^ U\?]" && echo true || echo false)
