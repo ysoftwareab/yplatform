@@ -55,4 +55,4 @@ MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
-$(foreach VAR,TOP TOP_REL,$(call make-runtime-lazy,$(VAR)))
+$(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))

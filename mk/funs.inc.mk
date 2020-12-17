@@ -6,16 +6,16 @@
 # NOTE: 3.81 might throw an "*** unterminated variable reference.  Stop." error
 # * 'make-lazy' will bulk evaluate once and forever by generating a 'Makefile.lazy' file,
 #   and skip evaluation until Makefile.lazy is removed
-# * 'make-runtime-lazy' will evaluate once per make session
+# * 'make-lazy-once' will evaluate once per make session
 make-lazy-major-version-problematic := 3.81 3.82
 make-lazy-major-version-problematic := $(filter $(MAKE_VERSION),$(make-lazy-major-version-problematic))
 ifeq (,$(make-lazy-major-version-problematic))
 	make-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))$(eval .VARIABLES_LAZY += $1)
-	make-runtime-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
+	make-lazy-once = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
 else
 	$(warning The 'make-lazy' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 	make-lazy =
-	make-runtime-lazy =
+	make-lazy-once =
 endif
 
 # Complex ifdef
