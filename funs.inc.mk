@@ -1,9 +1,12 @@
 .VARIABLES_LAZY += \
 
-# Turn variable into a lazy variable, evaluated only once, on demand
+# Turn variable into a lazy variable, evaluated only once per Makefile or on-demand per make call
 # ref http://blog.jgc.org/2016/07/lazy-gnu-make-variables.html
 # NOTE: requires make >3.81 (default on macos) due to https://savannah.gnu.org/patch/?7534 and similar
 # NOTE: 3.81 might throw an "*** unterminated variable reference.  Stop." error
+# * 'make-lazy' will bulk evaluate once and forever by generating a 'Makefile.lazy' file,
+#   and skip evaluation until Makefile.lazy is removed
+# * 'make-runtime-lazy' will evaluate once per make session
 make-lazy-major-version-problematic := 3.81 3.82
 make-lazy-major-version-problematic := $(filter $(MAKE_VERSION),$(make-lazy-major-version-problematic))
 ifeq (,$(make-lazy-major-version-problematic))
