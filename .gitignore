@@ -1,5 +1,6 @@
 /BUILD
 /Formula/patch-lib/
+/Makefile.lazy
 /VERSION
 /bin/jq-*
 /codeship.aes

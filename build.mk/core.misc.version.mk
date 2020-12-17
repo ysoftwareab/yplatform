@@ -28,7 +28,7 @@ PKG_VSN_PUBLIC =
 ifneq (0,$(PKG_VSN_MAJOR))
 PKG_VSN_PUBLIC = true
 endif
-$(foreach VAR,PKG_VSN PKG_VSN_MAJOR PKG_VSN_PUBLIC,$(call make-lazy,$(VAR)))
+$(foreach VAR,PKG_VSN PKG_VSN_MAJOR PKG_VSN_PUBLIC,$(call make-runtime-lazy,$(VAR)))
 
 # ------------------------------------------------------------------------------
 
