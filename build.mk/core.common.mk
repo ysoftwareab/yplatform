@@ -25,7 +25,7 @@ SF_VSN_DESCRIBE = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 SF_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	tag -l --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
-$(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-runtime-lazy,$(VAR)))
+$(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy-once,$(VAR)))
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
@@ -46,7 +46,7 @@ endif
 # NOTE use npm package.json by default with 'name' and 'version', even if the project is not using npm
 PKG_NAME ?= $(shell $(CAT) package.json | $(JQ) -r ".name")
 PKG_VSN ?= $(shell $(CAT) package.json | $(JQ) -r ".version")
-$(foreach VAR,PKG_NAME PKG_VSN,$(call make-runtime-lazy,$(VAR)))
+$(foreach VAR,PKG_NAME PKG_VSN,$(call make-lazy-once,$(VAR)))
 
 # ------------------------------------------------------------------------------
 
