@@ -119,13 +119,13 @@ endef
 MAKE_DATE := $(shell date +'%y%m%d')
 MAKE_TIME := $(shell date +'%H%M%S')
 
-MAKE_FILENAME = $(shell basename $(firstword $(MAKEFILE_LIST)))
-MAKE_PATH = $(shell dirname $(abspath $(firstword $(MAKEFILE_LIST))))
+MAKE_FILENAME = $(notdir $(firstword $(MAKEFILE_LIST)))
+MAKE_PATH = $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
 MAKE_REALPATH = $(patsubst %/,%,$(dir $(realpath "$(MAKE_PATH)/$(MAKE_FILENAME)")))
 $(foreach VAR,MAKE_FILENAME MAKE_PATH MAKE_REALPATH,$(call make-lazy,$(VAR)))
 
-MAKE_SELF_FILENAME = $(shell basename $(lastword $(MAKEFILE_LIST)))
-MAKE_SELF_PATH = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+MAKE_SELF_FILENAME = $(notdir $(lastword $(MAKEFILE_LIST)))
+MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
