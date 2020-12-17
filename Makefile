@@ -1,9 +1,15 @@
 ifdef INSTALL_CORE_INC_MK
 else
 
-CORE_INC_MK_DIR ?= $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+ifndef CORE_INC_MK_DIR
+CORE_INC_MK_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
+endif
 
 include $(CORE_INC_MK_DIR)/core.inc.mk
+
+include $(CORE_INC_MK_DIR)/chars.inc.mk
+include $(CORE_INC_MK_DIR)/funs.inc.mk
+
 include $(CORE_INC_MK_DIR)/exe.inc.mk
 include $(CORE_INC_MK_DIR)/os.inc.mk
 include $(CORE_INC_MK_DIR)/git.inc.mk
@@ -13,6 +19,7 @@ include $(CORE_INC_MK_DIR)/target.help.inc.mk
 include $(CORE_INC_MK_DIR)/target.noop.inc.mk
 include $(CORE_INC_MK_DIR)/target.printvar.inc.mk
 include $(CORE_INC_MK_DIR)/target.verbose.inc.mk
+include $(CORE_INC_MK_DIR)/target.lazy.inc.mk
 
 MAKEFILE_LAZY ?= true
 ifeq (true,$(MAKEFILE_LAZY))
