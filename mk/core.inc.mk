@@ -56,6 +56,7 @@ else
 	make-lazy =
 	make-session-lazy =
 endif
+$(foreach VAR,CORE_INC_MK_DIR,$(call make-lazy,$(VAR)))
 
 # Complex ifdef
 # From http://stackoverflow.com/questions/5584872/complex-conditions-check-in-makefile
