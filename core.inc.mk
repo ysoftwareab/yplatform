@@ -50,11 +50,11 @@ make-lazy-major-version-problematic := 3.81 3.82
 make-lazy-major-version-problematic := $(filter $(MAKE_VERSION),$(make-lazy-major-version-problematic))
 ifeq (,$(make-lazy-major-version-problematic))
 	make-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))$(eval .VARIABLES_LAZY += $1)
-	make-session-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
+	make-runtime-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
 else
 	$(warning The 'make-lazy' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 	make-lazy =
-	make-session-lazy =
+	make-runtime-lazy =
 endif
 $(foreach VAR,CORE_INC_MK_DIR,$(call make-lazy,$(VAR)))
 
@@ -129,7 +129,7 @@ MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
-$(foreach VAR,TOP TOP_REL,$(call make-session-lazy,$(VAR)))
+$(foreach VAR,TOP TOP_REL,$(call make-runtime-lazy,$(VAR)))
 
 # ------------------------------------------------------------------------------
 
