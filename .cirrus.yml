@@ -9,7 +9,7 @@ env:
 
 task:
   name: "continuous-integration/cirrus" # otherwise 'main' shows in Github UI
-  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus*'
+  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus.*'
   container:
     # name: ubuntu:16.04
     # NOTE using the prebuilt docker image of homebrew (linuxbrew)
