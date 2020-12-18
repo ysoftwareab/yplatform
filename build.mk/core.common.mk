@@ -65,6 +65,8 @@ SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.test.mk \
 
 SF_CORE_COMMON_INCLUDES_DEFAULT += \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-info-attributes.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-info-exclude.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-submodules.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-reset-mtime.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-hook-pre-push.mk \
