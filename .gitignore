@@ -5,7 +5,6 @@
 /codeship.aes
 /generic/github-global-gitignore/
 /make.sh.successful
-/node_modules
 /support-firecloud
 
 # artifacts
