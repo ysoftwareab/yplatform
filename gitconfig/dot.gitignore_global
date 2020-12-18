@@ -1,6 +1,6 @@
 # -*- mode: Gitignore -*-
 
-# BEGIN generic/dot.gitignore_global.base
+# BEGIN gitconfig/dot.gitignore_global.base
 
 # -*- mode: Gitignore -*-
 
@@ -50,7 +50,7 @@ yarn-error.log*
 # Misc
 Makefile.lazy
 
-# END generic/dot.gitignore_global.base
+# END gitconfig/dot.gitignore_global.base
 
 ################################################################################
 
@@ -198,4 +198,3 @@ Temporary Items
 .apdisk
 
 # END https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
-

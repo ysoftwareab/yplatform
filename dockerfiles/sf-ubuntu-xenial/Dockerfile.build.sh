@@ -113,7 +113,7 @@ chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
 
 cat <<EOF >> /home/${UNAME}/.gitconfig
 [include]
-    path = /support-firecloud/generic/dot.gitconfig
+    path = /support-firecloud/gitconfig/dot.gitconfig
 EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
 

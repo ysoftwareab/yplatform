@@ -83,7 +83,7 @@ function sf_github_https_insteadof_all() {
 
 function sf_github() {
     # NOTE we need to prepend to .gitconfig, or else settings are ignored
-    # due to url settings in generic/dot.gitconfig
+    # due to url settings in gitconfig/dot.gitconfig
 
     local GITCONFIG_BAK=$(mktemp)
     [[ ! -e "${HOME}/.gitconfig" ]] || {

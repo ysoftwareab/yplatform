@@ -35,10 +35,10 @@ SF_VENDOR_FILES_IGNORE += \
 SF_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
-	-e "^generic/dot\.gitattributes_global$$" \
-	-e "^generic/dot\.gitignore_global$$" \
-	-e "^generic/dot\.gitignore_global\.base$$" \
-	-e "^generic/dot\.gitignore_global\.tpl$$" \
+	-e "^gitconfig/dot\.gitattributes_global$$" \
+	-e "^gitconfig/dot\.gitignore_global$$" \
+	-e "^gitconfig/dot\.gitignore_global\.base$$" \
+	-e "^gitconfig/dot\.gitignore_global\.tpl$$" \
 	-e "^repo/AUTHORS$$" \
 	-e "^repo/Brewfile.inc.sh$$" \
 	-e "^repo/LICENSE$$" \
@@ -48,8 +48,8 @@ SF_PATH_FILES_IGNORE += \
 
 SF_ECLINT_FILES_IGNORE += \
 	-e "^bin/" \
-	-e "^generic/dot.gitignore_global$$" \
-	-e "^generic/dot.gitignore_global.base$$" \
+	-e "^gitconfig/dot.gitignore_global$$" \
+	-e "^gitconfig/dot.gitignore_global.base$$" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/UNLICENSE$$" \
 	-e "^support-firecloud$$" \
@@ -59,7 +59,7 @@ SF_SHELLCHECK_FILES_IGNORE += \
 
 SF_CHECK_TPL_FILES += \
 	.github/workflows/main.yml \
-	generic/dot.gitignore_global \
+	gitconfig/dot.gitignore_global \
 	$(FORMULA_PATCH_FILES) \
 	$(FORMULA_PATCHED_FILES) \
 
@@ -107,7 +107,7 @@ test-repo-mk:
 	done
 
 
-generic/dot.gitignore_global: generic/dot.gitignore_global.tpl generic/dot.gitignore_global.base ## Regenerate generic/dot.gitignore_global.
+gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl gitconfig/dot.gitignore_global.base ## Regenerate gitconfig/dot.gitignore_global.
 	$(call sf-generate-from-template)
 
 

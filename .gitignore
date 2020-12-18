@@ -3,7 +3,7 @@
 /VERSION
 /bin/jq-*
 /codeship.aes
-/generic/github-global-gitignore/
+/gitconfig/github-global-gitignore/
 /make.sh.successful
 /support-firecloud
 

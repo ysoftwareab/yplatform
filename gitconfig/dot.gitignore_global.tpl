@@ -18,19 +18,19 @@ GITHUB_GLOBAL_GITIGNORES="\
     macOS \
 "
 
-mkdir -p ${GIT_ROOT}/generic/github-global-gitignore
+mkdir -p ${GIT_ROOT}/gitconfig/github-global-gitignore
 for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
-    curl -fqsSL -o ${GIT_ROOT}/generic/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore \
+    curl -fqsSL -o ${GIT_ROOT}/gitconfig/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore \
         ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore
 done
 
 echo "# -*- mode: Gitignore -*-"
 echo
-echo "# BEGIN generic/dot.gitignore_global.base"
+echo "# BEGIN gitconfig/dot.gitignore_global.base"
 echo
-cat ${GIT_ROOT}/generic/dot.gitignore_global.base
+cat ${GIT_ROOT}/gitconfig/dot.gitignore_global.base
 echo
-echo "# END generic/dot.gitignore_global.base"
+echo "# END gitconfig/dot.gitignore_global.base"
 echo
 
 for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
@@ -38,7 +38,7 @@ for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
     echo
     echo "# BEGIN ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore"
     echo
-    cat ${GIT_ROOT}/generic/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore
+    cat ${GIT_ROOT}/gitconfig/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore
     echo
     echo "# END ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore"
     echo
