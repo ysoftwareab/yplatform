@@ -1,0 +1,16 @@
+support-firecloud v0.2.84 Release Notes
+
+Highlights since v0.2.83:
+
+* None
+
+Breaking commits since v0.2.83:
+
+* None
+
+Commits since v0.2.83:
+
+* 928bdaf 2020-12-18 rm Makefile-lazy on 'make clean'
+* c214c9c 2020-12-18 node_modules is ignored in generic/dot.gitignore_global
+* 56b3499 2020-12-18 ignore Makefile.lazy everywhere
+o 02aa353 2020-12-18 0.2.83
