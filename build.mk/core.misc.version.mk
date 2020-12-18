@@ -104,6 +104,5 @@ _version:
 	$(GIT) commit -m "$(PKG_VSN_NEW) release notes"
 	$(NPM) version $(PKG_VSN_NEW)
 	$(GIT) tag $(VSN_TAG) $(VSN_TAG)^{} -f \
-		-m "" \
-		-m "$$($(CAT) release-notes/$(VSN_TAG).txt)"
+		-F <($(ECHO) ""; $$($(CAT) release-notes/$(VSN_TAG).txt))
 	@$(ECHO_DONE)
