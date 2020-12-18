@@ -1,0 +1,20 @@
+support-firecloud v0.2.83 Release Notes
+
+Highlights since v0.2.82:
+
+* None
+
+Breaking commits since v0.2.82:
+
+* a02991e 2020-12-17 breaking: rename make-runtime-lazy -> make-lazy-once
+
+
+Commits since v0.2.82:
+
+* eb034c1 2020-12-17 ci-echo: allow anyone to read and write benchmarks
+* 8091775 2020-12-17 cirrus: fix branch matching
+* 82dac9e 2020-12-17 make-lazy-once SF_IS_TRANSCRYPTED
+* 61ce334 2020-12-17 optimize startup by not calling shell
+* a02991e 2020-12-17 breaking: rename make-runtime-lazy -> make-lazy-once
+* 669f6ca 2020-12-17 upgrade build.mk/core.inc.mk, introduce Makefile.lazy
+o 5c7604e 2020-12-17 0.2.82
