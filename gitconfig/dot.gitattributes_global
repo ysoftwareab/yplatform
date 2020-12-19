@@ -17,7 +17,7 @@
 # * text=auto eol=lf
 
 # Whitespace ===================================================================
-# *         whitespace=space-before-tab,tab-in-indent,trailing-space text=auto eol=lf
+*         whitespace=space-before-tab,tab-in-indent,trailing-space
 
 # Whitespace (exclusions) ======================================================
 *.mk      whitespace=space-before-tab,-tab-in-indent,trailing-space
