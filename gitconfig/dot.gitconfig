@@ -4,7 +4,7 @@
 [core]
     attributesfile      = ~/.gitattributes_global
     excludesfile        = ~/.gitignore_global
-    whitespace          = blank-at-eol,space-before-tab,blank-at-eof,trailing-space
+    whitespace          = space-before-tab,trailing-space
     mergeoptions        = --no-edit
 
 [tag]
