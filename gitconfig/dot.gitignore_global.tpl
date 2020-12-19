@@ -31,9 +31,9 @@ echo
 cat ${GIT_ROOT}/gitconfig/dot.gitignore_global.base
 echo
 echo "# END gitconfig/dot.gitignore_global.base"
-echo
 
 for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
+    echo
     echo "################################################################################"
     echo
     echo "# BEGIN ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore"
@@ -41,5 +41,4 @@ for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
     cat ${GIT_ROOT}/gitconfig/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore
     echo
     echo "# END ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore"
-    echo
 done
