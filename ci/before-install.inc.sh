@@ -41,7 +41,7 @@ function sf_github_https_deploy() {
     # and don't require SSH keys
 
     echo_info "Found SF_GH_TOKEN_DEPLOY."
-    echo_do "Setting up HTTPS-protocol for current repo's origin..."
+    echo_do "Setting up authenticated HTTPS-protocol for current repo's origin..."
     exe git remote -v show
     exe git remote set-url origin https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git
     echo_done
@@ -50,7 +50,7 @@ function sf_github_https_deploy() {
 
 function sf_github_https_insteadof_git() {
     # NOTE git (over ssh) is a smarter protocol than https
-    # but requiring SSH keys, though there's no security server-side
+    # but requires SSH keys, though there's no security server-side
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
     # cover git canonical git url
@@ -66,7 +66,7 @@ function sf_github_https_insteadof_all() {
     # and don't require SSH keys
 
     echo_info "Found SF_GH_TOKEN."
-    echo_do "Setting up HTTPS-protocol for all SSH-protocol github.com URLs..."
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol github.com URLs..."
     echo -e "machine github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
 
     # cover git canonical git url
