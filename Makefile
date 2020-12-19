@@ -35,6 +35,8 @@ SF_VENDOR_FILES_IGNORE += \
 SF_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
+	-e "^generic/dot\.gitattributes_global$$" \
+	-e "^generic/dot\.gitignore_global$$" \
 	-e "^gitconfig/dot\.gitattributes_global$$" \
 	-e "^gitconfig/dot\.gitignore_global$$" \
 	-e "^gitconfig/dot\.gitignore_global\.base$$" \
