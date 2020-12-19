@@ -15,6 +15,7 @@ make-lazy-once = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
 else
 $(warning The 'make-lazy' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 make-lazy =
+$(warning The 'make-lazy-once' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 make-lazy-once =
 endif
 
