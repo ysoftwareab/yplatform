@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+LENGTH=${1:-16}
+
+hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random
