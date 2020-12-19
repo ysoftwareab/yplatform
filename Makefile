@@ -76,6 +76,7 @@ SF_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
+	test-gitignore \
 
 # ------------------------------------------------------------------------------
 
@@ -97,6 +98,14 @@ endif
 .PHONY: test-upload-job-artifacts
 test-upload-job-artifacts:
 	$(ECHO) "This is a test of upload-job-artifacts" >some-job-artifact.md
+
+
+.PHONY: test-gitignore
+test-gitignore:
+	$(CAT) .gitignore | $(GREP) -qFx "/some-job-artifact.md"
+	$(GIT) check-ignore --verbose some-job-artifact.md | $(CUT) -d: -f1 | $(GREP) -qFx ".gitignore"
+	$(CAT) gitconfig/dot.gitignore_global | $(GREP) -qFx "Makefile.lazy"
+	$(GIT) check-ignore --verbose Makefile.lazy | $(CUT) -d: -f1 | $(GREP) -qFx ".git/info/exclude"
 
 
 .PHONY: test-repo-mk
