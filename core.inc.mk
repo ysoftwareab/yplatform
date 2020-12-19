@@ -17,7 +17,7 @@ MAKEFLAGS += --no-builtin-rules
 CI ?=
 
 ifeq (1,$(CI))
-	CI := true
+CI := true
 endif
 
 VERBOSE ?=
@@ -25,19 +25,19 @@ V ?= $(VERBOSE)
 VERBOSE := $(V)
 
 ifeq (1,$(VERBOSE))
-	VERBOSE := true
+VERBOSE := true
 endif
 
 ifneq (true,$(VERBOSE))
-	MAKEFLAGS += -s
-	ifeq (true,$(CI))
-		MAKEFLAGS += --no-print-directory
-	else
-		MAKEFLAGS += --print-directory
-	endif
+MAKEFLAGS += -s
+ifeq (true,$(CI))
+MAKEFLAGS += --no-print-directory
 else
-	.SHELLFLAGS := -x $(.SHELLFLAGS)
-	MAKEFLAGS += --print-directory
+MAKEFLAGS += --print-directory
+endif
+else
+.SHELLFLAGS := -x $(.SHELLFLAGS)
+MAKEFLAGS += --print-directory
 endif
 
 # ------------------------------------------------------------------------------
