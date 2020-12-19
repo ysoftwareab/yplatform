@@ -14,7 +14,7 @@
 # commit only LF line endings, but use CRLF locally if needed
 # https://help.github.com/articles/dealing-with-line-endings/
 # http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
-# * text=auto eol=lf
+* text=auto eol=lf
 
 # Whitespace ===================================================================
 *         whitespace=space-before-tab,tab-in-indent,trailing-space
