@@ -117,6 +117,12 @@ cat <<EOF >> /home/${UNAME}/.gitconfig
 EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
 
+ln -s /support-firecloud/gitconfig/dot.gitattributes_global /home/${UNAME}/.gitattributes_global
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitattributes_global
+
+ln -s /support-firecloud/gitconfig/dot.gitignore_global /home/${UNAME}/.gitignore_global
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitignore_global
+
 touch /home/${UNAME}/.sudo_as_admin_successful
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.sudo_as_admin_successful
 
