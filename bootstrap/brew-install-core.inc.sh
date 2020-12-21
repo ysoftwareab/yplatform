@@ -6,7 +6,11 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_skip "brew: Installing core packages..."
 else
     echo_do "brew: Installing core packages..."
-    # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+    # NOTE 'bash' >=4 provides functionality like associative arrays, globstar, etc
+    # see https://tldp.org/LDP/abs/html/bashver4.html
+    # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
+    # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+    # NOTE 'make' >=4 provides functionality for 'make-lazy'
     BREW_FORMULAE="$(cat <<-EOF
 ${SUPPORT_FIRECLOUD_DIR}/Formula/editorconfig-checker.rb
 ${SUPPORT_FIRECLOUD_DIR}/Formula/retry.rb

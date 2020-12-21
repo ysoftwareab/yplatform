@@ -6,7 +6,8 @@ if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
     echo_skip "brew: Installing CI packages..."
 else
     echo_do "brew: Installing CI packages..."
-    # 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+    # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
+    # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
     BREW_FORMULAE="$(cat <<-EOF
 git
 findutils
