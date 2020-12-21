@@ -31,7 +31,7 @@ $(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy-once,
 ifneq (,$(wildcard .env))
 $(shell $(TEST) .env.mk -nt .env || $(CAT) .env | $(SED) "s/\\$$/\\$$\\$$/g" >.env.mk)
 include .env.mk
-export $(shell $(SED) 's/=.\{0,\}//' .env.mk)
+export $(shell $(SED) 's/=.*//' .env.mk)
 endif
 
 # get Makefile-specific environment variables

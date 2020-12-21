@@ -16,8 +16,4 @@ jet-steps:
 		--ci-commit-message "$$($(GIT) log -1 --format=%s $(GIT_HASH))" \
 		--ci-committer-email "$$($(GIT) log -1 --format=%ce $(GIT_HASH))" \
 		--ci-committer-name "$$($(GIT) log -1 --format=%cn $(GIT_HASH))" \
-		--ci-repo-name "$$($(GIT) remote -v 2>/dev/null | \
-		$(GREP) -oP "(?<=github.com.).+" | \
-		$(GREP) -oP ".+(?= \(fetch\))" | \
-		$(HEAD) -n1 | \
-		$(SED) "s/\.git$$//")" \
+		--ci-repo-name "$$($(GIT) remote -v 2>/dev/null | $(GREP) -oP "(?<=github.com.).+" | $(GREP) -oP ".+(?= \(fetch\))" | $(HEAD) -n1 | $(SED) "s/.git$$//")" \
