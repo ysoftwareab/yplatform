@@ -6,6 +6,17 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 
 # ------------------------------------------------------------------------------
 
+ifndef SF_DEV_INC_SH
+ifneq (0,$(MAKELEVEL))
+SHELL := bash
+SF_ENV := $(shell mktemp)
+SF_ENV := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env > $(SF_ENV) && echo $(SF_ENV))
+include $(SF_ENV)
+export $(shell sed 's/=.\{0,\}//g' $(SF_ENV))
+SF_ENV := $(shell rm $(SF_ENV))
+endif
+endif
+
 SF_CI_ECHO_BENCHMARK ?= /dev/null
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.inc.mk/Makefile
