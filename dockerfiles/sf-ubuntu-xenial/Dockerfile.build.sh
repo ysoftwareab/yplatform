@@ -101,7 +101,7 @@ sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
 git rev-parse HEAD > /support-firecloud.bootstrapped
 
 git_dir_clean /support-firecloud
-source /support-firecloud/sh/exe-env.inc.sh
+source /support-firecloud/sh/env.inc.sh
 make BUILD
 make VERSION
 
