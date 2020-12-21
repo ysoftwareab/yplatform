@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+function sf_path_prepend() {
+    echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
+}
+
+function sf_path_append() {
+    echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
+}
+
+# remove homebrew (linuxbrew) from PATH which is appended, not prepended (default homebrew behaviour)
+# see https://github.com/actions/virtual-environments/pull/789
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/bin:||" | sed "s|::|:|")
+    export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/sbin:||" | sed "s|::|:|")
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+}
+
+if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
+    sf_path_prepend /home/linuxbrew/.linuxbrew/bin
+elif [ -x ${HOME}/.linuxbrew/bin/brew ]; then
+    sf_path_prepend ${HOME}/.linuxbrew/sbin
+    sf_path_prepend ${HOME}/.linuxbrew/bin
+fi
+sf_path_prepend /usr/local/sbin
+sf_path_prepend /usr/local/bin
+sf_path_prepend ${HOME}/.local/sbin
+sf_path_prepend ${HOME}/.local/bin
+
+if which brew >/dev/null 2>&1; then
+    HOMEBREW_PREFIX=$(brew --prefix)
+    sf_path_prepend ${HOMEBREW_PREFIX}/sbin
+    sf_path_prepend ${HOMEBREW_PREFIX}/bin
+
+    for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
+        sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
+    done
+    for f in curl gettext unzip zip; do
+        sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
+    done
+
+    [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
+    type nvm >/dev/null 2>&1 || {
+        # using a less exact call because 'brew --prefix nvm' is very very slow
+        # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
+        NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
+        [[ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ]] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
+        unset NVM_INSTALLATION_DIR
+    }
+
+    unset HOMEBREW_PREFIX
+fi
+
+printenv | grep -e "^PATH=" -e "^NVM_DIR="
