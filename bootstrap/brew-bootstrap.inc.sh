@@ -111,7 +111,7 @@ function bootstrap_brew() {
 }
 
 bootstrap_brew
-source ${SUPPORT_FIRECLOUD_DIR}/sh/exe-env.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 
 [[ "${CI}" != "true" ]] || {
     brew_config
