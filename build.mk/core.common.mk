@@ -6,9 +6,6 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 
 # ------------------------------------------------------------------------------
 
-PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
-export PATH
-
 SF_CI_ECHO_BENCHMARK ?= /dev/null
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.inc.mk/Makefile
