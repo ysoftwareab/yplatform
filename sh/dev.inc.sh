@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [ -n "${BASH_VERSION}" ]; then
+if [ -n "${BASH_VERSION:-}" ]; then
     GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
-elif [ -n "${ZSH_VERSION}" ]; then
+elif [ -n "${ZSH_VERSION:-}" ]; then
     GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${(%):-%x})/..}"
     autoload -U compaudit compinit bashcompinit
     bashcompinit || {
