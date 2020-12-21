@@ -1,0 +1,16 @@
+support-firecloud v0.2.87 Release Notes
+
+Highlights since v0.2.86:
+
+* None
+
+Breaking commits since v0.2.86:
+
+* None
+
+Commits since v0.2.86:
+
+* 803327ff 2020-12-21 Revert "setup sf env (e.g. PATH) automatically when running 'make'. see #178"
+* ac289b04 2020-12-21 updated build.mk/core.inc.mk
+* e30dbbed 2020-12-21 test with only 'brew-install-core' for #178
+o bbc25b8b 2020-12-21 0.2.86
