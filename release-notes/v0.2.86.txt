@@ -1,0 +1,14 @@
+support-firecloud v0.2.86 Release Notes
+
+Highlights since v0.2.85:
+
+* None
+
+Breaking commits since v0.2.85:
+
+* None
+
+Commits since v0.2.85:
+
+* b8f60c7f 2020-12-21 fixup! rename exe-env.inc.sh to env.inc.sh
+o 186981c0 2020-12-21 0.2.85
