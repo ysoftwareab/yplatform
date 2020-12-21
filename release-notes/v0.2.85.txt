@@ -1,0 +1,47 @@
+support-firecloud v0.2.85 Release Notes
+
+Highlights since v0.2.84:
+
+* None
+
+Breaking commits since v0.2.84:
+
+* None
+
+Commits since v0.2.84:
+
+* 7e7ad238 2020-12-21 clarify ci/core deps
+* e4a45fd2 2020-12-21 fixup! fixup! split sf-env to its own executable
+* 11fb2ab0 2020-12-21 rename exe-env.inc.sh to env.inc.sh
+* e3eb95fe 2020-12-21 setup sf env (e.g. PATH) automatically when running 'make'. see #178
+* ee8e56a8 2020-12-21 style
+* 6e7f2871 2020-12-21 fixup! split sf-env to its own executable
+* 845af725 2020-12-21 sf bin's folder shouldn't be needed anymore in PATH
+* 384696cc 2020-12-21 split sf-env to its own executable
+* 77b7bab9 2020-12-21 fixup! use posix sed for increased compatibility gnu/bsd
+* 8708a71f 2020-12-21 updated build.mk/core.inc.mk
+* c6aaa1da 2020-12-21 Revert "Revert "use posix sed for increased compatibility gnu/bsd""
+* 41e2d005 2020-12-21 Revert "Revert "updated build.mk/core.inc.mk""
+* 14388053 2020-12-21 Revert "updated build.mk/core.inc.mk"
+* 589ff253 2020-12-21 Revert "use posix sed for increased compatibility gnu/bsd"
+* 96429ccb 2020-12-20 use posix sed for increased compatibility gnu/bsd
+* 67d6330e 2020-12-19 updated build.mk/core.inc.mk
+* 846cf58a 2020-12-19 add random-hex helper
+* cfd1cde6 2020-12-19 phrasing
+* 24fa65dc 2020-12-19 fix trailing
+* d98dea88 2020-12-19 test that both .gitignore and .git/info/exclude work
+* b112e2ce 2020-12-19 fixup! rename generic -> gitconfig (cont)
+* eb9a74f1 2020-12-19 fixup! fixup! setup support-firecloud's git attributes/excludes locally per repo, instead of assuming user has bootstrapped ~/.gitconfig
+* 51ccffc6 2020-12-19 explicit default behaviour
+* 6d4aabcd 2020-12-19 trailing-space is a shortcut for blank-at-eol and blank-at-eof
+* 6230ef4e 2020-12-19 don't assume core.whitespace is set in gitconfig
+* fc0afb61 2020-12-19 refresh dot.gitattributes_global
+* 5e966848 2020-12-19 fixup! setup support-firecloud's git attributes/excludes locally per repo, instead of assuming user has bootstrapped ~/.gitconfig
+* d9ac3f65 2020-12-19 docker: symlink ~/.gitignore_global and ~/.gitattributes_global just like bootstrap docs suggest
+* 27575c5d 2020-12-18 rename generic -> gitconfig (cont)
+* e06160ae 2020-12-18 rename generic -> gitconfig
+* 4c88c590 2020-12-18 setup support-firecloud's git attributes/excludes locally per repo, instead of assuming user has bootstrapped ~/.gitconfig
+* ee571cea 2020-12-19 move core.deps.git-hook-pre-push.mk from generic.common.mk to core.common.mk
+* 76147c01 2020-12-19 split into core.deps.git-submodules.mk and core.deps.git-reset-mtime.mk
+* 02745be3 2020-12-18 use -F on 'git tag'. fix #192
+o cf6da89d 2020-12-18 0.2.84
