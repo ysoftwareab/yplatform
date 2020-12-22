@@ -10,6 +10,7 @@ else
     # see https://tldp.org/LDP/abs/html/bashver4.html
     # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
     # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+    # NOTE 'gettext' provides 'envsubst'
     # NOTE 'make' >=4 provides functionality for 'make-lazy'
     BREW_FORMULAE="$(cat <<-EOF
 ${SUPPORT_FIRECLOUD_DIR}/Formula/editorconfig-checker.rb
@@ -17,6 +18,7 @@ ${SUPPORT_FIRECLOUD_DIR}/Formula/retry.rb
 bash
 curl
 findutils
+gettext
 git
 jq
 make
