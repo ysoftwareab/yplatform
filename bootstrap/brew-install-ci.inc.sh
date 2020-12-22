@@ -8,21 +8,11 @@ else
     echo_do "brew: Installing CI packages..."
     # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
     # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
-    BREW_FORMULAE="$(cat <<-EOF
-git
-findutils
-jq
-tmate
-EOF
-)"
-    brew_install "${BREW_FORMULAE}"
-    unset BREW_FORMULAE
-    echo_done
+    brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 4\."
+    brew_install_one_if git "git --version | head -1" "^git version 2\."
+    brew_install_one_if jq "jq --version | head -1" "^jq-1\."
+    brew_install_one_if tmate "tmate -V | head -1" "^tmate 2\."
 
-    echo_do "brew: Testing CI packages..."
-    exe_and_grep_q "git --version | head -1" "^git version 2\."
-    exe_and_grep_q "jq --version | head -1" "^jq-1\."
-    exe_and_grep_q "tmate -V | head -1" "^tmate 2\."
     # need an extra condition, because the original one fails intermitently
     # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
     echo | xargs -r false || {

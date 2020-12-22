@@ -62,14 +62,8 @@ function printenv_with_name() {
     done
 }
 
-function exe_and_grep_q() {
-    local CMD="$1"
-    shift
-    local EXECUTABLE=$(echo "${CMD}" | cut -d" " -f1)
-    local OUTPUT=$(eval "${CMD}")
-    local OUTPUT_EXPECTED="$1"
-    shift
-    echo_do "Testing if command '${CMD}' with output '${OUTPUT}' matches $* '${OUTPUT_EXPECTED}'..."
+function exe_debug() {
+    local EXECUTABLE="$1"
     if [[ $(type -t ${EXECUTABLE}) = "file" ]]; then
         which -a ${EXECUTABLE}
         which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do
@@ -80,11 +74,29 @@ function exe_and_grep_q() {
     else
         echo "${EXECUTABLE} is $(type -t ${EXECUTABLE} || true)"
     fi
-    echo "${OUTPUT}" | grep -q "$@" "${OUTPUT_EXPECTED}" || {
-        echo_err "Command '${CMD}' with output '${OUTPUT}' matches $* '${OUTPUT_EXPECTED}'."
+}
+
+function exe_and_grep_q() {
+    local CMD="$1"
+    shift
+    local EXPECTED_STDOUT="$1"
+    shift
+
+    local CMD_STDERR=$(mktemp)
+    local EXECUTABLE=$(echo "${CMD}" | cut -d" " -f1)
+    local CMD_STDOUT=$(eval "${CMD}" 2>${CMD_STDERR})
+
+    if echo "${CMD_STDOUT}" | grep -q "$@" "${EXPECTED_STDOUT}"; then
+        echo_info "Command '${CMD}' with stdout '${CMD_STDOUT}' matches $* '${EXPECTED_STDOUT}'."
+    else
+        echo_err "Command '${CMD}' with stdout '${CMD_STDOUT}' failed to match $* '${EXPECTED_STDOUT}'."
+        echo_info "Command stderr: $(cat ${CMD_STDERR})"
+        echo_info "Command's executable info:"
+        >&2 exe_debug "${EXECUTABLE}"
+        rm -f ${CMD_STDERR}
         return 1
-    }
-    echo_done
+    fi
+    rm -f ${CMD_STDERR}
 }
 
 function prompt_q_to_continue() {

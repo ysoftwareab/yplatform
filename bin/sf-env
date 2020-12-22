@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# NOTE exported variables need to be in sync with
+# sh/env.inc.sh:11
+# build.mk/core.common.mk:9
+
 function sf_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
 }

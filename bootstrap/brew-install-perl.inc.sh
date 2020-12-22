@@ -11,14 +11,14 @@ else
     # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
     case "${OS_SHORT}" in
         darwin)
-            brew_install perl
+            brew_install_one perl
             ;;
         linux)
             # TODO installing via apt as a workaround for Travis Ubuntu 20.04 running gcc 9.2.1
             # /usr/lib/gcc/x86_64-linux-gnu/9/include-fixed/bits/statx.h:38:25: error: missing binary operator before token "("
             # #if __glibc_has_include ("__linux__/stat.h")
             #                         ^
-            brew_install perl || apt_install perl
+            brew_install_one perl || apt_install_one perl
             ;;
         *)
             echo_err "OS_SHORT=${OS_SHORT}"

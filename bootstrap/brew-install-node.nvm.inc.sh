@@ -3,16 +3,12 @@ set -euo pipefail
 
 echo_do "brew: Installing NVM packages..."
 
-[ -n "${NVM_DIR:-}" ] || export NVM_DIR=${HOME}/.nvm
+export NVM_DIR=${NVM_DIR:-${HOME}/.nvm}
 mkdir -p ${NVM_DIR}
 
-BREW_FORMULAE="$(cat <<-EOF
-nvm
-EOF
-)"
-brew_install "${BREW_FORMULAE}"
-unset BREW_FORMULAE
-echo_done
+# NOTE can't run brew_install_one_if because we need to activate nvm
+# brew_install_one_if nvm "nvm --version | head -1" "^0\."
+exe_and_grep_q "nvm --version | head -1" "^0\." >/dev/null || brew_install_one nvm
 
 echo_do "Enabling NVM..."
 set +u
@@ -37,6 +33,5 @@ echo_done
     nvm use
 }
 
-echo_do "brew: Testing NVM packages..."
 exe_and_grep_q "nvm --version | head -1" "^0\."
 echo_done

@@ -5,44 +5,33 @@ echo_do "brew: Installing Python pyenv packages..."
 
 # pyenv deps https://github.com/pyenv/pyenv/wiki/Common-build-problems
 if [[ "${OS_SHORT}" = "linux" ]]; then
-    DPKGS="$(cat <<-EOF
-build-essential
-libssl-dev
-zlib1g-dev
-libbz2-dev
-libreadline-dev
-libsqlite3-dev
-wget
-curl
-llvm
-libncurses5-dev
-libncursesw5-dev
-xz-utils
-tk-dev
-libffi-dev
-liblzma-dev
-python-openssl
-git
-EOF
-)"
-apt_install "${DPKGS}"
-unset DPKGS
+    apt_install_one build-essential
+    apt_install_one libssl-dev
+    apt_install_one zlib1g-dev
+    apt_install_one libbz2-dev
+    apt_install_one libreadline-dev
+    apt_install_one libsqlite3-dev
+    apt_install_one wget
+    apt_install_one curl
+    apt_install_one llvm
+    apt_install_one libncurses5-dev
+    apt_install_one libncursesw5-dev
+    apt_install_one xz-utils
+    apt_install_one tk-dev
+    apt_install_one libffi-dev
+    apt_install_one liblzma-dev
+    apt_install_one python-openssl
+    apt_install_one git
 fi
 
-BREW_FORMULAE="$(cat <<-EOF
-pyenv
-EOF
-)"
-brew_install "${BREW_FORMULAE}"
-unset BREW_FORMULAE
+# NOTE can't run brew_install_one_if because we need to activate pyenv
+# brew_install_one_if pyenv "pyenv --version | head -1" "^pyenv "
+exe_and_grep_q "pyenv --version | head -1" "^pyenv " >/dev/null || brew_install_one pyenv
 eval "$(pyenv init -)"
 mkdir -p ${HOME}/.pyenv/versions
 for PYTHON_VSN in "$(brew --cellar python)"/*; do
     ln -sf ${PYTHON_VSN} ${HOME}/.pyenv/versions/
 done
 unset PYTHON_VSN
-echo_done
-
-echo_do "brew: Testing Python pyenv packages..."
 exe_and_grep_q "pyenv --version | head -1" "^pyenv "
 echo_done

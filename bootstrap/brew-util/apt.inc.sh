@@ -18,18 +18,26 @@ function apt_update() {
 }
 
 function apt_install_one() {
+    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     local DPKG="$*"
 
     echo_do "aptitude: Installing ${DPKG}..."
     # ${SF_SUDO} apt-get install -y --force-yes ${DPKG}
     ${SF_SUDO} apt-get install -y ${FORCE_YES} ${DPKG}
     echo_done
+    hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function apt_install() {
-    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    while read -r -u3 DPKG; do
-        [[ -n "${DPKG}" ]] || continue
-        apt_install_one ${DPKG}
-    done 3< <(echo "$@")
+function apt_install_one_if() {
+    local FORMULA="$1"
+    shift
+    local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
+
+    if exe_and_grep_q "$@"; then
+        echo_skip "aptitude: Installing ${FORMULA}..."
+    else
+        apt_install_one "${FORMULA}"
+        >&2 exe_and_grep_q "$@"
+    fi
+    exe_debug "${EXECUTABLE}"
 }

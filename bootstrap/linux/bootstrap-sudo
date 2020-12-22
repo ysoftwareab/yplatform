@@ -25,32 +25,29 @@ function apt_update() {
     echo_done
 }
 
-function apt_install() {
+function apt_install_one() {
+    local DPKG="$*"
     local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    while read -r -u3 DPKG; do
-        [[ -n "${DPKG}" ]] || continue
-
-        echo_do "aptitude: Installing ${DPKG}..."
-        # apt-get install -y --force-yes "${DPKG}"
-        apt-get install -y ${FORCE_YES} "${DPKG}"
-        echo_done
-    done 3< <(echo "$@")
+    echo_do "aptitude: Installing ${DPKG}..."
+    # apt-get install -y --force-yes "${DPKG}"
+    apt-get install -y ${FORCE_YES} "${DPKG}"
+    echo_done
 }
 
 echo_do "Setup aptitude..."
-apt_install software-properties-common
+apt_install_one software-properties-common
 apt_update
 apt-add-repository -y -u ppa:git-core/ppa
 echo_done
 
 echo_do "Setup debconf-utils..."
 export DEBIAN_FRONTEND=noninteractive
-apt_install debconf-utils
+apt_install_one debconf-utils
 echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
 echo_done
 
 echo_do "Setup locales..."
-apt_install locales
+apt_install_one locales
 locale-gen en_US en_US.UTF-8
 dpkg-reconfigure locales
 echo_done
@@ -62,13 +59,13 @@ else
     (
         # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
         ln -sf /usr/share/zoneinfo/UTC /etc/localtime
-        apt_install tzdata
+        apt_install_one tzdata
         dpkg-reconfigure tzdata
 
         if which -a timedatectl; then
             timedatectl set-ntp no || true
         fi
-        apt_install ntp
+        apt_install_one ntp
         # test that ntpd is working
         ntpq -p
     ) || true
@@ -77,20 +74,15 @@ fi
 
 # Basic
 echo_do "aptitude: Installing basic packages..."
-DPKGS="$(cat <<-EOF
-bash
-bsdmainutils
-build-essential
-curl
-file
-git
-python3-minimal
-uuid-runtime
-zlib1g-dev
-EOF
-)"
-apt_install "${DPKGS}"
-unset DPKGS
+apt_install_one bash
+apt_install_one bsdmainutils
+apt_install_one build-essential
+apt_install_one curl
+apt_install_one file
+apt_install_one git
+apt_install_one python3-minimal
+apt_install_one uuid-runtime
+apt_install_one zlib1g-dev
 echo_done
 
 # scripts tend to call /usr/bin/pyhon to intend calling python2 or python3, whichever is available

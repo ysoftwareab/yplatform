@@ -113,17 +113,24 @@ function brew_install_one() {
     # if we have a patch file, then use it to install the formula
     [[ ! -f Formula/${NAME}.${OS_SHORT}.patch ]] || {
         brew_install_one_patched "$@"
+        hash -r # see https://github.com/Homebrew/brew/issues/5013
         return 0
     }
 
     brew_install_one_core "${FORMULA}"
+    hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function brew_install() {
-    while read -r -u3 FORMULA; do
-        [[ -n "${FORMULA}" ]] || continue
-        brew_install_one ${FORMULA}
-    done 3< <(echo "$@")
-    # see https://github.com/Homebrew/brew/issues/5013
-    hash -r
+function brew_install_one_if() {
+    local FORMULA="$1"
+    shift
+    local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
+
+    if exe_and_grep_q "$@"; then
+        echo_skip "brew: Installing ${FORMULA}..."
+    else
+        brew_install_one "${FORMULA}"
+        >&2 exe_debug "${EXECUTABLE}"
+    fi
+    exe_and_grep_q "$@"
 }

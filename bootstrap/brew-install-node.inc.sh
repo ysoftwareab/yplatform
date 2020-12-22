@@ -45,12 +45,7 @@ else
         unset NODE_BOTTLE_COMMIT
     }
 
-    BREW_FORMULAE="$(cat <<-EOF
-${NODE_FORMULA}
-EOF
-)"
-    brew_install "${BREW_FORMULAE}"
-    unset BREW_FORMULAE
+    brew_install_one "${NODE_FORMULA}"
     unset NODE_FORMULA
 
     # TODO remove once we can use node@14 (or npm@6)

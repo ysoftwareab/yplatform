@@ -8,9 +8,10 @@ function sf_path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
 }
 
-# FIXME sourcing doesn't work or returns broken pipe
-# source <(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env | sed "s/^/export /g")
-eval "$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env | sed "s/^/export /g")"
+[[ "${SF_DEV_INC_SH:-}" = "true" ]] || {
+    export PATH="$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env PATH)"
+    export NVM_DIR="$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env NVM_DIR)"
+}
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {

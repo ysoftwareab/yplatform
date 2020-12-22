@@ -14,10 +14,11 @@ function apt_update() {
     }
 }
 
-function apt_install() {
+function apt_install_one() {
+    local DPKG="$*"
     local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    # apt-get install -y --force-yes "$@"
-    apt-get install -y ${FORCE_YES} "$@"
+    # apt-get install -y --force-yes "$${DPKG}"
+    apt-get install -y ${FORCE_YES} "${DPKG}"
 }
 
 function dir_clean() {
@@ -45,9 +46,13 @@ export DEBIAN_FRONTEND=noninteractive
 
 # DEPS
 apt_update
-apt_install apt-transport-https
-apt_install software-properties-common ca-certificates
-apt_install git openssl ssh-client sudo
+apt_install_one apt-transport-https
+apt_install_one software-properties-common
+apt_install_one ca-certificates
+apt_install_one git
+apt_install_one openssl
+apt_install_one ssh-client
+apt_install_one sudo
 
 # SSH
 mkdir -p /root/.ssh
