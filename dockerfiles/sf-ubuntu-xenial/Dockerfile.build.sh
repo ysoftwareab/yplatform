@@ -131,5 +131,9 @@ apt-get clean
 dir_clean /var/lib/apt/lists/* # aptitude cache
 dir_clean /home/${UNAME}/.cache/* # linuxbrew cache
 
-# git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
-# git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/homebrew/homebrew-core
+git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
+chown -R ${UNAME}:${GNAME} /home/linuxbrew/.linuxbrew/Homebrew
+for BREW_TAP in /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/*/*; do
+    git_dir_clean ${BREW_TAP}
+    chown -R ${UNAME}:${GNAME} ${BREW_TAP}
+done
