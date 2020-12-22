@@ -53,4 +53,8 @@ if which brew >/dev/null 2>&1; then
     unset HOMEBREW_PREFIX
 fi
 
-printenv | grep -e "^PATH=" -e "^NVM_DIR="
+if [[ -n "${1:-}" ]]; then
+    eval "echo \${$1}"
+else
+    printenv | grep -e "^PATH=" -e "^NVM_DIR="
+fi

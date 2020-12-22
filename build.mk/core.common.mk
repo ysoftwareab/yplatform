@@ -6,6 +6,14 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 
 # ------------------------------------------------------------------------------
 
+ifndef SF_DEV_INC_SH
+ifeq (0,$(MAKELEVEL))
+NVM_DIR := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env NVM_DIR)
+PATH := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env PATH)
+export NVM_DIR PATH
+endif
+endif
+
 SF_CI_ECHO_BENCHMARK ?= /dev/null
 CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.inc.mk/Makefile
