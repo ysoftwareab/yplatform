@@ -13,7 +13,7 @@ endif
 # ------------------------------------------------------------------------------
 
 .PHONY: .git/info/attributes
-.git/info/attributes: $(SUPPORT_FIRECLOUD_DIR)/gitconfig/dot.gitignore_global
+.git/info/attributes: $(SUPPORT_FIRECLOUD_DIR)/gitconfig/dot.gitattributes_global
 	$(MKDIR) $$(dirname $@)
 	[[ -f $@ ]] && $(CAT) $@ 2>/dev/null | $(GREP) -v -e "^#" -e "^\s\+$$"| $(GREP) -q "^." || \
 			$(LN) -sf $< $@
