@@ -138,14 +138,14 @@ function github_actions_echo() {
             >&2 echo -e "                in ${GROUP_DURATION} seconds"
             >&2 echo
             ;;
-        "[WARN]")
-            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
-            echo "::warning::${GROUP}"
-            ;;
-        "[ERR ]")
-            >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
-            echo "::error::${GROUP}"
-            ;;
+        # "[WARN]")
+        #     >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+        #     echo "::warning::${GROUP}"
+        #     ;;
+        # "[ERR ]")
+        #     >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
+        #     echo "::error::${GROUP}"
+        #     ;;
         *)
             >&2 echo "$(date +"%H:%M:%S") $1 ${GROUP}"
             ;;
