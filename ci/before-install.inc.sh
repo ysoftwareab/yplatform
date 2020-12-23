@@ -99,6 +99,7 @@ function sf_github() {
     else
         # GITHUB_TOKEN is also common way to pass a personal access token to CI jobs, IFF not on Github Actions
         export SF_GH_TOKEN=${SF_GH_TOKEN:-${GITHUB_TOKEN:-}}
+        export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN}
     fi
 
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
