@@ -67,7 +67,6 @@ jobs:
           - macos-10.15
           - macos-11.0
         sf_ci_brew_install:
-          - core
           - minimal
           - dev
     name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
