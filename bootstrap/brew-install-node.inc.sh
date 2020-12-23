@@ -55,11 +55,8 @@ else
     brew switch node 14.14.0
 
     # allow npm upgrade to fail on WSL; fails with EACCESS
-    IS_WSL=$([[ -e /proc/version ]] && cat /proc/version | grep -q -e "Microsoft" && echo true || echo false)
-    npm install --global --force npm@6 || ${IS_WSL}
+    npm install --global --force npm@6 || ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl
     npm install --global json@9
-    unset IS_WSL
-
     echo_done
 
     echo_do "brew: Testing NodeJS packages..."
