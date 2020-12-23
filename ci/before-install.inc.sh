@@ -41,6 +41,9 @@ function sf_github_https_deploy() {
     # and don't require SSH keys
 
     echo_info "Found SF_GH_TOKEN_DEPLOY."
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol api.github.com URLs..."
+    echo -e "machine api.github.com\n  login ${SF_GH_TOKEN_DEPLOY}" >> ${HOME}/.netrc
+
     echo_do "Setting up authenticated HTTPS-protocol for current repo's origin..."
     exe git remote -v show
     exe git remote set-url origin https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git
@@ -68,6 +71,8 @@ function sf_github_https_insteadof_all() {
     echo_info "Found SF_GH_TOKEN."
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol github.com URLs..."
     echo -e "machine github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol api.github.com URLs..."
+    echo -e "machine api.github.com\n  login ${SF_GH_TOKEN}" >> ${HOME}/.netrc
 
     # cover git canonical git url
     git config --global --add url."https://github.com/".insteadOf "git://github.com/"
