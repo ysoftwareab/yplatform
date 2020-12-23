@@ -101,7 +101,9 @@ chown -R root:root .
 git config --replace-all url."https://github.com/".insteadOf "git@github.com:"
 git config --add url."https://github.com/".insteadOf "git://github.com/"
 
+export SF_DOCKER=true
 sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
+unset SF_DOCKER
 
 git rev-parse HEAD > /support-firecloud.bootstrapped
 
