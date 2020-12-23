@@ -6,8 +6,8 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         return 0
     }
 
-    [[ -n "${GH_TOKEN:-}" ]] || {
-        echo_skip "${FUNCNAME[0]}: No GH_TOKEN found..."
+    [[ -n "${SF_GH_TOKEN_DEPLOY:-}" ]] || {
+        echo_skip "${FUNCNAME[0]}: No SF_GH_TOKEN_DEPLOY found..."
         return 0
     }
 
@@ -40,7 +40,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session
         local CURL_GITHUB_API_HEADERS=(-H "Accept: application/vnd.github.v3+json")
-        CURL_GITHUB_API_HEADERS+=(-H "Authorization: Bearer ${GH_TOKEN}")
+        CURL_GITHUB_API_HEADERS+=(-H "Authorization: Bearer ${SF_GH_TOKEN_DEPLOY}")
         touch log.sh-session
         curl \
             -fqsSL \
@@ -66,7 +66,7 @@ EOF
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
-    git push --no-verify -f https://${GH_TOKEN}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
+    git push --no-verify -f https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
     git checkout -f -
 
