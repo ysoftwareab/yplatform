@@ -26,7 +26,7 @@ set -euo pipefail
 
 
 echo_do "brew: Installing AWS utils..."
-brew_install_one_if awscli "aws --version | head -1" "^aws-cli/\(1\|2\)\."
+brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/\(1\|2\)\."
 # see https://github.com/Homebrew/linuxbrew-core/issues/21062
 # brew uninstall awscli && brew install awscli
 aws configure set s3.signature_version s3v4
