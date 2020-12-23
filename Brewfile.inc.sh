@@ -6,6 +6,6 @@
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${SF_CI_BREW_INSTALL}.inc.sh
 
 # SF_DOCKER declared in dockerfiles/*/Dockerfile.build.sh
-[[ "${SF_DOCKER:-}" != "true" ]] || {
+[[ "${SF_DOCKER:-}" = "true" ]] || {
     [[ "${SF_CI_BREW_INSTALL}" != "minimal" ]] || source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
 }
