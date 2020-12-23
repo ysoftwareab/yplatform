@@ -1,5 +1,13 @@
 #!/usr/bin/env bash
-set -euo pipefail
+
+if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
+       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
+    # sourced
+    true
+else
+    # executed
+    set -euo pipefail
+fi
 
 # NOTE exported variables need to be in sync with
 # sh/env.inc.sh:11
@@ -33,6 +41,8 @@ sf_path_prepend /usr/local/bin
 sf_path_prepend ${HOME}/.local/sbin
 sf_path_prepend ${HOME}/.local/bin
 
+[[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
+
 if which brew >/dev/null 2>&1; then
     HOMEBREW_PREFIX=$(brew --prefix)
     sf_path_prepend ${HOMEBREW_PREFIX}/sbin
@@ -45,20 +55,24 @@ if which brew >/dev/null 2>&1; then
         sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
 
-    [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
-    type nvm >/dev/null 2>&1 || {
-        # using a less exact call because 'brew --prefix nvm' is very very slow
-        # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
-        NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
-        [[ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ]] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
-        unset NVM_INSTALLATION_DIR
-    }
+    if which brew >/dev/null 2>&1; then
+        type nvm >/dev/null 2>&1 || {
+            # using a less exact call because 'brew --prefix nvm' is very very slow
+            # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
+            NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
+            [[ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ]] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
+            unset NVM_INSTALLATION_DIR
+        }
+    fi
 
     unset HOMEBREW_PREFIX
 fi
 
-if [[ -n "${1:-}" ]]; then
-    eval "echo \${$1}"
+if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
+       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
+    # sourced
+    true
 else
-    printenv | grep -e "^PATH=" -e "^NVM_DIR="
+    # executed (from build.mk/core.common.mk)
+    eval "echo \${$1}"
 fi

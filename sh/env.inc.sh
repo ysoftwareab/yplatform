@@ -9,8 +9,7 @@ function sf_path_append() {
 }
 
 [[ "${SF_DEV_INC_SH:-}" = "true" ]] || {
-    export PATH="$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env PATH)"
-    export NVM_DIR="$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env NVM_DIR)"
+    source ${SUPPORT_FIRECLOUD_DIR}/bin/sf-env
 }
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
