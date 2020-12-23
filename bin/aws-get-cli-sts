@@ -30,10 +30,10 @@ else
     # shellcheck disable=SC2045
     for f in $(ls -t ~/.aws/cli/cache/); do
         # shellcheck disable=SC2015
-        cat ~/.aws/cli/cache/$f | \
+        cat ~/.aws/cli/cache/${f} | \
             jq -r ".AssumedRoleUser.Arn" | \
             grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
-            AWS_CLI_CACHE_FILE=~/.aws/cli/cache/$f && \
+            AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${f} && \
             break || \
                 true
     done

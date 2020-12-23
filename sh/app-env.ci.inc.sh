@@ -41,7 +41,7 @@ function ci_run_script_env() {
 
 
 function ci_run_script_teardown_env() {
-    case ${GIT_BRANCH} in
+    case "${GIT_BRANCH}" in
         # handle env branches
         env/*)
             # ignore '[sf teardown-<ENV_NAME>]' commit, to allow for snapshot detection
@@ -52,6 +52,9 @@ function ci_run_script_teardown_env() {
         # handle git-env branches
         master|*-env)
             make deps
+            ;;
+        *)
+            echo_err "GIT_BRANCH=${GIT_BRANCH}"
             ;;
     esac
 
@@ -75,7 +78,7 @@ function ci_run_script() {
         return 0
     fi
 
-    case ${GIT_BRANCH} in
+    case "${GIT_BRANCH}" in
         # handle env branches
         env/*)
             ci_run_script_env
@@ -87,6 +90,9 @@ function ci_run_script() {
             sf_ci_run_script
             ci_run_script_env_git
             return 0
+            ;;
+        *)
+            echo_err "GIT_BRANCH=${GIT_BRANCH}"
             ;;
     esac
 

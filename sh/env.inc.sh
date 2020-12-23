@@ -15,10 +15,12 @@ eval "$(${SUPPORT_FIRECLOUD_DIR}/bin/sf-env | sed "s/^/export /g")"
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
     local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
-    case $1 in
+    case "$1" in
         --help|--version)
             ${MAKE_COMMAND} "$@"
             return $?
+            ;;
+        *)
             ;;
     esac
     if [[ -z "${SF_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then

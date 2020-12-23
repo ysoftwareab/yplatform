@@ -28,6 +28,6 @@ EOF
 )"
 
     for f in ${CI_PHASES}; do
-        sf_ci_run $f;
+        sf_ci_run ${f};
     done
 }

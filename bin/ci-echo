@@ -46,7 +46,7 @@ ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 
 function fallback_echo() {
-    case $1 in
+    case "$1" in
         "[DO  ]"|"[DONE]")
             local COLOR_DIM="\e[2m"
             local COLOR_RESET="\e[0m"
@@ -55,6 +55,8 @@ function fallback_echo() {
                 COLOR_DIM=
                 COLOR_RESET=
             }
+            ;;
+        *)
             ;;
     esac
 
@@ -163,9 +165,11 @@ function teamcity_echo() {
     local MESSAGE="$(echo "${GROUP}" | sed "s/'/|'/")"
     local STATUS=NORMAL
 
-    case $1 in
+    case "$1" in
         "[DO  ]"|"[DONE]")
             local PWD_MESSAGE="${REL_PWD} ${MESSAGE}"
+            ;;
+        *)
             ;;
     esac
 
@@ -210,7 +214,7 @@ function teamcity_echo() {
 
 GROUP="${*:2}"
 
-case $1 in
+case "$1" in
     "[DO  ]")
         GROUP_START=$(date +%s)
         REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
@@ -247,6 +251,8 @@ case $1 in
             >&2 echo "[ERR ] Looks like you've called 'ci-echo [DONE]' without calling 'ci-echo [DO  ]' first."
             exit 1
         }
+        ;;
+    *)
         ;;
 esac
 

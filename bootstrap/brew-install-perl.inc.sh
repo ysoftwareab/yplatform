@@ -9,7 +9,7 @@ else
     # installing perl for performance reasons, since it takes a very long time to install via homebrew,
     # and quite a few formulas require it
     # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
-    case ${OS_SHORT} in
+    case "${OS_SHORT}" in
         darwin)
             brew_install perl
             ;;
@@ -19,6 +19,10 @@ else
             # #if __glibc_has_include ("__linux__/stat.h")
             #                         ^
             brew_install perl || apt_install perl
+            ;;
+        *)
+            echo_err "OS_SHORT=${OS_SHORT}"
+            exit 1
             ;;
     esac
     echo_done

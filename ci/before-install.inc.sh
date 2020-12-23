@@ -149,7 +149,7 @@ function sf_transcrypt() {
 
 function sf_os_get_dir_owner() {
     local GNU_STAT=$(stat --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
-    case ${GNU_STAT} in
+    case "${GNU_STAT}" in
         true)
             local STAT_FORMAT_ARG="-c"
             local STAT_FORMAT_USER="%U"
@@ -157,6 +157,10 @@ function sf_os_get_dir_owner() {
         false) # assume BSD
             local STAT_FORMAT_ARG="-f"
             local STAT_FORMAT_USER="%Su"
+            ;;
+        *)
+            echo_err "GNU_STAT=${GNU_STAT}"
+            exit 1
             ;;
     esac
 

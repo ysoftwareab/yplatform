@@ -42,7 +42,7 @@ function brew_lockfile() {
             TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2)
             TAP_SHALLOW_SINCE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f3-)
 
-            case ${OS_SHORT}-${TAP} in
+            case "${OS_SHORT}-${TAP}" in
                 darwin-homebrew/linuxbrew-core)
                     echo_skip "Resetting Homebrew tap ${TAP}..."
                     continue
@@ -58,6 +58,9 @@ function brew_lockfile() {
                 linux-homebrew/linuxbrew-core)
                     echo_info "'homebrew/homebrew-core' is an alias for 'homebrew/linuxbrew-core' on ${OS_SHORT}."
                     TAP=homebrew/homebrew-core
+                    ;;
+                *)
+                    echo_err "OS_SHORT=${OS_SHORT} TAP=${TAP}"
                     ;;
             esac
 
