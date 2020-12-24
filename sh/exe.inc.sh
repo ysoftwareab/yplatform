@@ -86,10 +86,10 @@ function exe_and_grep_q() {
     local EXECUTABLE=$(echo "${CMD}" | cut -d" " -f1)
     local CMD_STDOUT=$(eval "${CMD}" 2>${CMD_STDERR})
 
-    if echo "${CMD_STDOUT}" | grep -q "$@" "${EXPECTED_STDOUT}"; then
-        echo_info "Command '${CMD}' with stdout '${CMD_STDOUT}' matches $* '${EXPECTED_STDOUT}'."
+    if echo "${CMD_STDOUT}" | grep -q "${EXPECTED_STDOUT}"; then
+        echo_info "Command '${CMD}' with stdout '${CMD_STDOUT}' matches '${EXPECTED_STDOUT}'."
     else
-        echo_err "Command '${CMD}' with stdout '${CMD_STDOUT}' failed to match $* '${EXPECTED_STDOUT}'."
+        echo_err "Command '${CMD}' with stdout '${CMD_STDOUT}' failed to match '${EXPECTED_STDOUT}'."
         echo_info "Command stderr: $(cat ${CMD_STDERR})"
         echo_info "Command's executable info:"
         >&2 exe_debug "${EXECUTABLE}"

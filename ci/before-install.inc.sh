@@ -123,9 +123,9 @@ function sf_github() {
 
     GIT_HTTPS_URL="https://github.com/actions/runner.git"
     [[ -z "${SF_GH_TOKEN:-}" ]] || \
-        exe_and_grep_q "git ls-remote --get-url git@github.com:actions/runner.git" "${GIT_HTTPS_URL}" -Fx
-    exe_and_grep_q "git ls-remote --get-url git://github.com/actions/runner.git" "${GIT_HTTPS_URL}" -Fx
-    exe_and_grep_q "git ls-remote --get-url github://actions/runner.git" "${GIT_HTTPS_URL}" -Fx
+        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
 }
 
 
