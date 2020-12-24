@@ -131,6 +131,6 @@ function brew_install_one_if() {
     else
         brew_install_one "${FORMULA}"
         >&2 exe_debug "${EXECUTABLE}"
+        exe_and_grep_q "$@"
     fi
-    exe_and_grep_q "$@"
 }

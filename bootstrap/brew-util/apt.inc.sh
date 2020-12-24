@@ -37,7 +37,7 @@ function apt_install_one_if() {
         echo_skip "aptitude: Installing ${FORMULA}..."
     else
         apt_install_one "${FORMULA}"
-        >&2 exe_and_grep_q "$@"
+        >&2 exe_debug "${EXECUTABLE}"
+        exe_and_grep_q "$@"
     fi
-    exe_debug "${EXECUTABLE}"
 }
