@@ -99,6 +99,22 @@ function exe_and_grep_q() {
     rm -f ${CMD_STDERR}
 }
 
+function unless_exe_and_grep_q_then() {
+    local CMD="$1"
+    shift
+    local EXPECTED_STDOUT="$1"
+    shift
+
+    local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
+
+    exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}" || {
+        "$@"
+        hash -r # see https://github.com/Homebrew/brew/issues/5013
+        >&2 exe_debug "${EXECUTABLE}"
+        exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"
+    }
+}
+
 function prompt_q_to_continue() {
     local Q="${1:-Are you sure you want to continue?}"
     local CANCEL_KEY="${2:-Ctrl-C}"
