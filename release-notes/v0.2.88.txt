@@ -1,0 +1,46 @@
+support-firecloud v0.2.88 Release Notes
+
+Highlights since v0.2.87:
+
+* None
+
+Breaking commits since v0.2.87:
+
+* 2789adef 2020-12-23 breaking: move perl to core
+* d6be2e3c 2020-12-23 breaking: optimize bootstrap to skip installing redundant. remove brew/apt_install. use brew/apt_install_one
+
+
+Commits since v0.2.87:
+
+* b0f3d01e 2020-12-25 doc/ci-sh.md -> ci/README.md
+* ff84925b 2020-12-25 TRANSCRYPT_PASSWORD -> SF_TRANSCRYPT_PASSWORD
+* 56891834 2020-12-25 fix for keeping env vars on github actions
+* a0026d0b 2020-12-25 symlink Brewfile.lock for new projects
+* 61dc1855 2020-12-25 updated Brewfile.lock
+* c6541abc 2020-12-25 optimize installation of node packages
+* b7dbe697 2020-12-23 remove optimizations for node formula: in CI and node@15 with npm@7
+* 449e0156 2020-12-24 add unless_exe_and_grep_q_then
+* 516db815 2020-12-24 undo exe_and_grep_q learned grep arguments
+* 65dac122 2020-12-24 less duplication in brew/apt_install_one_if
+* 06c9d35d 2020-12-25 fixup! remove usage of python to parse jq, now that jq is surely available
+* 0e8bedcc 2020-12-23 use is-wsl script
+* 02e29c59 2020-12-23 awscli 1 prints version info to stderr
+* 065bff14 2020-12-23 fixup! don't install node in minimal docker images
+* 50e6fe44 2020-12-23 don't install node in minimal docker images
+* 408f4571 2020-12-23 clarify node is installed only in SF_CI_BREW_INSTALL=minimal
+* 2789adef 2020-12-23 breaking: move perl to core
+* 6b5ccb17 2020-12-23 fixup! use jq helper in ci/bootstrap phases since jq might not be available on the system
+* 35c1607a 2020-12-23 fixup! fixup! fixup! split sf-env to its own executable
+* d6be2e3c 2020-12-23 breaking: optimize bootstrap to skip installing redundant. remove brew/apt_install. use brew/apt_install_one
+* 6ead9a1c 2020-12-23 Revert "test with only 'brew-install-core' for #178"
+* ecf42c75 2020-12-23 normalize api.github.com authorization header: Bearer -> token
+* 5526ae5e 2020-12-23 setup auth for api.github.com in case of github token
+* f9479aa8 2020-12-23 SF_GH_TOKEN is a superset of SF_GH_TOKEN_DEPLOY
+* bd4dbbac 2020-12-23 fix artifacts uploading due to missing GH_TOKEN
+* be2a7ead 2020-12-23 update shellcheck
+* 24e6e5fc 2020-12-22 Revert "ci-echo: support workflow commands in github actions"
+* c1b7ef35 2020-12-22 fixup! fixup! fixup! setup support-firecloud's git attributes/excludes locally per repo, instead of assuming user has bootstrapped ~/.gitconfig
+* fc9e1366 2020-12-22 add gettext (envsubst) to core
+* 719fa7bd 2020-12-22 fixup! setup sf env (e.g. PATH) automatically when running 'make'. see #178
+* 37c845dc 2020-12-22 git_dir_clean all homebrew taps
+o b5f02581 2020-12-21 0.2.87
