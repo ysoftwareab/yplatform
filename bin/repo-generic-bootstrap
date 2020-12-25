@@ -140,6 +140,13 @@ ARTIFACT=Brewfile.inc.sh
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
 }
 
+ARTIFACT=Brewfile.lock
+[[ -e ${ARTIFACT} ]] || {
+    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/Brewfile.lock ${ARTIFACT}
+    ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+    echo_info "Symlinked ${ARTIFACT}."
+}
+
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
     cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
