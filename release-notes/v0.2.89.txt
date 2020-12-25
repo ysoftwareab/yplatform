@@ -1,0 +1,14 @@
+support-firecloud v0.2.89 Release Notes
+
+Highlights since v0.2.88:
+
+* None
+
+Breaking commits since v0.2.88:
+
+* None
+
+Commits since v0.2.88:
+
+* 45ead019 2020-12-25 fix undefined SUPPORT_FIRECLOUD_DIR by making scripts standalone. clarify aws-iam-login is only for dev
+o f33d03a1 2020-12-25 0.2.88
