@@ -4,7 +4,7 @@ env:
   SF_CI_BREW_INSTALL: minimal
   SF_LOG_BOOTSTRAP: "true"
   SF_PRINTENV_BOOTSTRAP: "false"
-  TRANSCRYPT_PASSWORD: ""
+  SF_TRANSCRYPT_PASSWORD: ""
   V: ""
 
 task:

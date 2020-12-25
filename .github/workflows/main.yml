@@ -35,7 +35,7 @@ jobs:
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     steps:
@@ -98,11 +98,11 @@ jobs:
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
       WSLENV: >-
-        CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
+        CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:SF_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
       WSLUSER: github
       WSLGROUP: github
     steps:
@@ -200,7 +200,7 @@ jobs:
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'

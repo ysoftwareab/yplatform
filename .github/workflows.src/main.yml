@@ -19,7 +19,7 @@ aliases:
     SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     SF_LOG_BOOTSTRAP: true
     SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
-    TRANSCRYPT_PASSWORD: ${{ secrets.TRANSCRYPT_PASSWORD }}
+    SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
     V: ${{ secrets.V }}
   git-crlf: &git-crlf # needed on windows
     name: Set up git (autocrlf, eol)

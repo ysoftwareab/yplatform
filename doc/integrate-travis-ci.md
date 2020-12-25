@@ -172,7 +172,7 @@ For more info, see:
 ### `transcrypt`-ed repository
 
 If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI,
-you need to add `TRANSCRYPT_PASSWORD` variable in Travis Web UI.
+you need to add `SF_TRANSCRYPT_PASSWORD` variable in Travis Web UI.
 
 The decryption of the repository will happen automatically in non-pull-request builds,
 if `.travis.yml` runs `./travis.sh before_install` in `before_install`

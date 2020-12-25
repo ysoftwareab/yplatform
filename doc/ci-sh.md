@@ -88,8 +88,10 @@ Here's a list of the environment variables that customize the code execution:
   * `SF_TRANSCRYPT_PASSWORD`
     * enables automatic setup of `transcrypt`.
     * see [how-to-manage-secrets.md](how-to-manage-secrets.md)
+    * defaults to another environment variable `TRANSCRYPT_PASSWORD` for backwards compatibility
   * `SF_TRANSCRYPT_CIPHER`
     * customizes the `transcrypt` cipher, defaults to `aes-256-cbc`
+    * defaults to another environment variable `TRANSCRYPT_CIPHER` for backwards compatibility
 
 * **DOCKER ON TRAVIS CI**
   * `SF_DOCKER_CI_IMAGE`

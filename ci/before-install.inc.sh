@@ -138,22 +138,32 @@ function sf_transcrypt() {
         [[ "${CI_PR_SLUG}" = "${CI_REPO_SLUG}" ]] || return 0
     }
     [[ -x "./transcrypt" ]] || return 0
-    [[ -n "${TRANSCRYPT_PASSWORD:-}" ]] || return 0
+    [[ -n "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}" ]] || return 0
 
     if git config --local transcrypted.version >/dev/null; then
         echo_skip "${FUNCNAME[0]}: Repository isn't transcrypted..."
         return 0
     fi
 
-    echo_do "Found TRANSCRYPT_PASSWORD, setting up transcrypt..."
+    echo_do "Found SF_TRANSCRYPT_PASSWORD, setting up transcrypt..."
     # see https://github.com/elasticdog/transcrypt/issues/37
     # see https://stackoverflow.com/a/34808299/465684
     git update-index -q --really-refresh
-    ./transcrypt -y -c "${TRANSCRYPT_CIPHER:-aes-256-cbc}" -p "${TRANSCRYPT_PASSWORD}"
+    ./transcrypt \
+        -y \
+        -c "${SF_TRANSCRYPT_CIPHER:-${TRANSCRYPT_CIPHER:-aes-256-cbc}}" \
+        -p "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}"
+
+    unset SF_TRANSCRYPT_CIPHER
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
     unset TRANSCRYPT_CIPHER
     [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
+
+    unset SF_TRANSCRYPT_PASSWORD
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
     unset TRANSCRYPT_PASSWORD
     [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
+
     echo_done
 }
 
