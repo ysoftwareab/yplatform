@@ -58,7 +58,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
   * [how to license ](doc/how-to-license.md)
   * [integrate Travis CI](doc/integrate-travis-ci.md)
-  * [.ci.sh](doc/ci-sh.md)
+  * [.ci.sh](ci/README.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md)
 * Amazon Web Services
   * [CloudFormation](aws-cfn.mk/README.md)
