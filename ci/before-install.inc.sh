@@ -107,6 +107,9 @@ function sf_github() {
         export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN}
     fi
 
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_GH_TOKEN=${SF_GH_TOKEN}" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY}" >> ${GITHUB_ENV}
+
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
         sf_github_https_insteadof_all
     else
@@ -148,7 +151,9 @@ function sf_transcrypt() {
     git update-index -q --really-refresh
     ./transcrypt -y -c "${TRANSCRYPT_CIPHER:-aes-256-cbc}" -p "${TRANSCRYPT_PASSWORD}"
     unset TRANSCRYPT_CIPHER
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
     unset TRANSCRYPT_PASSWORD
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
     echo_done
 }
 
