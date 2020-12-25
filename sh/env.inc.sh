@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
+    export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 function sf_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
 }

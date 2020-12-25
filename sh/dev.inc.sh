@@ -13,8 +13,8 @@ else
     echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
 fi
 
-SUPPORT_FIRECLOUD_DIR=${GLOBAL_SUPPORT_FIRECLOUD_DIR} source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
-SUPPORT_FIRECLOUD_DIR=${GLOBAL_SUPPORT_FIRECLOUD_DIR} source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/aws-iam-login.inc.sh
+source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
+source ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/sh/dev-aws-iam-login.inc.sh
 
 sf_path_prepend ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/dev/bin
 sf_path_append ./node_modules/.bin

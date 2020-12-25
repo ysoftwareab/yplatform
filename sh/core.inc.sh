@@ -2,6 +2,9 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
+[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
+    export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
 CI=${CI:-}
 [[ "${CI}" != "1" ]] || CI=true
 
