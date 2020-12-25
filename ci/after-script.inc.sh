@@ -13,6 +13,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
 
     echo_do "Uploading job artifacts..."
 
+    local GIT_HASH=$(git rev-parse HEAD)
     local JOB_GIT_REF=refs/jobs/${CI_JOB_ID}
 
     git checkout --orphan jobs/${CI_JOB_ID}
@@ -68,7 +69,7 @@ EOF
     # Upload to git refs/job/<job_id>
     git push --no-verify -f https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
-    git checkout -f -
+    git checkout -f - || git checkout -f ${GIT_HASH}
 
     echo_done
 
