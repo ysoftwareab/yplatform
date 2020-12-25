@@ -1,0 +1,14 @@
+support-firecloud v0.2.90 Release Notes
+
+Highlights since v0.2.89:
+
+* None
+
+Breaking commits since v0.2.89:
+
+* None
+
+Commits since v0.2.89:
+
+* 9f814685 2020-12-25 handle detached checkout (github actions) for publishing job artifacts
+o 2469e8d6 2020-12-25 0.2.89
