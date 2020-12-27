@@ -70,44 +70,10 @@ in your `~/.gitconfig` prepend AT THE TOP
     path = ~/git/firecloud/support-firecloud/generic/dot.gitconfig
 ```
 
+
 ## System
 
-We support Darwin (OSX) and Linux (Ubuntu) architectures.
-The former is the main development architecture, while the latter is the main CI/CD architecture.
-
-**We do NOT support Windows Subshell for Linux**, but we do know that it is possible to successfully bootstrap Ubuntu 16.04/18.04 distributions under it. If you feel adventurous, read and improve our experimental notes on [working with WSL](working-with-wsl.md).
-
-**NOTE** In order to [simplify our ~scripts~ lives](https://ponderthebits.com/2017/01/know-your-tools-linux-gnu-vs-mac-bsd-command-line-utilities-grep-strings-sed-and-find/),
-we expect GNU binaries (even on Darwin).
-
-All common system-wide dependencies can be installed by running
-
-```shell
-~/git/firecloud/support-firecloud/dev/bootstrap
-```
-
-You can also try to bootstrap without using `sudo`.
-Run `SF_SUDO=sf_nosudo ~/git/firecloud/support-firecloud/dev/bootstrap` instead.
-
-**NOTE** If the bootstrap script above didn't finish by printing `Restart your shell, and you're good to go.`,
-then you know the script has failed while executing.
-
-**IMPORTANT. THE ONLY MANUAL STEP**
-is to append to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.:
-
-```shell
-# keep the next line as the last line in your shell rc/profile file
-source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
-```
-
-Restart your shell, and you're good to go.
-
-**NOTE** You can test that everything is fine by checking that running `echo $SF_DEV_INC_SH` prints `true`.
-
-**NOTE** Repositories might require more system-wide dependencies.
-These are defined in a file called `Brewfile.inc.sh` within each repository.
-To install them, run `make bootstrap` inside the repository.
-You can also run `make bootstrap` to (re)install both common and repository-specific ones.
+See [bootstrapping your system](../bootstrap/README.md).
 
 
 ## Editor
