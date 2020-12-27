@@ -17,6 +17,7 @@ brew_install_one_if gnu-tar "tar --version | head -1" "^tar (GNU tar) 1\."
 brew_install_one_if gnu-which "env which --version | head -1" "^GNU which v2\."
 brew_install_one_if grep "grep --version | head -1" "^grep (GNU grep) 3\."
 brew_install_one_if gzip "gzip --version | head -1" "^gzip 1\."
+brew_install_one_if gzip "gzip --version | head -5 | tail -1" "^the GNU General Public License"
 # NOTE 'make' >=4 provides functionality for 'make-lazy'
 brew_install_one_if make "make --version | head -1" "^GNU Make 4\.3"
 
