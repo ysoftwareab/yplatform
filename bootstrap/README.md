@@ -1,3 +1,17 @@
+# Bootstrap
+
+**NOTE** All documentation here refers to `~/git/firecloud/support-firecloud` as the home of support-firecloud.
+You can chose any folder you like, but then you'll have to pay attention every time you might copy-paste
+some instruction from our documentation. If you still want to use another folder, you could consider at least
+symlinking `~/git/firecloud/support-firecloud` to the folder of your choice, so copy-pasting would still work.
+
+
+```shell
+cd # make sure that you are at home dir (~)
+git clone git://github.com/rokmoln/support-firecloud.git ~/git/firecloud/support-firecloud
+```
+
+
 # Bootstrap your system
 
 We support Darwin (OSX) and Linux (Ubuntu) architectures.
@@ -43,6 +57,13 @@ source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
 Run `SF_SUDO=sf_nosudo ~/git/firecloud/support-firecloud/dev/bootstrap` instead.
 
 4. testing that everything is fine by checking that running `echo $SF_DEV_INC_SH` prints `true`.
+
+Continue to bootstrap
+
+* [your editor](README.editor.md)
+* [Github](README.github.md)
+* [AWS (console and CLI)](README.aws.md) (optional)
+* [your `gpg` signature](README.gpg.md) (optional)
 
 
 ## Repository

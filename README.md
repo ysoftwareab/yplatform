@@ -39,10 +39,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
 ## Documentation
 
 * newcomer
-  * [bootstrap](doc/bootstrap.md)
-  * [bootstrap your editor](doc/bootstrap-your-editor.md)
-  * [bootstrap AWS (console and CLI)](doc/bootstrap-aws.md) (optional)
-  * [bootstrap your `gpg` signature](doc/bootstrap-gpg.md) (optional)
+  * [bootstrap](bootstrap/README.md)
 * daily work
   * [`git` (and Github) Pull Requests](doc/working-with-git-pr.md)
   * [working with `make`](doc/working-with-make.md)
