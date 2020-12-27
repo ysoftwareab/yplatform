@@ -8,6 +8,7 @@ brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 
 brew_install_one_if git "git --version | head -1" "^git version 2\."
 brew_install_one_if jq "jq --version | head -1" "^jq-1\."
 brew_install_one_if tmate "tmate -V | head -1" "^tmate 2\."
+brew_install_one_if zile "zile --version | head -1" "^GNU Zile 2\."
 
 # need an extra condition, because the original one fails intermitently
 # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"
