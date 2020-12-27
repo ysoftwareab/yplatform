@@ -222,9 +222,9 @@ function sf_os() {
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped references ${SF_GIT_HASH_BOOTSTRAPPED}."
             echo_info "${FUNCNAME[0]}: ${SUPPORT_FIRECLOUD_DIR} references ${SF_GIT_HASH}."
             if [[ "${SF_GIT_HASH}" = "${SF_GIT_HASH_BOOTSTRAPPED}" ]]; then
-                echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without minimal/common dependencies."
-                echo_info "${FUNCNAME[0]}: Running with SF_SKIP_COMMON_BOOTSTRAP=true."
-                export SF_SKIP_COMMON_BOOTSTRAP=true
+                echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without brew bootstrap."
+                echo_info "${FUNCNAME[0]}: Running with SF_SKIP_BREW_BOOTSTRAP=true."
+                export SF_SKIP_BREW_BOOTSTRAP=true
                 export SF_LOG_BOOTSTRAP=true
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."

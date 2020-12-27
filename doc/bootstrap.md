@@ -107,7 +107,7 @@ Restart your shell, and you're good to go.
 **NOTE** Repositories might require more system-wide dependencies.
 These are defined in a file called `Brewfile.inc.sh` within each repository.
 To install them, run `make bootstrap` inside the repository.
-You can also run `make bootstrap/scratch` to (re)install both common and repository-specific ones.
+You can also run `make bootstrap` to (re)install both common and repository-specific ones.
 
 
 ## Editor

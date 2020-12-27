@@ -39,7 +39,7 @@ function bootstrap_brew() {
 
     [[ "${CI}" != "true" ]] || {
         if which brew >/dev/null 2>&1; then
-            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
+            if [[ "${SF_SKIP_BREW_UNINSTALL:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
@@ -59,25 +59,6 @@ function bootstrap_brew() {
             </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             echo_done
             ;;
-        true-Darwin)
-            brew_config
-            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
-                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-                echo_skip "brew: Updating homebrew..."
-            else
-                echo_do "brew: Updating homebrew..."
-
-                [[ ${GITHUB_ACTIONS:=} != "true" ]] || {
-                    # see https://github.com/actions/virtual-environments/issues/1811#issuecomment-713862592
-                    for BREW_TAP in $(brew tap | grep "^local/"); do
-                        brew untap "${BREW_TAP}"
-                    done
-                }
-
-                brew update >/dev/null
-                echo_done
-            fi
-            ;;
         false-Linux)
             echo_do "brew: Installing homebrew..."
             if [[ "${SF_SUDO}" = "" ]] || [[ "${SF_SUDO}" = "sf_nosudo" ]]; then
@@ -92,16 +73,7 @@ function bootstrap_brew() {
             fi
             echo_done
             ;;
-        true-Linux)
-            brew_config
-            if [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]]; then
-                echo_info "brew: SF_SKIP_COMMON_BOOTSTRAP=${SF_SKIP_COMMON_BOOTSTRAP}"
-                echo_skip "brew: Updating homebrew..."
-            else
-                echo_do "brew: Updating homebrew..."
-                brew update >/dev/null
-                echo_done
-            fi
+        true-Darwin|true-Linux)
             ;;
         *)
             echo_err "brew: $(uname -s) is an unsupported OS."
@@ -111,18 +83,12 @@ function bootstrap_brew() {
 }
 
 bootstrap_brew
+brew_config
 source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 
-[[ "${CI}" != "true" ]] || {
-    brew_config
-    [[ "${SF_SKIP_COMMON_BOOTSTRAP:-}" = "true" ]] || {
-        if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
-            brew_lockfile
-        else
-            brew_update
-        fi
-    }
-    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-ci.inc.sh
-}
-
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
+    brew_lockfile
+else
+    brew_update
+fi
+brew_config
