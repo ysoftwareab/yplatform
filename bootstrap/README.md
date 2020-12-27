@@ -1,14 +1,14 @@
 # Bootstrap
 
-**NOTE** All documentation here refers to `~/git/firecloud/support-firecloud` as the home of support-firecloud.
+**NOTE** All documentation here refers to `~/git/support-firecloud` as the home of support-firecloud.
 You can chose any folder you like, but then you'll have to pay attention every time you might copy-paste
 some instruction from our documentation. If you still want to use another folder, you could consider at least
-symlinking `~/git/firecloud/support-firecloud` to the folder of your choice, so copy-pasting would still work.
+symlinking `~/git/support-firecloud` to the folder of your choice, so copy-pasting would still work.
 
 
 ```shell
 cd # make sure that you are at home dir (~)
-git clone git://github.com/rokmoln/support-firecloud.git ~/git/firecloud/support-firecloud
+git clone git://github.com/rokmoln/support-firecloud.git ~/git/support-firecloud
 ```
 
 
@@ -46,15 +46,15 @@ Developer system-wide dependencies can be installed by
 
 ```shell
 # keep the next line as the last line in your shell rc/profile file
-source ~/git/firecloud/support-firecloud/sh/dev.inc.sh
+source ~/git/support-firecloud/sh/dev.inc.sh
 ```
 
 2. restarting your shell
 
-3. running `~/git/firecloud/support-firecloud/dev/bootstrap`
+3. running `~/git/support-firecloud/dev/bootstrap`
 
 **NOTE** You can also try to bootstrap without using `sudo`.
-Run `SF_SUDO=sf_nosudo ~/git/firecloud/support-firecloud/dev/bootstrap` instead.
+Run `SF_SUDO=sf_nosudo ~/git/support-firecloud/dev/bootstrap` instead.
 
 4. testing that everything is fine by checking that running `echo $SF_DEV_INC_SH` prints `true`.
 

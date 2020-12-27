@@ -12,7 +12,7 @@ To set this up run the following from within
 a repository that supports `aws-iam-bootstrap` e.g. `aws*-dev-prod`:
 
 ```
-~/git/firecloud/support-firecloud/bin/aws-iam-boostrap \
+~/git/support-firecloud/bin/aws-iam-boostrap \
   --user <your-aws-username> \
   --access-key-id <your-aws-access-key-id> \
   --secret-access-key <your-aws-secret-access-key>
