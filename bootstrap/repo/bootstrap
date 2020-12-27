@@ -10,8 +10,6 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
-
-SF_SKIP_COMMON_BOOTSTRAP=true brew_brewfile_inc_sh
-
-# see https://github.com/Homebrew/brew/issues/5013
-hash -r
+# shellcheck disable=SC2034
+SF_SKIP_COMMON_BOOTSTRAP=true
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
