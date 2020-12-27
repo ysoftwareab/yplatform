@@ -10,6 +10,7 @@ brew_install_one_if diffutils "diff --version | head -1" "^diff (GNU diffutils) 
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
 # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
 brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 4\."
+brew_install_one_if gawk "awk --version | head -1" "^GNU Awk 5\."
 # NOTE 'gettext' provides 'envsubst'
 brew_install_one_if gettext "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \(0\.20\|0\.21\)"
 brew_install_one_if gnu-sed "sed --version | head -1" "^sed (GNU sed) 4\."
