@@ -84,6 +84,15 @@ or in the description of the PR. See https://help.github.com/articles/closing-is
 A reviewer is required to act on the Pull Request only after the automated checks pass.
 
 
+## The pull request hack
+
+[If the pull request comes from an external collaborator,
+consider giving them commit access to the repository.](https://felixge.de/2013/03/11/the-pull-request-hack/).
+
+Code inevitably dies, but you're increasing the chances
+that it might actually survive longer and evolve healthier than you expect.
+
+
 ## References
 
 **MUST** read:
