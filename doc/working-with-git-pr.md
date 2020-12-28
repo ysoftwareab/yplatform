@@ -16,6 +16,7 @@ follow these guidelines:
 3. Clear
 4. Share Knowledge
 
+
 ## 0. Small is Best
 
 The changeset needs to focus on one thing and one thing alone.
@@ -81,6 +82,7 @@ In such a case, **make sure to reference the existing issue**, either in the com
 or in the description of the PR. See https://help.github.com/articles/closing-issues-using-keywords/.
 
 A reviewer is required to act on the Pull Request only after the automated checks pass.
+
 
 ## References
 
