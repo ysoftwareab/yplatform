@@ -9,10 +9,6 @@ brew_install_one_if ${SUPPORT_FIRECLOUD_DIR}/Formula/retry.rb \
 brew_install_one_if curl "curl --version | head -1" "^curl 7\."
 brew_install_one_if git "git --version | head -1" "^git version 2\."
 brew_install_one_if jq "jq --version | head -1" "^jq-1\."
-# installing perl for performance reasons, since it takes a very long time to install via homebrew,
-# and quite a few formulas require it
-# NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
-brew_install_one_if perl "perl --version 2>&1 | head -2 | tail -1" "^This is perl 5,"
 brew_install_one_if shellcheck "shellcheck --version | head -2 | tail -1" "^version: 0\.7\."
 brew_install_one_if unzip "unzip --version 2>&1 | head -2 | tail -1" "^UnZip 6\."
 brew_install_one_if unzip "unzip --version 2>&1 | head -2 | tail -1" ", by Debian\."
