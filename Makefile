@@ -31,6 +31,7 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \
+	-e "^doc/bak/" \
 
 SF_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
