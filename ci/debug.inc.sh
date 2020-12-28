@@ -2,10 +2,10 @@
 
 [[ "${1:-}" != "debug" ]] || {
     echo
-    echo "  You can run specific stages like"
-    echo "  ./.ci.sh before_install"
-    echo "  or you can run them all (before_install, install, before_script, script)"
-    echo "  ./.ci.sh all"
+    echo "[INFO] You can run specific stages like"
+    echo "       ./.ci.sh before_install"
+    echo "       or you can run them all (before_install, install, before_script, script)"
+    echo "       ./.ci.sh all"
     echo
     export CI_DEBUG_MODE=true
 
