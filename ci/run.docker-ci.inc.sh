@@ -14,6 +14,11 @@ function sf_run_docker_ci_image() {
     local MOUNT_DIR=${2:-${PWD}}
     local CONTAINER_NAME=${3:-sf-docker-ci}
 
+    local GID2=$(id -g)
+    local UID2=$(id -u)
+    local GNAME=$(id -g -n)
+    local UNAME=$(id -u -n)
+
     echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
 
     echo | docker login | grep -q "Login Succeeded" || sf_run_docker_ci_login
@@ -28,7 +33,7 @@ function sf_run_docker_ci_image() {
         --hostname ${CONTAINER_NAME} \
         --add-host ${CONTAINER_NAME}:127.0.0.1 \
         --env CI=true \
-        --env USER=$(whoami) \
+        --env USER=${UNAME} \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
         --volume ${MOUNT_DIR}:${MOUNT_DIR} \
         --privileged \
@@ -40,11 +45,6 @@ function sf_run_docker_ci_image() {
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
     exe docker exec -it -u root ${CONTAINER_NAME} \
         touch /support-firecloud.docker-ci
-
-    local GID2=$(id -g)
-    local UID2=$(id -u)
-    local GNAME=$(id -g -n)
-    local UNAME=$(id -u -n)
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
