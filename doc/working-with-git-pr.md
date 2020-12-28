@@ -13,7 +13,7 @@ follow these guidelines:
 0. Small is Best
 1. Correct
 2. Consistent
-3. Readable
+3. Clear
 4. Share Knowledge
 
 ## 0. Small is Best
@@ -46,16 +46,18 @@ When such improvements take place they should take place on their own,
 and they should touch at least the whole repository, if not the whole system.
 
 
-## 3. Readable
+## 3. Clear
 
-The changeset should be rather readable, not just in a working state.
+The changeset should be rather clear, not just in a working state.
 
-This guideline may seem subjective, but readability is not to be confused with personal preference.
-It has much more to do with simplicity, rather than with easy (how fast/easy it is for a person to read it).
+This guideline may seem subjective, but clarity is not to be confused with personal preference.
+It has much more to do with simplicity and productivity,
+rather than with easy (how fast/easy it is for a person to read it).
 
 See also:
 * https://wildlyinaccurate.com/what-makes-code-readable/
 * http://typicalprogrammer.com/what-does-code-readability-mean
+* https://dave.cheney.net/2019/07/09/clear-is-better-than-clever
 
 
 ## 4. Share Knowledge
