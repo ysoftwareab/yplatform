@@ -16,7 +16,7 @@ function sf_run_docker_ci_image() {
 
     echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
 
-    sf_run_docker_ci_login
+    echo | docker login | grep -q "Login Succeeded" || sf_run_docker_ci_login
 
     echo_do "Pulling ${SF_DOCKER_CI_IMAGE} image..."
     exe docker pull ${SF_DOCKER_CI_IMAGE}

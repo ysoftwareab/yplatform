@@ -13,6 +13,10 @@ include support-firecloud/build.mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 
+# for testing purposes, so that 'make docker-ci' works
+# otherwise SF_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
+SF_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
+
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
 
