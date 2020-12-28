@@ -60,6 +60,7 @@ function bootstrap_brew() {
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
+            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
         false-Linux)
             echo_do "brew: Installing homebrew..."
@@ -76,6 +77,7 @@ function bootstrap_brew() {
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
+            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
         true-Darwin|true-Linux)
             ;;
@@ -87,7 +89,6 @@ function bootstrap_brew() {
 }
 
 bootstrap_brew
-source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 brew_config
 
 if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
