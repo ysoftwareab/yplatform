@@ -16,8 +16,7 @@ You do that by editing `~/.gitconfig` and adding
     program = /usr/local/MacGPG2/bin/gpg2
 ```
 
-**FOLLOW THE INSTRUCTIONS IN** https://github.com/pstadler/keybase-gpg-github
-([local copy](pstradler-keybase-gpg-github.md)).
+**FOLLOW THE INSTRUCTIONS IN** https://github.com/pstadler/keybase-gpg-github .
 Use `Method 2` in `Optional: In case you're prompted to enter the password every time`.
 
 **NOTE** `keybase` is recommended for its simplicity and convenience but it is really optional.
