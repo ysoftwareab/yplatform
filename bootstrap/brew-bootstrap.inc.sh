@@ -58,6 +58,8 @@ function bootstrap_brew() {
             echo_do "brew: Installing homebrew..."
             </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             echo_done
+            # see https://github.com/Homebrew/brew/issues/5013
+            hash -r
             ;;
         false-Linux)
             echo_do "brew: Installing homebrew..."
@@ -72,6 +74,8 @@ function bootstrap_brew() {
                 </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             fi
             echo_done
+            # see https://github.com/Homebrew/brew/issues/5013
+            hash -r
             ;;
         true-Darwin|true-Linux)
             ;;
@@ -83,8 +87,8 @@ function bootstrap_brew() {
 }
 
 bootstrap_brew
-brew_config
 source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
+brew_config
 
 if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
     brew_lockfile
