@@ -1,0 +1,52 @@
+support-firecloud v0.2.91 Release Notes
+
+Highlights since v0.2.90:
+
+* None
+
+Breaking commits since v0.2.90:
+
+* 8a23a65f 2020-12-27 not really breaking: advise ~/git/support-firecloud instead of ~/git/firecloud/support-firecloud in docs
+* 4ae2daa6 2020-12-27 breaking: simplify bootstrapping after d6be2e3c. rm SF_SKIP_COMMON_BOOTSTRAP, add ci-only: SF_SKIP_BREW_BOOTSTRAP, SF_SKIP_BREW_UNINSTALL
+* 5efe1eac 2020-12-27 breaking: safer npm install by defaulting ignore-scripts to true
+
+
+Commits since v0.2.90:
+
+* ea2de557 2020-12-29 dockerfiles: clean support-firecloud folder before bootstrapping (e.g. rm Makefile.lazy)
+* b7a269bc 2020-12-29 style
+* 93829673 2020-12-29 dockerfiles: split setup
+* 1c4e3905 2020-12-28 reuse UNAME instead of calling whoami
+* a6c3102a 2020-12-28 fix 'make docker-ci'
+* e0c04811 2020-12-28 fixup! clarify that before-install.pre has nothing to do with a phase
+* 5a2f4d2f 2020-12-28 style
+* 4003fe20 2020-12-28 document the pull request hack. fix #202
+* a52e4e0a 2020-12-28 more copies of online material
+* a4a212eb 2020-12-28 editorial
+* 7ac218f4 2020-12-28 editorial
+* cb354cb2 2020-12-28 move backups of online content to doc/bak
+* 8279dca8 2020-12-28 more copies of online material
+* 5e549655 2020-12-28 readable -> clear. fix #166
+*   93da1a5d 2020-12-28 Merge pull request #196 from rokmoln/wsl-scripts
+|\
+| * 05b47fc7 2020-09-07 editorial
+| * 5fcc8610 2020-09-06 add skeleton for Microsoft Windows WSL scripts
+* | 9578e389 2020-12-28 updated doc/know-your-tools-linux-gnu-vs-mac-bsd.md
+* | d5e804a8 2020-12-28 fixup! fix 'brew: command not found' right after installing it
+|/
+* 8e27bad6 2020-12-28 install perl only in docker images
+* 8f7eb72d 2020-12-28 add gnu time
+* 2aa76c6b 2020-12-28 add gnu awk
+* d0e4b4ec 2020-12-28 add gnu zile
+* b1cdb56f 2020-12-28 fix 'brew: command not found' right after installing it
+* 45c727d6 2020-12-16 uninstall python 2.7 on github action's macos
+* 8a23a65f 2020-12-27 not really breaking: advise ~/git/support-firecloud instead of ~/git/firecloud/support-firecloud in docs
+* 7940e967 2020-12-27 consolidate all bootstrap docs to bootstrap/README
+* 9951e9dc 2020-12-27 split git/github docs
+* 8bed7670 2020-12-27 move system bootstrap info to bootstrap/README.md
+* 8e00d1bb 2020-12-27 test that gzip is gnu
+* 4ae2daa6 2020-12-27 breaking: simplify bootstrapping after d6be2e3c. rm SF_SKIP_COMMON_BOOTSTRAP, add ci-only: SF_SKIP_BREW_BOOTSTRAP, SF_SKIP_BREW_UNINSTALL
+* 8a4ef146 2020-12-27 Revert "uninstall python 2.7 on github action's macos"
+* b3533541 2020-12-27 fixup! move brew_brewfile_inc_sh to standalone brew-bootstrap-brewfile.inc.sh for consistency
+* 5efe1eac 2020-12-27 breaking: safer npm install by defaulting ignore-scripts to true
+o bea23c99 2020-12-26 0.2.90
