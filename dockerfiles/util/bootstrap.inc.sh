@@ -3,7 +3,12 @@ set -euo pipefail
 
 # SYSTEM
 cd ${SUPPORT_FIRECLOUD_DIR}
+
 chown -R root:root .
+
+git reset --hard HEAD
+git clean -xdf .
+
 git config --replace-all url."https://github.com/".insteadOf "git@github.com:"
 git config --add url."https://github.com/".insteadOf "git://github.com/"
 
