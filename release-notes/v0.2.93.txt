@@ -1,0 +1,15 @@
+support-firecloud v0.2.93 Release Notes
+
+Highlights since v0.2.92:
+
+* None
+
+Breaking commits since v0.2.92:
+
+* None
+
+Commits since v0.2.92:
+
+* 2df793fb 2020-12-30 dockerfiles: remove gitconfig. should be redundant after 4c88c590
+* b1f3d915 2020-12-30 document docker images (stub). fix #210
+o 537ef055 2020-12-30 0.2.92
