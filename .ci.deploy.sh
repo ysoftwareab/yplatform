@@ -78,7 +78,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 function ci_run_deploy_docker_image() {
     # NOTE jq must be preinstalled
 
-    [[ "${SF_CI_BREW_INSTALL}" != "dev" ]] || SF_CI_BREW_INSTALL=common
+    DOCKER_IMAGE_FROM=
 
     # shellcheck disable=SC1091
     local RELEASE_ID="$(source /etc/os-release && echo ${ID})"
@@ -86,6 +86,8 @@ function ci_run_deploy_docker_image() {
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
+    [[ "${SF_CI_BREW_INSTALL}" != "common" ]] || \
+        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
 
     local TIMESTAMP_LATEST=$(
         curl -fqsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
@@ -94,6 +96,7 @@ function ci_run_deploy_docker_image() {
             echo 0)
 
     ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/build \
+        --docker-image-from ${DOCKER_IMAGE_FROM} \
         --docker-image-name ${DOCKER_IMAGE_NAME} \
         --docker-image-tag ${DOCKER_IMAGE_TAG} \
         --sf-ci-brew-install ${SF_CI_BREW_INSTALL}
