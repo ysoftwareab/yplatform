@@ -28,18 +28,6 @@ source /support-firecloud/sh/dev.inc.sh
 EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
 
-cat <<EOF >> /home/${UNAME}/.gitconfig
-[include]
-    path = /support-firecloud/gitconfig/dot.gitconfig
-EOF
-chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitconfig
-
-ln -s /support-firecloud/gitconfig/dot.gitattributes_global /home/${UNAME}/.gitattributes_global
-chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitattributes_global
-
-ln -s /support-firecloud/gitconfig/dot.gitignore_global /home/${UNAME}/.gitignore_global
-chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.gitignore_global
-
 mkdir -p /home/${UNAME}/.ssh
 chmod 700 /home/${UNAME}/.ssh
 echo -e "Host github.com\n  StrictHostKeyChecking yes\n  CheckHostIP no" >/home/${UNAME}/.ssh/config
