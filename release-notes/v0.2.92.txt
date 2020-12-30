@@ -1,0 +1,15 @@
+support-firecloud v0.2.92 Release Notes
+
+Highlights since v0.2.91:
+
+* None
+
+Breaking commits since v0.2.91:
+
+* None
+
+Commits since v0.2.91:
+
+* 3f92e00e 2020-12-30 is the empty line necessary
+* 8e556386 2020-12-30 fix missing changelog in git tags (github releases) after 02745be3
+o 62074ae2 2020-12-29 0.2.91
