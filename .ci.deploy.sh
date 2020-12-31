@@ -96,10 +96,10 @@ function ci_run_deploy_docker_image() {
             echo 0)
 
     ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}/build \
-        --docker-image-from ${DOCKER_IMAGE_FROM} \
-        --docker-image-name ${DOCKER_IMAGE_NAME} \
-        --docker-image-tag ${DOCKER_IMAGE_TAG} \
-        --sf-ci-brew-install ${SF_CI_BREW_INSTALL}
+        --docker-image-from "${DOCKER_IMAGE_FROM}" \
+        --docker-image-name "${DOCKER_IMAGE_NAME}" \
+        --docker-image-tag "${DOCKER_IMAGE_TAG}" \
+        --sf-ci-brew-install "${SF_CI_BREW_INSTALL}"
 
     # don't push as 'latest' tag if the tag has been updated after the current commit
     local PUBLISH_AS_LATEST_TAG=false
