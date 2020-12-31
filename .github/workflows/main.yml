@@ -180,7 +180,7 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
-  deploy:
+  deploy-minimal:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main
     strategy:
@@ -220,7 +220,7 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy2:
+  deploy-coomon:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy
     strategy:

@@ -194,7 +194,7 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  deploy:
+  deploy-minimal:
     if: startsWith(github.ref, 'refs/tags/')
     needs: main
     strategy:
@@ -222,7 +222,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
 
-  deploy2:
+  deploy-coomon:
     if: startsWith(github.ref, 'refs/tags/')
     needs: deploy
     strategy:
