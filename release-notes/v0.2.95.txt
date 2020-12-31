@@ -1,0 +1,16 @@
+support-firecloud v0.2.95 Release Notes
+
+Highlights since v0.2.94:
+
+* None
+
+Breaking commits since v0.2.94:
+
+* None
+
+Commits since v0.2.94:
+
+* 60f1272e 2020-12-31 fixup! build common docker images, on top of minimal ones. fix #187
+* 661a4a35 2020-12-30 remove redundant if
+* 6ba6dc86 2020-12-30 hide npm update notifier
+o cb91a4db 2020-12-30 0.2.94
