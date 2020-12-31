@@ -14,6 +14,8 @@ exe_and_grep_q "node --version | head -1" "^v"
 unless_exe_and_grep_q_then "npm --version | head -1" "^6\." \
     npm install --global --force npm@6 || ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl
 
+brew_install_one n "n --version | head -1" "^6\."
+
 unless_exe_and_grep_q_then "json --version | head -1" "^json 9\." \
     npm install --global json@9
 echo_done

@@ -63,6 +63,9 @@ if which brew >/dev/null 2>&1; then
         unset NVM_INSTALLATION_DIR
     }
 
+    type nvm >/dev/null 2>&1 || {
+        export N_PRESERVE_NPM=1
+    }
     unset HOMEBREW_PREFIX
 fi
 

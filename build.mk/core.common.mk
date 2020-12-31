@@ -9,8 +9,9 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 ifndef SF_DEV_INC_SH
 ifeq (0,$(MAKELEVEL))
 NVM_DIR := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env NVM_DIR)
+N_PRESERVE_NPM := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env N_PRESERVE_NPM)
 PATH := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env PATH)
-export NVM_DIR PATH
+export NVM_DIR N_PRESERVE_NPM PATH
 endif
 endif
 
