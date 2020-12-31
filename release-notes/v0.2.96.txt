@@ -1,0 +1,14 @@
+support-firecloud v0.2.96 Release Notes
+
+Highlights since v0.2.95:
+
+* None
+
+Breaking commits since v0.2.95:
+
+* None
+
+Commits since v0.2.95:
+
+* ce8b1671 2020-12-31 fixup! fixup! build common docker images, on top of minimal ones. fix #187
+o c07f0b97 2020-12-31 0.2.95
