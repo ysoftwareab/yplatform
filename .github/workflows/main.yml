@@ -222,7 +222,7 @@ jobs:
         run: ./.ci.sh after_deploy || true
   deploy-coomon:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy
+    needs: deploy-minimal
     strategy:
       fail-fast: false
       matrix:
