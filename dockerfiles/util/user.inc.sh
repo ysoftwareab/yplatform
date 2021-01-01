@@ -23,6 +23,10 @@ echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 
 # POST-BOOTSTRAP
 cat <<EOF >> /home/${UNAME}/.bash_aliases
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+
 source /support-firecloud/sh/dev.inc.sh
 EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
