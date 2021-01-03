@@ -22,6 +22,10 @@ brew_install_one_if gzip "gzip --version | head -1" "^gzip 1\."
 brew_install_one_if gzip "gzip --version | head -5 | tail -1" "^the GNU General Public License"
 # NOTE 'make' >=4 provides functionality for 'make-lazy'
 brew_install_one_if make "make --version | head -1" "^GNU Make 4\.3"
+brew_install_one_if gpatch "patch --version | head -1" "^GNU patch 2\."
+brew_install_one_if wdiff "wdiff --version | head -1" "^wdiff (GNU wdiff) 1\."
+# NOTE use curl instead of wget; 'brew install wget' adds ~100MB (linuxbrew)
+# brew_install_one_if wget "wget --version | head -1" "^GNU Wget 1\."
 brew_install_one_if zile "zile --version | head -1" "^GNU Zile 2\."
 
 # need an extra condition, because the original one fails intermitently
