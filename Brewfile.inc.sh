@@ -15,8 +15,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${SF_CI_BREW_INSTALL}.inc
     # brew_install_one perl
     brew_install_one_if perl "perl --version 2>&1 | head -2 | tail -1" "^This is perl 5,"
 
-    # installing perl for performance reasons,
+    # installing autoconf/automake for performance reasons,
     # since it takes a very long time to install via homebrew on Linux
-    # NOTE automake depends on perl on Linux
+    # NOTE autoconf/automake depends on perl on Linux
+    brew_install_one_if autoconf "autoconf --version | head -1" "^autoconf (GNU Autoconf) 2\."
     brew_install_one_if automake "automake --version | head -1" "^automake (GNU automake) 1\."
 }
