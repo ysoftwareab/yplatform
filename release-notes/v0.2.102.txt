@@ -1,0 +1,16 @@
+support-firecloud v0.2.102 Release Notes
+
+Highlights since v0.2.101:
+
+* None
+
+Breaking commits since v0.2.101:
+
+* None
+
+Commits since v0.2.101:
+
+* 2ea798e2 2021-01-04 fixup! 'make release-branch/vX.Y.Z'. fix #204
+* e38e2e98 2021-01-04 test make release-branch
+* a10bb050 2021-01-04 'make release-branch/vX.Y.Z'. fix #204
+o 624e4c02 2021-01-04 0.2.101
