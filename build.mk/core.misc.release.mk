@@ -63,7 +63,7 @@ release: ## Release a new bugfix version.
 		GIT_BRANCH_RELEASE=$(GIT_BRANCH); \
 		$(ECHO_INFO) "Inside a release branch."; \
 		$(MAKE) release/$$($(ECHO) "$(GIT_BRANCH)" | $(SED) "s/^release-//"); \
-		$(ECHO) "[Q   ] Merging $${GIT_BRANCH_RELEASE} into master or another branch?"; \
+		$(ECHO) "[Q   ] Merging $${GIT_BRANCH_RELEASE} into master unless you specify another branch?"; \
 		read GIT_BRANCH && \
 			$(GIT) checkout $${GIT_BRANCH:-master}; \
 		$(GIT) merge --no-ff refs/heads/$${GIT_BRANCH_RELEASE} || { \
