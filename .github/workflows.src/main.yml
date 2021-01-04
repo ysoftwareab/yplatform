@@ -28,17 +28,6 @@ aliases:
       set -x
       git config --global core.autocrlf false
       git config --global core.eol lf
-  fix-homebrew: &fix-homebrew
-    name: Fix dirty homebrew. See https://github.com/actions/virtual-environments/issues/1568
-    shell: bash
-    run: |
-      set -x
-      sudo git -C $(brew --prefix)/Homebrew update-index -q --really-refresh
-      sudo git -C $(brew --prefix)/Homebrew diff-index HEAD -- || true
-      sudo git -C $(brew --prefix)/Homebrew checkout HEAD .
-      sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core update-index -q --really-refresh
-      sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core diff-index HEAD -- || true
-      sudo git -C $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core checkout HEAD .
   checkout: &checkout
     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
     uses: actions/checkout@v2
@@ -75,7 +64,6 @@ jobs:
       <<: *env
       GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     steps:
-      - *fix-homebrew
       - *checkout
       - *checkout-submodules
 
