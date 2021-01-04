@@ -63,7 +63,7 @@ jobs:
     env:
       <<: *env
       GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-    steps:
+    steps: &steps
       - *checkout
       - *checkout-submodules
 
@@ -97,6 +97,26 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: ${{ job.status }}
         run: ./.ci.sh notifications || true
+
+# ------------------------------------------------------------------------------
+
+  main-container:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - ubuntu:12.04
+          - ubuntu:14.04
+        sf_ci_brew_install:
+          - minimal
+          - dev
+    name: main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ${{ matrix.os }}
+    env:
+      <<: *env
+      GITHUB_JOB_NAME: main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+    steps: *steps
 
 # ------------------------------------------------------------------------------
 
