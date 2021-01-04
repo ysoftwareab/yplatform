@@ -54,7 +54,17 @@ OS_RELEASE=$(dirname ${MYSELF})/os-release
 
 RELEASE_ID="$(source ${OS_RELEASE} && echo ${ID})"
 RELEASE_VERSION_ID="$(source ${OS_RELEASE} && echo ${VERSION_ID})"
-RELEASE_VERSION_CODENAME="$(source ${OS_RELEASE} && echo ${VERSION_CODENAME})"
+if cat ${OS_RELEASE} | grep -q "^VERSION_CODENAME="; then
+    RELEASE_VERSION_CODENAME="$(source ${OS_RELEASE} && echo ${VERSION_CODENAME})"
+else
+    RELEASE_VERSION_CODENAME="$(source ${OS_RELEASE} && echo ${VERSION} | \
+        sed "s/\"//g" | \
+        sed "s/^[^,(]\+[,(] \?//" | \
+        sed "s/)//g" | \
+        cut -d" " -f1 | \
+        tr "[:upper:]" "[:lower:]"
+    )"
+fi
 
 [[ -n "${DOCKER_IMAGE_FROM}" ]] || {
     DOCKER_IMAGE_FROM=${RELEASE_ID}:${RELEASE_VERSION_ID}
