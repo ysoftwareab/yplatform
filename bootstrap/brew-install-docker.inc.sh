@@ -17,8 +17,6 @@ case ${OS_SHORT} in
         RELEASE_ID="$(source /etc/os-release && echo ${ID})"
         # shellcheck disable=SC1091
         # RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
-        # shellcheck disable=SC1091
-        # RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
 
         # BEGIN https://docs.docker.com/engine/install/ubuntu/
         for PKG in docker docker-engine docker.io containerd runc; do
@@ -52,7 +50,6 @@ case ${OS_SHORT} in
 
         unset RELEASE_ID
         unset RELEASE_VERSION_ID
-        unset RELEASE_VERSION_CODENAME
 
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
         exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version 1\."
