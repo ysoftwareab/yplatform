@@ -1,1 +1,1 @@
-../sf-ubuntu-xenial/Dockerfile.build.sh
+../sf-ubuntu/Dockerfile.build.sh

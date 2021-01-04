@@ -1,1 +1,1 @@
-../sf-ubuntu-xenial/Dockerfile
+../sf-ubuntu/Dockerfile
