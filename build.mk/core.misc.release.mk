@@ -25,6 +25,11 @@
 # Version will be set to the given SEMVER value.
 #
 # ------------------------------------------------------------------------------
+#
+# Adds a 'release-branch/v<SEMVER>' target to create a release branch for a specific version.
+# Running 'make release' inside the release branch will release the given SEMVER value.
+#
+# ------------------------------------------------------------------------------
 
 RELEASE_LEVELS += \
 	$(VERSION_LEVELS)
@@ -53,7 +58,24 @@ PUBLIC_breaking := major
 # ------------------------------------------------------------------------------
 
 .PHONY: release
-release: release/bugfix ## Release a new bugfix version.
+release: ## Release a new bugfix version.
+	if [[ "$(GIT_BRANCH)" =~ "^release-v"]]; then \
+		GIT_BRANCH_RELEASE=$(GIT_BRANCH); \
+		$(ECHO_INFO) "Inside a release branch."; \
+		$(MAKE) release/$$($(ECHO) "$(GIT_BRANCH)" | $(SED) "s/^release-//"); \
+		$(ECHO) "[Q   ] Merging $${GIT_BRANCH_RELEASE} into master or another branch?"; \
+		read GIT_BRANCH && \
+			$(GIT) checkout $${GIT_BRANCH:-master}; \
+		$(GIT) merge --no-ff refs/heads/$${GIT_BRANCH_RELEASE} || { \
+			$(ECHO_ERR) "Automatic merge of the $${GIT_BRANCH_RELEASE} release branch was not possible."; \
+			$(ECHO_INFO) "Please solve the merge conflicts e.g. by running 'git mergetool',"; \
+			$(ECHO_INFO) "and push manually e.g. by running 'git push'."; \
+			exit 1; \
+		}; \
+		$(GIT) push --no-verify; \
+	else \
+		$(MAKE) release/bugfix; \
+	fi
 
 
 .PHONY: release/public
@@ -73,16 +95,35 @@ release/major:
 $(RELEASE_TARGETS):
 	$(eval VSN_LEVEL := $(@:release/%=%))
 	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
-	$(ECHO_DO) "Releasing $(PKG_VSN_NEW)..."
-	PKG_VSN_NEW=$(PKG_VSN_NEW) $(MAKE) _release
-	$(ECHO_INFO) "Released $(PKG_VSN_NEW)."
-	$(ECHO_DONE)
+	if [[ "$(GIT_BRANCH)" =~ "^release-v"]]; then \
+		$(ECHO_ERR) "Cannot release $(PKG_VSN_NEW) from the $(GIT_BRANCH) release branch."; \
+		exit 1; \
+	else \
+		$(ECHO_DO) "Releasing $(PKG_VSN_NEW)..."; \
+		PKG_VSN_NEW=$(PKG_VSN_NEW) $(MAKE) _release; \
+		$(ECHO_INFO) "Released $(PKG_VSN_NEW)."; \
+		$(ECHO_DONE); \
+	fi
 
 
 .PHONY: release/v%
 release/v%: ## Release a new specific version.
 	$(eval PKG_VSN_NEW := $(@:release/v%=%))
 	PKG_VSN_NEW=$(PKG_VSN_NEW) $(MAKE) _release
+
+
+.PHONY: release-branch/v%
+release-branch/v%: ## Create a release branch for a new specific version.
+	$(eval PKG_VSN_NEW := $(@:release-branch/v%=%))
+	$(eval GIT_BRANCH_RELEASE := release-v$(PKG_VSN_NEW))
+	$(NPM) --no-git-tag-version version $(PKG_VSN_NEW)
+	$(GIT) add package.json
+	$(GIT) commit -m "Placeholder for $(GIT_BRANCH_RELEASE) release branch."
+	$(GIT) push --no-verify
+	$(ECHO_DO) "Creating the $(GIT_BRANCH_RELEASE) release branch..."
+	$(GIT) checkout -b $(GIT_BRANCH_RELEASE) HEAD~
+	$(ECHO_DONE)
+	$(ECHO_INFO) "When ready to release, run 'make release' inside the release branch."
 
 
 .PHONY: $(RELEASE_SEMANTIC_TARGETS)
