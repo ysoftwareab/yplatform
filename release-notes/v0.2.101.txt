@@ -1,0 +1,17 @@
+support-firecloud v0.2.101 Release Notes
+
+Highlights since v0.2.100:
+
+* None
+
+Breaking commits since v0.2.100:
+
+* None
+
+Commits since v0.2.100:
+
+* d4ae7881 2021-01-03 fix missing autoconf/automake/perl from docker images
+* f1f38bea 2021-01-03 add autoconf to docker
+* d1bff1b2 2021-01-03 add more gnu: wdiff gpatch and no wget
+* cb98386e 2021-01-01 fixup! handle no branch
+o faf1d006 2021-01-01 0.2.100
