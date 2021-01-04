@@ -59,7 +59,7 @@ PUBLIC_breaking := major
 
 .PHONY: release
 release: ## Release a new bugfix version.
-	if [[ "$(GIT_BRANCH)" =~ "^release-v"]]; then \
+	if [[ "$(GIT_BRANCH)" =~ "^release-v" ]]; then \
 		GIT_BRANCH_RELEASE=$(GIT_BRANCH); \
 		$(ECHO_INFO) "Inside a release branch."; \
 		$(MAKE) release/$$($(ECHO) "$(GIT_BRANCH)" | $(SED) "s/^release-//"); \
@@ -95,7 +95,7 @@ release/major:
 $(RELEASE_TARGETS):
 	$(eval VSN_LEVEL := $(@:release/%=%))
 	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
-	if [[ "$(GIT_BRANCH)" =~ "^release-v"]]; then \
+	if [[ "$(GIT_BRANCH)" =~ "^release-v" ]]; then \
 		$(ECHO_ERR) "Cannot release $(PKG_VSN_NEW) from the $(GIT_BRANCH) release branch."; \
 		exit 1; \
 	else \
@@ -122,6 +122,7 @@ release-branch/v%: ## Create a release branch for a new specific version.
 	$(GIT) push --no-verify
 	$(ECHO_DO) "Creating the $(GIT_BRANCH_RELEASE) release branch..."
 	$(GIT) checkout -b $(GIT_BRANCH_RELEASE) HEAD~
+	$(GIT) push -u --no-verify
 	$(ECHO_DONE)
 	$(ECHO_INFO) "When ready to release, run 'make release' inside the release branch."
 
