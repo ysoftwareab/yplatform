@@ -5,10 +5,11 @@
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${SF_CI_BREW_INSTALL}.inc.sh
 
+[[ "${SF_CI_BREW_INSTALL}" != "minimal" ]] || \
+    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
+
 # SF_DOCKER declared in dockerfiles/*/Dockerfile.build.sh
 [[ "${SF_DOCKER:-}" != "true" ]] || {
-    [[ "${SF_CI_BREW_INSTALL}" != "minimal" ]] || source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
-
     # installing perl for performance reasons,
     # since it takes a very long time to install via homebrew on Linux
     # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
