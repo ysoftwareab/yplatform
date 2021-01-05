@@ -37,8 +37,8 @@ function apt_install_one() {
 
 echo_do "Setup aptitude..."
 apt_install_one software-properties-common
+apt-add-repository -y ppa:git-core/ppa
 apt_update
-apt-add-repository -y -u ppa:git-core/ppa
 echo_done
 
 echo_do "Setup debconf-utils..."
