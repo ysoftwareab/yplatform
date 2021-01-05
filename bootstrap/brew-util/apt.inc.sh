@@ -17,13 +17,14 @@ function apt_update() {
     }
 }
 
+APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
+    APT_GET_FORCE_YES="--force-yes"
 function apt_install_one() {
-    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     local DPKG="$*"
 
     echo_do "aptitude: Installing ${DPKG}..."
-    # ${SF_SUDO} apt-get install -y --force-yes ${DPKG}
-    ${SF_SUDO} apt-get install -y ${FORCE_YES} ${DPKG}
+    ${SF_SUDO} apt-get install -y ${APT_GET_FORCE_YES} ${DPKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

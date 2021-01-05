@@ -14,10 +14,11 @@ function apt_update() {
     }
 }
 
+APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
+    APT_GET_FORCE_YES="--force-yes"
 function apt_install() {
-    local FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    # apt-get install -y --force-yes $*
-    apt-get install -y ${FORCE_YES} "$@"
+    apt-get install -y ${APT_GET_FORCE_YES} "$@"
 }
 
 export DEBIAN_FRONTEND=noninteractive
