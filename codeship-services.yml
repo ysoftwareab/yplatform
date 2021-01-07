@@ -1,34 +1,34 @@
-# support-firecloud-ubuntu-xenial-minimal:
-sfuxm:
+# support-firecloud-ubuntu-1604-minimal:
+sfu1604m:
   build:
-    dockerfile: .codeship/ubuntu-xenial/Dockerfile
+    dockerfile: .codeship/ubuntu-1604/Dockerfile
     args:
   environment:
     SF_CI_BREW_INSTALL: minimal
     SF_LOG_BOOTSTRAP: true
 
-# support-firecloud-ubuntu-xenial-dev:
-sfuxd:
+# support-firecloud-ubuntu-1604-dev:
+sfu1604d:
   build:
-    dockerfile: .codeship/ubuntu-xenial/Dockerfile
+    dockerfile: .codeship/ubuntu-1604/Dockerfile
     args:
   environment:
     SF_CI_BREW_INSTALL: dev
     SF_LOG_BOOTSTRAP: true
 
-# support-firecloud-ubuntu-bionic-minimal:
-sfubm:
+# support-firecloud-ubuntu-1804-minimal:
+sfu1804m:
   build:
-    dockerfile: .codeship/ubuntu-bionic/Dockerfile
+    dockerfile: .codeship/ubuntu-1804/Dockerfile
     args:
   environment:
     SF_CI_BREW_INSTALL: minimal
     SF_LOG_BOOTSTRAP: true
 
-# support-firecloud-ubuntu-bionic-dev:
-sfubd:
+# support-firecloud-ubuntu-1804-dev:
+sfu1804d:
   build:
-    dockerfile: .codeship/ubuntu-bionic/Dockerfile
+    dockerfile: .codeship/ubuntu-1804/Dockerfile
     args:
   environment:
     SF_CI_BREW_INSTALL: dev
