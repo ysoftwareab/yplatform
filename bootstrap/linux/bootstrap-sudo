@@ -37,7 +37,6 @@ function apt_install_one() {
 
 echo_do "Setup aptitude..."
 apt_install_one software-properties-common
-apt-add-repository -y ppa:git-core/ppa
 apt_update
 echo_done
 
