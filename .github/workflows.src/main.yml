@@ -108,6 +108,10 @@ jobs:
       fail-fast: false
       matrix:
         container:
+          - debian:wheezy # 7
+          - debian:jessie # 8
+          - debian:stretch # 9
+          - debian:buster # 10
           - ubuntu:12.04
           - ubuntu:14.04
         sf_ci_brew_install:
