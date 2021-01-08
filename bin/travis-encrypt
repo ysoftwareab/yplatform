@@ -82,7 +82,7 @@ KEY_RE='"key":"([^"]+)"'
 [[ "$(curl -fqsSL "${KEY_URL}" 2>/dev/null || echo 'not found')" =~ ${KEY_RE} ]]
 KEY="${BASH_REMATCH[1]//RSA PUBLIC KEY/PUBLIC KEY}"
 
-if [[ "${KEY}" =~ "not found" ]]; then
+if [[ "${KEY}" =~ not\ found ]]; then
     echo_err "Key not found at ${KEY_URL}."
     echo_info "Use official Travis CI client for private repos:"
     echo_info "e.g. <travis encrypt \"value\"> instead of <travis-encrypt --value \"value\">."

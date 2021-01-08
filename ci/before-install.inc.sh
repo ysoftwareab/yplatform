@@ -22,7 +22,7 @@ function sf_ga_checkout() {
     cd ${GITHUB_WORKSPACE}
     GIT_BRANCH=
     GIT_CLONE_BRANCH_ARG=
-    if [[ "${GITHUB_REF:-}" =~ "^refs/heads/" ]]; then
+    if [[ "${GITHUB_REF:-}" =~ ^refs/heads/ ]]; then
         GIT_BRANCH=${GITHUB_REF#refs\/heads\/}
         GIT_CLONE_BRANCH_ARG="--branch=${GIT_BRANCH}"
     fi

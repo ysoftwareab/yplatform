@@ -29,7 +29,7 @@ if [[ -z "${GITHUB_EVENT_NAME}" ]]; then
     CI_IS_CRON=true
 fi
 CI_TAG=
-if [[ "${GITHUB_REF:-}" =~ "^refs/tags/" ]]; then
+if [[ "${GITHUB_REF:-}" =~ ^refs/tags/ ]]; then
     CI_TAG=${GITHUB_REF#refs\/tags\/}
 fi
 export CI=true
