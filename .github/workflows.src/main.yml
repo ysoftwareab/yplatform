@@ -118,10 +118,12 @@ jobs:
           - minimal
           - dev
     name: main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
-    runs-on: ${{ matrix.os }}
-    env:
-      <<: *env
-      GITHUB_JOB_NAME: main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.container }}
+      env:
+        <<: *env
+        GITHUB_JOB_NAME: main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
     steps: *steps
 
 # ------------------------------------------------------------------------------

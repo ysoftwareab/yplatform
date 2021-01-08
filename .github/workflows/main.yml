@@ -86,16 +86,18 @@ jobs:
           - minimal
           - dev
     name: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-    runs-on: '${{ matrix.os }}'
-    env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      GITHUB_JOB_NAME: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    container:
+      image: '${{ matrix.container }}'
+      env:
+        GITHUB_MATRIX_OS: '${{ matrix.os }}'
+        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+        SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+        SF_LOG_BOOTSTRAP: true
+        SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+        SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+        V: '${{ secrets.V }}'
+        GITHUB_JOB_NAME: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)
