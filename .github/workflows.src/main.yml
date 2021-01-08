@@ -28,6 +28,21 @@ aliases:
       set -x
       git config --global core.autocrlf false
       git config --global core.eol lf
+  checkout-install-git: &checkout-install-git
+    shell: bash
+    run: |
+      # docker containers might not have git
+      set -x
+      which git || {
+        if which apt-get; then
+          apt-get clean || true
+          rm -rf /var/lib/apt/lists/* || true
+          apt-get update -o Acquire::CompressionTypes::Order::=gz
+          apt-get update -y --fix-missing
+          apt-get install -y git
+        fi
+      }
+      git --version
   checkout: &checkout
     # run: /support-firecloud/repo/dot.ci.sh sf_ga_checkout
     uses: actions/checkout@v2
@@ -66,6 +81,7 @@ jobs:
       <<: *env
       GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
     steps: &steps
+      - *checkout-install-git
       - *checkout
       - *checkout-submodules
 

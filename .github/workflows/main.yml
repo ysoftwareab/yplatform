@@ -38,6 +38,20 @@ jobs:
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     steps:
+      - shell: bash
+        run: |
+          # docker containers might not have git
+          set -x
+          which git || {
+            if which apt-get; then
+              apt-get clean || true
+              rm -rf /var/lib/apt/lists/* || true
+              apt-get update -o Acquire::CompressionTypes::Order::=gz
+              apt-get update -y --fix-missing
+              apt-get install -y git
+            fi
+          }
+          git --version
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)
         shell: bash
@@ -99,6 +113,20 @@ jobs:
         V: '${{ secrets.V }}'
         GITHUB_JOB_NAME: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
+      - shell: bash
+        run: |
+          # docker containers might not have git
+          set -x
+          which git || {
+            if which apt-get; then
+              apt-get clean || true
+              rm -rf /var/lib/apt/lists/* || true
+              apt-get update -o Acquire::CompressionTypes::Order::=gz
+              apt-get update -y --fix-missing
+              apt-get install -y git
+            fi
+          }
+          git --version
       - uses: actions/checkout@v2
       - name: Run actions/checkout@v2 (submodules)
         shell: bash
