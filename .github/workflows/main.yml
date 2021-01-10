@@ -29,14 +29,13 @@ jobs:
     name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
       - shell: bash
         run: |
@@ -52,15 +51,44 @@ jobs:
             fi
           }
           git --version
-      - uses: actions/checkout@v2
-      - name: Run actions/checkout@v2 (submodules)
-        shell: bash
+      - shell: bash
         run: |
+          # checkout
           set -x
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          if [[ "${{ github.event_name }}" = "push" ]]; then
+            [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+            [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_SHA="${{ github.event.after }}"
+          fi
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
+            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
+          git reset --hard ${GIT_SHA}
           git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-          submodule update --init --force --recursive --depth=1
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_install
       - shell: bash
@@ -84,34 +112,36 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
-  main-container:
+  container:
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - 'debian:wheezy'
-          - 'debian:jessie'
-          - 'debian:stretch'
-          - 'debian:buster'
-          - 'ubuntu:12.04'
-          - 'ubuntu:14.04'
+          - sf-debian-7
+          - sf-debian-8
+          - sf-debian-9
+          - sf-debian-10
+          - sf-ubuntu-12.04
+          - sf-ubuntu-14.04
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+          - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
           - dev
-    name: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
-    container:
-      image: '${{ matrix.container }}'
-      env:
-        GITHUB_MATRIX_OS: '${{ matrix.os }}'
-        GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-        SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-        SF_LOG_BOOTSTRAP: true
-        SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-        SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-        V: '${{ secrets.V }}'
-        GITHUB_JOB_NAME: 'main-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: minimal
     steps:
       - shell: bash
         run: |
@@ -127,15 +157,44 @@ jobs:
             fi
           }
           git --version
-      - uses: actions/checkout@v2
-      - name: Run actions/checkout@v2 (submodules)
-        shell: bash
+      - shell: bash
         run: |
+          # checkout
           set -x
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          if [[ "${{ github.event_name }}" = "push" ]]; then
+            [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+            [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_SHA="${{ github.event.after }}"
+          fi
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
+            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
+          git reset --hard ${GIT_SHA}
           git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-          submodule update --init --force --recursive --depth=1
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_install
       - shell: bash
@@ -171,14 +230,13 @@ jobs:
     name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       WSLENV: >-
         CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:SF_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
       WSLUSER: github
@@ -190,15 +248,44 @@ jobs:
           set -x
           git config --global core.autocrlf false
           git config --global core.eol lf
-      - uses: actions/checkout@v2
-      - name: Run actions/checkout@v2 (submodules)
-        shell: bash
+      - shell: bash
         run: |
+          # checkout
           set -x
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          if [[ "${{ github.event_name }}" = "push" ]]; then
+            [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+            [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_SHA="${{ github.event.after }}"
+          fi
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
+            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
+          git reset --hard ${GIT_SHA}
           git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-          submodule update --init --force --recursive --depth=1
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up WSLENV
         shell: bash
         run: |
@@ -272,9 +359,7 @@ jobs:
     name: 'deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
@@ -282,16 +367,46 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
-      - uses: actions/checkout@v2
-      - name: Run actions/checkout@v2 (submodules)
-        shell: bash
+      - shell: bash
         run: |
+          # checkout
           set -x
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          if [[ "${{ github.event_name }}" = "push" ]]; then
+            [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+            [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_SHA="${{ github.event.after }}"
+          fi
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
+            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
+          git reset --hard ${GIT_SHA}
           git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-          submodule update --init --force --recursive --depth=1
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_deploy
       - shell: bash
@@ -312,9 +427,7 @@ jobs:
     name: 'deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_MATRIX_OS: '${{ matrix.os }}'
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_LOG_BOOTSTRAP: true
       SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
       SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
@@ -322,16 +435,46 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
-      - uses: actions/checkout@v2
-      - name: Run actions/checkout@v2 (submodules)
-        shell: bash
+      - shell: bash
         run: |
+          # checkout
           set -x
-          auth_header="$(git config --local --get http.https://github.com/.extraheader)"
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          if [[ "${{ github.event_name }}" = "push" ]]; then
+            [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+            [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_SHA="${{ github.event.after }}"
+          fi
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
+            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_SHA="${{ github.event.pull_request.head.sha }}"
+          fi
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
+          git reset --hard ${GIT_SHA}
           git submodule sync --recursive
-          git -c "http.extraheader=$auth_header" -c protocol.version=2 \
-          submodule update --init --force --recursive --depth=1
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_deploy
       - shell: bash
