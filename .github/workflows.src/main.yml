@@ -237,7 +237,7 @@ jobs:
           - sf-ubuntu-16.04
           - sf-ubuntu-18.04
           - sf-ubuntu-20.04
-        sf_ci_brew_install:
+        sf_ci_brew_install: &deploy-matrix-sf-ci-brew-install
           - minimal
           - common
     name: deploy-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
@@ -264,9 +264,7 @@ jobs:
       fail-fast: false
       matrix:
         container: *deploy-matrix-container
-        sf_ci_brew_install:
-          - minimal
-          - dev
+        sf_ci_brew_install: *deploy-matrix-sf-ci-brew-install
     name: main-container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ubuntu-latest
     env:

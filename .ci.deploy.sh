@@ -70,8 +70,11 @@ function ci_run_deploy_docker_image() {
     local RELEASE_VERSION_CODENAME="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(git describe --first-parent --always --dirty | sed "s/^v//")
-    [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
-        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
+
+    [[ "${SF_DEPLOY_DRYRUN:-}" != "true" ]] || {
+        [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
+            DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
+    }
 
     local TIMESTAMP_LATEST=$(
         curl -fqsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \

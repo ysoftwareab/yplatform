@@ -325,7 +325,7 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
-          - dev
+          - common
     name: 'main-container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
