@@ -57,8 +57,10 @@ function bootstrap_brew() {
         false-Darwin)
             echo_do "brew: Installing homebrew..."
             (
+                # FIXME needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                # see https://github.com/Homebrew/install/issues/522
                 # shellcheck disable=SC2030,SC2031
-                export HOMEBREW_NO_AUTO_UPDATE= # needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                export HOMEBREW_NO_AUTO_UPDATE=
                 </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
             )
             echo_done
@@ -77,8 +79,10 @@ function bootstrap_brew() {
                 echo_done
             else
                 (
+                    # FIXME needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                    # see https://github.com/Homebrew/install/issues/522
                     # shellcheck disable=SC2030,SC2031
-                    export HOMEBREW_NO_AUTO_UPDATE= # needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                    export HOMEBREW_NO_AUTO_UPDATE=
                     </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
                 )
             fi
