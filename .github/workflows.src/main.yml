@@ -54,7 +54,9 @@ jobs:
           - ubuntu-18.04
           - ubuntu-20.04
           - macos-10.15
-          - macos-11.0
+          # FIXME macos 11 has long queues
+          # see https://github.com/actions/virtual-environments/issues/2247#issuecomment-757577274
+          # - macos-11.0
         sf_ci_brew_install:
           - minimal
           - dev
