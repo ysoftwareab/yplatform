@@ -68,9 +68,9 @@ function ci_run_deploy_docker_image() {
     local RELEASE_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})"
     # shellcheck disable=SC1091
     local RELEASE_VERSION_CODENAME="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_CODENAME})"
-    local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
+    local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(git describe --first-parent --always --dirty | sed "s/^v//")
-    [[ "${SF_CI_BREW_INSTALL}" != "common" ]] || \
+    [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
         DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
 
     local TIMESTAMP_LATEST=$(
@@ -83,7 +83,7 @@ function ci_run_deploy_docker_image() {
         --docker-image-from "${DOCKER_IMAGE_FROM}" \
         --docker-image-name "${DOCKER_IMAGE_NAME}" \
         --docker-image-tag "${DOCKER_IMAGE_TAG}" \
-        --sf-ci-brew-install "${SF_CI_BREW_INSTALL}"
+        --sf-ci-brew-install "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}"
 
     [[ "${SF_DEPLOY_DRYRUN:-}" != "true" ]] || {
         echo_info "SF_DEPLOY_DRYRUN=${SF_DEPLOY_DRYRUN}"
