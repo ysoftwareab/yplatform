@@ -106,12 +106,6 @@ function ci_run_deploy_docker_image() {
 }
 
 function ci_run_deploy() {
-    PKG_VSN=$(cat package.json | jq -r ".version")
-    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
-        echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
-        return 1
-    }
-
     ci_run_deploy_docker_image
 }
 
