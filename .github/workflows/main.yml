@@ -118,12 +118,8 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - sf-debian-7
-          - sf-debian-8
           - sf-debian-9
           - sf-debian-10
-          - sf-ubuntu-12.04
-          - sf-ubuntu-14.04
           - sf-ubuntu-16.04
           - sf-ubuntu-18.04
           - sf-ubuntu-20.04
