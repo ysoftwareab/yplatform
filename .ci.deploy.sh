@@ -71,7 +71,7 @@ function ci_run_deploy_docker_image() {
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}
     local DOCKER_IMAGE_TAG=$(git describe --first-parent --always --dirty | sed "s/^v//")
 
-    [[ "${SF_DEPLOY_DRYRUN:-}" != "true" ]] || {
+    [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
         [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
             DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
     }
