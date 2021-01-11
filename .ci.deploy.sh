@@ -10,22 +10,6 @@ DOCKER_ORG=${DOCKER_ORG:-rokmoln}
 # publish to docker.pkg.github.com if given
 # GH_USERNAME/GH_TOKEN
 
-function ci_run_before_install() {
-    true
-}
-
-function ci_run_install() {
-    true
-}
-
-function ci_run_before_script() {
-    true
-}
-
-function ci_run_script() {
-    true
-}
-
 function ci_run_before_deploy() {
     true
 }
@@ -85,7 +69,7 @@ function ci_run_deploy_docker_image() {
     # shellcheck disable=SC1091
     local RELEASE_VERSION_CODENAME="$(source /etc/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${SF_CI_BREW_INSTALL}
-    local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
+    local DOCKER_IMAGE_TAG=$(git describe --first-parent --always --dirty | sed "s/^v//")
     [[ "${SF_CI_BREW_INSTALL}" != "common" ]] || \
         DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-minimal:${DOCKER_IMAGE_TAG}
 
@@ -101,6 +85,11 @@ function ci_run_deploy_docker_image() {
         --docker-image-tag "${DOCKER_IMAGE_TAG}" \
         --sf-ci-brew-install "${SF_CI_BREW_INSTALL}"
 
+    [[ "${SF_DEPLOY_DRYRUN:-}" != "true" ]] || {
+        echo_info "SF_DEPLOY_DRYRUN=${SF_DEPLOY_DRYRUN}"
+        echo_skip "Pushing to docker registries..."
+        return 0
+    }
     # don't push as 'latest' tag if the tag has been updated after the current commit
     local PUBLISH_AS_LATEST_TAG=false
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then

@@ -143,32 +143,6 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  container:
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        container:
-          - sf-debian-9 # 9
-          - sf-debian-10 # 10
-          - sf-ubuntu-16.04
-          - sf-ubuntu-18.04
-          - sf-ubuntu-20.04
-        sf_ci_brew_install:
-          - minimal
-          - dev
-    name: container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
-    runs-on: ubuntu-latest
-    env:
-      <<: *env
-      GITHUB_JOB_NAME: container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
-      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
-      SF_CI_BREW_INSTALL: minimal
-    steps: *steps
-
-# ------------------------------------------------------------------------------
-
   main-windows:
     timeout-minutes: 60
     strategy:
@@ -251,25 +225,30 @@ jobs:
 
 # ------------------------------------------------------------------------------
 
-  deploy-minimal:
+  deploy:
     if: startsWith(github.ref, 'refs/tags/')
     needs: main
     strategy:
       fail-fast: false
       matrix:
-        os: &deploy-strategy-matrix-os
-          - ubuntu-16.04
-          - ubuntu-18.04
+        container: &deploy-matrix-container
+          - sf-debian-9
+          - sf-debian-10
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+          - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
-    name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-    runs-on: ${{ matrix.os }}
+          - common
+    name: deploy-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ubuntu-latest
     env: &deploy-env
       <<: *env
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
       GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps: &deploy-steps
       - *checkout
       - shell: bash
@@ -279,16 +258,19 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
 
-  deploy-common:
-    if: startsWith(github.ref, 'refs/tags/')
-    needs: deploy-minimal
+  main-container:
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
-        os: *deploy-strategy-matrix-os
+        container: *deploy-matrix-container
         sf_ci_brew_install:
-          - common
-    name: deploy-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
-    runs-on: ${{ matrix.os }}
-    env: *deploy-env
+          - minimal
+          - dev
+    name: main-container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ubuntu-latest
+    env:
+      <<: *deploy-env
+      GITHUB_JOB_NAME: main-container-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+      SF_DEPLOY_DRYRUN: true
     steps: *deploy-steps
