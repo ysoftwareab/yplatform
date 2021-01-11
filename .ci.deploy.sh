@@ -69,7 +69,7 @@ function ci_run_deploy_docker_image() {
     # shellcheck disable=SC1091
     local RELEASE_VERSION_CODENAME="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_CODENAME})"
     local DOCKER_IMAGE_NAME=sf-${RELEASE_ID}-${RELEASE_VERSION_CODENAME}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}
-    local DOCKER_IMAGE_TAG=$(git describe --first-parent --always --dirty | sed "s/^v//")
+    local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
     [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
         [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
