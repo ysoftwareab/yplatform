@@ -1,4 +1,4 @@
-- tag: (^codeship|^master$)
+- tag: ^(codeship.*|master)$
     # - /^codeship/ # codeship branches
     # - master
     # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
