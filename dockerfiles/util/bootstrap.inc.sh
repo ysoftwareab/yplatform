@@ -11,9 +11,11 @@ git clean -xdf .
 git config --replace-all url."https://github.com/".insteadOf "git@github.com:"
 git config --add url."https://github.com/".insteadOf "git://github.com/"
 
+chown -R ${UNAME}:${GNAME} .
 export SF_DOCKER=true
 sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
 unset SF_DOCKER
+chown -R root:root .
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 make BUILD
