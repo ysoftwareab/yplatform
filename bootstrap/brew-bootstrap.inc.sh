@@ -56,9 +56,11 @@ function bootstrap_brew() {
     case ${HAS_BREW_2}-$(uname -s) in
         false-Darwin)
             echo_do "brew: Installing homebrew..."
-            export HOMEBREW_FORCE_BREWED_CURL=true
-            export HOMEBREW_FORCE_BREWED_GIT=true
-            </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+            (
+                # shellcheck disable=SC2030,SC2031
+                export HOMEBREW_NO_AUTO_UPDATE= # needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+            )
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
@@ -74,9 +76,11 @@ function bootstrap_brew() {
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
                 echo_done
             else
-                export HOMEBREW_FORCE_BREWED_CURL=true
-                export HOMEBREW_FORCE_BREWED_GIT=true
-                </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+                (
+                    # shellcheck disable=SC2030,SC2031
+                    export HOMEBREW_NO_AUTO_UPDATE= # needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
+                    </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+                )
             fi
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
