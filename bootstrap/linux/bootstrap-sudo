@@ -97,10 +97,5 @@ echo_done
 [[ -e /usr/bin/python ]] || ln -s /usr/bin/python3 /usr/bin/python
 
 echo_do "aptitude: Listing packages..."
-if which apt >/dev/null 2>&1; then
-    apt list --installed
-else
-    # ubuntu:12.04 doesn't have apt
-    dpkg --list
-fi
+apt list --installed
 echo_done
