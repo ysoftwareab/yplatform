@@ -332,7 +332,7 @@ jobs:
         run: ./.ci.sh after_deploy || true
   deploy-container-common:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-minimal
+    needs: deploy-container-minimal
     strategy:
       fail-fast: false
       matrix:
