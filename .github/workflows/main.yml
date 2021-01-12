@@ -39,20 +39,6 @@ jobs:
     steps:
       - shell: bash
         run: |
-          # docker containers might not have git
-          set -x
-          which git || {
-            if which apt-get; then
-              apt-get clean || true
-              rm -rf /var/lib/apt/lists/* || true
-              apt-get update -o Acquire::CompressionTypes::Order::=gz
-              apt-get update -y --fix-missing
-              apt-get install -y git
-            fi
-          }
-          git --version
-      - shell: bash
-        run: |
           # checkout
           set -x
           BASE64="base64"
@@ -61,12 +47,12 @@ jobs:
           if [[ "${{ github.event_name }}" = "push" ]]; then
             [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
             [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_URL="${{ github.event.repository.clone_url }}"
             GIT_SHA="${{ github.event.after }}"
           fi
           if [[ "${{ github.event_name }}" = "pull_request" ]]; then
             GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
-            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_URL="${{ github.event.pull_request.head.repo.clone_url }}"
             GIT_SHA="${{ github.event.pull_request.head.sha }}"
           fi
 
@@ -152,12 +138,12 @@ jobs:
           if [[ "${{ github.event_name }}" = "push" ]]; then
             [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
             [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_URL="${{ github.event.repository.clone_url }}"
             GIT_SHA="${{ github.event.after }}"
           fi
           if [[ "${{ github.event_name }}" = "pull_request" ]]; then
             GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
-            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_URL="${{ github.event.pull_request.head.repo.clone_url }}"
             GIT_SHA="${{ github.event.pull_request.head.sha }}"
           fi
 
@@ -278,12 +264,12 @@ jobs:
           if [[ "${{ github.event_name }}" = "push" ]]; then
             [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
             [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_URL="${{ github.event.repository.clone_url }}"
             GIT_SHA="${{ github.event.after }}"
           fi
           if [[ "${{ github.event_name }}" = "pull_request" ]]; then
             GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
-            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_URL="${{ github.event.pull_request.head.repo.clone_url }}"
             GIT_SHA="${{ github.event.pull_request.head.sha }}"
           fi
 
@@ -351,12 +337,12 @@ jobs:
           if [[ "${{ github.event_name }}" = "push" ]]; then
             [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
             [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-            GIT_URL="${{ github.event.repository.git_url }}"
+            GIT_URL="${{ github.event.repository.clone_url }}"
             GIT_SHA="${{ github.event.after }}"
           fi
           if [[ "${{ github.event_name }}" = "pull_request" ]]; then
             GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
-            GIT_URL="${{ github.event.pull_request.head.repository.git_url }}"
+            GIT_URL="${{ github.event.pull_request.head.repo.clone_url }}"
             GIT_SHA="${{ github.event.pull_request.head.sha }}"
           fi
 
