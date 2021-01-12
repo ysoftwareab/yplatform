@@ -35,6 +35,8 @@ function apt_install_one() {
     echo_done
 }
 
+export DEBIAN_FRONTEND=noninteractive
+
 echo_do "Setup aptitude..."
 apt_update
 
@@ -50,7 +52,6 @@ apt_install_one sudo
 echo_done
 
 echo_do "Setup debconf-utils..."
-export DEBIAN_FRONTEND=noninteractive
 apt_install_one debconf-utils
 echo '* libraries/restart-without-asking boolean true' | debconf-set-selections
 echo_done
