@@ -31,20 +31,6 @@ aliases:
     run: |
       # checkout
       set -x
-      BASE64="base64"
-      ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
-      GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
-      if [[ "${{ github.event_name }}" = "push" ]]; then
-        [[ ! "${GITHUB_REF}" =~ ^refs/heads/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
-        [[ ! "${GITHUB_REF}" =~ ^refs/tags/ ]] || GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-        GIT_URL="${{ github.event.repository.clone_url }}"
-        GIT_SHA="${{ github.event.after }}"
-      fi
-      if [[ "${{ github.event_name }}" = "pull_request" ]]; then
-        GIT_BRANCH_ARG="--branch ${GITHUB_HEAD_REF}"
-        GIT_URL="${{ github.event.pull_request.head.repo.clone_url }}"
-        GIT_SHA="${{ github.event.pull_request.head.sha }}"
-      fi
 
       # use https instead of everything else
       git config --global --add url."https://github.com/".insteadOf "git://github.com/"
@@ -53,6 +39,9 @@ aliases:
       git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
 
       # use github token transparently
+      BASE64="base64"
+      ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+      GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${{ github.token }}" | ${BASE64})"
       git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
 
       # use git protocol version 2 if available
@@ -61,8 +50,22 @@ aliases:
         GIT_DEPTH_ARG="--depth=1"
       }
 
-      git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} ./
-      git reset --hard ${GIT_SHA}
+      GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+      git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
+      if [[ "${{ github.event_name }}" = "push" ]]; then
+        git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+        GITHUB_REF=${GITHUB_BASE_REF}
+      fi
+      if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+        git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+      elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+        git checkout ${GITHUB_REF}
+      else
+        printenv
+        cat ${GITHUB_EVENT_PATH} | jq
+        exit 1
+      fi
+
       git submodule sync --recursive
       git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
 
