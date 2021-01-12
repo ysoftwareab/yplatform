@@ -1,0 +1,74 @@
+support-firecloud v0.2.104 Release Notes
+
+Highlights since v0.2.103:
+
+* None
+
+Breaking commits since v0.2.103:
+
+* 5e597db6 2021-01-05 breaking: use VERSION_ID instead of VERSION_CODENAME
+
+
+Commits since v0.2.103:
+
+* ded4d3f9 2021-01-12 fixup! Merge pull request #222 from rokmoln/test-bash-checkout
+*   dd9768c8 2021-01-12 Merge pull request #222 from rokmoln/test-bash-checkout
+|\
+| * 3d8c0c30 2021-01-12 fixup! simplify git checkout's logic, handle all events (cronjobs)
+|/
+* 7b260fd1 2021-01-12 simplify git checkout's logic, handle all events (cronjobs)
+*   42585888 2021-01-12 Merge pull request #221 from rokmoln/test-bash-checkout
+|\
+| * 4b587cc0 2021-01-12 fixup! stop using actions/checkout. needs node, linked glibc, etc
+| * 3fc67372 2021-01-12 test bash checkout for pull requests
+|/
+* 3634bc88 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* 626d2cf9 2021-01-11 fixup! fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* 78988635 2021-01-11 fix access to Formula/patch-lib during bootstrap
+* fd093888 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* da5b5808 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* 6e5c0113 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* 47b57aa2 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* b7c9ad3d 2021-01-11 fixup! refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* a385d90a 2021-01-11 refactor 'main-container' pipeline to resemble closer 'deploy' except a dry-run flag. publish all new docker images
+* beda14e1 2021-01-11 codeship: try another branch matcher. codeship shouldn't run on 'github-test' branch
+* fc600520 2021-01-11 remove debian:7/8 ubuntu:12.04/14.04 which have reached EOL
+* d15e22fd 2021-01-11 Revert "better sudo compat with ubuntu:12.04"
+* cb1f8092 2021-01-11 Revert "better apt compat with ubuntu:12.04"
+* 82b08b8e 2021-01-11 better apt compat with ubuntu:12.04
+* abb4f04a 2021-01-11 better sudo compat with ubuntu:12.04
+* fb4c6403 2021-01-11 stop using actions/checkout. needs node, linked glibc, etc
+* 7b8c0ce2 2021-01-08 debian/ubuntu containers don't have git required by 'checkout-submodules', optional but ideal for 'checkout'
+* 6c3f21ad 2021-01-08 fixup! github actions: add precisy and trusty
+* f5c7c4b4 2021-01-08 run debian on github actions
+* c83c1e8c 2021-01-11 reference https://github.com/Homebrew/install/issues/522 for later removal
+* 6ce2b2e7 2021-01-11 fixup! use homebrew's curl and git when installing homebrew
+* fed37c98 2021-01-11 disable macos 11. long queues. ref https://github.com/actions/virtual-environments/issues/2247#issuecomment-757577274
+* 06a5ed68 2021-01-11 use homebrew's curl and git when installing homebrew
+* b3729848 2021-01-11 use github event's pull request url, instead of re-creating it manually
+* f8d0d6f5 2021-01-08 fix =~ usage by removing quotes
+* 3f89c92f 2021-01-07 docker: canonical apt packages
+* eab6074b 2021-01-07 docker: stop using git-core ppa. brew will install latest git anyways
+* 18c550d9 2021-01-07 docker: one less hardcoded path
+* ad7954fb 2021-01-07 docker: allow git config to be customized
+* e85b05f5 2021-01-07 refactor codeship. also fix bionic to actually use ubuntu:18.04 not 16.04
+* cfb80970 2021-01-05 dockerfiles: use latest git
+* 7baeadb7 2021-01-05 Revert "transcrypt: check --git-common-dir support at runtime"
+* 4e812cd0 2021-01-05 transcrypt: check --git-common-dir support at runtime
+* f6288cf5 2021-01-05 use --force-yes for older apt versions
+* 022881c3 2021-01-04 github actions: add precisy and trusty
+* 5e597db6 2021-01-05 breaking: use VERSION_ID instead of VERSION_CODENAME
+* 6a02c6ac 2021-01-05 Revert "handle missing VERSION_CODENAME in os-release"
+* 6d65779f 2021-01-05 handle missing VERSION_CODENAME in os-release
+* 2f20d510 2021-01-04 dockerfiles: add debian
+* 4a1722b5 2021-01-04 dockerfiles: add precise and trusty
+* 4ecdc6a4 2021-01-04 dockerfiles: refactor symlinks
+* e250d157 2021-01-04 github actions: remove fix for permissions/dirty files
+* cd9db740 2021-01-04 fixup! fix missing autoconf/automake/perl from docker images
+* a7634a7e 2021-01-04 wording
+*   bceff036 2021-01-04 Merge branch 'refs/heads/release-v0.2.103'
+|\
+* | b26c90df 2021-01-04 Placeholder for release-v0.2.103 release branch.
+o | 18866ec7 2021-01-04 fixup! fixup! 'make release-branch/vX.Y.Z'. fix #204
+./
+o 961b8e7a 2021-01-04 0.2.103
