@@ -61,18 +61,23 @@ jobs:
           }
 
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
-          if [[ "${{ github.event_name }}" = "push" ]]; then
-            git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_REF=${GITHUB_BASE_REF}
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
             git checkout ${GITHUB_REF}
           else
             printenv
-            cat ${GITHUB_EVENT_PATH} | jq
+            cat ${GITHUB_EVENT_PATH} | jq .
             exit 1
           fi
 
@@ -155,18 +160,23 @@ jobs:
           }
 
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
-          if [[ "${{ github.event_name }}" = "push" ]]; then
-            git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_REF=${GITHUB_BASE_REF}
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
             git checkout ${GITHUB_REF}
           else
             printenv
-            cat ${GITHUB_EVENT_PATH} | jq
+            cat ${GITHUB_EVENT_PATH} | jq .
             exit 1
           fi
 
@@ -284,18 +294,23 @@ jobs:
           }
 
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
-          if [[ "${{ github.event_name }}" = "push" ]]; then
-            git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_REF=${GITHUB_BASE_REF}
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
             git checkout ${GITHUB_REF}
           else
             printenv
-            cat ${GITHUB_EVENT_PATH} | jq
+            cat ${GITHUB_EVENT_PATH} | jq .
             exit 1
           fi
 
@@ -360,18 +375,23 @@ jobs:
           }
 
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
-          if [[ "${{ github.event_name }}" = "push" ]]; then
-            git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_REF=${GITHUB_BASE_REF}
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
             git checkout ${GITHUB_REF}
           else
             printenv
-            cat ${GITHUB_EVENT_PATH} | jq
+            cat ${GITHUB_EVENT_PATH} | jq .
             exit 1
           fi
 

@@ -19,18 +19,16 @@ aliases:
     SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
     SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
     V: ${{ secrets.V }}
-  git-crlf: &git-crlf # needed on windows
-    name: Set up git (autocrlf, eol)
-    shell: bash
-    run: |
-      set -x
-      git config --global core.autocrlf false
-      git config --global core.eol lf
   checkout: &checkout
     shell: bash
     run: |
       # checkout
       set -x
+
+      # basic git config
+      git config --global core.autocrlf false
+      git config --global core.eol lf
+      git config --global advice.detachedHead false
 
       # use https instead of everything else
       git config --global --add url."https://github.com/".insteadOf "git://github.com/"
@@ -51,18 +49,23 @@ aliases:
       }
 
       GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-      git clone ${GIT_DEPTH_ARG:-} ${GIT_URL} ./
-      if [[ "${{ github.event_name }}" = "push" ]]; then
-        git fetch ${GIT_DEPTH_ARG:-} ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-        GITHUB_REF=${GITHUB_BASE_REF}
+      if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+        GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+      elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+        GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+      fi
+      git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+      if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+        git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+        GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
       fi
       if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-        git checkout -b ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+        git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
       elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
         git checkout ${GITHUB_REF}
       else
         printenv
-        cat ${GITHUB_EVENT_PATH} | jq
+        cat ${GITHUB_EVENT_PATH} | jq .
         exit 1
       fi
 
@@ -150,7 +153,6 @@ jobs:
       WSLUSER: github
       WSLGROUP: github
     steps:
-      - *git-crlf
       - *checkout
 
       - name: Set up WSLENV
