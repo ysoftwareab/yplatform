@@ -1,0 +1,14 @@
+support-firecloud v0.2.105 Release Notes
+
+Highlights since v0.2.104:
+
+* None
+
+Breaking commits since v0.2.104:
+
+* None
+
+Commits since v0.2.104:
+
+* c148b6a7 2021-01-12 fix regression: common docker containers are built on top of minimal ones
+o 47d55234 2021-01-12 0.2.104
