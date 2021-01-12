@@ -1,1 +1,1 @@
-../sf-ubuntu/Dockerfile
+../sf-debian/Dockerfile
