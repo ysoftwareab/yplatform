@@ -16,7 +16,7 @@ adduser \
     --disabled-password \
     --gecos "" \
     ${UNAME}
-adduser ${UNAME} sudo
+! cat /etc/group | cut -d":" -f1 | grep -q "^sudo$" || adduser ${UNAME} sudo
 echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
