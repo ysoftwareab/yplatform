@@ -245,7 +245,7 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
-  deploy:
+  deploy-minimal:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main
     strategy:
@@ -259,6 +259,90 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
+    name: 'deploy-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - shell: bash
+        run: |
+          # checkout
+          set -x
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64"
+          ! ${BASE64} --help | grep -q "\-\-wrap" || BASE64="${BASE64} --wrap 0"
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${{ github.token }}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+            git config --global --add protocol.version 2
+            GIT_DEPTH_ARG="--depth=1"
+          }
+
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          if [[ "${{ github.event_name }}" = "pull_request" ]]; then
+            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+            git checkout ${GITHUB_REF}
+          else
+            printenv
+            cat ${GITHUB_EVENT_PATH} | jq .
+            exit 1
+          fi
+
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-common:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-minimal
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-debian-9
+          - sf-debian-10
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+          - sf-ubuntu-20.04
+        sf_ci_brew_install:
           - common
     name: 'deploy-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
