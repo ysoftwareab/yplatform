@@ -1,16 +1,24 @@
 # support-firecloud [![Github Actions CI Status][2]][1]
 
-`support-firecloud` is software and configuration that supports various cycles of software development:
-* as a standalone checkout, it provides
-  * bootstrapping for a developer MacOS/Linux machine
-    * bring common GNU utilities up-to-date on Linux and make them accesible on MacOS (BSD)
-  * a builder for canonical Docker images
-  * common per-user configuration (e.g. git)
-  * various utility scripts
-  * documentation of common tasks (e.g. licensing, managing secrets)
-* as a submodule checkout, it provides
-  * bootstrapping for a CI machine
-    * the bootstrapping is so generic that it is very easy to use `support-firecloud` in a multitude of CI solutions
+`support-firecloud` is software and configuration that supports various cycles of software development, through a canonical set of commands.
+
+`git clone` this repository and you will gain access to:
+  * **a bootstrap process of a developer machine based around GNU and Homebrew**
+    * <a name="cross-platform"></a> cross-platform. No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (Linux). **Everything works the same everywhere!**
+      * ![](https://static.wikia.nocookie.net/logopedia/images/f/f5/ProductPageIcon_gen.png/revision/latest/scale-to-width-down/1000?cb=20200622204732 =20x20) MacOS
+      * ![](https://static.wikia.nocookie.net/logopedia/images/8/85/Debian.svg/revision/latest/scale-to-width-down/109?cb=20201230122049 =20x20) Linux (Debian)
+      * ![](https://alpinelinux.org/alpinelinux-logo.svg =20x20) Linux (Alpine)
+      * ![](https://static.wikia.nocookie.net/logopedia/images/0/05/Windows_10_Logo.svg/revision/latest/scale-to-width-down/475?cb=20200722093432 =20x20) Windows (WSL)
+      * [potentially more if you request/contribute it](https://github.com/rokmoln/support-firecloud/issues/new/choose)
+    * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked. No more worries about different flags, different behaviour or missing features!
+    * brings [Homebrew](https://brew.sh). No more worries about different versions available in distros' repositositories, or libraries/utilities not being available at all.
+  * **sane per-user configuration** (e.g. git)
+  * **various utility scripts**, most of them written in pure bash making them easy to read through, easy to run
+  * **documentation of common tasks** like bootstrapping, create github repositories, managing secrets, etc
+
+Import this repository as a `submodule`, and you will gain access to:
+  * **a bootstrap process of a CI machine based around GNU and Homebrew**
+    * cross-provider. No more worries about the effort to add another CI or to switch to another CI. **Everything works the same everywhere!**
       * `AppVeyor_________` [![AppVeyor Status][14]][13]
       * `CircleCI_________` [![CircleCI Status][4]][3]
       * `Cirrus CI________` [![Cirrus CI Status][16]][15]
@@ -23,18 +31,29 @@
         * [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
         * [Travis CI's new pricing plan threw a wrench in my open source works](https://www.jeffgeerling.com/blog/2020/travis-cis-new-pricing-plan-threw-wrench-my-open-source-works)
         * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
-  * a robust yet flexible build system based on GNU Make
-  * an AWS CloudFormation build system based on GNU Make
-  * common per-repo configuration (e.g. vscode)
-  * various utility scripts
+    * cross-platform. See [above](#cross-platform).
+    * Docker images available for Linux
+      * Ubuntu 14.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
+      * Ubuntu 16.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-common)
+      * Ubuntu 20.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
+      * Ubuntu 20.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
+      * Debian 9 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-stretch-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-stretch-common)
+      * Debian 10 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-buster-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-buster-common)
+      * [potentially more if you request/contribute it](https://github.com/rokmoln/support-firecloud/issues/new/choose)
+  * **a robust yet flexible build system based on GNU Make**
+  * **sane per-repo configuration** (e.g. vscode)
+  * **various utility scripts**
+  * **a robust yet flexible AWS CloudFormation build system based on GNU Make**
 
-This initially supported [TobiiPro's Cloud Services development](https://github.com/tobiipro/support-firecloud).
+This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
 
+---
 
-**IMPORTANT:** Repositories that have `support-firecloud` as a git submodule, need to be cloned **recursively**:
-* by using `git clone --recursive ...`
-* or by running `git submodule update --init --recursive` after cloning.
+## Show me!
 
+TODO
+
+---
 
 ## Documentation
 
@@ -61,19 +80,24 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
   * [CloudFormation](aws-cfn.mk/README.md)
   * [Identity Access Management](doc/aws-iam.md)
 
+---
 
 ## Structure
 
 * `/bin` has executable shell scripts
 * `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
 *
-* `/ci` has scripts that help bootstrap a CI machine
+* `/bootstrap` has scripts that help bootstrap a machine
 * `/dev` has scripts that help bootstrap a developer machine
-* `/dockerfiles` has Dockerfiles bootstrapped with `support-firecloud`
+* `/dockerfiles` has bootstrapped Dockerfiles
 *
-* `/generic` has configuration that is not repo-specific
+* `/ci` has scripts that help steer the CI pipelines
+*
+* `/gitconfig` has git configuration
+*
 * `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
 
+---
 
 ## Writing
 
@@ -81,6 +105,7 @@ This initially supported [TobiiPro's Cloud Services development](https://github.
 * https://github.com/google/styleguide/blob/gh-pages/docguide/philosophy.md
 * https://www.julian.com/guide/write/intro
 
+---
 
 ## License
 
