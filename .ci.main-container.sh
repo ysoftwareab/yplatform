@@ -1,1 +1,1 @@
-.ci.deploy-container-minimal.sh
+.ci.deploy-minimal.sh
