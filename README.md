@@ -2,19 +2,26 @@
 
 `support-firecloud` is software and configuration that supports various cycles of software development, through a canonical set of commands.
 
+This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
+
+---
+
 `git clone` this repository and you will gain access to:
   * **a bootstrap process of a developer machine based around GNU and Homebrew**
     * <a name="cross-platform"></a> cross-platform. No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (Linux). **Everything works the same everywhere!**
-      * ![](https://static.wikia.nocookie.net/logopedia/images/f/f5/ProductPageIcon_gen.png/revision/latest/scale-to-width-down/1000?cb=20200622204732 =20x20) MacOS
-      * ![](https://static.wikia.nocookie.net/logopedia/images/8/85/Debian.svg/revision/latest/scale-to-width-down/109?cb=20201230122049 =20x20) Linux (Debian)
-      * ![](https://alpinelinux.org/alpinelinux-logo.svg =20x20) Linux (Alpine)
-      * ![](https://static.wikia.nocookie.net/logopedia/images/0/05/Windows_10_Logo.svg/revision/latest/scale-to-width-down/475?cb=20200722093432 =20x20) Windows (WSL)
+      * Apple MacOS
+      * Linux (Alpine)
+      * Linux (Debian)
+      * Linux (Ubuntu)
+      * Microsoft Windows (WSL)
       * [potentially more if you request/contribute it](https://github.com/rokmoln/support-firecloud/issues/new/choose)
     * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked. No more worries about different flags, different behaviour or missing features!
     * brings [Homebrew](https://brew.sh). No more worries about different versions available in distros' repositositories, or libraries/utilities not being available at all.
   * **sane per-user configuration** (e.g. git)
   * **various utility scripts**, most of them written in pure bash making them easy to read through, easy to run
   * **documentation of common tasks** like bootstrapping, create github repositories, managing secrets, etc
+
+---
 
 Import this repository as a `submodule`, and you will gain access to:
   * **a bootstrap process of a CI machine based around GNU and Homebrew**
@@ -44,8 +51,6 @@ Import this repository as a `submodule`, and you will gain access to:
   * **sane per-repo configuration** (e.g. vscode)
   * **various utility scripts**
   * **a robust yet flexible AWS CloudFormation build system based on GNU Make**
-
-This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
 
 ---
 
