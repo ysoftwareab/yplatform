@@ -1,0 +1,1 @@
+.ci.deploy-minimal.sh
