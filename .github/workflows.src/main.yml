@@ -57,6 +57,7 @@ aliases:
       git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
       if [[ "${{ github.event_name }}" = "pull_request" ]]; then
         git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+        GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
         GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
       fi
       if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
