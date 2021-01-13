@@ -1,5 +1,5 @@
 [bootstrap]
 indent_size = 4
 
-[bootstrap-sudo]
+[bootstrap-sudo-*]
 indent_size = 4
