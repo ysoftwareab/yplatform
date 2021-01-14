@@ -3,12 +3,21 @@ set -euo pipefail
 
 echo_do "brew: Installing Docker packages..."
 
-case ${OS_SHORT} in
-    darwin)
+# shellcheck disable=SC1091
+case ${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) in
+    darwin-*|linux-alpine)
         brew_install_one_if docker "docker --version | head -1" "^Docker version \(19\|20\)\."
         brew_install_one_if docker-compose "docker-compose --version | head -1" "^docker-compose version 1\."
         ;;
-    linux)
+    # linux-alpine)
+    #     # https://wiki.alpinelinux.org/wiki/Docker#Installation
+    #     apk_install_one docker
+    #     apk_install_one docker-compose
+    #     addgroup $(whoami) docker
+    #     rc-update add docker boot
+    #     service docker start
+    #     ;;
+    linux-debian|linux-ubuntu)
         # docker-compose via linuxbrew will throw 'Illegal instruction' for e.g. 'docker-compose --version'
         # brew_install_one docker
         # brew_install_one docker-compose
@@ -55,7 +64,8 @@ case ${OS_SHORT} in
         exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version 1\."
         ;;
     *)
-        echo_err "${OS_SHORT} is an unsupported OS for installing Docker."
+        # shellcheck disable=SC1091
+        echo_err "${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) is an unsupported OS for installing Docker."
         return 1
         ;;
 esac

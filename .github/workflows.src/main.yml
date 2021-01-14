@@ -222,6 +222,7 @@ jobs:
       fail-fast: false
       matrix:
         container: &deploy-matrix-container
+          - sf-alpine-3.11.7
           - sf-debian-9
           - sf-debian-10
           - sf-ubuntu-16.04
