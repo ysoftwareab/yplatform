@@ -11,3 +11,6 @@
 # artifacts
 /sf-ci-echo-benchmark
 /some-job-artifact.md
+
+# robot
+/robot/*.run
