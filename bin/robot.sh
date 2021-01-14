@@ -74,7 +74,7 @@ POS_O=$(echo "${POSITION}" | cut -d" " -f3)
 [[ "${POS_X}" =~ ^[0-9]+$ ]] || { echo_err "Position x ${POS_X} is not a positive integer."; exit 1; }
 [[ "${POS_Y}" =~ ^[0-9]+$ ]] || { echo_err "Position y ${POS_Y} is not a positive integer."; exit 1; }
 [[ "${POS_O}" =~ ^[NESW]$ ]] || { echo_err "Orientation ${POS_O} is not a NESW."; exit 1; }
-[[ "${NAVIGATION}" =~ ^[LRF]$ ]] || { echo_err "Navigation ${NAVIGATION} is not a sequence of LRF."; exit 1; }
+[[ "${NAVIGATION}" =~ ^[LRF]+$ ]] || { echo_err "Navigation ${NAVIGATION} is not a sequence of LRF."; exit 1; }
 
 [[ "${POS_X}" -lt "${ROOM_WIDTH}" ]] || { echo_err "Position x ${POS_X} is larger than room width ${ROOM_WIDTH}."; exit 1; }
 [[ "${POS_Y}" -lt "${ROOM_DEPTH}" ]] || { echo_err "Position y ${POS_Y} is larger than room depth ${ROOM_DEPTH}."; exit 1; }
