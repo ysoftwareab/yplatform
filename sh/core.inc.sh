@@ -47,8 +47,8 @@ else
 fi
 
 ARCH=$(uname -m)
-ARCH_BIT=$(uname -m | grep -q "x86_64" && echo "64" || echo "32")
-ARCH_SHORT=$(uname -m | grep -q "x86_64" && echo "x64" || echo "x86")
+ARCH_BIT=$(echo "${ARCH}" | grep -q "x86_64" && echo "64" || echo "32")
+ARCH_SHORT=$(echo "${ARCH}" | grep -q "x86_64" && echo "x64" || echo "x86")
 OS=$(uname | tr "[:upper:]" "[:lower:]")
 OS_SHORT=$(echo "${OS}" | sed "s/^\([a-z]\+\).*/\1/g")
 
