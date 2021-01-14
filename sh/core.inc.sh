@@ -50,7 +50,7 @@ ARCH=$(uname -m)
 ARCH_BIT=$(echo "${ARCH}" | grep -q "x86_64" && echo "64" || echo "32")
 ARCH_SHORT=$(echo "${ARCH}" | grep -q "x86_64" && echo "x64" || echo "x86")
 OS=$(uname | tr "[:upper:]" "[:lower:]")
-OS_SHORT=$(echo "${OS}" | sed "s/^\([a-z]\+\).*/\1/g")
+OS_SHORT=$(echo "${OS}" | sed "s/^\([[:alpha:]]\{1,\}\).*/\1/g")
 
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
 GIT_BRANCH_SHORT=$(basename "${GIT_BRANCH}" 2>/dev/null || true)
