@@ -128,4 +128,4 @@ while [[ -n "${NAVIGATION}" ]]; do
 done
 
 POS_O=$(echo "${ORIENTATION}" | grep "${POS_O}$" | head -c 1)
-echo "${POS_X} ${POS_Y} ${POS_O}"
+echo "Report: ${POS_X} ${POS_Y} ${POS_O}"
