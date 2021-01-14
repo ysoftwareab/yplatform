@@ -3,8 +3,7 @@ set -euo pipefail
 
 echo_do "brew: Installing Docker packages..."
 
-# shellcheck disable=SC1091
-case ${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) in
+case ${OS_SHORT}-${OS_RELEASE_ID} in
     darwin-*|linux-alpine)
         brew_install_one_if docker "docker --version | head -1" "^Docker version \(19\|20\)\."
         brew_install_one_if docker-compose "docker-compose --version | head -1" "^docker-compose version 1\."
@@ -22,11 +21,6 @@ case ${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) in
         # brew_install_one docker
         # brew_install_one docker-compose
 
-        # shellcheck disable=SC1091
-        RELEASE_ID="$(source /etc/os-release && echo ${ID})"
-        # shellcheck disable=SC1091
-        # RELEASE_VERSION_ID="$(source /etc/os-release && echo ${VERSION_ID})"
-
         # BEGIN https://docs.docker.com/engine/install/ubuntu/
         for PKG in docker docker-engine docker.io containerd runc; do
             ${SF_SUDO} apt-get remove ${PKG} || true;
@@ -39,10 +33,10 @@ case ${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) in
         apt_install_one gnupg-agent
         apt_install_one software-properties-common
 
-        curl -fqsSL https://download.docker.com/linux/${RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
+        curl -fqsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
         ${SF_SUDO} apt-key fingerprint 0EBFCD88
         ${SF_SUDO} add-apt-repository -u \
-            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${RELEASE_ID} $(lsb_release -cs) stable"
+            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} $(lsb_release -cs) stable"
 
         apt_install_one docker-ce
         apt_install_one docker-ce-cli
@@ -57,15 +51,11 @@ case ${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) in
         unset DOCKER_COMPOSE_LATEST_URL
         # END https://docs.docker.com/compose/install/
 
-        unset RELEASE_ID
-        unset RELEASE_VERSION_ID
-
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
         exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version 1\."
         ;;
     *)
-        # shellcheck disable=SC1091
-        echo_err "${OS_SHORT}-$(source /etc/os-release && echo ${ID} || echo true) is an unsupported OS for installing Docker."
+        echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing Docker."
         return 1
         ;;
 esac
