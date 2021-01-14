@@ -1,6 +1,6 @@
 ARCH = $(shell $(UNAME) -m)
-ARCH_SHORT = $(shell $(UNAME) -m | grep -q "x86_64" && echo "x64" || echo "x86")
-ARCH_BIT = $(shell $(UNAME) -m | grep -q "x86_64" && echo "64" || echo "32")
+ARCH_SHORT = $(shell $(ECHO) $(ARCH) | grep -q "x86_64" && echo "x64" || echo "x86")
+ARCH_BIT = $(shell $(ECHO) $(ARCH) | grep -q "x86_64" && echo "64" || echo "32")
 $(foreach VAR,ARCH ARCH_SHORT ARCH_BIT,$(call make-lazy,$(VAR)))
 
 OS = $(shell $(UNAME) | $(TR) "[:upper:]" "[:lower:]")
