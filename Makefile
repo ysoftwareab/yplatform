@@ -183,7 +183,15 @@ Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
 	$(call sf-generate-from-template-patched,Formula/$*.linux.patch)
 
 
-.PHONY: robot/%.out
-robot/%.out: robot/%.in
-	cat $< | bin/robot.sh > $@
-	diff -u $@ $@.expected
+.PHONY: robot/%
+robot/%: robot/%.in
+	$(ECHO_DO) "Running $< ..."
+	cat $< | bin/robot.sh | $(TEE) $@
+	$(ECHO_INFO) "Checking if reporting fulfills expectations..."
+	diff -u $@ $@.out
+	$(ECHO_DONE)
+
+
+.PHONY: robot
+robot: $(patsubst %.in,%.out,$(wildcard robot/*.in))
+	:
