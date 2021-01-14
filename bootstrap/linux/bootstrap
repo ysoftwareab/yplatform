@@ -4,8 +4,7 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-# shellcheck disable=SC1091
-${SUPPORT_FIRECLOUD_DIR}/bootstrap/linux/bootstrap-sudo-$(source /etc/os-release && echo ${ID})
+${SUPPORT_FIRECLOUD_DIR}/bootstrap/linux/bootstrap-sudo-${OS_RELEASE_ID}
 [[ "${SF_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
 [[ "${CI:-}" != "true" ]] || {
