@@ -60,6 +60,23 @@ TODO
 
 ---
 
+## Structure
+
+* `/bin` has executable scripts, mostly shell
+* `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
+*
+* `/bootstrap` has scripts that help bootstrap a machine
+* `/dev` has scripts that help bootstrap a developer machine
+* `/dockerfiles` has bootstrapped Dockerfiles
+*
+* `/ci` has scripts that help steer the CI pipelines
+*
+* `/gitconfig` has git configuration
+*
+* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
+
+---
+
 ## Documentation
 
 * newcomer
@@ -77,30 +94,13 @@ TODO
     * [SASS](https://github.com/rokmoln/sass-lint-config-firecloud)
 * set up a new `git` repository
   * [new `git` (and Github) repositories](doc/working-with-git-new.md)
-  * [how to license ](doc/how-to-license.md)
+  * [how to license](doc/how-to-license.md)
   * [integrate Travis CI](doc/integrate-travis-ci.md)
   * [.ci.sh](ci/README.md)
   * [how to manage secrets](doc/how-to-manage-secrets.md)
 * Amazon Web Services
   * [CloudFormation](aws-cfn.mk/README.md)
   * [Identity Access Management](doc/aws-iam.md)
-
----
-
-## Structure
-
-* `/bin` has executable shell scripts
-* `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
-*
-* `/bootstrap` has scripts that help bootstrap a machine
-* `/dev` has scripts that help bootstrap a developer machine
-* `/dockerfiles` has bootstrapped Dockerfiles
-*
-* `/ci` has scripts that help steer the CI pipelines
-*
-* `/gitconfig` has git configuration
-*
-* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
 
 ---
 
