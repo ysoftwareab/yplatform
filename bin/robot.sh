@@ -102,16 +102,32 @@ while [[ -n "${NAVIGATION}" ]]; do
         F)
             case "${POS_O}" in
                 0) # N
-                    [[ "${POS_Y}" = "0" ]] || POS_Y="$(( POS_Y - 1 ))"
+                    if [[ "${POS_Y}" = "0" ]]; then
+                        echo_warn "Hit the wall!"
+                    else
+                        POS_Y="$(( POS_Y - 1 ))"
+                    fi
                     ;;
                 1) # E
-                    [[ "${POS_X}" = "${MAX_POS_X}" ]] || POS_X="$(( POS_X + 1 ))"
+                    if [[ "${POS_X}" = "${MAX_POS_X}" ]]; then
+                        echo_warn "Hit the wall!"
+                    else
+                        POS_X="$(( POS_X + 1 ))"
+                    fi
                     ;;
                 2) # S
-                    [[ "${POS_Y}" = "${MAX_POS_Y}" ]] || POS_Y="$(( POS_Y + 1 ))"
+                    if [[ "${POS_Y}" = "${MAX_POS_Y}" ]]; then
+                        echo_warn "Hit the wall!"
+                    else
+                        POS_Y="$(( POS_Y + 1 ))"
+                    fi
                     ;;
                 3) # W
-                    [[ "${POS_X}" = "0" ]] || POS_X="$(( POS_X - 1 ))"
+                    if [[ "${POS_X}" = "0" ]]; then
+                        echo_warn "Hit the wall!"
+                    else
+                        POS_X="$(( POS_X - 1 ))"
+                    fi
                     ;;
                 *)
                     echo_err "Unknown orientation ${POS_O}."
