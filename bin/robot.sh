@@ -16,132 +16,132 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-ROOM_SIZE=
-POSITION=
-NAVIGATION=
+function main() {
+    ROOM_SIZE=
+    POSITION=
+    NAVIGATION=
 
-while [[ $# -gt 0 ]]; do
-    case "$1" in
-        --room-size)
-            ROOM_SIZE=$2
-            shift 2
-            ;;
-        --position)
-            POSITION=$2
-            shift 2
-            ;;
-        --navigation)
-            NAVIGATION=$2
-            shift 2
-            ;;
-        -h|--help)
-            sh_script_usage
-            ;;
-        -v|--version)
-            sh_script_version
-            ;;
-        -* )
-            sh_script_usage
-            ;;
-        *)
-            break
-            ;;
-    esac
-done
+    while [[ $# -gt 0 ]]; do
+        case "$1" in
+            --room-size)
+                ROOM_SIZE=$2
+                shift 2
+                ;;
+            --position)
+                POSITION=$2
+                shift 2
+                ;;
+            --navigation)
+                NAVIGATION=$2
+                shift 2
+                ;;
+            -h|--help)
+                sh_script_usage
+                ;;
+            -v|--version)
+                sh_script_version
+                ;;
+            -* )
+                sh_script_usage
+                ;;
+            *)
+                break
+                ;;
+        esac
+    done
 
-[[ -n "${ROOM_SIZE}" ]] || read -r -p "--room-size " ROOM_SIZE
-[[ -n "${POSITION}" ]] || read -r -p "--position " POSITION
-[[ -n "${NAVIGATION}" ]] || read -r -p "--navigation " NAVIGATION
+    # parse input
+    [[ -n "${ROOM_SIZE}" ]] || read -r -p "--room-size " ROOM_SIZE
+    ROOM_WIDTH=$(echo "${ROOM_SIZE}" | cut -d" " -f1)
+    ROOM_DEPTH=$(echo "${ROOM_SIZE}" | cut -d" " -f2)
+    [[ "${ROOM_WIDTH}" =~ ^[0-9]+$ ]] || { echo_err "Room width ${ROOM_WIDTH} is not a positive integer."; exit 1; }
+    [[ "${ROOM_DEPTH}" =~ ^[0-9]+$ ]] || { echo_err "Room depth ${ROOM_DEPTH} is not a positive integer."; exit 1; }
+    MAX_POS_X="$(( ROOM_WIDTH - 1 ))"
+    MAX_POS_Y="$(( ROOM_DEPTH - 1 ))"
 
-# parse input
-ORIENTATION=$(cat <<EOF
+    [[ -n "${POSITION}" ]] || read -r -p "--position " POSITION
+    POS_X=$(echo "${POSITION}" | cut -d" " -f1)
+    POS_Y=$(echo "${POSITION}" | cut -d" " -f2)
+    POS_O=$(echo "${POSITION}" | cut -d" " -f3)
+    [[ "${POS_X}" =~ ^[0-9]+$ ]] || { echo_err "Position x ${POS_X} is not a positive integer."; exit 1; }
+    [[ "${POS_Y}" =~ ^[0-9]+$ ]] || { echo_err "Position y ${POS_Y} is not a positive integer."; exit 1; }
+    [[ "${POS_X}" -lt "${ROOM_WIDTH}" ]] || { echo_err "Position x ${POS_X} is larger than room width ${ROOM_WIDTH}."; exit 1; }
+    [[ "${POS_Y}" -lt "${ROOM_DEPTH}" ]] || { echo_err "Position y ${POS_Y} is larger than room depth ${ROOM_DEPTH}."; exit 1; }
+    [[ "${POS_O}" =~ ^[NESW]$ ]] || { echo_err "Orientation ${POS_O} is not a NESW."; exit 1; }
+    ORIENTATION=$(cat <<EOF
 N0
 E1
 S2
 W3
 EOF
-)
-ROOM_WIDTH=$(echo "${ROOM_SIZE}" | cut -d" " -f1)
-ROOM_DEPTH=$(echo "${ROOM_SIZE}" | cut -d" " -f2)
+    )
+    # NOTE converting to index for bit manipulation
+    POS_O=$(echo "${ORIENTATION}" | grep "^${POS_O}" | head -c 2 | tail -c 1)
 
-POS_X=$(echo "${POSITION}" | cut -d" " -f1)
-POS_Y=$(echo "${POSITION}" | cut -d" " -f2)
-POS_O=$(echo "${POSITION}" | cut -d" " -f3)
+    [[ -n "${NAVIGATION}" ]] || read -r -p "--navigation " NAVIGATION
+    [[ "${NAVIGATION}" =~ ^[LRF]+$ ]] || { echo_err "Navigation ${NAVIGATION} is not a sequence of LRF."; exit 1; }
 
-# assert input
-[[ "${ROOM_WIDTH}" =~ ^[0-9]+$ ]] || { echo_err "Room width ${ROOM_WIDTH} is not a positive integer."; exit 1; }
-[[ "${ROOM_DEPTH}" =~ ^[0-9]+$ ]] || { echo_err "Room depth ${ROOM_DEPTH} is not a positive integer."; exit 1; }
-[[ "${POS_X}" =~ ^[0-9]+$ ]] || { echo_err "Position x ${POS_X} is not a positive integer."; exit 1; }
-[[ "${POS_Y}" =~ ^[0-9]+$ ]] || { echo_err "Position y ${POS_Y} is not a positive integer."; exit 1; }
-[[ "${POS_O}" =~ ^[NESW]$ ]] || { echo_err "Orientation ${POS_O} is not a NESW."; exit 1; }
-[[ "${NAVIGATION}" =~ ^[LRF]+$ ]] || { echo_err "Navigation ${NAVIGATION} is not a sequence of LRF."; exit 1; }
+    # main
+    echo_info "_ -> ${POS_X} ${POS_Y} ${POS_O}" # debug
 
-[[ "${POS_X}" -lt "${ROOM_WIDTH}" ]] || { echo_err "Position x ${POS_X} is larger than room width ${ROOM_WIDTH}."; exit 1; }
-[[ "${POS_Y}" -lt "${ROOM_DEPTH}" ]] || { echo_err "Position y ${POS_Y} is larger than room depth ${ROOM_DEPTH}."; exit 1; }
+    while [[ -n "${NAVIGATION}" ]]; do
+        COMMAND="${NAVIGATION:0:1}"
+        NAVIGATION="${NAVIGATION:1}"
+        case "${COMMAND}" in
+            L)
+                POS_O="$(( POS_O - 1 ))"
+                [[ "${POS_O}" != "-1" ]] || POS_O=3
+                ;;
+            R)
+                POS_O="$(( POS_O + 1 ))"
+                [[ "${POS_O}" != "4" ]] || POS_O=0
+                ;;
+            F)
+                case "${POS_O}" in
+                    0) # N
+                        if [[ "${POS_Y}" = "0" ]]; then
+                            echo_warn "Hit the wall!"
+                        else
+                            POS_Y="$(( POS_Y - 1 ))"
+                        fi
+                        ;;
+                    1) # E
+                        if [[ "${POS_X}" = "${MAX_POS_X}" ]]; then
+                            echo_warn "Hit the wall!"
+                        else
+                            POS_X="$(( POS_X + 1 ))"
+                        fi
+                        ;;
+                    2) # S
+                        if [[ "${POS_Y}" = "${MAX_POS_Y}" ]]; then
+                            echo_warn "Hit the wall!"
+                        else
+                            POS_Y="$(( POS_Y + 1 ))"
+                        fi
+                        ;;
+                    3) # W
+                        if [[ "${POS_X}" = "0" ]]; then
+                            echo_warn "Hit the wall!"
+                        else
+                            POS_X="$(( POS_X - 1 ))"
+                        fi
+                        ;;
+                    *)
+                        echo_err "Unknown orientation ${POS_O}."
+                        exit 1
+                        ;;
+                esac
+                ;;
+            *)
+                echo_err "Unknown command ${COMMAND}."
+                exit 1
+                ;;
+        esac
+        echo_info "${COMMAND} -> ${POS_X} ${POS_Y} ${POS_O}" # debug
+    done
 
-# main
-MAX_POS_X="$(( ROOM_WIDTH - 1 ))"
-MAX_POS_Y="$(( ROOM_DEPTH - 1 ))"
-# NOTE converting to index for bit manipulation
-POS_O=$(echo "${ORIENTATION}" | grep "^${POS_O}" | head -c 2 | tail -c 1)
+    POS_O=$(echo "${ORIENTATION}" | grep "${POS_O}$" | head -c 1)
+    echo "Report: ${POS_X} ${POS_Y} ${POS_O}"
+}
 
-echo_info "_ -> ${POS_X} ${POS_Y} ${POS_O}" # debug
-
-while [[ -n "${NAVIGATION}" ]]; do
-    COMMAND="${NAVIGATION:0:1}"
-    NAVIGATION="${NAVIGATION:1}"
-    case "${COMMAND}" in
-        L)
-            POS_O="$(( POS_O - 1 ))"
-            [[ "${POS_O}" != "-1" ]] || POS_O=3
-            ;;
-        R)
-            POS_O="$(( POS_O + 1 ))"
-            [[ "${POS_O}" != "4" ]] || POS_O=0
-            ;;
-        F)
-            case "${POS_O}" in
-                0) # N
-                    if [[ "${POS_Y}" = "0" ]]; then
-                        echo_warn "Hit the wall!"
-                    else
-                        POS_Y="$(( POS_Y - 1 ))"
-                    fi
-                    ;;
-                1) # E
-                    if [[ "${POS_X}" = "${MAX_POS_X}" ]]; then
-                        echo_warn "Hit the wall!"
-                    else
-                        POS_X="$(( POS_X + 1 ))"
-                    fi
-                    ;;
-                2) # S
-                    if [[ "${POS_Y}" = "${MAX_POS_Y}" ]]; then
-                        echo_warn "Hit the wall!"
-                    else
-                        POS_Y="$(( POS_Y + 1 ))"
-                    fi
-                    ;;
-                3) # W
-                    if [[ "${POS_X}" = "0" ]]; then
-                        echo_warn "Hit the wall!"
-                    else
-                        POS_X="$(( POS_X - 1 ))"
-                    fi
-                    ;;
-                *)
-                    echo_err "Unknown orientation ${POS_O}."
-                    exit 1
-                    ;;
-            esac
-            ;;
-        *)
-            echo_err "Unknown command ${COMMAND}."
-            exit 1
-            ;;
-    esac
-    echo_info "${COMMAND} -> ${POS_X} ${POS_Y} ${POS_O}" # debug
-done
-
-POS_O=$(echo "${ORIENTATION}" | grep "${POS_O}$" | head -c 1)
-echo "Report: ${POS_X} ${POS_Y} ${POS_O}"
+[[ "${BASH_SOURCE[0]}" != "${0}" ]] || main "$@"
