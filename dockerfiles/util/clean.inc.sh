@@ -25,9 +25,10 @@ function git_dir_clean() {
     git reset -- BUILD VERSION
 )
 
-apt-get clean
-dir_clean /var/lib/apt/lists/* # aptitude cache
-dir_clean /home/${UNAME}/.cache/* # linuxbrew cache
+apt-get clean || true # aptitude cache
+dir_clean /var/lib/apt/lists/* || true # aptitude cache
+dir_clean /var/cache/apk/* || true # apk cache
+dir_clean /home/${UNAME}/.cache/* || true # linuxbrew cache
 
 git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
 chown -R ${UNAME}:${GNAME} /home/linuxbrew/.linuxbrew/Homebrew

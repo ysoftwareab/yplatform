@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+if [[ "${EUID}" != "0" ]]; then
+    # Restart this shell script as root.
+    ${SF_SUDO} ${BASH_SOURCE[0]}
+    exit 0
+fi
+
+function apk_update() {
+    echo_do "apk: Updating..."
+    apk update
+    echo_done
+}
+
+function apk_install_one() {
+    local PKG="$*"
+    echo_do "apk: Installing ${PKG}..."
+    apk add --no-cache "${PKG}"
+    echo_done
+}
+
+echo_do "Setup apk..."
+apk_update
+
+apk_install_one ca-certificates
+apk_install_one gnupg
+
+apk_install_one git
+apk_install_one openssl
+apk_install_one openssh-client
+apk_install_one sudo
+echo_done
+
+# Basic
+echo_do "apk: Installing basic packages..."
+apk_install_one alpine-sdk
+apk_install_one coreutils
+apk_install_one util-linux
+
+apk_install_one bash
+apk_install_one curl
+apk_install_one file
+apk_install_one python3
+
+# NOTE homebrew alpine deps as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
+for f in bash coreutils curl file g++ grep git libc6-compat make ruby \
+    ruby-bigdecimal ruby-etc ruby-fiddle ruby-irb ruby-json ruby-test-unit sudo; do
+    apk_install_one ${f}
+done
+
+# NOTE install glibc as required by homebrew, it also sets up locales
+(
+    apk del libc6-compat
+
+    cd $(mktemp -d)
+    curl -fqsS -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
+    GLIBC_VSN=2.32-r0
+    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-${GLIBC_VSN}.apk
+    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-bin-${GLIBC_VSN}.apk
+    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-i18n-${GLIBC_VSN}.apk
+    apk add glibc-${GLIBC_VSN}.apk glibc-bin-${GLIBC_VSN}.apk glibc-i18n-${GLIBC_VSN}.apk
+    rm glibc-${GLIBC_VSN}.apk glibc-bin-${GLIBC_VSN}.apk glibc-i18n-${GLIBC_VSN}.apk
+
+    sed -i "s|/usr/bin/bash|/bin/bash|g" /usr/glibc-compat/bin/*
+    /usr/glibc-compat/bin/localedef -i en_US -f UTF-8 en_US.UTF-8
+    echo "export LANG=en_US.UTF-8" >/etc/profile.d/locale.sh
+)
+
+# NOTE fixes for 'brew install perl'
+apk_install_one expat
+apk_install_one expat-dev
+ln -s /usr/include/locale.h /usr/include/xlocale.h
+
+# scripts tend to call /usr/bin/pyhon to intend calling python2 or python3, whichever is available
+[[ -e /usr/bin/python ]] || ln -s /usr/bin/python3 /usr/bin/python
+
+echo_do "apk: Listing packages..."
+apk list --installed
+echo_done
