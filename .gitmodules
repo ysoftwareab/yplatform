@@ -2,3 +2,12 @@
 	path = build.mk/core.inc.mk
 	url = git://github.com/andreineculau/core.inc.mk.git
 	branch = master
+[submodule "vendor/bats"]
+	path = vendor/bats
+	url = git://github.com/sstephenson/bats.git
+[submodule "vendor/bats-assert"]
+	path = vendor/bats-assert
+	url = git://github.com/ztombol/bats-assert.git
+[submodule "vendor/bats-support"]
+	path = vendor/bats-support
+	url = git://github.com/ztombol/bats-support.git
