@@ -1,0 +1,38 @@
+support-firecloud v0.2.106 Release Notes
+
+Highlights since v0.2.105:
+
+* None
+
+Breaking commits since v0.2.105:
+
+* None
+
+Commits since v0.2.105:
+
+* e0b2f1d3 2021-01-15 editorial
+* e616ae43 2021-01-15 fixup! allow CI_ECHO_BENCHMARK as global env var
+* 00892772 2021-01-14 use new OS_RELEASE_* variables
+*   140e445a 2021-01-15 Merge branch 'alpine'
+|\
+| * 917e85e4 2021-01-14 dockerfile: add alpine
+|/
+* 0b162379 2021-01-14 add fixme for arch_short
+* c320e810 2021-01-14 updated build.mk/core.inc.mk
+* f61fe484 2021-01-14 add more OS variables to core.inc.sh
+* b8caeb7a 2021-01-14 sync OS_SHORT with build.mk/core.inc.mk/os.inc.mk
+* b99d114e 2021-01-14 less calls to uname
+* 580d6e70 2021-01-14 fixup! deploy should depend on main-container. naming
+* 469c15fa 2021-01-14 fixup! deploy should depend on main-container. naming
+* e315a46e 2021-01-13 fixup! stop using actions/checkout. needs node, linked glibc, etc
+* 3e92dca6 2021-01-13 fixup! pimp README. ref #224
+* 62c4b7e7 2021-01-13 pimp README. ref #224
+* 74646b7f 2021-01-13 linux/bootstrap-sudo: handle different distros
+* 6e0f79c0 2021-01-13 dockerfiles: handle no sudo group
+* eb5275f8 2021-01-13 dockerfiles: move build script to common util folder
+* 5c240b29 2021-01-12 move dockerfiles/sf-ubuntu to dockerfiles/sf-debian
+* 5ac785ff 2021-01-12 upgrade openssl needs noninteractive, or else it hangs
+* 06bf52e7 2021-01-12 fixup! deploy should depend on main-container. naming
+* 2476dd72 2021-01-12 fixup! deploy should depend on main-container. naming
+* c4b8e3ed 2021-01-12 deploy should depend on main-container. naming
+o 51465f1c 2021-01-12 0.2.105
