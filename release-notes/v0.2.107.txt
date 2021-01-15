@@ -1,0 +1,15 @@
+support-firecloud v0.2.107 Release Notes
+
+Highlights since v0.2.106:
+
+* None
+
+Breaking commits since v0.2.106:
+
+* None
+
+Commits since v0.2.106:
+
+* 0fbbb402 2021-01-15 fixup! deploy should depend on main-container. naming
+* 39e05bfc 2021-01-15 Revert "fixup! deploy should depend on main-container. naming"
+o 2986b064 2021-01-15 0.2.106
