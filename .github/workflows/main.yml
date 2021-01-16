@@ -272,7 +272,7 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
@@ -359,7 +359,7 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
