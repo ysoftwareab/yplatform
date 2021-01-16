@@ -71,7 +71,7 @@ PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
 
 if [[ -z "${RANGE_FROM}" ]]; then
     PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ | \
-    xargs -L1 git tag -l --points-at | \
+    xargs -r -L1 git tag -l --points-at | \
     { grep -e "${VERSION_PATTERN}" || true; } |
     sort -V |
     tac)"

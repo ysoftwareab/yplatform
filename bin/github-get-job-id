@@ -17,4 +17,4 @@ curl \
     -H "Authorization: token ${SF_GH_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
-    xargs -L1 basename
+    xargs -r -L1 basename
