@@ -53,8 +53,8 @@ function bootstrap_brew() {
     local HAS_BREW_2=true
     bootstrap_has_brew || HAS_BREW_2=false
 
-    case ${HAS_BREW_2}-$(uname -s) in
-        false-Darwin)
+    case ${HAS_BREW_2}-${OS_SHORT} in
+        false-darwin)
             echo_do "brew: Installing homebrew..."
             (
                 # FIXME needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
@@ -68,7 +68,7 @@ function bootstrap_brew() {
             hash -r
             source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
-        false-Linux)
+        false-linux)
             echo_do "brew: Installing homebrew..."
             if [[ "${SF_SUDO}" = "" ]] || [[ "${SF_SUDO}" = "sf_nosudo" ]]; then
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
@@ -91,10 +91,10 @@ function bootstrap_brew() {
             hash -r
             source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
-        true-Darwin|true-Linux)
+        true-darwin|true-linux)
             ;;
         *)
-            echo_err "brew: $(uname -s) is an unsupported OS."
+            echo_err "brew: ${OS_SHORT} is an unsupported OS."
             return 1
             ;;
     esac
