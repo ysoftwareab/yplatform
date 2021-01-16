@@ -95,7 +95,7 @@ function sf_run_docker_ci_image() {
 
 function sf_get_docker_ci_image() {
     [[ -n "${SF_DOCKER_CI_IMAGE:-}" ]] || \
-        SF_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME}-minimal
+        SF_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
     # if given a rokmoln/sf- image, but without a tag,
     # set the tag to the version of SF
     if [[ ${SF_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
