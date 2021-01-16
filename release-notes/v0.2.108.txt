@@ -1,0 +1,16 @@
+support-firecloud v0.2.108 Release Notes
+
+Highlights since v0.2.107:
+
+* None
+
+Breaking commits since v0.2.107:
+
+* None
+
+Commits since v0.2.107:
+
+* 166af1a4 2021-01-16 no VERSION_CODENAME is some distro's (e.g. alpine) /etc/os-release. should switch away from codename in the future
+* aa16e9b7 2021-01-16 fixup! refactor codeship. also fix bionic to actually use ubuntu:18.04 not 16.04
+* 2fc62bac 2021-01-16 whitespace
+o d02f1134 2021-01-15 0.2.107
