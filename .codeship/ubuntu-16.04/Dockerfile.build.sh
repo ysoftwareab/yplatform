@@ -16,10 +16,12 @@ GIT_USER_NAME="Codeship"
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/apt.inc.sh
 [[ -f /support-firecloud.bootstrapped ]] || {
     apt_update
+
     apt_install_one apt-transport-https
     apt_install_one ca-certificates
     apt_install_one software-properties-common
     apt_install_one gnupg-agent
+
     apt_install_one git
     apt_install_one openssl
     apt_install_one ssh-client
