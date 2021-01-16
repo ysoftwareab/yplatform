@@ -1,1 +1,1 @@
-../ubuntu-xenial/Dockerfile.build.sh
+../ubuntu-16.04/Dockerfile.build.sh
