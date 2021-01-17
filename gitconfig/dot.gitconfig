@@ -98,6 +98,8 @@
     detachedHead        = false
 [gc]
     auto                = 0
+[init]
+    defaultBranch       = master
 [log]
     date                = iso
     follow              = true
