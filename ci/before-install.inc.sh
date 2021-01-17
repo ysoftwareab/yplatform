@@ -107,8 +107,8 @@ function sf_github() {
         export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN}
     fi
 
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_GH_TOKEN=${SF_GH_TOKEN}" >> ${GITHUB_ENV}
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY}" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_GH_TOKEN=${SF_GH_TOKEN}" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY}" >> ${GITHUB_ENV}
 
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
         sf_github_https_insteadof_all
@@ -155,14 +155,14 @@ function sf_transcrypt() {
         -p "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}"
 
     unset SF_TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
     unset TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
 
     unset SF_TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
     unset TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
 
     echo_done
 }
