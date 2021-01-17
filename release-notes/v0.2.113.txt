@@ -1,0 +1,15 @@
+support-firecloud v0.2.113 Release Notes
+
+Highlights since v0.2.112:
+
+* None
+
+Breaking commits since v0.2.112:
+
+* None
+
+Commits since v0.2.112:
+
+* e7f49015 2021-01-17 fixup! lower size of docker images
+* e165ba9b 2021-01-17 fixup! refactor codeship. also fix bionic to actually use ubuntu:18.04 not 16.04
+o 9744fc84 2021-01-17 0.2.112
