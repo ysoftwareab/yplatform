@@ -1,0 +1,16 @@
+support-firecloud v0.2.111 Release Notes
+
+Highlights since v0.2.110:
+
+* None
+
+Breaking commits since v0.2.110:
+
+* None
+
+Commits since v0.2.110:
+
+* b20d9325 2021-01-17 fixup! enable newer git in github actions by actions/checkout
+* a5e4028a 2021-01-17 fix libc6-compat and glibc conflict
+* a1ed2b2b 2021-01-17 lower size of docker images
+o 5648b133 2021-01-17 0.2.110
