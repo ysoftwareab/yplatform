@@ -7,7 +7,7 @@ set -euo pipefail
 if [[ -z "${YAML_EXPAND_PASS:-}" ]]; then
     export YAML_EXPAND_PASS=1
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    npx -q -p js-yaml yaml-expand
+    npx -q -p js-yaml@4 yaml-expand
     exit 0
 fi
 
@@ -20,12 +20,12 @@ export NODE_PATH=${NPX_PATH}/lib/node_modules:${NODE_PATH:-}
 SCRIPT="$(cat <<EOF
 let fs = require('fs');
 let yml = require('js-yaml');
-let data = yml.safeLoad(fs.readFileSync('/dev/stdin'));
-data = yml.safeLoad(yml.safeDump(data, {
+let data = yml.load(fs.readFileSync('/dev/stdin'));
+data = yml.load(yml.dump(data, {
   noRefs: true
 }));
 delete data.aliases;
-let expandedData = yml.safeDump(data, {
+let expandedData = yml.dump(data, {
   lineWidth: 120
 });
 console.log(expandedData.replace(/\n+$/, ''));
