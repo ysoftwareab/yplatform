@@ -155,14 +155,14 @@ function sf_transcrypt() {
         -p "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}"
 
     unset SF_TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_CIPHER=" | ${SF_SUDO} tee -a ${GITHUB_ENV}
     unset TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "TRANSCRYPT_CIPHER=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_CIPHER=" | ${SF_SUDO} tee -a ${GITHUB_ENV}
 
     unset SF_TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "SF_TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "SF_TRANSCRYPT_PASSWORD=" | ${SF_SUDO} tee -a ${GITHUB_ENV}
     unset TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || ${SF_SUDO} echo "TRANSCRYPT_PASSWORD=" >> ${GITHUB_ENV}
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || echo "TRANSCRYPT_PASSWORD=" | ${SF_SUDO} tee -a ${GITHUB_ENV}
 
     echo_done
 }
