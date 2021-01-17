@@ -47,15 +47,14 @@ apk_install_one file
 apk_install_one python3
 
 # NOTE homebrew alpine deps as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
-for f in bash coreutils curl file g++ grep git libc6-compat make ruby \
+# NOTE skipping libc6-compat since it conflicts with the glibc installation below
+for f in bash coreutils curl file g++ grep git make ruby \
     ruby-bigdecimal ruby-etc ruby-fiddle ruby-irb ruby-json ruby-test-unit sudo; do
     apk_install_one ${f}
 done
 
 # NOTE install glibc as required by homebrew, it also sets up locales
 (
-    apk del libc6-compat
-
     cd $(mktemp -d)
     curl -fqsS -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
     GLIBC_VSN=2.32-r0
