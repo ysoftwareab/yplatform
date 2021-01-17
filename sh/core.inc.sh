@@ -2,6 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
+# see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
     >&2 echo "Failed during: ${BASH_COMMAND}"
     >&2 echo "Error code: $?"
@@ -31,8 +32,8 @@ VERBOSE="${V}"
 if [[ -n "${VERBOSE}" ]]; then
     set -x
     if [[ "${VERBOSE}" != "true" ]]; then
-        exec 4> >(tee -a "${VERBOSE}" >&2)
-        export BASH_XTRACEFD=4
+        exec {BASH_XTRACEFD}> >(tee -a "${VERBOSE}" >&2)
+        export BASH_XTRACEFD
     fi
 fi
 
