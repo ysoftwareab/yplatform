@@ -22,3 +22,6 @@ make BUILD
 make VERSION
 
 git rev-parse HEAD > /support-firecloud.bootstrapped
+
+# enable newer git in github actions by actions/checkout, or else no history/submodules/etc with REST API checkouts
+ln -s /home/linuxbrew/.linuxbrew/bin/git /usr/local/bin/git
