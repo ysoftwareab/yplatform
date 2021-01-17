@@ -2,21 +2,39 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
+function on_error() {
+    >&2 echo "Failed during: ${BASH_COMMAND}"
+    >&2 echo "Error code: $?"
+    # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
+    for (( i=1; i<${#BASH_LINENO[@]}; i++ )); do
+        >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}]}: ${FUNCNAME:-MAIN}"
+    done
+    >&2 echo "---"
+}
+trap 'on_error' ERR
+set -o errtrace -o functrace
+
 [[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
     export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-CI=${CI:-}
+CI="${CI:-}"
 [[ "${CI}" != "1" ]] || CI=true
 
-V=${V:-${VERBOSE:-}}
-VERBOSE=${V}
+V="${V:-${VERBOSE:-}}"
+VERBOSE="${V}"
 [[ "${VERBOSE}" != "1" ]] || VERBOSE=true
 
 # [[ "${CI}" != "true" ]] || {
 #     # VERBOSE=true
 # }
 
-[[ ${VERBOSE} != true ]] || set -x
+if [[ -n "${VERBOSE}" ]]; then
+    set -x
+    if [[ "${VERBOSE}" != "true" ]]; then
+        exec 4> >(tee -a "${VERBOSE}" >&2)
+        export BASH_XTRACEFD=4
+    fi
+fi
 
 if printenv | grep -q "^SF_SUDO="; then
     # Don't change if already set.
