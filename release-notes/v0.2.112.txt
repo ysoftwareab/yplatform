@@ -1,0 +1,14 @@
+support-firecloud v0.2.112 Release Notes
+
+Highlights since v0.2.111:
+
+* None
+
+Breaking commits since v0.2.111:
+
+* None
+
+Commits since v0.2.111:
+
+* 96b1dcdf 2021-01-17 fixup! dockerfile: add alpine
+o 7f29e7c9 2021-01-17 0.2.111
