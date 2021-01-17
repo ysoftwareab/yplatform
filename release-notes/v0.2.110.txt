@@ -1,0 +1,16 @@
+support-firecloud v0.2.110 Release Notes
+
+Highlights since v0.2.109:
+
+* None
+
+Breaking commits since v0.2.109:
+
+* None
+
+Commits since v0.2.109:
+
+* 06f33c48 2021-01-17 enable newer git in github actions by actions/checkout
+* 97d82deb 2021-01-17 update probot/settings
+* 3d068179 2021-01-17 fix bin/yaml-expand for js-yaml@4
+o 6da6fbb6 2021-01-17 0.2.109
