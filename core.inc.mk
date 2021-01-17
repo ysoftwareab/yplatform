@@ -3,8 +3,8 @@ CORE_INC_MK_DIR = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 endif
 
 SHELL := env MAKEFLAGS= MFLAGS= bash
-# .SHELLFLAGS := -euo pipefail -O globstar -c # BASH v4
-.SHELLFLAGS := -euo pipefail -c
+# .SHELLFLAGS := -euo pipefail -o errtrace -o functrace -O globstar -c # BASH v4
+.SHELLFLAGS := -euo pipefail -o errtrace -o functrace -c
 .DEFAULT_GOAL := all
 .DELETE_ON_ERROR:
 .SECONDARY:
