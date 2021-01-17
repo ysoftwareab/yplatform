@@ -3,6 +3,8 @@
 true
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
+[[ -e ${SUPPORT_FIRECLOUD_DIR}/Makefile ]] || \
+    git submodule update --init --recursive ${SUPPORT_FIRECLOUD_DIR}
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 ## to override an existing phase implementation
