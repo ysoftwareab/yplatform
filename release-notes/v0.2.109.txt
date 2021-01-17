@@ -1,0 +1,19 @@
+support-firecloud v0.2.109 Release Notes
+
+Highlights since v0.2.108:
+
+* None
+
+Breaking commits since v0.2.108:
+
+* None
+
+Commits since v0.2.108:
+
+* 0b86345d 2021-01-17 fixup! better printing for on error. implement bash-debug-to-file. fix #219
+* e3fd14e1 2021-01-17 better printing for on error. implement bash-debug-to-file. fix #219
+* cbb185fa 2021-01-17 xargs: -r is essential
+* 8fa0c06c 2021-01-17 fix GITHUB_JOB_NAME for deploy jobs
+* 793f0cce 2021-01-16 brew: install same formulas as in linuxbrew's alpine dockerfile (blind trust)
+* 36792fb9 2021-01-16 use $OS_SHORT
+o 54f925e0 2021-01-16 0.2.108
