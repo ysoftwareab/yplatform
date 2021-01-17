@@ -3,3 +3,5 @@ _extends: rokmoln/support-firecloud:repo/dot.github/settings.base.yml
 repository:
   name: support-firecloud
   description: Software and configuration that supports various cycles of software development.
+  topics: support, git, macos, linux shell, bootstrap, bash, zsh automation, build, ci, \
+          makefile darwin, configuration, gitconfig util, bsd, build-tool, gnu

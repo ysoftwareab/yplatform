@@ -1,21 +1,68 @@
+# https://github.com/probot/settings
+
 repository:
   # https://docs.github.com/en/rest/reference/repos#edit
+  # name:
+  # description:
+  # homepage:
+  # private:
+  # topics:
   default_branch: master
   license_template: apache-2.0
+
+  # has_issues:
+  # has_projects:
+  # has_wiki:
+  # has_downloads:
+
   allow_squash_merge: false
   allow_merge_commit: true
   allow_rebase_merge: false
-  # NOTE don't enable delete_branch_on_merge because it will actually disable it no matter the value
-  # see https://github.com/probot/settings/issues/134#issuecomment-642441997
-  # delete_branch_on_merge: true
+  delete_branch_on_merge: true
+
+  # enable_automated_security_fixes:
+  # enable_vulnerability_alerts:
+
+labels:
+  - name: bug
+    color: d73a4a
+    description: Something isn't working
+  - name: documentation
+    color: 0075ca
+    description: Improvements or additions to documentation
+  - name: duplicate
+    color: cfd3d7
+    description: This issue or pull request already exists
+  - name: enhancement
+    color: a2eeef
+    description: enhancement
+  - name: good first issue
+    color: 7057ff
+    description: good first issue
+  - name: help wanted
+    color: 008672
+    description: Extra attention is needed
+  - name: invalid
+    color: e4e669
+    description: This doesn't seem right
+  - name: question
+    color: d876e3
+    description: Further information is requested
+  - name: wontfix
+    color: ffffff
+    description: This will not be worked on
+
+# milestones:
+# collaborators:
+# teams:
+
 branches:
   - name: master
     protection:
       # https://docs.github.com/en/rest/reference/repos#update-branch-protection
-      required_status_checks:
-        contexts:
-          - Travis CI - Pull Request
       required_pull_request_reviews:
         dismiss_stale_reviews: true
         # require_code_owner_reviews: true
         required_approving_review_count: 1
+      required_status_checks:
+        contexts: []
