@@ -6,6 +6,7 @@ sfu1604m:
   environment:
     SF_CI_BREW_INSTALL: minimal
     SF_LOG_BOOTSTRAP: true
+  cached: false
 
 # support-firecloud-ubuntu-1604-dev:
 sfu1604d:
@@ -15,6 +16,7 @@ sfu1604d:
   environment:
     SF_CI_BREW_INSTALL: dev
     SF_LOG_BOOTSTRAP: true
+  cached: false
 
 # support-firecloud-ubuntu-1804-minimal:
 sfu1804m:
@@ -24,6 +26,7 @@ sfu1804m:
   environment:
     SF_CI_BREW_INSTALL: minimal
     SF_LOG_BOOTSTRAP: true
+  cached: false
 
 # support-firecloud-ubuntu-1804-dev:
 sfu1804d:
@@ -33,3 +36,4 @@ sfu1804d:
   environment:
     SF_CI_BREW_INSTALL: dev
     SF_LOG_BOOTSTRAP: true
+  cached: false
