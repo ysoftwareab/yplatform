@@ -1,0 +1,16 @@
+support-firecloud v0.2.117 Release Notes
+
+Highlights since v0.2.116:
+
+* None
+
+Breaking commits since v0.2.116:
+
+* None
+
+Commits since v0.2.116:
+
+* 259ca445 2021-01-18 better default for e.g. macos as host, when running 'make docker-ci'
+* 31f0c13a 2021-01-18 fix SF_DOCKER_CI_IMAGE to ignore stderr: e.g. 18:04:52 [INFO] Proxying to jq as /usr/local/bin/jq. rokmoln/sf-macos-catalina-minimal:0.2.114
+* 8e16497b 2021-01-18 print release notes
+o 5e51c4e8 2021-01-18 0.2.116
