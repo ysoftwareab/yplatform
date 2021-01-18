@@ -1,0 +1,15 @@
+support-firecloud v0.2.115 Release Notes
+
+Highlights since v0.2.114:
+
+* None
+
+Breaking commits since v0.2.114:
+
+* None
+
+Commits since v0.2.114:
+
+* fd1f8c6f 2021-01-18 fixup! Revert "sf bin's folder shouldn't be needed anymore in PATH"
+* 269f275e 2021-01-18 Revert "sf bin's folder shouldn't be needed anymore in PATH"
+o 0cd16c8f 2021-01-18 0.2.114
