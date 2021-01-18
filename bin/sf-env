@@ -29,6 +29,7 @@ function sf_path_append() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
+sf_path_append ${SUPPORT_FIRECLOUD_DIR}/bin
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
     sf_path_prepend /home/linuxbrew/.linuxbrew/bin
