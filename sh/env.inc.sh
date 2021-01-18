@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
-[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
-    export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || {
+    if [ -n "${BASH_VERSION:-}" ]; then
+        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+        # echo >&2 SUPPORT_FIRECLOUD_DIR=$SUPPORT_FIRECLOUD_DIR
+    elif [ -n "${ZSH_VERSION:-}" ]; then
+        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
+    fi
+}
 
 function sf_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
