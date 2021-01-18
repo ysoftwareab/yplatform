@@ -4,7 +4,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.transcrypt.mk
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.source-const-inc.mk
 
 # need access to node-esm
-PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/bin
+PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/dev/bin
 export PATH
 
 # makefile-folder node_modules exebutables
