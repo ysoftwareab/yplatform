@@ -1,25 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-BAK_SUPPORT_FIRECLOUD_DIR=${SUPPORT_FIRECLOUD_DIR:-/dev/null}
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 VSN=1.6
 JQ_URL=https://github.com/stedolan/jq/releases/download
-BINARY=jq
-BINARY_LOCAL=$(
-    which -a ${BINARY} 2>/dev/null | \
-        grep -v "${BAK_SUPPORT_FIRECLOUD_DIR}/bin/jq" | \
-        grep -v "${SUPPORT_FIRECLOUD_DIR}/bin/jq" | \
-        head -n1 || \
-        true)
-
-[[ -z "${BINARY_LOCAL}" ]] || {
-    echo_info "Proxying to 'jq' as ${BINARY_LOCAL}."
-    ${BINARY} "$@"
-    exit 0
-}
 
 case ${OS_SHORT} in
     linux)
@@ -44,9 +30,8 @@ mkdir -p $(dirname ${BINARY_LOCAL})
     curl -fqsSL \
          -o ${BINARY_LOCAL} \
          ${BINARY_REMOTE}
+    chmod +x ${BINARY_LOCAL}
 }
-
-chmod +x ${BINARY_LOCAL}
 
 echo_info "Proxying to 'jq' as ${BINARY_LOCAL}."
 ${BINARY_LOCAL} "$@"
