@@ -6,7 +6,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && sf_get_docker_ci_image)
+SF_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && sf_get_docker_ci_image 2>/dev/null)
 
 # ------------------------------------------------------------------------------
 
