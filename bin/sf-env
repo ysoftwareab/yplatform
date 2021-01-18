@@ -29,6 +29,13 @@ function sf_path_append() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
+[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || {
+    if [ -n "${BASH_VERSION:-}" ]; then
+        SUPPORT_FIRECLOUD_DIR="$(dirname ${BASH_SOURCE[0]})/.."
+    elif [ -n "${ZSH_VERSION:-}" ]; then
+        SUPPORT_FIRECLOUD_DIR="$(dirname ${(%):-%x})/.."
+    fi
+}
 sf_path_append ${SUPPORT_FIRECLOUD_DIR}/bin
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
     sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
