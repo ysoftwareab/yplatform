@@ -17,9 +17,12 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     local JOB_GIT_REF=refs/jobs/${CI_JOB_ID}
 
     git checkout --orphan jobs/${CI_JOB_ID}
-    git ls-files -- "*/.gitignore" | xargs -r -L1 rm -f
+    git ls-files -- "*/.gitignore" | \
+        while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; rm -f "${NO_XARGS_R}"; done
     git reset -- .
-    git ls-files -X .artifacts --other --ignored | xargs -r -L1 git add -f || true
+    git ls-files -X .artifacts --other --ignored | \
+        while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git add -f "${NO_XARGS_R}"; done || \
+        true
 
     [[ "${TRAVIS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session
@@ -58,7 +61,8 @@ ${JOB_GIT_REF}
 
 ## Artifacts
 
-$(git ls-files | xargs -r -I {} echo "* [{}]({})")
+$(git ls-files | \
+while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "* [${NO_XARGS_R}](${NO_XARGS_R})"; done)
 
 EOF
     git add -f README.md

@@ -11,7 +11,8 @@ function git_dir_clean() {
     (
         cd $1
         git reflog expire --expire=all --all
-        git tag -l | xargs -r git tag -d
+        git tag -l | \
+            while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag -d "${NO_XARGS_R}"; done
         git gc --prune=all
         git clean -xdf .
     )

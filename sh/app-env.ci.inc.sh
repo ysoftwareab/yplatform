@@ -110,12 +110,11 @@ function ci_run_deploy() {
     local ASSETS=${ASSETS:-$(ls dist/app.zip snapshot.zip)}
 
     echo_info "Assets for release:"
-    echo "${ASSETS}" | xargs -r ls -l
+    echo "${ASSETS}" | while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; ls -l "${NO_XARGS_R}"; done
 
     local ASSETS_ARGS=$(
         echo "${ASSETS}" | \
-        xargs -r -I {} echo "--asset {}"
-    )
+        while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "--asset ${NO_XARGS_R}"; done)
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
         --repo-slug ${CI_REPO_SLUG} \
         --tag "v${PKG_VSN}" \

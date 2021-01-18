@@ -70,8 +70,8 @@ RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep -e "${VERSION_PATTERN
 PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
 
 if [[ -z "${RANGE_FROM}" ]]; then
-    PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ | \
-    xargs -r -L1 git tag -l --points-at | \
+    PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ |
+    while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag -l --points-at "${NO_XARGS_R}"; done |
     { grep -e "${VERSION_PATTERN}" || true; } |
     sort -V |
     tac)"

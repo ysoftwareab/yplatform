@@ -72,7 +72,7 @@ TRAVIS_ENV="$(printenv | grep -e "^TRAVIS")"
 # custom environment variables coming from Travis UI or .travis.yml
 TRAVIS_CMD_EXPORT="$(cat ~/build.sh |
     grep -e "^travis_cmd export" |
-    xargs -r -L1 echo |
+    while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "${NO_XARGS_R}"; done |
     maybe_secure |
     grep --only-matching "^travis_cmd export [^ ]\+" |
     sed "s/travis_cmd export //g" || true)"
