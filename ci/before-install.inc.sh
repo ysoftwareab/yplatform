@@ -23,25 +23,6 @@ function sf_ga_set_env() {
 }
 
 
-# github action checkout
-function sf_ga_checkout() {
-    cd ${GITHUB_WORKSPACE}
-    GIT_BRANCH=
-    GIT_CLONE_BRANCH_ARG=
-    if [[ "${GITHUB_REF:-}" =~ ^refs/heads/ ]]; then
-        GIT_BRANCH=${GITHUB_REF#refs\/heads\/}
-        GIT_CLONE_BRANCH_ARG="--branch=${GIT_BRANCH}"
-    fi
-    git clone --depth=50 ${GIT_CLONE_BRANCH_ARG} git@github.com:${GITHUB_REPOSITORY}.git
-    cd $(basename ${GITHUB_REPOSITORY})
-    [[ -z "${GIT_BRANCH}" ]] || {
-        git checkout -B ${GIT_BRANCH}
-    }
-    git reset --hard ${GITHUB_SHA}
-    git submodule update --init --recursive
-}
-
-
 function sf_github_https_deploy() {
     # if we have a deploy token, use that to authenticate https for the current repo
     # and don't require SSH keys
