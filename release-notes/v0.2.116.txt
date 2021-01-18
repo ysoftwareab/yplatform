@@ -1,0 +1,20 @@
+support-firecloud v0.2.116 Release Notes
+
+Highlights since v0.2.115:
+
+* None
+
+Breaking commits since v0.2.115:
+
+* 7bb1b397 2021-01-18 breaking: disallow bin/jq to proxy to system's jq
+
+
+Commits since v0.2.115:
+
+* 4d6411b9 2021-01-18 resolve GLOBAL_SUPPORT_FIRECLOUD_DIR
+* 2ba2cc68 2021-01-18 limit PATH expansion
+* 7bb1b397 2021-01-18 breaking: disallow bin/jq to proxy to system's jq
+* 46656588 2021-01-18 sf bin's folder shouldn't be needed anymore in PATH
+* eabbb784 2021-01-18 fixup! Revert "sf bin's folder shouldn't be needed anymore in PATH"
+* d772ea8c 2021-01-18 fixup! Revert "sf bin's folder shouldn't be needed anymore in PATH"
+o f12227bb 2021-01-18 0.2.115
