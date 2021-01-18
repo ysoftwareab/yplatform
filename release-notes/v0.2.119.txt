@@ -1,0 +1,15 @@
+support-firecloud v0.2.119 Release Notes
+
+Highlights since v0.2.118:
+
+* None
+
+Breaking commits since v0.2.118:
+
+* None
+
+Commits since v0.2.118:
+
+* 7238d064 2021-01-18 less 'xargs -r' usage (not available on darwin xargs
+* 5e2d4c78 2021-01-18 fixup! try to fix HOME for containers on github actions
+o c26a261f 2021-01-18 0.2.118
