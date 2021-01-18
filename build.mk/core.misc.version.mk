@@ -76,11 +76,12 @@ release-notes/%:
 				$(ECHO_ERR) "Aborting due to empty release-notes/$(VSN_TAG).txt."; \
 				$(RM) release-notes/$(VSN_TAG).txt; \
 				exit 1; \
-			} \
+			}; \
 		else \
 			$(ECHO_INFO) "No tty."; \
 			$(ECHO_SKIP) "$(EDITOR) release-notes/$(VSN_TAG).txt"; \
-		fi \
+		fi; \
+		$(CAT) release-notes/$(VSN_TAG).txt; \
 	else \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/release-notes \
 			--pkg-name $(PKG_NAME) \
