@@ -1,0 +1,14 @@
+support-firecloud v0.2.118 Release Notes
+
+Highlights since v0.2.117:
+
+* None
+
+Breaking commits since v0.2.117:
+
+* None
+
+Commits since v0.2.117:
+
+* 97e8e95f 2021-01-18 fixup! better default for e.g. macos as host, when running 'make docker-ci'
+o 7e2da36e 2021-01-18 0.2.117
