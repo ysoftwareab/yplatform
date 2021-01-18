@@ -1,0 +1,23 @@
+support-firecloud v0.2.114 Release Notes
+
+Highlights since v0.2.113:
+
+* None
+
+Breaking commits since v0.2.113:
+
+* None
+
+Commits since v0.2.113:
+
+* 9673c55a 2021-01-18 remove unused sf_ga_checkout
+* 11755581 2021-01-18 fixup! handle lack of write perms to $GITHUB_ENV
+* 4865ec59 2021-01-18 remove outdated main.yml
+* b44cb2a9 2021-01-18 handle missing submodules in .ci.sh template
+* af387328 2021-01-18 fixup! handle lack of write perms to $GITHUB_ENV
+* 0250495e 2021-01-18 fix missing access to brew util with SF_SKIP_BREW_BOOTSTRAP=true
+* 5bdd4544 2021-01-17 handle lack of write perms to $GITHUB_ENV
+* e958bce8 2021-01-17 silence git working about default branch
+* dbba0ec6 2021-01-17 codeship: don't cache
+* 54a96956 2021-01-17 fix codeship config
+o 9f3107e9 2021-01-17 0.2.113
