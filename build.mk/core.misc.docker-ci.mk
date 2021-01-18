@@ -9,7 +9,7 @@
 ifeq (linux,$(OS_SHORT))
 SF_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && sf_get_docker_ci_image 2>/dev/null)
 else
-SF_DOCKER_CI_IMAGE=rokmoln/sf-ubuntu-xenial-minimal
+SF_DOCKER_CI_IMAGE ?= rokmoln/sf-ubuntu-xenial-minimal
 endif
 
 # ------------------------------------------------------------------------------
