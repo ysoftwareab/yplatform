@@ -2,8 +2,10 @@
 
 if [ -n "${BASH_VERSION:-}" ]; then
     GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
+    GLOBAL_SUPPORT_FIRECLOUD_DIR="$(cd "${GLOBAL_SUPPORT_FIRECLOUD_DIR}" && pwd)"
 elif [ -n "${ZSH_VERSION:-}" ]; then
     GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${(%):-%x})/..}"
+    GLOBAL_SUPPORT_FIRECLOUD_DIR="$(cd "${GLOBAL_SUPPORT_FIRECLOUD_DIR}" && pwd)"
     autoload -U compaudit compinit bashcompinit
     bashcompinit || {
         echo >&2 "Initialization of zsh completion features has failed in"
