@@ -4,15 +4,20 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-${SUPPORT_FIRECLOUD_DIR}/bootstrap/linux/bootstrap-sudo-${OS_RELEASE_ID}
+[[ "${SF_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
+    ${SUPPORT_FIRECLOUD_DIR}/bootstrap/linux/bootstrap-sudo-${OS_RELEASE_ID}
+
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
+
 [[ "${SF_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
+
 [[ "${CI:-}" != "true" ]] || {
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-ci.inc.sh
     hash -r
     source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 }
+
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
 brew_config

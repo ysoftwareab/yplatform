@@ -211,7 +211,9 @@ function sf_os() {
             if [[ "${SF_GIT_HASH}" = "${SF_GIT_HASH_BOOTSTRAPPED}" ]]; then
                 echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without brew bootstrap."
                 echo_info "${FUNCNAME[0]}: Running with SF_SKIP_BREW_BOOTSTRAP=true."
+                echo_info "${FUNCNAME[0]}: Running with SF_SKIP_SUDO_BOOTSTRAP=true."
                 export SF_SKIP_BREW_BOOTSTRAP=true
+                export SF_SKIP_SUDO_BOOTSTRAP=true
                 export SF_LOG_BOOTSTRAP=true
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."

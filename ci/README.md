@@ -74,6 +74,8 @@ Here's a list of the environment variables that customize the code execution:
     * set to `true` to enables printing all environment variables
   * `SF_SKIP_BREW_BOOTSTRAP`
     * set to `true` to skip brew bootstrapping `bootstrap/brew-bootstrap.inc.sh`
+  * `SF_SKIP_SUDO_BOOTSTRAP`
+    * set to `true` to skip sudo bootstrapping `bootstrap/<OS_SHORT>/bootstrap-sudo`
   * `SF_SUDO`
     * set to `sf_nosudo` to bootstrap without sudo
     * set to a custom `sudo` executable path
