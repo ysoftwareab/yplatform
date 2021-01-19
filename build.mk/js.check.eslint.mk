@@ -44,7 +44,7 @@ SF_ESLINT_FILES += $(shell $(GIT_LS) . | \
 		$(HEAD) -n1 "$${FILE}" | $(GREP) "^#\!/" | $(GREP) -q -e "\bnode\b" || continue; \
 		$(ECHO) "$${FILE}"; \
 	done | \
-	$(GREP) -v $(SF_SHELLCHECK_FILES_IGNORE) | \
+	$(GREP) -v $(SF_ESLINT_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
