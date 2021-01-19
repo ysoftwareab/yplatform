@@ -6,8 +6,8 @@ true
 # see https://github.com/actions/runner/issues/863
 HOME_REAL=$(eval echo "~$(id -u -n)")
 [[ "${HOME}" = "${HOME_REAL}" ]] || {
-    >&2 echo "$(date +"%H:%M:%S") [WARN] \$HOME was ${HOME}."
-    >&2 echo "$(date +"%H:%M:%S") [DO  ] Resetting HOME to ${HOME_REAL}..."
+    >&2 echo "$(date +"%H:%M:%S") [WARN] \$HOME is overriden to ${HOME}."
+    >&2 echo "$(date +"%H:%M:%S") [DO  ] Resetting \$HOME to ${HOME_REAL}..."
     export HOME="${HOME_REAL}"
 
     # NOTE ideally we would unset all current variables,
