@@ -14,9 +14,12 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # but we need to detect and retain those set in the CI configuration
     # e.g. not only GITHUB_*, but also any given in "env:" as part of a workflow
     # so instead we only update current variables
+    # NOTE this doesn't update exported functions
     XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set -x
-    eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | sed "s/^/export /")"
+    eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
+        sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g" | \
+        sed "s/^/export /")"
     eval "${XTRACE_STATE}"
     unset XTRACE_STATE
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
