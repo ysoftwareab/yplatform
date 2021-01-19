@@ -8,6 +8,10 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 [[ "${HOME}" = "${HOME_REAL}" ]] || {
     >&2 echo "$(date +"%H:%M:%S") [WARN] \$HOME is overriden to ${HOME}."
     >&2 echo "$(date +"%H:%M:%S") [DO  ] Resetting \$HOME to ${HOME_REAL}..."
+
+    TMP_ENV=$(mktemp)
+    printenv >${TMP_ENV}
+
     export HOME="${HOME_REAL}"
 
     # NOTE ideally we would unset all current variables,
@@ -15,12 +19,11 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # e.g. not only GITHUB_*, but also any given in "env:" as part of a workflow
     # so instead we only update current variables
     # NOTE this doesn't update exported functions
-    XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
-    set -x
     eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
         sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g")"
-    eval "${XTRACE_STATE}"
-    unset XTRACE_STATE
+
+    >&2 diff ${TMP_ENV} <(printenv | sort) || true
+    rm -f ${TMP_ENV}
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
 }
 unset HOME_REAL
