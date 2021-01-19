@@ -18,8 +18,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set -x
     eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
-        sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g" | \
-        sed "s/^/export /")"
+        sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g")"
     eval "${XTRACE_STATE}"
     unset XTRACE_STATE
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
