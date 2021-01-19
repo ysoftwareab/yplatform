@@ -1,0 +1,17 @@
+support-firecloud v0.2.123 Release Notes
+
+Highlights since v0.2.122:
+
+* None
+
+Breaking commits since v0.2.122:
+
+* None
+
+Commits since v0.2.122:
+
+* 57624b09 2021-01-19 /etc/os-release might not contain VERSION_CODENAME e.g. alpine
+* 64471a5b 2021-01-19 quieter fix of real $HOME
+* 8cecb360 2021-01-19 implement SF_SKIP_SUDO_BOOTSTRAP
+* 11ea1aa3 2021-01-19 document SF_SKIP_BREW_BOOTSTRAP
+o d7b0b122 2021-01-19 0.2.122
