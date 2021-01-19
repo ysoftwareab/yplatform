@@ -39,6 +39,7 @@ echo_done
 echo_do "apk: Installing basic packages..."
 apk_install_one alpine-sdk
 apk_install_one coreutils
+apk_install_one findutils
 apk_install_one util-linux
 
 apk_install_one bash
