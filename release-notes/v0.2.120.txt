@@ -1,0 +1,17 @@
+support-firecloud v0.2.120 Release Notes
+
+Highlights since v0.2.119:
+
+* None
+
+Breaking commits since v0.2.119:
+
+* None
+
+Commits since v0.2.119:
+
+* 9bbcca92 2021-01-19 wording
+* 203e60bb 2021-01-19 fixup! fixup! fixup! try to fix HOME for containers on github actions
+* d884c39e 2021-01-19 fixup! fixup! try to fix HOME for containers on github actions
+* aa4c0198 2021-01-19 fixup! fixup! try to fix HOME for containers on github actions
+o 7eacadd3 2021-01-19 0.2.119
