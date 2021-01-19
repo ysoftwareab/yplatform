@@ -1,0 +1,14 @@
+support-firecloud v0.2.121 Release Notes
+
+Highlights since v0.2.120:
+
+* None
+
+Breaking commits since v0.2.120:
+
+* None
+
+Commits since v0.2.120:
+
+* 34854a05 2021-01-19 homebrew uninstaller requires GNU find. alpine's find doesn't know -empty -regextype etc
+o 16d3c935 2021-01-19 0.2.120
