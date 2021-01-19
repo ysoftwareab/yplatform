@@ -1,0 +1,14 @@
+support-firecloud v0.2.122 Release Notes
+
+Highlights since v0.2.121:
+
+* None
+
+Breaking commits since v0.2.121:
+
+* None
+
+Commits since v0.2.121:
+
+* cdabb379 2021-01-19 fixup! fix check-eslint and check-shellcheckrc not always following ignore directives
+o ef0323fa 2021-01-19 0.2.121
