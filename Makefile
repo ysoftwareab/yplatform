@@ -107,10 +107,10 @@ test-upload-job-artifacts:
 
 .PHONY: test-gitignore
 test-gitignore:
-	$(CAT) .gitignore | $(GREP) -qFx "/some-job-artifact.md"
-	$(GIT) check-ignore --verbose some-job-artifact.md | $(CUT) -d: -f1 | $(GREP) -qFx ".gitignore"
-	$(CAT) gitconfig/dot.gitignore_global | $(GREP) -qFx "Makefile.lazy"
-	$(GIT) check-ignore --verbose Makefile.lazy | $(CUT) -d: -f1 | $(GREP) -qFx ".git/info/exclude"
+	$(CAT) .gitignore | $(GREP) -q -Fx "/some-job-artifact.md"
+	$(GIT) check-ignore --verbose some-job-artifact.md | $(CUT) -d: -f1 | $(GREP) -q -Fx ".gitignore"
+	$(CAT) gitconfig/dot.gitignore_global | $(GREP) -q -Fx "Makefile.lazy"
+	$(GIT) check-ignore --verbose Makefile.lazy | $(CUT) -d: -f1 | $(GREP) -q -Fx ".git/info/exclude"
 
 
 .PHONY: test-repo-mk
