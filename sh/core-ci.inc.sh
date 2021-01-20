@@ -22,8 +22,10 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
         sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g")"
 
-    >&2 diff ${TMP_ENV} <(printenv | sort) || true
+    >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
+    >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
     rm -f ${TMP_ENV}
+
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
 }
 unset HOME_REAL
