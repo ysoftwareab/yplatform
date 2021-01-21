@@ -1,0 +1,82 @@
+# Composite Github Action to make 'support-firecloud' scripts available,
+# and run any command in a bash shell
+# with current working directory set to 'support-firecloud'.
+#
+# Usage:
+# jobs:
+#   main:
+#     steps:
+#       - uses: rokmoln/support-firecloud@master
+#         with:
+#           command: |
+#             pwd
+#             ls -la
+#             bin/github-checkout
+
+
+name: 'support-firecloud'
+description: 'Execute a command'
+inputs:
+  # shell:
+  #   description: Shell
+  #   default: bash
+  command:
+    description: Command
+    default: echo "Hello world"
+  debug:
+    description: Enable debug, false/true/trace
+    default: false
+runs:
+  using: "composite"
+  steps:
+    - # FIXME doesn't work
+      # shell: ${{ inputs.shell }}
+      shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_CONTEXT_JOB: ${{ toJSON(job) }}
+        GITHUB_CONTEXT_STEPS: ${{ toJSON(steps) }}
+        GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
+        GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
+        GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+        GITHUB_EVENT_NAME: ${{ github.event_name }}
+        INPUT_COMMAND: ${{ inputs.command }}
+        INPUT_DEBUG: ${{ inputs.debug }}
+      run: |
+        (
+        [[ "${INPUT_DEBUG}" != "trace" ]] || set -x
+
+        # FIXME https://github.com/actions/runner/issues/716
+        [[ -d "${GITHUB_ACTION_PATH}" ]] || \
+          GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
+
+        # FIXME https://github.com/actions/runner/issues/863
+        source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
+
+        [[ "${INPUT_DEBUG}" != "true" ]] || {
+          echo ::group::github event
+          cat "${GITHUB_EVENT_PATH}"
+          echo ::endgroup::
+
+          echo ::group::printenv
+          printenv
+          echo ::endgroup::
+
+          echo ::group::pwd
+          pwd
+          ls -la
+          echo ::endgroup::
+
+          echo ::group::action pwd
+          (
+          cd "${GITHUB_ACTION_PATH}"
+          pwd
+          ls -la
+          )
+          echo ::endgroup::
+        }
+
+        cd "${GITHUB_ACTION_PATH}"
+        ${INPUT_COMMAND}
+        )
