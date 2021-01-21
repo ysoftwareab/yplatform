@@ -23,7 +23,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
         sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g")"
 
     >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
-    >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
+    >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | grep "^<" || true
     rm -f ${TMP_ENV}
 
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
