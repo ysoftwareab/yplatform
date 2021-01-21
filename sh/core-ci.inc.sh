@@ -20,7 +20,8 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # so instead we only update current variables
     # NOTE this doesn't update exported functions
     eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
-        sed "s/^\([^=]\+\)=\(.*\)$/export \1=\"\2\"/g")"
+        sed "s/'/\\\\'/g" | \
+        sed "s/^\([^=]\+\)=\(.*\)$/export \1='\2'/g")"
 
     >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
     >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | grep "^<" || true
