@@ -1,0 +1,19 @@
+support-firecloud v0.2.124 Release Notes
+
+Highlights since v0.2.123:
+
+* None
+
+Breaking commits since v0.2.123:
+
+* None
+
+Commits since v0.2.123:
+
+* 0133ebc8 2021-01-21 take action script to standalone file
+* 55d2ee12 2021-01-21 add a proxy github action
+* e47e9daf 2021-01-21 handle ' in env vars' values
+* 7cbe5f72 2021-01-21 fixup! fixup! quieter fix of real $HOME
+* fe88c643 2021-01-20 fixup! quieter fix of real $HOME
+* e0dce4ba 2021-01-20 style
+o f36525b3 2021-01-19 0.2.123
