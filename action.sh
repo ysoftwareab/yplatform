@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 # FIXME https://github.com/actions/runner/issues/863
+echo ::group::HOME
 source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
+echo ::endgroup::
 
 # FIXME https://github.com/actions/runner/issues/716
 [[ -d "${GITHUB_ACTION_PATH}" ]] || \
