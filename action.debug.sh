@@ -6,6 +6,7 @@ set -euo pipefail
 >&2 echo "$(date +"%H:%M:%S") [INFO] Printing debug info..."
 echo ::group::github event
 cat "${GITHUB_EVENT_PATH}"
+echo
 echo ::endgroup::
 
 echo ::group::printenv
