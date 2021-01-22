@@ -40,6 +40,7 @@ runs:
         GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
         GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+        # FIXME https://github.com/actions/runner/issues/665
         INPUT_COMMAND: ${{ inputs.command }}
         INPUT_DEBUG: ${{ inputs.debug }}
         # GITHUB_EVENT_NAME: ${{ github.event_name }}
