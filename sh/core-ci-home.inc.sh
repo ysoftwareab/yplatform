@@ -19,6 +19,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # e.g. not only GITHUB_*, but also any given in "env:" as part of a workflow
     # so instead we only update current variables
     # NOTE this doesn't update exported functions
+    # NOTE this doesn't support multiline values
     eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
         sed "s/'/\\\\'/g" | \
         sed "s/^\([^=]\+\)=\(.*\)$/export \1='\2'/g")"
