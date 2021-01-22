@@ -36,7 +36,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         curl -fqsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
         ${SF_SUDO} apt-key fingerprint 0EBFCD88
         ${SF_SUDO} add-apt-repository -u \
-            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} $(lsb_release -cs) stable"
+            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable"
 
         apt_install_one docker-ce
         apt_install_one docker-ce-cli
@@ -44,7 +44,9 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # ENV https://docs.docker.com/engine/install/ubuntu/
 
         # BEGIN https://docs.docker.com/compose/install/
-        DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
+        # FIXME 1.28 uses python@3.9. see https://github.com/docker/compose/issues/8048
+        # DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
+        DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/download/1.27.4
         ${SF_SUDO} curl -fqsSL -o /usr/local/bin/docker-compose \
             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
         ${SF_SUDO} chmod +x /usr/local/bin/docker-compose
