@@ -1,0 +1,19 @@
+support-firecloud v0.2.126 Release Notes
+
+Highlights since v0.2.125:
+
+* None
+
+Breaking commits since v0.2.125:
+
+* cf9cc787 2021-01-22 breaking: action command -> action run. allows complex scripts in any shell (still depends on bash though)
+
+
+Commits since v0.2.125:
+
+* 0804ea28 2021-01-22 hide under a group
+* cf9cc787 2021-01-22 breaking: action command -> action run. allows complex scripts in any shell (still depends on bash though)
+* ccdbd242 2021-01-22 allow complex commands
+* 60fcc919 2021-01-22 more verbose
+* a79228d0 2021-01-22 fix GITHUB_ACTION_PATH for the script to be standalone, even if it should be already ok from action.yml
+o 21736200 2021-01-22 0.2.125
