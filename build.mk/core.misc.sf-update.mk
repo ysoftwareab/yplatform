@@ -67,3 +67,4 @@ support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecl
 	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN)"
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	$(ECHO_DONE)
+	$(MAKE) deps
