@@ -8,6 +8,7 @@ source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
     GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
 [[ "${INPUT_DEBUG}" != "true" ]] || {
+    >&2 echo "$(date +"%H:%M:%S") [INFO] Printing debug info..."
     echo ::group::github event
     cat "${GITHUB_EVENT_PATH}"
     echo ::endgroup::
@@ -30,5 +31,6 @@ source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
     echo ::endgroup::
 }
 
+>&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}: ${INPUT_COMMAND}..."
 cd "${GITHUB_ACTION_PATH}"
 ${INPUT_COMMAND}
