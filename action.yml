@@ -40,9 +40,9 @@ runs:
         GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
         GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
-        GITHUB_EVENT_NAME: ${{ github.event_name }}
         INPUT_COMMAND: ${{ inputs.command }}
         INPUT_DEBUG: ${{ inputs.debug }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
       run: |
         [[ "${INPUT_DEBUG}" != "trace" ]] || set -x
 
