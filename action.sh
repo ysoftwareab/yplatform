@@ -33,4 +33,4 @@ source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
 
 >&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}: ${INPUT_COMMAND}..."
 cd "${GITHUB_ACTION_PATH}"
-${INPUT_COMMAND}
+eval "${INPUT_COMMAND}"
