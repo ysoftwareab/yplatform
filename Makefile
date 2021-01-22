@@ -13,6 +13,9 @@ include support-firecloud/build.mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 
+RAW_GUC_URL := https://raw.githubusercontent.com
+BREWFILE_LOCK := $(GIT_ROOT)/Brewfile.lock
+
 # for testing purposes, so that 'make docker-ci' works
 # otherwise SF_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
 SF_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
@@ -35,6 +38,8 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \
+	-e "^bootstrap/brew-util/homebrew-install\.sh$$" \
+	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
 	-e "^doc/bak/" \
 
 SF_PATH_FILES_IGNORE += \
@@ -125,6 +130,18 @@ test-repo-mk:
 
 gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl gitconfig/dot.gitignore_global.base ## Regenerate gitconfig/dot.gitignore_global.
 	$(call sf-generate-from-template)
+
+
+bootstrap/brew-util/homebrew-install.sh: Brewfile.lock ## Regenerate bootstrap/brew-util/homebrew-install.sh
+	$(eval BREW_INSTALL_GITREF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master"))
+	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GITREF)/install.sh
+	if [[ -f "$@.patch" ]]; then \
+		$(CAT) $@.patch | $(PATCH) $@.original -o $@; \
+	else \
+		$(CP) $@.original $@; \
+	fi
+	$(EDITOR) $@
+	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
 
 
 .PHONY: Formula/patch-src/%.original.rb
