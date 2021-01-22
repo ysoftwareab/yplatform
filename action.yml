@@ -1,30 +1,44 @@
-# Composite Github Action to make 'support-firecloud' scripts available,
-# and run a bash script with current working directory set to 'support-firecloud'.
+# Composite Github Action to make 'support-firecloud' scripts available, and run sub-actions.
+# Default sub-action is 'run'.
 #
-# Usage:
+# ## DEBUG ACTION
 # jobs:
 #   main:
 #     steps:
 #       - uses: rokmoln/support-firecloud@master
 #         with:
-#           shell: bash
+#           action: debug
+#           xtrace: true/false # optional
+#
+# ## RUN ACTION
+# jobs:
+#   main:
+#     steps:
+#       - uses: rokmoln/support-firecloud@master
+#         with:
+#           action: run # optional
+#           shell: bash # optional
 #           run: |
-#             pwd
-#             ls -la
-#             bin/github-checkout
-
+#             echo 'test1'
+#             echo 'test2'
+#           xtrace: true/false # optional
+#
 
 name: 'support-firecloud'
 description: 'Execute a command'
 inputs:
+  action:
+    description: Action, debug/run
+    default: run
+
   shell:
     description: Shell
     default: bash
   run:
     description: Script
-    default: echo "Hello world"
-  debug:
-    description: Enable debug, false/true/trace
+    required: true
+  xtrace:
+    description: Enable bash xtrace
     default: false
 runs:
   using: "composite"
@@ -39,16 +53,39 @@ runs:
         GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
         GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
-        # GITHUB_EVENT_NAME: ${{ github.event_name }}
         # FIXME https://github.com/actions/runner/issues/665
-        INPUT_DEBUG: ${{ inputs.debug }}
-        INPUT_RUN: ${{ inputs.run }}
-        INPUT_SHELL: ${{ inputs.shell }}
+        INPUT_XTRACE: ${{ inputs.xtrace }}
       run: |
-        [[ "${INPUT_DEBUG}" != "trace" ]] || set -x
+        [[ "${{ inputs.action }}" == "debug" ]] || exit 0
+        [[ "${INPUT_XTRACE}" != "true" ]] || set -x
 
         # FIXME https://github.com/actions/runner/issues/716
         [[ -d "${GITHUB_ACTION_PATH}" ]] || \
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
-        "${GITHUB_ACTION_PATH}/action.sh"
+        "${GITHUB_ACTION_PATH}/action.debug.sh"
+
+    - shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_CONTEXT_INPUTS: ${{ toJSON(inputs) }}
+        GITHUB_CONTEXT_JOB: ${{ toJSON(job) }}
+        GITHUB_CONTEXT_STEPS: ${{ toJSON(steps) }}
+        GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
+        GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
+        GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        INPUT_RUN: ${{ inputs.run }}
+        INPUT_SHELL: ${{ inputs.shell }}
+        INPUT_XTRACE: ${{ inputs.xtrace }}
+      run: |
+        [[ "${{ inputs.action }}" == "run" ]] || exit 0
+        [[ "${INPUT_XTRACE}" != "true" ]] || set -x
+
+        # FIXME https://github.com/actions/runner/issues/716
+        [[ -d "${GITHUB_ACTION_PATH}" ]] || \
+          GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
+
+        "${GITHUB_ACTION_PATH}/action.run.sh"
