@@ -35,6 +35,7 @@ runs:
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_CONTEXT_INPUTS: ${{ toJSON(inputs) }}
         GITHUB_CONTEXT_JOB: ${{ toJSON(job) }}
         GITHUB_CONTEXT_STEPS: ${{ toJSON(steps) }}
         GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
