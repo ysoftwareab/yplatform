@@ -1,0 +1,15 @@
+support-firecloud v0.2.127 Release Notes
+
+Highlights since v0.2.126:
+
+* None
+
+Breaking commits since v0.2.126:
+
+* None
+
+Commits since v0.2.126:
+
+* 95ed4e07 2021-01-22 order in action
+* aecc8ce9 2021-01-22 typo in action
+o 46f4d533 2021-01-22 0.2.126
