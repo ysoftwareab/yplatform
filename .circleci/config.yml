@@ -55,7 +55,7 @@ aliases:
         branches:
           only:
             - /circleci.*/ # circleci branches
-            - master
+            - /master/
         tags:
           only: /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
@@ -180,7 +180,7 @@ workflows:
   #     - schedule:
   #         filters:
   #           branches:
-  #             only: master
+  #             only: /master/
   #         cron: "0 0 * * *"
   #   jobs:
   #     - main-linux-xenial-minimal:
