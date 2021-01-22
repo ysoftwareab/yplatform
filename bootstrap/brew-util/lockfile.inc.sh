@@ -17,7 +17,7 @@ function brew_lockfile() {
     if [[ -z "${BREW_LOCK}" ]]; then
         echo_skip "Resetting Homebrew..."
     else
-        local BREW_TO=$(echo "${BREW_LOCK}" | cut -d" " -f2)
+        local BREW_TO=$(echo "${BREW_LOCK}" | cut -d" " -f2 | sed "s|^refs/heads/|refs/remotes/origin/|")
         local BREW_SHALLOW_SINCE=$(echo "${BREW_LOCK}" | cut -d" " -f3-)
 
         echo_do "Resetting Homebrew..."
@@ -39,7 +39,7 @@ function brew_lockfile() {
             grep -v "^homebrew/install " | \
             while read -r BREW_TAP_LOCK; do
             TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
-            TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2)
+            TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2 | sed "s|^refs/heads/|refs/remotes/origin/|")
             TAP_SHALLOW_SINCE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f3-)
 
             case "${OS_SHORT}-${TAP}" in
