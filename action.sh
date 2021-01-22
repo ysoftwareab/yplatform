@@ -36,8 +36,8 @@ echo ::endgroup::
 >&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}..."
 cd "${GITHUB_ACTION_PATH}"
 
->&2 echo "$(date +"%H:%M:%S") [INFO] Generating script ${TMP_SCRIPT}..."
 TMP_SCRIPT=$(mktemp)
+>&2 echo "$(date +"%H:%M:%S") [INFO] Generating script ${TMP_SCRIPT}..."
 touch ${TMP_SCRIPT}
 chmod +x ${TMP_SCRIPT}
 echo "#!/usr/bin/env ${INPUT_SHELL}" >> ${TMP_SCRIPT}
