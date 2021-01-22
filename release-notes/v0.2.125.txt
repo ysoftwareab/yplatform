@@ -1,0 +1,21 @@
+support-firecloud v0.2.125 Release Notes
+
+Highlights since v0.2.124:
+
+* None
+
+Breaking commits since v0.2.124:
+
+* 5317d976 2021-01-22 breaking: Brewfile.lock accepts strict refs/shas, no commitish
+
+
+Commits since v0.2.124:
+
+* 0d144348 2021-01-22 lock docker-compose to a python@3.7 version
+* c550fd3d 2021-01-22 add GITHUB_CONTEXT_INPUTS
+* 209ef843 2021-01-22 sort
+* ad69dcc4 2021-01-22 reference issue
+* d0218662 2021-01-22 fork homebrew's install script to support a locked installation
+* 5317d976 2021-01-22 breaking: Brewfile.lock accepts strict refs/shas, no commitish
+* 5f61cd48 2021-01-22 GITHUB_EVENT_NAME already exists
+o 6dbf020d 2021-01-21 0.2.124
