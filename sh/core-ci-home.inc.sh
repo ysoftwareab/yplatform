@@ -26,6 +26,12 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 
     >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
     >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+        >&2 echo "$(date +"%H:%M:%S") [INFO] Updating \$GITHUB_ENV..."
+        grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | tee -a ${GITHUB_ENV} || \
+            grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | ${SF_SUDO:-sudo} tee -a ${GITHUB_ENV}
+    }
+
     rm -f ${TMP_ENV}
 
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
