@@ -31,6 +31,18 @@ source "${GITHUB_ACTION_PATH}/sh/core-ci-home.inc.sh"
     echo ::endgroup::
 }
 
->&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}: ${INPUT_COMMAND}..."
+>&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}..."
 cd "${GITHUB_ACTION_PATH}"
-eval "${INPUT_COMMAND}"
+
+>&2 echo "$(date +"%H:%M:%S") [INFO] Generating script ${TMP_SCRIPT}..."
+TMP_SCRIPT=$(mktemp)
+touch ${TMP_SCRIPT}
+chmod +x ${TMP_SCRIPT}
+echo "#!/usr/bin/env ${INPUT_SHELL}" >> ${TMP_SCRIPT}
+echo "${INPUT_RUN}" >> ${TMP_SCRIPT}
+
+>&2 echo "$(date +"%H:%M:%S") [INFO] Running script ${TMP_SCRIPT} below..."
+>&2 cat ${TMP_SCRIPT}
+
+>&2 echo "$(date +"%H:%M:%S") [INFO] Running..."
+${TMP_SCRIPT}

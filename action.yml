@@ -1,6 +1,5 @@
 # Composite Github Action to make 'support-firecloud' scripts available,
-# and run any command in a bash shell
-# with current working directory set to 'support-firecloud'.
+# and run a bash script with current working directory set to 'support-firecloud'.
 #
 # Usage:
 # jobs:
@@ -8,7 +7,8 @@
 #     steps:
 #       - uses: rokmoln/support-firecloud@master
 #         with:
-#           command: |
+#           shell: bash
+#           run: |
 #             pwd
 #             ls -la
 #             bin/github-checkout
@@ -17,11 +17,11 @@
 name: 'support-firecloud'
 description: 'Execute a command'
 inputs:
-  # shell:
-  #   description: Shell
-  #   default: bash
-  command:
-    description: Command
+  shell:
+    description: Shell
+    default: bash
+  run:
+    description: Script
     default: echo "Hello world"
   debug:
     description: Enable debug, false/true/trace
@@ -29,9 +29,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - # FIXME doesn't work
-      # shell: ${{ inputs.shell }}
-      shell: bash
+    - shell: bash
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
         GITHUB_CONTEXT: ${{ toJson(github) }}
@@ -43,8 +41,9 @@ runs:
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
         # GITHUB_EVENT_NAME: ${{ github.event_name }}
         # FIXME https://github.com/actions/runner/issues/665
-        INPUT_COMMAND: ${{ inputs.command }}
         INPUT_DEBUG: ${{ inputs.debug }}
+        INPUT_RUN: ${{ inputs.run }}
+        INPUT_SHELL: ${{ inputs.shell }}
       run: |
         [[ "${INPUT_DEBUG}" != "trace" ]] || set -x
 
