@@ -1,0 +1,25 @@
+support-firecloud v0.2.128 Release Notes
+
+Highlights since v0.2.127:
+
+* None
+
+Breaking commits since v0.2.127:
+
+* None
+
+Commits since v0.2.127:
+
+* 4d6f96b4 2021-01-23 typo
+* e1bf23bb 2021-01-23 update $GITHUB_ENV when resetting ${HOME}
+* dcd87910 2021-01-23 whitespace
+* 76ab0ce4 2021-01-23 add note about limitations around resetting $HOME
+* f24b6309 2021-01-23 remove typo from switching diff to grep
+* 814de128 2021-01-23 refactor action to implement subactions. add 'debug' subaction
+* 8d02c682 2021-01-22 implicitly run 'make deps' after 'make support-firecloud/update*' as a self-check
+* 318e885b 2021-01-22 Revert "add group for HOME_REAL"
+* 3b61a6cf 2021-01-22 Revert "fixup! add group for HOME_REAL"
+* 47ff9082 2021-01-22 circleci: stricter branch matching
+* 31a09f26 2021-01-22 fixup! add group for HOME_REAL
+* ee62f3e3 2021-01-22 add group for HOME_REAL
+o dd4c8731 2021-01-22 0.2.127
