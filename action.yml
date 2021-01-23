@@ -1,5 +1,6 @@
 # Composite Github Action to make 'support-firecloud' scripts available, and run sub-actions.
 # Default sub-action is 'run'.
+# NOTE 'debug' action is just an example. Could have been implemented just fine via 'run'.
 #
 # ## DEBUG ACTION
 # jobs:
@@ -63,7 +64,7 @@ runs:
         [[ -d "${GITHUB_ACTION_PATH}" ]] || \
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
-        "${GITHUB_ACTION_PATH}/action.debug.sh"
+        "${GITHUB_ACTION_PATH}/bin/github-action-debug.sh"
 
     - shell: bash
       env:
@@ -88,4 +89,4 @@ runs:
         [[ -d "${GITHUB_ACTION_PATH}" ]] || \
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
-        "${GITHUB_ACTION_PATH}/action.run.sh"
+        "${GITHUB_ACTION_PATH}/bin/github-action-run.sh"
