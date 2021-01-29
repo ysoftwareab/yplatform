@@ -40,7 +40,7 @@ SF_DEPS_NPM_TARGETS += \
 	deps-npm/$(NPM_CI_OR_INSTALL) \
 	deps-npm/install-peer \
 	deps-npm/prune \
-	deps-npm/unmet-peer \
+	deps-npm/no-unmet-peer \
 	deps-npm/sort-deps \
 
 SF_CHECK_TARGETS += \
@@ -60,8 +60,8 @@ endif
 deps-npm/ci:
 	$(NPM) ci --ignore-scripts
 
-.PHONY: deps-npm/install/install-peer
-deps-npm/install/install-peer:
+.PHONY: deps-npm/install-peer
+deps-npm/install-peer:
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
@@ -71,8 +71,8 @@ deps-npm/install/install-peer:
 			node_modules/eslint-config-firecloud/package.json
 
 
-.PHONY: deps-npm/install/_unmet-peer
-deps-npm/install/_unmet-peer:
+.PHONY: deps-npm/_no-unmet-peer
+deps-npm/_no-unmet-peer:
 	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
 	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
@@ -102,14 +102,14 @@ deps-npm/install/_unmet-peer:
 	fi
 
 
-.PHONY: deps-npm/install/unmet-peer
-deps-npm/install/unmet-peer:
+.PHONY: deps-npm/no-unmet-peer
+deps-npm/no-unmet-peer:
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm/install/_unmet-peer
+	$(NPM) list --depth=0 || $(MAKE) deps-npm/_no-unmet-peer
 
 
-.PHONY: deps-npm/install/sort-deps
-deps-npm/install/sort-deps:
+.PHONY: deps-npm/sort-deps
+deps-npm/sort-deps:
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \
@@ -125,8 +125,8 @@ deps-npm/install/sort-deps:
 		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
 
 
-.PHONY: deps-npm/install/prune
-deps-npm/install/prune:
+.PHONY: deps-npm/prune
+deps-npm/prune:
 #	remove extraneous dependencies
 	$(NPM) prune
 
