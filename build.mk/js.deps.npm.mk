@@ -53,43 +53,6 @@ endif
 
 # ------------------------------------------------------------------------------
 
-.PHONY: deps-npm-unmet-peer
-deps-npm-unmet-peer:
-	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
-	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
-	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
-	diff -U0 \
-		<(cat package.json.unmet-peer 2>/dev/null | \
-			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
-			$(SORT) -u || true) \
-		<(cat $(NPM_LIST_TMP) 2>/dev/null | \
-			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
-			$(SORT) -u || true) \
-		>$(UNMET_PEER_DIFF_TMP) || $(TOUCH) $(UNMET_PEER_DIFF_TMP)
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\+npm"; then \
-		$(ECHO_ERR) "Found new unmet peer dependencies."; \
-		$(ECHO_INFO) "If you cannot fix the unmet peer dependencies, and want to ignore them instead,"; \
-		$(ECHO_INFO) "please edit package.json.unmet-peer, and append these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\+npm" | $(SED) "s/^\+//g"; \
-		$(ECHO); \
-	fi
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\-npm"; then \
-		$(ECHO_ERR) "Found outdated unmet peer dependencies."; \
-		$(ECHO_INFO) "Please edit package.json.unmet-peer, and remove these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-npm" | $(SED) "s/^\-//g"; \
-		$(ECHO); \
-	fi
-	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \
-		exit 1; \
-	fi
-
-
-.PHONY: deps-npm-maybe-unmet-peer
-deps-npm-maybe-unmet-peer:
-#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
-
-
 .PHONY: deps-npm-ci
 deps-npm-ci:
 	$(NPM) ci
@@ -183,6 +146,44 @@ deps-npm-install-prod:
 
 .PHONY: deps-npm-prod
 deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)-prod
+#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
+	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
+
+
+
+.PHONY: deps-npm-unmet-peer
+deps-npm-unmet-peer:
+	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
+	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
+	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
+	diff -U0 \
+		<(cat package.json.unmet-peer 2>/dev/null | \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
+			$(SORT) -u || true) \
+		<(cat $(NPM_LIST_TMP) 2>/dev/null | \
+			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
+			$(SORT) -u || true) \
+		>$(UNMET_PEER_DIFF_TMP) || $(TOUCH) $(UNMET_PEER_DIFF_TMP)
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\+npm"; then \
+		$(ECHO_ERR) "Found new unmet peer dependencies."; \
+		$(ECHO_INFO) "If you cannot fix the unmet peer dependencies, and want to ignore them instead,"; \
+		$(ECHO_INFO) "please edit package.json.unmet-peer, and append these line(s):"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\+npm" | $(SED) "s/^\+//g"; \
+		$(ECHO); \
+	fi
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\-npm"; then \
+		$(ECHO_ERR) "Found outdated unmet peer dependencies."; \
+		$(ECHO_INFO) "Please edit package.json.unmet-peer, and remove these line(s):"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-npm" | $(SED) "s/^\-//g"; \
+		$(ECHO); \
+	fi
+	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \
+		exit 1; \
+	fi
+
+
+.PHONY: deps-npm-maybe-unmet-peer
+deps-npm-maybe-unmet-peer:
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
