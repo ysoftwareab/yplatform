@@ -40,7 +40,7 @@ SF_DEPS_NPM_TARGETS += \
 	deps-npm-$(NPM_CI_OR_INSTALL) \
 	deps-npm-install/peer-deps \
 	deps-npm-install/prune \
-	deps-npm-install/maybe-unmet-peer \
+	deps-npm-install/unmet-peer \
 	deps-npm-install/sort-deps \
 
 SF_CHECK_TARGETS += \
@@ -71,8 +71,8 @@ deps-npm-install/peer-deps:
 			node_modules/eslint-config-firecloud/package.json
 
 
-.PHONY: deps-npm-install/unmet-peer
-deps-npm-install/unmet-peer:
+.PHONY: deps-npm-install/_unmet-peer
+deps-npm-install/_unmet-peer:
 	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
 	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
@@ -102,10 +102,10 @@ deps-npm-install/unmet-peer:
 	fi
 
 
-.PHONY: deps-npm-install/maybe-unmet-peer
-deps-npm-install/maybe-unmet-peer:
+.PHONY: deps-npm-install/unmet-peer
+deps-npm-install/unmet-peer:
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm-install/unmet-peer
+	$(NPM) list --depth=0 || $(MAKE) deps-npm-install/_unmet-peer
 
 
 .PHONY: deps-npm-install/sort-deps
