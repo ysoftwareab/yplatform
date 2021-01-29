@@ -55,7 +55,7 @@ endif
 
 .PHONY: deps-npm-ci
 deps-npm-ci:
-	$(NPM) ci
+	$(NPM) ci --ignore-scripts
 
 
 .PHONY: deps-npm-install
@@ -67,7 +67,7 @@ deps-npm-install:
 			exit 1; \
 		}; \
 	}
-	$(NPM) install
+	$(NPM) install --ignore-scripts
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
@@ -118,7 +118,7 @@ deps-npm:
 
 .PHONY: deps-npm-ci-prod
 deps-npm-ci-prod:
-	$(NPM) ci
+	$(NPM) ci --ignore-scripts
 
 
 .PHONY: deps-npm-install-prod
@@ -129,7 +129,7 @@ deps-npm-install-prod:
 			exit 1; \
 		}; \
 	}
-	$(NPM) install --production
+	$(NPM) install --ignore-scripts --production
 #	remove extraneous dependencies
 	$(NPM) prune --production
 #	update git dependencies with semver range. 'npm install' doesn't
