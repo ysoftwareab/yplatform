@@ -44,8 +44,8 @@ SF_DEPS_NPM_TARGETS += \
 	deps-npm-install/sort-deps \
 
 SF_CHECK_TARGETS += \
-	check-npm-package-json \
-	check-npm-package-lock-json \
+	check-npm/package-json \
+	check-npm/package-lock-json \
 
 ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE += \
@@ -193,16 +193,16 @@ deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)-prod
 	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
-.PHONY: check-npm-package-json
-check-npm-package-json:
+.PHONY: check-npm/package-json
+check-npm/package-json:
 	$(GIT) diff --exit-code package.json || { \
 		$(ECHO_ERR) "package.json has changed. Please commit your changes."; \
 		exit 1; \
 	}
 
 
-.PHONY: check-npm-package-lock-json
-check-npm-package-lock-json: check-npm-package-json
+.PHONY: check-npm/package-lock-json
+check-npm/package-lock-json: check-npm-package-json
 	$(eval PACKAGE_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package.json))
 	$(eval PACKAGE_LOCK_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package-lock.json))
 	$(eval JQ_EXPR := "{a: .name, b: .version, c: .dependencies, d: .devDependencies}")
