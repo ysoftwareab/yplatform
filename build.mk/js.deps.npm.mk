@@ -60,7 +60,6 @@ deps-npm-ci:
 
 .PHONY: deps-npm-install
 deps-npm-install:
-	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json >/dev/null && echo false || echo true))
 	[[ ! -f "package-lock.json" ]] || { \
 		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
 			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
@@ -88,12 +87,6 @@ deps-npm-install:
 				end) \
 		" | \
 		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
-#	check that installing peer dependencies didn't modify package.json
-	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
-		$(NPM) install; \
-		$(ECHO_ERR) "package.json has changed."; \
-		$(ECHO_ERR) "Please review and commit the changes."; \
-		exit 1; \
 	}
 #	remove extraneous dependencies
 	$(NPM) prune
