@@ -38,7 +38,10 @@ SF_DEPS_TARGETS += \
 
 SF_DEPS_NPM_TARGETS += \
 	deps-npm-$(NPM_CI_OR_INSTALL) \
+	deps-npm-install/peer-deps \
+	deps-npm-install/prune \
 	deps-npm-maybe-unmet-peer \
+	deps-npm-install/sort-deps \
 
 SF_CHECK_TARGETS += \
 	check-npm-package-json \
@@ -85,6 +88,12 @@ deps-npm-install/sort-deps:
 		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
 
 
+.PHONY: deps-npm-install/prune
+deps-npm-install/prune:
+#	remove extraneous dependencies
+	$(NPM) prune
+
+
 .PHONY: deps-npm-install
 deps-npm-install:
 	[[ ! -f "package-lock.json" ]] || { \
@@ -94,10 +103,6 @@ deps-npm-install:
 		}; \
 	}
 	$(NPM) install --ignore-scripts
-	$(MAKE) deps-npm-install/peer-deps
-	$(MAKE) deps-npm-install/sort-deps
-#	remove extraneous dependencies
-	$(NPM) prune
 #	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
