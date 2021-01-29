@@ -37,11 +37,11 @@ SF_DEPS_TARGETS += \
 	deps-npm \
 
 SF_DEPS_NPM_TARGETS += \
-	deps-npm-$(NPM_CI_OR_INSTALL) \
-	deps-npm-install/peer-deps \
-	deps-npm-install/prune \
-	deps-npm-install/unmet-peer \
-	deps-npm-install/sort-deps \
+	deps-npm/$(NPM_CI_OR_INSTALL) \
+	deps-npm/install-peer \
+	deps-npm/prune \
+	deps-npm/unmet-peer \
+	deps-npm/sort-deps \
 
 SF_CHECK_TARGETS += \
 	check-npm/package-json \
@@ -56,12 +56,12 @@ endif
 
 # ------------------------------------------------------------------------------
 
-.PHONY: deps-npm-ci
-deps-npm-ci:
+.PHONY: deps-npm/ci
+deps-npm/ci:
 	$(NPM) ci --ignore-scripts
 
-.PHONY: deps-npm-install/peer-deps
-deps-npm-install/peer-deps:
+.PHONY: deps-npm/install/install-peer
+deps-npm/install/install-peer:
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
@@ -71,8 +71,8 @@ deps-npm-install/peer-deps:
 			node_modules/eslint-config-firecloud/package.json
 
 
-.PHONY: deps-npm-install/_unmet-peer
-deps-npm-install/_unmet-peer:
+.PHONY: deps-npm/install/_unmet-peer
+deps-npm/install/_unmet-peer:
 	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
 	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
@@ -102,14 +102,14 @@ deps-npm-install/_unmet-peer:
 	fi
 
 
-.PHONY: deps-npm-install/unmet-peer
-deps-npm-install/unmet-peer:
+.PHONY: deps-npm/install/unmet-peer
+deps-npm/install/unmet-peer:
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm-install/_unmet-peer
+	$(NPM) list --depth=0 || $(MAKE) deps-npm/install/_unmet-peer
 
 
-.PHONY: deps-npm-install/sort-deps
-deps-npm-install/sort-deps:
+.PHONY: deps-npm/install/sort-deps
+deps-npm/install/sort-deps:
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \
@@ -125,14 +125,14 @@ deps-npm-install/sort-deps:
 		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
 
 
-.PHONY: deps-npm-install/prune
-deps-npm-install/prune:
+.PHONY: deps-npm/install/prune
+deps-npm/install/prune:
 #	remove extraneous dependencies
 	$(NPM) prune
 
 
-.PHONY: deps-npm-install
-deps-npm-install:
+.PHONY: deps-npm/install
+deps-npm/install:
 	[[ ! -f "package-lock.json" ]] || { \
 		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
 			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
@@ -159,13 +159,13 @@ deps-npm:
 	}
 
 
-.PHONY: deps-npm-ci-prod
-deps-npm-ci-prod:
+.PHONY: deps-npm/ci-prod
+deps-npm/ci-prod:
 	$(NPM) ci --ignore-scripts
 
 
-.PHONY: deps-npm-install-prod
-deps-npm-install-prod:
+.PHONY: deps-npm/install-prod
+deps-npm/install-prod:
 	[[ ! -f "package-lock.json" ]] || { \
 		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
 			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
@@ -187,10 +187,10 @@ deps-npm-install-prod:
 	}
 
 
-.PHONY: deps-npm-prod
-deps-npm-prod: deps-npm-$(NPM_CI_OR_INSTALL)-prod
+.PHONY: deps-npm/prod
+deps-npm/prod: deps-npm/$(NPM_CI_OR_INSTALL)-prod
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
+	$(NPM) list --depth=0 || $(MAKE) deps-npm/unmet-peer
 
 
 .PHONY: check-npm/package-json
