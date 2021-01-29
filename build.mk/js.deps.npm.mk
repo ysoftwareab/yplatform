@@ -57,16 +57,8 @@ endif
 deps-npm-ci:
 	$(NPM) ci --ignore-scripts
 
-
-.PHONY: deps-npm-install
-deps-npm-install:
-	[[ ! -f "package-lock.json" ]] || { \
-		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
-			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
-			exit 1; \
-		}; \
-	}
-	$(NPM) install --ignore-scripts
+.PHONY: deps-npm-install/peer-deps
+deps-npm-install/peer-deps:
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
@@ -74,6 +66,10 @@ deps-npm-install:
 	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
 			node_modules/eslint-config-firecloud/package.json
+
+
+.PHONY: deps-npm-install/sort-deps
+deps-npm-install/sort-deps:
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \
@@ -87,7 +83,19 @@ deps-npm-install:
 				end) \
 		" | \
 		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
+
+
+.PHONY: deps-npm-install
+deps-npm-install:
+	[[ ! -f "package-lock.json" ]] || { \
+		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
+			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
+			exit 1; \
+		}; \
 	}
+	$(NPM) install --ignore-scripts
+	$(MAKE) deps-npm-install/peer-deps
+	$(MAKE) deps-npm-install/sort-deps
 #	remove extraneous dependencies
 	$(NPM) prune
 #	update git dependencies with semver range. 'npm install' doesn't
