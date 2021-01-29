@@ -16,6 +16,7 @@
 NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
+#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 NPM_CI_OR_INSTALL := install
 ifeq ($(CI),true)
 ifneq (,$(wildcard package-lock.json))
@@ -114,7 +115,6 @@ deps-npm/_no-unmet-peer:
 
 .PHONY: deps-npm/no-unmet-peer
 deps-npm/no-unmet-peer:
-#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm/_no-unmet-peer
 
 
