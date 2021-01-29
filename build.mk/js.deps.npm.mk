@@ -37,15 +37,12 @@ SF_DEPS_TARGETS += \
 	deps-npm \
 
 SF_DEPS_NPM_TARGETS += \
+	deps-npm/no-outdated-package-lock-json \
 	deps-npm/$(NPM_CI_OR_INSTALL) \
 	deps-npm/install-peer \
 	deps-npm/prune \
 	deps-npm/no-unmet-peer \
 	deps-npm/sort-deps \
-
-SF_CHECK_TARGETS += \
-	check-npm/package-json \
-	check-npm/package-lock-json \
 
 ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE += \
@@ -56,9 +53,23 @@ endif
 
 # ------------------------------------------------------------------------------
 
-.PHONY: deps-npm/ci
-deps-npm/ci:
-	$(NPM) ci --ignore-scripts
+.PHONY: deps-npm/no-outdated-package-lock-json
+deps-npm/no-outdated-package-lock-json:
+	$(eval PACKAGE_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package.json))
+	$(eval PACKAGE_LOCK_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package-lock.json))
+	$(eval JQ_EXPR := "{a: .name, b: .version, c: .dependencies, d: .devDependencies}")
+	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
+		diff \
+			<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) \
+			<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) || { \
+			$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \
+			$(ECHO_INFO) "package.json modified last at $(PACKAGE_JSON_HASH)"; \
+			$(ECHO_INFO) "package-lock.json modified last at $(PACKAGE_LOCK_JSON_HASH)"; \
+			$(ECHO_INFO) "Please run 'make deps-npm' and commit your changes to package-lock.json."; \
+			exit 1; \
+		}; \
+	fi
+
 
 .PHONY: deps-npm/install-peer
 deps-npm/install-peer:
@@ -131,6 +142,11 @@ deps-npm/prune:
 	$(NPM) prune
 
 
+.PHONY: deps-npm/ci
+deps-npm/ci:
+	$(NPM) ci --ignore-scripts
+
+
 .PHONY: deps-npm/install
 deps-npm/install:
 	[[ ! -f "package-lock.json" ]] || { \
@@ -191,33 +207,3 @@ deps-npm/install-prod:
 deps-npm/prod: deps-npm/$(NPM_CI_OR_INSTALL)-prod
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(NPM) list --depth=0 || $(MAKE) deps-npm/unmet-peer
-
-
-.PHONY: check-npm/package-json
-check-npm/package-json:
-	$(GIT) diff --exit-code package.json || { \
-		$(ECHO_ERR) "package.json has changed. Please commit your changes."; \
-		exit 1; \
-	}
-
-
-.PHONY: check-npm/package-lock-json
-check-npm/package-lock-json: check-npm-package-json
-	$(eval PACKAGE_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package.json))
-	$(eval PACKAGE_LOCK_JSON_HASH := $(shell $(GIT) log -1 --format='%h' -- package-lock.json))
-	$(eval JQ_EXPR := "{a: .name, b: .version, c: .dependencies, d: .devDependencies}")
-	if $(GIT_LS) | $(GREP) -q "^package-lock.json$$"; then \
-		$(GIT) diff --exit-code package-lock.json || { \
-			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
-			exit 1; \
-		}; \
-		diff \
-			<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) \
-			<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) || { \
-			$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \
-			$(ECHO_INFO) "package.json modified last at $(PACKAGE_JSON_HASH)"; \
-			$(ECHO_INFO) "package-lock.json modified last at $(PACKAGE_LOCK_JSON_HASH)"; \
-			$(ECHO_INFO) "Please run 'make deps-npm' and commit your changes to package-lock.json."; \
-			exit 1; \
-		}; \
-	fi
