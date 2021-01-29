@@ -36,6 +36,10 @@ SF_CLEAN_FILES += \
 SF_DEPS_TARGETS += \
 	deps-npm \
 
+SF_DEPS_NPM_TARGETS += \
+	deps-npm-$(NPM_CI_OR_INSTALL) \
+	deps-npm-maybe-unmet-peer \
+
 SF_CHECK_TARGETS += \
 	check-package-json \
 	check-package-lock-json \
@@ -78,6 +82,12 @@ deps-npm-unmet-peer:
 	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \
 		exit 1; \
 	fi
+
+
+.PHONY: deps-npm-maybe-unmet-peer
+deps-npm-maybe-unmet-peer:
+#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
+	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
 
 
 .PHONY: deps-npm-ci
@@ -137,9 +147,10 @@ deps-npm-install:
 
 
 .PHONY: deps-npm
-deps-npm: deps-npm-$(NPM_CI_OR_INSTALL)
-#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm-unmet-peer
+deps-npm:
+	[[ "$(words $(SF_DEPS_NPM_TARGETS))" = "0" ]] || { \
+		$(MAKE) $(SF_DEPS_NPM_TARGETS); \
+	}
 
 
 .PHONY: deps-npm-ci-prod

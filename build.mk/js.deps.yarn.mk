@@ -30,8 +30,13 @@ endif
 SF_CLEAN_FILES += \
 	node_modules \
 
+ifdef SF_DEPS_NPM_TARGETS
+SF_DEPS_NPM_TARGETS = \
+	deps-yarn \
+else
 SF_DEPS_TARGETS += \
 	deps-yarn \
+fi
 
 ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE += \
