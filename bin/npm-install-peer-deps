@@ -7,13 +7,20 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 #- npm-install-peer-deps 1.0
 ## Usage: npm-install-peer-deps [OPTION]... path/to/package.json/with/peerDependencies
 ## Install the peer dependencies mentioned in a package.json.
-## NOTE: only updates package.json, doesn't call e.g. 'npm install'
+##
+##   -i, --install-cmd  Command to install peer dependencies. Defaults to "npm install"
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+NPM_INSTALL_PEER_DEPS_CMD="npm install --no-save"
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -i|--install-cmd)
+            NPM_INSTALL_PEER_DEPS_CMD=$2
+            shift 2
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -34,23 +41,89 @@ case "$1" in
         PKG_JSON="$1"
         ;;
     *)
-        PKG_JSON="./$1"
+        PKG_JSON="$(pwd)/$1"
         ;;
 esac
 
-node -e " \
-    peerDeps = require('${PKG_JSON}').peerDependencies; \
-    Object.keys(peerDeps).forEach(function(name) { \
-        console.log(name + '\t' + peerDeps[name]); \
-    }); \
-    " | {
+{
+    node -e " \
+        peerDeps = require('${PKG_JSON}').peerDependencies || {}; \
+        Object.keys(peerDeps).forEach(function(name) { \
+                console.log(name + '\t' + peerDeps[name]); \
+        }); \
+        "
+    node -e " \
+        peerDeps = require('${PKG_JSON}').optionalPeerDependencies || {}; \
+        Object.keys(peerDeps).forEach(function(name) { \
+                console.log(name + '\t' + peerDeps[name] + '\t' + 'optional'); \
+        }); \
+        "
+} | {
+    NPM_PEER_DEPS=
     while read -r LINE; do
+        [[ -n "${LINE}" ]] || continue
+
         NAME=$(echo "${LINE}" | cut -d $'\t' -f 1)
         SPEC=$(echo "${LINE}" | cut -d $'\t' -f 2)
+        OPTIONAL=$(echo "${LINE}" | cut -d $'\t' -f 3)
 
-        # shellcheck disable=SC2094
-        cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${SPEC}\"}" < package.json)" > package.json
-        # npx json -q -I -f package.json -e "this.devDependencies = this.devDependencies || {}"
-        # npx json -q -I -f package.json -e "this.devDependencies[\"${NAME}\"] = \"${SPEC}\""
+        # is the version already specified as dependency?
+        IN_PACKAGE_JSON=false
+        IN_PACKAGE_JSON=$(node -p "try { \
+            var pkg = require('./package.json'); \
+            var vsn = (pkg.dependencies || {})[\"${NAME}\"] || (pkg.devDependencies || {})[\"${NAME}\"]; \
+            vsn === \"${SPEC}\"; \
+            } catch(err){false}" | \
+            grep -q "^false$" && \
+            echo "false" || echo "true")
+
+        if [[ "${IN_PACKAGE_JSON}" = "true" ]]; then
+            # and is it already installed (static spec), then skip
+            node -p "try { \
+                var paths = module._nodeModulePaths(path.dirname('${PKG_JSON}'));
+                var pkg = require.resolve('${NAME}', {path}); \
+                do { pkg = path.dirname(pkg); } while (pkg !== '/' && !fs.existsSync(path.join(pkg, 'package.json'))); \
+                pkg = require(path.join(pkg, 'package.json')); \
+                \
+                pkg.version === \"${SPEC}\"; \
+                } catch(err){false}" | \
+                grep -q "^false$" || \
+            continue
+
+            # and is it already installed (range spec), then skip
+            node -p "try { \
+                var paths = module._nodeModulePaths(path.dirname('${PKG_JSON}'));
+                var pkg = require.resolve('${NAME}', {path}); \
+                do { pkg = path.dirname(pkg); } while (pkg !== '/' && !fs.existsSync(path.join(pkg, 'package.json'))); \
+                pkg = require(path.join(pkg, 'package.json')); \
+                \
+                (pkg._requested || {}).rawSpec === \"${SPEC}\"; \
+                } catch(err){false}" | \
+                grep -q "^false$" || \
+            continue
+        elif [[ "${OPTIONAL}" = "optional" ]]; then
+            # not, if optional and no version specified as dependency, then skip
+            IN_PACKAGE_JSON=false
+            IN_PACKAGE_JSON=$(node -p "try { \
+                var pkg = require('./package.json'); \
+                var vsn = (pkg.dependencies || {})[\"${NAME}\"] || (pkg.devDependencies || {})[\"${NAME}\"]; \
+                vsn !== undefined; \
+                } catch(err){false}" | \
+                grep -q "^false$" && \
+                echo "false" || echo "true")
+
+            [[ "${IN_PACKAGE_JSON}" = "true" ]] || continue
+        fi
+
+        # https://github.com/stedolan/jq/issues/105#issuecomment-437363987
+        # cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${SPEC}\"}" < ./package.json)" > ./package.json
+        npx json -q -I -f ./package.json -e "this.devDependencies = this.devDependencies || {}"
+        npx json -q -I -f ./package.json -e "this.devDependencies[\"${NAME}\"] = \"${SPEC}\""
+
+        # NOTE: assumes all peerDeps have semver vers, not git urls, etc
+        NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${SPEC}"
     done
+    [[ -z "${NPM_PEER_DEPS}" ]] || \
+        >&2 echo "[INFO] ${NPM_INSTALL_PEER_DEPS_CMD} ${NPM_PEER_DEPS}"
+        ${NPM_INSTALL_PEER_DEPS_CMD} ${NPM_PEER_DEPS}
 }

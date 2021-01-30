@@ -31,6 +31,7 @@ endif
 endif
 endif
 
+NPM_INSTALL_PEER_DEPS_CMD := $(NPM) install --no-save
 NPM_PRODUCTION_FLAG :=
 
 SF_CLEAN_FILES += \
@@ -42,7 +43,7 @@ SF_DEPS_TARGETS += \
 SF_DEPS_NPM_TARGETS += \
 	deps-npm/no-outdated-package-lock-json \
 	deps-npm/$(NPM_CI_OR_INSTALL) \
-	deps-npm/install-peer \
+	deps-npm/update-peer \
 	deps-npm/no-unmet-peer \
 	deps-npm/sort-deps \
 
@@ -73,15 +74,16 @@ deps-npm/no-outdated-package-lock-json:
 	fi
 
 
-.PHONY: deps-npm/install-peer
-deps-npm/install-peer:
-#	convenience. install peer dependencies from babel/eslint firecloud packages
-	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/babel-preset-firecloud/package.json
-	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/eslint-config-firecloud/package.json
+.PHONY: deps-npm/update-peer
+deps-npm/update-peer:
+#	convenience. install peer dependencies e.g. from babel/eslint firecloud packages
+	$(CAT) package.json | \
+		$(JQ)  ".dependencies + .devDependencies" | \
+		$(JQ) "keys" | \
+		$(JQ) -r ".[]" | \
+		$(XARGS) -L1 -I{} $(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
+			--install-cmd "$(NPM_INSTALL_PEER_DEPS_CMD)" \
+			$(PWD)/node_modules/{}/package.json
 
 
 .PHONY: deps-npm/_no-unmet-peer
