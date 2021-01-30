@@ -31,6 +31,8 @@ endif
 endif
 endif
 
+NPM_PRODUCTION_FLAG :=
+
 SF_CLEAN_FILES += \
 	node_modules \
 
@@ -148,9 +150,9 @@ deps-npm/install:
 			exit 1; \
 		}; \
 	}
-	$(NPM) install --ignore-scripts
+	$(NPM) install --ignore-scripts $(NPM_PRODUCTION_FLAG)
 #	remove extraneous dependencies
-	$(NPM) prune
+	$(NPM) prune $(NPM_PRODUCTION_FLAG)
 #	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
@@ -159,7 +161,7 @@ deps-npm/install:
 			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
 			$(JQ) -r ".key" | \
 			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
-		$(NPM) update --no-save --development; \
+		$(NPM) update --no-save $(NPM_PRODUCTION_FLAG); \
 	}
 
 
