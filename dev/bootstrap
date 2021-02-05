@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+[[ $(uname) != "Darwin" ]] || \
+    xcode-select --install 2>&1 | grep -q -Fx 'xcode-select: error: command line tools are already installed, use "Software Update" to install updates' || \
+    xcode-select --install
+
 export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
