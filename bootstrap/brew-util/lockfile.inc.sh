@@ -24,7 +24,11 @@ function brew_lockfile() {
         echo_info "Resetting Homebrew from ${BREW_FROM} to ${BREW_TO}."
         echo_info "Unshallow after ${BREW_SHALLOW_SINCE}."
         git -C "$(brew --prefix)/Homebrew" fetch --tags
-        git -C "$(brew --prefix)/Homebrew" fetch --shallow-since "${BREW_SHALLOW_SINCE}"
+        if [[ "${CI:-}" = "true" ]]; then
+            git -C "$(brew --prefix)/Homebrew" fetch
+        else
+            git -C "$(brew --prefix)/Homebrew" fetch --shallow-since "${BREW_SHALLOW_SINCE}"
+        fi
         git -C "$(brew --prefix)/Homebrew" reset --hard "${BREW_TO}"
         echo_info "Reset Homebrew"
         echo_info "from $(git -C "$(brew --prefix)/Homebrew" log -1 --format="%cd" "${BREW_FROM}") ${BREW_FROM}"
@@ -74,7 +78,11 @@ function brew_lockfile() {
             echo_do "Resetting Homebrew tap ${TAP}..."
             echo_info "Resetting Homebrew tap ${TAP} from ${TAP_FROM} to ${TAP_TO}."
             echo_info "Unshallow after ${TAP_SHALLOW_SINCE}."
-            git -C "${TAP}" fetch --shallow-since "${TAP_SHALLOW_SINCE}"
+            if [[ "${CI:-}" = "true" ]]; then
+                git -C "${TAP}" fetch
+            else
+                git -C "${TAP}" fetch --shallow-since "${TAP_SHALLOW_SINCE}"
+            fi
             git -C "${TAP}" reset --hard "${TAP_TO}"
             echo_info "Reset Homebrew tap ${TAP}"
             echo_info "from $(git -C "${TAP}" log -1 --format="%cd" "${TAP_FROM}") ${TAP_FROM}"
