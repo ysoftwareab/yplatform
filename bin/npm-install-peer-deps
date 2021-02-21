@@ -67,17 +67,36 @@ esac
         SPEC=$(echo "${LINE}" | cut -d $'\t' -f 2)
         OPTIONAL=$(echo "${LINE}" | cut -d $'\t' -f 3)
 
-        # is the version already specified as dependency?
-        IN_PACKAGE_JSON=false
-        IN_PACKAGE_JSON=$(node -p "try { \
-            var pkg = require('./package.json'); \
-            var vsn = (pkg.dependencies || {})[\"${NAME}\"] || (pkg.devDependencies || {})[\"${NAME}\"]; \
-            vsn === \"${SPEC}\"; \
-            } catch(err){false}" | \
-            grep -q "^false$" && \
-            echo "false" || echo "true")
+        SPEC_IN_PACKAGE_JSON="$(cat ./package.json | jq ".dependendencies + .devDependencies " | jq -r ".[\"${NAME}\"]" | sed "s/^null$//")"
+        IS_IN_PACKAGE_JSON=false
+        IS_INSTALLED=false
+
+        [[ -z "${SPEC_IN_PACKAGE_JSON}" ]] || IS_IN_PACKAGE_JSON=true
+
+        if [[ "${IS_IN_PACKAGE_JSON}" = "true" ]]; then
+            [[ ! -e "node_modules/${NAME}/package.json" ]] || IS_INSTALLED=true
+        fi
+
+
+        if specified
+        then
+            if 1. not installed
+            then
+                install same range as specified
+            fi
+            if 2. matches semver
+            then
+                all ok
+            else
+                install with save
+            fi
+        else
+            install with save
+        fi
+
 
         if [[ "${IN_PACKAGE_JSON}" = "true" ]]; then
+            [[ -e ./node_modules/${NAME}/package.json ]] ||
             # and is it already installed (static spec), then skip
             node -p "try { \
                 var paths = module._nodeModulePaths(path.dirname('${PKG_JSON}'));
@@ -121,9 +140,10 @@ esac
         npx json -q -I -f ./package.json -e "this.devDependencies[\"${NAME}\"] = \"${SPEC}\""
 
         # NOTE: assumes all peerDeps have semver vers, not git urls, etc
-        NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${SPEC}"
+        NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@\"${SPEC}\""
     done
-    [[ -z "${NPM_PEER_DEPS}" ]] || \
-        >&2 echo "[INFO] ${NPM_INSTALL_PEER_DEPS_CMD} ${NPM_PEER_DEPS}"
+    [[ -z "${NPM_PEER_DEPS}" ]] || {
+        echo_info "${NPM_INSTALL_PEER_DEPS_CMD} ${NPM_PEER_DEPS}"
         ${NPM_INSTALL_PEER_DEPS_CMD} ${NPM_PEER_DEPS}
+    }
 }

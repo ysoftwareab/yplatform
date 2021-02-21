@@ -15,44 +15,28 @@ YARN = $(call which,YARN,yarn)
 $(foreach VAR,YARN,$(call make-lazy,$(VAR)))
 
 # see https://github.com/yarnpkg/yarn/issues/5869
-YARN_INSTALL_ARGS += \
+YARN_CI_OR_INSTALL := install \
 	--non-interactive \
 
-ifeq ($(CI),true)
-YARN_INSTALL_ARGS += \
+ifeq (true,$(CI))
+YARN_CI_OR_INSTALL := install \
 	--check-files \
 	--frozen-lockfile \
 	--no-progress \
+	--non-interactive \
 
 endif
-
-ifndef NPM_INSTALL_PEER_DEPS_CMD
-$(error Please include js.deps.npm.mk, before including js.deps.yarn..mk .)
-endif
-
-NPM_INSTALL_PEER_DEPS_CMD := $(YARN) add
 
 SF_CLEAN_FILES += \
 	node_modules \
 
-ifndef SF_DEPS_NPM_TARGETS
-$(error Please include js.deps.npm.mk, before including js.deps.yarn..mk .)
-endif
-
+ifdef SF_DEPS_NPM_TARGETS
 SF_DEPS_NPM_TARGETS = \
-
-SF_DEPS_NPM_TARGETS += \
-	deps-yarn/install \
-	deps-npm/update-peer \
-
-ifeq ($(CI),true)
-SF_DEPS_NPM_TARGETS += \
-	deps-yarn/no-unmet-peer \
-
-endif
-
-SF_DEPS_NPM_TARGETS += \
-	deps-npm/sort-deps \
+	deps-yarn \
+else
+SF_DEPS_TARGETS += \
+	deps-yarn \
+fi
 
 ifdef SF_ECLINT_FILES_IGNORE
 SF_ECLINT_FILES_IGNORE += \
@@ -65,8 +49,8 @@ endif
 
 # yarn only prints unmet peer dependencies on 'yarn install' and 'yarn import',
 # and the latter is both faster and requires no network
-.PHONY: deps-yarn/no-unmet-peer
-deps-yarn/no-unmet-peer:
+.PHONY: deps-yarn-unmet-peer
+deps-yarn-unmet-peer:
 	$(eval YARN_LOCK_TMP := $(shell $(MKTEMP)))
 	$(eval YARN_IMPORT_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
@@ -99,8 +83,21 @@ deps-yarn/no-unmet-peer:
 	fi
 
 
-.PHONY: deps-yarn/install
-deps-yarn/install:
+.PHONY: deps-yarn
+deps-yarn:
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
-	$(YARN) install $(YARN_INSTALL_ARGS) $(NPM_PRODUCTION_FLAG)
+	$(YARN) $(YARN_CI_OR_INSTALL)
+ifeq (true,$(CI))
+	$(MAKE) deps-yarn-unmet-peer
+endif
+
+
+.PHONY: deps-yarn-prod
+deps-yarn-prod:
+#	'yarn install' will also remove extraneous dependencies
+#	See https://classic.yarnpkg.com/en/docs/cli/prune/
+	$(YARN)  $(YARN_CI_OR_INSTALL) --production
+ifeq (true,$(CI))
+	$(MAKE) deps-yarn-unmet-peer
+endif

@@ -8,6 +8,7 @@ endif
 include support-firecloud/build.mk/generic.common.mk
 include support-firecloud/build.mk/sh.check.shellcheck.mk
 include support-firecloud/build.mk/js.deps.npm.mk
+include support-firecloud/build.mk/js.deps.yarn.mk
 include support-firecloud/build.mk/js.check.eslint.mk
 include support-firecloud/build.mk/core.misc.release.tag.mk
 
@@ -73,7 +74,7 @@ SF_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
-	Formula/editorconfig-checker.rb \
+	Formula/editoconfig-checker.rb \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))

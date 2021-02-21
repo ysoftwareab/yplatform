@@ -174,35 +174,6 @@ deps-npm:
 	}
 
 
-.PHONY: deps-npm/ci-prod
-deps-npm/ci-prod:
-	$(NPM) ci --ignore-scripts
-
-
-.PHONY: deps-npm/install-prod
-deps-npm/install-prod:
-	[[ ! -f "package-lock.json" ]] || { \
-		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
-			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
-			exit 1; \
-		}; \
-	}
-	$(NPM) install --ignore-scripts --production
-#	remove extraneous dependencies
-	$(NPM) prune --production
-#	update git dependencies with semver range. 'npm install' doesn't
-	[[ -f "package-lock.json" ]] || { \
-		$(CAT) package.json | \
-			$(JQ)  ".dependencies + .devDependencies" | \
-			$(JQ) "to_entries" | \
-			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
-			$(JQ) -r ".key" | \
-			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
-		$(NPM) update --no-save --production; \
-	}
-
-
-.PHONY: deps-npm/prod
-deps-npm/prod: deps-npm/$(NPM_CI_OR_INSTALL)-prod
-#	'npm ci' should be more stable and faster if there's a 'package-lock.json'
-	$(NPM) list --depth=0 || $(MAKE) deps-npm/unmet-peer
+.PHONY: deps-npm-prod
+deps-npm-prod:
+	NPM_PRODUCTION_FLAG=--production $(MAKE) deps-npm
