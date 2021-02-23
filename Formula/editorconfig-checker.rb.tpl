@@ -3,6 +3,8 @@ set -euo pipefail
 
 VSN=2.1.0
 
+SRC_FILE=Formula/editorconfig-checker.rb.tpl
+
 RB_FILE=${BASH_SOURCE[0]%.tpl}
 # ID must be the PascalCase version of the RB_FILE
 ID="$(basename "${RB_FILE%.rb}" | sed -r "s/(^|[^a-z])([a-z])/\U\2/g")" # EditorconfigChecker
@@ -30,7 +32,7 @@ function get_bin() {
 }
 
 cat <<EOF > ${RB_FILE}
-# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (${BASH_SOURCE[0]})
+# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (${SRC_FILE})
 
 class ${ID} < Formula
   version "${VSN}"

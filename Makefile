@@ -70,10 +70,11 @@ SF_SHELLCHECK_FILES_IGNORE += \
 	-e "^doc/ci\-sh\.md$$" \
 
 SF_CHECK_TPL_FILES += \
-	.github/workflows/main.yml \
-	gitconfig/dot.gitignore_global \
-	$(FORMULA_PATCH_FILES) \
 	$(FORMULA_PATCHED_FILES) \
+	$(FORMULA_PATCH_FILES) \
+	.github/workflows/main.yml \
+	Formula/editorconfig-checker.rb \
+	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
 .PHONY: $(sf_CHECK_TPL_FILES)
@@ -91,6 +92,10 @@ SF_TEST_TARGETS += \
 # ------------------------------------------------------------------------------
 
 .github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main.yml
+	$(call sf-generate-from-template)
+
+
+Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
 	$(call sf-generate-from-template)
 
 
