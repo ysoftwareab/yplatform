@@ -16,4 +16,7 @@ unless_exe_and_grep_q_then "npm --version | head -1" "^6\." \
 
 unless_exe_and_grep_q_then "json --version | head -1" "^json 9\." \
     npm install --global json@9
+
+unless_exe_and_grep_q_then "semver --help | head -1" "^SemVer 7\." \
+    npm install --global semver@7
 echo_done

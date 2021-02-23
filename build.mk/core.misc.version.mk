@@ -39,7 +39,7 @@ version/minor:
 version/major:
 $(VERSION_TARGETS):
 	$(eval VSN_LEVEL := $(@:version/%=%))
-	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
+	$(eval PKG_VSN_NEW := $(shell $(SEMVER) --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
 	PKG_VSN_NEW=$(PKG_VSN_NEW) $(MAKE) _version
 
 

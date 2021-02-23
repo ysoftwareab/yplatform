@@ -94,7 +94,7 @@ release/minor:
 release/major:
 $(RELEASE_TARGETS):
 	$(eval VSN_LEVEL := $(@:release/%=%))
-	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
+	$(eval PKG_VSN_NEW := $(shell $(SEMVER) --coerce --increment $(VSN_LEVEL) $(PKG_VSN)))
 	if [[ "$(GIT_BRANCH)" =~ ^release-v ]]; then \
 		$(ECHO_ERR) "Cannot release $(PKG_VSN_NEW) from the $(GIT_BRANCH) release branch."; \
 		exit 1; \
@@ -136,10 +136,10 @@ $(RELEASE_SEMANTIC_TARGETS): release/%:
 	$(eval RELEASE_SEMANTIC_LEVEL := $*)
 ifeq (true,$(PKG_VSN_PUBLIC))
 	$(eval RELEASE_LEVEL := $(PUBLIC_$(RELEASE_SEMANTIC_LEVEL)))
-	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(RELEASE_LEVEL) $(PKG_VSN)))
+	$(eval PKG_VSN_NEW := $(shell $(SEMVER) --coerce --increment $(RELEASE_LEVEL) $(PKG_VSN)))
 else
 	$(eval RELEASE_LEVEL := $(PREPUBLIC_$(RELEASE_SEMANTIC_LEVEL)))
-	$(eval PKG_VSN_NEW := $(shell $(NPX) semver --coerce --increment $(RELEASE_LEVEL) $(PKG_VSN)))
+	$(eval PKG_VSN_NEW := $(shell $(SEMVER) --coerce --increment $(RELEASE_LEVEL) $(PKG_VSN)))
 endif
 	$(ECHO_DO) "Preparing to release $(PKG_VSN_NEW)..."
 ifneq (true,$(PKG_VSN_PUBLIC))
