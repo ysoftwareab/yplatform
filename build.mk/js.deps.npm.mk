@@ -17,11 +17,11 @@ NPM = $(call which,NPM,npm)
 $(foreach VAR,NPM,$(call make-lazy,$(VAR)))
 
 NPM_CI_OR_INSTALL := install
-ifeq (true,$(CI))
+ifeq ($(CI),true)
 ifneq (,$(wildcard package-lock.json))
 # npm ci doesn't play nice with git dependencies
 ifeq (,$(shell $(CAT) package.json | \
-	$(JQ)  ".dependencies + .devDependencies" | \
+	$(JQ) ".dependencies + .devDependencies" | \
 	$(JQ) "to_entries" | \
 	$(JQ) ".[] | select(.value | contains(\"git\"))" | \
 	$(JQ) -r ".key"))
@@ -161,7 +161,7 @@ deps-npm-install-prod:
 #	update git dependencies with semver range. 'npm install' doesn't
 	[[ -f "package-lock.json" ]] || { \
 		$(CAT) package.json | \
-			$(JQ)  ".dependencies" | \
+			$(JQ)  ".dependencies + .devDependencies" | \
 			$(JQ) "to_entries" | \
 			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
 			$(JQ) -r ".key" | \
