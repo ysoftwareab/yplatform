@@ -26,16 +26,16 @@ jobs:
         sf_ci_brew_install:
           - minimal
           - dev
-    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
-    runs-on: '${{ matrix.os }}'
+    name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ${{ matrix.os }}
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
+      SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps:
       - shell: bash
         run: |
@@ -108,9 +108,9 @@ jobs:
       - if: always()
         shell: bash
         env:
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: cloud-ci
-          CI_STATUS: '${{ job.status }}'
+          CI_STATUS: ${{ job.status }}
         run: ./.ci.sh notifications || true
   main-windows:
     timeout-minutes: 60
@@ -121,16 +121,16 @@ jobs:
           - windows-2019
         sf_ci_brew_install:
           - minimal
-    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
-    runs-on: '${{ matrix.os }}'
+    name: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+    runs-on: ${{ matrix.os }}
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
+      SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      GITHUB_JOB_NAME: main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}
+      SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
       WSLENV: >-
         CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:SF_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS:SF_CI_BREW_INSTALL
       WSLUSER: github
@@ -243,12 +243,12 @@ jobs:
       - if: always()
         shell: bash
         env:
-          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_CHANNEL: cloud-ci
-          CI_STATUS: '${{ job.status }}'
+          CI_STATUS: ${{ job.status }}
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
   deploy-container-minimal:
-    if: 'startsWith(github.ref, ''refs/tags/'')'
+    if: startsWith(github.ref, 'refs/tags/')
     needs: main-container
     strategy:
       fail-fast: false
@@ -262,19 +262,19 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
+      SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_JOB_NAME: deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps:
       - shell: bash
         run: |
@@ -335,7 +335,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
   deploy-container-common:
-    if: 'startsWith(github.ref, ''refs/tags/'')'
+    if: startsWith(github.ref, 'refs/tags/')
     needs: deploy-container-minimal
     strategy:
       fail-fast: false
@@ -349,19 +349,19 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
+      SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_JOB_NAME: deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
     steps:
       - shell: bash
         run: |
@@ -436,19 +436,19 @@ jobs:
         sf_ci_brew_install:
           - minimal
           - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      SF_PRINTENV_BOOTSTRAP: ${{ secrets.SF_PRINTENV_BOOTSTRAP }}
+      SF_TRANSCRYPT_PASSWORD: ${{ secrets.SF_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_JOB_NAME: mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: ${{ matrix.sf_ci_brew_install }}
       SF_DEPLOY_DRYRUN: true
     steps:
       - shell: bash
