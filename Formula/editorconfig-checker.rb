@@ -4,7 +4,7 @@ class EditorconfigChecker < Formula
   version "2.3.3"
   bottle :unneeded
 
-  if OS.mac?
+  on_macos do
     if Hardware::CPU.is_64_bit?
       url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-darwin-amd64.tar.gz"
       sha256 "3057c66e3da4efe4d02e99ea685a3af0e9da16ee59c49f84511ffea3243d03f4"
@@ -12,7 +12,9 @@ class EditorconfigChecker < Formula
       url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-darwin-386.tar.gz"
       sha256 "885899b336a159922b5008dbfc656143e1006a609535f8b7702f9e0f823e0f45"
     end
-  elsif OS.linux?
+  end
+
+  on_linux do
     if Hardware::CPU.intel?
       if Hardware::CPU.is_64_bit?
         url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-linux-amd64.tar.gz"
@@ -33,13 +35,15 @@ class EditorconfigChecker < Formula
   end
 
   def install
-    if OS.mac?
+    on_macos do
       if Hardware::CPU.is_64_bit?
         bin.install "ec-darwin-amd64" => "editorconfig-checker"
       else
         bin.install "ec-darwin-386" => "editorconfig-checker"
       end
-    elsif OS.linux?
+    end
+
+    on_linux do
       if Hardware::CPU.intel?
         if Hardware::CPU.is_64_bit?
           bin.install "ec-linux-amd64" => "editorconfig-checker"

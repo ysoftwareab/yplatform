@@ -38,7 +38,7 @@ class ${ID} < Formula
   version "${VSN}"
   bottle :unneeded
 
-  if OS.mac?
+  on_macos do
     if Hardware::CPU.is_64_bit?
       url "$(get_asset_url darwin amd64)"
       sha256 "$(get_asset_sha256 darwin amd64)"
@@ -46,7 +46,9 @@ class ${ID} < Formula
       url "$(get_asset_url darwin 386)"
       sha256 "$(get_asset_sha256 darwin 386)"
     end
-  elsif OS.linux?
+  end
+
+  on_linux do
     if Hardware::CPU.intel?
       if Hardware::CPU.is_64_bit?
         url "$(get_asset_url linux amd64)"
@@ -67,13 +69,15 @@ class ${ID} < Formula
   end
 
   def install
-    if OS.mac?
+    on_macos do
       if Hardware::CPU.is_64_bit?
         bin.install "$(get_bin darwin amd64)" => "${BIN}"
       else
         bin.install "$(get_bin darwin 386)" => "${BIN}"
       end
-    elsif OS.linux?
+    end
+
+    on_linux do
       if Hardware::CPU.intel?
         if Hardware::CPU.is_64_bit?
           bin.install "$(get_bin linux amd64)" => "${BIN}"
