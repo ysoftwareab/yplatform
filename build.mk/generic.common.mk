@@ -11,7 +11,7 @@ SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
 SF_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.path.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.tpl.mk \
-	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.eclint.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.editorconfig.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.check.jsonlint.mk \
 
 # core.misc.release.mk depends on core.misc.version.mk

@@ -61,7 +61,7 @@ The high-level colletions of pieces are as follows:
   * [core.build.build-version-files.mk](core.build.build-version-files.mk)
   * [core.check.path.mk](core.check.path.mk)
   * [core.check.tpl.mk](core.check.tpl.mk)
-  * [core.check.eclint.mk](core.check.eclint.mk)
+  * [core.check.editorconfig.mk](core.check.editorconfig.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
   * [core.misc.promote.mk](core.misc.promote.mk)
   * [core.misc.version.mk](core.misc.version.mk)
