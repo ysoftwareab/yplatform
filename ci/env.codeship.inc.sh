@@ -10,7 +10,7 @@ CI_JOB_ID=${CI_BUILD_ID}
 CI_JOB_URL=https://app.codeship.com/projects/${CI_PROJECT_ID}/builds/${CI_BUILD_ID}
 CI_PR_SLUG= # needs CI_REPO_SLUG
 # CI_REPO_SLUG=${?????????????????}/${CI_REPO_NAME}
-CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//")
+CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
 CI_IS_PR=false
 if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
     CI_IS_PR=true

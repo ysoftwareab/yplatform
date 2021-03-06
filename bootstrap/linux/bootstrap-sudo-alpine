@@ -59,9 +59,12 @@ done
     cd $(mktemp -d)
     curl -fqsS -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
     GLIBC_VSN=2.32-r0
-    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-${GLIBC_VSN}.apk
-    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-bin-${GLIBC_VSN}.apk
-    curl -fqsS -L -O https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-i18n-${GLIBC_VSN}.apk
+    curl -fqsS -L -O \
+        https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-${GLIBC_VSN}.apk
+    curl -fqsS -L -O \
+        https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-bin-${GLIBC_VSN}.apk
+    curl -fqsS -L -O \
+        https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-i18n-${GLIBC_VSN}.apk
     apk add glibc-${GLIBC_VSN}.apk glibc-bin-${GLIBC_VSN}.apk glibc-i18n-${GLIBC_VSN}.apk
     rm glibc-${GLIBC_VSN}.apk glibc-bin-${GLIBC_VSN}.apk glibc-i18n-${GLIBC_VSN}.apk
 

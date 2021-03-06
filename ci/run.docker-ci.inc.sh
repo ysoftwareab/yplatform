@@ -6,7 +6,7 @@ function sf_run_docker_ci_login() {
 
     [[ -n "${SF_DOCKER_CI_USERNAME:-}" ]] || return
     [[ -n "${SF_DOCKER_CI_TOKEN:-}" ]] || return
-    echo "${SF_DOCKER_CI_TOKEN}" | exe docker login -u "${SF_DOCKER_CI_USERNAME}" --password-stdin ${SF_DOCKER_CI_SERVER:-}
+    echo "${SF_DOCKER_CI_TOKEN}" | exe docker login -u "${SF_DOCKER_CI_USERNAME}" --password-stdin ${SF_DOCKER_CI_SERVER:-} # editorconfig-checker-disable-line
 }
 
 function sf_run_docker_ci_image() {

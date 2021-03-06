@@ -213,7 +213,7 @@ jobs:
           wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
 
           wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash
-          --disabled-password --gecos \"\" ${WSLUSER}"
+          --disabled-password --gecos \"\" ${WSLUSER}" # editorconfig-checker-disable-line
 
           wsl bash -c "sudo adduser ${WSLUSER} sudo"
 

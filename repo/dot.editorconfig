@@ -12,11 +12,11 @@ trim_trailing_whitespace = true
 
 [.csv]
 end_of_line = crlf
-insert_final_newline = none
-trim_trailing_whitespace = none
+insert_final_newline = unset
+trim_trailing_whitespace = unset
 
 [*.md]
-max_line_length = none
+max_line_length = unset
 trim_trailing_whitespace = false
 
 [*.mk]
@@ -29,16 +29,16 @@ indent_size = 4
 indent_size = 4
 
 [.gitmodules]
-indent_style = none
+indent_style = unset
 
 [.mailmap]
-max_line_length = none
+max_line_length = unset
 
 [.travis.yml]
-max_line_length = none
+max_line_length = unset
 
 [Makefile*]
 indent_style = tab
 
 [package.json]
-max_line_length = none
+max_line_length = unset

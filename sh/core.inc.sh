@@ -76,11 +76,10 @@ case ${OS_SHORT} in
         OS_RELEASE_VERSION_ID=$(sw_vers -productVersion)
 
         SETUP_ASSISTANT_APP_DIR="/System/Library/CoreServices/Setup Assistant.app"
-        OS_RELEASE_ID_CODENAME=$(cat "${SETUP_ASSISTANT_APP_DIR}/Contents/Resources/en.lproj/OSXSoftwareLicense.html" | \
-            grep "SOFTWARE LICENSE AGREEMENT FOR" | sed "s/.*FOR //" | sed "s/<.*//")
+        OS_RELEASE_ID_CODENAME=$(cat "${SETUP_ASSISTANT_APP_DIR}/Contents/Resources/en.lproj/OSXSoftwareLicense.html" | grep "SOFTWARE LICENSE AGREEMENT FOR" | sed "s/.*FOR //" | sed "s/<.*//") # editorconfig-checker-disable-line
         OS_RELEASE_ID=$(echo "${OS_RELEASE_ID_CODENAME}" | cut -d" " -f1 | tr "[:upper:]" "[:lower:]")
         # shellcheck disable=SC2018
-        OS_RELEASE_VERSION_CODENAME=$(echo "${OS_RELEASE_ID_CODENAME}" | cut -d" " -f2- | tr "[:upper:]" "[:lower:]" | tr -cd "a-z")
+        OS_RELEASE_VERSION_CODENAME=$(echo "${OS_RELEASE_ID_CODENAME}" | cut -d" " -f2- | tr "[:upper:]" "[:lower:]" | tr -cd "a-z") # editorconfig-checker-disable-line
         unset SETUP_ASSISTANT_APP_DIR
         unset OS_RELEASE_ID_CODENAME
         ;;
@@ -92,7 +91,7 @@ case ${OS_SHORT} in
             # shellcheck disable=SC1091
             OS_RELEASE_VERSION_ID=$(source /etc/os-release && echo ${VERSION_ID:-} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
-            OS_RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME:-} | tr "[:upper:]" "[:lower:]")
+            OS_RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME:-} | tr "[:upper:]" "[:lower:]") # editorconfig-checker-disable-line
         elif type lsb_release >/dev/null 2>&1; then
             # linuxbase.org
             OS_RELEASE_ID=$(lsb_release -si | tr "[:upper:]" "[:lower:]")
@@ -104,7 +103,7 @@ case ${OS_SHORT} in
             # shellcheck disable=SC1091
             OS_RELEASE_VERSION_ID=$(source /etc/lsb-release && echo ${DISTRIB_RELEASE:-} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
-            OS_RELEASE_VERSION_CODENAME=$(source /etc/lsb-release && echo ${DISTRIB_CODENAME:-} | tr "[:upper:]" "[:lower:]")
+            OS_RELEASE_VERSION_CODENAME=$(source /etc/lsb-release && echo ${DISTRIB_CODENAME:-} | tr "[:upper:]" "[:lower:]") # editorconfig-checker-disable-line
         fi
         ;;
     *)

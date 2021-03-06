@@ -36,7 +36,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         curl -fqsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
         ${SF_SUDO} apt-key fingerprint 0EBFCD88
         ${SF_SUDO} add-apt-repository -u \
-            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable"
+            "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable" # editorconfig-checker-disable-line
 
         apt_install_one docker-ce
         apt_install_one docker-ce-cli

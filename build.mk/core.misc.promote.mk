@@ -5,7 +5,12 @@
 # ------------------------------------------------------------------------------
 
 .PHONY: _promote
-_promote: guard-env-SF_PROMOTE_CHANNEL guard-env-SF_PROMOTE_CHANNELS guard-env-SF_PROMOTE_BRANCH guard-env-SF_PROMOTE_TAG guard-env-GIT_REMOTE
+_promote: guard-env-SF_PROMOTE_CHANNEL
+_promote: guard-env-SF_PROMOTE_CHANNELS
+_promote: guard-env-SF_PROMOTE_BRANCH
+_promote: guard-env-SF_PROMOTE_TAG
+_promote: guard-env-GIT_REMOTE
+_promote:
 	$(eval TAG_COMMIT := $(shell $(GIT) rev-list -n1 $(SF_PROMOTE_TAG)))
 	$(ECHO) "$(SF_PROMOTE_CHANNELS)" | $(GREP) -q -e "\(^\|\s\)$(SF_PROMOTE_CHANNEL)\(\s\|$$\)" || { \
 		$(ECHO_ERR) "$(SF_PROMOTE_CHANNEL) is not a known promotion channel."; \
