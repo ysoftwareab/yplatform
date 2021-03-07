@@ -7,7 +7,7 @@ set -euo pipefail
 if [[ -z "${YAML_EXPAND_PASS:-}" ]]; then
     export YAML_EXPAND_PASS=1
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    npx -q -p js-yaml@4 yaml-expand
+    npx -q -p js-yaml@3.14.1 yaml-expand
     exit 0
 fi
 
