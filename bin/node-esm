@@ -17,7 +17,7 @@ fi
 # make NPX node_modules available to node
 NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep ".npm/_npx" | head -n1)
 NPX_PATH=$(dirname ${NPX_PATH})
-export NODE_PATH=${NPX_PATH}/lib/node_modules:${NODE_PATH:-}
+export NODE_PATH=${NPX_PATH}/lib/node_modules:${NPX_PATH}:${NODE_PATH:-}
 
 # require esm and run script
 eval "node -r esm ${NODE_ESM_ARGS}"
