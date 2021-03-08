@@ -131,7 +131,7 @@ deps-npm-install:
 			$(JQ) "to_entries" | \
 			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
 			$(JQ) -r ".key" | \
-			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
+			$(XARGS) -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --development; \
 	}
 
@@ -165,7 +165,7 @@ deps-npm-install-prod:
 			$(JQ) "to_entries" | \
 			$(JQ) ".[] | select(.value | contains(\"git\"))" | \
 			$(JQ) -r ".key" | \
-			$(XARGS) -L1 -I{} $(RM) node_modules/{}; \
+			$(XARGS) -I{} $(RM) node_modules/{}; \
 		$(NPM) update --no-save --production; \
 	}
 
