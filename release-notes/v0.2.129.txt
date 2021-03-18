@@ -1,0 +1,41 @@
+support-firecloud v0.2.129 Release Notes
+
+Highlights since v0.2.128:
+
+* None
+
+Breaking commits since v0.2.128:
+
+* 51e229ca 2021-03-06 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+* f69ed86c 2021-03-06 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+* 9def094b 2021-03-06 breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+
+
+Commits since v0.2.128:
+
+* 57f1f52b 2021-03-18 handle new eslint-plugin-firecloud
+* e6dc639e 2021-03-08 --max-lines and --replace are mutually exclusive
+* 7d9480a8 2021-03-07 ignore release-notes from 'make check-editorconfig'
+* 7f055682 2021-03-07 move github workflow template to shared 'repo' folder
+* 589d2622 2021-03-07 downgrade to js-yaml@3.14.1 for now
+* 3309bcf8 2021-03-07 sync with js-yaml output
+* 54ffb224 2021-03-07 fix NODE_PATH in npx scripts, for newer npx behaviour
+* 51e229ca 2021-03-06 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+* a39b3891 2021-03-06 Revert "yml style"
+* f69ed86c 2021-03-06 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+* 9def094b 2021-03-06 breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+* 0a00ee5a 2021-03-06 updated Brewfile.lock
+* 21226bc4 2021-03-06 yml style
+* 775cf861 2021-03-06 fixup! bump editorconfig-checker 2.1.0 -> 2.3.3
+* 66924be7 2021-03-06 brew style: OS.mac? -> on_macos, OS.linux? -> on_linux
+* 4d0591d6 2021-02-23 updated Brewfile.lock
+* 8aeaa77d 2021-02-23 add global semver
+* cb877f89 2021-02-23 style
+* f297c461 2021-02-21 bump editorconfig-checker 2.1.0 -> 2.3.3
+* 6cf218ff 2021-02-23 generate Formula/editorconfig-checker.rb from template
+* dbc53387 2021-02-08 shallow homebrew only in CI
+* d5460ef5 2021-02-05 note that personal access tokens also need SSO enabling
+* ed4b707b 2021-02-05 fixup! dev/bootstrap: Command Line Tools are a prerequisite for Darwin
+* 8a4c4078 2021-02-05 dev/bootstrap: Command Line Tools are a prerequisite for Darwin
+* 487d6e6a 2021-01-23 hide github actions in bin folder
+o d37782bc 2021-01-23 0.2.128
