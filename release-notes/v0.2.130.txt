@@ -1,0 +1,14 @@
+support-firecloud v0.2.130 Release Notes
+
+Highlights since v0.2.129:
+
+* None
+
+Breaking commits since v0.2.129:
+
+* None
+
+Commits since v0.2.129:
+
+* 0bbac987 2021-03-18 editorconfig: none -> unset
+o 9779733b 2021-03-18 0.2.129
