@@ -2,7 +2,7 @@
 # The 'deps-npm' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
 #
 # In addition to 'npm install' functionality, we also:
-# * install babel-preset-firecloud and eslint-config-firecloud peer dependencies
+# * install babel-preset-firecloud and eslint-plugin-firecloud peer dependencies
 # * 'npm update' also the git dependencies (to the latest compatible version)
 # * check (and fail) for unmet peer dependencies.
 #
@@ -97,11 +97,12 @@ deps-npm-install:
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/babel-preset-firecloud/package.json
+		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/babel-preset-firecloud/package.json
+	[[ ! -f node_modules/eslint-plugin-firecloud/package.json ]] || \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/eslint-plugin-firecloud/package.json
+#	deprecated
 	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps \
-			node_modules/eslint-config-firecloud/package.json
+		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/eslint-config-firecloud/package.json
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \
