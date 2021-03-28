@@ -1,0 +1,15 @@
+support-firecloud v0.2.131 Release Notes
+
+Highlights since v0.2.130:
+
+* None
+
+Breaking commits since v0.2.130:
+
+* 65897aa3 2021-03-29 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+
+
+Commits since v0.2.130:
+
+* 65897aa3 2021-03-29 fixup! breaking: remove support for node_modules/.bin/eclint, rename make target 'check-eclint' to 'check-editorconfig'
+o 6fc04c00 2021-03-18 0.2.130
