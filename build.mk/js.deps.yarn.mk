@@ -33,8 +33,8 @@ SF_CLEAN_FILES += \
 SF_DEPS_TARGETS += \
 	deps-yarn \
 
-ifdef SF_ECLINT_FILES_IGNORE
-SF_ECLINT_FILES_IGNORE += \
+ifdef SF_ECCHECKER_FILES_IGNORE
+SF_ECCHECKER_FILES_IGNORE += \
 	-e "^yarn.lock$$" \
 	-e "^yarn.lock.unmet-peer$$" \
 

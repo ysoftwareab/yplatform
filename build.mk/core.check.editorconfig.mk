@@ -24,6 +24,7 @@ ECCHECKER_ARGS += \
 
 # backwards compat
 SF_ECLINT_FILES_IGNORE += \
+	-e "^$$" \
 
 SF_ECCHECKER_FILES_IGNORE += \
 	-e "^$$" \

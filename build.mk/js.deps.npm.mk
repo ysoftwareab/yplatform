@@ -40,8 +40,8 @@ SF_CHECK_TARGETS += \
 	check-package-json \
 	check-package-lock-json \
 
-ifdef SF_ECLINT_FILES_IGNORE
-SF_ECLINT_FILES_IGNORE += \
+ifdef SF_ECCHECKER_FILES_IGNORE
+SF_ECCHECKER_FILES_IGNORE += \
 	-e "^package-lock.json$$" \
 	-e "^package.json.unmet-peer$$" \
 
