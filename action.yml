@@ -89,4 +89,4 @@ runs:
         [[ -d "${GITHUB_ACTION_PATH}" ]] || \
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
-        "${GITHUB_ACTION_PATH}/bin/github-action-run.sh"
+        "${GITHUB_ACTION_PATH}/bin/github-action-run"
