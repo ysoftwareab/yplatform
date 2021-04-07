@@ -1,0 +1,14 @@
+support-firecloud v0.2.133 Release Notes
+
+Highlights since v0.2.132:
+
+* None
+
+Breaking commits since v0.2.132:
+
+* None
+
+Commits since v0.2.132:
+
+* f383e408 2021-04-07 fixup! hide github actions in bin folder
+o f4c15056 2021-04-07 0.2.132
