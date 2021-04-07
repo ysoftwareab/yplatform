@@ -1,1 +1,1 @@
-repo/dot.github/workflows/main.yml.tpl
+../../repo/dot.github/workflows/main.yml.tpl
