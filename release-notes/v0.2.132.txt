@@ -1,0 +1,15 @@
+support-firecloud v0.2.132 Release Notes
+
+Highlights since v0.2.131:
+
+* None
+
+Breaking commits since v0.2.131:
+
+* None
+
+Commits since v0.2.131:
+
+* 089eacfc 2021-04-07 fixup! handle template executables in the current folder
+* 187277c0 2021-04-07 fixup! move github workflow template to shared 'repo' folder
+o eb335cff 2021-03-29 0.2.131
