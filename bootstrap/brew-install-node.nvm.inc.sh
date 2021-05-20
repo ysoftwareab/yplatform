@@ -12,6 +12,7 @@ exe_and_grep_q "nvm --version | head -1" "^0\." >/dev/null || brew_install_one n
 
 echo_do "Enabling NVM..."
 set +u
+# shellcheck disable=SC1091
 source $(brew --prefix nvm)/nvm.sh --no-use
 set -u
 echo_done
