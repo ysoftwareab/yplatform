@@ -10,13 +10,72 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## All missing inputs can be piped via stdin in the order below.
 ##
 ##   --room-size    Room's size: width and depth e.g. "5 7"
-##   --position     Initial position: x, y and direction (orientation) of the robot e.g. "3 3 N"
-##   --navigation   Navigation commands e.g. L(eft) R(ight) F(orward)
+##   --position     Initial 0-indexed position: x, y and direction (orientation) of the robot e.g. "3 3 N"
+##   --navigation   Navigation commands: L(eft) R(ight) F(orward)
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-function main() {
+ROOM_SIZE=
+POSITION=
+NAVIGATION=
+
+ROOM_WIDTH=
+ROOM_DEPTH=
+MAX_POS_X=
+MAX_POS_Y=
+POS_X=
+POS_Y=
+POS_O=
+
+function echo_x() {
+    echo_err "$@"
+    exit 1
+}
+
+function read_input_room_size() {
+    [[ -n "${ROOM_SIZE}" ]] || read -r -p "--room-size " ROOM_SIZE
+    [[ -n "${ROOM_SIZE}" ]] || echo_x "Room size is required."
+
+    ROOM_WIDTH=$(echo "${ROOM_SIZE}" | cut -d" " -f1)
+    ROOM_DEPTH=$(echo "${ROOM_SIZE}" | cut -d" " -f2)
+    [[ "${ROOM_WIDTH}" =~ ^[0-9]+$ && "${ROOM_WIDTH}" -gt 0 ]] || echo_x "Room width ${ROOM_WIDTH} is not a positive integer."
+    [[ "${ROOM_DEPTH}" =~ ^[0-9]+$ && "${ROOM_DEPTH}" -gt 0 ]] || echo_x "Room depth ${ROOM_DEPTH} is not a positive integer."
+
+    MAX_POS_X="$(( ROOM_WIDTH - 1 ))"
+    MAX_POS_Y="$(( ROOM_DEPTH - 1 ))"
+}
+
+function read_input_position() {
+    [[ -n "${POSITION}" ]] || read -r -p "--position " POSITION
+    [[ -n "${POSITION}" ]] || echo_x "Position is required."
+
+    POS_X=$(echo "${POSITION}" | cut -d" " -f1)
+    POS_Y=$(echo "${POSITION}" | cut -d" " -f2)
+    POS_O=$(echo "${POSITION}" | cut -d" " -f3)
+    [[ "${POS_X}" =~ ^[0-9]+$ ]] || echo_x "Position x ${POS_X} is not a positive integer."
+    [[ "${POS_Y}" =~ ^[0-9]+$ ]] || echo_x "Position y ${POS_Y} is not a positive integer."
+    [[ "${POS_X}" -lt "${ROOM_WIDTH}" ]] || echo_x "Position x ${POS_X} is larger than room width ${ROOM_WIDTH}."
+    [[ "${POS_Y}" -lt "${ROOM_DEPTH}" ]] || echo_x "Position y ${POS_Y} is larger than room depth ${ROOM_DEPTH}."
+    [[ "${POS_O}" =~ ^[NESW]$ ]] || echo_x "Orientation ${POS_O} is not a NESW."
+    ORIENTATION=$(cat <<EOF
+N0
+E1
+S2
+W3
+EOF
+    )
+    # NOTE converting to index for bit manipulation
+    POS_O=$(echo "${ORIENTATION}" | grep "^${POS_O}" | head -c 2 | tail -c 1)
+}
+
+function read_input_navigation() {
+    [[ -n "${NAVIGATION}" ]] || read -r -p "--navigation " NAVIGATION
+    [[ -n "${NAVIGATION}" ]] || echo_x "Navigation is required."
+    [[ "${NAVIGATION}" =~ ^[LRF]+$ ]] || echo_x "Navigation ${NAVIGATION} is not a sequence of LRF."
+}
+
+function read_input() {
     ROOM_SIZE=
     POSITION=
     NAVIGATION=
@@ -50,36 +109,13 @@ function main() {
         esac
     done
 
-    # parse input
-    [[ -n "${ROOM_SIZE}" ]] || read -r -p "--room-size " ROOM_SIZE
-    ROOM_WIDTH=$(echo "${ROOM_SIZE}" | cut -d" " -f1)
-    ROOM_DEPTH=$(echo "${ROOM_SIZE}" | cut -d" " -f2)
-    [[ "${ROOM_WIDTH}" =~ ^[0-9]+$ ]] || { echo_err "Room width ${ROOM_WIDTH} is not a positive integer."; exit 1; }
-    [[ "${ROOM_DEPTH}" =~ ^[0-9]+$ ]] || { echo_err "Room depth ${ROOM_DEPTH} is not a positive integer."; exit 1; }
-    MAX_POS_X="$(( ROOM_WIDTH - 1 ))"
-    MAX_POS_Y="$(( ROOM_DEPTH - 1 ))"
+    read_input_room_size
+    read_input_position
+    read_input_navigation
+}
 
-    [[ -n "${POSITION}" ]] || read -r -p "--position " POSITION
-    POS_X=$(echo "${POSITION}" | cut -d" " -f1)
-    POS_Y=$(echo "${POSITION}" | cut -d" " -f2)
-    POS_O=$(echo "${POSITION}" | cut -d" " -f3)
-    [[ "${POS_X}" =~ ^[0-9]+$ ]] || { echo_err "Position x ${POS_X} is not a positive integer."; exit 1; }
-    [[ "${POS_Y}" =~ ^[0-9]+$ ]] || { echo_err "Position y ${POS_Y} is not a positive integer."; exit 1; }
-    [[ "${POS_X}" -lt "${ROOM_WIDTH}" ]] || { echo_err "Position x ${POS_X} is larger than room width ${ROOM_WIDTH}."; exit 1; }
-    [[ "${POS_Y}" -lt "${ROOM_DEPTH}" ]] || { echo_err "Position y ${POS_Y} is larger than room depth ${ROOM_DEPTH}."; exit 1; }
-    [[ "${POS_O}" =~ ^[NESW]$ ]] || { echo_err "Orientation ${POS_O} is not a NESW."; exit 1; }
-    ORIENTATION=$(cat <<EOF
-N0
-E1
-S2
-W3
-EOF
-    )
-    # NOTE converting to index for bit manipulation
-    POS_O=$(echo "${ORIENTATION}" | grep "^${POS_O}" | head -c 2 | tail -c 1)
-
-    [[ -n "${NAVIGATION}" ]] || read -r -p "--navigation " NAVIGATION
-    [[ "${NAVIGATION}" =~ ^[LRF]+$ ]] || { echo_err "Navigation ${NAVIGATION} is not a sequence of LRF."; exit 1; }
+function main() {
+    read_input
 
     # main
     echo_info "_ -> ${POS_X} ${POS_Y} ${POS_O}" # debug
@@ -127,14 +163,12 @@ EOF
                         fi
                         ;;
                     *)
-                        echo_err "Unknown orientation ${POS_O}."
-                        exit 1
+                        echo_x "Unknown orientation ${POS_O}."
                         ;;
                 esac
                 ;;
             *)
-                echo_err "Unknown command ${COMMAND}."
-                exit 1
+                echo_x "Unknown command ${COMMAND}."
                 ;;
         esac
         echo_info "${COMMAND} -> ${POS_X} ${POS_Y} ${POS_O}" # debug

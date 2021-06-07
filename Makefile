@@ -182,19 +182,4 @@ Formula/%.linux.patch: Formula/patch-src/%.original.rb
 Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
 	$(call sf-generate-from-template-patched,Formula/$*.linux.patch)
 
-# ---
-
-ROBOT_TARGETS := $(patsubst %.in,%.run,$(wildcard robot/*.in))
-
-.PHONY: $(ROBOT_TARGETS)
-$(ROBOT_TARGETS): robot/%.run: robot/%.in robot/%.out
-	$(ECHO_DO) "Running $< ..."
-	$(CAT) $< | bin/robot.sh | $(TEE) $@
-	$(ECHO_INFO) "Checking if reporting fulfills expectations..."
-	$(DIFF) -u $@ $(word 2,$^)
-	$(ECHO_DONE)
-
-
-.PHONY: robot
-robot: $(ROBOT_TARGETS)
-	:
+include Makefile.robot
