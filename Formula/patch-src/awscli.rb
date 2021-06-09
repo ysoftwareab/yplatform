@@ -3,20 +3,20 @@ class Awscli < Formula
 
   desc "Official Amazon AWS command-line interface"
   homepage "https://aws.amazon.com/cli/"
-  url "https://github.com/aws/aws-cli/archive/2.0.44.tar.gz"
-  sha256 "0c8c5bd40717e9b9dda6c747756e469aece7e6ded53de64f1a5caca4b78b5456"
+  url "https://github.com/aws/aws-cli/archive/2.2.13.tar.gz"
+  sha256 "c6281d69f1c5cf9ddc1b858d37876172a103475714849c7b248a8d3e4b570d4f"
   license "Apache-2.0"
   head "https://github.com/aws/aws-cli.git", branch: "v2"
 
   bottle do
-    sha256 "391408bb08636c2190a9c9b75d4574e20475cb4e199d14b24ad2c02a03d4aee7" => :catalina
-    sha256 "b610a107875dac44a9a3a5c45569228dfb0c51769af74e69ac3aec57ac1c8c70" => :mojave
-    sha256 "2eeada5996038d52a6d9efe9458180b5f38fc69ab3e8ab98c810d0c17cac93ce" => :high_sierra
+    sha256 cellar: :any, arm64_big_sur: "abfe652ff6f86a99ba0dd2864cbc50ab3dc97a0a349c681142c3e905c29722ab"
+    sha256               big_sur:       "d1215e7bc668237f62d2b07add8257de7396fbbb21ad98cd737714c613a3a179"
+    sha256               catalina:      "892c5cafc181cf172a13b0bbcef07b76faff4f1bc60cb2d7498e0d80a9b8bd51"
+    sha256               mojave:        "30584d929a1bfe4a5649a14411579c18bb429f23dcd2972ba40edf7b69186f33"
   end
 
-  # Some AWS APIs require TLS1.2, which system Python doesn't have before High
-  # Sierra
-  depends_on "python@3.8"
+  depends_on "cmake" => :build
+  depends_on "python@3.9"
 
   uses_from_macos "groff"
 
@@ -30,6 +30,7 @@ class Awscli < Formula
                               "--ignore-installed", buildpath
     system libexec/"bin/pip", "uninstall", "-y", "awscli"
     venv.pip_install_and_link buildpath
+    system libexec/"bin/pip", "uninstall", "-y", "pyinstaller"
     pkgshare.install "awscli/examples"
 
     rm Dir["#{bin}/{aws.cmd,aws_bash_completer,aws_zsh_completer.sh}"]
@@ -58,7 +59,7 @@ class Awscli < Formula
 
   test do
     assert_match "topics", shell_output("#{bin}/aws help")
-    assert_include Dir["#{libexec}/lib/python3.8/site-packages/awscli/data/*"],
-                   "#{libexec}/lib/python3.8/site-packages/awscli/data/ac.index"
+    assert_includes Dir["#{libexec}/lib/python3.9/site-packages/awscli/data/*"],
+                    "#{libexec}/lib/python3.9/site-packages/awscli/data/ac.index"
   end
 end
