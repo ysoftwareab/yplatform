@@ -1,0 +1,20 @@
+support-firecloud v0.2.134 Release Notes
+
+Highlights since v0.2.133:
+
+* None
+
+Breaking commits since v0.2.133:
+
+* None
+
+Commits since v0.2.133:
+
+* 9c1e61b0 2021-06-21 support npx behaviour in npm@7
+* 13eaae1b 2021-06-10 update erlang Formula
+* bf53ade5 2021-06-10 update awscli Formula
+* 3a39943a 2021-06-20 bump to brew@3.1.12 + taps
+* 42e06d85 2021-06-20 fixup! better printing for on error. implement bash-debug-to-file. fix #219
+* c4847e89 2021-05-31 bump brew@3.1.9 to fix errors
+* aaf65d84 2021-05-20 bump homebrew (bintray going south)
+o 795ab33f 2021-04-07 0.2.133
