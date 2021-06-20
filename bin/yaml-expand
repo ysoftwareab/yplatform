@@ -7,14 +7,17 @@ set -euo pipefail
 if [[ -z "${YAML_EXPAND_PASS:-}" ]]; then
     export YAML_EXPAND_PASS=1
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    npx -q -p js-yaml@3.14.1 yaml-expand
+    npx --quiet --package js-yaml@3.14.1 yaml-expand
     exit 0
 fi
 
 # make NPX node_modules available to node
-NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep ".npm/_npx" | head -n1)
-NPX_PATH=$(dirname ${NPX_PATH})
-export NODE_PATH=${NPX_PATH}/lib/node_modules:${NPX_PATH}:${NODE_PATH:-}
+NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
+# starting NPM@7 the local packages will be reused, thus NPX_PATH is empty
+[[ -z "${NPX_PATH}" ]] || {
+    NPX_PATH=$(dirname ${NPX_PATH})
+    export NODE_PATH=${NPX_PATH}/lib/node_modules:${NPX_PATH}:${NODE_PATH:-}
+}
 
 # expand
 SCRIPT="$(cat <<EOF
