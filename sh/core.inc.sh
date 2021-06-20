@@ -4,11 +4,12 @@ set -euo pipefail
 
 # see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
-    >&2 echo "Failed during: ${BASH_COMMAND}"
+    >&2 echo "Failed during: $(eval echo "${BASH_COMMAND}")"
+    >&2 echo "Invoked as: ${BASH_COMMAND}"
     >&2 echo "Error code: $?"
     # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
-    for (( i=1; i<${#BASH_LINENO[@]}; i++ )); do
-        >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}]}: ${FUNCNAME:-MAIN}"
+    for (( i=1; i<${#BASH_SOURCE[@]}; i++ )); do
+        >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}]}: ${FUNCNAME[${i}]}"
     done
     >&2 echo "---"
 }
