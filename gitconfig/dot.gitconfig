@@ -96,6 +96,8 @@
 # MISC
 [advice]
     detachedHead        = false
+[blame]
+    ignoreRevsFile      = .git-blame-ignore-revs
 [gc]
     auto                = 0
 [init]
