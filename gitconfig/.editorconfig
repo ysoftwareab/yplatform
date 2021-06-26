@@ -1,2 +1,3 @@
 [/dot.gitconfig]
+indent_size = 4
 max_line_length = unset
