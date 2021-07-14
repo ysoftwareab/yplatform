@@ -21,7 +21,7 @@ CMD ["bash"]
 # see https://github.com/camptocamp/docker-git/blob/master/docker-entrypoint.sh
 
 COPY Dockerfile.entrypoint.sh /Dockerfile.entrypoint.sh
-COPY Dockerfile.entrypoint.d /Dockerfile.entrypoint.d
-ONBUILD COPY Dockerfile.entrypoint.d /Dockerfile.entrypoint.d
-ONBUILD COPY docker-entrypoint.d /Dockerfile.entrypoint.d # ?! compat with camptocamp
+COPY Dockerfile.entrypoint.d/* /Dockerfile.entrypoint.d/
+ONBUILD COPY Dockerfile.entrypoint.d/* /Dockerfile.entrypoint.d/
+ONBUILD COPY docker-entrypoint.d/* /Dockerfile.entrypoint.d/ # ?! compat with camptocamp
 ENTRYPOINT ["/Dockerfile.entrypoint.sh"]
