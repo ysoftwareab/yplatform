@@ -35,7 +35,7 @@ function sf_run_docker_ci_image() {
         --add-host ${CONTAINER_NAME}:127.0.0.1 \
         --network=host \
         --ipc=host \
-        --volume ${MOUNT_DIR}:${MOUNT_DIR} \
+        --volume "${MOUNT_DIR}:${MOUNT_DIR}:rw" \
         --env CI=true \
         --env USER=${UNAME} \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
