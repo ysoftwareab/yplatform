@@ -67,6 +67,12 @@ if which brew >/dev/null 2>&1; then
     unset HOMEBREW_PREFIX
 fi
 
+if which docker >/dev/null 2>&1; then
+    # disable buildkit which is not ready for primetime, but enabled by default on macos
+    # see https://github.com/moby/buildkit/issues/1472
+    export DOCKER_BUILDKIT=0
+fi
+
 if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
        [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
     # sourced
