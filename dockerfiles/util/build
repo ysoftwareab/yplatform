@@ -63,11 +63,16 @@ DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID})
     DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${SF_CI_BREW_INSTALL}
 
 echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
-exe docker build ${SUPPORT_FIRECLOUD_DIR} \
-    --file ${DOCKERFILE} \
-    --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
-    --build-arg SF_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
-    --build-arg SF_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
-    --build-arg SF_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-    --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+(
+    cd ${SUPPORT_FIRECLOUD_DIR}
+    # NOTE using tar in order to deref symlinks
+    # see https://stackoverflow.com/a/62915644/465684
+    tar -czh . | exe docker build - \
+        --file ${DOCKERFILE} \
+        --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
+        --build-arg SF_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
+        --build-arg SF_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
+        --build-arg SF_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+        --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL}
+)
 echo_done
