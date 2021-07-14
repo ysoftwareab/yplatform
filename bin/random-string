@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- random-string 1.0
+## Usage: random-string OPTION...
+## Generate a random string.
+##
+##   --length       String length. Defaults to 32 (UUID).
+##   --set          Character set as allowed by 'tr'. Defaults to 'a-zA-Z0-9'
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+LENGTH=32
+SET=a-zA-Z0-9
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --length)
+            LENGTH=$2
+            shift 2
+            ;;
+        --set)
+            SET=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+# NOTE 141 means SIGPIPE
+cat /dev/urandom | env LC_CTYPE=C tr -dc "${SET}" | head -c "${LENGTH}" || \
+    if [[ $? -eq 141 ]]; then true; else exit $?; fi
