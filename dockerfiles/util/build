@@ -49,16 +49,26 @@ while [[ $# -gt 0 ]]; do
 done
 
 MYSELF=${BASH_SOURCE[0]}
+OS_RELEASE_DIR="$(cd "$(dirname ${MYSELF})" && pwd)"
 OS_RELEASE_FILE=$(dirname ${MYSELF})/os-release
 
 DOCKER_OS_RELEASE_ID="$(source ${OS_RELEASE_FILE} && echo ${ID})"
 DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID})"
 
+OS_RELEASE_DIR2="${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}"
+[[ "${OS_RELEASE_DIR}" = "${OS_RELEASE_DIR2}" ]] || {
+    echo_info "OS_RELEASE_DIR=${OS_RELEASE_DIR}"
+    echo_info "OS_RELEASE_DIR2=${OS_RELEASE_DIR2}"
+    echo_err "Inferred directory doesn't match this script's directory."
+    exit 1
+}
+
 [[ -n "${DOCKER_IMAGE_FROM}" ]] || \
     DOCKER_IMAGE_FROM=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
 
 [[ -n "${DOCKERFILE}" ]] || \
-    DOCKERFILE=${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}/Dockerfile # editorconfig-checker-disable-line
+    DOCKERFILE=${OS_RELEASE_DIR}/Dockerfile
+
 [[ -n "${DOCKER_IMAGE_NAME}" ]] || \
     DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${SF_CI_BREW_INSTALL}
 
