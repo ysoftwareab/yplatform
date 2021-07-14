@@ -36,7 +36,7 @@ recursive=1
 fail_missing=0
 worktree_attributes=0
 compress_flag=
-options="$(getopt -n "$self" -o hlrv0123456789o: --long help,list,version,verbose,worktree-attributes,recursive,no-recursive,fail-missing,format:,output:,prefix: -- "$@")"
+options="$(getopt -n "$self" -o hlrv0123456789o: -l help,list,version,verbose,worktree-attributes,recursive,no-recursive,fail-missing,format:,output:,prefix: -- "$@")"
 eval "set -- $options"
 
 while [[ "$#" -gt 0 ]]
