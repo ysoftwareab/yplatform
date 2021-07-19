@@ -16,6 +16,7 @@ brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 
 brew_install_one_if gawk "awk --version | head -1" "^GNU Awk 5\."
 # NOTE 'gettext' provides 'envsubst'
 brew_install_one_if gettext "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \(0\.20\|0\.21\)"
+brew_install_one_if gnu-getopt "getopt --version | head -1" "^getopt from util-linux 2\."
 brew_install_one_if gnu-sed "sed --version | head -1" "^sed (GNU sed) 4\."
 brew_install_one_if gnu-tar "tar --version | head -1" "^tar (GNU tar) 1\."
 brew_install_one_if gnu-time "env time --version | head -1" "^time (GNU Time) 1\."
