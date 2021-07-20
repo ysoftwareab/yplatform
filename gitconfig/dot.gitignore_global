@@ -49,6 +49,7 @@ yarn-error.log*
 
 # Misc
 Makefile.lazy
+/archive.*
 
 # END gitconfig/dot.gitignore_global.base
 
