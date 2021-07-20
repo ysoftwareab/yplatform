@@ -10,10 +10,15 @@
 # ------------------------------------------------------------------------------
 
 .PHONY: tar
-tar: tar/tar.gz ## Create a tar file of the source files.
+tar: tar/tar.gz ## Archive source files as a tar.gz file.
 
 
 .PHONY: tar/%
+# NOTE: below is a workaround for 'make help' to work
+tar/tar: ## Archive source files as a tar file.
+tar/tgz: ## Archive source files as a tgz file.
+tar/tar.gz: ## Archive source files as a tar.gz file.
+tar/zip: ## Archive source files as a zip file.
 tar/%:
 	$(eval SF_TARBALL_FORMAT := $*)
 	if [[ -n "$(GIT_TAGS)" ]]; then \
