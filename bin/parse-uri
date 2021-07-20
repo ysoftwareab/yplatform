@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# see https://datatracker.ietf.org/doc/html/rfc3986#appendix-B
 # see https://stackoverflow.com/a/45977232/465684
 # see https://stackoverflow.com/a/63993578/465684
 
@@ -14,7 +15,18 @@ readonly URI_REGEX='^(([^:/?#]+):)?(//((([^:/?#]+)@)?([^:/?#]+)(:([0-9]+))?))?((
 #                                  |  4 authority
 #                                  3 //…
 
-[[ "$*" =~ ${URI_REGEX} ]] || true
+readonly SSH_REGEX='^(()()((([^:/?#]+)@)?([^:/?#]+)(:([0-9]+))?))?((:|$)([^?#]*))(\?([^#]*))?(#(.*))?'
+
+[[ "$*" =~ ${URI_REGEX} ]] || {
+    if [[ "$*" =~ ${SSH_REGEX} ]]; then
+        # normalize to ssh: URI
+        BASH_REMATCH[1]="ssh:"
+        BASH_REMATCH[2]="ssh"
+        BASH_REMATCH[3]="//${BASH_REMATCH[4]}"
+        BASH_REMATCH[10]="${BASH_REMATCH[10]/#:/\/}"
+        BASH_REMATCH[11]="/"
+    fi
+}
 for i in {1..16}; do
     BASH_REMATCH[${i}]="${BASH_REMATCH[${i}]:-}"
 done
