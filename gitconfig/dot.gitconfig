@@ -129,6 +129,10 @@
     recurse = true
 [svn]
     rmdir               = true
+[tar "tar.bz2"]
+    command             = bzip2 -c
+[tar "tar.xz"]
+    command             = xz -c
 
 # prefer ssh over git (over ssh) and https
 [url "git@github.com:"]
