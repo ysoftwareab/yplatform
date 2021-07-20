@@ -1,4 +1,4 @@
-# Adds a 'tar' target that will build a tarball of the current git worktree.
+# Adds a 'tar' target that will build a zipball of the current git worktree.
 #
 # ------------------------------------------------------------------------------
 #
@@ -10,7 +10,8 @@
 # ------------------------------------------------------------------------------
 
 .PHONY: tar
-tar: tar/tar.gz ## Archive source files as a tar.gz file.
+# NOTE: we default to zip (instead of tar, git-archive's default)
+tar: tar/zip ## Archive source files as a zip file.
 
 
 .PHONY: tar/%
