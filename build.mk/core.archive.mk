@@ -16,11 +16,11 @@ archive: archive/zip ## Archive source files as a zip file.
 
 .PHONY: archive/%
 # NOTE: below is a workaround for 'make help' to work
-archive/tar: ## Archive source files as a tar file.
-archive/tgz: ## Archive source files as a tgz file.
 archive/tar.bz2: ## Archive source files as a tar.bzip2 file.
 archive/tar.gz: ## Archive source files as a tar.gz file.
 archive/tar.xz: ## Archive source files as a tar.xz file.
+archive/tar: ## Archive source files as a tar file.
+archive/tgz: ## Archive source files as a tgz file.
 archive/zip: ## Archive source files as a zip file.
 archive/%:
 	$(eval SF_TARBALL_FORMAT := $*)
