@@ -1,26 +1,26 @@
-# Adds a 'tar' target that will build a zipball of the current git worktree.
+# Adds a 'archive' target that will build a zipball of the current git worktree.
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'tar/%' target that will build a archive of given format of the current git worktree.
-# Format can be whatever git-archive supports.
+# Adds a 'archive/%' target that will build an archive of given format
+# of the current git worktree. Format can be whatever git-archive supports.
 #
 # ------------------------------------------------------------------------------
 
 # ------------------------------------------------------------------------------
 
-.PHONY: tar
+.PHONY: archive
 # NOTE: we default to zip (instead of tar, git-archive's default)
-tar: tar/zip ## Archive source files as a zip file.
+archive: archive/zip ## Archive source files as a zip file.
 
 
-.PHONY: tar/%
+.PHONY: archive/%
 # NOTE: below is a workaround for 'make help' to work
-tar/tar: ## Archive source files as a tar file.
-tar/tgz: ## Archive source files as a tgz file.
-tar/tar.gz: ## Archive source files as a tar.gz file.
-tar/zip: ## Archive source files as a zip file.
-tar/%:
+archive/tar: ## Archive source files as a tar file.
+archive/tgz: ## Archive source files as a tgz file.
+archive/tar.gz: ## Archive source files as a tar.gz file.
+archive/zip: ## Archive source files as a zip file.
+archive/%:
 	$(eval SF_TARBALL_FORMAT := $*)
 	if [[ -n "$(GIT_TAGS)" ]]; then \
 		SF_TARBALL=archive-$(shell $(GIT) tag -l --points-at HEAD | $(HEAD) -1); \
