@@ -31,7 +31,7 @@ archive/%:
 	else \
 		SF_TARBALL=archive-$(GIT_HASH); \
 	fi; \
-	$(ECHO_DO) "Archiving into $${SF_TARBALL}..."; \
+	$(ECHO_DO) "Archiving into $${SF_TARBALL}.$(SF_TARBALL_FORMAT)..."; \
 	$(SUPPORT_FIRECLOUD_DIR)/bin/git-archive-all \
 		--format=$(SF_TARBALL_FORMAT) \
 		-o $${SF_TARBALL}.$(SF_TARBALL_FORMAT) HEAD; \
