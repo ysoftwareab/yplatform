@@ -8,8 +8,9 @@ function on_error() {
     >&2 echo "Ran:     $(eval echo "${BASH_COMMAND}")"
     >&2 echo "Exited:  $1"
     # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
+    # see https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-BASH_005fLINENO
     for (( i=1; i<${#BASH_SOURCE[@]}; i++ )); do
-        >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}]}: ${FUNCNAME[${i}]}"
+        >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}-1]}: ${FUNCNAME[${i}]}"
     done
     >&2 echo "---"
 }
