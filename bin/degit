@@ -1,0 +1,135 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- degit 1.0
+## Usage: degit URI
+## Straightforward project scaffolding.
+## Downloads a history-less git repository from the Bitbucket/Github/Gitlab/Sourcehut.
+##
+## A bash subset version of https://github.com/Rich-Harris/degit.
+## - no optimizations that include reading/writing access.json and map.json,
+##   thus only offline if given a git hash, not a git ref
+## - no '--mode', no git mode, just tar mode
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+# example URIs
+# https://github.com/rokmoln/support-firecloud
+# https://gitlab.com/mikecardwell/safernode
+# https://bitbucket.org/atlassian/openapi-diff
+# https://git.sr.ht/~nsh/emacs.d
+# rokmoln/support-firecloud
+# github:rokmoln/support-firecloud
+# https://github.com/rokmoln/support-firecloud/bin
+# https://github.com/rokmoln/support-firecloud/bin#<commit-ish>
+
+URI="$1"
+[[ "${URI}" =~ ^.+://.+$ ]] || {
+    REPO_SERVICE="$(echo "${URI}" | cut -d":" -f1)"
+    URI_RPATH_FRAGMENT="$(echo "${URI}" | cut -d":" -f2)"
+    [[ "${URI}" =~ ^[^:]+:.+$ ]] || REPO_SERVICE=github
+    case ${REPO_SERVICE} in
+        bitbucket)
+            URI="https://bitbucket.org/${URI_RPATH_FRAGMENT}"
+            ;;
+        github)
+            URI="https://github.com/${URI_RPATH_FRAGMENT}"
+            ;;
+        gitlab)
+            URI="https://gitlab.com/${URI_RPATH_FRAGMENT}"
+            ;;
+        git.sr.ht)
+            URI="https://git.sr.ht/${URI_RPATH_FRAGMENT}"
+            ;;
+        *)
+            echo_err "Unknown service ${REPO_SERVICE}."
+            exit 1
+    esac
+}
+source <(${SUPPORT_FIRECLOUD_DIR}/bin/parse-uri "${URI}")
+
+REPO_SERVICE=${URI_HOST}
+REPO_SERVICE=${REPO_SERVICE/%.com/}
+REPO_SERVICE=${REPO_SERVICE/%.org/}
+
+REPO_ORG="$(echo "${URI_RPATH}" | tr "/" "\n" | head -n1)"
+REPO_NAME="$(echo "${URI_RPATH}" | tr "/" "\n" | head -n2 | tail -n1 | sed "s/\.git$//")"
+REPO_DIR="/$(echo "${URI_RPATH}" | tr "/" "\n" | tail -n +3 | tr "\n" "/")/"
+REPO_DIR="$(echo "${REPO_DIR}" | tr -s "/")"
+REPO_REF=${URI_FRAGMENT:-HEAD}
+REPO_URL=${URI_SCHEME:-ssh}://${URI_USER}@${URI_HOST}/${REPO_ORG}/${REPO_NAME}
+
+if echo "${REPO_REF}" | grep -q "^[0-9a-f]\+$"; then
+    REPO_HASH="${REPO_REF}"
+else
+    REPO_HASH=$(git ls-remote ${REPO_URL} | grep $'\t'"\(refs/\(heads\|tags\)/\)\?${REPO_REF}$" | head -n1 | sed "s/\t.\+//")
+    [[ -n "${REPO_HASH}" ]] || {
+        echo_err "Git ref ${REPO_REF} could not be found."
+        exit 1
+    }
+fi
+
+TAR_FILE=${HOME}/.degit/${REPO_SERVICE}/${REPO_ORG}/${REPO_NAME}/${REPO_HASH}.tar.gz
+case ${URI_HOST} in
+    bitbucket.org)
+        TAR_URL="https://bitbucket.org/${REPO_ORG}/${REPO_NAME}/get/${REPO_HASH}.tar.gz"
+        ;;
+    git.sr.ht)
+        TAR_URL="https://git.sr.ht/${REPO_ORG}/${REPO_NAME}/archive/${REPO_HASH}.tar.gz"
+        ;;
+    github.com)
+        TAR_URL="https://github.com/${REPO_ORG}/${REPO_NAME}/archive/${REPO_HASH}.tar.gz"
+        ;;
+    gitlab.com)
+        TAR_URL="https://gitlab.com/${REPO_ORG}/${REPO_NAME}/-/archive/${REPO_HASH}/${REPO_NAME}.tar.gz"
+        ;;
+    *)
+        echo_err "Unknown host ${URI_HOST}."
+        exit 1
+esac
+
+mkdir -p $(dirname "${TAR_FILE}")
+
+if [[ -e "${TAR_FILE}" ]]; then
+    echo_info "Using cached ${TAR_FILE}..."
+else
+    echo_do "Fetching ${TAR_URL} to ${TAR_FILE}..."
+    curl -fqsSL "${TAR_URL}" -o "${TAR_FILE}"
+    echo_done
+fi
+
+# NOTE 141 means SIGPIPE
+# wrapping directory is sometimes not stable (${REPO_ORG}-)?${REPO_NAME}-(${REPO_HASH}|${REPO_HASH_SHORT})
+TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || \
+    if [[ $? -eq 141 ]]; then true; else exit $?; fi)
+
+echo_do "Extracting ${TAR_FILE}${REPO_DIR}..."
+tar -xvf "${TAR_FILE}" \
+    --skip-old-files \
+    --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$") \
+    --verbatim-files-from \
+    --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},," | \
+    grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$" | \
+    sed "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
+echo_done
