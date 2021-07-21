@@ -40,11 +40,13 @@ function echo_err() {
 
 function sh_script_usage() {
     grep "^##" "${0}" | cut -c 4-
+    # return 1
     exit 1
 }
 
 function sh_script_version() {
     grep "^#-" "${0}" | cut -c 4-
+    # return 1
     exit 1
 }
 
