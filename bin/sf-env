@@ -51,7 +51,7 @@ if which brew >/dev/null 2>&1; then
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
     done
-    for f in curl gettext unzip zip; do
+    for f in curl gettext gnu-getopt unzip zip; do
         sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
 
