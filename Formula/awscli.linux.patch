@@ -1,6 +1,6 @@
 --- Formula/patch-src/awscli.original.rb
 +++ Formula/patch-src/awscli.rb
-@@ -45,7 +45,9 @@
+@@ -46,7 +46,9 @@
        }
      EOS
  
