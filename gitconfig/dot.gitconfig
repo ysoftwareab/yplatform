@@ -36,9 +36,9 @@
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
 [diff "tar"]
-    textconv            = tar -O xf
+    textconv            = tar -O -xf
 [diff "tar-gz"]
-    textconv            = tar -O xzf
+    textconv            = tar -O -xzf
 [diff "zip"]
     textconv            = unzip -p
 [difftool]
