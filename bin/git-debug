@@ -1,0 +1,162 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- git-debug 1.0
+## Usage: git-debug OPTION... -- GIT_COMMAND ARGS...
+## Debug execution of a git command.
+## Verbosely by default. SSH and tracing can be optionally enabled.
+##
+##   --curl
+##   --curl v
+##   --curl vv
+##   --fsmonitor
+##   --no-redact
+##   --packet
+##   --pack-access
+##   --performance
+##   --refs
+##   --setup
+##   --shallow
+##   --trace
+##
+##   --ssh
+##   --ssh v
+##   --ssh vv
+##   --ssh vvv
+##
+##   --trace2
+##   --trace2-event
+##   --trace2-perf
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+GIT_SSH_COMMAND=
+
+export GIT_TRACE=false
+export GIT_TRACE_CURL=false
+export GIT_TRACE_CURL_NO_DATA=true
+export GIT_TRACE_FSMONITOR=false
+export GIT_TRACE_PACKET=false
+export GIT_TRACE_PACK_ACCESS=false
+export GIT_TRACE_PERFORMANCE=false
+export GIT_TRACE_REDACT=1
+export GIT_TRACE_REFS=false
+export GIT_TRACE_SETUP=false
+export GIT_TRACE_SHALLOW=false
+
+export GIT_TRACE2=false
+export GIT_TRACE2_EVENT=false
+export GIT_TRACE2_PERF=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --curl)
+            GIT_TRACE=true
+            GIT_TRACE_CURL=true
+            case $2 in
+                v)
+                    shift 2
+                    ;;
+                vv)
+                    GIT_TRACE_CURL_NO_DATA=false
+                    shift 2
+                    ;;
+                *)
+                    shift
+                    ;;
+            esac
+            ;;
+        --fsmonitor)
+            GIT_TRACE=true
+            GIT_TRACE_FSMONITOR=true
+            shift
+            ;;
+        --no-redact)
+            GIT_TRACE_REDACT=0
+            shift
+            ;;
+        --packet)
+            GIT_TRACE=true
+            GIT_TRACE_PACKET=true
+            shift
+            ;;
+        --pack-access)
+            GIT_TRACE=true
+            GIT_TRACE_PACK_ACCESS=true
+            shift
+            ;;
+        --performance)
+            GIT_TRACE=true
+            GIT_TRACE_PERFORMANCE=true
+            shift
+            ;;
+        --refs)
+            GIT_TRACE=true
+            GIT_TRACE_REFS=true
+            shift
+            ;;
+        --setup)
+            GIT_TRACE=true
+            GIT_TRACE_SETUP=true
+            shift
+            ;;
+        --shallow)
+            GIT_TRACE=true
+            GIT_TRACE_SHALLOW=true
+            shift
+            ;;
+        --ssh)
+            export GIT_SSH_COMMAND="ssh -v"
+            case $2 in
+                v|vv|vvv)
+                    export GIT_SSH_COMMAND="ssh -$2"
+                    shift 2
+                    ;;
+                *)
+                    shift
+                    ;;
+            esac
+            ;;
+        --trace)
+            GIT_TRACE=true
+            shift
+            ;;
+        --trace2)
+            GIT_TRACE2=true
+            shift
+            ;;
+        --trace2-event)
+            GIT_TRACE2=true
+            GIT_TRACE2_EVENT=true
+            shift
+            ;;
+        --trace2-perf)
+            GIT_TRACE2=true
+            GIT_TRACE2_PERF=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            ;;
+        -* )
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+
+GIT_ENV="$(printenv | grep -e "^GIT_TRACE=" -e "^GIT_TRACE_" -e "^GIT_SSH_COMMAND=" | tr "\n" " ")"
+echo_info "${GIT_ENV} git $1 -v ${*:2}"
+git $1 -v "${@:2}"
