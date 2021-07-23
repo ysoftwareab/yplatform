@@ -75,7 +75,7 @@ Makefile*      text
 *.ico    binary
 *.jpg    binary diff=exif
 *.jpeg   binary diff=exif
-*.odf    binary diff=odf
+*.ods    binary diff=odf
 *.odt    binary diff=odf
 *.odp    binary diff=odf
 *.pdf    binary diff=pdf
