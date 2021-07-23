@@ -29,7 +29,7 @@
 [diff "gpg"]
     textconv            = gpg -v
 [diff "gz"]
-    textconv            = gzcat
+    textconv            = gzcat --list
 [diff "odf"]
     textconv            = odt2txt
 [diff "pdf"]
@@ -38,17 +38,17 @@
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
 [diff "tar"]
-    textconv            = tar         -O -xf
+    textconv            = tar         -O -tf
 [diff "tar-bz2"]
-    textconv            = tar --bzip2 -O -xf
+    textconv            = tar --bzip2 -O -tf
 [diff "tar-gz"]
-    textconv            = tar --gzip  -O -xf
+    textconv            = tar --gzip  -O -tf
 [diff "tar-xz"]
-    textconv            = tar --xz    -O -xf
+    textconv            = tar --xz    -O -tf
 [diff "xz"]
-    textconv            = xzcat
+    textconv            = xzcat --list
 [diff "zip"]
-    textconv            = unzip -p
+    textconv            = unzip -l
 [difftool]
     prompt              = false
 [difftool "diffmerge"]
