@@ -28,20 +28,20 @@ set -euo pipefail
 echo_do "brew: Installing AWS utils..."
 
 brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
-    # Possible error on CircleCI
+    # Possible error on CircleCI, Github Actions (ubuntu 18.04)
     #
     # The conflict is caused by:
     # The user requested botocore 2.0.0.dev129 (from https://github.com/boto/botocore/zipball/v2#egg=botocore)
     # awscli 2.2.13 depends on botocore==2.0.0dev121
     #
-    # Workaround: bypass homebrew, install the official way on CircleCI
+    # Workaround: bypass homebrew, run official install
     # see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
     EXIT_CODE=$?
 
-    [[ "${CIRCLECI:-}" = "true" ]] || exit ${EXIT_CODE}
-
     # for convenience, we only support Linux for now
     [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_CODE}
+
+    echo_warn "Falling back to installing AWS CLI outside Homebrew..."
 
     # AWSCLI_VSN="$(brew info --json=v1 awscli | jq -r ".[0].versions.stable")"
     AWSCLI_VSN="$(
