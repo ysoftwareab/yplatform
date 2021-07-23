@@ -4,9 +4,9 @@ set -euo pipefail
 
 # see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
-    >&2 echo "Invoked: ${BASH_COMMAND}"
-    >&2 echo "Ran:     $(eval echo "${BASH_COMMAND}")"
-    >&2 echo "Exited:  $1"
+    >&2 echo "The following BASH_COMMAND exited with status $1."
+    >&2 echo "=${BASH_COMMAND}"
+    >&2 echo "~$(eval echo "${BASH_COMMAND}")"
     # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
     # see https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-BASH_005fLINENO
     for (( i=1; i<${#BASH_SOURCE[@]}; i++ )); do
