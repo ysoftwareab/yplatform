@@ -67,6 +67,7 @@ Makefile*      text
 
 # Binaries =====================================================================
 *.7z     binary
+*.bz2    binary diff=bz2
 *.docx   binary diff=docx
 *.exe    binary diff=bin
 *.gif    binary diff=exif
@@ -81,12 +82,15 @@ Makefile*      text
 *.pdf    binary diff=pdf
 *.png    binary diff=exif
 *.tar    binary diff=tar
+*.tar.bz2 binary diff=tar-bz2
 *.tar.gz binary diff=tar-gz
+*.tar.xz binary diff=tar-xz
 *.tif    binary
 *.tiff   binary
 *.tgz    binary
 *.xlsx   binary
 *.zip    binary diff=zip
+*.xz     binary diff=xz
 
 # 3rd-party exclusions =========================================================
 # e.g. /path -whitespace -text

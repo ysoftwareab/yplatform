@@ -20,6 +20,8 @@
     submodule           = log
 [diff "bin"]
     textconv            = hexdump -v -C
+[diff "bz2"]
+    textconv            = bzcat
 [diff "docx"]
     textconv            = docx2txt
 [diff "exif"]
@@ -36,9 +38,15 @@
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
 [diff "tar"]
-    textconv            = tar -O -xf
+    textconv            = tar         -O -xf
+[diff "tar-bz2"]
+    textconv            = tar --bzip2 -O -xf
 [diff "tar-gz"]
-    textconv            = tar -O -xf -z
+    textconv            = tar --gzip  -O -xf
+[diff "tar-xz"]
+    textconv            = tar --xz    -O -xf
+[diff "xz"]
+    textconv            = xzcat
 [diff "zip"]
     textconv            = unzip -p
 [difftool]
