@@ -38,7 +38,7 @@
 [diff "tar"]
     textconv            = tar -O -xf
 [diff "tar-gz"]
-    textconv            = tar -O -xzf
+    textconv            = tar -O -xf -z
 [diff "zip"]
     textconv            = unzip -p
 [difftool]
