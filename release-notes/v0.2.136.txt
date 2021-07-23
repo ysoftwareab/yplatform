@@ -1,0 +1,15 @@
+support-firecloud v0.2.136 Release Notes
+
+Highlights since v0.2.135:
+
+* None
+
+Breaking commits since v0.2.135:
+
+* None
+
+Commits since v0.2.135:
+
+* ee67dd6f 2021-07-23 'brew install awscli' fallback to official install. fix #228
+* 4520da0e 2021-07-23 better printing for on error.
+o ec6440ed 2021-07-23 0.2.135
