@@ -102,4 +102,5 @@ yarn.lock -diff
 # Ignore when exporting ========================================================
 .gitattributes export-ignore
 .gitignore     export-ignore
+.gitkeep       export-ignore
 .gitmodules    export-ignore
