@@ -26,8 +26,43 @@ set -euo pipefail
 
 
 echo_do "brew: Installing AWS utils..."
-brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\."
+
+brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
+    # Possible error on CircleCI
+    #
+    # The conflict is caused by:
+    # The user requested botocore 2.0.0.dev129 (from https://github.com/boto/botocore/zipball/v2#egg=botocore)
+    # awscli 2.2.13 depends on botocore==2.0.0dev121
+    #
+    # Workaround: bypass homebrew, install the official way on CircleCI
+    # see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
+    EXIT_CODE=$?
+
+    [[ "${CIRCLECI:-}" = "true" ]] || exit ${EXIT_CODE}
+
+    # for convenience, we only support Linux for now
+    [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_CODE}
+
+    # AWSCLI_VSN="$(brew info --json=v1 awscli | jq -r ".[0].versions.stable")"
+    AWSCLI_VSN="$(
+        brew info --json=v1 ${SUPPORT_FIRECLOUD_DIR}/Formula/patch-src/awscli.rb | \
+            jq -r ".[0].versions.stable")"
+
+    AWSCLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}-${AWSCLI_VSN}.zip"
+    echo_do "Installing AWS CLI ${AWSCLI_VSN}..."
+    echo_info "AWSCLI_URL=${AWSCLI_URL}"
+    (
+        cd $(mktemp -d)
+        curl -fqsS -o awscliv2.zip ${AWSCLI_URL}
+        unzip awscliv2.zip
+        sudo ./aws/install
+        rm -rf awscliv2.zip
+    )
+    echo_done
+}
+
 # see https://github.com/Homebrew/linuxbrew-core/issues/21062
 # brew uninstall awscli && brew install awscli
+
 aws configure set s3.signature_version s3v4
 echo_done
