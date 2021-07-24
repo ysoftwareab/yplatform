@@ -41,6 +41,11 @@ brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
     # for convenience, we only support Linux for now
     [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_CODE}
 
+    echo_do "brew: doctor"
+    # https://github.com/Homebrew/discussions/discussions/1603
+    brew doctor
+    echo_done
+
     echo_warn "Falling back to installing AWS CLI outside Homebrew..."
 
     # AWSCLI_VSN="$(brew info --json=v1 awscli | jq -r ".[0].versions.stable")"
