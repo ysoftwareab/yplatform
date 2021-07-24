@@ -54,7 +54,7 @@ brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
     (
         cd $(mktemp -d)
         curl -fqsS -o awscliv2.zip ${AWSCLI_URL}
-        unzip awscliv2.zip
+        unzip -q awscliv2.zip
         sudo ./aws/install
         rm -rf awscliv2.zip
     )
