@@ -23,6 +23,7 @@ echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 
 # POST-BOOTSTRAP
 cat <<EOF >> /home/${UNAME}/.bash_aliases
+export HOMEBREW_FAIL_LOG_LINES=100
 export HOMEBREW_FORCE_BREWED_CURL=1
 export HOMEBREW_FORCE_BREWED_GIT=1
 export HOMEBREW_NO_ANALYTICS=1

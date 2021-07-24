@@ -85,6 +85,7 @@ MACOS_OLDEST_SUPPORTED="10.14"
 REQUIRED_RUBY_VERSION=2.6  # https://github.com/Homebrew/brew/pull/6556
 REQUIRED_GLIBC_VERSION=2.13  # https://docs.brew.sh/Homebrew-on-Linux#requirements
 
+export HOMEBREW_FAIL_LOG_LINES=100
 # no analytics during installation
 export HOMEBREW_NO_ANALYTICS_THIS_RUN=1
 export HOMEBREW_NO_ANALYTICS_MESSAGE_OUTPUT=1
