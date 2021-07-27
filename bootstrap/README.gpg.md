@@ -37,7 +37,7 @@ keybase pgp export --secret | gpg --import --allow-secret-key-import
 
 ```shell
 keybase search <recipient>
-curl -fqsSL https://keybase.io/<keybase_username>/key.asc | gpg --import -
+curl -qfsSL https://keybase.io/<keybase_username>/key.asc | gpg --import -
 ```
 
 

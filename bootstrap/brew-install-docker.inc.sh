@@ -33,7 +33,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         apt_install_one gnupg-agent
         apt_install_one software-properties-common
 
-        curl -fqsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
+        curl -qfsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
         ${SF_SUDO} apt-key fingerprint 0EBFCD88
         ${SF_SUDO} add-apt-repository -u \
             "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable" # editorconfig-checker-disable-line
@@ -47,7 +47,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # FIXME 1.28 uses python@3.9. see https://github.com/docker/compose/issues/8048
         # DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
         DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/download/1.27.4
-        ${SF_SUDO} curl -fqsSL -o /usr/local/bin/docker-compose \
+        ${SF_SUDO} curl -qfsSL -o /usr/local/bin/docker-compose \
             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
         ${SF_SUDO} chmod +x /usr/local/bin/docker-compose
         unset DOCKER_COMPOSE_LATEST_URL

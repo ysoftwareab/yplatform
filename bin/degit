@@ -115,7 +115,7 @@ if [[ -e "${TAR_FILE}" ]]; then
     echo_info "Using cached ${TAR_FILE}..."
 else
     echo_do "Fetching ${TAR_URL} to ${TAR_FILE}..."
-    curl -fqsSL "${TAR_URL}" -o "${TAR_FILE}"
+    curl -qfsSL "${TAR_URL}" -o "${TAR_FILE}"
     echo_done
 fi
 

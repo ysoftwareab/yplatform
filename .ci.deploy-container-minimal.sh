@@ -79,7 +79,7 @@ function ci_run_deploy_docker_image() {
     }
 
     local TIMESTAMP_LATEST=$(
-        curl -fqsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
+        curl -qfsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
             jq -r .last_updated | \
             while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; date +%s -d "${NO_XARGS_R}"; done || \
             echo 0)

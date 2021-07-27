@@ -62,7 +62,7 @@ function bootstrap_brew() {
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
-                </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/uninstall.sh)"
+                </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/uninstall.sh)"
                 echo_done
                 hash -r
             fi
@@ -80,7 +80,7 @@ function bootstrap_brew() {
                 # see https://github.com/Homebrew/install/issues/522
                 # shellcheck disable=SC2030,SC2031
                 export HOMEBREW_NO_AUTO_UPDATE=
-                # </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+                # </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/install.sh)"
                 </dev/null /bin/bash -c "$(cat ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/homebrew-install.sh)"
             )
             echo_done
@@ -94,7 +94,7 @@ function bootstrap_brew() {
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
-                curl -fqsSL https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
+                curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
 
                 [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
@@ -115,7 +115,7 @@ function bootstrap_brew() {
                     # see https://github.com/Homebrew/install/issues/522
                     # shellcheck disable=SC2030,SC2031
                     export HOMEBREW_NO_AUTO_UPDATE=
-                    # </dev/null /bin/bash -c "$(curl -fqsSL ${BREW_INSTALL_URL}/install.sh)"
+                    # </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/install.sh)"
                     </dev/null /bin/bash -c "$(cat ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/homebrew-install.sh)"
                 )
             fi

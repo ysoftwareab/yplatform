@@ -65,7 +65,7 @@ done
 
 function get_tmate_cmd() {
     curl \
-        -fqsSL \
+        -qfsSL \
         -X GET \
         -H "Accept: application/json" \
         -H "Travis-API-Version: 3" \
@@ -78,7 +78,7 @@ function get_tmate_cmd() {
 [[ ! "${JOB_ID}" =~ /builds/ ]] || {
     JOB_ID=$(basename "${JOB_ID}")
     JOB_ID=$(curl \
-        -fqsSL \
+        -qfsSL \
         -X GET \
         -H "Accept: application/json" \
         -H "Travis-API-Version: 3" \
@@ -89,7 +89,7 @@ function get_tmate_cmd() {
 JOB_ID=$(basename "${JOB_ID}")
 
 curl \
-    -fqsSL \
+    -qfsSL \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Accept: application/json" \
@@ -116,7 +116,7 @@ echo_do "Deleting the log..."
 sleep 5
 # FIXME it does the job but return 500 Internal Server Error
 curl \
-    -fqsSL \
+    -qfsSL \
     -X DELETE \
     -H "Travis-API-Version: 3" \
     -H "Authorization: token ${TRAVIS_API_TOKEN}" \

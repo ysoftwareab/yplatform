@@ -32,7 +32,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         }
         touch log.sh-session
         curl \
-            -fqsSL \
+            -qfsSL \
             "${CURL_TRAVIS_API_HEADERS[@]}" \
             https://api.travis-ci.com/job/${TRAVIS_JOB_ID}/log | \
             ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r '.content' >log.sh-session || true
@@ -47,7 +47,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         # CURL_GITHUB_API_HEADERS+=(-H "Authorization: token ${SF_GH_TOKEN_DEPLOY}")
         touch log.sh-session
         curl \
-            -fqsSL \
+            -qfsSL \
             "${CURL_GITHUB_API_HEADERS[@]}" \
             https://api.github.com/repos/${CI_REPO_SLUG}/actions/jobs/${GITHUB_ACTION}/logs >log.sh-session || true
         git add -f log.sh-session

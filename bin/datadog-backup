@@ -68,7 +68,7 @@ DD_API_BASE_URL="https://api.${DD_SITE}/api/v1"
 
 echo_info "Fetching monitors..."
 curl \
-    -fqsSL \
+    -qfsSL \
     "${DD_API_BASE_URL}/monitor?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
     jq 'map(del(.overall_state_modified, .overall_state))' | \
     jq > "${DIR}/monitors.json"
@@ -76,14 +76,14 @@ echo
 
 echo_info "Fetching pipelines..."
 curl \
-    -fqsSL \
+    -qfsSL \
     "${DD_API_BASE_URL}/logs/config/pipelines?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
     jq > "${DIR}/pipelines.json"
 echo
 
 echo_info "Fetching users..."
 curl \
-    -fqsSL \
+    -qfsSL \
     "${DD_API_BASE_URL}/users?api_key=${DD_API_KEY}&application_key=${DD_APP_KEY}" | \
     jq > "${DIR}/users.json"
 echo
