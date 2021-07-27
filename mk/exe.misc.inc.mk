@@ -8,7 +8,7 @@ LS_ALL = $(LS) -A
 $(foreach VAR,CP_NOSYM EDITOR FIND_Q FIND_Q_NOSYM GREP_FILENAME LS_ALL,$(call make-lazy,$(VAR)))
 $(foreach VAR,DIFF_SS,$(call make-lazy-once,$(VAR)))
 
-CURL = $(call which,CURL,curl) -fqsSL
+CURL = $(call which,CURL,curl) -qfsSL
 JQ = $(call which,JQ,jq)
 JSON = $(call which,JSON,json) -D " " # to allow / or . in a key
 SEMVER = $(call which,SEMVER,semver)
