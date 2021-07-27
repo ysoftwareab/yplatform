@@ -90,7 +90,6 @@ else
     ASSET_URL="https://github.com/repos/${REPO_SLUG}/releases/download/${SLUG}"
 fi
 
-curl \
-    -qfsSL \
+curl -qfsSL \
     -H "accept: application/octet-stream" \
     "${ASSET_URL}"

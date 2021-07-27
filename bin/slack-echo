@@ -82,8 +82,7 @@ EOF
 
 cat ${TMP_FILE}
 
-curl \
-    -qfsSL \
+curl -qfsSL \
     -X POST \
     -H "Content-Type: application/json" \
     --data @${TMP_FILE} \

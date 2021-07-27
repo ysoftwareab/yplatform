@@ -111,8 +111,7 @@ echo_info "Creating a draft release ${NAME} tagged ${TAG} from ${TARGET} in Gith
 NAME_AS_JSON="$(jq --null-input --arg NAME "${NAME}" '$NAME')"
 BODY_AS_JSON="$(jq --null-input --arg BODY "${BODY}" '$BODY')"
 
-curl \
-    -qfsSL \
+curl -qfsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
     -o ${TMP_FILE} \
@@ -124,8 +123,7 @@ if [[ "${EXISTS}" = "true" ]]; then
     RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
     UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
 
-    curl \
-        -qfsSL \
+    curl -qfsSL \
         -X PATCH \
         -H "authorization: token ${GH_TOKEN}" \
         -d "\
@@ -142,8 +140,7 @@ if [[ "${EXISTS}" = "true" ]]; then
         "${RELEASE_URL}"
     echo
 else
-    curl \
-        -qfsSL \
+    curl -qfsSL \
         -X POST \
         -H "authorization: token ${GH_TOKEN}" \
         -d "\
@@ -173,8 +170,7 @@ for ASSET in ${ASSETS}; do
     }
     UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
     echo_info "Uploading ${ASSET}..."
-    curl \
-        -qfsSL \
+    curl -qfsSL \
         -X POST \
         -H "authorization: token ${GH_TOKEN}" \
         -H "content-type: application/octet-stream" \
@@ -184,8 +180,7 @@ for ASSET in ${ASSETS}; do
 done
 
 echo_info "Publishing release ${NAME}..."
-curl \
-    -qfsSL \
+curl -qfsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
     -d "\
