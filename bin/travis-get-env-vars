@@ -52,7 +52,7 @@ function maybe_wslenv() {
     if [[ "${WSLENV}" = "true" ]]; then
         cat | \
             sed "s|TRAVIS_BUILD_DIR|TRAVIS_BUILD_DIR/p|g" | \
-            sed "s/=.*//" | tr '\n' ':'
+            sed "s/=.*//" | tr "\n" ":"
     else
         cat
     fi
