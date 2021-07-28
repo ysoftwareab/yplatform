@@ -5,6 +5,10 @@ set -euo pipefail
 
 # if first call, install js-yaml and call script again
 if [[ -z "${YAML_EXPAND_PASS:-}" ]]; then
+    # npm@6 and npm@7 are not compatible regarding the --yes flag
+    # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
+    export npm_config_yes=true
+
     export YAML_EXPAND_PASS=1
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
     npx --quiet --package js-yaml@3.14.1 yaml-expand

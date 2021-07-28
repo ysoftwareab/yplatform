@@ -7,6 +7,10 @@ set -euo pipefail
 
 # if first call, install esm and call script again
 if [[ -z "${NODE_ESM_PASS:-}" ]]; then
+    # npm@6 and npm@7 are not compatible regarding the --yes flag
+    # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
+    export npm_config_yes=true
+
     export NODE_ESM_PASS=1
     export NODE_ESM_ARGS="$*"
     export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
