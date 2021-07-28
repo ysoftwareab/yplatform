@@ -84,6 +84,6 @@ cat ${TMP_FILE}
 
 curl -qfsSL \
     -X POST \
-    -H "Content-Type: application/json" \
+    -H "content-type: application/json" \
     --data @${TMP_FILE} \
     ${SLACK_WEBHOOK}

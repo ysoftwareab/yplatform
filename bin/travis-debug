@@ -66,9 +66,9 @@ done
 function get_tmate_cmd() {
     curl -qfsSL \
         -X GET \
-        -H "Accept: application/json" \
-        -H "Travis-API-Version: 3" \
-        -H "Authorization: token ${TRAVIS_API_TOKEN}" \
+        -H "accept: application/json" \
+        -H "travis-api-version: 3" \
+        -H "authorization: token ${TRAVIS_API_TOKEN}" \
         "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/log" | \
         jq -r ".content" | \
         grep -o "ssh .\+\.tmate\.io" || true
@@ -78,9 +78,9 @@ function get_tmate_cmd() {
     JOB_ID=$(basename "${JOB_ID}")
     JOB_ID=$(curl -qfsSL \
         -X GET \
-        -H "Accept: application/json" \
-        -H "Travis-API-Version: 3" \
-        -H "Authorization: token ${TRAVIS_API_TOKEN}" \
+        -H "accept: application/json" \
+        -H "travis-api-version: 3" \
+        -H "authorization: token ${TRAVIS_API_TOKEN}" \
         "https://api.${TRAVIS_DOMAIN}/build/${JOB_ID}" | \
         jq ".jobs[0].id")
 }
@@ -88,10 +88,10 @@ JOB_ID=$(basename "${JOB_ID}")
 
 curl -qfsSL \
     -X POST \
-    -H "Content-Type: application/json" \
-    -H "Accept: application/json" \
-    -H "Travis-API-Version: 3" \
-    -H "Authorization: token ${TRAVIS_API_TOKEN}" \
+    -H "content-type: application/json" \
+    -H "accept: application/json" \
+    -H "travis-api-version: 3" \
+    -H "authorization: token ${TRAVIS_API_TOKEN}" \
     -d '{"quiet": true}' \
     "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/debug"
 echo
@@ -114,8 +114,8 @@ sleep 5
 # FIXME it does the job but return 500 Internal Server Error
 curl -qfsSL \
     -X DELETE \
-    -H "Travis-API-Version: 3" \
-    -H "Authorization: token ${TRAVIS_API_TOKEN}" \
+    -H "travis-api-version: 3" \
+    -H "authorization: token ${TRAVIS_API_TOKEN}" \
     "https://api.${TRAVIS_DOMAIN}/job/${JOB_ID}/log" || true
 echo
 echo_done

@@ -12,8 +12,8 @@ SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
 GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
 
 curl -qfsSL \
-    -H "Accept: application/vnd.github.v3+json" \
-    -H "Authorization: token ${SF_GH_TOKEN}" \
+    -H "accept: application/vnd.github.v3+json" \
+    -H "authorization: token ${SF_GH_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
     while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; basename "${NO_XARGS_R}"; done

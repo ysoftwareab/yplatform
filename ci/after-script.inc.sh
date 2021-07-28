@@ -26,9 +26,9 @@ function sf_ci_run_after_script_upload_job_artifacts() {
 
     [[ "${TRAVIS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session
-        local CURL_TRAVIS_API_HEADERS=(-H "Travis-API-Version: 3")
+        local CURL_TRAVIS_API_HEADERS=(-H "travis-api-version: 3")
         [[ -z "${TRAVIS_API_TOKEN:-}" ]] || {
-            CURL_TRAVIS_API_HEADERS+=(-H "Authorization: token ${TRAVIS_API_TOKEN}")
+            CURL_TRAVIS_API_HEADERS+=(-H "authorization: token ${TRAVIS_API_TOKEN}")
         }
         touch log.sh-session
         curl -qfsSL \
@@ -42,8 +42,8 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     # see https://github.community/t/how-to-see-the-full-log-while-a-workflow-is-in-progress/17455
     [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session
-        local CURL_GITHUB_API_HEADERS=(-H "Accept: application/vnd.github.v3+json")
-        # CURL_GITHUB_API_HEADERS+=(-H "Authorization: token ${SF_GH_TOKEN_DEPLOY}")
+        local CURL_GITHUB_API_HEADERS=(-H "accept: application/vnd.github.v3+json")
+        # CURL_GITHUB_API_HEADERS+=(-H "authorization: token ${SF_GH_TOKEN_DEPLOY}")
         touch log.sh-session
         curl -qfsSL \
             "${CURL_GITHUB_API_HEADERS[@]}" \
