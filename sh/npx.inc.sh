@@ -24,6 +24,9 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
     export npm_config_yes=true
 
+    # NOTE 'npx /absolute/path/to/executable' means run 'node /absolute/path/to/executable'
+    # while 'PATH=/absolute/path/to/:$PATH npx executable' means run 'executable'
+    # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
     SF_NPX_ARGS=("$@")
     eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_ARGS) \
