@@ -38,6 +38,9 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     # npx in npm versions pre-v7 used a lib/node_modules subdir
     [[ ! -d "${NPX_PATH}/lib/node_modules" ]] || NPX_PATH=${NPX_PATH}/lib/node_modules
     export NODE_PATH=${NPX_PATH}:${NODE_PATH:-}
+    # NOTE for security reasons, system executables should NOT be overriden
+    # export PATH=${NPX_PATH}/.bin:${PATH:-}
+    export PATH=${PATH:-}:${NPX_PATH}/.bin
 }
 
 main
