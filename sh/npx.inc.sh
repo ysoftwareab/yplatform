@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # USAGE:
-# - declare NPX_ARGS
+# - declare SF_NPX_ARGS
 # - declare 'main' function
 # - source npx.inc.sh
 # - main will be called with the same positional args as the caller
@@ -28,9 +28,9 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # while 'PATH=/absolute/path/to/:$PATH npx executable' means run 'executable'
     # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
-    SF_NPX_ARGS=("$@")
-    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_ARGS) \
-        npx ${NPX_ARGS} ${MYSELF_CMD_BASENAME}"
+    SF_NPX_CMD_ARGS=("$@")
+    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_CMD_ARGS) \
+        npx ${SF_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
     exit 0
 fi
 
@@ -49,4 +49,4 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     export PATH=${PATH:-}:${NPX_PATH}/.bin
 }
 
-main "${SF_NPX_ARGS[@]}"
+main "${SF_NPX_CMD_ARGS[@]}"
