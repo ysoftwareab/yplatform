@@ -3,28 +3,15 @@ set -euo pipefail
 
 # Expand the anchors/references of a YAML stdin to stdout
 
-# if first call, install js-yaml and call script again
-if [[ -z "${YAML_EXPAND_PASS:-}" ]]; then
-    # npm@6 and npm@7 are not compatible regarding the --yes flag
-    # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
-    export npm_config_yes=true
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-    export YAML_EXPAND_PASS=1
-    export PATH="${PATH}:$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-    npx --quiet --package js-yaml@3.14.1 yaml-expand
-    exit 0
-fi
+NPX_ARGS=
+NPX_ARGS="${NPX_ARGS} --quiet"
+NPX_ARGS="${NPX_ARGS} --package js-yaml@3.14.1"
 
-# make NPX node_modules available to node
-NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
-# starting NPM@7 the local packages will be reused, thus NPX_PATH is empty
-[[ -z "${NPX_PATH}" ]] || {
-    NPX_PATH=$(dirname ${NPX_PATH})
-    export NODE_PATH=${NPX_PATH}/lib/node_modules:${NPX_PATH}:${NODE_PATH:-}
-}
-
-# expand
-SCRIPT="$(cat <<EOF
+function main() {
+    # expand
+    SCRIPT="$(cat <<EOF
 let fs = require('fs');
 let yml = require('js-yaml');
 let data = yml.load(fs.readFileSync('/dev/stdin'));
@@ -38,4 +25,8 @@ let expandedData = yml.dump(data, {
 console.log(expandedData.replace(/\n+$/, ''));
 EOF
 )"
-node -e "${SCRIPT}"
+
+    node -e "${SCRIPT}"
+}
+
+source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
