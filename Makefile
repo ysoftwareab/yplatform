@@ -39,6 +39,8 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \
+	-e "^bin/urldecode$$" \
+	-e "^bin/urlencode$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
 	-e "^doc/bak/" \
