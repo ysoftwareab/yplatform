@@ -4,6 +4,7 @@
 # - declare NPX_ARGS
 # - declare 'main' function
 # - source npx.inc.sh
+# - main will be called with the same positional args as the caller
 #
 # examples: bin/ndoe-esm bin/yaml-expand
 
@@ -14,8 +15,7 @@ MYSELF_CMD_BASENAME="$(basename ${MYSELF_CMD})"
 MYSELF_CMD_DIR="$(cd "$(dirname "${MYSELF_CMD}")" && pwd)"
 VAR_PREFIX="$(echo "${MYSELF_CMD_BASENAME}" | tr "[:lower:]" "[:upper:]" | sed "s/[^A-Z0-9]\{1,\}/_/g" | sed "s/^_//" | sed "s/_$//")" # editorconfig-checker-disable-line
 VAR_PASS="${VAR_PREFIX}_PASS"
-VAR_ARGS="${VAR_PREFIX}_ARGS"
-
+VAR_ARGS_FD="${VAR_PREFIX}_ARGS_FD"
 
 # if first call, install esm and call script again
 if [[ -z "${!VAR_PASS:-}" ]]; then
@@ -23,12 +23,14 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
     export npm_config_yes=true
 
-    eval "export ${VAR_PASS}=1"
-    eval "export ${VAR_ARGS}=\"$*\""
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
-    npx ${NPX_ARGS} ${MYSELF_CMD_BASENAME}
+    SF_NPX_ARGS=("$@")
+    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_ARGS) \
+        npx ${NPX_ARGS} ${MYSELF_CMD_BASENAME}"
     exit 0
 fi
+
+source "${!VAR_ARGS_FD}"
 
 # make NPX node_modules available to node
 NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
@@ -43,4 +45,4 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     export PATH=${PATH:-}:${NPX_PATH}/.bin
 }
 
-main
+main "${SF_NPX_ARGS[@]}"

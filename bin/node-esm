@@ -13,7 +13,7 @@ NPX_ARGS="${NPX_ARGS} --package esm"
 
 function main() {
     # require esm and run script
-    eval "node -r esm ${!VAR_ARGS}"
+    node -r esm "$@"
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
