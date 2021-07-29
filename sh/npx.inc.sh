@@ -20,6 +20,13 @@ VAR_ARGS_FD="${VAR_PREFIX}_ARGS_FD"
 
 # if first call, install esm and call script again
 if [[ -z "${!VAR_PASS:-}" ]]; then
+    V="${V:-${VERBOSE:-}}"
+    VERBOSE="${V}"
+    [[ "${VERBOSE}" != "1" ]] || VERBOSE=true
+    # npm_config_loglevel doesn't seem to work for npx ?!
+    # [[ -z "${VERBOSE}" ]] || export npm_config_loglevel=verbose
+    [[ -z "${VERBOSE}" ]] || SF_NPX_ARGS="${SF_NPX_ARGS} --loglevel=verbose"
+
     # npm@6 and npm@7 are not compatible regarding the --yes flag
     # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
     export npm_config_yes=true
