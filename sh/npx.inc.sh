@@ -35,7 +35,9 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
 # starting NPM@7 the local packages will be reused, thus NPX_PATH is empty
 [[ -z "${NPX_PATH}" ]] || {
     NPX_PATH=$(dirname ${NPX_PATH})
-    export NODE_PATH=${NPX_PATH}/lib/node_modules:${NPX_PATH}:${NODE_PATH:-}
+    # npx in npm versions pre-v7 used a lib/node_modules subdir
+    [[ ! -d "${NPX_PATH}/lib/node_modules" ]] || NPX_PATH=${NPX_PATH}/lib/node_modules
+    export NODE_PATH=${NPX_PATH}:${NODE_PATH:-}
 }
 
 main
