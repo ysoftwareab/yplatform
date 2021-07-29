@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#- require-version 1.0
+## Usage: require-version REQUIRED ACTUAL
+## Exit with non-zero code if ACTUAL version number is lower than REQUIRED.
+
+REQUIRED=$2
+ACTUAL=$1
+
+[[ -n "${REQUIRED}" ]] || {
+    echo_err "Please provide a REQUIRED version number."
+    exit 1
+}
+
+[[ -n "${ACTUAL}" ]] || {
+    echo_err "Please provide an ACTUAL version number."
+    exit 1
+}
+
+echo -e "${REQUIRED}\n${ACTUAL}" | sort  --check=quiet --version-sort
