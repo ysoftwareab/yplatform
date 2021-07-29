@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- ci-echo 1.0
-## Usage: ci-echo STEP TEXT...
+## Usage: ci-echo [OPTION] STEP TEXT...
 ## Echo message with a STEP indicator for stdout or for TeamCity/Travis consumption.
 ##
 ##   --benchmark    Benchmark file to use for benchmarking groups (DO-DONE durations).
@@ -31,7 +31,11 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        -* )
+        --)
+            shift
+            break
+            ;;
+        -*)
             sh_script_usage
             ;;
         *)
@@ -39,6 +43,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+# [[ $# -ne 0 ]] || sh_script_usage
 
 # FIXME weird behavior on MacOS leads to ANY_PYTHON="/usr/bin/python ANY_PYTHON_NOT_FOUND"
 # ANY_PYTHON=$(which -a python python2 python3 2>/dev/null | grep -e "^/" | head -1 || echo "ANY_PYTHON_NOT_FOUND")

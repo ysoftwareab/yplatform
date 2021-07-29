@@ -33,7 +33,11 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        -* )
+        --)
+            shift
+            break
+            ;;
+        -*)
             sh_script_usage
             ;;
         *)
@@ -41,6 +45,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+[[ $# -ne 0 ]] || sh_script_usage
 
 [[ -n ${STACK_NAME} ]] || {
     echo_err "Please provide a --stack-name."

@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- npm-install-peer-deps 1.0
-## Usage: npm-install-peer-deps [OPTION]... path/to/package.json/with/peerDependencies
+## Usage: npm-install-peer-deps [OPTION] path/to/package.json/with/peerDependencies
 ## Install the peer dependencies mentioned in a package.json.
 ## NOTE: only updates package.json, doesn't call e.g. 'npm install'
 ##
@@ -20,7 +20,11 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        -* )
+        --)
+            shift
+            break
+            ;;
+        -*)
             sh_script_usage
             ;;
         *)
@@ -28,6 +32,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+[[ $# -ne 0 ]] || sh_script_usage
 
 case "$1" in
     /*)

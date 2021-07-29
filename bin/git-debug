@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- git-debug 1.0
-## Usage: git-debug OPTION... -- GIT_COMMAND ARGS...
+## Usage: git-debug [OPTION] -- GIT_COMMAND ARGS...
 ## Debug execution of a git command.
 ## Verbosely by default. SSH and tracing can be optionally enabled.
 ##
@@ -147,8 +147,9 @@ while [[ $# -gt 0 ]]; do
             ;;
         --)
             shift
+            break
             ;;
-        -* )
+        -*)
             sh_script_usage
             ;;
         *)
@@ -156,6 +157,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+# [[ $# -ne 0 ]] || sh_script_usage
 
 GIT_ENV="$(printenv | grep -e "^GIT_TRACE=" -e "^GIT_TRACE_" -e "^GIT_SSH_COMMAND=" | tr "\n" " ")"
 echo_info "${GIT_ENV} git $1 -v ${*:2}"

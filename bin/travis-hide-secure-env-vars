@@ -26,14 +26,19 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        -* )
+        --)
+            shift
+            break
+            ;;
+        -*)
             sh_script_usage
             ;;
         *)
-            sh_script_usage
+            break
             ;;
     esac
 done
+[[ $# -ne 0 ]] || sh_script_usage
 
 cat >"${TMP_FILE}"
 

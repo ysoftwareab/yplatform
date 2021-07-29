@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- sake 1.0
-## Usage: sake <make arguments>
+## Usage: sake MAKE_ARGS...
 ## "Smart" make wrapper that runs make in the first parent folder with a Makefile
 ## and which silences make warnings regarding overriding/ignoring targets (inheritance)
 ##
@@ -24,11 +24,19 @@ while [[ $# -gt 0 ]]; do
             ${MAKE} "$@" 2> >(grep -v "warning: \(overriding\|ignoring\)" >&2) | grep -v "make.*: Entering directory '"
             sh_script_version
             ;;
+        # --)
+        #     shift
+        #     break
+        #     ;;
+        # -*)
+        #     sh_script_usage
+        #     ;;
         *)
             break
             ;;
     esac
 done
+# [[ $# -ne 0 ]] || sh_script_usage
 
 function cd_to_makefile() {
     test "$(pwd)" != "/"

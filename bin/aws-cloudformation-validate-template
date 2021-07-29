@@ -37,14 +37,19 @@ while [[ $# -gt 0 ]]; do
         -v|--version)
             sh_script_version
             ;;
-        # -* )
-        #     sh_script_usage
-        #     ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
         *)
             break
             ;;
     esac
 done
+[[ $# -ne 0 ]] || sh_script_usage
 
 function on_exit() {
     if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then
