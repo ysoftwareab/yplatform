@@ -1,25 +1,43 @@
 {
-  "version": "0.1.0",
-
+  "version": "2.0.0",
+  "type": "shell",
   "command": "make",
-
-  "isShellCommand": true,
-  "echoCommand": true,
-  "showOutput": "always",
-
   "tasks": [{
-    "taskName": "clean"
+    "label": "clean",
+    "type": "shell",
+    "command": "make",
+    "args": [
+      "clean"
+    ],
+    "problemMatcher": []
   }, {
-    "isBuildCommand": true,
-    "taskName": "all",
+    "label": "all",
+    "type": "shell",
+    "command": "make",
+    "args": [
+      "all"
+    ],
     "problemMatcher": [
       "$lessCompile",
       "$tsc"
-    ]
+    ],
+    "group": "build"
   }, {
-    "taskName": "check"
+    "label": "check",
+    "type": "shell",
+    "command": "make",
+    "args": [
+      "check"
+    ],
+    "problemMatcher": []
   }, {
-    "isTestCommand": true,
-    "taskName": "test"
+    "label": "test",
+    "type": "shell",
+    "command": "make",
+    "args": [
+      "test"
+    ],
+    "problemMatcher": [],
+    "group": "test"
   }]
 }
