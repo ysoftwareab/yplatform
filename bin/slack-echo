@@ -16,9 +16,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_SLACK_PAYLOAD=$(mktemp -t firecloud.XXXXXXXXXX)
 function on_exit() {
-    rm -rf ${TMP_FILE}
+    rm -rf ${TMP_SLACK_PAYLOAD}
 }
 trap on_exit EXIT
 
@@ -76,7 +76,7 @@ TEXT="$*"
 TEXT="${TEXT//\"/\\\"}"
 TEXT="${TEXT//$'\n'/\\\n}"
 
-cat > ${TMP_FILE} <<EOF
+cat > ${TMP_SLACK_PAYLOAD} <<EOF
 {
 "username": "${FROM}",
 ${CHANNEL_TO}
@@ -85,10 +85,10 @@ ${CHANNEL_TO}
 }
 EOF
 
-cat ${TMP_FILE}
+cat ${TMP_SLACK_PAYLOAD}
 
 curl -qfsSL \
     -X POST \
     -H "content-type: application/json" \
-    --data @${TMP_FILE} \
+    --data @${TMP_SLACK_PAYLOAD} \
     ${SLACK_WEBHOOK}

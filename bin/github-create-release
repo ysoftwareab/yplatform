@@ -21,9 +21,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_CURL=$(mktemp -t firecloud.XXXXXXXXXX)
 function on_exit() {
-    rm -rf ${TMP_FILE}
+    rm -rf ${TMP_CURL}
 }
 trap on_exit EXIT
 
@@ -119,14 +119,14 @@ BODY_AS_JSON="$(jq --null-input --arg BODY "${BODY}" '$BODY')"
 curl -qfsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
-    -o ${TMP_FILE} \
+    -o ${TMP_CURL} \
     "${RELEASE_URL}" && EXISTS=true || EXISTS=false
 echo
 
 if [[ "${EXISTS}" = "true" ]]; then
-    RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
+    RELEASE_ID=$(cat ${TMP_CURL} | jq -r ".id")
     RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
-    UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+    UPLOAD_ASSETS_URL=$(cat ${TMP_CURL} | jq -r ".upload_url" | sed "s/[{][?].*//")
 
     curl -qfsSL \
         -X PATCH \
@@ -141,7 +141,7 @@ if [[ "${EXISTS}" = "true" ]]; then
   \"prerelease\": ${PRERELEASE}
 }
 " \
-        -o ${TMP_FILE} \
+        -o ${TMP_CURL} \
         "${RELEASE_URL}"
     echo
 else
@@ -158,13 +158,13 @@ else
   \"prerelease\": ${PRERELEASE}
 }
 " \
-        -o ${TMP_FILE} \
+        -o ${TMP_CURL} \
         "${RELEASES_URL}"
     echo
 
-    RELEASE_ID=$(cat ${TMP_FILE} | jq -r ".id")
+    RELEASE_ID=$(cat ${TMP_CURL} | jq -r ".id")
     RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/${RELEASE_ID}"
-    UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+    UPLOAD_ASSETS_URL=$(cat ${TMP_CURL} | jq -r ".upload_url" | sed "s/[{][?].*//")
 fi
 
 for ASSET in ${ASSETS}; do
@@ -196,5 +196,5 @@ curl -qfsSL \
     "${RELEASE_URL}"
 echo
 
-RELEASE_HTML_URL=$(cat ${TMP_FILE} | jq -r ".html_url")
+RELEASE_HTML_URL=$(cat ${TMP_CURL} | jq -r ".html_url")
 echo_info "Release ${NAME} is now available at ${RELEASE_HTML_URL}."

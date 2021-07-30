@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-AWS_CLI_CACHE_FILE_TMP=$(mktemp)
+TMP_AWS_CLI_CACHE=$(mktemp -t firecloud.XXXXXXXXXX)
 function on_exit() {
-    rm -rf ${AWS_CLI_CACHE_FILE_TMP}
+    rm -rf ${TMP_AWS_CLI_CACHE}
 }
 trap on_exit EXIT
 
@@ -17,8 +17,8 @@ AWS_PROFILE_ROLE_ARN=$(aws configure get role_arn || true)
 
 if [[ -z ${AWS_PROFILE_ROLE_ARN} ]]; then
     # profile is a user profile
-    aws sts get-session-token > ${AWS_CLI_CACHE_FILE_TMP}
-    AWS_CLI_CACHE_FILE=${AWS_CLI_CACHE_FILE_TMP}
+    aws sts get-session-token > ${TMP_AWS_CLI_CACHE}
+    AWS_CLI_CACHE_FILE=${TMP_AWS_CLI_CACHE}
 else
     # profile is a role profile
     STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}

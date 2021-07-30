@@ -5,20 +5,20 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 echo_info "Install 'tmate' via 'brew install tmate'."
 
-TMATE_SOCKET=$(mktemp)
-echo_info "tmate socket: ${TMATE_SOCKET}"
+TMP_TMATE_SOCKET=$(mktemp -t firecloud.XXXXXXXXXX)
+echo_info "tmate socket: ${TMP_TMATE_SOCKET}"
 
 #	TODO Uncertain if tmate works without a pre-existing ~/.ssh/id_rsa
 #	mkdir -p ${HOME}/.ssh
 #	[[ -e ${HOME}/.ssh/id_rsa ]] || ssh-keygen -q -t rsa -b 4096 -N "" -f ${HOME}/.ssh/id_rsa
-rm -rf ${TMATE_SOCKET}
-tmate -S ${TMATE_SOCKET} new-session -d "${SHELL} -l"
-tmate -S ${TMATE_SOCKET} wait tmate-ready
+rm -rf ${TMP_TMATE_SOCKET}
+tmate -S ${TMP_TMATE_SOCKET} new-session -d "${SHELL} -l"
+tmate -S ${TMP_TMATE_SOCKET} wait tmate-ready
 
-while test -e ${TMATE_SOCKET} && tmate -S ${TMATE_SOCKET} has-session; do
+while test -e ${TMP_TMATE_SOCKET} && tmate -S ${TMP_TMATE_SOCKET} has-session; do
     echo
-    tmate -S ${TMATE_SOCKET} display -p "#{tmate_ssh}"
+    tmate -S ${TMP_TMATE_SOCKET} display -p "#{tmate_ssh}"
     # NOTE skip web interface. it's convenient but buggy
-    # tmate -S ${TMATE_SOCKET} display -p "#{tmate_web}"
+    # tmate -S ${TMP_TMATE_SOCKET} display -p "#{tmate_web}"
     sleep 60
 done

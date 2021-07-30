@@ -16,9 +16,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_CURL=$(mktemp -t firecloud.XXXXXXXXXX)
 function on_exit() {
-    rm -rf ${TMP_FILE}
+    rm -rf ${TMP_CURL}
 }
 trap on_exit EXIT
 
@@ -84,11 +84,11 @@ RELEASE_URL="https://api.github.com/repos/${REPO_SLUG}/releases/tags/${TAG}"
 
 curl -qfsSL \
     -H "authorization: token ${GH_TOKEN}" \
-    -o ${TMP_FILE} \
+    -o ${TMP_CURL} \
     "${RELEASE_URL}"
 echo
 
-UPLOAD_ASSETS_URL=$(cat ${TMP_FILE} | jq -r ".upload_url" | sed "s/[{][?].*//")
+UPLOAD_ASSETS_URL=$(cat ${TMP_CURL} | jq -r ".upload_url" | sed "s/[{][?].*//")
 
 UPLOAD_ASSET_URL="${UPLOAD_ASSETS_URL}?name=$(basename ${ASSET})"
 echo_info "Uploading ${ASSET}..."

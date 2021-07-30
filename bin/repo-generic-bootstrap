@@ -57,13 +57,13 @@ ARTIFACTS=
 
 if ${DIFF}; then
     echo_info "Creating a temporary vanilla bootstrapped folder for comparison"
-    TMP=$(mktemp -d -t firecloud.XXXXXXXXXX)
-    echo_info "${TMP}"
-    echo_info "e.g. opendiff . ${TMP}"
-    echo_info "e.g. ksdiff . ${TMP}"
+    TMP_VANILLA_DIR=$(mktemp -d -t firecloud.XXXXXXXXXX)
+    echo_info "${TMP_VANILLA_DIR}"
+    echo_info "e.g. opendiff . ${TMP_VANILLA_DIR}"
+    echo_info "e.g. ksdiff . ${TMP_VANILLA_DIR}"
     echo
-    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP}/support-firecloud
-    cd ${TMP}
+    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP_VANILLA_DIR}/support-firecloud
+    cd ${TMP_VANILLA_DIR}
 fi
 
 # NOTE duplicate code on purpose

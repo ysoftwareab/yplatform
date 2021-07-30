@@ -12,9 +12,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TMP_FILE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_STDIN=$(mktemp -t firecloud.XXXXXXXXXX)
 function on_exit() {
-    rm -rf ${TMP_FILE}
+    rm -rf ${TMP_STDIN}
 }
 trap on_exit EXIT
 
@@ -40,11 +40,11 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -ne 0 ]] || sh_script_usage
 
-cat >"${TMP_FILE}"
+cat >"${TMP_STDIN}"
 
 ${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars --secure | sed "s/^[^=]\+=//g" | while read -r VALUE; do
     # using | as delimiter in order to allow \ in $VALUE
-    sed -i "s|${VALUE}|[secure]|g" "${TMP_FILE}"
+    sed -i "s|${VALUE}|[secure]|g" "${TMP_STDIN}"
 done
 
-cat "${TMP_FILE}"
+cat "${TMP_STDIN}"
