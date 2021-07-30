@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- internet-archive 1.0
+## Usage: internet-archive URL
+## Save a URL to the Internet Archive (archive.org) and then fetch the archive contents.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+URL=$1
+
+# curl -qfsSL "https://web.archive.org/save/$(echo -n "${URL}" | jq -sRr @uri)"
+curl -qfsSL "https://web.archive.org/save/$(${SUPPORT_FIRECLOUD_DIR}/bin/urlencode "${URL}")"
