@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Proxy for Firefox executable on MacOS
+
+PATH_WITHOUT_ME=
+
+MYSELF_REALPATH="$(dirname $(realpath ${BASH_SOURCE[0]}))"
+while read -r PATH_ITEM; do
+    [[ -d ${PATH_ITEM} ]] || continue
+    [[ "$(realpath "${PATH_ITEM}")" != "${MYSELF_REALPATH}" ]] || continue
+    PATH_WITHOUT_ME="${PATH_WITHOUT_ME}:${PATH_ITEM}"
+done < <(echo "${PATH}" | tr ":" "\n")
+PATH_WITHOUT_ME=${PATH_WITHOUT_ME#:}
+
+export PATH="${PATH_WITHOUT_ME#:}"
+
+which firefox >/dev/null 2>&1 || {
+    [[ ! -d "/Applications/Firefox.app" ]] || {
+        "/Applications/Firefox.app/Contents/MacOS/Firefox" "$@"
+        exit 0
+    }
+}
+
+firefox "$@"
