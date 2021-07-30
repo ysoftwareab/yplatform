@@ -11,11 +11,11 @@ task:
   name: "continuous-integration/cirrus" # otherwise 'main' shows in Github UI
   only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus.*'
   container:
-    # name: ubuntu:16.04
+    # name: ubuntu:18.04
     # NOTE using the prebuilt docker image of homebrew (linuxbrew)
     # because homebrew cannot be installed as root,
     # and creating a sudoer user and then running cirrus jobs through it failed
-    image: homebrew/ubuntu16.04
+    image: homebrew/ubuntu18.04
   # see https://cirrus-ci.org/guide/tips-and-tricks/#custom-clone-command
   clone_script: |
     git clone --recursive --branch=$CIRRUS_BRANCH \
