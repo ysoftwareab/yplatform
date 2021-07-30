@@ -11,9 +11,11 @@ SF_NPX_ARGS=
 SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
 SF_NPX_ARGS="${SF_NPX_ARGS} --package esm"
 
+ARGS=("$@")
+
 function main() {
     # require esm and run script
-    node -r esm "$@"
+    node -r esm "${ARGS[@]}"
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
