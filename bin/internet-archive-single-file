@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+export SF_SINGLE_FILE_VSN=v0.3.26
+
+#- internet-archive-single-file 1.0
+## Usage: internet-archive-single-file [OPTION] SINGLE_FILE_ARGS...
+## Archive an URL as a single-file.
+## Docs available at https://github.com/gildas-lormeau/SingleFile/tree/${SF_SINGLE_FILE_VSN}/cli .
+## Run 'internet-archive-single-file -- --help' to show single-file's help.
+##
+##   --no-docker    Run locally, not via docker (which is safer).
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+DOCKER=true
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --no-docker)
+            DOCKER=false
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+if [[ "${DOCKER}" = "true" ]]; then
+    TMP_SINGLE_FILE_DIR=$(mktemp -d -t firecloud.XXXXXXXXXX)
+    function on_exit() {
+        rm -rf ${TMP_SINGLE_FILE_DIR}
+    }
+    trap on_exit EXIT
+    # No versioned tags. See https://github.com/gildas-lormeau/SingleFile/issues/731
+    # docker pull -q capsulecode/singlefile:${SF_SINGLE_FILE_VSN} >&2
+    # docker run -v ${TMP_SINGLE_FILE_DIR}:/usr/src/app/out capsulecode/singlefile:${SF_SINGLE_FILE_VSN} "$@"
+    docker pull -q capsulecode/singlefile:latest >&2
+    docker run -v ${TMP_SINGLE_FILE_DIR}:/usr/src/app/out capsulecode/singlefile:latest "$@"
+    cp -a ${TMP_SINGLE_FILE_DIR}/. ${PWD}
+    exit 0
+fi
+
+SF_NPX_ARGS=
+SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
+# NOTE npm/npx does not cache git dependencies, but it does cache tarball dependencies
+# and you also gain performance by ignoring git history
+# SF_NPX_ARGS="${SF_NPX_ARGS} --package git://github.com/gildas-lormeau/SingleFile.git#semver:^${SF_SINGLE_FILE_VSN#v}"
+SF_NPX_ARGS="${SF_NPX_ARGS} --package https://github.com/gildas-lormeau/SingleFile/archive/refs/tags/${SF_SINGLE_FILE_VSN}.tar.gz"
+
+function main() {
+    # add chrome, chromium, firefox to $PATH for better MacOS comppatibility of single-file
+    # single-file --browser-executable-path="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
+    export PATH="${PATH}:${SUPPORT_FIRECLOUD_DIR}"
+    single-file "$@"
+}
+
+source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
