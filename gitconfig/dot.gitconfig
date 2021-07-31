@@ -22,8 +22,14 @@
     textconv            = hexdump -v -C
 [diff "custom-sf-bz2"]
     textconv            = bzcat
-[diff "custom-sf-docx"]
-    textconv            = docx2txt
+# [diff "custom-sf-doc"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+#     textconv            = "!f(){ \
+#                             antiword -m UTF-8 \"$1\" | sed \"s/\^M$//\; \
+#                             }; f"
+[diff "custom-sf-docx"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+    textconv            = "!f(){ \
+                            docx2txt \"$1\" -; }; \
+                            }; f"
 [diff "custom-sf-exif"]
     textconv            = exiftool
 [diff "custom-sf-gpg"]
@@ -32,8 +38,10 @@
     textconv            = gzcat
 [diff "custom-sf-odf"]
     textconv            = odt2txt
-[diff "custom-sf-pdf"]
-    textconv            = "f(){ pdftotext -layout \"$1\" - }; f"
+[diff "custom-sf-pdf"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+    textconv            = "f(){ \
+                            pdftotext -layout -enc UTF-8 \"$1\" - | sed \"s/(\^M$)|(^\^L)//\" }; \
+                            }; f"
 [diff "custom-sf-plist"]
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
