@@ -23,32 +23,35 @@
 *.mk      whitespace=space-before-tab,-tab-in-indent,trailing-space
 Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 
-# Text =========================================================================
-*.bat          text
+# Text (builtin) ===============================================================
 *.c            text diff=cpp
-*.cmd          text
 *.cpp          text diff=cpp
 *.cs           text diff=csharp
-*.css          text
-*.csv          text
 *.h            text diff=cpp
 *.html         text diff=html
+*.java         text diff=java
+*.perl         text diff=perl
+*.php          text diff=php
+*.pl           text diff=perl
+*.pm           text diff=perl
+*.py           text diff=python
+
+# Text =========================================================================
+
+*.bat          text
+*.cmd          text
+*.css          text
+*.csv          text
 *.inc          text
 *.ini          text
-*.java         text diff=java
 *.js           text
 *.json         text
 *.markdown     text
 *.md           text
 *.mjs          text
 *.mk           text
-*.perl         text diff=perl
-*.php          text diff=php
-*.pl           text diff=perl
 *.plist        text diff=plist filter=plist
-*.pm           text diff=perl
 *.ps1          text
-*.py           text diff=python
 *.sh           text
 *.sql          text
 *.template     text
