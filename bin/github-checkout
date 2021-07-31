@@ -16,20 +16,12 @@ git config --global --add url."https://github.com/".insteadOf "ssh://git@github.
 BASE64="base64 --wrap 0"
 echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
 echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
-echo "" | ${BASE64} >/dev/null 2>&1 || {
-    echo "[ERR ] Need a utility to base64-encode. None found."
-    exit 1
-}
+echo "" | ${BASE64} >/dev/null 2>&1
 GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
 git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
 
 # use git protocol version 2 if available
-GIT_PROTOCOL_VERSION_2=true
-{
-    echo "git version 2.18.0"
-    git --version
-} | sed "s/^git version //g" | sort -V | head -1 | grep -q -Fx "git version 2.18.0" || GIT_PROTOCOL_VERSION_2=false
-[[ "${GIT_PROTOCOL_VERSION_2}" = "false" ]] || {
+! git config --help | grep -q "wire protocol version 2" || {
     git config --global --add protocol.version 2
     GIT_DEPTH_ARG="--depth=1"
 }
