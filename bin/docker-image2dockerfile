@@ -6,8 +6,8 @@ set -euo pipefail
 
 docker history --no-trunc --format "{{.CreatedBy}}" $1 | # extract information from layers
     tac                                                | # reverse the file
-    sed 's,^/bin/sh -c #(nop) *,,g'                     | # remove /bin/sh calls for ENV,LABEL...
-    sed 's,^/bin/sh -c *,RUN ,g'                          | # remove /bin/sh calls for RUN
-    sed 's,^|.*/bin/sh -c *,RUN ,g'                          | # remove /bin/sh calls for RUN
-    sed 's,  *&&  *,\n  \&\& ,g'                         | # pretty print multi command lines following Docker best practices
+    sed 's,^/bin/sh -c #(nop) *,,g'                    | # remove /bin/sh calls for ENV,LABEL...
+    sed 's,^/bin/sh -c *,RUN ,g'                       | # remove /bin/sh calls for RUN
+    sed 's,^|.*/bin/sh -c *,RUN ,g'                    | # remove /bin/sh calls for RUN
+    sed 's,  *&&  *,\n  \&\& ,g'                       | # pretty print multi command lines following Docker best practices
     cat
