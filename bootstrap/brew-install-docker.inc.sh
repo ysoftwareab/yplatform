@@ -62,4 +62,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
 esac
 
+brew_install_one_if ctop "ctop -v | head -1" "^ctop version 0\."
+brew_install_one_if dive "dive --version | head -1" "^dive 0\."
+
 echo_done
