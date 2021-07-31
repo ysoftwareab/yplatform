@@ -18,36 +18,36 @@
     mnemonicprefix      = true
     algorithm           = patience
     submodule           = log
-[diff "bin"]
+[diff "custom-sf-bin"]
     textconv            = hexdump -v -C
-[diff "bz2"]
+[diff "custom-sf-bz2"]
     textconv            = bzcat
-[diff "docx"]
+[diff "custom-sf-docx"]
     textconv            = docx2txt
-[diff "exif"]
+[diff "custom-sf-exif"]
     textconv            = exiftool
-[diff "gpg"]
+[diff "custom-sf-gpg"]
     textconv            = gpg -v
-[diff "gz"]
+[diff "custom-sf-gz"]
     textconv            = gzcat
-[diff "odf"]
+[diff "custom-sf-odf"]
     textconv            = odt2txt
-[diff "pdf"]
+[diff "custom-sf-pdf"]
     textconv            = pdftotext-stdout
-[diff "plist"]
+[diff "custom-sf-plist"]
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
-[diff "tar"]
+[diff "custom-sf-tar"]
     textconv            = tar         -O -xf
-[diff "tar-bz2"]
+[diff "custom-sf-tar-bz2"]
     textconv            = tar --bzip2 -O -xf
-[diff "tar-gz"]
+[diff "custom-sf-tar-gz"]
     textconv            = tar --gzip  -O -xf
-[diff "tar-xz"]
+[diff "custom-sf-tar-xz"]
     textconv            = tar --xz    -O -xf
-[diff "xz"]
+[diff "custom-sf-xz"]
     textconv            = xzcat
-[diff "zip"]
+[diff "custom-sf-zip"]
     textconv            = unzip -p
 [difftool]
     prompt              = false
@@ -96,7 +96,7 @@
     clean               = git-lfs clean -- %f
     required            = true
     process             = git-lfs filter-process
-[filter "plist"]
+[filter "custom-sf-plist"]
     clean               = plutil -convert xml1 -o - -
     smudge              = plutil -convert binary1 -o - -
 

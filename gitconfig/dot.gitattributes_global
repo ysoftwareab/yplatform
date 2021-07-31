@@ -50,7 +50,7 @@ Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.md           text
 *.mjs          text
 *.mk           text
-*.plist        text diff=plist filter=plist
+*.plist        text diff=custom-sf-plist filter=custom-sf-plist
 *.ps1          text
 *.sh           text
 *.sql          text
@@ -70,30 +70,30 @@ Makefile*      text
 
 # Binaries =====================================================================
 *.7z     binary
-*.bz2    binary diff=bz2
-*.docx   binary diff=docx
-*.exe    binary diff=bin
-*.gif    binary diff=exif
-*.gpg    binary diff=gpg
-*.gz     binary diff=gz
+*.bz2    binary diff=custom-sf-bz2
+*.docx   binary diff=custom-sf-docx
+*.exe    binary diff=custom-sf-bin
+*.gif    binary diff=custom-sf-exif
+*.gpg    binary diff=custom-sf-gpg
+*.gz     binary diff=custom-sf-gz
 *.ico    binary
-*.jpg    binary diff=exif
-*.jpeg   binary diff=exif
-*.ods    binary diff=odf
-*.odt    binary diff=odf
-*.odp    binary diff=odf
-*.pdf    binary diff=pdf
-*.png    binary diff=exif
-*.tar    binary diff=tar
-*.tar.bz2 binary diff=tar-bz2
-*.tar.gz binary diff=tar-gz
-*.tar.xz binary diff=tar-xz
+*.jpg    binary diff=custom-sf-exif
+*.jpeg   binary diff=custom-sf-exif
+*.ods    binary diff=custom-sf-odf
+*.odt    binary diff=custom-sf-odf
+*.odp    binary diff=custom-sf-odf
+*.pdf    binary diff=custom-sf-pdf
+*.png    binary diff=custom-sf-exif
+*.tar    binary diff=custom-sf-tar
+*.tar.bz2 binary diff=custom-sf-tar-bz2
+*.tar.gz binary diff=custom-sf-tar-gz
+*.tar.xz binary diff=custom-sf-tar-xz
 *.tif    binary
 *.tiff   binary
 *.tgz    binary
 *.xlsx   binary
-*.zip    binary diff=zip
-*.xz     binary diff=xz
+*.zip    binary diff=custom-sf-zip
+*.xz     binary diff=custom-sf-xz
 
 # 3rd-party exclusions =========================================================
 # e.g. /path -whitespace -text
