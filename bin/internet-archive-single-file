@@ -51,11 +51,8 @@ if [[ "${DOCKER}" = "true" ]]; then
         rm -rf ${TMP_SINGLE_FILE_DIR}
     }
     trap on_exit EXIT
-    # No versioned tags. See https://github.com/gildas-lormeau/SingleFile/issues/731
-    # docker pull -q capsulecode/singlefile:${SF_SINGLE_FILE_VSN} >&2
-    # docker run -v ${TMP_SINGLE_FILE_DIR}:/usr/src/app/out capsulecode/singlefile:${SF_SINGLE_FILE_VSN} "$@"
-    docker pull -q capsulecode/singlefile:latest >&2
-    docker run -v ${TMP_SINGLE_FILE_DIR}:/usr/src/app/out capsulecode/singlefile:latest "$@"
+    docker pull -q capsulecode/singlefile:${SF_SINGLE_FILE_VSN} >&2
+    docker run -v ${TMP_SINGLE_FILE_DIR}:/usr/src/app/out capsulecode/singlefile:${SF_SINGLE_FILE_VSN} "$@"
     cp -a ${TMP_SINGLE_FILE_DIR}/. ${PWD}
     exit 0
 fi
@@ -67,11 +64,12 @@ SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
 # SF_NPX_ARGS="${SF_NPX_ARGS} --package git://github.com/gildas-lormeau/SingleFile.git#semver:^${SF_SINGLE_FILE_VSN#v}"
 SF_NPX_ARGS="${SF_NPX_ARGS} --package https://github.com/gildas-lormeau/SingleFile/archive/refs/tags/${SF_SINGLE_FILE_VSN}.tar.gz"
 
+ARGS=("$@")
+
 function main() {
-    # add chrome, chromium, firefox to $PATH for better MacOS comppatibility of single-file
-    # single-file --browser-executable-path="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
-    export PATH="${PATH}:${SUPPORT_FIRECLOUD_DIR}"
-    single-file "$@"
+    # add chrome, chromium, etc to $PATH for better MacOS comppatibility of single-file
+    export PATH="${PATH}:${SUPPORT_FIRECLOUD_DIR}/bin/browsers"
+    single-file "${ARGS[@]}"
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
