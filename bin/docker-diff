@@ -1,0 +1,115 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# see https://github.com/moul/docker-diff
+# a remastered version
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- docker-diff 1.0
+## Usage: docker-diff [OPTION] IMAGE_A IMAGE_B
+## Show a file-system diff of two Docker images.
+##
+##   --folder-size  Calculate folder sizes.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+FOLDER_SIZE=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --folder-size)
+            FOLDER_SIZE=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+TMP_DOCKER_DIFF=$(mktemp -d -t firecloud.XXXXXXXXXX)
+IMAGE_A=$1
+IMAGE_B=$2
+
+echo_info "Creating a container for ${IMAGE_A}..."
+CONTAINER_A_ID="$(docker create ${IMAGE_A} /bin/sh)"
+
+echo_info "Creating a container for ${IMAGE_B}..."
+CONTAINER_B_ID="$(docker create ${IMAGE_B} /bin/sh)"
+
+function on_exit() {
+    rm -rf ${TMP_DOCKER_DIFF}
+    docker rm -fv "${CONTAINER_A_ID}" "${CONTAINER_B_ID}" >/dev/null
+}
+trap on_exit EXIT
+
+function docker_tar_list() {
+    tar \
+        --exclude "dev" \
+        --exclude "etc/mtab" \
+        --exclude "proc" \
+        -tvf $1 \
+        > $1.txt
+}
+
+function docker_tar_folder_size() {
+    local FOLDER_LINE_INDEX=0
+    while read -r FOLDER_LINE; do
+        FOLDER_LINE_INDEX=$(( ${FOLDER_LINE_INDEX} + 1 ))
+        echo "${FOLDER_LINE}" | grep -q "/$" || continue
+
+        local COL12="$(echo "${FOLDER_LINE}" | tr -s " " | cut -d" " -f1-2)"
+        local COL4="$(echo "${FOLDER_LINE}" | tr -s " " | cut -d" " -f4-)"
+        local FOLDER="$(echo "${FOLDER_LINE}" | tr -s " " | cut -d" " -f6)"
+        local FOLDER_SIZE=0
+        while read -r LINE; do
+            echo "${LINE}" | tr -s " " | cut -d" " -f6 | grep -q "^${FOLDER}" || break
+            echo "${LINE}" | tr -s " " | cut -d" " -f6 | grep -q -v "/$" || continue
+            local SIZE="$(echo "${LINE}" | tr -s " " | cut -d" " -f3)"
+            FOLDER_SIZE=$(( ${FOLDER_SIZE} + ${SIZE} ))
+        done < <(cat $1.txt | tail -n +$(( ${FOLDER_LINE_INDEX} + 1 )))
+        FOLDER_SIZE="$(printf "%15s" ${FOLDER_SIZE})"
+        FOLDER_LINE_NEW="${COL12} ${FOLDER_SIZE} ${COL4}"
+        sed -i "s,^${FOLDER_LINE}$,${FOLDER_LINE_NEW}," $1.txt
+    done < <(cat $1.txt)
+}
+
+echo_info "Exporting and listing the file system of ${IMAGE_A}.."
+docker export "${CONTAINER_A_ID}" >${TMP_DOCKER_DIFF}/a.tar
+docker_tar_list ${TMP_DOCKER_DIFF}/a.tar
+[[ "${FOLDER_SIZE}" != "true" ]] || {
+    echo_info "Calculating folder sizes..."
+    docker_tar_folder_size ${TMP_DOCKER_DIFF}/a.tar
+}
+
+echo_info "Exporting and listing the file system of ${IMAGE_A}.."
+docker export "${CONTAINER_B_ID}" >${TMP_DOCKER_DIFF}/b.tar
+docker_tar_list ${TMP_DOCKER_DIFF}/b.tar
+[[ "${FOLDER_SIZE}" != "true" ]] || {
+    echo_info "Calculating folder sizes..."
+    docker_tar_folder_size ${TMP_DOCKER_DIFF}/b.tar
+}
+
+diff --unified=1000000 \
+    --label "${IMAGE_A}" \
+    ${TMP_DOCKER_DIFF}/a.tar.txt \
+    --label "${IMAGE_B}" \
+    ${TMP_DOCKER_DIFF}/b.tar.txt \
+    || exit $?
