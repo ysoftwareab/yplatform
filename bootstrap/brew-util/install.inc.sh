@@ -96,10 +96,10 @@ function brew_install_one_core() {
 
     echo_do "brew: Installing ${FORMULA}..."
     brew install ${FORMULA}
-    brew info --json=v1 ${NAME} | \
-        ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r ".[0].linked_keg" | \
-        grep -q -v "^null$" || \
-        brew link --force --overwrite ${NAME}
+    # brew info --json=v1 ${NAME} | \
+    #     ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r ".[0].linked_keg" | \
+    #     grep -q -v "^null$" || \
+    #     brew link --force --overwrite ${NAME}
     echo_done
 }
 
