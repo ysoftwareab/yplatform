@@ -1,17 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# see https://github.com/moul/docker-diff
-# a remastered version
+# inspired by https://github.com/moul/docker-diff
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-#- docker-diff 1.0
-## Usage: docker-diff [OPTION] IMAGE_A IMAGE_B
-## Show a file-system diff of two Docker images.
+#- docker-image2ls 1.0
+## Usage: docker-image2ls [OPTION] IMAGE
+## Show a file-system listing of a Docker image.
+## Useful for later diffing two file-systems with
+##    diff --unified=1000000 <(bin/docker-image2ls alpine:3.2) <(bin/docker-image2ls alpine:3.3)
 ##
-##   --folder-size  Calculate folder sizes.
+##   --folder-size  Calculate folder sizes. Performance hit.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -45,18 +46,14 @@ done
 # [[ $# -ne 0 ]] || sh_script_usage
 
 TMP_DOCKER_DIFF=$(mktemp -d -t firecloud.XXXXXXXXXX)
-IMAGE_A=$1
-IMAGE_B=$2
+IMAGE=$1
 
-echo_info "Creating a container for ${IMAGE_A}..."
-CONTAINER_A_ID="$(docker create ${IMAGE_A} /bin/sh)"
-
-echo_info "Creating a container for ${IMAGE_B}..."
-CONTAINER_B_ID="$(docker create ${IMAGE_B} /bin/sh)"
+echo_info "Creating a container for ${IMAGE}..."
+CONTAINER_ID="$(docker create ${IMAGE} /bin/sh)"
 
 function on_exit() {
     rm -rf ${TMP_DOCKER_DIFF}
-    docker rm -fv "${CONTAINER_A_ID}" "${CONTAINER_B_ID}" >/dev/null
+    docker rm -fv "${CONTAINER_ID}" >/dev/null
 }
 trap on_exit EXIT
 
@@ -91,25 +88,11 @@ function docker_tar_folder_size() {
     done < <(cat $1.txt)
 }
 
-echo_info "Exporting and listing the file system of ${IMAGE_A}.."
-docker export "${CONTAINER_A_ID}" >${TMP_DOCKER_DIFF}/a.tar
-docker_tar_list ${TMP_DOCKER_DIFF}/a.tar
+echo_info "Exporting and listing the file system of ${IMAGE}.."
+docker export "${CONTAINER_ID}" >${TMP_DOCKER_DIFF}/image.tar
+docker_tar_list ${TMP_DOCKER_DIFF}/image.tar
 [[ "${FOLDER_SIZE}" != "true" ]] || {
     echo_info "Calculating folder sizes..."
-    docker_tar_folder_size ${TMP_DOCKER_DIFF}/a.tar
+    docker_tar_folder_size ${TMP_DOCKER_DIFF}/image.tar
 }
-
-echo_info "Exporting and listing the file system of ${IMAGE_A}.."
-docker export "${CONTAINER_B_ID}" >${TMP_DOCKER_DIFF}/b.tar
-docker_tar_list ${TMP_DOCKER_DIFF}/b.tar
-[[ "${FOLDER_SIZE}" != "true" ]] || {
-    echo_info "Calculating folder sizes..."
-    docker_tar_folder_size ${TMP_DOCKER_DIFF}/b.tar
-}
-
-diff --unified=1000000 \
-    --label "${IMAGE_A}" \
-    ${TMP_DOCKER_DIFF}/a.tar.txt \
-    --label "${IMAGE_B}" \
-    ${TMP_DOCKER_DIFF}/b.tar.txt \
-    || exit $?
+cat ${TMP_DOCKER_DIFF}/image.tar.txt
