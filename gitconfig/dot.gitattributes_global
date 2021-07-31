@@ -37,7 +37,6 @@ Makefile* whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.py           text diff=python
 
 # Text =========================================================================
-
 *.bat          text
 *.cmd          text
 *.css          text
