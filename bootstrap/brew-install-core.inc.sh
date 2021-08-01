@@ -2,10 +2,14 @@
 set -euo pipefail
 
 echo_do "brew: Installing core packages..."
+# provides run-parts needed by Dockerfile.entrypoint.sh
+brew_install_one debianutils
+
 brew_install_one_if ${SUPPORT_FIRECLOUD_DIR}/Formula/editorconfig-checker.rb \
     "editorconfig-checker --version | head -1" "^2\."
 brew_install_one_if ${SUPPORT_FIRECLOUD_DIR}/Formula/retry.rb \
     "retry --help | head -1" "^Usage: retry"
+
 brew_install_one_if curl "curl --version | head -1" "^curl 7\."
 brew_install_one_if git "git --version | head -1" "^git version 2\."
 brew_install_one_if jq "jq --version | head -1" "^jq-1\."
