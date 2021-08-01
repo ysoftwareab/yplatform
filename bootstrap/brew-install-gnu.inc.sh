@@ -3,8 +3,10 @@ set -euo pipefail
 
 echo_do "brew: Installing GNU packages..."
 # NOTE install autoconf/automake via Brewfile.inc.sh when needed (depends on perl on linux)
-# brew_install_one_if autoconf "autoconf --version | head -1" "^autoconf (GNU Autoconf) 2\."
-# brew_install_one_if automake "automake --version | head -1" "^automake (GNU automake) 1\."
+! which perl >/dev/null 2>&1 || {
+    brew_install_one_if autoconf "autoconf --version | head -1" "^autoconf (GNU Autoconf) 2\."
+    brew_install_one_if automake "automake --version | head -1" "^automake (GNU automake) 1\."
+}
 # NOTE 'bash' >=4 provides functionality like associative arrays, globstar, etc
 # see https://tldp.org/LDP/abs/html/bashver4.html
 brew_install_one_if bash "bash --version | head -1" "^GNU bash, version [^123]\."

@@ -4,7 +4,10 @@ set -euo pipefail
 echo_do "brew: Installing git-diff helpers..."
 brew_install_one_if bzip2 "bzip2 --help 2>&1 | head -1" "^bzip2, a block-sorting file compressor.  Version 1\."
 brew_install_one_if docx2txt "docx2txt.sh | head -2 | tail -1" "^Usage :"
-brew_install_one_if exiftool "exiftool -ver | head -1" "^12\."
+# NOTE skipping if no perl is available
+! which perl >/dev/null 2>&1 || {
+    brew_install_one_if exiftool "exiftool -ver | head -1" "^12\."
+}
 brew_install_one_if odt2txt "odt2txt --version | head -1" "^odt2txt 0\." || {
     # no bottle on linuxbrew
     brew install --build-from-source odt2txt
