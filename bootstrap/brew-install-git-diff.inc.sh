@@ -12,9 +12,18 @@ brew_install_one_if odt2txt "odt2txt --version | head -1" "^odt2txt 0\." || {
 }
 brew_install_one_if poppler "pdftotext -v 2>&1 | head -1" "^pdftotext version 2[0-9]\." || {
     # no bottle on linuxbrew
-    brew ls | grep -q "qt@5" || brew install --build-from-source qt@5
-    brew install --build-from-source poppler
-    exe_and_grep_q "pdftotext -v 2>&1 | head -1" "^pdftotext version 2[0-9]\."
+    # brew ls | grep -q "qt@5" || brew install --build-from-source qt@5
+    # brew install --build-from-source poppler
+
+    EXIT_CODE=$?
+    [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_CODE}
+    echo_warn "Falling back to installing Poppler outside Homebrew..."
+
+    # POPPLER_VSN="$(brew info --json=v1 poppler | jq -r ".[0].versions.stable")"
+    # magic_install_one poppler@${POPPLER_VSN}
+    # exe_and_grep_q "pdftotext -v 2>&1 | head -1" "^pdftotext version 2[0-9]\."
+    magic_install_one poppler
+    exe_and_grep_q "pdftotext -v 2>&1 | head -1" "^pdftotext version "
 }
 brew_install_one_if xz "xz --version | head -1" "^xz (XZ Utils) 5\."
 echo_done
