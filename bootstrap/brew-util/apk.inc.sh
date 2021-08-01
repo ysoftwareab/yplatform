@@ -9,7 +9,7 @@ function apk_update() {
 }
 
 function apk_install_one() {
-    local PKG="$*"
+    local PKG="$1"
 
     echo_do "apk: Installing ${PKG}..."
     ${SF_SUDO} apk add --no-cache ${PKG}
@@ -18,14 +18,14 @@ function apk_install_one() {
 }
 
 function apk_install_one_if() {
-    local FORMULA="$1"
+    local PKG="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
 
     if exe_and_grep_q "$@"; then
-        echo_skip "apk: Installing ${FORMULA}..."
+        echo_skip "apk: Installing ${PKG}..."
     else
-        apk_install_one "${FORMULA}"
+        apk_install_one "${PKG}"
         >&2 exe_debug "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi

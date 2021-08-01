@@ -21,23 +21,23 @@ APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-he
 apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
     APT_GET_FORCE_YES="--force-yes"
 function apt_install_one() {
-    local DPKG="$*"
+    local PKG="$1"
 
-    echo_do "aptitude: Installing ${DPKG}..."
-    ${SF_SUDO} apt-get install -y ${APT_GET_FORCE_YES} ${DPKG}
+    echo_do "aptitude: Installing ${PKG}..."
+    ${SF_SUDO} apt-get install -y ${APT_GET_FORCE_YES} ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
 function apt_install_one_if() {
-    local FORMULA="$1"
+    local PKG="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
 
     if exe_and_grep_q "$@"; then
-        echo_skip "aptitude: Installing ${FORMULA}..."
+        echo_skip "aptitude: Installing ${PKG}..."
     else
-        apt_install_one "${FORMULA}"
+        apt_install_one "${PKG}"
         >&2 exe_debug "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
