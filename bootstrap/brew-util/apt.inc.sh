@@ -23,6 +23,12 @@ apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
 function apt_install_one() {
     local PKG="$1"
 
+    local BREW_VSN=$(echo "${PKG}@" | cut -d"@" -f2)
+    [[ -z "${BREW_VSN}" ]] || {
+        echo_err "Passing a major version á la Homebrew is not yet implemented."
+        exit 1
+    }
+
     echo_do "aptitude: Installing ${PKG}..."
     ${SF_SUDO} apt-get install -y ${APT_GET_FORCE_YES} ${PKG}
     echo_done
