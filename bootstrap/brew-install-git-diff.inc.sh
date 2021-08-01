@@ -12,7 +12,7 @@ brew_install_one_if odt2txt "odt2txt --version | head -1" "^odt2txt 0\." || {
 }
 brew_install_one_if poppler "pdftotext -v | head -1" "^pdftotext version 2[0-9]\." || {
     # no bottle on linuxbrew
-    brew ls | grep -q "qt@5 || brew install --build-from-source qt@5
+    brew ls | grep -q "qt@5" || brew install --build-from-source qt@5
     brew install --build-from-source poppler
     exe_and_grep_q "pdftotext -v | head -1" "^pdftotext version 2[0-9]\."
 }
