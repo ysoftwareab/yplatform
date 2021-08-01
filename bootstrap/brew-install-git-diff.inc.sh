@@ -13,6 +13,8 @@ brew_install_one_if odt2txt "odt2txt --version | head -1" "^odt2txt 0\." || {
     brew install --build-from-source odt2txt
     exe_and_grep_q "odt2txt --version | head -1" "^odt2txt 0\."
 }
+# NOTE alternatively one can also install xpdf instead of poppler. Uncertain about the diffs.
+# brew_install_one_if xpdf "pdftotext -v 2>&1 | head -1" "^pdftotext version 4\."
 brew_install_one_if poppler "pdftotext -v 2>&1 | head -1" "^pdftotext version 2[0-9]\." || {
     # no bottle on linuxbrew
     # brew ls | grep -q "qt@5" || brew install --build-from-source qt@5
