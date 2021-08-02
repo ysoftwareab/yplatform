@@ -77,8 +77,9 @@ SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-hook-pre-push.mk \
 
 SF_CORE_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.node.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.archive.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.ci.mk \
+	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.node.mk \
 
 SF_CORE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_CORE_COMMON_INCLUDES_DEFAULT))
 
