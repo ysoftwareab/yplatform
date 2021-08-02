@@ -2,9 +2,25 @@
 set -euo pipefail
 
 GID_INDEX=$((GID_INDEX + 1))
-cat /etc/group | cut -d":" -f3 | grep -q "^${GID_INDEX}$" || addgroup \
-    --gid ${GID_INDEX} \
-    ${GNAME}
+cat /etc/group | cut -d":" -f3 | grep -q "^${GID_INDEX}$" || {
+    # TODO is there no way to simplify this into a cross-platform call ?!
+    if which addgroup >/dev/null 2>&1; then
+        if addgroup --help | grep -q "\-\-gid"; then
+            addgroup --gid ${GID_INDEX} ${GNAME}
+        else
+            addgroup -g ${GID_INDEX} ${GNAME}
+        fi
+    elif which groupadd >/dev/null 2>&1; then
+        if groupadd --help | grep -q "\-\-gid"; then
+            groupadd --gid ${GID_INDEX} ${GNAME}
+        else
+            groupadd -g ${GID_INDEX} ${GNAME}
+        fi
+    else
+        echo_err "Neither addgroup nor groupadd is available."
+        exit 1
+    fi
+}
 GNAME_REAL=$(getent group ${GID_INDEX} | cut -d: -f1)
 
 UID_INDEX=$((UID_INDEX + 1))

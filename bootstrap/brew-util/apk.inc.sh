@@ -5,7 +5,7 @@ set -euo pipefail
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function apk_update() {
-    ${SF_SUDO} apk update
+    ${SF_SUDO:-} apk update
 }
 
 function apk_install_one() {
@@ -18,7 +18,7 @@ function apk_install_one() {
     }
 
     echo_do "apk: Installing ${PKG}..."
-    ${SF_SUDO} apk add --no-cache ${PKG}
+    ${SF_SUDO:-} apk add --no-cache ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

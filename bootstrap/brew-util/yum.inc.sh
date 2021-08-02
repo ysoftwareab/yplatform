@@ -8,8 +8,10 @@ set -euo pipefail
 
 function yum_update() {
     # see https://unix.stackexchange.com/a/372586/61053
-    ${SF_SUDO} yum -y clean expire-cache
-    ${SF_SUDO} yum -y check-update >/dev/null
+    ${SF_SUDO:-} yum -y clean expire-cache
+    # NOTE 100 means packages are available for update
+    ${SF_SUDO:-} yum -y check-update >/dev/null || \
+        if [[ $? -eq 100 ]]; then true; else exit $?; fi
 }
 
 function yum_install_one() {
@@ -22,7 +24,7 @@ function yum_install_one() {
     }
 
     echo_do "yum: Installing ${PKG}..."
-    ${SF_SUDO} yum -y install ${PKG}
+    ${SF_SUDO:-} yum -y install ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

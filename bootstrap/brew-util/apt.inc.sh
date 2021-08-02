@@ -5,14 +5,14 @@ set -euo pipefail
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function apt_update() {
-    ${SF_SUDO} apt-get update -y --fix-missing 2>&1 || {
+    ${SF_SUDO:-} apt-get update -y --fix-missing 2>&1 || {
         set -x
         # try to handle "Hash Sum mismatch" error
-        ${SF_SUDO} apt-get clean
-        ${SF_SUDO} rm -rf /var/lib/apt/lists/*
+        ${SF_SUDO:-} apt-get clean
+        ${SF_SUDO:-} rm -rf /var/lib/apt/lists/*
         # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        ${SF_SUDO} apt-get update -o Acquire::CompressionTypes::Order::=gz
-        ${SF_SUDO} apt-get update -y --fix-missing
+        ${SF_SUDO:-} apt-get update -o Acquire::CompressionTypes::Order::=gz
+        ${SF_SUDO:-} apt-get update -y --fix-missing
         set +x
     }
 }
@@ -30,7 +30,7 @@ function apt_install_one() {
     }
 
     echo_do "aptitude: Installing ${PKG}..."
-    ${SF_SUDO} apt-get install -y ${APT_GET_FORCE_YES} ${PKG}
+    ${SF_SUDO:-} apt-get install -y ${APT_GET_FORCE_YES} ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

@@ -7,12 +7,7 @@ set -euo pipefail
 # but they are here for convenience, to make them available in Brewfile.inc.sh files
 
 function pacman_update() {
-    ${SF_SUDO} pacman -Sy --noconfirm archlinux-keyring
-    ${SF_SUDO} pacman-key --populate
-    ${SF_SUDO} pacman-key --refresh-keys
-    ${SF_SUDO} pacman -Syyu --noconfirm
-    ${SF_SUDO} pacman-db-upgrade
-    ${SF_SUDO} update-ca-trust
+    ${SF_SUDO:-} pacman -Syy
 }
 
 function pacman_install_one() {
@@ -25,7 +20,7 @@ function pacman_install_one() {
     }
 
     echo_do "pacman: Installing ${PKG}..."
-    ${SF_SUDO} pacman -Sy --noconfirm ${PKG}
+    ${SF_SUDO:-} pacman -S --noconfirm ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
