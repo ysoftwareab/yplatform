@@ -7,6 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
 # DEPS
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/apt.inc.sh
 [[ -f /support-firecloud.bootstrapped ]] || {
+    set -x
     apt_update
 
     apt_install_one apt-transport-https
