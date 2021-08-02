@@ -125,8 +125,8 @@ TODO
   [6]: https://travis-ci.com/rokmoln/support-firecloud.svg?branch=master
   [7]: https://app.codeship.com/projects/388210
   [8]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
-  [9]: https://rokmoln.semaphoreci.com/branches/3afa32fb-b027-4a02-8e99-8a4ba73dac12
-  [10]: https://rokmoln.semaphoreci.com/badges/support-firecloud/branches/master.svg
+  [9]: https://rokmoln.semaphoreci.com/projects/support-firecloud
+  [10]: https://rokmoln.semaphoreci.com/badges/support-firecloud/branches/master.svg?style=shields
   [11]: https://gitlab.com/rokmoln/support-firecloud/commits/master
   [12]: https://gitlab.com/rokmoln/support-firecloud/badges/master/pipeline.svg
   [13]: https://ci.appveyor.com/project/andreineculau/support-firecloud/branch/master
