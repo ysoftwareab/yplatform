@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2089
+# shellcheck disable=SC2090
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+# Debian/Ubuntu --help:
+#
+# adduser USER GROUP
+#    Add an existing user to an existing group
+
+#- linux-adduser2group 1.0
+## Usage: linux-adduser2group USER GROUP
+## Add a user to a group cross-platform.
+## Arguments are a subset of the Debian/Ubuntu 'adduser'.
+##
+##   --force-badname Don't check for bad names.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+FORCE_BADNAME=
+USER=
+GROUP=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --force-badname)
+            FORCE_BADNAME=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+USER="$1"
+GROUP="$2"
+
+[[ -n "${USER}" ]] || {
+    echo_err "Please provide a USER name."
+    exit 1
+}
+
+[[ -n "${GROUP}" ]] || {
+    echo_err "Please provide a GROUP name."
+    exit 1
+}
+
+case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
+    linux-alpine-*)
+        ARGS=()
+        [[ "${FORCE_BADNAME}" != "true" ]] || \
+            echo_warn "'--force-badname' is not supported. Trying anyway."
+        ARGS+=("${USER}")
+        ARGS+=("${GROUP}")
+        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        ;;
+    linux-arch-*|linux-centos-*)
+        ARGS=()
+        [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--badnames")
+        ARGS+=("-a")
+        ARGS+=("-G" "${GROUP}")
+        ARGS+=("${USER}")
+        exe ${SF_SUDO:-} /usr/sbin/usermod "${ARGS[@]}"
+        ;;
+    linux-debian-*|linux-ubuntu-*)
+        ARGS=()
+        [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--force-badname")
+        ARGS+=("${USER}")
+        ARGS+=("${GROUP}")
+        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        ;;
+    *)
+        echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a user to a group."
+        exit 1
+        ;;
+esac

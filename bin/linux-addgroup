@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+# Debian/Ubuntu --help:
+#
+# adduser --group [--gid ID] GROUP
+# addgroup [--gid ID] GROUP
+#    Add a user group
+#
+# addgroup --system [--gid ID] GROUP
+#    Add a system group
+
+#- linux-addgroup 1.0
+## Usage: linux-addgroup [OPTION] GROUP
+## Add a user or system group cross-platform.
+## Arguments are a subset of the Debian/Ubuntu 'addgroup'.
+##
+##   --gid          Group ID.
+##   --system       Add sytem group instead. User group by default.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+SYSTEM=
+# GID may be read-only
+GROUP_ID=
+GROUP=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --system)
+            SYSTEM=true
+            shift
+            ;;
+        --gid)
+            GROUP_ID=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+GROUP="$1"
+
+[[ -n "${GROUP}" ]] || {
+    echo_err "Please provide a GROUP name."
+    exit 1
+}
+
+case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
+    linux-alpine-*)
+        ARGS=()
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("-S")
+        [[ -z "${GROUP_ID}" ]] || ARGS+=("-g" "${GROUP_ID}")
+        ARGS+=("${GROUP}")
+        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        ;;
+    linux-arch-*|linux-centos-*)
+        ARGS=()
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
+        [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
+        ARGS+=("${GROUP}")
+        exe ${SF_SUDO:-} /usr/sbin/groupadd "${ARGS[@]}"
+        ;;
+    linux-debian-*|linux-ubuntu-*)
+        ARGS=()
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
+        [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
+        ARGS+=("${GROUP}")
+        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        ;;
+    *)
+        echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a group."
+        exit 1
+        ;;
+esac

@@ -1,0 +1,213 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+# Debian/Ubuntu --help:
+#
+# adduser [--home DIR] [--shell SHELL] [--no-create-home] [--uid ID]
+# [--firstuid ID] [--lastuid ID] [--gecos GECOS] [--ingroup GROUP | --gid ID]
+# [--disabled-password] [--disabled-login] [--add_extra_groups] USER
+#    Add a normal user
+#
+# adduser --system [--home DIR] [--shell SHELL] [--no-create-home] [--uid ID]
+# [--gecos GECOS] [--group | --ingroup GROUP | --gid ID] [--disabled-password]
+# [--disabled-login] [--add_extra_groups] USER
+#    Add a system user
+
+#- linux-adduser 1.0
+## Usage: linux-adduser [OPTION] USER
+## Add a normal or system user cross-platform.
+## Arguments are a subset of the Debian/Ubuntu 'adduser'.
+##
+##   --system       Add sytem user instead. Normal user by default.
+##   --home         Home directory.
+##   --shell        Default shell.
+##   --no-create-home ?? Don't create the home directory if it doesn't exist.
+##   --uid          User ID.
+##   --firstuid     ??
+##   --lastuid      ??
+##   --gecos        Gecos field. Defaults to 'Linux user'.
+##   --group        Primary group's name.
+##   --ingroup      Primary group's name.
+##   --gid          Primary group's ID.
+##   --disabled-password Disable password.
+##   --disabled-login ?? Disable login.
+##   --add_extra_groups ??
+##   --force-badname Don't check for bad names.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+SYSTEM=
+HOME=
+SHELL=
+# NO_CREATE_HOME=
+# UID might be read-only
+USER_ID=
+# FIRSTUID=
+# LASTUID=
+GECOS=
+INGROUP=
+# GID might be read-only
+GROUP_ID=
+DISABLED_PASSWORD=
+# DISABLED_LOGIN=
+# ADD_EXTRA_GROUPS=
+FORCE_BADNAME=
+USER=
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --system)
+            SYSTEM=true
+            shift
+            ;;
+        --home)
+            HOME=$2
+            shift 2
+            ;;
+        --shell)
+            SHELL=$2
+            shift 2
+            ;;
+        # --no-create-home)
+        #     NO_CREATE_HOME=true
+        #     shift
+        #     ;;
+        --uid)
+            USER_ID=$2
+            shift 2
+            ;;
+        # --firstuid)
+        #     FIRSTUID=$2
+        #     shift 2
+        #     ;;
+        # --lastuid)
+        #     LASTUID=$2
+        #     shift 2
+        #     ;;
+        --gecos)
+            GECOS=$2
+            shift 2
+            ;;
+        --group|--ingroup)
+            INGROUP=$2
+            shift 2
+            ;;
+        --gid)
+            GROUP_ID=$2
+            shift 2
+            ;;
+        --disabled-password)
+            DISABLED_PASSWORD=true
+            shift
+            ;;
+        # --disabled-login)
+        #     DISABLED_LOGIN=true
+        #     shift
+        #     ;;
+        # --add_extra_groups)
+        #     ADD_EXTRA_GROUPS=true
+        #     shift
+        #     ;;
+        --force-badname)
+            FORCE_BADNAME=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -ne 0 ]] || sh_script_usage
+
+USER="$1"
+
+[[ -n "${USER}" ]] || {
+    echo_err "Please provide a USER name."
+    exit 1
+}
+
+case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
+    linux-alpine-*)
+        ARGS=()
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("-S")
+        [[ -z "${HOME}" ]] || ARGS+=("-h" "${HOME}")
+        [[ -z "${SHELL}" ]] || ARGS+=("-s" "${SHELL}")
+        [[ -z "${USER_ID}" ]] || ARGS+=("-u" "${USER_ID}")
+        # [[ -z "${GECOS}" ]] || ARGS+=("-g" "${GECOS}")
+        ARGS+=("-g" "${GECOS}")
+        [[ -z "${INGROUP}" ]] || ARGS+=("-G" "${INGROUP}")
+        [[ -z "${GROUP_ID}" ]] || {
+            [[ -z "${INGROUP}" ]] || {
+                echo_err "Both '--gid ${GROUP_ID}' and '--group | --ingroup ${INGROUP}' given."
+                exit 1
+            }
+            ARGS+=("-G" "$(getenv group ${GROUP_ID} | cut -d":" -f1)")
+        }
+        [[ "${DISABLED_PASSWORD}" != "true" ]] || ARGS+=("-D")
+        [[ "${FORCE_BADNAME}" != "true" ]] || \
+            echo_warn "'--force-badname' is not supported. Trying anyway."
+        ARGS+=("${USER}")
+        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        ;;
+    linux-arch-*|linux-centos-*)
+        ARGS=()
+        ARGS+=("--create-home")
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
+        [[ -z "${HOME}" ]] || ARGS+=("--home-dir" "${HOME}")
+        [[ -z "${SHELL}" ]] || ARGS+=("--shell" "${SHELL}")
+        [[ -z "${USER_ID}" ]] || ARGS+=("--uid" "${USER_ID}")
+        # [[ -z "${GECOS}" ]] || ARGS+=("--comment" "${GECOS}")
+        ARGS+=("--comment" "${GECOS}")
+        [[ -z "${INGROUP}" ]] || ARGS+=("--gid" "${INGROUP}")
+        [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
+        [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--badnames")
+        ARGS+=("${USER}")
+        exe ${SF_SUDO:-} /usr/sbin/useradd "${ARGS[@]}"
+        [[ "${DISABLED_PASSWORD}" != "true" ]] || {
+            if [[ -x /usr/bin/passwd ]]; then
+                exe ${SF_SUDO:-} /usr/bin/passwd -l "${USER}"
+            elif [[ -x /usr/sbin/passwd ]]; then
+                exe ${SF_SUDO:-} /usr/sbin/passwd -l "${USER}"
+            else
+                echo_err "No /usr/bin/passwd nor /usr/sbin/passwd available."
+                exit 1
+            fi
+        }
+        ;;
+    linux-debian-*|linux-ubuntu-*)
+        ARGS=()
+        [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
+        [[ -z "${HOME}" ]] || ARGS+=("--home" "${HOME}")
+        [[ -z "${SHELL}" ]] || ARGS+=("--shell" "${SHELL}")
+        [[ -z "${USER_ID}" ]] || ARGS+=("--uid" "${USER_ID}")
+        # [[ -z "${GECOS}" ]] || ARGS+=("--gecos" "${GECOS}")
+        ARGS+=("--gecos" "${GECOS}")
+        [[ -z "${INGROUP}" ]] || ARGS+=("--ingroup" "${INGROUP}")
+        [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
+        [[ "${DISABLED_PASSWORD}" != "true" ]] || ARGS+=("--disabled-password")
+        [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--force-badname")
+        ARGS+=("${USER}")
+        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        ;;
+    *)
+        echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a user."
+        exit 1
+        ;;
+esac

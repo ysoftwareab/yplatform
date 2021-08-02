@@ -3,36 +3,19 @@ set -euo pipefail
 
 GID_INDEX=$((GID_INDEX + 1))
 cat /etc/group | cut -d":" -f3 | grep -q "^${GID_INDEX}$" || {
-    # TODO is there no way to simplify this into a cross-platform call ?!
-    if which addgroup >/dev/null 2>&1; then
-        if addgroup --help | grep -q "\-\-gid"; then
-            addgroup --gid ${GID_INDEX} ${GNAME}
-        else
-            addgroup -g ${GID_INDEX} ${GNAME}
-        fi
-    elif which groupadd >/dev/null 2>&1; then
-        if groupadd --help | grep -q "\-\-gid"; then
-            groupadd --gid ${GID_INDEX} ${GNAME}
-        else
-            groupadd -g ${GID_INDEX} ${GNAME}
-        fi
-    else
-        echo_err "Neither addgroup nor groupadd is available."
-        exit 1
-    fi
+    ${SUPPORT_FIRECLOUD_DIR}/bin/linux-addgroup --gid ${GID_INDEX} ${GNAME}
 }
 GNAME_REAL=$(getent group ${GID_INDEX} | cut -d: -f1)
 
 UID_INDEX=$((UID_INDEX + 1))
-adduser \
+${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser \
     --uid ${UID_INDEX} \
     --ingroup ${GNAME_REAL} \
     --home /home/${UNAME} \
     --shell /bin/sh \
     --disabled-password \
-    --gecos "" \
     ${UNAME}
-! cat /etc/group | cut -d":" -f1 | grep -q "^sudo$" || adduser ${UNAME} sudo
+! cat /etc/group | cut -d":" -f1 | grep -q "^sudo$" || ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group ${UNAME} sudo
 echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers

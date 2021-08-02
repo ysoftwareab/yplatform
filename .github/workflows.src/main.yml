@@ -188,7 +188,7 @@ jobs:
           choco install wsl-ubuntu-1804 --yes --no-progress --ignore-checksum
           wsl bash -c "cat /etc/os-release"
           wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
-          wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash --disabled-password --gecos \"\" ${WSLUSER}" # editorconfig-checker-disable-line
+          wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash --disabled-password --gecos \"Linux user\" ${WSLUSER}" # editorconfig-checker-disable-line
           wsl bash -c "sudo adduser ${WSLUSER} sudo"
           wsl bash -c "sudo echo \"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
           # Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted

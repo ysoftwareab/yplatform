@@ -92,7 +92,7 @@ function sf_ci_run() {
                 sf_run_docker_ci_in_travis
 
                 # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
-                ${RUN_IN_SF_DOCKER_CI} sudo adduser sf travis
+                ${RUN_IN_SF_DOCKER_CI} ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group sf travis
             }
         fi
 

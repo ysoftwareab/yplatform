@@ -48,27 +48,25 @@ function sf_run_docker_ci_image() {
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || addgroup \
-        --gid ${GID2} \
-        \"${GNAME}\""
+        bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
+            $(SUPPORT_FIRECLOUD_DIR)/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
     local GNAME_REAL=$(docker exec -it -u root ${CONTAINER_NAME} \
         getent group ${GID2} | cut -d: -f1)
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        adduser \
+        ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
         --ingroup ${GNAME_REAL} \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
-        --gecos "" \
         "${UNAME}"
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        adduser \
+        ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group \
         --force-badname \
         "${UNAME}" \
         sudo;
