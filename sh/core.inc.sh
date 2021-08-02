@@ -91,7 +91,7 @@ case ${OS_SHORT} in
             # shellcheck disable=SC1091
             OS_RELEASE_ID=$(source /etc/os-release && echo ${ID:-} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
-            OS_RELEASE_VERSION_ID=$(source /etc/os-release && echo ${VERSION_ID:-} | tr "[:upper:]" "[:lower:]")
+            OS_RELEASE_VERSION_ID=$(source /etc/os-release && echo ${VERSION_ID:-0} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
             OS_RELEASE_VERSION_CODENAME=$(source /etc/os-release && echo ${VERSION_CODENAME:-} | tr "[:upper:]" "[:lower:]") # editorconfig-checker-disable-line
         elif type lsb_release >/dev/null 2>&1; then
@@ -103,7 +103,7 @@ case ${OS_SHORT} in
             # shellcheck disable=SC1091
             OS_RELEASE_ID=$(source /etc/lsb-release && echo ${DISTRIB_ID:-} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
-            OS_RELEASE_VERSION_ID=$(source /etc/lsb-release && echo ${DISTRIB_RELEASE:-} | tr "[:upper:]" "[:lower:]")
+            OS_RELEASE_VERSION_ID=$(source /etc/lsb-release && echo ${DISTRIB_RELEASE:-0} | tr "[:upper:]" "[:lower:]")
             # shellcheck disable=SC1091
             OS_RELEASE_VERSION_CODENAME=$(source /etc/lsb-release && echo ${DISTRIB_CODENAME:-} | tr "[:upper:]" "[:lower:]") # editorconfig-checker-disable-line
         fi
