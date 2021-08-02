@@ -14,13 +14,13 @@ function hide_package_manager_update() {
     }"
 }
 hide_package_manager_update magic
-if which apt-get >/dev/null 2>&1; then
+if command -v apt-get >/dev/null 2>&1; then
     hide_package_manager_update apt
-elif which yum >/dev/null 2>&1; then
+elif command -v yum >/dev/null 2>&1; then
     hide_package_manager_update yum
-elif which pacman >/dev/null 2>&1; then
+elif command -v pacman >/dev/null 2>&1; then
     hide_package_manager_update pacman
-elif which apk >/dev/null 2>&1; then
+elif command -v apk >/dev/null 2>&1; then
     hide_package_manager_update apk
 fi
 hide_package_manager_update brew

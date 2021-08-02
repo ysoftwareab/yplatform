@@ -7,13 +7,13 @@ function magic_name_vsn {
 }
 
 function magic_package_manager() {
-    if which apt-get >/dev/null 2>&1; then
+    if command -v apt-get >/dev/null 2>&1; then
         echo "apt"
-    elif which yum >/dev/null 2>&1; then
+    elif command -v yum >/dev/null 2>&1; then
         echo "yum"
-    elif which pacman >/dev/null 2>&1; then
+    elif command -v pacman >/dev/null 2>&1; then
         echo "pacman"
-    elif which apk >/dev/null 2>&1; then
+    elif command -v apk >/dev/null 2>&1; then
         echo "apk"
     fi
 }
