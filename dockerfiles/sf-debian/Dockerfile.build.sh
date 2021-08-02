@@ -2,10 +2,9 @@
 set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR=/support-firecloud
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 
 # DEPS
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/apt.inc.sh
 [[ -f /support-firecloud.bootstrapped ]] || {
     set -x
     apt_update

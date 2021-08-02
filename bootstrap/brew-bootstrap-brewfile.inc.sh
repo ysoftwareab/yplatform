@@ -1,23 +1,29 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo_info "Hiding 'apt_update' as 'force_apt_update'."
-echo_info "Running 'force_apt_update' will make the system unpredictable."
-eval "force_$(declare -f apt_update)"
-eval "apt_update() { \
-    echo \"[ERR ] Updating Aptitude will make the system unpredictable.\"; \
-    echo \"[INFO] Call 'force_apt_update' if you really need to, instead of 'apt_update'.\"; \
-    exit 1; \
-}"
+function hide_package_manager_update() {
+    local PACKAGE_MANAGER="$1"
 
-echo_info "Hiding 'brew_update' as 'force_brew_update'."
-echo_info "Running 'force_brew_update' will make the system unpredictable."
-eval "force_$(declare -f brew_update)"
-eval "brew_update() { \
-    echo \"[ERR ] Updating Homebrew will make the system unpredictable.\"; \
-    echo \"[INFO] Call 'force_brew_update' if you really need to, instead of 'brew_update'.\"; \
-    exit 1; \
-}"
+    echo_info "Hiding '${PACKAGE_MANAGER}_update' as 'force_${PACKAGE_MANAGER}_update'."
+    echo_info "Running 'force_${PACKAGE_MANAGER}_update' will make the system unpredictable."
+    eval "force_$(declare -f ${PACKAGE_MANAGER}_update)"
+    eval "${PACKAGE_MANAGER}_update() { \
+        echo \"[ERR ] Updating ${PACKAGE_MANAGER} will make the system unpredictable.\"; \
+        echo \"[INFO] Call 'force_${PACKAGE_MANAGER}_update' instead, but only if you really need to.\"; \
+        exit 1; \
+    }"
+}
+hide_package_manager_update magic
+if which apt-get >/dev/null 2>&1; then
+    hide_package_manager_update apt
+elif which yum >/dev/null 2>&1; then
+    hide_package_manager_update yum
+elif which pacman >/dev/null 2>&1; then
+    hide_package_manager_update pacman
+elif which apk >/dev/null 2>&1; then
+    hide_package_manager_update apk
+fi
+hide_package_manager_update brew
 
 BREWFILE_INC_SH=${GIT_ROOT}/Brewfile.inc.sh
 [[ -f "${BREWFILE_INC_SH}" ]] || {

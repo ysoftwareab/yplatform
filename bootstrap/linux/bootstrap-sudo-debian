@@ -3,37 +3,13 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
 
 if [[ "${EUID}" != "0" ]]; then
     # Restart this shell script as root.
     ${SF_SUDO} ${BASH_SOURCE[0]}
     exit 0
 fi
-
-function apt_update() {
-    echo_do "aptitude: Updating..."
-    apt-get update -y --fix-missing 2>&1 || {
-        set -x
-        # try to handle "Hash Sum mismatch" error
-        apt-get clean
-        rm -rf /var/lib/apt/lists/*
-        # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        apt-get update -o Acquire::CompressionTypes::Order::=gz
-        apt-get update -y --fix-missing
-        set +x
-    }
-    echo_done
-}
-
-APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
-    APT_GET_FORCE_YES="--force-yes"
-function apt_install_one() {
-    local DPKG="$*"
-    echo_do "aptitude: Installing ${DPKG}..."
-    apt-get install -y ${APT_GET_FORCE_YES} "${DPKG}"
-    echo_done
-}
 
 export DEBIAN_FRONTEND=noninteractive
 

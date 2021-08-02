@@ -3,15 +3,14 @@ set -euo pipefail
 
 # FIXME this module hasn't been fully tested
 
-# yum-* functions are not related to brew,
-# but they are here for convenience, to make them available in Brewfile.inc.sh files
-
 function yum_update() {
+    echo_do "yum: Updating..."
     # see https://unix.stackexchange.com/a/372586/61053
     ${SF_SUDO:-} yum -y clean expire-cache
     # NOTE 100 means packages are available for update
     ${SF_SUDO:-} yum -y check-update >/dev/null || \
         if [[ $? -eq 100 ]]; then true; else exit $?; fi
+    echo_done
 }
 
 function yum_install_one() {

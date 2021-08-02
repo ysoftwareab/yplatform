@@ -3,25 +3,13 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apk.inc.sh
 
 if [[ "${EUID}" != "0" ]]; then
     # Restart this shell script as root.
     ${SF_SUDO} ${BASH_SOURCE[0]}
     exit 0
 fi
-
-function apk_update() {
-    echo_do "apk: Updating..."
-    apk update
-    echo_done
-}
-
-function apk_install_one() {
-    local PKG="$*"
-    echo_do "apk: Installing ${PKG}..."
-    apk add --no-cache "${PKG}"
-    echo_done
-}
 
 echo_do "Setup apk..."
 apk_update

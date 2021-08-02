@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# apt-* functions are not related to brew,
-# but they are here for convenience, to make them available in Brewfile.inc.sh files
-
 function apt_update() {
+    echo_do "aptitude: Updating..."
     ${SF_SUDO:-} apt-get update -y --fix-missing 2>&1 || {
         set -x
         # try to handle "Hash Sum mismatch" error
@@ -15,6 +13,7 @@ function apt_update() {
         ${SF_SUDO:-} apt-get update -y --fix-missing
         set +x
     }
+    echo_done
 }
 
 APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"

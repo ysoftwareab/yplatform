@@ -13,7 +13,8 @@ GIT_USER_EMAIL="bot@codeship.com"
 GIT_USER_NAME="Codeship"
 
 # DEPS
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/apt.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/exe.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
 [[ -f /support-firecloud.bootstrapped ]] || {
     apt_update
 
