@@ -21,3 +21,11 @@
     - name: u1804-dev
       service: sfu1804d
       command: bash -c "CI_STEP_NAME=u1804-dev ./.codeship/pipeline.sh"
+    # - name: ubuntu-2004-minimal
+    - name: u2004-minimal
+      service: sfu2004m
+      command: bash -c "CI_STEP_NAME=u2004-minimal ./.codeship/pipeline.sh"
+    # - name: ubuntu-2004-dev
+    - name: u2004-dev
+      service: sfu2004d
+      command: bash -c "CI_STEP_NAME=u2004-dev ./.codeship/pipeline.sh"
