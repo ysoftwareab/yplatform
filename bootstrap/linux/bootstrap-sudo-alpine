@@ -11,6 +11,7 @@ if [[ "${EUID}" != "0" ]]; then
     exit 0
 fi
 
+# keep in sync with dockerfiles/sf-alpine/Dockerfile.build.sh
 echo_do "Setup apk..."
 apk_update
 

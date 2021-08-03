@@ -13,6 +13,7 @@ fi
 
 export DEBIAN_FRONTEND=noninteractive
 
+# keep in sync with dockerfiles/sf-debian/Dockerfile.build.sh
 echo_do "Setup aptitude..."
 apt_update
 

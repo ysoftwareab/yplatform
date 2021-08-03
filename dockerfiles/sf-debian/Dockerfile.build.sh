@@ -5,6 +5,7 @@ SUPPORT_FIRECLOUD_DIR=/support-firecloud
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 
 # DEPS
+# keep in sync with bootstrap/linux/bootstrap-sudo-debian
 [[ -f /support-firecloud.bootstrapped ]] || {
     set -x
     apt_update
