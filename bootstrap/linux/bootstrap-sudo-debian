@@ -68,7 +68,7 @@ fi
 # Basic
 echo_do "aptitude: Installing basic packages..."
 apt_install_one bsdmainutils
-apt_install_one build-essential
+apt_install_one build-essential # as per homebrew-install
 apt_install_one uuid-runtime
 apt_install_one zlib1g-dev
 

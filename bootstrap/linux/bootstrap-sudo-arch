@@ -32,7 +32,7 @@ echo_done
 
 # Basic
 echo_do "pacman: Installing basic packages..."
-pacman_install_one base-devel
+pacman_install_one base-devel # as per homebrew-install
 pacman_install_one coreutils
 pacman_install_one util-linux
 
