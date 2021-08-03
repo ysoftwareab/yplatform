@@ -18,6 +18,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
     pacman_install_one sudo
     pacman_install_one which
 
+    [[ "${SF_SUDO}" = "sf_nosudo_fallback" ]] || export SF_SUDO=sudo
+
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/gitconfig.inc.sh
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/user.inc.sh
 }

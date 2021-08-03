@@ -29,7 +29,7 @@ fi
 echo_info "Bootstrapping with SF_SUDO=${SF_SUDO}..."
 if [[ -z "${SF_SUDO}" ]]; then
     true
-elif [[ "${SF_SUDO}" = "sf_nosudo" ]]; then
+elif [[ "${SF_SUDO}" = "sf_nosudo_fallback" ]]; then
     prompt_q_to_continue "sudo is not available. Do you have root access instead?"
 else
     echo "Enter your sudo password for bootstrap."

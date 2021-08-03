@@ -90,7 +90,9 @@ function bootstrap_brew() {
             ;;
         false-linux)
             echo_do "brew: Installing homebrew..."
-            if [[ "${SF_SUDO}" = "" ]] || [[ "${SF_SUDO}" = "sf_nosudo" ]]; then
+            if [[ "${SF_SUDO}" = "" ]] || \
+                [[ "${SF_SUDO}" = "sf_nosudo" ]] || \
+                [[ "${SF_SUDO}" = "sf_nosudo_fallback" ]]; then
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
