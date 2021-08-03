@@ -1,0 +1,105 @@
+support-firecloud v0.2.137 Release Notes
+
+Highlights since v0.2.136:
+
+* None
+
+Breaking commits since v0.2.136:
+
+* None
+
+Commits since v0.2.136:
+
+* acf671f0 2021-08-03 fixup! normalize shell scripts' argument parsing
+* 1c5da83a 2021-08-03 add note about homebrew-install requirement
+* 1d926793 2021-08-03 fixup! make: add 'ci/<BRANCH>' target to force push to a CI branch
+* 02c986cb 2021-08-03 it is too early to set SF_SUDO to empty
+* 964a0748 2021-08-03 remove redundant -e flag for grep calls
+* 4d84a278 2021-08-03 give more info restarting script as root
+* a79a4049 2021-08-03 docker: add centos-8 and arch bootstrapped images
+* 1b8ebaa8 2021-08-03 note need to keep in sync
+* b06e306e 2021-08-03 alpine: set bash as default shell
+* 8fead800 2021-08-03 use 'command -v' instead of which
+* f1207409 2021-08-02 add cross-platform user/group helpers
+* db2a4ef5 2021-08-03 use 'command' instead of 'which' for broader compatibility
+* ce6a36f7 2021-08-02 fix missing echo_ functions when bootstrapping docker. gather package-manager functions
+* bef30d21 2021-08-03 prep for more distros/package-managers
+* fd7efe35 2021-08-02 sync debian/ubuntu dockerfile's verbosity with others
+* a89a4440 2021-08-02 consistency: default OS_RELEASE_VERSION_ID to 0, if not defined
+* 1a81ba04 2021-08-02 add ubuntu-20.04 to codeship
+* 78363b8a 2021-08-02 stop building on ubuntu-16.04 on codeship. deprecated
+* 31757ed5 2021-08-02 make: add 'ci/<BRANCH>' target to force push to a CI branch
+* 99237c2c 2021-08-02 update semaphore badge
+* d6859517 2021-08-02 use magic_install for odt2txt and poppler on linux
+* a85e1b9a 2021-08-02 move git-diff packages to dev
+* 9210c679 2021-08-02 docker: install run-parts via homebrew
+* a721b7bf 2021-08-01 add note about xpdf being a poppler alternative
+* b9cf8919 2021-08-01 exiftool depends on perl actually. silently skip brew packages that depend on perl
+* 2db407cd 2021-08-01 bootstrap: linuxbrew cannot install poppler (qt@5 fails). fallback to native package managers
+* c724430b 2021-08-01 bootstrap: add magic functions. plus pacman/yum
+* 360760f0 2021-08-01 normalize naming
+* e0127d0e 2021-08-01 whitespace
+* b04fcd5f 2021-08-01 sync github workflow's checkout with bin/github-checkout script
+* 34307da4 2021-08-01 Pdftotext prints version to stderr
+* d7c4aae3 2021-08-01 Typo
+* d4e6d9b7 2021-08-01 fixup! fixup! bootstrap: add git-diff helpers to common
+* 11f559b0 2021-08-01 fixup! bootstrap: add git-diff helpers to common
+* 864d000b 2021-08-01 there should be no need to link keg-only formulas by force, since sf-env updates PATH
+* 632ade3a 2021-08-01 fixup! bootstrap: add git-diff helpers to common
+* 86286f94 2021-08-01 rename bin/docker-diff -> bin/docker-image2ls #kiss
+* 3107f5e9 2021-08-01 add docker-diff helper
+* 8740e7ea 2021-07-31 whitespace
+* 9acc9f5d 2021-07-31 fixup! bootstrap: add git-diff helpers to common
+* 1c0fa167 2021-07-31 improve docker-image2dockerfile output
+* 2fe7d85b 2021-07-31 fixup! add internet-archive-single-file helper
+* 466fd0f8 2021-07-31 refresh gitattributes (include all builtin drivers, order)
+* 92ef2028 2021-07-31 use same git-diff drivers as astextplain in git-for-windows
+* dc226888 2021-07-31 bootstrap: add git-diff helpers to common
+* 43e930d7 2021-07-31 docker bootstrap: add ctop and dive
+* 4ff39ab2 2021-07-31 remove bin/pdftotext-stdout
+* 2cf02be5 2021-07-31 fixup! gitattributes: consolidate builtin diff drivers
+* b37c445d 2021-07-31 gitconfig: prefix diff and filter drivers with custom-sf- to avoid conflicts
+* 9caf1679 2021-07-31 gitattributes: consolidate builtin diff drivers
+* beed3fbb 2021-07-31 whitespace
+* 3bcf3010 2021-07-30 stop passing original args (array) to main function
+* 3fd7abd8 2021-07-30 rename bin/dockerfile-from-image -> bin/docker-image2dockerfile
+* b55c1ca8 2021-07-30 switch gitlab to ubuntu18.04, since ubuntu16.04 is so old (deprecated on github actions too)
+* 227d9049 2021-07-30 add browser helpers, placeholder for macos paths
+* c0b0be1b 2021-07-30 add internet-archive-single-file helper
+* 9fdc08eb 2021-07-30 add internet-archive helper
+* f96272c5 2021-07-30 normalize mktemp usage and variable naming
+* 40fec1e1 2021-07-29 alternate urlencode urldecode helpers
+* a677b23d 2021-07-29 add urlencode urldecode helpers
+* d4b6afda 2021-07-29 allow variables in shell script's USAGE block
+* 856f52b2 2021-07-29 update tasks.json to 2.0.0 schema
+* 3bb64dfe 2021-07-29 normalize shell scripts' argument parsing
+* e91d0ec4 2021-07-29 recommend vscode docker extensions
+* 86ee1841 2021-07-29 add require-version helper
+* c905b0f3 2021-07-29 add support for verbosity to npx
+* e5388af6 2021-07-29 better naming
+* 03c8ff8d 2021-07-29 clarify why we mangle $PATH when calling npx
+* baae3964 2021-07-29 consistency
+* 177b65c4 2021-07-29 pass original args (array) to main function
+* ba5cecb3 2021-07-29 modify PATH in order to allow direct access to NPX executables
+* 54c73085 2021-07-29 declutter NODE_PATH
+* 2a522a4d 2021-07-29 deduplicate pattern for installing npm pkg on the fly
+* 20d7ebea 2021-07-28 style
+* 32316965 2021-07-28 yes confirmation for npx
+* 35fbbce0 2021-07-28 style: normalize http headers to lowercase
+* ab4d54bb 2021-07-27 style: treat 'curl -qfsS' as an atom
+* 9b10bd08 2021-07-27 style
+* 701c44c2 2021-07-27 curl needs -q to be first paramters, otherwise it doesn't count
+* 67e265cb 2021-07-24 silence unzip of awscli
+* cec6c191 2021-07-24 increase homebrew's log report from 15 to 100
+* 86c18df8 2021-07-24 Revert "run 'brew doctor' if failing 'brew install awscli'"
+* 15f00267 2021-07-24 run 'brew doctor' if failing 'brew install awscli'
+* a03e489f 2021-07-24 Revert "diff drivers: list archive files instead of contents"
+* 9237ce24 2021-07-24 diff drivers: list archive files instead of contents
+* 8abc7dca 2021-07-24 add .gitkeep to export-ignore
+* a064e09d 2021-07-24 diff driver: add bzip2 and xz
+* eae4f45b 2021-07-24 diff driver: pdfinfo -> pdftotext
+* fe826b8f 2021-07-24 diff driver: typo odf -> ods
+* 9667386d 2021-07-24 style
+* 88b9daa5 2021-07-24 gitconfig: fix tar and tar-gz diff drivers
+* 46527e52 2021-07-23 add git-debug
+o 72253efe 2021-07-23 0.2.136
