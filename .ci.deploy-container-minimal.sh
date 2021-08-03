@@ -67,7 +67,7 @@ function ci_run_deploy_docker_image() {
     # shellcheck disable=SC1091
     local DOCKER_OS_RELEASE_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID})" # editorconfig-checker-disable-line
+    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
     local DOCKER_OS_RELEASE_VERSION_CODENAME="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_CODENAME:-})" # editorconfig-checker-disable-line
     local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/pacman.inc.sh
+
+if [[ "${EUID}" != "0" ]]; then
+    # Restart this shell script as root.
+    ${SF_SUDO} ${BASH_SOURCE[0]}
+    exit 0
+fi
+
+# keep in sync with dockerfiles/sf-arch/Dockerfile.build.sh
+echo_do "Setup pacman..."
+pacman_update
+
+pacman_install_one ca-certificates
+pacman_install_one gnupg
+
+pacman_install_one git
+pacman_install_one openssl
+pacman_install_one sudo
+pacman_install_one which
+echo_done
+
+# Basic
+echo_do "pacman: Installing basic packages..."
+pacman_install_one base-devel
+pacman_install_one coreutils
+pacman_install_one util-linux
+
+pacman_install_one python3
+
+echo_do "pacman: Listing packages..."
+pacman -Q
+echo_done

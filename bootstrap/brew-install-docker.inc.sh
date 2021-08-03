@@ -4,7 +4,7 @@ set -euo pipefail
 echo_do "brew: Installing Docker packages..."
 
 case ${OS_SHORT}-${OS_RELEASE_ID} in
-    darwin-*|linux-alpine)
+    darwin-*|linux-alpine|linux-arch|linux-centos)
         brew_install_one_if docker "docker --version | head -1" "^Docker version \(19\|20\)\."
         brew_install_one_if docker-compose "docker-compose --version | head -1" "^docker-compose version 1\."
         ;;

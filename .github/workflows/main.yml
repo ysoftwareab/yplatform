@@ -282,7 +282,9 @@ jobs:
       fail-fast: false
       matrix:
         container:
+          - sf-arch-0
           - sf-alpine-3.11.7
+          - sf-centos-8
           - sf-debian-9
           - sf-debian-10
           - sf-ubuntu-16.04
@@ -383,7 +385,9 @@ jobs:
       fail-fast: false
       matrix:
         container:
+          - sf-arch-0
           - sf-alpine-3.11.7
+          - sf-centos-8
           - sf-debian-9
           - sf-debian-10
           - sf-ubuntu-16.04
@@ -483,7 +487,9 @@ jobs:
       fail-fast: false
       matrix:
         container:
+          - sf-arch-0
           - sf-alpine-3.11.7
+          - sf-centos-8
           - sf-debian-9
           - sf-debian-10
           - sf-ubuntu-16.04
