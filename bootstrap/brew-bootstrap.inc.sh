@@ -2,7 +2,7 @@
 set -euo pipefail
 
 function bootstrap_has_brew() {
-    if which brew >/dev/null 2>&1; then
+    if command -v brew >/dev/null 2>&1; then
         # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
         # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || return 1
         exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2\." || return 1
@@ -57,7 +57,7 @@ function bootstrap_brew() {
     local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
 
     [[ "${CI}" != "true" ]] || {
-        if which brew >/dev/null 2>&1; then
+        if command -v brew >/dev/null 2>&1; then
             if [[ "${SF_SKIP_BREW_UNINSTALL:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else

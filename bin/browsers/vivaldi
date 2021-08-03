@@ -15,7 +15,7 @@ PATH_WITHOUT_ME=${PATH_WITHOUT_ME#:}
 
 export PATH="${PATH_WITHOUT_ME#:}"
 
-which vivaldi >/dev/null 2>&1 || {
+command -v vivaldi >/dev/null 2>&1 || {
     [[ ! -d "/Applications/Vivaldi.app" ]] || {
         "/Applications/Vivaldi.app/Contents/MacOS/Vivaldi" "$@"
         exit 0

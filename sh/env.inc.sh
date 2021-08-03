@@ -23,7 +23,7 @@ function sf_path_append() {
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
-    local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
+    local MAKE_COMMAND=$(type -a -p make | head -1)
     case "$1" in
         --help|--version)
             ${MAKE_COMMAND} "$@"
@@ -49,6 +49,6 @@ function make() {
 # for when you want to skip ./make.sh
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make.bak() {
-    local MAKE_COMMAND=$(which -a make | grep "^/" | head -1)
+    local MAKE_COMMAND=$(type -a -p make | head -1)
     ${MAKE_COMMAND} "$@"
 }

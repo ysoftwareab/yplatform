@@ -15,7 +15,7 @@ PATH_WITHOUT_ME=${PATH_WITHOUT_ME#:}
 
 export PATH="${PATH_WITHOUT_ME#:}"
 
-which brave-browser >/dev/null 2>&1 || {
+command -v brave-browser >/dev/null 2>&1 || {
     [[ ! -d "/Applications/Brave Browser.app" ]] || {
         "/Applications/Brave Browser.app/Contents/MacOS/Brave Browser" "$@"
         exit 0

@@ -43,7 +43,7 @@ sf_path_prepend ${HOME}/.local/bin
 
 [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
 
-if which brew >/dev/null 2>&1; then
+if command -v brew >/dev/null 2>&1; then
     HOMEBREW_PREFIX=$(brew --prefix)
     sf_path_prepend ${HOMEBREW_PREFIX}/sbin
     sf_path_prepend ${HOMEBREW_PREFIX}/bin
@@ -67,7 +67,7 @@ if which brew >/dev/null 2>&1; then
     unset HOMEBREW_PREFIX
 fi
 
-if which docker >/dev/null 2>&1; then
+if command -v docker >/dev/null 2>&1; then
     # disable buildkit which is not ready for primetime, but enabled by default on macos
     # see https://github.com/moby/buildkit/issues/1472
     export DOCKER_BUILDKIT=0

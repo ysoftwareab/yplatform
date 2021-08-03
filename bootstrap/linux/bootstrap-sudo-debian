@@ -48,7 +48,7 @@ else
         apt_install_one tzdata
         dpkg-reconfigure tzdata
 
-        if which -a timedatectl; then
+        if command -v timedatectl; then
             timedatectl set-ntp no || true
         fi
         apt_install_one ntp

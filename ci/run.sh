@@ -7,7 +7,7 @@ exec 2>&1
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-if which git >/dev/null 2>&1; then
+if command -v git >/dev/null 2>&1; then
     GIT_COMMIT_MSG=$(git log -1 --format="%B")
     if echo "${GIT_COMMIT_MSG}" | grep -q "\[skip ci\]"; then
         echo_info "Detected '[skip ci]' marker in git commit message."

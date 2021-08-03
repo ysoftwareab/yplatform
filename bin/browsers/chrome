@@ -15,7 +15,7 @@ PATH_WITHOUT_ME=${PATH_WITHOUT_ME#:}
 
 export PATH="${PATH_WITHOUT_ME#:}"
 
-which chrome >/dev/null 2>&1 || {
+command -v chrome >/dev/null 2>&1 || {
     [[ ! -d "/Applications/Google Chrome.app" ]] || {
         "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" "$@"
         exit 0

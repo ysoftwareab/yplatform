@@ -182,7 +182,7 @@ function sf_os_bootstrap_with_script() {
     # so the bootstrap script (which invokes linuxbrew) needs to run as the same user that is owning the folders
     # see https://github.com/docker/for-linux/issues/388
     local BOOTSTRAP_SCRIPT_USER=$(id -u -n)
-    if which brew >/dev/null 2>&1; then
+    if command -v brew >/dev/null 2>&1; then
         BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(brew --prefix)/Homebrew)
     elif test -x /home/linuxbrew/.linuxbrew/bin/brew; then
         BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
@@ -258,7 +258,7 @@ function sf_os() {
 
 
 function sf_pyenv_init() {
-    if which pyenv >/dev/null 2>&1; then
+    if command -v pyenv >/dev/null 2>&1; then
         eval "$(pyenv init -)"
     fi
 }

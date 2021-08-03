@@ -31,7 +31,7 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -ne 0 ]] || sh_script_usage
 
-which nvm >/dev/null 2>&1 || {
+command -v nvm >/dev/null 2>&1 || {
     # using a less exact call because 'brew --prefix nvm' is very very slow
     # BREW_NVM_DIR=$(brew --prefix nvm 2>/dev/null || true)
     BREW_NVM_DIR=$(brew --prefix)/opt/nvm

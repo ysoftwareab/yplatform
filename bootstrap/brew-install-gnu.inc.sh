@@ -3,7 +3,7 @@ set -euo pipefail
 
 echo_do "brew: Installing GNU packages..."
 # NOTE install autoconf/automake via Brewfile.inc.sh when needed (depends on perl on linux)
-! which perl >/dev/null 2>&1 || {
+! command -v perl >/dev/null 2>&1 || {
     brew_install_one_if autoconf "autoconf --version | head -1" "^autoconf (GNU Autoconf) 2\."
     brew_install_one_if automake "automake --version | head -1" "^automake (GNU automake) 1\."
 }

@@ -7,12 +7,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 CMD=
 
 # https://github.com/stedolan/jq
-if >/dev/null 2>&1 which jq; then
+if command -v jq >/dev/null 2>&1; then
     CMD="jq ."
 fi
 
 # https://github.com/trentm/json
-if >/dev/null 2>&1 which json; then
+if command -v json >/dev/null 2>&1; then
     CMD="json --validate"
 fi
 

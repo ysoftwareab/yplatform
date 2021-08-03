@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-if >/dev/null 2>&1 which wsl.exe; then
+if command -v wsl.exe >/dev/null 2>&1; then
     wsl.exe --user ${WSLUSER:-root} -- bash "$@"
 else
     bash "$@"

@@ -39,13 +39,13 @@ function echo_err() {
 # ------------------------------------------------------------------------------
 
 function sh_script_usage() {
-    grep "^##" "${0}" | cut -c 4- | if which envsubst >/dev/null 2>&1; then envsubst; else cat; fi
+    grep "^##" "${0}" | cut -c 4- | if command -v envsubst >/dev/null 2>&1; then envsubst; else cat; fi
     # return 1
     exit 1
 }
 
 function sh_script_version() {
-    grep "^#-" "${0}" | cut -c 4- | if which envsubst >/dev/null 2>&1; then envsubst; else cat; fi
+    grep "^#-" "${0}" | cut -c 4- | if command -v envsubst >/dev/null 2>&1; then envsubst; else cat; fi
     # return 1
     exit 1
 }
@@ -83,9 +83,8 @@ function printenv_with_name() {
 function exe_debug() {
     local EXECUTABLE="$1"
     if [[ $(type -t ${EXECUTABLE}) = "file" ]]; then
-        which -a ${EXECUTABLE}
-        which -a ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do
-            echo "${EXECUTABLE_PATH}" | grep -q "^/" || continue
+        type -a ${EXECUTABLE}
+        type -a -p ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do \
             ls -l "${EXECUTABLE_PATH}"
         done
         type ${EXECUTABLE} || true

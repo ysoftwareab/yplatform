@@ -1,7 +1,7 @@
 enable=add-default-case
 enable=avoid-nullary-conditions
 # enable=check-unassigned-uppercase
-# enable=deprecate-which
+enable=deprecate-which
 # enable=quote-safe-variables
 enable=require-variable-braces
 
@@ -34,6 +34,3 @@ disable=SC2155
 
 # SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
 disable=SC2164
-
-# SC2230: which is non-standard. Use builtin 'command -v' instead.
-disable=SC2230

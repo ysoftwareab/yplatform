@@ -15,7 +15,7 @@ PATH_WITHOUT_ME=${PATH_WITHOUT_ME#:}
 
 export PATH="${PATH_WITHOUT_ME#:}"
 
-which firefox >/dev/null 2>&1 || {
+command -v firefox >/dev/null 2>&1 || {
     [[ ! -d "/Applications/Firefox.app" ]] || {
         "/Applications/Firefox.app/Contents/MacOS/Firefox" "$@"
         exit 0
