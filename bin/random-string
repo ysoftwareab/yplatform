@@ -45,7 +45,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-[[ $# -ne 0 ]] || sh_script_usage
+[[ $# -eq 0 ]] || sh_script_usage
 
 # NOTE 141 means SIGPIPE
 cat /dev/urandom | env LC_CTYPE=C tr -dc "${SET}" | head -c "${LENGTH}" || \

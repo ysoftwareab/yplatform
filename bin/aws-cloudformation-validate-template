@@ -49,7 +49,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-[[ $# -ne 0 ]] || sh_script_usage
+[[ $# -eq 0 ]] || sh_script_usage
 
 function on_exit() {
     if [[ -n ${TEMPLATE_URL_PREFIX} ]]; then

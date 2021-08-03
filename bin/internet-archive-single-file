@@ -43,7 +43,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-# [[ $# -ne 0 ]] || sh_script_usage
+# [[ $# -eq 0 ]] || sh_script_usage
 
 if [[ "${DOCKER}" = "true" ]]; then
     TMP_SINGLE_FILE_DIR=$(mktemp -d -t firecloud.XXXXXXXXXX)

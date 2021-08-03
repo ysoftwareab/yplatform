@@ -157,7 +157,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-# [[ $# -ne 0 ]] || sh_script_usage
+# [[ $# -eq 0 ]] || sh_script_usage
 
 GIT_ENV="$(printenv | grep -e "^GIT_TRACE=" -e "^GIT_TRACE_" -e "^GIT_SSH_COMMAND=" | tr "\n" " ")"
 echo_info "${GIT_ENV} git $1 -v ${*:2}"

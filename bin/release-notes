@@ -68,7 +68,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-[[ $# -ne 0 ]] || sh_script_usage
+[[ $# -eq 0 ]] || sh_script_usage
 
 # RANGE_FROM_VSN=$(git tag -l --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
 RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep "${VERSION_PATTERN}" || true; })

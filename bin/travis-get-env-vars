@@ -51,7 +51,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-[[ $# -ne 0 ]] || sh_script_usage
+[[ $# -eq 0 ]] || sh_script_usage
 
 function maybe_wslenv() {
     if [[ "${WSLENV}" = "true" ]]; then

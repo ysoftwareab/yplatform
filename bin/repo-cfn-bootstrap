@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- repo-cfn-bootstrap 1.0
-## Usage: repo-cfn-boostrap [OPTION] CFN_DIR
+## Usage: repo-cfn-boostrap [OPTION] -- CFN_DIR
 ## Bootstrap a git repo with a cfn configuration.
 ##
 ##   -s, --stack-stem  A stack stem e.g. infra, ci, env-web, env-api, etc.
@@ -43,7 +43,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-# [[ $# -ne 0 ]] || sh_script_usage
+# [[ $# -eq 0 ]] || sh_script_usage
 
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..

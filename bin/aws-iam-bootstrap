@@ -78,7 +78,7 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
-[[ $# -ne 0 ]] || sh_script_usage
+[[ $# -eq 0 ]] || sh_script_usage
 
 [[ -n ${AWS_USER} ]] || {
     echo_err "Pleaser provide a --user."
