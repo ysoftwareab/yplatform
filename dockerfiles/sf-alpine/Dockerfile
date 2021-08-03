@@ -7,6 +7,7 @@ ARG SF_DOCKER_CI_IMAGE_TAG
 ARG SF_OS_RELEASE_DIR
 
 RUN apk add --no-cache bash
+RUN sed -i "s,/bin/ash,/bin/bash,g" /etc/passwd
 ENV LD_LIBRARY_PATH=/usr/glibc-compat/lib
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
