@@ -65,18 +65,18 @@ function maybe_wslenv() {
 
 function maybe_secure() {
     if [[ "${SECURE}" = "true" ]]; then
-        grep -e "secure"
+        grep "secure"
     else
         cat
     fi
 }
 
 # environment variables prefixed with TRAVIS
-TRAVIS_ENV="$(printenv | grep -e "^TRAVIS")"
+TRAVIS_ENV="$(printenv | grep "^TRAVIS")"
 
 # custom environment variables coming from Travis UI or .travis.yml
 TRAVIS_CMD_EXPORT="$(cat ~/build.sh |
-    grep -e "^travis_cmd export" |
+    grep "^travis_cmd export" |
     while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "${NO_XARGS_R}"; done |
     maybe_secure |
     grep --only-matching "^travis_cmd export [^ ]\+" |

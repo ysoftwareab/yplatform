@@ -59,7 +59,7 @@ function maybe_wslenv() {
 }
 
 # environment variables prefixed with GITHUB_
-GITHUB_ENV="$(printenv | grep -e "^GITHUB_")"
+GITHUB_ENV="$(printenv | grep "^GITHUB_")"
 
 {
     echo "${GITHUB_ENV}"

@@ -71,13 +71,13 @@ done
 [[ $# -ne 0 ]] || sh_script_usage
 
 # RANGE_FROM_VSN=$(git tag -l --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
-RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep -e "${VERSION_PATTERN}" || true; })
+RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep "${VERSION_PATTERN}" || true; })
 PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
 
 if [[ -z "${RANGE_FROM}" ]]; then
     PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ |
     while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag -l --points-at "${NO_XARGS_R}"; done |
-    { grep -e "${VERSION_PATTERN}" || true; } |
+    { grep "${VERSION_PATTERN}" || true; } |
     sort -V |
     tac)"
     if [[ -n "${PREV_VSNS}" ]]; then
@@ -118,7 +118,7 @@ git --no-pager log \
 		${RANGE_FROM:-${FIRST_COMMIT}}..${RANGE_TO} | \
     sed "s/^ /./" | \
     sed "s/ *$//" | \
-    grep -E "break" || \
+    grep "break" || \
     echo -n "* None"
 echo
 
