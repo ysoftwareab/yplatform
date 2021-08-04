@@ -62,9 +62,9 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
 
     CMD=
-    if [[ "$(type -t "ci_run_${1}")" = "function" ]]; then
+    if [[ "$(type -t "ci_run_${1}" || true)" = "function" ]]; then
         CMD="ci_run_${1}"
-    elif [[ "$(type -t "sf_ci_run_${1}")" = "function" ]]; then
+    elif [[ "$(type -t "sf_ci_run_${1}" || true)" = "function" ]]; then
         CMD="sf_ci_run_${1}"
     else
         >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${1} or sf_ci_run_${1} function."

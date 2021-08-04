@@ -61,7 +61,7 @@ function magic_install_one() {
     NAME_SUFFIX="$(echo "${NAME}" | tr "[:lower:]" "[:upper:]" | sed "s/[^A-Z0-9]\{1,\}/_/g" | sed "s/^_//" | sed "s/_$//")" # editorconfig-checker-disable-line
 
     echo_do "magic: Installing ${PKG}..."
-    if [[ "$(type -t "magic_install_${NAME_SUFFIX}")" = "function" ]]; then
+    if [[ "$(type -t "magic_install_${NAME_SUFFIX}" || true)" = "function" ]]; then
         eval "magic_install_${NAME_SUFFIX} '${PACKAGE_MANAGER}' '${VSN}'"
     else
         PKG="$(magic_map_package_name "${PACKAGE_MANAGER}" "${PKG}")"
