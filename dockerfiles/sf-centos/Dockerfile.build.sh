@@ -7,6 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 # DEPS
 # keep in sync with bootstrap/linux/bootstrap-sudo-centos
 [[ -f /support-firecloud.bootstrapped ]] || {
+    XTRACE_STATE_DOCKERFILE_BUILD_SH="$(shopt -po xtrace || true)" # shopt exits with non zero?
     set -x
     yum_update
 
@@ -23,6 +24,8 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/gitconfig.inc.sh
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/user.inc.sh
+    eval "${XTRACE_STATE_DOCKERFILE_BUILD_SH}"
+    unset XTRACE_STATE_DOCKERFILE_BUILD_SH
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/bootstrap.inc.sh
