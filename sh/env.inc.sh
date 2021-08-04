@@ -14,10 +14,30 @@
 
 function sf_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+}
+
+function sf_path_prepend_after() {
+    if echo ":${PATH}:" | grep -q ":$2:"; then
+        export PATH=$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")
+    else
+        sf_path_prepend "$1"
+    fi
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
 function sf_path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+}
+
+function sf_path_append_before() {
+    if echo ":${PATH}:" | grep -q ":$2:"; then
+        export PATH=$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")
+    else
+        sf_path_append "$1"
+    fi
+    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
 [[ "${SF_DEV_INC_SH:-}" = "true" ]] || {
