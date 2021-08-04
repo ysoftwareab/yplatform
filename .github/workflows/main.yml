@@ -230,7 +230,7 @@ jobs:
       - name: Install WSL Distribution
         uses: Vampire/setup-wsl@v1
         with:
-          distribution: Ubuntu-18.04
+          distribution: Ubuntu-20.04
           update: 'false'
       - name: Set up WSL Distribution
         shell: bash
