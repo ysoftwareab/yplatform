@@ -4,25 +4,8 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-CMD=
-
-# https://github.com/stedolan/jq
-if command -v jq >/dev/null 2>&1; then
-    CMD="jq ."
-fi
-
-# https://github.com/trentm/json
-if command -v json >/dev/null 2>&1; then
-    CMD="json --validate"
-fi
-
-[[ -n ${CMD} ]] || {
-    echo_err "Could not find jq or json on your system."
-    exit 1
-}
-
 while [[ $# -gt 0 ]]; do
-    cat $1 | ${CMD} >/dev/null || {
+    cat $1 | jq . >/dev/null || {
         echo_err "$1 is not a valid JSON file."
         exit 1
     }
