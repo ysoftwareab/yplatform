@@ -180,12 +180,15 @@ jobs:
           sed "s|^GITHUB_WORKSPACE\$|GITHUB_WORKSPACE/p|" | \
           tr "\n" ":")"
           echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
-      - name: Set up WSL
+      - name: Install WSL Distribution
+        uses: Vampire/setup-wsl@v1
+        with:
+          distribution: Ubuntu-18.04
+          update: "false"
+      - name: Set up WSL Distribution
         shell: bash
         run: |
           set -x
-          # why --ignore-checksum? see https://chocolatey.org/packages/wsl-ubuntu-1804#comment-5026624059
-          choco install wsl-ubuntu-1804 --yes --no-progress --ignore-checksum
           wsl bash -c "cat /etc/os-release"
           wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
           wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash --disabled-password --gecos \"Linux user\" ${WSLUSER}" # editorconfig-checker-disable-line
