@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 
 [[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || {
-    if [ -n "${BASH_VERSION:-}" ]; then
+    if [[ -n "${BASH_VERSION:-}" ]]; then
         SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
         # echo >&2 SUPPORT_FIRECLOUD_DIR=$SUPPORT_FIRECLOUD_DIR
-    elif [ -n "${ZSH_VERSION:-}" ]; then
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
         SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
     else
         echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."

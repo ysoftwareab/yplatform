@@ -144,11 +144,11 @@ function app_teardown_cfn_stack() {
     local STACK_NAME=${STACK_STEM/#env-/${ENV_NAME}-}
     local STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
-    [ -n "${STACK_ID}" ] || {
+    [[ -n "${STACK_ID}" ]] || {
         echo_skip "Stack ${STACK_NAME} for env ${ENV_NAME} not found"
     }
 
-    [ -z "${STACK_ID}" ] || (
+    [[ -z "${STACK_ID}" ]] || (
         echo_info "Found CFN stack ${STACK_ID}"
         echo_do "Tearing down stack ${STACK_NAME}..."
         exe cd ${GIT_ROOT}/cfn
@@ -167,7 +167,7 @@ function app_teardown_cfn_stack() {
     )
 
     STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
-    [ -z "${STACK_ID}" ] || (
+    [[ -z "${STACK_ID}" ]] || (
         echo_err "Teardown of stack ${STACK_NAME} failed"
         exit 1
     )

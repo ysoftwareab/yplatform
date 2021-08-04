@@ -13,12 +13,12 @@ trap after_script EXIT
     ./.ci.sh script
 } && CI_STATUS=success || CI_STATUS=failure
 
-if [ "${CI_STATUS}" = "success" ]; then
+if [[ "${CI_STATUS}" = "success" ]]; then
     ./.ci.sh before_cache || true;
     ./.ci.sh after_success || true;
 fi
 
-if [ "${CI_STATUS}" = "failure" ]; then
+if [[ "${CI_STATUS}" = "failure" ]]; then
     ./.ci.sh after_failure || true;
     exit 1;
 fi
