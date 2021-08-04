@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# NOTE since this folder is meant to be appended to $PATH as
+# PATH=${PATH}:path/to/support-firecloud/bin/.jq
+# calling 'jq' might call the system executable 'jq'.
+# This scripts assumes that there's no system executable 'sf-jq',
+# so it will always call our 'bin/jq' script.
+
+# can't symlink to ../jq or else SUPPORT_FIRECLOUD_DIR detection in ../jq fails
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+${SUPPORT_FIRECLOUD_DIR}/bin/jq "$@"

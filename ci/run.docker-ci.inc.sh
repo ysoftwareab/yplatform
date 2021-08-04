@@ -99,7 +99,7 @@ function sf_get_docker_ci_image() {
     if [[ ${SF_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
-            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | ${SUPPORT_FIRECLOUD_DIR}/bin/jq -r ".version")
+            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
     # if given a docker.pkg.github.com/rokmoln/support-firecloud/sf- image, but without a tag
@@ -107,7 +107,7 @@ function sf_get_docker_ci_image() {
     if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/rokmoln/support-firecloud/sf- ]] && \
         [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
-            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | ${SUPPORT_FIRECLOUD_DIR}/bin/ -r ".version")
+            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
         SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
 
