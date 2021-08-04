@@ -20,6 +20,9 @@ ENVSUBST_WSLENV=${ENVSUBST_WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS
 ENVSUBST_WSLENV=${ENVSUBST_WSLENV}:SF_CI_BREW_INSTALL
 export ENVSUBST_WSLENV
 
+ENVSUBST_GITHUB_CHECKOUT="$(cat ${SUPPORT_FIRECLOUD_DIR}/bin/github-checkout | sed "s/^/      /g")"
+export ENVSUBST_GITHUB_CHECKOUT
+
 echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (${SRC_FILE})"
 cat ${GIT_ROOT}/${SRC_FILE} | \
   envsubst "$(printenv | grep "^ENVSUBST_" | sed "s/=.*//g" | sed "s/^/\${/g" | sed "s/\$/}/g")" | \

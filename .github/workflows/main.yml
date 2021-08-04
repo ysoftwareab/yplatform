@@ -37,11 +37,12 @@ jobs:
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
-      - shell: bash
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
         run: |
-          # NOTE inline of bin/github-checkout
-          # KEEP IN SYNC!
           set -x
+                #!/usr/bin/env bash
+          set -euo pipefail
 
           # basic git config
           git config --global core.autocrlf false
@@ -64,40 +65,40 @@ jobs:
 
           # use git protocol version 2 if available
           ! git config --help | grep -q "wire protocol version 2" || {
-            git config --global --add protocol.version 2
-            GIT_DEPTH_ARG="--depth=1"
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
           }
 
           # ------------------------------------------------------------------------------
 
           # clone/fetch
-
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
           cd ${GITHUB_WORKSPACE}
           git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+              git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
 
           # ------------------------------------------------------------------------------
 
           # checkout
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            git checkout ${GITHUB_REF}
+              git checkout ${GITHUB_REF}
           else
-            set -x
-            printenv
-            cat ${GITHUB_EVENT_PATH}
-            exit 1
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
           fi
 
           # submodules
@@ -150,11 +151,12 @@ jobs:
       WSLUSER: github
       WSLGROUP: github
     steps:
-      - shell: bash
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
         run: |
-          # NOTE inline of bin/github-checkout
-          # KEEP IN SYNC!
           set -x
+                #!/usr/bin/env bash
+          set -euo pipefail
 
           # basic git config
           git config --global core.autocrlf false
@@ -177,40 +179,40 @@ jobs:
 
           # use git protocol version 2 if available
           ! git config --help | grep -q "wire protocol version 2" || {
-            git config --global --add protocol.version 2
-            GIT_DEPTH_ARG="--depth=1"
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
           }
 
           # ------------------------------------------------------------------------------
 
           # clone/fetch
-
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
           cd ${GITHUB_WORKSPACE}
           git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+              git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
 
           # ------------------------------------------------------------------------------
 
           # checkout
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            git checkout ${GITHUB_REF}
+              git checkout ${GITHUB_REF}
           else
-            set -x
-            printenv
-            cat ${GITHUB_EVENT_PATH}
-            exit 1
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
           fi
 
           # submodules
@@ -307,11 +309,12 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
-      - shell: bash
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
         run: |
-          # NOTE inline of bin/github-checkout
-          # KEEP IN SYNC!
           set -x
+                #!/usr/bin/env bash
+          set -euo pipefail
 
           # basic git config
           git config --global core.autocrlf false
@@ -334,40 +337,40 @@ jobs:
 
           # use git protocol version 2 if available
           ! git config --help | grep -q "wire protocol version 2" || {
-            git config --global --add protocol.version 2
-            GIT_DEPTH_ARG="--depth=1"
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
           }
 
           # ------------------------------------------------------------------------------
 
           # clone/fetch
-
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
           cd ${GITHUB_WORKSPACE}
           git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+              git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
 
           # ------------------------------------------------------------------------------
 
           # checkout
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            git checkout ${GITHUB_REF}
+              git checkout ${GITHUB_REF}
           else
-            set -x
-            printenv
-            cat ${GITHUB_EVENT_PATH}
-            exit 1
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
           fi
 
           # submodules
@@ -410,11 +413,12 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
-      - shell: bash
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
         run: |
-          # NOTE inline of bin/github-checkout
-          # KEEP IN SYNC!
           set -x
+                #!/usr/bin/env bash
+          set -euo pipefail
 
           # basic git config
           git config --global core.autocrlf false
@@ -437,40 +441,40 @@ jobs:
 
           # use git protocol version 2 if available
           ! git config --help | grep -q "wire protocol version 2" || {
-            git config --global --add protocol.version 2
-            GIT_DEPTH_ARG="--depth=1"
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
           }
 
           # ------------------------------------------------------------------------------
 
           # clone/fetch
-
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
           cd ${GITHUB_WORKSPACE}
           git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+              git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
 
           # ------------------------------------------------------------------------------
 
           # checkout
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            git checkout ${GITHUB_REF}
+              git checkout ${GITHUB_REF}
           else
-            set -x
-            printenv
-            cat ${GITHUB_EVENT_PATH}
-            exit 1
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
           fi
 
           # submodules
@@ -514,11 +518,12 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       SF_DEPLOY_DRYRUN: true
     steps:
-      - shell: bash
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
         run: |
-          # NOTE inline of bin/github-checkout
-          # KEEP IN SYNC!
           set -x
+                #!/usr/bin/env bash
+          set -euo pipefail
 
           # basic git config
           git config --global core.autocrlf false
@@ -541,40 +546,40 @@ jobs:
 
           # use git protocol version 2 if available
           ! git config --help | grep -q "wire protocol version 2" || {
-            git config --global --add protocol.version 2
-            GIT_DEPTH_ARG="--depth=1"
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
           }
 
           # ------------------------------------------------------------------------------
 
           # clone/fetch
-
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
           cd ${GITHUB_WORKSPACE}
           git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
           if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-            git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-            GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-            GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+              git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
           fi
 
           # ------------------------------------------------------------------------------
 
           # checkout
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-            git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-            git checkout ${GITHUB_REF}
+              git checkout ${GITHUB_REF}
           else
-            set -x
-            printenv
-            cat ${GITHUB_EVENT_PATH}
-            exit 1
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
           fi
 
           # submodules
