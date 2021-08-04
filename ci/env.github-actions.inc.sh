@@ -10,7 +10,7 @@ CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 # builds -> workflow runs
 # jobs   -> job runs
 # NOTE allow it to fail e.g. github-get-job-id depends on jq, and jq might nobe available
-CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/github-get-job-id || true)
+CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/github-get-job-id || echo 0)
 # CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME"
 CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/runs/${CI_JOB_ID}?check_suite_focus=true"
 CI_REPO_SLUG=${GITHUB_REPOSITORY}
