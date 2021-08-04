@@ -87,6 +87,7 @@ Here's a list of the environment variables that customize the code execution:
   * `SF_GH_TOKEN_DEPLOY`
     * a deploy token that enables read/push to the current repo
     * defaults to another environment variable `GITHUB_TOKEN` in Github Actions (automatic deploy key)
+      * see [Authentication in a workflow](https://docs.github.com/en/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token)
 
 * **TRANSCRYPT**
   * `SF_TRANSCRYPT_PASSWORD`
