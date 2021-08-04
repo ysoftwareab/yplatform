@@ -43,7 +43,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
         # (Try to) Create log.sh-session
         local CURL_GITHUB_API_HEADERS=(-H "accept: application/vnd.github.v3+json")
-        # CURL_GITHUB_API_HEADERS+=(-H "authorization: token ${SF_GH_TOKEN_DEPLOY}")
+        CURL_GITHUB_API_HEADERS+=(-H "authorization: token ${SF_GH_TOKEN_DEPLOY}")
         touch log.sh-session
         curl -qfsSL \
             "${CURL_GITHUB_API_HEADERS[@]}" \
