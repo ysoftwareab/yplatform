@@ -20,12 +20,11 @@ while [[ $# -gt 0 ]]; do
         --benchmark)
             BENCHMARK=$2
             shift 2
-            [[ "${BENCHMARK}" = "/dev/null" ]] || {
-                rm -f ${BENCHMARK}
+            [[ -e "${BENCHMARK}" ]] || {
                 touch ${BENCHMARK}
                 chmod a+rw ${BENCHMARK}
+                echo "$(date +%s) 0 benchmark" >> ${BENCHMARK}
             }
-            echo "$(date +%s) 0 benchmark" >> ${BENCHMARK}
             ;;
         -h|--help)
             sh_script_usage
