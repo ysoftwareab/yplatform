@@ -7,7 +7,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SF_NPX_ARGS=
 SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
-SF_NPX_ARGS="${SF_NPX_ARGS} --package js-yaml@3.14.1"
+SF_NPX_ARGS="${SF_NPX_ARGS} --package js-yaml"
 
 function main() {
     # expand
