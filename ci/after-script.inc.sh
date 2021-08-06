@@ -109,7 +109,7 @@ EOF
         done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
         echo_done
         git push --no-verify -f \
-            https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git ${JOB_GIT_REF}:refs/jobs/prune || true
+            https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git ${JOB_GIT_HASH}:refs/jobs/prune || true
             true
     else
         echo_skip "Pruning remote refs/jobs/*..."
