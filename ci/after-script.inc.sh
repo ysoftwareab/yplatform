@@ -82,6 +82,7 @@ EOF
     echo
 
     # (Try to) Remove job artifacts older than 7 days ago
+    echo_do "Pruning remote refs/jobs/*..."
     function prune_job_git_ref() {
         local JOB_GIT_REF=$1
         git fetch --depth=1 origin ${JOB_GIT_REF} >/dev/null 2>&1
@@ -92,6 +93,7 @@ EOF
     while read -r -u3 JOB_GIT_REF; do
         prune_job_git_ref ${JOB_GIT_REF} || true
     done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
+    echo_done
 }
 
 
