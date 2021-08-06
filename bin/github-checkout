@@ -36,10 +36,10 @@ elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
     GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
 fi
 cd ${GITHUB_WORKSPACE}
-git clone --progress ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
 # shellcheck disable=SC2193
 if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
-    git fetch --progress ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+    git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
     GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
     GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
 fi
