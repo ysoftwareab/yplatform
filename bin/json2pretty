@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+// Prettify JSON
+
+// alternative:
+// python3 -c 'import sys, yaml, json; print(json.dumps(json.loads(sys.stdin.read()), sort_keys=False, indent=2))'
+
+let fs = require('fs');
+
+let data = JSON.parse(fs.readFileSync('/dev/stdin'));
+// eslint-disable-next-line no-null/no-null
+let prettyData = JSON.stringify(data, null, 2);
+console.log(prettyData);

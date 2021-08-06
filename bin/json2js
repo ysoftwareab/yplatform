@@ -1,0 +1,20 @@
+#!/usr/bin/env node
+
+// Convert JSON to JavaScript
+
+let fs = require('fs');
+let util = require('util');
+
+let data = JSON.parse(fs.readFileSync('/dev/stdin'));
+let jsData = util.inspect(data, {
+  // eslint-disable-next-line no-null/no-null
+  depth: null,
+  // eslint-disable-next-line no-null/no-null
+  maxArrayLength: null,
+  // eslint-disable-next-line no-null/no-null
+  maxStringLength: null,
+  // eslint-disable-next-line no-null/no-null
+  breakLength: null,
+  compact: false
+});
+console.log(jsData);

@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Convert YAML to JSON
+
+# alternative:
+# python3 -c 'import sys, yaml, json;
+# print(json.dumps(yaml.load(sys.stdin.read(),Loader=yaml.FullLoader), sort_keys=False, indent=2))'
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+SF_NPX_ARGS=
+SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
+SF_NPX_ARGS="${SF_NPX_ARGS} --package js-yaml"
+
+function main() {
+    # expand
+    SCRIPT="$(cat <<EOF
+let fs = require('fs');
+let yml = require('js-yaml');
+let data = yml.load(fs.readFileSync('/dev/stdin'));
+data = yml.load(yml.dump(data, {
+  noRefs: true
+}));
+let jsonData = JSON.stringify(data, null, 2);
+console.log(jsonData);
+EOF
+)"
+
+    node -e "${SCRIPT}"
+}
+
+source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
