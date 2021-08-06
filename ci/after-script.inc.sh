@@ -90,20 +90,20 @@ EOF
     # (Try to) Remove job artifacts older than 7 days ago
     function prune_job_git_ref() {
         local JOB_GIT_REF=$1
-        git fetch --depth=1 origin ${JOB_GIT_REF} >/dev/null 2>&1
-        [[ -n $(git log -1 --since='7 days ago' FETCH_HEAD) ]] || {
+        [[ -n $(git log -1 --since="7 days ago" "${JOB_GIT_REF}") ]] || {
             echo_info "Deleting ${JOB_GIT_REF}..."
             git push --no-verify -f origin :${JOB_GIT_REF} >/dev/null 2>&1
         }
     }
     PRUNE=
     if git fetch --depth=1 origin refs/jobs/prune; then
-        [[ -n $(git log -1 --since="7 days ago" FETCH_HEAD) ]] || PRUNE=true
+        [[ -n $(git log -1 --since="7 days ago" refs/remotes/origin/job/prune) ]] || PRUNE=true
     else
         PRUNE=true
     fi
     if [[ "${PRUNE}" = "true" ]]; then
         echo_do "Pruning remote refs/jobs/*..."
+        git fetch --depth=1 --refmap="" origin "+refs/jobs/*:refs/jobs/*" >/dev/null 2>&1
         while read -r -u3 JOB_GIT_REF; do
             prune_job_git_ref ${JOB_GIT_REF} || true
         done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
