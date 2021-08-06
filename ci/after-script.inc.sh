@@ -97,7 +97,7 @@ EOF
     }
     PRUNE=
     if git fetch --depth=1 origin refs/jobs/prune; then
-        [[ -n $(git log -1 --since="7 days ago" refs/remotes/origin/job/prune) ]] || PRUNE=true
+        [[ -n $(git log -1 --since="7 days ago" FETCH_HEAD) ]] || PRUNE=true
     else
         PRUNE=true
     fi
