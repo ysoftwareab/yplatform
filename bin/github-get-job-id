@@ -11,10 +11,13 @@ SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
     SF_GH_TOKEN=${SF_GH_TOKEN_DEPLOY:-${GITHUB_TOKEN}}
 }
 
+echo_info "GITHUB_JOB=${GITHUB_JOB:-}"
+echo_info "GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-}"
+
 # works if job has no 'name' property, and defaults to the key in 'jobs'
 GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
 
-curl -qfsSL \
+exe curl -qfsSL \
     -H "accept: application/vnd.github.v3+json" \
     -H "authorization: token ${SF_GH_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
