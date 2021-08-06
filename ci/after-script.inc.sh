@@ -71,7 +71,12 @@ EOF
     # Upload to git refs/job/<job_id>
     git push --no-verify -f https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
+
     git checkout -f - || git checkout -f ${GIT_HASH}
+    # restore files added above 'git ls-files -X .artifacts --other --ignored | ...'
+    git diff --name-only --diff-filter=A ..${JOB_GIT_HASH} | \
+        while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git checkout -- "${NO_XARGS_R}"; done
+    git reset
 
     echo_done
 
