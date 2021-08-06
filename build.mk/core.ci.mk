@@ -1,6 +1,5 @@
-# Adds a 'ci/<BRANCH>' target that will force push HEAD to the  remove all SF_CLEAN_FILES.
-# This is a so-called safe target that removes only defined files,
-# leaving untouched files that are unknown to the repository.
+# Adds a 'ci/<BRANCH>' target that will force push HEAD to the BRANCH,
+# triggering a CI build on a specific CI platform.
 #
 # ------------------------------------------------------------------------------
 
