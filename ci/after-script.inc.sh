@@ -96,15 +96,25 @@ EOF
             git push --no-verify -f origin :${JOB_GIT_REF} >/dev/null 2>&1
         }
     }
-    if git fetch --depth=1 origin refs/jobs/prune && [[ -z $(git log -1 --since="7 days ago" FETCH_HEAD) ]]; then
+    PRUNE=
+    if git fetch --depth=1 origin refs/jobs/prune; then
+        [[ -n $(git log -1 --since="7 days ago" FETCH_HEAD) ]] || PRUNE=true
+    else
+        PRUNE=true
+    fi
+    if [[ "${PRUNE}" = "true" ]]; then
         echo_do "Pruning remote refs/jobs/*..."
         while read -r -u3 JOB_GIT_REF; do
             prune_job_git_ref ${JOB_GIT_REF} || true
         done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
         echo_done
+        git push --no-verify -f \
+            https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git ${JOB_GIT_REF}:refs/jobs/prune || true
+            true
     else
         echo_skip "Pruning remote refs/jobs/*..."
     fi
+    unset PRUNE
 }
 
 
