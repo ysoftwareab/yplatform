@@ -47,7 +47,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         touch log.sh-session
         exe curl -qfsSL \
             "${CURL_GITHUB_API_HEADERS[@]}" \
-            https://api.github.com/repos/${CI_REPO_SLUG}/actions/jobs/${GITHUB_ACTION}/logs >log.sh-session || true
+            https://api.github.com/repos/${CI_REPO_SLUG}/actions/jobs/${CI_JOB_ID}/logs >log.sh-session || true
         git add -f log.sh-session
     }
 
