@@ -27,7 +27,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  jobs[`main-container-${nameSuffix}`] = {
+  jobs[`mainc-${nameSuffix}`] = {
     needs: _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
       // ignore windows, because it is very very very slow
       if (nameSuffix === 'windows') {
@@ -60,9 +60,9 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     ]
   };
 
-  jobs[`deploy-container-minimal-${nameSuffix}`] = {
+  jobs[`deployc-minimal-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
-    needs: `main-container-${nameSuffix}`,
+    needs: `mainc-${nameSuffix}`,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
@@ -85,9 +85,9 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     ]
   };
 
-  jobs[`deploy-container-common-${nameSuffix}`] = {
+  jobs[`deployc-common-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
-    needs: `deploy-container-minimal-${nameSuffix}`,
+    needs: `deployc-minimal-${nameSuffix}`,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

@@ -390,7 +390,7 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
-  main-container-arch:
+  mainc-arch:
     needs:
       - main-ubuntu
       - main-macos
@@ -491,9 +491,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-minimal-arch:
+  deployc-minimal-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: main-container-arch
+    needs: mainc-arch
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -589,9 +589,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common-arch:
+  deployc-common-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-container-minimal-arch
+    needs: deployc-minimal-arch
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -687,7 +687,7 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  main-container-alpine:
+  mainc-alpine:
     needs:
       - main-ubuntu
       - main-macos
@@ -788,9 +788,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-minimal-alpine:
+  deployc-minimal-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: main-container-alpine
+    needs: mainc-alpine
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -886,9 +886,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common-alpine:
+  deployc-common-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-container-minimal-alpine
+    needs: deployc-minimal-alpine
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -984,7 +984,7 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  main-container-centos:
+  mainc-centos:
     needs:
       - main-ubuntu
       - main-macos
@@ -1085,9 +1085,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-minimal-centos:
+  deployc-minimal-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: main-container-centos
+    needs: mainc-centos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1183,9 +1183,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common-centos:
+  deployc-common-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-container-minimal-centos
+    needs: deployc-minimal-centos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1281,7 +1281,7 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  main-container-debian:
+  mainc-debian:
     needs:
       - main-ubuntu
       - main-macos
@@ -1383,9 +1383,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-minimal-debian:
+  deployc-minimal-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: main-container-debian
+    needs: mainc-debian
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1482,9 +1482,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common-debian:
+  deployc-common-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-container-minimal-debian
+    needs: deployc-minimal-debian
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1581,7 +1581,7 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  main-container-ubuntu:
+  mainc-ubuntu:
     needs:
       - main-ubuntu
       - main-macos
@@ -1684,9 +1684,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-minimal-ubuntu:
+  deployc-minimal-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: main-container-ubuntu
+    needs: mainc-ubuntu
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1784,9 +1784,9 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common-ubuntu:
+  deployc-common-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs: deploy-container-minimal-ubuntu
+    needs: deployc-minimal-ubuntu
     timeout-minutes: 30
     strategy:
       fail-fast: false
