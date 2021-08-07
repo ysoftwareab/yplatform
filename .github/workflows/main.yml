@@ -13,7 +13,119 @@ name: CI
     - cron: 0 0 * * *
   workflow_dispatch: null
 jobs:
-  main:
+  main-macos:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-10.15
+          - macos-11.0
+        sf_ci_brew_install:
+          - minimal
+          - dev
+    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: '${{ matrix.os }}'
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_install
+      - shell: bash
+        run: ./.ci.sh install
+      - shell: bash
+        run: ./.ci.sh before_script
+      - shell: bash
+        run: ./.ci.sh script
+      - if: failure()
+        shell: bash
+        run: ./.ci.sh after_failure || true
+      - shell: bash
+        run: ./.ci.sh after_success || true
+      - if: always()
+        shell: bash
+        run: ./.ci.sh after_script || true
+      - if: always()
+        shell: bash
+        env:
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_CHANNEL: cloud-ci
+          CI_STATUS: '${{ job.status }}'
+        run: ./.ci.sh notifications || true
+  main-ubuntu:
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -21,8 +133,6 @@ jobs:
         os:
           - ubuntu-18.04
           - ubuntu-20.04
-          - macos-10.15
-          - macos-11.0
         sf_ci_brew_install:
           - minimal
           - dev
@@ -278,21 +388,112 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
-  deploy-container-minimal:
-    if: 'startsWith(github.ref, "refs/tags/")'
-    needs: main-container
+  main-container-arch:
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
           - sf-arch-0
-          - sf-alpine-3.11.7
-          - sf-centos-8
-          - sf-debian-9
-          - sf-debian-10
-          - sf-ubuntu-16.04
-          - sf-ubuntu-18.04
-          - sf-ubuntu-20.04
+        sf_ci_brew_install:
+          - minimal
+          - common
+    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-minimal-arch:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: main-container-arch
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-arch-0
         sf_ci_brew_install:
           - minimal
     name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
@@ -305,9 +506,9 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -382,21 +583,14 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  deploy-container-common:
-    if: 'startsWith(github.ref, "refs/tags/")'
-    needs: deploy-container-minimal
+  deploy-container-common-arch:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-container-minimal-arch
     strategy:
       fail-fast: false
       matrix:
         container:
           - sf-arch-0
-          - sf-alpine-3.11.7
-          - sf-centos-8
-          - sf-debian-9
-          - sf-debian-10
-          - sf-ubuntu-16.04
-          - sf-ubuntu-18.04
-          - sf-ubuntu-20.04
         sf_ci_brew_install:
           - common
     name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
@@ -409,9 +603,9 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -486,17 +680,891 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
-  main-container:
+  main-container-alpine:
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - sf-arch-0
           - sf-alpine-3.11.7
+        sf_ci_brew_install:
+          - minimal
+          - common
+    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-minimal-alpine:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: main-container-alpine
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-alpine-3.11.7
+        sf_ci_brew_install:
+          - minimal
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-common-alpine:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-container-minimal-alpine
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-alpine-3.11.7
+        sf_ci_brew_install:
+          - common
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  main-container-centos:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
           - sf-centos-8
+        sf_ci_brew_install:
+          - minimal
+          - common
+    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-minimal-centos:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: main-container-centos
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-centos-8
+        sf_ci_brew_install:
+          - minimal
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-common-centos:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-container-minimal-centos
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-centos-8
+        sf_ci_brew_install:
+          - common
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  main-container-debian:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
           - sf-debian-9
           - sf-debian-10
+        sf_ci_brew_install:
+          - minimal
+          - common
+    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-minimal-debian:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: main-container-debian
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-debian-9
+          - sf-debian-10
+        sf_ci_brew_install:
+          - minimal
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-common-debian:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-container-minimal-debian
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-debian-9
+          - sf-debian-10
+        sf_ci_brew_install:
+          - common
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  main-container-ubuntu:
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
           - sf-ubuntu-16.04
           - sf-ubuntu-18.04
           - sf-ubuntu-20.04
@@ -513,10 +1581,208 @@ jobs:
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
       SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-minimal-ubuntu:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: main-container-ubuntu
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+          - sf-ubuntu-20.04
+        sf_ci_brew_install:
+          - minimal
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+  deploy-container-common-ubuntu:
+    if: 'startsWith(github.ref, ''refs/tags/'')'
+    needs: deploy-container-minimal-ubuntu
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+          - sf-ubuntu-20.04
+        sf_ci_brew_install:
+          - common
+    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash

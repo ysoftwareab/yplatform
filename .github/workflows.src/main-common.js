@@ -1,4 +1,7 @@
+/* eslint-disable no-template-curly-in-string */
+
 let fs = require('fs');
+
 let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
 
 let env = {
@@ -16,7 +19,7 @@ let checkoutStep = {
     'set -x',
     githubCheckout
   ].join('\n')
-}
+};
 
 let ciShSteps = [];
 
