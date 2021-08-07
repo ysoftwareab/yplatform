@@ -7,35 +7,29 @@ let containerJobs = require('./main-container-jobs');
 
 // -----------------------------------------------------------------------------
 
-let on = {};
-on.push = {
-  branches: [
-    'github*',
-    'master'
-  ],
-  tags: [
-    'v*'
-  ]
-};
-on.pull_request = {
-  branches: [
-    '**'
-  ]
-};
-on.schedule = [{
-  cron: '0 0 * * *'
-}];
-// eslint-disable-next-line no-null/no-null
-on.workflow_dispatch = null;
-
-// -----------------------------------------------------------------------------
-
-
-// -----------------------------------------------------------------------------
-
 let workflow = {
   name: 'CI',
-  on,
+  on: {
+    push: {
+      branches: [
+        'github*',
+        'master'
+      ],
+      tags: [
+        'v*'
+      ]
+    },
+    pull_request: {
+      branches: [
+        '**'
+      ]
+    },
+    schedule: [{
+      cron: '0 0 * * *'
+    }],
+    // eslint-disable-next-line no-null/no-null
+    workflow_dispatch: null
+  },
   jobs: {
     ...jobs,
     ...containerJobs
