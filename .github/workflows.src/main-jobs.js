@@ -5,7 +5,8 @@ let _ = require('lodash-firecloud');
 let {
   env: commonEnv,
   checkoutStep,
-  ciShSteps
+  ciShSteps,
+  quickJob
 } = require('./main-common');
 
 let env = {
@@ -93,7 +94,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
   ];
 
   jobs[`main-${nameSuffix}`] = {
-    needs: nameSuffix === 'ubuntu' ? undefined : 'main-ubuntu',
+    needs: `main-${nameSuffix}` === quickJob ? undefined : quickJob,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
@@ -122,7 +123,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
 _.forEach(matrixOs, makeJobs);
 
 jobs['main-windows'] = {
-  needs: 'main-ubuntu',
+  needs: quickJob,
   'timeout-minutes': 60,
   strategy: {
     'fail-fast': false,

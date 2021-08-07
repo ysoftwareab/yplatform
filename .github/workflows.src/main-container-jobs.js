@@ -5,7 +5,8 @@ let _ = require('lodash-firecloud');
 let {
   env: commonEnv,
   checkoutStep,
-  ciShStepsDeploy
+  ciShStepsDeploy,
+  quickJob
 } = require('./main-common');
 
 let env = {
@@ -47,7 +48,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   ];
 
   jobs[`main-container-${nameSuffix}`] = {
-    needs: 'main-ubuntu',
+    needs: quickJob,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

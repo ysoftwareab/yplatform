@@ -4,6 +4,8 @@ let fs = require('fs');
 
 let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
 
+let quickJob = 'main-ubuntu';
+
 let env = {
   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
   SF_LOG_BOOTSTRAP: true,
@@ -82,5 +84,6 @@ module.exports = {
   env,
   checkoutStep,
   ciShSteps,
-  ciShStepsDeploy
+  ciShStepsDeploy,
+  quickJob
 };
