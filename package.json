@@ -20,6 +20,6 @@
     "eslint-plugin-jsdoc": "^31.4.0",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-no-null": "^1.0.2",
-    "lodash": "^4.17.5"
+    "lodash-firecloud": "git://github.com/rokmoln/lodash-firecloud.git#semver:~0.5.28"
   }
 }
