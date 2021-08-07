@@ -3,11 +3,11 @@
 let _ = require('lodash-firecloud');
 
 let {
-  matrixOs,
-  matrixContainer,
-  env: commonEnv,
   checkoutStep,
   ciShStepsDeploy,
+  env: commonEnv,
+  matrixContainer,
+  stage2Jobs
 } = require('./main-common');
 
 let env = {
@@ -28,14 +28,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   ];
 
   jobs[`mainc-${nameSuffix}`] = {
-    needs: _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
-      // ignore windows, because it is very very very slow
-      if (nameSuffix === 'windows') {
-        return needs;
-      }
-      needs.push(`main-${nameSuffix}`);
-      return needs;
-    }, []),
+    needs: stage2Jobs,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

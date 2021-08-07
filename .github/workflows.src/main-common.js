@@ -1,10 +1,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 let fs = require('fs');
+let _ = require('lodash-firecloud');
 
 let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
-
-let quickJob = 'main-ubuntu';
 
 let matrixOs = {
   ubuntu: [
@@ -42,6 +41,19 @@ let matrixContainer = {
     'sf-ubuntu-20.04'
   ]
 };
+
+let stage1Jobs = [
+  'main-ubuntu'
+];
+
+let stage2Jobs = _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
+  // ignore windows, because it is very very very slow
+  if (nameSuffix === 'windows') {
+    return needs;
+  }
+  needs.push(`main-${nameSuffix}`);
+  return needs;
+}, []);
 
 let env = {
   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
@@ -118,11 +130,12 @@ ciShStepsDeploy.push({
 });
 
 module.exports = {
-  quickJob,
-  matrixOs,
-  matrixContainer,
-  env,
   checkoutStep,
   ciShSteps,
-  ciShStepsDeploy
+  ciShStepsDeploy,
+  env,
+  matrixContainer,
+  matrixOs,
+  stage1Jobs,
+  stage2Jobs
 };

@@ -3,11 +3,11 @@
 let _ = require('lodash-firecloud');
 
 let {
-  quickJob,
-  matrixOs,
-  env: commonEnv,
   checkoutStep,
-  ciShSteps
+  ciShSteps,
+  env: commonEnv,
+  matrixOs,
+  stage1Jobs
 } = require('./main-common');
 
 let env = {
@@ -78,7 +78,7 @@ let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
   jobs[`main-${nameSuffix}`] = {
-    needs: quickJob,
+    needs: stage1Jobs,
     'timeout-minutes': 60,
     strategy: {
       'fail-fast': false,
@@ -125,7 +125,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
   }
 
   jobs[`main-${nameSuffix}`] = {
-    needs: `main-${nameSuffix}` === quickJob ? undefined : quickJob,
+    needs: _.includes(stage1Jobs, `main-${nameSuffix}`) ? undefined : stage1Jobs,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

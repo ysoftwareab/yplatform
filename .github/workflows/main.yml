@@ -126,7 +126,8 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
   main-macos:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -239,7 +240,8 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
   main-windows:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
     timeout-minutes: 60
     strategy:
       fail-fast: false
