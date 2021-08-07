@@ -3,7 +3,7 @@
 let _ = require('lodash-firecloud');
 
 let {
-  quickJob,
+  matrixOs,
   matrixContainer,
   env: commonEnv,
   checkoutStep,
@@ -28,7 +28,9 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   ];
 
   jobs[`main-container-${nameSuffix}`] = {
-    needs: quickJob,
+    needs: _.map(_.keys(matrixOs), function(nameSuffix) {
+      return `main-${nameSuffix}`;
+    }),
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

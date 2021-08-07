@@ -391,7 +391,10 @@ jobs:
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
   main-container-arch:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
+      - main-macos
+      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -686,7 +689,10 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
   main-container-alpine:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
+      - main-macos
+      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -981,7 +987,10 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
   main-container-centos:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
+      - main-macos
+      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1276,7 +1285,10 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
   main-container-debian:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
+      - main-macos
+      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1574,7 +1586,10 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
   main-container-ubuntu:
-    needs: main-ubuntu
+    needs:
+      - main-ubuntu
+      - main-macos
+      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
