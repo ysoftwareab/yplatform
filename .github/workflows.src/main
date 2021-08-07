@@ -1,0 +1,339 @@
+#!/usr/bin/env node
+
+let fs = require('fs');
+
+let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
+
+// ci
+WSLENV = 'CI:V';
+// support-firecloud
+WSLENV = `${WSLENV}:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP`;
+// github
+WSLENV = `${WSLENV}:GH_TOKEN:GH_USERNAME`;
+// transcrypt
+WSLENV = `${WSLENV}:SF_TRANSCRYPT_PASSWORD`;
+// slack
+WSLENV = `${WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS`;
+// custom
+WSLENV = `${WSLENV}:SF_CI_BREW_INSTALL`;
+
+let env = {
+  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
+  SF_LOG_BOOTSTRAP: true,
+  SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}',
+  SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}',
+  V: '${{ secrets.V }}'
+};
+
+// -----------------------------------------------------------------------------
+
+let on = {};
+on.push = {
+  branches: [
+    'github*',
+    'master'
+  ],
+  tags: [
+    'v*'
+  ]
+};
+on.pull_request = {
+  branches: [
+    '**'
+  ]
+};
+on.schedule = [{
+  cron: '0 0 * * *'
+}];
+on.workflow_dispatch = null;
+
+// -----------------------------------------------------------------------------
+
+let matrixContainerDeploy = [
+  'sf-arch-0',
+  'sf-alpine-3.11.7',
+  'sf-centos-8',
+  'sf-debian-9',
+  'sf-debian-10',
+  'sf-ubuntu-16.04',
+  'sf-ubuntu-18.04',
+  'sf-ubuntu-20.04'
+];
+
+// -----------------------------------------------------------------------------
+
+let checkoutStep = {
+  name: 'support-firecloud/bin/github-checkout',
+  shell: 'bash',
+  run: [
+    'set -x',
+    githubCheckout
+  ].join('\n')
+};
+
+let wslSteps = [];
+
+wslSteps.push({
+  name: 'Set up WSLENV',
+  shell: 'bash',
+  run: [
+    'set -x',
+    'GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | \\',
+    'sed "s|^GITHUB_ENV\\$|GITHUB_ENV/p|" | \\',
+    'sed "s|^GITHUB_EVENT_PATH\\$|GITHUB_EVENT_PATH/p|" | \\',
+    'sed "s|^GITHUB_PATH\\$|GITHUB_PATH/p|" | \\',
+    'sed "s|^GITHUB_WORKSPACE\\$|GITHUB_WORKSPACE/p|" | \\',
+    'tr "\\n" ":")"',
+    'echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}'
+  ].join('\n')
+});
+
+wslSteps.push({
+  name: 'Install WSL Distribution',
+  uses: 'Vampire/setup-wsl@v1',
+  with: {
+    distribution: 'Ubuntu-20.04',
+    update: 'false'
+  }
+});
+
+wslSteps.push({
+  name: 'Set up WSL Distribution',
+  shell: 'bash',
+  run: [
+    'set -x',
+    'wsl bash -c "cat /etc/os-release"',
+    'wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"',
+    'wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash --disabled-password --gecos \\"Linux user\\" ${WSLUSER}"', // editorconfig-checker-disable-line
+    'wsl bash -c "sudo adduser ${WSLUSER} sudo"',
+    'wsl bash -c "sudo echo \\"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\\" >> /etc/sudoers"',
+    '# Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted',
+    '# See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0',
+    'wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"'
+  ].join('\n')
+});
+
+let ciShSteps = [];
+
+ciShSteps.push({
+  shell: 'bash',
+  run: './.ci.sh before_install'
+});
+ciShSteps.push({
+  shell: 'bash',
+  run: './.ci.sh install'
+});
+ciShSteps.push({
+  shell: 'bash',
+  run: './.ci.sh before_script'
+});
+ciShSteps.push({
+  shell: 'bash',
+  run: './.ci.sh script'
+});
+ciShSteps.push({
+  if: 'failure()',
+  shell: 'bash',
+  run: './.ci.sh after_failure || true'
+});
+ciShSteps.push({
+  shell: 'bash',
+  run: './.ci.sh after_success || true'
+});
+ciShSteps.push({
+  if: 'always()',
+  shell: 'bash',
+  run: './.ci.sh after_script || true'
+});
+ciShSteps.push({
+  if: 'always()',
+  shell: 'bash',
+  env: {
+    SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}',
+    SLACK_CHANNEL: 'cloud-ci',
+    CI_STATUS: '${{ job.status }}'
+  },
+  run: './.ci.sh notifications || true'
+});
+
+let ciShStepsDeploy = [];
+ciShStepsDeploy.push({
+  shell: 'bash',
+  run: './.ci.sh before_deploy'
+});
+ciShStepsDeploy.push({
+  shell: 'bash',
+  run: './.ci.sh deploy'
+});
+ciShStepsDeploy.push({
+  shell: 'bash',
+  run: './.ci.sh after_deploy || true'
+});
+
+// -----------------------------------------------------------------------------
+
+let jobs = {};
+
+jobs.main = {
+  'timeout-minutes': 30,
+  strategy: {
+    'fail-fast': false,
+    matrix: {
+      os: [
+        // deprecated in https://github.com/actions/virtual-environments/issues/3287
+        // "ubuntu-16.04",
+        'ubuntu-18.04',
+        'ubuntu-20.04',
+        'macos-10.15',
+        'macos-11.0'
+      ],
+      sf_ci_brew_install: [
+        'minimal',
+        'dev'
+      ]
+    }
+  },
+  name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+  'runs-on': '${{ matrix.os }}',
+  env: {
+    ...env,
+    GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+    SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+  },
+  steps: [
+    checkoutStep,
+    ...ciShSteps
+  ]
+};
+
+jobs['main-windows'] = {
+  'timeout-minutes': 60,
+  strategy: {
+    'fail-fast': false,
+    matrix: {
+      os: [
+        'windows-2019'
+      ],
+      sf_ci_brew_install: [
+        'minimal'
+      ]
+    }
+  },
+  name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+  'runs-on': '${{ matrix.os }}',
+  env: {
+    ...env,
+    GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+    SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
+    WSLENV,
+    WSLUSER: 'github',
+    WSLGROUP: 'github'
+  },
+  steps: [
+    checkoutStep,
+    ...wslSteps,
+    ...(function() {
+      return ciShSteps.map(function(step) {
+        return {
+          ...step,
+          run: `bin/wsl-bash -c "${step.run}"`
+        };
+      });
+    })()
+  ]
+};
+
+jobs['deploy-container-minimal'] = {
+  if: 'startsWith(github.ref, "refs/tags/")',
+  needs: 'main-container',
+  strategy: {
+    'fail-fast': false,
+    matrix: {
+      container: matrixContainerDeploy,
+      sf_ci_brew_install: [
+        'minimal'
+      ]
+    }
+  },
+  name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+  'runs-on': 'ubuntu-latest',
+  env: {
+    ...env,
+    DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
+    DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
+    GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+    GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+  },
+  steps: [
+    checkoutStep,
+    ...ciShStepsDeploy
+  ]
+};
+
+jobs['deploy-container-common'] = {
+  if: 'startsWith(github.ref, "refs/tags/")',
+  needs: 'deploy-container-minimal',
+  strategy: {
+    'fail-fast': false,
+    matrix: {
+      container: matrixContainerDeploy,
+      sf_ci_brew_install: [
+        'common'
+      ]
+    }
+  },
+  name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+  'runs-on': 'ubuntu-latest',
+  env: {
+    ...env,
+    DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
+    DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
+    GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+    GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+  },
+  steps: [
+    checkoutStep,
+    ...ciShStepsDeploy
+  ]
+};
+
+jobs['main-container'] = {
+  'timeout-minutes': 30,
+  strategy: {
+    'fail-fast': false,
+    matrix: {
+      container: matrixContainerDeploy,
+      sf_ci_brew_install: [
+        'minimal',
+        'common'
+      ]
+    }
+  },
+  name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+  'runs-on': 'ubuntu-latest',
+  env: {
+    ...env,
+    DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
+    DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
+    GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
+    GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
+    SF_DEPLOY_DRYRUN: true
+  },
+  steps: [
+    checkoutStep,
+    ...ciShStepsDeploy
+  ]
+};
+
+// -----------------------------------------------------------------------------
+
+let workflow = {
+  name: 'CI',
+  on,
+  jobs
+};
+
+console.log(JSON.stringify(workflow, null, 2));
