@@ -394,7 +394,6 @@ jobs:
     needs:
       - main-ubuntu
       - main-macos
-      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -692,7 +691,6 @@ jobs:
     needs:
       - main-ubuntu
       - main-macos
-      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -990,7 +988,6 @@ jobs:
     needs:
       - main-ubuntu
       - main-macos
-      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1288,7 +1285,6 @@ jobs:
     needs:
       - main-ubuntu
       - main-macos
-      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1589,7 +1585,6 @@ jobs:
     needs:
       - main-ubuntu
       - main-macos
-      - main-windows
     timeout-minutes: 30
     strategy:
       fail-fast: false

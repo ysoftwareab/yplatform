@@ -28,9 +28,14 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   ];
 
   jobs[`main-container-${nameSuffix}`] = {
-    needs: _.map(_.keys(matrixOs), function(nameSuffix) {
-      return `main-${nameSuffix}`;
-    }),
+    needs: _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
+      // ignore windows, because it is very very very slow
+      if (nameSuffix === 'windows') {
+        return needs;
+      }
+      needs.push(`main-${nameSuffix}`);
+      return needs;
+    }, []),
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
