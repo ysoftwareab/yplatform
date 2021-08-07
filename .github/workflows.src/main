@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+/* eslint-disable no-template-curly-in-string */
+
 let _ = require('lodash-firecloud');
 
 let jobs = require('./main-jobs');
@@ -29,6 +31,10 @@ let workflow = {
     }],
     // eslint-disable-next-line no-null/no-null
     workflow_dispatch: null
+  },
+  concurrency: {
+    group: '${{ github.ref }}',
+    'cancel-in-progress': true
   },
   jobs: {
     ...jobs,

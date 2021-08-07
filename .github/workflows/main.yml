@@ -12,6 +12,9 @@ name: CI
   schedule:
     - cron: 0 0 * * *
   workflow_dispatch: null
+concurrency:
+  group: '${{ github.ref }}'
+  cancel-in-progress: true
 jobs:
   main-ubuntu:
     timeout-minutes: 30
