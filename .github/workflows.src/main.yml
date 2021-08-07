@@ -150,7 +150,7 @@ jobs:
       - shell: bash
         run: bin/wsl-bash -c "./.ci.sh script"
 
-      - if: always()
+      - if: failure()
         shell: bash
         run: bin/wsl-bash -c "./.ci.sh after_failure || true"
 
