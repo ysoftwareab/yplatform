@@ -74,6 +74,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   jobs[`deploy-container-minimal-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `main-container-${nameSuffix}`,
+    'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
       matrix: {
@@ -98,6 +99,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   jobs[`deploy-container-common-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `deploy-container-minimal-${nameSuffix}`,
+    'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
       matrix: {

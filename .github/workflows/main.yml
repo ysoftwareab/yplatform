@@ -489,6 +489,7 @@ jobs:
   deploy-container-minimal-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main-container-arch
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -586,6 +587,7 @@ jobs:
   deploy-container-common-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy-container-minimal-arch
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -781,6 +783,7 @@ jobs:
   deploy-container-minimal-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main-container-alpine
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -878,6 +881,7 @@ jobs:
   deploy-container-common-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy-container-minimal-alpine
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1073,6 +1077,7 @@ jobs:
   deploy-container-minimal-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main-container-centos
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1170,6 +1175,7 @@ jobs:
   deploy-container-common-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy-container-minimal-centos
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1366,6 +1372,7 @@ jobs:
   deploy-container-minimal-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main-container-debian
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1464,6 +1471,7 @@ jobs:
   deploy-container-common-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy-container-minimal-debian
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1662,6 +1670,7 @@ jobs:
   deploy-container-minimal-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: main-container-ubuntu
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -1761,6 +1770,7 @@ jobs:
   deploy-container-common-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deploy-container-minimal-ubuntu
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
