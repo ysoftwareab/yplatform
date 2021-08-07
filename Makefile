@@ -97,7 +97,10 @@ SF_TEST_TARGETS += \
 
 # ------------------------------------------------------------------------------
 
-.github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main bin/github-checkout
+.github/workflows/main.yml: bin/github-checkout
+.github/workflows/main.yml: .github/workflows.src/main-common.js
+.github/workflows/main.yml: .github/workflows.src/main-container-jobs.js
+.github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main
 	$(call sf-generate-from-template)
 
 
