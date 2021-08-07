@@ -93,6 +93,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
   ];
 
   jobs[`main-${nameSuffix}`] = {
+    needs: nameSuffix === 'ubuntu' ? undefined : 'main-ubuntu',
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
@@ -121,6 +122,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
 _.forEach(matrixOs, makeJobs);
 
 jobs['main-windows'] = {
+  needs: 'main-ubuntu',
   'timeout-minutes': 60,
   strategy: {
     'fail-fast': false,

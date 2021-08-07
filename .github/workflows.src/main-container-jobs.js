@@ -47,6 +47,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
   ];
 
   jobs[`main-container-${nameSuffix}`] = {
+    needs: 'main-ubuntu',
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
