@@ -22,8 +22,7 @@ ESLINT = $(call npm-which,ESLINT,eslint)
 $(foreach VAR,ESLINT,$(call make-lazy,$(VAR)))
 
 ESLINT_ARGS += \
-	--ignore-pattern '!.babelrc.js' \
-	--ignore-pattern '!.eslintrc.js' \
+	--ignore-pattern '!*' \
 
 SF_ESLINT_FILES_IGNORE += \
 	-e "^$$" \
