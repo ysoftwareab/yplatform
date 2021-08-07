@@ -11,6 +11,8 @@ This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipr
     * <a name="cross-platform"></a> cross-platform. No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (Linux). **Everything works the same everywhere!**
       * Apple MacOS
       * Linux (Alpine)
+      * Linux (Archlinux)
+      * Linux (Centos)
       * Linux (Debian)
       * Linux (Ubuntu)
       * Microsoft Windows (WSL)
@@ -40,12 +42,14 @@ Import this repository as a `submodule`, and you will gain access to:
         * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
     * cross-platform. See [above](#cross-platform).
     * Docker images available for Linux
-      * Ubuntu 14.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
-      * Ubuntu 16.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-common)
-      * Ubuntu 20.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
-      * Ubuntu 20.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
+      * Alpine [minimal](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-minimal) [common](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-common)
+      * Archlinux [minimal](https://hub.docker.com/r/rokmoln/sf-arch-0-minimal) [common](https://hub.docker.com/r/rokmoln/sf-arch-0-common)
+      * Centos [minimal](https://hub.docker.com/r/rokmoln/sf-centos-8-minimal) [common](https://hub.docker.com/r/rokmoln/sf-centos-8-common)
       * Debian 9 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-stretch-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-stretch-common)
       * Debian 10 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-buster-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-buster-common)
+      * Ubuntu 16.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
+      * Ubuntu 18.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-common)
+      * Ubuntu 20.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
       * [potentially more if you request/contribute it](https://github.com/rokmoln/support-firecloud/issues/new/choose)
   * **a robust yet flexible build system based on GNU Make**
   * **sane per-repo configuration** (e.g. vscode)
