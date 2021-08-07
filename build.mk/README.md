@@ -55,6 +55,8 @@ The high-level colletions of pieces are as follows:
   * [core.shell.mk](core.shell.mk)
   * [core.test.mk](core.test.mk)
   * [core.node.mk](core.node.mk)
+  * [core.archive.mk](core.archive.mk)
+  * [core.ci.mk](core.ci.mk)
 * [generic.common.mk](generic.common.mk) - for generic repositories
   * [core.common.mk](core.common.mk)
   * [core.deps.git-hook-pre-push.mk](core.deps.git-hook-pre-push.mk)
