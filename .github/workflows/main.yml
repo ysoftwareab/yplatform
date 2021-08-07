@@ -13,15 +13,14 @@ name: CI
     - cron: 0 0 * * *
   workflow_dispatch: null
 jobs:
-  main-macos:
-    needs: main-ubuntu
+  main-ubuntu:
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         os:
-          - macos-10.15
-          - macos-11.0
+          - ubuntu-18.04
+          - ubuntu-20.04
         sf_ci_brew_install:
           - minimal
           - dev
@@ -126,14 +125,15 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
-  main-ubuntu:
+  main-macos:
+    needs: main-ubuntu
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-18.04
-          - ubuntu-20.04
+          - macos-10.15
+          - macos-11.0
         sf_ci_brew_install:
           - minimal
           - dev

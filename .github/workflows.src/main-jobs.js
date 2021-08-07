@@ -3,10 +3,11 @@
 let _ = require('lodash-firecloud');
 
 let {
+  quickJob,
+  matrixOs,
   env: commonEnv,
   checkoutStep,
-  ciShSteps,
-  quickJob
+  ciShSteps
 } = require('./main-common');
 
 let env = {
@@ -25,19 +26,6 @@ WSLENV = `${WSLENV}:SF_TRANSCRYPT_PASSWORD`;
 WSLENV = `${WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL:CI_STATUS`;
 // custom
 WSLENV = `${WSLENV}:SF_CI_BREW_INSTALL`;
-
-let matrixOs = {
-  macos: [
-    'macos-10.15',
-    'macos-11.0'
-  ],
-  ubuntu: [
-    // deprecated in https://github.com/actions/virtual-environments/issues/3287
-    // "ubuntu-16.04",
-    'ubuntu-18.04',
-    'ubuntu-20.04'
-  ]
-};
 
 // -----------------------------------------------------------------------------
 
@@ -88,10 +76,53 @@ wslSteps.push({
 
 let jobs = {};
 
+let makeJobsWindows = function(matrixOs, nameSuffix) {
+  jobs[`main-${nameSuffix}`] = {
+    needs: quickJob,
+    'timeout-minutes': 60,
+    strategy: {
+      'fail-fast': false,
+      matrix: {
+        os: matrixOs,
+        sf_ci_brew_install: [
+          'minimal'
+        ]
+      }
+    },
+    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+    'runs-on': '${{ matrix.os }}',
+    env: {
+      ...env,
+      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
+      WSLENV,
+      WSLUSER: 'github',
+      WSLGROUP: 'github'
+    },
+    steps: [
+      checkoutStep,
+      ...wslSteps,
+      ...(function() {
+        return _.map(ciShSteps, function(step) {
+          return {
+            ...step,
+            run: `bin/wsl-bash -c "${step.run}"`
+          };
+        });
+      })()
+    ]
+  };
+};
+
 let makeJobs = function(matrixOs, nameSuffix) {
   matrixOs = _.isArray(matrixOs) ? matrixOs : [
     matrixOs
   ];
+
+  if (nameSuffix === 'windows') {
+    makeJobsWindows(matrixOs, nameSuffix);
+    return;
+  }
 
   jobs[`main-${nameSuffix}`] = {
     needs: `main-${nameSuffix}` === quickJob ? undefined : quickJob,
@@ -121,43 +152,5 @@ let makeJobs = function(matrixOs, nameSuffix) {
 };
 
 _.forEach(matrixOs, makeJobs);
-
-jobs['main-windows'] = {
-  needs: quickJob,
-  'timeout-minutes': 60,
-  strategy: {
-    'fail-fast': false,
-    matrix: {
-      os: [
-        'windows-2019'
-      ],
-      sf_ci_brew_install: [
-        'minimal'
-      ]
-    }
-  },
-  name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
-  'runs-on': '${{ matrix.os }}',
-  env: {
-    ...env,
-    GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
-    SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
-    WSLENV,
-    WSLUSER: 'github',
-    WSLGROUP: 'github'
-  },
-  steps: [
-    checkoutStep,
-    ...wslSteps,
-    ...(function() {
-      return _.map(ciShSteps, function(step) {
-        return {
-          ...step,
-          run: `bin/wsl-bash -c "${step.run}"`
-        };
-      });
-    })()
-  ]
-};
 
 module.exports = jobs;

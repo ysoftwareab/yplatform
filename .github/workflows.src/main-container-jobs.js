@@ -3,10 +3,11 @@
 let _ = require('lodash-firecloud');
 
 let {
+  quickJob,
+  matrixContainer,
   env: commonEnv,
   checkoutStep,
   ciShStepsDeploy,
-  quickJob
 } = require('./main-common');
 
 let env = {
@@ -15,27 +16,6 @@ let env = {
   DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
   GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
   GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-};
-
-let matrixContainer = {
-  arch: [
-    'sf-arch-0'
-  ],
-  alpine: [
-    'sf-alpine-3.11.7'
-  ],
-  centos: [
-    'sf-centos-8'
-  ],
-  debian: [
-    'sf-debian-9',
-    'sf-debian-10'
-  ],
-  ubuntu: [
-    'sf-ubuntu-16.04',
-    'sf-ubuntu-18.04',
-    'sf-ubuntu-20.04'
-  ]
 };
 
 // -----------------------------------------------------------------------------
