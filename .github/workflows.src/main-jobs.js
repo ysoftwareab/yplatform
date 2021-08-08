@@ -3,6 +3,7 @@
 let _ = require('lodash-firecloud');
 
 let {
+  artifactsStep,
   checkoutStep,
   ciShSteps,
   env: commonEnv,
@@ -77,6 +78,7 @@ wslSteps.push({
 let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
+  let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
     needs: stage1Jobs,
     'timeout-minutes': 60,
@@ -89,11 +91,11 @@ let makeJobsWindows = function(matrixOs, nameSuffix) {
         ]
       }
     },
-    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+    name,
     'runs-on': '${{ matrix.os }}',
     env: {
       ...env,
-      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+      GITHUB_JOB_NAME: name,
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
       WSLENV,
       WSLUSER: 'github',
@@ -110,6 +112,12 @@ let makeJobsWindows = function(matrixOs, nameSuffix) {
           };
         });
       })()
+      // TODO need to learn how to access paths inside WSL from Windows
+      // _.merge({}, artifactsStep, {
+      //   with: {
+      //     name
+      //   }
+      // })
     ]
   };
 };
@@ -124,6 +132,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     return;
   }
 
+  let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
     needs: _.includes(stage1Jobs, `main-${nameSuffix}`) ? undefined : stage1Jobs,
     'timeout-minutes': 30,
@@ -137,16 +146,21 @@ let makeJobs = function(matrixOs, nameSuffix) {
         ]
       }
     },
-    name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+    name,
     'runs-on': '${{ matrix.os }}',
     env: {
       ...env,
-      GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}',
+      GITHUB_JOB_NAME: name,
       SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     },
     steps: [
       checkoutStep,
-      ...ciShSteps
+      ...ciShSteps,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
     ]
   };
 };

@@ -3,6 +3,7 @@
 let _ = require('lodash-firecloud');
 
 let {
+  artifactsStep,
   checkoutStep,
   ciShStepsDeploy,
   env: commonEnv,
@@ -27,6 +28,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
+  let name = 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`mainc-${nameSuffix}`] = {
     needs: stage2Jobs,
     'timeout-minutes': 30,
@@ -40,19 +42,25 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
         ]
       }
     },
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    name,
     'runs-on': 'ubuntu-latest',
     env: {
       ...env,
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+      GITHUB_JOB_NAME: name,
       SF_DEPLOY_DRYRUN: true
     },
     steps: [
       checkoutStep,
-      ...ciShStepsDeploy
+      ...ciShStepsDeploy,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
     ]
   };
 
+  name = 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`deployc-minimal-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `mainc-${nameSuffix}`,
@@ -66,18 +74,24 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
         ]
       }
     },
-    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    name,
     'runs-on': 'ubuntu-latest',
     env: {
       ...env,
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: name
     },
     steps: [
       checkoutStep,
-      ...ciShStepsDeploy
+      ...ciShStepsDeploy,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
     ]
   };
 
+  name = 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`deployc-common-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `deployc-minimal-${nameSuffix}`,
@@ -91,15 +105,20 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
         ]
       }
     },
-    name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}',
+    name,
     'runs-on': 'ubuntu-latest',
     env: {
       ...env,
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: name
     },
     steps: [
       checkoutStep,
-      ...ciShStepsDeploy
+      ...ciShStepsDeploy,
+      _.merge({}, artifactsStep, {
+        with: {
+          name
+        }
+      })
     ]
   };
 };

@@ -128,6 +128,15 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   main-macos:
     needs:
       - main-ubuntu
@@ -242,6 +251,15 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   main-windows:
     needs:
       - main-ubuntu
@@ -496,6 +514,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-minimal-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: mainc-arch
@@ -594,6 +621,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-common-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deployc-minimal-arch
@@ -692,6 +728,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   mainc-alpine:
     needs:
       - main-ubuntu
@@ -793,6 +838,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-minimal-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: mainc-alpine
@@ -891,6 +945,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-common-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deployc-minimal-alpine
@@ -989,6 +1052,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   mainc-centos:
     needs:
       - main-ubuntu
@@ -1090,6 +1162,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-minimal-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: mainc-centos
@@ -1188,6 +1269,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-common-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deployc-minimal-centos
@@ -1286,6 +1376,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   mainc-debian:
     needs:
       - main-ubuntu
@@ -1388,6 +1487,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-minimal-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: mainc-debian
@@ -1487,6 +1595,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-common-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deployc-minimal-debian
@@ -1586,6 +1703,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   mainc-ubuntu:
     needs:
       - main-ubuntu
@@ -1689,6 +1815,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-minimal-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: mainc-ubuntu
@@ -1789,6 +1924,15 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   deployc-common-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs: deployc-minimal-ubuntu
@@ -1889,3 +2033,12 @@ jobs:
         run: ./.ci.sh deploy
       - shell: bash
         run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
