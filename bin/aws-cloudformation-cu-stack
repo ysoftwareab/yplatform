@@ -211,12 +211,29 @@ echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/
 
 [[ -n ${WAIT_FOR_STACK} ]] || exit 0
 
+# select only events after $LAST_EVENT_ID
+# TODO uncertain if/how this can be done in 'jq', but should be done in 'jq'
+SCRIPT="$(cat <<EOF
+let foundId = false;
+let data = JSON.parse(fs.readFileSync('/dev/stdin'));
+data = data.reduce(function(data, event) {
+    foundId = foundId || event.EventId === '${LAST_EVENT_ID}';
+    if (foundId) {
+        data.push(event);
+    }
+    return data;
+}, []);
+let jsonData = JSON.stringify(data);
+console.log(jsonData);
+EOF
+)"
+
 echo "Waiting for stack-${CU}-complete..."
 aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} || {
     aws cloudformation describe-stack-events ${STACK_NAME_ARG} | \
-        json "StackEvents" | \
-        json -c "global.isOldEvent = global.isOldEvent || this.EventId === '${LAST_EVENT_ID}'; return !global.isOldEvent;" | \
-        json -c "return /FAILED|ROLLBACK/.test(this.ResourceStatus)"
+        jq ".StackEvents" | \
+        node -e "${SCRIPT}" | \
+        jq ".[] | select(.ResourceStatus|test(\"FAILED|ROLLBACK\"))"
     exit 1
 }
 
