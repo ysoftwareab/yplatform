@@ -135,7 +135,8 @@ let makeJobs = function(matrixOs, nameSuffix) {
   let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
     needs: _.includes(stage1Jobs, `main-${nameSuffix}`) ? undefined : stage1Jobs,
-    'timeout-minutes': 30,
+    // some macos agents simply have a slower I/O rates and take longer
+    'timeout-minutes': nameSuffix === 'macos' ? 45 : 30,
     strategy: {
       'fail-fast': false,
       matrix: {
