@@ -17,6 +17,8 @@ source $(brew --prefix nvm)/nvm.sh --no-use
 set -u
 echo_done
 
+exe_and_grep_q "nvm --version | head -1" "^0\."
+
 [[ ! -f .nvmrc ]] || {
     nvm install
 
@@ -34,5 +36,4 @@ echo_done
     nvm use
 }
 
-exe_and_grep_q "nvm --version | head -1" "^0\."
 echo_done
