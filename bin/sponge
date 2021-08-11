@@ -50,10 +50,10 @@ cat - > ${TMP_SPONGE}
 # An alternative would have been 'cp --preserve=all ${FILENAME} ${TMP_SPONGE}'
 # but BSD cp has no --preserve flag either.
 
-if [[ -z "${FILENAME}" ]]; then
+[[ -n "${FILENAME}" ]] || {
     cat ${TMP_SPONGE}
     exit 0
-fi
+}
 
 GNU_CHOWN=$(chown --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
 case "${GNU_CHOWN}" in
