@@ -136,8 +136,9 @@ let makeJobs = function(matrixOs, nameSuffix) {
   jobs[`main-${nameSuffix}`] = {
     needs: _.includes(stage1Jobs, `main-${nameSuffix}`) ? undefined : stage1Jobs,
     // some macos agents simply have a slower I/O rates and take longer
+    // see https://github.com/actions/virtual-environments/issues/3885
     // see https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343
-    'timeout-minutes': nameSuffix === 'macos' ? 45 : 30,
+    'timeout-minutes': nameSuffix === 'macos' ? 60 : 30,
     strategy: {
       'fail-fast': false,
       matrix: {
