@@ -1,3 +1,4 @@
+# syntax=docker/dockerfile:1
 ARG SF_DOCKER_CI_FROM
 FROM ${SF_DOCKER_CI_FROM}
 
