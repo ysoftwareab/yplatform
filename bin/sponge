@@ -58,29 +58,31 @@ cat - > ${TMP_SPONGE}
 [[ -e "${FILENAME}" ]] || touch "${FILENAME}"
 
 GNU_CHOWN=$(chown --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
-case "${GNU_CHOWN}" in
-    true)
+case "${GNU_CHOWN}-${OS_SHORT}" in
+    true-*)
         chown --reference=${FILENAME} ${TMP_SPONGE}
         ;;
-    false) # assume BSD
-        chown $(stat -f "%Su:%Sg" ${FILENAME}) ${TMP_SPONGE}
+    false-darwin)
+        /usr/sbin/chown $(stat -f "%Su:%Sg" ${FILENAME}) ${TMP_SPONGE}
         ;;
     *)
-        echo_err "GNU_CHOWN=${GNU_CHOWN}"
+        echo_err "GNU or Darwin chown required."
+        >&2 exe_debug "chown"
         exit 1
         ;;
 esac
 
 GNU_CHMOD=$(chmod --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
-case "${GNU_CHMOD}" in
-    true)
+case "${GNU_CHMOD}-${OS_SHORT}" in
+    true-*)
         chmod --reference=${FILENAME} ${TMP_SPONGE}
         ;;
-    false) # assume BSD
-        chmod $(stat -f "%A" ${FILENAME}) ${TMP_SPONGE}
+    false-darwin)
+        /bin/chmod $(stat -f "%A" ${FILENAME}) ${TMP_SPONGE}
         ;;
     *)
-        echo_err "GNU_CHMOD=${GNU_CHMOD}"
+        echo_err "GNU or Darwin chmod required."
+        >&2 exe_debug "chmod"
         exit 1
         ;;
 esac
