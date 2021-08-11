@@ -7,9 +7,11 @@ function on_error() {
     >&2 echo "The following BASH_COMMAND exited with status $1."
     >&2 echo "=${BASH_COMMAND}"
     >&2 echo "~$(eval echo "${BASH_COMMAND}")"
-    # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
-    # see https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-BASH_005fLINENO
-    for (( i=1; i<${#BASH_SOURCE[@]}; i++ )); do
+    # see https://bashwizard.com/function-call-stack-and-backtraces/
+    for i in "${!BASH_SOURCE[@]}"; do
+        # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
+        # see https://www.gnu.org/software/bash/manual/html_node/Bash-Variables.html#index-BASH_005fLINENO
+        [[ "${i}" != "0" ]] || continue
         >&2 echo "${i}. ${BASH_SOURCE[${i}]}: line ${BASH_LINENO[${i}-1]}: ${FUNCNAME[${i}]}"
     done
     >&2 echo "---"
