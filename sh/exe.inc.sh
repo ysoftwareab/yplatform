@@ -100,9 +100,13 @@ function exe_and_grep_q() {
     local EXPECTED_STDOUT="$1"
     shift
 
-    local CMD_STDERR=$(mktemp)
-    local EXECUTABLE=$(echo "${CMD}" | cut -d" " -f1)
-    local CMD_STDOUT=$(eval "${CMD}" 2>${CMD_STDERR})
+    local EXECUTABLE="$(echo "${CMD}" | cut -d" " -f1)"
+    local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
+    local CMD_STDOUT="command not found: ${EXECUTABLE}"
+    local CMD_STDERR="$(mktemp)"
+    if [[ "${EXECUTABLE_TYPE}" != "undefined" ]]; then
+        CMD_STDOUT="$(eval "${CMD}" 2>${CMD_STDERR} || true)"
+    fi
 
     if echo "${CMD_STDOUT}" | grep -q "${EXPECTED_STDOUT}"; then
         echo_info "Command '${CMD}' with stdout '${CMD_STDOUT}' matches '${EXPECTED_STDOUT}'."
