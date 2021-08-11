@@ -51,7 +51,7 @@ done
 
 # NOTE install glibc as required by homebrew, it also sets up locales
 (
-    cd $(mktemp -d)
+    cd $(mktemp -d -t firecloud.XXXXXXXXXX)
     curl -qfsSL -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
     GLIBC_VSN=2.32-r0
     curl -qfsSL -O \

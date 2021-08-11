@@ -51,7 +51,7 @@ brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
     echo_do "Installing AWS CLI ${AWSCLI_VSN}..."
     echo_info "AWSCLI_URL=${AWSCLI_URL}"
     (
-        cd $(mktemp -d)
+        cd $(mktemp -d -t firecloud.XXXXXXXXXX)
         curl -qfsSL -o awscliv2.zip ${AWSCLI_URL}
         unzip -q awscliv2.zip
         sudo ./aws/install

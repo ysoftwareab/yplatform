@@ -29,7 +29,7 @@ function aws-iam-login() {
     echo "${AWS_PROFILE} AWS profile is now in use."
     aws configure list # login and obtain a session token
 
-    CREDENTIALS_TEMP=$(mktemp)
+    CREDENTIALS_TEMP=$(mktemp -t firecloud.XXXXXXXXXX)
 
     ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/aws-get-cli-sts > ${CREDENTIALS_TEMP}
     source ${CREDENTIALS_TEMP}
