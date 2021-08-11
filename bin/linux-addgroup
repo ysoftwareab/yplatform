@@ -14,7 +14,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 #    Add a system group
 
 #- linux-addgroup 1.0
-## Usage: linux-addgroup [OPTION] GROUP
+## Usage: linux-addgroup [OPTION] -- GROUP
 ## Add a user or system group cross-platform.
 ## Arguments are a subset of the Debian/Ubuntu 'addgroup'.
 ##

@@ -12,7 +12,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 #    Add an existing user to an existing group
 
 #- linux-adduser2group 1.0
-## Usage: linux-adduser2group USER GROUP
+## Usage: linux-adduser2group -- USER GROUP
 ## Add a user to a group cross-platform.
 ## Arguments are a subset of the Debian/Ubuntu 'adduser'.
 ##

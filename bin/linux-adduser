@@ -17,7 +17,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 #    Add a system user
 
 #- linux-adduser 1.0
-## Usage: linux-adduser [OPTION] USER
+## Usage: linux-adduser [OPTION] -- USER
 ## Add a normal or system user cross-platform.
 ## Arguments are a subset of the Debian/Ubuntu 'adduser'.
 ##
