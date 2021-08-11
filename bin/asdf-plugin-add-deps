@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# NOTE WIP
+
+[[ ! -f .tool-plugins ]] || {
+    # NOTE plugins not in https://github.com/asdf-vm/asdf-plugins/tree/master/plugins should be listed
+    # in a .tool-plugins file as '<name> <git url> <optional git ref>' lines
+    # see https://github.com/asdf-vm/asdf/issues/240
+    comm -23 <(cut -d" " -f1 .tool-plugins | sort) <(asdf plugin list | sort) | \
+        join -a1 - <(cat .tool-plugins) | \
+        xargs -r -t -L1 asdf plugin add
+
+    # handle optional git ref
+    cat .tool-plugins | \
+        { grep "^[^ ]\+ [^ ]\+ [^ ]\+$" || true; } | \
+        cut -d" " -f1,3 | \
+        xargs -r -t -L1 asdf plugin update
+}
+
+# automatically install required plugins
+# see https://github.com/asdf-vm/asdf/issues/240#issuecomment-811629863
+comm -23 <(cut -d" " -f1 .tool-versions | sort) <(asdf plugin list | sort) | \
+    join -a1 - <(asdf plugin list all) | \
+    xargs -r -t -L1 asdf plugin add
