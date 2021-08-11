@@ -55,6 +55,8 @@ cat - > ${TMP_SPONGE}
     exit 0
 }
 
+[[ -e "${FILENAME}" ]] || touch "${FILENAME}"
+
 GNU_CHOWN=$(chown --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
 case "${GNU_CHOWN}" in
     true)
