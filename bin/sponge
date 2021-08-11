@@ -5,7 +5,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 #- sponge 1.0
-## Usage: sponge -- FILENAME
+## Usage: sponge -- [FILENAME]
 ## Poor man's version of moreutils sponge.
 ##
 ##   -h, --help     Display this help and exit
@@ -39,7 +39,7 @@ while [[ $# -gt 0 ]]; do
 done
 # [[ $# -eq 0 ]] || sh_script_usage
 
-FILENAME=$1
+FILENAME=${1:-}
 
 cat - > ${TMP_SPONGE}
 
@@ -49,6 +49,11 @@ cat - > ${TMP_SPONGE}
 # NOTE BSD chown/chmod have no --preference flag
 # An alternative would have been 'cp --preserve=all ${FILENAME} ${TMP_SPONGE}'
 # but BSD cp has no --preserve flag either.
+
+if [[ -z "${FILENAME}" ]]; then
+    cat ${TMP_SPONGE}
+    exit 0
+fi
 
 GNU_CHOWN=$(chown --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
 case "${GNU_CHOWN}" in
