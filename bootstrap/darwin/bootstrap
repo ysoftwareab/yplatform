@@ -20,6 +20,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
+brew_system
 brew_config
 brew_list
 brew_printenv
