@@ -25,7 +25,7 @@ FORCE_BADNAME=
 USER=
 GROUP=
 
-if getopt --test >/dev/null 2>&1 || [[ "$?" = "4" ]] || false; then
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
     ARGS=$(getopt -o hv -l help,version,force-badname -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
     eval set -- "${ARGS}"
 fi

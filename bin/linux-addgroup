@@ -29,7 +29,7 @@ SYSTEM=
 GROUP_ID=
 GROUP=
 
-if getopt --test >/dev/null 2>&1 || [[ "$?" = "4" ]] || false; then
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
     ARGS=$(getopt -o hv -l help,version,system,gid: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
