@@ -1,0 +1,102 @@
+support-firecloud v0.2.138 Release Notes
+
+Highlights since v0.2.137:
+
+* None
+
+Breaking commits since v0.2.137:
+
+* None
+
+Commits since v0.2.137:
+
+* e55631f9 2021-08-12 allow for docker images to be based on an earlier version, for smaller downloads
+* 5745af56 2021-08-12 whitespace
+* 49ae2e51 2021-08-12 getopt all the way. fix #227
+* d4ac2bbb 2021-08-12 fixup! try out getopt. see #227
+* 87749425 2021-08-12 fixup! try out getopt. see #227
+* 07896d74 2021-08-12 add syntax directive to Dockerfiles
+* a644d84c 2021-08-11 try out getopt. see #227
+* 83f8194c 2021-08-11 style
+* 2da6c1e0 2021-08-11 sponge: less Darwin asumptions
+* 331b2fcf 2021-08-11 sponge: handle new file
+* 0488092d 2021-08-11 fixup! sponge: print to stdout by default, if no filename given
+* 3fca2480 2021-08-11 fixup! add ubuntu-20.04 to codeship
+* c22332a4 2021-08-11 consistency: mktemp -> mktemp -t firecloud.XXXXXXXXXX
+* 82788cb0 2021-08-11 if cmd is not found, then there's output noise due to exit code 127
+* 13bd6b26 2021-08-11 compatibility with Bash v3
+* df8ead21 2021-08-11 increase timeout to 60m on macos. see https://github.com/actions/virtual-environments/issues/3885
+* 294614e4 2021-08-11 add neofetch to ci, print system info
+* e3a5e07c 2021-08-11 sponge: print to stdout by default, if no filename given
+* dcacce91 2021-08-11 add link to reported issue https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343
+* ba7734fb 2021-08-11 add support for asdf
+* 7734979e 2021-08-11 check earlier if nvm is ok
+* 6cd80c0a 2021-08-10 allow 45 minutes for macos jobs before timing out
+* 7cc8e084 2021-08-10 missing main-jobs.js as a dependency
+* 4f8b2513 2021-08-10 add pnpm to bootstrap
+* 38fc3d3d 2021-08-10 whitespace
+* 3f08d3b0 2021-08-09 minimize the surface of 'json'. see #218
+* 69bcf559 2021-08-09 Revert "remove json as global node module. see #218"
+* 65903853 2021-08-09 remove json as global node module. see #218
+* ea194942 2021-08-08 add a native artifacts step to github actions
+* 0708e6e5 2021-08-08 add concurrency
+* ee825b7d 2021-08-09 vscode: update for shellcheck and eslint extensions
+* 108db2e8 2021-08-08 add typescript for vscode
+* 29d7306f 2021-08-08 compact
+* 61257026 2021-08-08 refactor jobs into stages
+* 70925864 2021-08-08 consistent naming
+* 0f6e54cf 2021-08-08 fixup! don't start container jobs before all main jobs finish (optimize resource usage)
+* 5446ebc5 2021-08-08 don't start container jobs before all main jobs finish (optimize resource usage)
+* c33074a4 2021-08-08 refactor
+* 77097f04 2021-08-07 semantic variable for quick job
+* a7ab515c 2021-08-07 test ubuntu first, since it's easier/faster to grab an ubuntu agent
+* c3f69801 2021-08-07 update list of containers and links to hub.docker.com
+* d96cfbef 2021-08-07 make sure all jobs have a timeout
+* 6b573fdd 2021-08-07 split jobs by os
+* e4aaf64e 2021-08-07 split main workflow into non- and container jobs
+* 3845ac24 2021-08-07 convert workflow source from yaml to javascript module
+* 10b3af6e 2021-08-07 fix windows workflow for after_failure
+* 86a7bc5d 2021-08-07 better indentation
+* 70fdda25 2021-08-07 eslint: don't ignore anything (like hidden files by default)
+* bfe72ee1 2021-08-07 use lodash-firecloud
+* 298a2478 2021-08-07 docs: missing makefile links
+* 2a1591c9 2021-08-06 fixup! fixup! optimize pruning job refs even more, by fetching only once
+* d076ffad 2021-08-06 fixup! optimize pruning job refs even more, by fetching only once
+* dc10ff50 2021-08-06 optimize pruning job refs even more, by fetching only once
+* ae073d4d 2021-08-06 fixup! optimize pruning job refs
+* c2cd8798 2021-08-06 optimize pruning job refs
+* ac5faaf6 2021-08-06 correct url to get job logs
+* f79dce65 2021-08-06 add debug-ci/% targets
+* c5395f6b 2021-08-06 don't force progress for git operations
+* 30b2df14 2021-08-06 fixup! inline bin/github-checkout automatically
+* 3be21887 2021-08-06 fixup! make: add 'ci/<BRANCH>' target to force push to a CI branch
+* 97a1a773 2021-08-06 fixup! restore files added to the job git ref
+* 1bc2d61a 2021-08-06 restore files added to the job git ref
+* cc4bc266 2021-08-06 verbose when pruning refs/jobs
+* 81e42a6d 2021-08-06 more verbose github-get-job-id
+* 46d20a28 2021-08-06 add json and yaml helpers
+* c6ad7a9a 2021-08-06 latest js-yaml seems fine
+* 4ea20ae2 2021-08-05 allow manually triggering the workflow
+* a1251472 2021-08-05 fixup! ci-echo: enabling benchmark will also enable stopwatch
+* 4f3f67f2 2021-08-05 ci-echo: enabling benchmark will also enable stopwatch
+* e04a1f15 2021-08-05 'type -t' exits with non-zero when undefined on older bash versions
+* e723abc9 2021-08-04 normalize to [[. we don't support old bash anymore
+* 2ad68e97 2021-08-04 source dev.inc.sh only once
+* 7872f3ef 2021-08-04 add sf_path_prepend_after and sf_path_append_before
+* 32e37e4d 2021-08-04 simplify, jq is always available
+* 3553ddb2 2021-08-04 add link to docs on GITHUB_TOKEN
+* 07f32c7f 2021-08-04 print out calls to fetch travis/github logs
+* 2d763c38 2021-08-04 exe function should leave stdout alone. enables piping scenarios like 'exe foo | jq'
+* 0200f48c 2021-08-04 github log api needs auth, otherwise replies 403
+* 855069f7 2021-08-04 make jq always available
+* 33317e8a 2021-08-04 apt-get: use -qq instead of -y (-y is implied by -qq) for less noise
+* 0a2f8651 2021-08-04 inline bin/github-checkout automatically
+* e3d651bd 2021-08-04 wsl: use Ubuntu-20.04 to circumvent hanging 'Checking init scripts'. fix #231
+* c07879be 2021-08-04 wsl: given issues with 'choco install wsl-ubuntu-*', use Vampire/setup-wsl action instead. see #231
+* 79701137 2021-08-04 Revert "try upgrading to ubuntu 20.04 on wsl, see if it can go passed 'Checking init scripts'. see #231"
+* 1102d853 2021-08-04 try upgrading to ubuntu 20.04 on wsl, see if it can go passed 'Checking init scripts'. see #231
+* 71d0fb34 2021-08-04 restore=stop xtrace in Dockerfile.build.sh
+* df693ee7 2021-08-04 default CI_JOB_ID to 0
+* 90cae8a6 2021-08-04 document wsl.conf
+* cc871bd9 2021-08-04 typo
+o 24a1b13e 2021-08-03 0.2.137
