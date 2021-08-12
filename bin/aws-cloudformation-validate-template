@@ -18,6 +18,11 @@ TEMPLATE_BODY_ARG=
 TEMPLATE_BODY=
 TEMPLATE_URL_PREFIX=
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,template-body:,template-url-prefix: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --template-body)

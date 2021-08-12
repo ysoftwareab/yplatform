@@ -34,6 +34,11 @@ CONST_FILE=${GIT_ROOT}/CONST.inc
 CONFIG_TPL_FILE=${GIT_ROOT}/aws-cli.config.tpl
 CREDENTIALS_TPL_FILE=${GIT_ROOT}/aws-cli.credentials.tpl
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,user:,const-file:,access-key-id:,secret-access-key:,config-tpl-file:,credentials-tpl-file: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --user)

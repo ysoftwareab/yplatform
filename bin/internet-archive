@@ -11,6 +11,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -h|--help)

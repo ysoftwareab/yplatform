@@ -29,6 +29,11 @@ TO=
     TO="#${SLACK_CHANNEL}"
 }
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hvf:i:t:w: -l help,version,from:,icon:,to:,webhook: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         -f|--from)

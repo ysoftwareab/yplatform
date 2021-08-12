@@ -28,6 +28,11 @@ VALUE=
 PORCELAIN=false
 SHOW_KEY=false
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,value:,porcelain,show-key,org,com,pro -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --value)

@@ -23,6 +23,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 SECURE=false
 WSLENV=false
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,secure,wslenv -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --secure)

@@ -19,6 +19,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 FOLDER_SIZE=
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,folder-size -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --folder-size)

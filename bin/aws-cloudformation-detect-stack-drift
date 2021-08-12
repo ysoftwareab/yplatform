@@ -17,6 +17,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 DRIFT_FILE=/dev/null
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,stack-name:,drift-file: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --stack-name)

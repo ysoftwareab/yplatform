@@ -36,6 +36,11 @@ PRERELEASE=false
 ASSETS=
 GH_TOKEN=
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,repo-slug:,tag:,target:,name:,body:,prerelease,asset:,token: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --repo-slug)

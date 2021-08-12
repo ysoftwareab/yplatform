@@ -52,6 +52,11 @@ export GIT_TRACE2=false
 export GIT_TRACE2_EVENT=false
 export GIT_TRACE2_PERF=false
 
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,curl::,fsmonitor,no-redact,packet,pack-access,performance,refs,setup,shallow,ssh::,trace,trace2,trace2-event,trace2-perf, -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage # editorconfig-checker-disable-line
+    eval set -- "${ARGS}"
+fi
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --curl)
