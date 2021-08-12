@@ -1,0 +1,14 @@
+support-firecloud v0.2.139 Release Notes
+
+Highlights since v0.2.138:
+
+* None
+
+Breaking commits since v0.2.138:
+
+* None
+
+Commits since v0.2.138:
+
+* 2b656133 2021-08-12 fixup! consistent naming
+o 2152448b 2021-08-12 0.2.138
