@@ -1,0 +1,14 @@
+support-firecloud v0.2.140 Release Notes
+
+Highlights since v0.2.139:
+
+* None
+
+Breaking commits since v0.2.139:
+
+* None
+
+Commits since v0.2.139:
+
+* 1ee61a17 2021-08-12 dockerfiles: homebrew-core's .git is huge and our git_dir_clean didn't cut it. try shallowing git repos
+o 4d0e87f6 2021-08-12 0.2.139
