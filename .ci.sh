@@ -9,7 +9,7 @@ export SF_CI_ECHO_BENCHMARK=${GIT_ROOT}/sf-ci-echo-benchmark
 GITHUB_JOB=${GITHUB_JOB:-main}
 
 case ${GITHUB_JOB} in
-    main-container*|deploy-container*)
+    mainc*|deployc*)
         source .ci.container.sh
         ;;
     main*)
