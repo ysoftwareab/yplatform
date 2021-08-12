@@ -8,14 +8,11 @@ function dir_clean() {
 
 function git_dir_clean() {
     du -hcs $1
-    (
-        cd $1
-        git reflog expire --expire=all --all
-        git tag -l | \
-            while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag -d "${NO_XARGS_R}"; done
-        git gc --prune=all
-        git clean -xdf .
-    )
+    git -C $1 clean -xdf
+    git -C $1 submodule foreach --recursive clean -xdf
+    git -C $1 reset --hard
+    git -C $1 submodule foreach --recursive reset --hard
+    ${SUPPORT_FIRECLOUD_DIR}/bin/git-shallow $1
     du -hcs $1
 }
 

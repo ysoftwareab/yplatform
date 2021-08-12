@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+TMP_GIT_SHALLOW=$(mktemp -d -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_GIT_SHALLOW}
+}
+trap on_exit EXIT
+
+# file:/// or else no shallow clone. see https://stackoverflow.com/a/40383231/465684
+git clone \
+    --depth 1 \
+    --branch $(git -C $1 rev-parse --abbrev-ref HEAD) \
+    --recurse-submodules \
+    --shallow-submodules \
+    file:///$1 ${TMP_GIT_SHALLOW}
+
+for f in HEAD modules objects packed-refs shallow; do
+    [[ -e ${TMP_GIT_SHALLOW}/.git/${f} ]] || continue
+    rm -rf ${1}/.git/${f}
+    cp -a ${TMP_GIT_SHALLOW}/.git/${f} ${1}/.git/${f}
+done
