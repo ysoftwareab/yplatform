@@ -95,6 +95,7 @@ function ci_run_deploy_docker_image() {
         echo_skip "Pushing to docker registries..."
         return 0
     }
+
     # don't push as 'latest' tag if the tag has been updated after the current commit
     local PUBLISH_AS_LATEST_TAG=false
     if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
