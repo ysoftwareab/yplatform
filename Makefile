@@ -48,6 +48,7 @@ SF_VENDOR_FILES_IGNORE += \
 SF_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
+	-e "^dockerfiles/build.FROM_DOCKER_IMAGE_TAG$$" \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^gitconfig/dot\.gitattributes_global$$" \

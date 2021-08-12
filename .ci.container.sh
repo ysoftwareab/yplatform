@@ -73,10 +73,15 @@ function ci_run_deploy_docker_image() {
     local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
-    [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
-        [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
-            DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
-    }
+    if [[ -f ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
+        FROM_DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
+        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+    else
+        [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
+            [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
+                DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+        }
+    fi
 
     local TIMESTAMP_LATEST=$(
         curl -qfsSL https://hub.docker.com/v2/repositories/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}/tags/latest | \
