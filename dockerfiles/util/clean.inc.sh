@@ -31,9 +31,7 @@ function git_dir_clean() {
 brew_cache_prune
 magic_cache_prune
 
-git_dir_clean /home/linuxbrew/.linuxbrew/Homebrew
-chown -R ${UNAME}:${GNAME} /home/linuxbrew/.linuxbrew/Homebrew
-for BREW_TAP in /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/*/*; do
-    git_dir_clean ${BREW_TAP}
-    chown -R ${UNAME}:${GNAME} ${BREW_TAP}
+for DIR in /home/linuxbrew/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/*/*; do
+    git_dir_clean ${DIR}
+    chown -R ${UNAME}:${GNAME} ${DIR}
 done
