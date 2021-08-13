@@ -6,10 +6,13 @@ let {
   artifactsStep,
   checkoutStep,
   ciShSteps,
-  env: commonEnv,
+  env: commonEnv
+} = require('./main-common');
+
+let {
   matrixOs,
   stage1Jobs
-} = require('./main-common');
+} = require('./main-matrix');
 
 let env = {
   ...commonEnv

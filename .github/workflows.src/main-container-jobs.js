@@ -6,10 +6,13 @@ let {
   artifactsStep,
   checkoutStep,
   ciShStepsDeploy,
-  env: commonEnv,
+  env: commonEnv
+} = require('./main-common');
+
+let {
   matrixContainer,
   stage2Jobs
-} = require('./main-common');
+} = require('./main-matrix');
 
 let env = {
   ...commonEnv,
