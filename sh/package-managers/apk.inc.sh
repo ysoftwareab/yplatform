@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function apk_cache_prune() {
+    echo_do "apk: Pruning cache..."
+    ${SF_SUDO:-} rm -rf /var/cache/apk/*
+    echo_done
+}
+
 function apk_update() {
     echo_do "apk: Updating..."
     ${SF_SUDO:-} apk update

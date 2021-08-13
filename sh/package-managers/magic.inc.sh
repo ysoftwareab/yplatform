@@ -18,6 +18,15 @@ function magic_package_manager() {
     fi
 }
 
+function magic_cache_prune() {
+    local PACKAGE_MANAGER=$(magic_package_manager)
+    echo_info "magic: Using ${PACKAGE_MANAGER}."
+
+    echo_do "magic: Pruning cache..."
+    ${PACKAGE_MANAGER}_cache_prune
+    echo_done
+}
+
 function magic_update() {
     local PACKAGE_MANAGER=$(magic_package_manager)
     echo_info "magic: Using ${PACKAGE_MANAGER}."

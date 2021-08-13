@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function apt_cache_prune() {
+    echo_do "apt: Pruning cache..."
+    ${SF_SUDO:-} apt-get clean
+    ${SF_SUDO:-} rm -rf /var/lib/apt/lists/*
+    echo_done
+}
+
 function apt_update() {
     echo_do "aptitude: Updating..."
     ${SF_SUDO:-} apt-get update -y --fix-missing 2>&1 || {

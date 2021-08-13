@@ -3,6 +3,13 @@ set -euo pipefail
 
 # FIXME this module hasn't been fully tested
 
+function yum_cache_prune() {
+    echo_do "yum: Pruning cache..."
+    ${SF_SUDO:-} yum clean all
+    ${SF_SUDO:-} rm -rf /var/cache/yum/*
+    echo_done
+}
+
 function yum_update() {
     echo_do "yum: Updating..."
     # see https://unix.stackexchange.com/a/372586/61053

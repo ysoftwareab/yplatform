@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function pacman_cache_prune() {
+    echo_do "pacman: Pruning cache..."
+    # ${SF_SUDO:-} pacman -Scc
+    ${SF_SUDO:-} pacman -Sc
+    ${SF_SUDO:-} rm -rf /var/cache/pacman/pkg/*
+    echo_done
+}
+
 # FIXME this module hasn't been fully tested
 
 function pacman_update() {
