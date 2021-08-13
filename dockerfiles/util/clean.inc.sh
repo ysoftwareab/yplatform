@@ -15,8 +15,8 @@ function git_dir_clean() {
         git reset --hard HEAD
         git submodule foreach --recursive git reset --hard HEAD
         git reflog expire --expire=now --all
-        git gc --aggressive --prune=now
     )
+    git gc --prune=now
     ${SUPPORT_FIRECLOUD_DIR}/bin/git-shallow $1
     du -hcs $1
 }
