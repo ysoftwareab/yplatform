@@ -10,11 +10,12 @@ function git_dir_clean() {
     du -hcs $1
     (
         cd $1
-        git clean -xdf
-        git reset --hard
-        git submodule update --init --recursive
-        git submodule foreach --recursive clean -xdf
-        git submodule foreach --recursive reset --hard
+        git clean -xdf .
+        git submodule foreach --recursive git clean -xdf .
+        git reset --hard HEAD
+        git submodule foreach --recursive git reset --hard HEAD
+        git reflog expire --expire=now --all
+        git gc --aggressive --prune=now
     )
     ${SUPPORT_FIRECLOUD_DIR}/bin/git-shallow $1
     du -hcs $1
