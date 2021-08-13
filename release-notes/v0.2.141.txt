@@ -1,0 +1,24 @@
+support-firecloud v0.2.141 Release Notes
+
+Highlights since v0.2.140:
+
+* None
+
+Breaking commits since v0.2.140:
+
+* None
+
+Commits since v0.2.140:
+
+* 60f4b25a 2021-08-13 verbose clean functions
+* 2ce50213 2021-08-13 git gc aggressive takes too long
+* c3009e3a 2021-08-13 dedupe
+* 019ca3d7 2021-08-13 add brew_cache_prune. merge brew's functions in sh/package-managers/brew.sh
+* dbb21fea 2021-08-13 add cache prune fun to package managers
+* 34bb6cf8 2021-08-13 split container jobs
+* 5dbdf445 2021-08-13 consistent naming
+* a59fc497 2021-08-13 split to main-matrix.js
+* f13d5968 2021-08-13 editorial
+* 9f8abcc1 2021-08-13 fixup! fixup! dockerfiles: homebrew-core's .git is huge and our git_dir_clean didn't cut it. try shallowing git repos
+* 72f12302 2021-08-13 fixup! dockerfiles: homebrew-core's .git is huge and our git_dir_clean didn't cut it. try shallowing git repos
+o ae6923d6 2021-08-12 0.2.140
