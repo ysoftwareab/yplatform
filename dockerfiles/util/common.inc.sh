@@ -13,6 +13,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/core.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/exe.inc.sh
 
+source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/brew.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/magic.inc.sh
 if command -v apt-get >/dev/null 2>&1; then
     source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh

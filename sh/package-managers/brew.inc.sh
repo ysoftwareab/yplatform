@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function brew_cache_prune() {
+    echo_do "brew: Pruning cache..."
+    ${SF_SUDO:-} rm -rf "$(brew --cache)"
+    echo_done
+}
+
 function brew_install_one_patched() {
     local FORMULA="$*"
 
@@ -133,4 +139,13 @@ function brew_install_one_if() {
         >&2 exe_debug "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
+}
+
+function brew_update() {
+    echo_do "brew: Updating..."
+    # 'brew update' is currently flaky, resulting in 'transfer closed with outstanding read data remaining'
+    # see https://github.com/Homebrew/homebrew-core/issues/61772
+    brew update >/dev/null || brew update --verbose
+    brew outdated
+    echo_done
 }
