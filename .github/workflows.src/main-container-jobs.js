@@ -31,7 +31,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  let name = 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
+  let name = 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
   jobs[`mainc-${nameSuffix}`] = {
     needs: stage2Jobs,
     'timeout-minutes': 30,
@@ -63,7 +63,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     ]
   };
 
-  name = 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
+  name = 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
   jobs[`deployc-minimal-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `mainc-${nameSuffix}`,
@@ -94,7 +94,7 @@ let makeContainerJobs = function(matrixContainer, nameSuffix) {
     ]
   };
 
-  name = 'deployc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
+  name = 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
   jobs[`deployc-common-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
     needs: `deployc-minimal-${nameSuffix}`,
