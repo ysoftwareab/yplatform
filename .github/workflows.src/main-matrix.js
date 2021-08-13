@@ -44,11 +44,22 @@ let stage1Jobs = [
 ];
 
 let stage2Jobs = _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
-  // ignore windows, because it is very very very slow
-  if (nameSuffix === 'windows') {
-    return needs;
-  }
   needs.push(`main-${nameSuffix}`);
+  return needs;
+}, []);
+
+let stage3Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+  needs.push(`mainc-${nameSuffix}`);
+  return needs;
+}, []);
+
+let stage4Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+  needs.push(`deployc-minimal-${nameSuffix}`);
+  return needs;
+}, []);
+
+let stage5Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+  needs.push(`deployc-common-${nameSuffix}`);
   return needs;
 }, []);
 
@@ -56,5 +67,8 @@ module.exports = {
   matrixContainer,
   matrixOs,
   stage1Jobs,
-  stage2Jobs
+  stage2Jobs,
+  stage3Jobs,
+  stage4Jobs,
+  stage5Jobs
 };
