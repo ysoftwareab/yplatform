@@ -7,10 +7,20 @@ function on_exit() {
 }
 trap on_exit EXIT
 
+GIT_REF=$(git -C $1 rev-parse --abbrev-ref HEAD)
+[[ "${GIT_REF}" != "HEAD" ]] || {
+    # attach temporarily
+    echo >&2 "[INFO] Creating temporary branch sf-git-shallow."
+    git -C $1 checkout -B sf-git-shallow
+    GIT_REF=$(git -C $1 rev-parse --abbrev-ref HEAD)
+    [[ "${GIT_REF}" = "sf-git-shallow" ]]
+}
+
+echo >&2 "[INFO] Shallow-cloning branch/tag ${GIT_REF}."
 # file:/// or else no shallow clone. see https://stackoverflow.com/a/40383231/465684
 git clone \
     --depth 1 \
-    --branch $(git -C $1 rev-parse --abbrev-ref HEAD) \
+    --branch ${GIT_REF} \
     --recurse-submodules \
     --shallow-submodules \
     file:///$1 ${TMP_GIT_SHALLOW}
@@ -20,3 +30,12 @@ for f in HEAD modules objects packed-refs shallow; do
     rm -rf ${1}/.git/${f}
     cp -a ${TMP_GIT_SHALLOW}/.git/${f} ${1}/.git/${f}
 done
+
+[[ "${GIT_REF}" != "sf-git-shallow" ]] || {
+    # detach again
+    echo >&2 "[INFO] Deattach from sf-git-shallow."
+    GIT_REF=sf-git-shallow
+    git -C $1 checkout $(git -C $1 rev-parse HEAD)
+    git -C $1 branch -D ${GIT_REF}
+    git -C $1 branch -r -D origin/${GIT_REF}
+}
