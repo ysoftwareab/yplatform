@@ -1,0 +1,14 @@
+support-firecloud v0.2.142 Release Notes
+
+Highlights since v0.2.141:
+
+* None
+
+Breaking commits since v0.2.141:
+
+* None
+
+Commits since v0.2.141:
+
+* 531206bf 2021-08-14 git-shallow: handle dettached checkouts
+o ce4eb82a 2021-08-14 0.2.141
