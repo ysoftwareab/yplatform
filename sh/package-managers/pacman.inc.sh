@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function pacman_list_installed() {
+    echo_do "pacman: Listing packages..."
+    ${SF_SUDO:-} pacman -Q
+    echo_done
+}
+
 function pacman_cache_prune() {
     echo_do "pacman: Pruning cache..."
     # ${SF_SUDO:-} pacman -Scc

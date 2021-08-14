@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function apt_list_installed() {
+    echo_do "aptitude: Listing packages..."
+    ${SF_SUDO:-} apt list --installed
+    echo_done
+}
+
 function apt_cache_prune() {
     echo_do "apt: Pruning cache..."
     ${SF_SUDO:-} apt-get clean

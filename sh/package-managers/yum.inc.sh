@@ -3,6 +3,12 @@ set -euo pipefail
 
 # FIXME this module hasn't been fully tested
 
+function yum_list_installed() {
+    echo_do "yum: Listing packages..."
+    ${SF_SUDO:-} yum list installed
+    echo_done
+}
+
 function yum_cache_prune() {
     echo_do "yum: Pruning cache..."
     ${SF_SUDO:-} yum clean all

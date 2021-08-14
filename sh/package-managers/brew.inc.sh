@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function brew_list_installed() {
+    echo_do "brew: Listing packages..."
+    brew list --versions
+    echo_done
+}
 function brew_cache_prune() {
     echo_do "brew: Pruning cache..."
     ${SF_SUDO:-} rm -rf "$(brew --cache)"

@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+function apk_list_installed() {
+    echo_do "apk: Listing packages..."
+    ${SF_SUDO:-} apk list --installed
+    echo_done
+}
+
 function apk_cache_prune() {
     echo_do "apk: Pruning cache..."
-    ${SF_SUDO:-} rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/*
     echo_done
 }
 

@@ -38,6 +38,4 @@ pacman_install_one util-linux
 
 pacman_install_one python3
 
-echo_do "pacman: Listing packages..."
-pacman -Q
-echo_done
+pacman_list_installed
