@@ -18,7 +18,7 @@ function on_exit() {
 trap on_exit EXIT
 
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(/usr/bin/getopt -o hv -l help,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o hv -l help,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
