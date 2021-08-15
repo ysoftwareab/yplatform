@@ -39,31 +39,43 @@ let matrixContainer = {
   ]
 };
 
-let stage1Jobs = [
-  'main-ubuntu'
-];
+let jobRefs = {};
 
-let stage2Jobs = _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
+jobRefs.main = _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
   needs.push(`main-${nameSuffix}`);
   return needs;
 }, []);
 
-let stage3Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+jobRefs.mainc = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
   needs.push(`mainc-${nameSuffix}`);
   return needs;
 }, []);
 
-let stage4Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+jobRefs.deploycMinimal = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
   needs.push(`deployc-minimal-${nameSuffix}`);
   return needs;
 }, []);
 
-let stage5Jobs = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
+jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
   needs.push(`deployc-common-${nameSuffix}`);
   return needs;
 }, []);
 
+
+let stage1Jobs = [
+  'main-ubuntu'
+];
+
+let stage2Jobs = jobRefs.main;
+
+let stage3Jobs = jobRefs.mainc;
+
+let stage4Jobs = jobRefs.deploycMinimal;
+
+let stage5Jobs = jobRefs.deploycCommon;
+
 module.exports = {
+  jobRefs,
   matrixContainer,
   matrixOs,
   stage1Jobs,
