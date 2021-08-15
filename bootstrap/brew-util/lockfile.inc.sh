@@ -25,9 +25,9 @@ function brew_lockfile() {
         echo_info "Unshallow after ${BREW_SHALLOW_SINCE}."
         git -C "$(brew --prefix)/Homebrew" fetch --tags
         if [[ "${CI:-}" = "true" ]]; then
-            git -C "$(brew --prefix)/Homebrew" fetch
-        else
             git -C "$(brew --prefix)/Homebrew" fetch --shallow-since "${BREW_SHALLOW_SINCE}"
+        else
+            git -C "$(brew --prefix)/Homebrew" fetch
         fi
         git -C "$(brew --prefix)/Homebrew" reset --hard "${BREW_TO}"
         echo_info "Reset Homebrew"
