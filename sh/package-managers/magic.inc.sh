@@ -20,27 +20,21 @@ function magic_package_manager() {
 
 function magic_list_installled() {
     local PACKAGE_MANAGER=$(magic_package_manager)
-    echo_info "magic: Using ${PACKAGE_MANAGER}."
-
-    echo_do "magic: Listing packages..."
+    echo_do "magic: Listing packages using ${PACKAGE_MANAGER}..."
     ${PACKAGE_MANAGER}_list_installed
     echo_done
 }
 
 function magic_cache_prune() {
     local PACKAGE_MANAGER=$(magic_package_manager)
-    echo_info "magic: Using ${PACKAGE_MANAGER}."
-
-    echo_do "magic: Pruning cache..."
+    echo_do "magic: Pruning cache using ${PACKAGE_MANAGER}..."
     ${PACKAGE_MANAGER}_cache_prune
     echo_done
 }
 
 function magic_update() {
     local PACKAGE_MANAGER=$(magic_package_manager)
-    echo_info "magic: Using ${PACKAGE_MANAGER}."
-
-    echo_do "magic: Updating..."
+    echo_do "magic: Updating using ${PACKAGE_MANAGER}..."
     ${PACKAGE_MANAGER}_update
     echo_done
 }
@@ -69,8 +63,6 @@ function magic_map_package_name() {
 # expects package name for 'brew', and maps to corresponding alternatives
 function magic_install_one() {
     local PACKAGE_MANAGER=$(magic_package_manager)
-    echo_info "magic: Using ${PACKAGE_MANAGER}."
-
     local PKG="$1"
     # PKG may contain version 'name@version'
     local NAME=$(echo "${PKG}" | cut -d"@" -f1)
@@ -78,7 +70,7 @@ function magic_install_one() {
 
     NAME_SUFFIX="$(echo "${NAME}" | tr "[:lower:]" "[:upper:]" | sed "s/[^A-Z0-9]\{1,\}/_/g" | sed "s/^_//" | sed "s/_$//")" # editorconfig-checker-disable-line
 
-    echo_do "magic: Installing ${PKG}..."
+    echo_do "magic: Installing ${PKG} using ${PACKAGE_MANAGER}..."
     if [[ "$(type -t "magic_install_${NAME_SUFFIX}" || true)" = "function" ]]; then
         eval "magic_install_${NAME_SUFFIX} '${PACKAGE_MANAGER}' '${VSN}'"
     else
@@ -90,12 +82,13 @@ function magic_install_one() {
 }
 
 function magic_install_one_if() {
+    local PACKAGE_MANAGER=$(magic_package_manager)
     local PKG="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
 
     if exe_and_grep_q "$@"; then
-        echo_skip "magic: Installing ${PKG}..."
+        echo_skip "magic: Installing ${PKG} using ${PACKAGE_MANAGER}..."
     else
         magic_install_one "${PKG}"
         >&2 exe_debug "${EXECUTABLE}"
