@@ -7,35 +7,48 @@ function on_exit() {
 }
 trap on_exit EXIT
 
-GIT_REF=$(git -C $1 rev-parse --abbrev-ref HEAD)
-[[ "${GIT_REF}" != "HEAD" ]] || {
+GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
+GIT_TAG=
+[[ -n "${GIT_BRANCH#HEAD}" ]] || {
+    GIT_TAG=$(git -C $1 tag -l --points-at HEAD | head -1)
+    GIT_BRANCH="${GIT_TAG}"
+}
+[[ -n "${GIT_BRANCH#HEAD}" ]] || {
     # attach temporarily
     echo >&2 "[INFO] Creating temporary branch sf-git-shallow."
     git -C $1 checkout -B sf-git-shallow
-    GIT_REF=$(git -C $1 rev-parse --abbrev-ref HEAD)
-    [[ "${GIT_REF}" = "sf-git-shallow" ]]
+    GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
+    [[ "${GIT_BRANCH}" = "sf-git-shallow" ]]
 }
 
-echo >&2 "[INFO] Shallow-cloning branch/tag ${GIT_REF}."
+echo >&2 "[INFO] Shallow-cloning branch/tag ${GIT_BRANCH}."
 # file:/// or else no shallow clone. see https://stackoverflow.com/a/40383231/465684
 git clone \
     --depth 1 \
-    --branch ${GIT_REF} \
+    --branch ${GIT_BRANCH} \
     --recurse-submodules \
     --shallow-submodules \
     file:///$1 ${TMP_GIT_SHALLOW}
 
-for f in HEAD modules objects packed-refs shallow; do
-    [[ -e ${TMP_GIT_SHALLOW}/.git/${f} ]] || continue
-    rm -rf ${1}/.git/${f}
-    cp -a ${TMP_GIT_SHALLOW}/.git/${f} ${1}/.git/${f}
-done
+git -C ${TMP_GIT_SHALLOW} remote set-url origin "$(git -C $1 remote get-url origin)"
+git -C ${TMP_GIT_SHALLOW} pack-refs
+rm -rf ${TMP_GIT_SHALLOW}/.git/refs/remotes
 
-[[ "${GIT_REF}" != "sf-git-shallow" ]] || {
+rm -rf ${1}/.git
+mv ${TMP_GIT_SHALLOW}/.git ${1}/
+
+if [[ "${GIT_BRANCH}" != "sf-git-shallow" ]]; then
+    if [[ -n "${GIT_TAG}" ]]; then
+        git -C $1 config remote.origin.fetch "+refs/tags/${GIT_TAG}:refs/tags/${GIT_TAG}"
+    else
+        git -C $1 config remote.origin.fetch "+refs/heads/${GIT_BRANCH}:refs/remotes/origin/${GIT_BRANCH}"
+    fi
+else
+    git -C $1 config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     # detach again
     echo >&2 "[INFO] Deattach from sf-git-shallow."
-    GIT_REF=sf-git-shallow
+    GIT_BRANCH=sf-git-shallow
     git -C $1 checkout $(git -C $1 rev-parse HEAD)
-    git -C $1 branch -D ${GIT_REF}
-    git -C $1 branch -r -D origin/${GIT_REF}
-}
+    git -C $1 branch -D ${GIT_BRANCH}
+    git -C $1 branch -r -D origin/${GIT_BRANCH}
+fi
