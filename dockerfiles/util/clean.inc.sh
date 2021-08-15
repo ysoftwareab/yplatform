@@ -36,9 +36,9 @@ function git_dir_clean() {
 )
 
 brew_cache_prune
-# TODO brew_cache_prune above doesn't seem to work
-dir_clean /home/${UNAME}/.cache/* || true # homebrew cache
 magic_cache_prune
+dir_clean ${HOME}/.cache/* || true # misc cache for root
+dir_clean /home/${UNAME}/.cache/* || true # misc cache for sf user
 
 for DIR in /home/linuxbrew/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/*/*; do
     git_dir_clean ${DIR}
