@@ -21,6 +21,17 @@ echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 
 # POST-BOOTSTRAP
+[[ -e /home/${UNAME}/.bashrc ]] || cat <<EOF >> /home/${UNAME}/.bashrc
+# If not running interactively, don't do anything
+[[ $- = *i* ]] || return
+EOF
+cat /home/${UNAME}/.bashrc | grep -q "\.bash_aliases" || cat <<EOF >> /home/${UNAME}/.bashrc
+# ~/.bash_aliases, instead of adding them here directly.
+# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+[[ ! -f ~/.bash_aliases ]] || . ~/.bash_aliases
+EOF
+chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bashrc
+
 cat <<EOF >> /home/${UNAME}/.bash_aliases
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/env.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/dev.inc.sh
