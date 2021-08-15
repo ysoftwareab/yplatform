@@ -1,0 +1,17 @@
+support-firecloud v0.2.144 Release Notes
+
+Highlights since v0.2.143:
+
+* None
+
+Breaking commits since v0.2.143:
+
+* None
+
+Commits since v0.2.143:
+
+* dde5218e 2021-08-15 try to piggyback on ci-echo's benchmark from within the 'docker build' command based on file marker
+* 7632593e 2021-08-15 git-shallow: follow closer the result of a remote git clone
+* 1a689fda 2021-08-15 fixup! shallow homebrew only in CI
+* 5cf9a49f 2021-08-15 github-workflow: add a deployc smoke job
+o c00fe006 2021-08-15 0.2.143
