@@ -3,11 +3,15 @@
 let _ = require('lodash-firecloud');
 
 let matrixOs = {
+  smoke: [
+    'ubuntu-20.04'
+  ],
   ubuntu: [
     // deprecated in https://github.com/actions/virtual-environments/issues/3287
     // "ubuntu-16.04",
-    'ubuntu-18.04',
-    'ubuntu-20.04'
+    'ubuntu-18.04'
+    // part of 'smoke'
+    // 'ubuntu-20.04'
   ],
   macos: [
     'macos-10.15',
@@ -19,6 +23,9 @@ let matrixOs = {
 };
 
 let matrixContainer = {
+  smoke: [
+    'sf-ubuntu-20.04'
+  ],
   arch: [
     'sf-arch-0'
   ],
@@ -34,8 +41,9 @@ let matrixContainer = {
   ],
   ubuntu: [
     'sf-ubuntu-16.04',
-    'sf-ubuntu-18.04',
-    'sf-ubuntu-20.04'
+    'sf-ubuntu-18.04'
+    // part of 'smoke'
+    // 'sf-ubuntu-20.04'
   ]
 };
 
@@ -62,8 +70,8 @@ jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, name
 }, []);
 
 jobRefs.smokeMain = [
-  'main-ubuntu',
-  'mainc-ubuntu'
+  'main-smoke',
+  'mainc-smoke'
 ];
 
 jobRefs.smokeMainc = _.concat(jobRefs.smokeMain, jobRefs.main);
