@@ -10,6 +10,7 @@ let {
 } = require('./main-common');
 
 let {
+  jobRefs,
   matrixContainer
 } = require('./main-matrix');
 
@@ -33,7 +34,15 @@ let makeJobs = function(matrixContainer, nameSuffix) {
   let name = 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
   jobs[`deployc-minimal-${nameSuffix}`] = {
     if: "startsWith(github.ref, 'refs/tags/')",
-    needs: `mainc-${nameSuffix}`,
+    needs: _.concat(
+      [
+        `mainc-${nameSuffix}`
+      ],
+      _.isEmpty(_.intersection(jobRefs.smokeDeploycMinimal, [
+        `deployc-minimal-${nameSuffix}`,
+        `deployc-common-${nameSuffix}`
+      ])) ? jobRefs.smokeDeploycMinimal : []
+    ),
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

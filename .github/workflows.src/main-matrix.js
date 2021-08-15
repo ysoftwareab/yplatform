@@ -78,6 +78,10 @@ jobRefs.smokeMainc = _.concat(jobRefs.smokeMain, jobRefs.main);
 // ignore windows, because it is very very very slow
 jobRefs.smokeMainc = _.without(jobRefs.smokeMainc, 'main-windows');
 
+jobRefs.smokeDeploycMinimal = [
+  'deployc-common-smoke'
+];
+
 module.exports = {
   jobRefs,
   matrixContainer,
