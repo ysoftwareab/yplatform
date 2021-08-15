@@ -17,6 +17,7 @@ concurrency:
   cancel-in-progress: true
 jobs:
   main-ubuntu:
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false

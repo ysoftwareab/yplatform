@@ -61,26 +61,15 @@ jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, name
   return jobRefs;
 }, []);
 
-
-let stage1Jobs = [
+jobRefs.smokeMain = [
   'main-ubuntu'
 ];
 
-let stage2Jobs = jobRefs.main;
-
-let stage3Jobs = jobRefs.mainc;
-
-let stage4Jobs = jobRefs.deploycMinimal;
-
-let stage5Jobs = jobRefs.deploycCommon;
+// ignore windows, because it is very very very slow
+jobRefs.smokeMainc = _.without(jobRefs.main, 'main-windows');
 
 module.exports = {
   jobRefs,
   matrixContainer,
-  matrixOs,
-  stage1Jobs,
-  stage2Jobs,
-  stage3Jobs,
-  stage4Jobs,
-  stage5Jobs
+  matrixOs
 };

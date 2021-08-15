@@ -10,8 +10,8 @@ let {
 } = require('./main-common');
 
 let {
-  matrixContainer,
-  stage2Jobs
+  jobRefs,
+  matrixContainer
 } = require('./main-matrix');
 
 let env = {
@@ -33,8 +33,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
 
   let name = 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`mainc-${nameSuffix}`] = {
-    // ignore windows, because it is very very very slow
-    needs: _.without(stage2Jobs, 'main-windows'),
+    needs: jobRefs.smokeMainc,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

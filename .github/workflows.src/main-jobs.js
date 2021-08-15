@@ -10,8 +10,8 @@ let {
 } = require('./main-common');
 
 let {
-  matrixOs,
-  stage1Jobs
+  jobRefs,
+  matrixOs
 } = require('./main-matrix');
 
 let env = {
@@ -83,7 +83,7 @@ let jobs = {};
 let makeJobsWindows = function(matrixOs, nameSuffix) {
   let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
-    needs: stage1Jobs,
+    needs: jobRefs.smokeMain,
     'timeout-minutes': 60,
     strategy: {
       'fail-fast': false,
@@ -137,7 +137,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
 
   let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
-    needs: _.includes(stage1Jobs, `main-${nameSuffix}`) ? undefined : stage1Jobs,
+    needs: _.without(jobRefs.smokeMain, `main-${nameSuffix}`),
     // some macos agents simply have lower I/O rates and take longer
     // see https://github.com/actions/virtual-environments/issues/3885
     // see https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343
