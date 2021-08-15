@@ -137,7 +137,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
 
   let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
-    needs: _.without(jobRefs.smokeMain, `main-${nameSuffix}`),
+    needs: _.includes(jobRefs.smokeMain, `main-${nameSuffix}`) ? [] : jobRefs.smokeMain,
     // some macos agents simply have lower I/O rates and take longer
     // see https://github.com/actions/virtual-environments/issues/3885
     // see https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343

@@ -62,11 +62,13 @@ jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, name
 }, []);
 
 jobRefs.smokeMain = [
-  'main-ubuntu'
+  'main-ubuntu',
+  'mainc-ubuntu'
 ];
 
+jobRefs.smokeMainc = _.concat(jobRefs.smokeMain, jobRefs.main);
 // ignore windows, because it is very very very slow
-jobRefs.smokeMainc = _.without(jobRefs.main, 'main-windows');
+jobRefs.smokeMainc = _.without(jobRefs.smokeMainc, 'main-windows');
 
 module.exports = {
   jobRefs,

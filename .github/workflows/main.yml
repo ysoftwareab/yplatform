@@ -141,6 +141,7 @@ jobs:
   main-macos:
     needs:
       - main-ubuntu
+      - mainc-ubuntu
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -264,6 +265,7 @@ jobs:
   main-windows:
     needs:
       - main-ubuntu
+      - mainc-ubuntu
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -417,6 +419,8 @@ jobs:
   mainc-arch:
     needs:
       - main-ubuntu
+      - mainc-ubuntu
+      - main-ubuntu
       - main-macos
     timeout-minutes: 30
     strategy:
@@ -526,6 +530,8 @@ jobs:
           retention-days: 7
   mainc-alpine:
     needs:
+      - main-ubuntu
+      - mainc-ubuntu
       - main-ubuntu
       - main-macos
     timeout-minutes: 30
@@ -637,6 +643,8 @@ jobs:
   mainc-centos:
     needs:
       - main-ubuntu
+      - mainc-ubuntu
+      - main-ubuntu
       - main-macos
     timeout-minutes: 30
     strategy:
@@ -747,6 +755,8 @@ jobs:
   mainc-debian:
     needs:
       - main-ubuntu
+      - mainc-ubuntu
+      - main-ubuntu
       - main-macos
     timeout-minutes: 30
     strategy:
@@ -856,9 +866,7 @@ jobs:
             log.sh-session
           retention-days: 7
   mainc-ubuntu:
-    needs:
-      - main-ubuntu
-      - main-macos
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false

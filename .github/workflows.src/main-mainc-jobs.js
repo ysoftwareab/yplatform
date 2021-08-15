@@ -33,7 +33,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
 
   let name = 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`mainc-${nameSuffix}`] = {
-    needs: jobRefs.smokeMainc,
+    needs: _.includes(jobRefs.smokeMainc, `mainc-${nameSuffix}`) ? [] : jobRefs.smokeMainc,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
