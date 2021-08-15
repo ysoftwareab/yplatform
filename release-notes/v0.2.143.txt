@@ -1,0 +1,27 @@
+support-firecloud v0.2.143 Release Notes
+
+Highlights since v0.2.142:
+
+* None
+
+Breaking commits since v0.2.142:
+
+* None
+
+Commits since v0.2.142:
+
+* 190e04d6 2021-08-15 github-workflow: define smoke jobs separately
+* e1571e92 2021-08-15 github-workflow: add mainc-ubuntu as smoke job
+* e4e33967 2021-08-15 github-workflow: refactor
+* 0daf55d7 2021-08-15 github-workflow: naming
+* 5b04d84c 2021-08-15 github-workflow: refactor
+* b03df89e 2021-08-15 less noise
+* e1bab5b4 2021-08-15 split to git_dir_shallow function
+* 3ddd7718 2021-08-15 make sure echo_done gets called
+* e582be53 2021-08-15 clarify that clean.inc.sh runs under root user
+* c9ffe9a2 2021-08-15 some distros have no ~/.bashrc, or don't source ~/.bash_aliases
+* 873aa4bc 2021-08-15 dedupe
+* b3850b02 2021-08-14 fixup! fixup! try out getopt. see #227
+* 2d061d4b 2021-08-14 fixup! add brew_cache_prune. merge brew's functions in sh/package-managers/brew.sh
+* 0b645070 2021-08-14 package-managers: add *_list_installed function
+o 28716ede 2021-08-14 0.2.142
