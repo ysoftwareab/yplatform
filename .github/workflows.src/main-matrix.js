@@ -41,24 +41,24 @@ let matrixContainer = {
 
 let jobRefs = {};
 
-jobRefs.main = _.reduce(_.keys(matrixOs), function(needs, nameSuffix) {
-  needs.push(`main-${nameSuffix}`);
-  return needs;
+jobRefs.main = _.reduce(_.keys(matrixOs), function(jobRefs, nameSuffix) {
+  jobRefs.push(`main-${nameSuffix}`);
+  return jobRefs;
 }, []);
 
-jobRefs.mainc = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
-  needs.push(`mainc-${nameSuffix}`);
-  return needs;
+jobRefs.mainc = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
+  jobRefs.push(`mainc-${nameSuffix}`);
+  return jobRefs;
 }, []);
 
-jobRefs.deploycMinimal = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
-  needs.push(`deployc-minimal-${nameSuffix}`);
-  return needs;
+jobRefs.deploycMinimal = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
+  jobRefs.push(`deployc-minimal-${nameSuffix}`);
+  return jobRefs;
 }, []);
 
-jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(needs, nameSuffix) {
-  needs.push(`deployc-common-${nameSuffix}`);
-  return needs;
+jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
+  jobRefs.push(`deployc-common-${nameSuffix}`);
+  return jobRefs;
 }, []);
 
 
