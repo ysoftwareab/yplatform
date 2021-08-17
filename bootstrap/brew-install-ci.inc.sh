@@ -26,7 +26,8 @@ echo_do "brew: Installing CI packages..."
 brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 4\."
 brew_install_one_if git "git --version | head -1" "^git version 2\."
 brew_install_one_if jq "jq --version | head -1" "^jq-1\."
-brew_install_one_if screenfetch "screenfetch --version | head -1" "^screenFetch - Version 3\."
+brew_install_one_if screenfetch \
+    "screenfetch --version | sed \"s/\x1b\[[0-9;]*m//g\" | head -1" "^screenFetch - Version 3\."
 brew_install_one_if tmate "tmate -V | head -1" "^tmate 2\."
 brew_install_one_if zile "zile --version | head -1" "^GNU Zile 2\."
 
