@@ -1,0 +1,17 @@
+support-firecloud v0.2.146 Release Notes
+
+Highlights since v0.2.145:
+
+* None
+
+Breaking commits since v0.2.145:
+
+* None
+
+Commits since v0.2.145:
+
+* 8053d7c7 2021-08-18 fixup! 'screenfetch --version' outputs ansi escape codes
+* 024504d6 2021-08-18 bootstrap: add nq to minimal. fix #225
+* 7645305a 2021-08-17 bootstrap: remove zile from ci
+* 0761c53c 2021-08-17 fix wrong echo level
+o b787aa77 2021-08-17 0.2.145
