@@ -30,10 +30,10 @@ echo_done
         find /usr/local/bin -type l -print0 | \
             xargs -0 stat -f "%N %Y" | \
             grep "/Library/Frameworks/Python\.framework" | \
-            cut -d" " -f1 | while read -r PYTHON2_BIN; do
-            ${SF_SUDO} rm -rf ${PYTHON2_BIN}
-        done
-        unset PYTHON2_BIN
+            cut -d" " -f1 | while read -r NO_XARGS_R; do
+                [[ -n "${NO_XARGS_R}" ]] || continue;
+                ${SF_SUDO} rm -rf ${NO_XARGS_R}
+            done
         set +x
         echo_done
     }
