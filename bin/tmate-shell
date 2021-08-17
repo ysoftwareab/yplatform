@@ -8,11 +8,19 @@ echo_info "Install 'tmate' via 'brew install tmate'."
 TMP_TMATE_SOCKET=$(mktemp -t firecloud.XXXXXXXXXX)
 echo_info "tmate socket: ${TMP_TMATE_SOCKET}"
 
-#	TODO Uncertain if tmate works without a pre-existing ~/.ssh/id_rsa
-#	mkdir -p ${HOME}/.ssh
-#	[[ -e ${HOME}/.ssh/id_rsa ]] || ssh-keygen -q -t rsa -b 4096 -N "" -f ${HOME}/.ssh/id_rsa
+AUTHENTICATED_KEYS=${1:-}
+AUTHENTICATED_KEYS_ARG="-a ${AUTHENTICATED_KEYS}"
+[[ -n "${AUTHENTICATED_KEYS}" ]] || {
+    AUTHENTICATED_KEYS_ARG=
+    echo_warn "No authenticated keys given, thus this session is unrestricted."
+    echo_warn "Consider running"
+    echo_info "mkdir -p ${HOME}/.ssh; chmod 700 ${HOME}/.ssh; ssh-keygen -q -t rsa -b 4096 -N "" -f ${HOME}/.ssh/id_rsa"
+    echo_info "and calling 'tmate-shell ${HOME}/.ssh/id_rsa.pub' instead."
+}
+echo_info "authenticated keys: ${AUTHENTICATED_KEYS:-none}"
+
 rm -rf ${TMP_TMATE_SOCKET}
-tmate -S ${TMP_TMATE_SOCKET} new-session -d "${SHELL} -l"
+exe tmate -S ${TMP_TMATE_SOCKET} ${AUTHENTICATED_KEYS_ARG} new-session -d "${SHELL} -l"
 tmate -S ${TMP_TMATE_SOCKET} wait tmate-ready
 
 while test -e ${TMP_TMATE_SOCKET} && tmate -S ${TMP_TMATE_SOCKET} has-session; do
