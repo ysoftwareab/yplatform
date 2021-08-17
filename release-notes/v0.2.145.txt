@@ -1,0 +1,26 @@
+support-firecloud v0.2.145 Release Notes
+
+Highlights since v0.2.144:
+
+* None
+
+Breaking commits since v0.2.144:
+
+* None
+
+Commits since v0.2.144:
+
+* 121ed4b4 2021-08-17 add SF_TMATE_AUTH, defaulting to GITHUB_ACTOR's public ssh keys
+* 790e7bf5 2021-08-17 tmate-shell: handle authenticated sessions, increase verbosity
+* a9250223 2021-08-17 dockerfiles: fix permissions to ~/.ssh
+* 048a6f89 2021-08-17 sponge: more verbose on chown/chmod failures
+* 2f373bcb 2021-08-17 no heredoc expansion unless necessary
+* 0b7d3621 2021-08-17 less secure tmate due to bug in api rate limiting
+* 4a308b3a 2021-08-17 'screenfetch --version' outputs ansi escape codes
+* d853a69c 2021-08-17 reveal GITHUB_TOKEN to tmate action to escape api rate limits
+* d8aff842 2021-08-17 github: clean macos agents of python2 asap
+* 98a099e4 2021-08-17 use canonical xargs -r
+* ce475065 2021-08-17 switch neofetch for screenfetch. neofetch has lots of deps
+* 297fd963 2021-08-17 add tmate workflow for debugging purposes
+* 5ba0bf6e 2021-08-16 shells should not have 'set -euo pipefail'
+o 64d8984e 2021-08-15 0.2.144
