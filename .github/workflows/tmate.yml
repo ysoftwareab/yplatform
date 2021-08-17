@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 30
     name: 'main-${{ github.event.inputs.runs-on }}'
     runs-on: '${{ github.event.inputs.runs-on }}'
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     steps:
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
