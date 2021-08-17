@@ -108,6 +108,12 @@ Here's a list of the environment variables that customize the code execution:
   * `SF_DOCKER_CI_SERVER`
     * customizes the identity server for `docker login`
 
+* **DEBUG**
+  * `SF_TMATE_AUTH`
+    * a path to a `~/.ssh/authorized_keys` file (i.e. one public key per line)
+    * restricts who can access the tmate session triggered by a `[debug ci]` commit
+    * set to `none` if you don't want to restrict and have an insecure session
+
 
 ## Phases
 

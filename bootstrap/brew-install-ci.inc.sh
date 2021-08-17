@@ -43,6 +43,35 @@ echo_done
 if git log -1 --format="%B" | grep -q "\[debug ci\]"; then
     echo_info "Detected '[debug ci]' marker in git commit message."
     echo_info "Starting a tmate session and exiting"
-    ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+
+    [[ -n ${SF_TMATE_AUTH:-} ]] || [[ ! -f ${GIT_ROOT}/.tmate.authorized_keys ]] || {
+        SF_TMATE_AUTH=${GIT_ROOT}/.tmate.authorized_keys
+    }
+
+    [[ -n ${SF_TMATE_AUTH:-} ]] || [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+        echo_info "Session will be restricted to GITHUB_ACTOR=${GITHUB_ACTOR}."
+        # default to github actor's public ssh keys
+        SF_TMATE_AUTH=$(mktemp -t firecloud.XXXXXXXXXX)
+        exe curl -qfsSL \
+            -H "accept: application/vnd.github.v3+json" \
+            -H "authorization: token ${SF_GH_TOKEN_DEPLOY}" \
+            https://api.github.com/users/${GITHUB_ACTOR}/keys | \
+            jq -r ".[].key" > ${SF_TMATE_AUTH}
+    }
+
+    if [[ "${SF_TMATE_AUTH:-}" = "none" ]]; then
+        echo_warn "Session will be unrestricted due to SF_TMATE_AUTH=${SF_TMATE_AUTH}."
+        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+    elif [[ "${SF_DOCKER:-}" = "true" ]]; then
+        echo_warn "Session will be unrestricted due to SF_DOCKER=${SF_DOCKER}."
+        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+    elif [[ -n ${SF_TMATE_AUTH:-} ]]; then
+        echo_info "Session will be restricted to SF_TMATE_AUTH=${SF_TMATE_AUTH}."
+        cat ${SF_TMATE_AUTH}
+        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell ${SF_TMATE_AUTH}
+    else
+        echo_err "No SF_TMATE_AUTH defined. Refusing to start a tmate session open to the world."
+        echo_info "Define SF_TMATE_AUTH=none if you really want to."
+    fi
     exit 1
 fi
