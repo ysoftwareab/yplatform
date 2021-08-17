@@ -65,13 +65,21 @@ cat - > ${TMP_SPONGE}
 GNU_CHOWN=$(chown --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
 case "${GNU_CHOWN}-${OS_SHORT}" in
     true-*)
-        chown --reference=${FILENAME} ${TMP_SPONGE}
+        chown --reference=${FILENAME} ${TMP_SPONGE} || {
+            >&2 ls -l ${FILENAME} ${TMP_SPONGE}
+            echo_err "Failed to change ownership."
+            exit 1
+        }
         ;;
     false-darwin)
-        /usr/sbin/chown $(stat -f "%Su:%Sg" ${FILENAME}) ${TMP_SPONGE}
+        /usr/sbin/chown $(stat -f "%Su:%Sg" ${FILENAME}) ${TMP_SPONGE} || {
+            >&2 ls -l ${FILENAME} ${TMP_SPONGE}
+            echo_err "Failed to change file ownership."
+            exit 1
+        }
         ;;
     *)
-        echo_err "GNU or Darwin chown required."
+        echo_err "GNU or Darwin chown file required."
         >&2 exe_debug "chown"
         exit 1
         ;;
@@ -80,10 +88,18 @@ esac
 GNU_CHMOD=$(chmod --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
 case "${GNU_CHMOD}-${OS_SHORT}" in
     true-*)
-        chmod --reference=${FILENAME} ${TMP_SPONGE}
+        chmod --reference=${FILENAME} ${TMP_SPONGE} || {
+            >&2 ls -l ${FILENAME} ${TMP_SPONGE}
+            echo_err "Failed to change file mode."
+            exit 1
+        }
         ;;
     false-darwin)
-        /bin/chmod $(stat -f "%A" ${FILENAME}) ${TMP_SPONGE}
+        /bin/chmod $(stat -f "%A" ${FILENAME}) ${TMP_SPONGE} || {
+            >&2 ls -l ${FILENAME} ${TMP_SPONGE}
+            echo_err "Failed to change file mode."
+            exit 1
+        }
         ;;
     *)
         echo_err "GNU or Darwin chmod required."
