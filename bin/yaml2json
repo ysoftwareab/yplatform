@@ -15,7 +15,7 @@ SF_NPX_ARGS="${SF_NPX_ARGS} --package js-yaml"
 
 function main() {
     # expand
-    SCRIPT="$(cat <<EOF
+    SCRIPT="$(cat <<'EOF'
 let fs = require('fs');
 let yml = require('js-yaml');
 let data = yml.load(fs.readFileSync('/dev/stdin'));
