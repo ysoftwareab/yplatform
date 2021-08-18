@@ -1,0 +1,18 @@
+support-firecloud v0.2.150 Release Notes
+
+Highlights since v0.2.149:
+
+* None
+
+Breaking commits since v0.2.149:
+
+* None
+
+Commits since v0.2.149:
+
+* f021877b 2021-08-18 fix nq for alpine
+* 5a9c607d 2021-08-18 fixup! shells should not have 'set -euo pipefail'
+* 3203941d 2021-08-18 Revert "no heredoc expansion unless necessary"
+* 7140c9ce 2021-08-18 add sf-printvars helper to debug sf environments/scripts
+* 30264550 2021-08-18 add sf-printvar helper to debug sf environments/scripts
+o 1f630026 2021-08-18 0.2.149
