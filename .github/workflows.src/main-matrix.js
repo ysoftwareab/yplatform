@@ -15,7 +15,7 @@ let matrixOs = {
   ],
   macos: [
     'macos-10.15',
-    'macos-11.0'
+    'macos-11'
   ],
   windows: [
     'windows-2019'
