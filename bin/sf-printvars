@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+OLD_VARS=$(compgen -A variable | sort -u)
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- sf-printvars 1.0
+## Usage: sf-printvars
+## Source sh/common.inc.sh and print all custom variables.
+
+CURRENT_VARS=$(compgen -A variable | grep -v "^OLD_VARS$" | sort -u)
+
+echo "${CURRENT_VARS}" | grep -Fxvf <(echo "${OLD_VARS}") | while read -r NO_XARGS_R; do
+    [[ -n "${NO_XARGS_R}" ]] || continue;
+    echo "${NO_XARGS_R}=${!NO_XARGS_R}"
+done
