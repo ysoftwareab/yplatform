@@ -32,7 +32,6 @@ brew_install_one_if gpatch "patch --version | head -1" "^GNU patch 2\."
 brew_install_one_if wdiff "wdiff --version | head -1" "^wdiff (GNU wdiff) 1\."
 # NOTE use curl instead of wget; 'brew install wget' adds ~100MB (linuxbrew)
 # brew_install_one_if wget "wget --version | head -1" "^GNU Wget 1\."
-brew_install_one_if zile "zile --version | head -1" "^GNU Zile 2\."
 
 # need an extra condition, because the original one fails intermitently
 # brew_install_one_if "xargs --help 2>&1" "no-run-if-empty"
