@@ -19,4 +19,3 @@ jobs:
       with:
         # disabled due to https://github.com/mxschmitt/action-tmate/issues/69
         # limit-access-to-actor: true
-        sudo: false
