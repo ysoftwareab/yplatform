@@ -71,7 +71,7 @@ function brew_system() {
     if command -v screenfetch >/dev/null 2>&1; then
         echo_do "brew: System info from screenfetch..."
         # first stdout, then stderr. see https://unix.stackexchange.com/questions/417124/display-stdouts-before-stderr
-        { screenfetch -v 2>&1 >&3 3>&- | ${SUPPORT_FIRECLOUD_DIR}/bin/sponge >&2 3>&-; } 3>&1
+        { screenfetch -n -v 2>&1 >&3 3>&- | ${SUPPORT_FIRECLOUD_DIR}/bin/sponge >&2 3>&-; } 3>&1
         echo_done
     fi
 
