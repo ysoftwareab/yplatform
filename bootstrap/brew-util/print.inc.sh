@@ -9,7 +9,7 @@ function brew_printenv() {
     else
         echo_info "Printing only excerpts of printenv."
         printenv | grep -f <(
-                cat <<'EOF'
+                cat <<EOF
 ^CI=
 ^CONTINUOUS_INTEGRATION=
 ^EDITOR=
