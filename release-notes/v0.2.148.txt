@@ -1,0 +1,16 @@
+support-firecloud v0.2.148 Release Notes
+
+Highlights since v0.2.147:
+
+* None
+
+Breaking commits since v0.2.147:
+
+* None
+
+Commits since v0.2.147:
+
+* 6c8203d3 2021-08-18 fixup! bootstrap: add nq to minimal. fix #225
+* b22b6cdd 2021-08-18 bootstrap: forget the OS logo
+* fdd500e2 2021-08-18 macos-11.0 -> macos-11, as per https://github.com/actions/virtual-environments/issues/2486#issuecomment-900701048
+o 486e442f 2021-08-18 0.2.147
