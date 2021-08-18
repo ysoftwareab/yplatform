@@ -1,0 +1,16 @@
+support-firecloud v0.2.149 Release Notes
+
+Highlights since v0.2.148:
+
+* None
+
+Breaking commits since v0.2.148:
+
+* None
+
+Commits since v0.2.148:
+
+* 7455dd42 2021-08-18 use system's package manager for odt2txt and poppler, after allowing brew to build-from-source even in CI
+* 9638b228 2021-08-18 fixup! action-tmate needs sudo on ubuntu
+* eaf01833 2021-08-18 action-tmate needs sudo on ubuntu
+o 7e681b76 2021-08-18 0.2.148
