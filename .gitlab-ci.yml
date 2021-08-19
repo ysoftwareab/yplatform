@@ -11,7 +11,7 @@ variables:
       # NOTE using the prebuilt docker image of homebrew (linuxbrew)
       # because homebrew cannot be installed as root,
       # and creating a sudoer user and then running gitlab jobs through it failed
-      name: homebrew/ubuntu18.04
+      name: homebrew/ubuntu18.04:3.2.8
     only:
       - /^gitlab/ # gitlab branches
       - master
