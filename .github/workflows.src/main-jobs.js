@@ -81,7 +81,7 @@ wslSteps.push({
 let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
-  let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
+  let name = 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
     needs: jobRefs.smokeMain,
     'timeout-minutes': 60,
@@ -135,7 +135,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     return;
   }
 
-  let name = 'main-${{ matrix.os }}-${{ matrix.sf_ci_brew_install }}';
+  let name = 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
     needs: _.includes(jobRefs.smokeMain, `main-${nameSuffix}`) ? [] : jobRefs.smokeMain,
     // some macos agents simply have lower I/O rates and take longer

@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+/* eslint-disable no-template-curly-in-string */
+
+let _ = require('lodash-firecloud');
+
+let deploycMinimalJobs = require('./deploy-deployc-minimal-jobs');
+let deploycCommonJobs = require('./deploy-deployc-common-jobs');
+
+// -----------------------------------------------------------------------------
+
+let workflow = {
+  name: 'CD',
+  on: {
+    push: {
+      tags: [
+        'v*'
+      ]
+    }
+  },
+  concurrency: {
+    group: 'deploy-${{ github.ref }}'
+    // 'cancel-in-progress': false
+  },
+  jobs: {
+    ...deploycMinimalJobs,
+    ...deploycCommonJobs
+  }
+};
+
+// eslint-disable-next-line no-console, no-null/no-null
+console.log(JSON.stringify(workflow, null, 2));

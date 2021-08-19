@@ -7,8 +7,6 @@ let _ = require('lodash-firecloud');
 let jobs = require('./main-jobs');
 let maincMinimalJobs = require('./main-mainc-minimal-jobs');
 let maincCommonJobs = require('./main-mainc-common-jobs');
-let deploycMinimalJobs = require('./main-deployc-minimal-jobs');
-let deploycCommonJobs = require('./main-deployc-common-jobs');
 
 // -----------------------------------------------------------------------------
 
@@ -42,9 +40,7 @@ let workflow = {
   jobs: {
     ...jobs,
     ...maincMinimalJobs,
-    ...maincCommonJobs,
-    ...deploycMinimalJobs,
-    ...deploycCommonJobs
+    ...maincCommonJobs
   }
 };
 

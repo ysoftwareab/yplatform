@@ -80,6 +80,7 @@ SF_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
+	.github/workflows/deploy.yml \
 	Formula/editorconfig-checker.rb \
 	gitconfig/dot.gitignore_global \
 
@@ -89,6 +90,7 @@ endif
 
 SF_DEPS_TARGETS += \
 	.github/workflows/main.yml \
+	.github/workflows/deploy.yml \
 
 SF_TEST_TARGETS += \
 	test-secret \
@@ -101,6 +103,12 @@ SF_TEST_TARGETS += \
 .github/workflows/main.yml: bin/github-checkout
 .github/workflows/main.yml: $(wildcard .github/workflows.src/main*)
 .github/workflows/main.yml: .github/workflows/main.yml.tpl .github/workflows.src/main
+	$(call sf-generate-from-template)
+
+
+.github/workflows/deploy.yml: bin/github-checkout
+.github/workflows/deploy.yml: $(wildcard .github/workflows.src/deploy*)
+.github/workflows/deploy.yml: .github/workflows/deploy.yml.tpl .github/workflows.src/deploy
 	$(call sf-generate-from-template)
 
 
