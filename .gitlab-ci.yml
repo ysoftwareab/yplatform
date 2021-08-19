@@ -36,7 +36,9 @@ main_job:
   <<: *shared
   script:
     - |
-      set -euo pipefail
+      set -x
       sudo chown -R $(id -u):$(id -g) ${CI_PROJECT_DIR}
+    - |
+      set -euo pipefail
       cd ${CI_PROJECT_DIR}
       source ci/pipeline.script.sh
