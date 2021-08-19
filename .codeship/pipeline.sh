@@ -9,7 +9,6 @@ fi
 # in PRs, only run ux-minimal
 [[ "${CI_IS_PR}" = "true" ]] && [[ "${CI_STEP_NAME}" = "ux-minimal" ]] || exit 0
 
-source ci/pipeline.install.sh
 source ci/pipeline.script.sh
 
 # deploy only version tags

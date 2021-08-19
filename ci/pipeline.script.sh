@@ -9,6 +9,8 @@ after_script() {
 trap after_script EXIT
 
 {
+    ./.ci.sh before_install
+    ./.ci.sh install
     ./.ci.sh before_script
     ./.ci.sh script
 } && CI_STATUS=success || CI_STATUS=failure
