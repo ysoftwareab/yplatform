@@ -140,7 +140,8 @@ jobs:
   main-ubuntu:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -263,7 +264,8 @@ jobs:
   main-macos:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -387,7 +389,8 @@ jobs:
   main-windows:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -538,7 +541,7 @@ jobs:
           SLACK_CHANNEL: cloud-ci
           CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
-  mainc-smoke:
+  mainc-minimal-smoke:
     needs: []
     timeout-minutes: 30
     strategy:
@@ -548,8 +551,7 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -561,7 +563,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -640,16 +642,17 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  mainc-arch:
+  mainc-minimal-arch:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
       - main-smoke
       - main-ubuntu
       - main-macos
@@ -661,8 +664,7 @@ jobs:
           - sf-arch-0
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -674,7 +676,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -753,16 +755,17 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  mainc-alpine:
+  mainc-minimal-alpine:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
       - main-smoke
       - main-ubuntu
       - main-macos
@@ -774,8 +777,7 @@ jobs:
           - sf-alpine-3.11.7
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -787,7 +789,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -866,16 +868,17 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  mainc-centos:
+  mainc-minimal-centos:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
       - main-smoke
       - main-ubuntu
       - main-macos
@@ -887,8 +890,7 @@ jobs:
           - sf-centos-8
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -900,7 +902,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -979,16 +981,17 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  mainc-debian:
+  mainc-minimal-debian:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
       - main-smoke
       - main-ubuntu
       - main-macos
@@ -1001,8 +1004,7 @@ jobs:
           - sf-debian-10
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1014,7 +1016,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -1093,16 +1095,17 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  mainc-ubuntu:
+  mainc-minimal-ubuntu:
     needs:
       - main-smoke
-      - mainc-smoke
+      - mainc-minimal-smoke
+      - mainc-common-smoke
       - main-smoke
       - main-ubuntu
       - main-macos
@@ -1115,8 +1118,7 @@ jobs:
           - sf-ubuntu-18.04
         sf_ci_brew_install:
           - minimal
-          - common
-    name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1128,7 +1130,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
       SF_DEPLOY_DRYRUN: true
     steps:
       - name: support-firecloud/bin/github-checkout
@@ -1207,7 +1209,651 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-smoke:
+    needs: mainc-minimal-smoke
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-ubuntu-20.04
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-arch:
+    needs: mainc-minimal-arch
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-arch-0
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-alpine:
+    needs: mainc-minimal-alpine
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-alpine-3.11.7
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-centos:
+    needs: mainc-minimal-centos
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-centos-8
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-debian:
+    needs: mainc-minimal-debian
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-debian-9
+          - sf-debian-10
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          path: |-
+            sf-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-common-ubuntu:
+    needs: mainc-minimal-ubuntu
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - sf-ubuntu-16.04
+          - sf-ubuntu-18.04
+        sf_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      SF_LOG_BOOTSTRAP: true
+      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
+      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      SF_DEPLOY_DRYRUN: true
+    steps:
+      - name: support-firecloud/bin/github-checkout
+        shell: bash
+        run: |
+          set -x
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          # basic git config
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+          git config --global advice.detachedHead false
+
+          # use https instead of everything else
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+          git config --global --add url."https://github.com/".insteadOf "github://"
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # use github token transparently
+          BASE64="base64 --wrap 0"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+          echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+          echo "" | ${BASE64} >/dev/null 2>&1
+          GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+          git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+
+          # use git protocol version 2 if available
+          ! git config --help | grep -q "wire protocol version 2" || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+          # ------------------------------------------------------------------------------
+
+          # clone/fetch
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+          cd ${GITHUB_WORKSPACE}
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+          # shellcheck disable=SC2193
+          if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+          fi
+
+          # ------------------------------------------------------------------------------
+
+          # checkout
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH}
+              exit 1
+          fi
+
+          # submodules
+          git submodule sync --recursive
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1216,7 +1862,7 @@ jobs:
   deployc-minimal-smoke:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-smoke
+      - mainc-minimal-smoke
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1324,7 +1970,7 @@ jobs:
   deployc-minimal-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-arch
+      - mainc-minimal-arch
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -1433,7 +2079,7 @@ jobs:
   deployc-minimal-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-alpine
+      - mainc-minimal-alpine
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -1542,7 +2188,7 @@ jobs:
   deployc-minimal-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-centos
+      - mainc-minimal-centos
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -1651,7 +2297,7 @@ jobs:
   deployc-minimal-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-debian
+      - mainc-minimal-debian
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -1761,7 +2407,7 @@ jobs:
   deployc-minimal-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-ubuntu
+      - mainc-minimal-ubuntu
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:

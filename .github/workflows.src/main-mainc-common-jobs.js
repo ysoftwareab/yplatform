@@ -31,16 +31,15 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  let name = 'mainc-${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
-  jobs[`mainc-${nameSuffix}`] = {
-    needs: _.includes(jobRefs.smokeMainc, `mainc-${nameSuffix}`) ? [] : jobRefs.smokeMainc,
+  let name = 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
+  jobs[`mainc-common-${nameSuffix}`] = {
+    needs: `mainc-minimal-${nameSuffix}`,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,
       matrix: {
         container: matrixContainer,
         sf_ci_brew_install: [
-          'minimal',
           'common'
         ]
       }

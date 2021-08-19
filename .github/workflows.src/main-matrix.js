@@ -71,7 +71,8 @@ jobRefs.deploycCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, name
 
 jobRefs.smokeMain = [
   'main-smoke',
-  'mainc-smoke'
+  'mainc-minimal-smoke',
+  'mainc-common-smoke'
 ];
 
 jobRefs.smokeMainc = _.concat(jobRefs.smokeMain, jobRefs.main);
