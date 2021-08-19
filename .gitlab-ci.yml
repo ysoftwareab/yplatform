@@ -36,20 +36,7 @@ main_job:
   <<: *shared
   script:
     - |
-      set -euo pipefail;
-      sudo chown -R $(id -u):$(id -g) ${CI_PROJECT_DIR};
-      cd ${CI_PROJECT_DIR};
-      ./.ci.sh before_install &&
-        ./.ci.sh install &&
-        ./.ci.sh before_script &&
-        ./.ci.sh script && CI_STATUS=success || CI_STATUS=failure;
-      if [[ "${CI_STATUS}" = "success" ]]; then
-        ./.ci.sh before_cache || true;
-        ./.ci.sh after_success || true;
-        ./.ci.sh after_script || true;
-      fi;
-      if [[ "${CI_STATUS}" = "failure" ]]; then
-        ./.ci.sh after_failure || true;
-        ./.ci.sh after_script || true;
-        exit 1;
-      fi;
+      set -euo pipefail
+      sudo chown -R $(id -u):$(id -g) ${CI_PROJECT_DIR}
+      cd ${CI_PROJECT_DIR}
+      source ci/pipeline.script.sh
