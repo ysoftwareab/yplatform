@@ -43,12 +43,12 @@ main_job:
         ./.ci.sh install &&
         ./.ci.sh before_script &&
         ./.ci.sh script && CI_STATUS=success || CI_STATUS=failure;
-      if [ "${CI_STATUS}" = "success" ]; then
+      if [[ "${CI_STATUS}" = "success" ]]; then
         ./.ci.sh before_cache || true;
         ./.ci.sh after_success || true;
         ./.ci.sh after_script || true;
       fi;
-      if [ "${CI_STATUS}" = "failure" ]; then
+      if [[ "${CI_STATUS}" = "failure" ]]; then
         ./.ci.sh after_failure || true;
         ./.ci.sh after_script || true;
         exit 1;
