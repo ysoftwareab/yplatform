@@ -75,9 +75,10 @@ jobRefs.smokeMain = [
   'mainc-common-smoke'
 ];
 
-jobRefs.smokeMainc = _.concat(jobRefs.smokeMain, jobRefs.main);
-// ignore windows, because it is very very very slow
-jobRefs.smokeMainc = _.without(jobRefs.smokeMainc, 'main-windows');
+jobRefs.smokeMainc = [
+  'mainc-minimal-smoke',
+  'mainc-common-smoke'
+];
 
 jobRefs.smokeDeploycMinimal = [
   'deployc-common-smoke'
