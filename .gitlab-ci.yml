@@ -37,6 +37,7 @@ main_job:
   script:
     - |
       set -euo pipefail;
+      sudo chown -R ${UID}:${GID} /builds;
       cd ${CI_PROJECT_DIR};
       ./.ci.sh before_install &&
         ./.ci.sh install &&
