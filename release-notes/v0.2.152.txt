@@ -1,0 +1,25 @@
+support-firecloud v0.2.152 Release Notes
+
+Highlights since v0.2.151:
+
+* None
+
+Breaking commits since v0.2.151:
+
+* None
+
+Commits since v0.2.151:
+
+* b6a0d845 2021-08-20 fixup! github workflow: decouple deployc-minimal from mainc-common
+* 61269189 2021-08-20 github workflow: split deployment
+* 7246aa4a 2021-08-20 less assumptions allowing for another script filename to link to an executor
+* 36c3c177 2021-08-20 fixup! fixup! github workflow: decouple deployc-minimal from mainc-common
+* ae97bf48 2021-08-20 fixup! github workflow: decouple deployc-minimal from mainc-common
+* 4c282ce3 2021-08-20 github workflow: decouple deployc-minimal from mainc-common
+* 261a565c 2021-08-19 gitlab: separate fixes from main commands
+* 38e51526 2021-08-19 gitlab: lock homebrew/ubuntu18.04 image
+* f2aa4a46 2021-08-19 editorial
+* 83f3776e 2021-08-19 gitlab: reuse ci/pipeline.script.sh
+* 3fd21a19 2021-08-19 collapse into pipeline.script.sh
+* 88879608 2021-08-19 fixup! fix gitlab ci failing due to /builds permissions
+o a27dcfcc 2021-08-19 0.2.151
