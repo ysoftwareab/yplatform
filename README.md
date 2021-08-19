@@ -92,7 +92,7 @@ TODO
   * [how to release](doc/how-to-release.md)
   * style
     * `Use common sense and BE CONSISTENT. (Google)`
-    * [Less than 120 chars/line, preferably less than 80](doc/style-maxlen.md)
+    * [Less than 120 cpl, preferably less than 80](doc/style-maxlen.md)
     * [shell](doc/style-sh.md)
     * [Makefile](doc/style-mk.md)
     * [JavaScript/TypeScript](https://github.com/rokmoln/eslint-config-firecloud)

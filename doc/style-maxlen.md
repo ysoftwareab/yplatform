@@ -1,11 +1,11 @@
 # Maximum line length
 
-We follow a hard line wrapping at 120 characters, and soft line wrapping at 80 characters.
+We follow a hard line wrapping at 120 cpl (characters per line), and soft line wrapping at 80 cpl.
 
-What this means is that editors should show two rulers at 80, and respectively 120 characters,
+What this means is that editors should show two rulers at 80, and respectively 120 cpl,
 and that we try not to reach the first ruler, but that it is fine to go up to the second ruler, if/when needed.
 
-In very very rare cases e.g. regular expressions, we need/want to go above 120 characters, and that's fine.
+In very very rare cases e.g. regular expressions, we need/want to go above 120 cpl, and that's fine.
 Just append a comment to the end of the line to please the editorconfig-checker
 e.g. `# editorconfig-checker-disable-line` or `// editorconfig-checker-disable-line`.
 There are less than 50 instances of such exceptions as of 2021-08-18. Very very few that is.
@@ -17,7 +17,7 @@ TL;DR: shorter lines = better comprehension. Reading code is not the same as rea
 But that doesn't imply that all reasearch is redundant or that the former becomes a false statement.
 So while typography findings (mostly focused on prose) shouldn't be taken ad-literam (we engineers like strict limits),
 it is important not to ignore them. That's why while the findings point at really really short lines,
-while history had us at 80 characters (punchcards), code with all its keywords and indentation
+while history had us at 80 cpl (punchcards), code with all its keywords and indentation
 could be given some slack, but not deregulated.
 
 
@@ -35,7 +35,7 @@ Read why Daniel Stenberg (curl maintainer) is
 [an 80-column purist](https://daniel.haxx.se/blog/2020/11/30/i-am-an-80-column-purist/).
 [Comments on HN](https://news.ycombinator.com/item?id=25251494).
 
-Read why 40-90 characters per line is an optimal line length, [here](https://baymard.com/blog/line-length-readability)
+Read why 40-90 cpl is an optimal line length, [here](https://baymard.com/blog/line-length-readability)
 and [here](https://www.semanticscholar.org/paper/Markus-Itkonen-Typography-and-readability-Itkonen-groteski/4b67cd16136d47682f547619e705e2151d2b98df).
 
 Because displays have grown in size and resolution in the last few years.
