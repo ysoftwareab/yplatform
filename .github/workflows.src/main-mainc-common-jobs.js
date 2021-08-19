@@ -10,7 +10,6 @@ let {
 } = require('./main-common');
 
 let {
-  jobRefs,
   matrixContainer
 } = require('./main-matrix');
 
