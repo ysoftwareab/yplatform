@@ -17,9 +17,6 @@ let workflow = {
       branches: [
         'github*',
         'master'
-      ],
-      tags: [
-        'v*'
       ]
     },
     pull_request: {

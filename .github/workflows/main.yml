@@ -4,8 +4,6 @@ name: CI
     branches:
       - github*
       - master
-    tags:
-      - v*
   pull_request:
     branches:
       - '**'
