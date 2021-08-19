@@ -3,7 +3,9 @@ set -euo pipefail
 
 echo_do "brew: Installing minimal packages..."
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
+
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-asdf.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
 {
     TMP_NQ=$(mktemp -t firecloud.XXXXXXXXXX)
     case ${OS_RELEASE_ID} in
