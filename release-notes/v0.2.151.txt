@@ -1,0 +1,17 @@
+support-firecloud v0.2.151 Release Notes
+
+Highlights since v0.2.150:
+
+* None
+
+Breaking commits since v0.2.150:
+
+* None
+
+Commits since v0.2.150:
+
+* 95819323 2021-08-19 consistent style
+* 6ad8c8be 2021-08-19 fix gitlab ci failing due to /builds permissions
+* d6eaf0d5 2021-08-19 document maxlen style. fix #215
+* 201d4db7 2021-08-19 clarify that node is part of minimal bootstrapping too
+o dfe39b0b 2021-08-18 0.2.150
