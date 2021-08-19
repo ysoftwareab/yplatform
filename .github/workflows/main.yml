@@ -650,12 +650,8 @@ jobs:
           retention-days: 7
   mainc-minimal-arch:
     needs:
-      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
-      - main-smoke
-      - main-ubuntu
-      - main-macos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -763,12 +759,8 @@ jobs:
           retention-days: 7
   mainc-minimal-alpine:
     needs:
-      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
-      - main-smoke
-      - main-ubuntu
-      - main-macos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -876,12 +868,8 @@ jobs:
           retention-days: 7
   mainc-minimal-centos:
     needs:
-      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
-      - main-smoke
-      - main-ubuntu
-      - main-macos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -989,12 +977,8 @@ jobs:
           retention-days: 7
   mainc-minimal-debian:
     needs:
-      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
-      - main-smoke
-      - main-ubuntu
-      - main-macos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1103,12 +1087,8 @@ jobs:
           retention-days: 7
   mainc-minimal-ubuntu:
     needs:
-      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
-      - main-smoke
-      - main-ubuntu
-      - main-macos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1861,8 +1841,7 @@ jobs:
           retention-days: 7
   deployc-minimal-smoke:
     if: 'startsWith(github.ref, ''refs/tags/'')'
-    needs:
-      - mainc-minimal-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1970,7 +1949,6 @@ jobs:
   deployc-minimal-arch:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-minimal-arch
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -2079,7 +2057,6 @@ jobs:
   deployc-minimal-alpine:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-minimal-alpine
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -2188,7 +2165,6 @@ jobs:
   deployc-minimal-centos:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-minimal-centos
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -2297,7 +2273,6 @@ jobs:
   deployc-minimal-debian:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-minimal-debian
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
@@ -2407,7 +2382,6 @@ jobs:
   deployc-minimal-ubuntu:
     if: 'startsWith(github.ref, ''refs/tags/'')'
     needs:
-      - mainc-minimal-ubuntu
       - deployc-common-smoke
     timeout-minutes: 30
     strategy:
