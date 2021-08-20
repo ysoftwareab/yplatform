@@ -42,9 +42,9 @@ Import this repository as a `submodule`, and you will gain access to:
         * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
     * cross-platform. See [above](#cross-platform).
     * Docker images available for Linux
-      * Alpine [minimal](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-minimal) [common](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-common)
+      * Alpine 3.11.7 [minimal](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-minimal) [common](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-common)
       * Archlinux [minimal](https://hub.docker.com/r/rokmoln/sf-arch-0-minimal) [common](https://hub.docker.com/r/rokmoln/sf-arch-0-common)
-      * Centos [minimal](https://hub.docker.com/r/rokmoln/sf-centos-8-minimal) [common](https://hub.docker.com/r/rokmoln/sf-centos-8-common)
+      * Centos 8 [minimal](https://hub.docker.com/r/rokmoln/sf-centos-8-minimal) [common](https://hub.docker.com/r/rokmoln/sf-centos-8-common)
       * Debian 9 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-stretch-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-stretch-common)
       * Debian 10 [minimal](https://hub.docker.com/r/rokmoln/sf-debian-buster-minimal) [common](https://hub.docker.com/r/rokmoln/sf-debian-buster-common)
       * Ubuntu 16.04 [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal) [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
