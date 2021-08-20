@@ -10,7 +10,10 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
 # see https://github.com/Homebrew/homebrew-core/issues/70497
 # We experience this only on centos-8 now when installing docker-compose,
 # but historically it has been a problem for aws-cli as well on ubuntu.
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-py.inc.sh
+# NOTE we install by force via homebrew, without checking system's python
+# because formulas like docker-compose, dependent on python, will no use the system's python
+# source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-py.inc.sh
+brew_install_one python
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-asdf.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
