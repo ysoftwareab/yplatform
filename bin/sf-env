@@ -59,6 +59,12 @@ function sf_path_append_before() {
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/bin:||" | sed "s|::|:|")
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/sbin:||" | sed "s|::|:|")
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+
+    export MANPATH=$(echo ":${MANPATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/share/man:||" | sed "s|::|:|")
+    export MANPATH=$(echo "${MANPATH}" | sed "s|^:||" | sed "s|:$||")
+
+    export INFOPATH=$(echo ":${INFOPATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/share/man:||" | sed "s|::|:|")
+    export INFOPATH=$(echo "${INFOPATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
 # jq becomes always available
