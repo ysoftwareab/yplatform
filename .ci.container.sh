@@ -21,7 +21,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
     echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
 
     local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
-    echo_do "Pushing ${TAG}..."
+    echo_do "Pushing ${TAG} to hub.docker.com..."
     exe docker push ${TAG}
     echo_done
 
@@ -44,7 +44,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
 
     local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
-    echo_do "Pushing ${TAG}..."
+    echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
     exe docker push ${TAG}
     echo_done
