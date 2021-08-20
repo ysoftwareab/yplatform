@@ -25,6 +25,16 @@ function ci_run_deploy_docker_image_hubdockercom() {
     exe docker push ${TAG}
     echo_done
 
+    # TODO deprecated image name that uses codename
+    local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
+        local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
+        echo_do "Pushing ${TAG} to hub.docker.com..."
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
+        exe docker push ${TAG}
+        echo_done
+    }
+
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
@@ -49,6 +59,16 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     exe docker push ${TAG}
     echo_done
 
+    # TODO deprecated image name that uses codename
+    local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
+        local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
+        echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
+        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
+        exe docker push ${TAG}
+        echo_done
+    }
+
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
         local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
@@ -69,17 +89,15 @@ function ci_run_deploy_docker_image() {
     # shellcheck disable=SC1091
     local DOCKER_OS_RELEASE_VERSION_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_VERSION_CODENAME="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_CODENAME:-})" # editorconfig-checker-disable-line
-    local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
     if [[ -f ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
         FROM_DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
-        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
     else
-        [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
-            [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || \
-                DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+        [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || {
+            DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
         }
     fi
 
