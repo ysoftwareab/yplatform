@@ -72,11 +72,9 @@ function sf_path_append_before() {
 sf_path_append ${SUPPORT_FIRECLOUD_DIR}/bin/.jq
 
 if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    sf_path_prepend /home/linuxbrew/.linuxbrew/sbin
-    sf_path_prepend /home/linuxbrew/.linuxbrew/bin
+    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
 elif [ -x ${HOME}/.linuxbrew/bin/brew ]; then
-    sf_path_prepend ${HOME}/.linuxbrew/sbin
-    sf_path_prepend ${HOME}/.linuxbrew/bin
+    eval $(${HOME}/.linuxbrew/bin/brew shellenv)
 fi
 sf_path_prepend /usr/local/sbin
 sf_path_prepend /usr/local/bin
