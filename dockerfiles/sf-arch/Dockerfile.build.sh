@@ -7,7 +7,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 # DEPS
 # keep in sync with bootstrap/linux/bootstrap-sudo-arch
 [[ -f /support-firecloud.bootstrapped ]] || {
-    XTRACE_STATE_DOCKERFILE_BUILD_SH="$(shopt -po xtrace || true)" # shopt exits with non zero?
+    XTRACE_STATE_DOCKERFILE_BUILD_SH="$(set +o | grep xtrace)"
     set -x
     pacman_update
 

@@ -115,7 +115,7 @@ function basic_travis_echo() {
     # local ANSI_RESET="\033[0m"
     local ANSI_CLEAR_LINE="\033[0K"
 
-    local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
+    local XTRACE_STATE="$(set +o | grep xtrace)"
     set +x
     echo -en "$*\\r${ANSI_CLEAR_LINE}"
     eval "${XTRACE_STATE}"
@@ -184,7 +184,7 @@ function github_actions_echo() {
 }
 
 function basic_teamcity_echo() {
-    local XTRACE_STATE="$(shopt -po xtrace || true)" # shopt exits with non zero?
+    local XTRACE_STATE="$(set +o | grep xtrace)"
     set +x
     echo "##teamcity[$*]"
     eval "${XTRACE_STATE}"
