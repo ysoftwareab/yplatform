@@ -1,0 +1,24 @@
+image: ubuntu/18.04
+sources:
+  - https://github.com/rokmoln/support-firecloud.git
+tasks:
+  - script: |
+      export SF_LOG_BOOTSTRAP=true
+      export SF_PRINTENV_BOOTSTRAP=true
+
+      set -euo pipefail
+      if [[ ${GITHUB_REF} =~ ^refs/heads/sourcehut ]]; then
+        true
+      # elif [[ "${GITHUB_REF}" = "refs/heads/master" ]]; then
+      #   true
+      else
+        # skip
+        exit 0
+      fi
+
+      # use github-checkout to checkout correct ref
+      mkdir run
+      GITHUB_REPOSITORY=${GITHUB_REPO} GITHUB_EVENT_NAME=${GITHUB_EVENT} GITHUB_WORKSPACE=$(pwd)/run \
+        support-firecloud/bin/github-checkout
+      cd run
+      source ci/pipeline.script.sh
