@@ -33,11 +33,12 @@ EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bashrc
 
 cat <<EOF >> /home/${UNAME}/.bash_aliases
-SHOPT_STATE="\$(shopt -p)"
+# poor-man version of sh/exe.inc.sh:sh_shellopts
+OPTS_STATE="\$(set +o); \$(shopt -p)"
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/env.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/dev.inc.sh
-# revert any shopt settings in the scripts above
-eval "\${SHOPT_STATE}"; unset SHOPT_STATE
+# revert any shell options set in the scripts above
+eval "\${OPTS_STATE}"; unset OPTS_STATE
 EOF
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bash_aliases
 

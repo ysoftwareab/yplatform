@@ -50,6 +50,29 @@ function sh_script_version() {
     exit 1
 }
 
+function sh_shellopts() {
+    # usage: OLDOPTS="$(sh_shellopts)"; ...; eval "${OLDOPTS}"
+
+    # see https://unix.stackexchange.com/a/383581/61053
+    # see https://unix.stackexchange.com/a/476710/61053
+    local OLDOPTS="$(set +o)"
+    # bash resets errexit inside sub-shells like $(set +o) above
+    [[ ! -o errexit ]] || OLDOPTS="${OLDOPTS}; set -e"
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        # bash-specific options
+        OLDOPTS="${OLDOPTS}; $(shopt -p)"
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # zsh-specific options
+        OLDOPTS="${OLDOPTS}; setopt $(setopt); unsetopt $(unsetopt)"
+    fi
+    return "${OLDOPTS}"
+}
+
+function sh_shellopts_restore() {
+    set +vx
+    eval "$1"
+}
+
 # ------------------------------------------------------------------------------
 
 function exe() {
