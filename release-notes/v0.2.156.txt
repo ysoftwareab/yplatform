@@ -1,0 +1,15 @@
+support-firecloud v0.2.156 Release Notes
+
+Highlights since v0.2.155:
+
+* None
+
+Breaking commits since v0.2.155:
+
+* None
+
+Commits since v0.2.155:
+
+* 44b2b5a4 2021-08-20 fixup! install python in minimal
+* 79c00691 2021-08-20 Revert "github: improve homebrew removal"
+o 5ab16c51 2021-08-20 0.2.155
