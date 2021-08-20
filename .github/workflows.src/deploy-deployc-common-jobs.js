@@ -30,7 +30,8 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  let name = 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
+  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
+  let name = '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`deployc-common-${nameSuffix}`] = {
     needs: `deployc-minimal-${nameSuffix}`,
     'timeout-minutes': 30,

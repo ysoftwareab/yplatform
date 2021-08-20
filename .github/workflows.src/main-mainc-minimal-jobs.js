@@ -31,7 +31,8 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  let name = 'mainc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}';
+  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
+  let name = '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
   jobs[`mainc-minimal-${nameSuffix}`] = {
     needs: _.includes(jobRefs.smokeMainc, `mainc-minimal-${nameSuffix}`) ? [] : jobRefs.smokeMainc,
     'timeout-minutes': 30,

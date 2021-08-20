@@ -16,7 +16,7 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -28,7 +28,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -106,7 +106,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -123,7 +123,7 @@ jobs:
           - sf-arch-0
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -135,7 +135,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -213,7 +213,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -230,7 +230,7 @@ jobs:
           - sf-alpine-3.11.7
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -242,7 +242,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -320,7 +320,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -337,7 +337,7 @@ jobs:
           - sf-centos-8
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -349,7 +349,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -427,7 +427,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -445,7 +445,7 @@ jobs:
           - sf-debian-10
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -457,7 +457,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -535,7 +535,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -553,7 +553,7 @@ jobs:
           - sf-ubuntu-18.04
         sf_ci_brew_install:
           - minimal
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -565,7 +565,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -643,7 +643,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -659,7 +659,7 @@ jobs:
           - sf-ubuntu-20.04
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -671,7 +671,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -749,7 +749,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -765,7 +765,7 @@ jobs:
           - sf-arch-0
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -777,7 +777,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -855,7 +855,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -871,7 +871,7 @@ jobs:
           - sf-alpine-3.11.7
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -883,7 +883,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -961,7 +961,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -977,7 +977,7 @@ jobs:
           - sf-centos-8
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -989,7 +989,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -1067,7 +1067,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1084,7 +1084,7 @@ jobs:
           - sf-debian-10
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1096,7 +1096,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -1174,7 +1174,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1191,7 +1191,7 @@ jobs:
           - sf-ubuntu-18.04
         sf_ci_brew_install:
           - common
-    name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1203,7 +1203,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: support-firecloud/bin/github-checkout
         shell: bash
@@ -1281,7 +1281,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: 'deployc-${{ matrix.sf_ci_brew_install }}-${{ matrix.container }}'
+          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
