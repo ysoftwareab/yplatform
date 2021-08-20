@@ -1,0 +1,17 @@
+support-firecloud v0.2.154 Release Notes
+
+Highlights since v0.2.153:
+
+* None
+
+Breaking commits since v0.2.153:
+
+* None
+
+Commits since v0.2.153:
+
+* ff57e2c5 2021-08-20 log issue about 'bad interpreter' on centos and docker-compose due to broken python@3.0 dependent
+* b8daae95 2021-08-20 homebrew paths should override /usr/local and ~/.local
+* 50af428f 2021-08-20 use brew's shellenv
+* 6e694c0c 2021-08-20 github: improve homebrew removal
+o 8dd2b1ed 2021-08-20 0.2.153
