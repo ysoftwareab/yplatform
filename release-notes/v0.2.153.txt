@@ -1,0 +1,20 @@
+support-firecloud v0.2.153 Release Notes
+
+Highlights since v0.2.152:
+
+* None
+
+Breaking commits since v0.2.152:
+
+* None
+
+Commits since v0.2.152:
+
+* df4cd26b 2021-08-20 rename docker jobs to reflect exact image name
+* c6c32c4e 2021-08-20 there's no more mainc, but mainc-minimal and mainc-common jobs
+* 0edfa306 2021-08-20 deprecate publishing docker images based on codenames
+* 30df0ad0 2021-08-20 verbose
+* 428d0349 2021-08-20 better posix-compat for getting xtrace state
+* 48394c2e 2021-08-20 fixup! fixup! shells should not have 'set -euo pipefail'
+* 54e5dee9 2021-08-20 fixup! github workflow: split deployment
+o 92b4d2c2 2021-08-20 0.2.152
