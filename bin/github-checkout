@@ -50,7 +50,7 @@ fi
 
 # checkout
 if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-    git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA}
+    git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
 elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
     git checkout ${GITHUB_REF}
 else
