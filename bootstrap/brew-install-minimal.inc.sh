@@ -3,6 +3,14 @@ set -euo pipefail
 
 echo_do "brew: Installing minimal packages..."
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
+# NOTE installing formulas that depend on python might exibit
+# - reinstalling 1 broken dependent from source
+# - bad interpreter
+# This is due to Cellar/opt/python@3.9 not having any content but a 3.9.5-reinstall folder.
+# see https://github.com/Homebrew/homebrew-core/issues/70497
+# We experience this only on centos-8 now when installing docker-compose,
+# but historically it has been a problem for aws-cli as well on ubuntu.
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-py.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-asdf.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
