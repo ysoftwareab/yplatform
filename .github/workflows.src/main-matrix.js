@@ -54,8 +54,13 @@ jobRefs.main = _.reduce(_.keys(matrixOs), function(jobRefs, nameSuffix) {
   return jobRefs;
 }, []);
 
-jobRefs.mainc = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
-  jobRefs.push(`mainc-${nameSuffix}`);
+jobRefs.maincMinimal = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
+  jobRefs.push(`mainc-minimal-${nameSuffix}`);
+  return jobRefs;
+}, []);
+
+jobRefs.maincCommon = _.reduce(_.keys(matrixContainer), function(jobRefs, nameSuffix) {
+  jobRefs.push(`mainc-common-${nameSuffix}`);
   return jobRefs;
 }, []);
 
