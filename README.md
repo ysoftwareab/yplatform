@@ -35,6 +35,7 @@ Import this repository as a `submodule`, and you will gain access to:
       * `Github Actions CI` [![Github Actions CI Status][2]][1]
       * `Gitlab CI________` [![Gitlab CI Status][12]][11]
       * `Semaphore________` [![Semaphore Status][10]][9]
+      * `Sourcehut________` [![Sourcehut Status][18]][17]
       * `Travis CI________` [![Travis CI Status][6]][5]
         * Integration with Travis CI is unstable since it now requires a subscription.
         * [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
@@ -154,3 +155,5 @@ TODO
   [14]: https://ci.appveyor.com/api/projects/status/da744jauw31fi66h/branch/master?svg=true
   [15]: https://cirrus-ci.com/github/rokmoln/support-firecloud/master
   [16]: https://api.cirrus-ci.com/github/rokmoln/support-firecloud.svg?branch=master
+  [17]: https://builds.sr.ht/~andreineculau/support-firecloud/commits/sourcehut.yml
+  [18]: https://builds.sr.ht/~andreineculau/support-firecloud/commits/sourcehut.yml.svg
