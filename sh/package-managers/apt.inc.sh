@@ -40,8 +40,10 @@ APT_DPKG+=("-o" "Debug::pkgProblemResolver=true")
 [[ "${CI:-}" != "true" ]] || {
     apt-get install -y "${APT_GET_FORCE_YES[@]}" --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES=("--force-yes")
-    APT_DPKG+=("-o" "Dpkg::Options::=--force-confdef")
-    APT_DPKG+=("-o" "Dpkg::Options::=--force-confold")
+    [[ -n "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] && cat /etc/apt/apt.conf.d/* | grep -q "force-confdef" || \
+        APT_DPKG+=("-o" "Dpkg::Options::=--force-confdef")
+    [[ -n "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] && cat /etc/apt/apt.conf.d/* | grep -q "force-confold" || \
+        APT_DPKG+=("-o" "Dpkg::Options::=--force-confold")
 }
 function apt_install_one() {
     local PKG="$1"
