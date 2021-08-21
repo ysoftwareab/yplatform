@@ -34,6 +34,11 @@ VERBOSE="${V}"
 # }
 
 if [[ -n "${VERBOSE}" ]]; then
+    [[ "${VERBOSE}" != "2" ]] || {
+        VERBOSE=true
+        # see https://www.runscripts.com/support/guides/scripting/bash/debugging-bash/verbose-tracing
+        export PS4='+ $(date +"%Y-%m-%d %H:%M:%S") +${SECONDS}s ${BASH_SOURCE[0]:-cli}:${LINENO} + '
+    }
     set -x
     if [[ "${VERBOSE}" != "true" ]]; then
         exec {BASH_XTRACEFD}> >(tee -a "${VERBOSE}" >&2)
