@@ -106,6 +106,7 @@ function printenv_with_name() {
 function exe_debug() {
     local EXECUTABLE="$1"
     local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
+    echo "PATH=${PATH}"
     if [[ "${EXECUTABLE_TYPE}" = "file" ]]; then
         type -a ${EXECUTABLE}
         type -a -p ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do \
