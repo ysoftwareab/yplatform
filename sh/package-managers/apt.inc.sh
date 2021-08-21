@@ -16,26 +16,26 @@ function apt_cache_prune() {
 
 function apt_update() {
     echo_do "aptitude: Updating..."
-    ${SF_SUDO:-} apt-get update -y --fix-missing 2>&1 || {
+    ${SF_SUDO:-} apt-get -y --fix-missing update 2>&1 || {
         set -x
         # try to handle "Hash Sum mismatch" error
         ${SF_SUDO:-} apt-get clean
         ${SF_SUDO:-} rm -rf /var/lib/apt/lists/*
         # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        ${SF_SUDO:-} apt-get update -o Acquire::CompressionTypes::Order::=gz
-        ${SF_SUDO:-} apt-get update -y --fix-missing
+        ${SF_SUDO:-} apt-get -o Acquire::CompressionTypes::Order::=gz update
+        ${SF_SUDO:-} apt-get -y --fix-missing update
         set +x
     }
     echo_done
 }
 
 APT_GET_FORCE_YES=
-APT_DPKG_OPTIONS_CONF=
+APT_DPKG=
 [[ "${CI:-}" != "true" ]] || {
     APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
     apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES="--force-yes"
-    APT_DPKG_OPTIONS_CONF="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
+    APT_DPKG="-o Debug::pkgDPkgPM=1 -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
 }
 function apt_install_one() {
     local PKG="$1"
@@ -47,7 +47,7 @@ function apt_install_one() {
     }
 
     echo_do "aptitude: Installing ${PKG}..."
-    ${SF_SUDO:-} apt-get install -y ${APT_GET_FORCE_YES} ${APT_DPKG_OPTIONS_CONF} ${PKG}
+    ${SF_SUDO:-} apt-get -y ${APT_GET_FORCE_YES} ${APT_DPKG} install ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
