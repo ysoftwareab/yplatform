@@ -29,12 +29,14 @@ function apt_update() {
     echo_done
 }
 
-APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-apt-get install -qq ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
-    APT_GET_FORCE_YES="--force-yes"
+APT_GET_FORCE_YES=
 APT_DPKG_OPTIONS_CONF=
-[[ "${CI:-}" != "true" ]] || \
+[[ "${CI:-}" != "true" ]] || {
+    APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
+    apt-get install -qq ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
+        APT_GET_FORCE_YES="--force-yes"
     APT_DPKG_OPTIONS_CONF="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
+}
 function apt_install_one() {
     local PKG="$1"
 
