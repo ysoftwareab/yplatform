@@ -28,6 +28,12 @@ ifeq (1,$(VERBOSE))
 VERBOSE := true
 endif
 
+ifeq (2,$(VERBOSE))
+VERBOSE := true
+# see https://www.runscripts.com/support/guides/scripting/bash/debugging-bash/verbose-tracing
+export PS4:=+ $$(date +"%Y-%m-%d %H:%M:%S") +$${SECONDS}s $${BASH_SOURCE[0]:-}:$${LINENO} +$(\n)
+endif
+
 ifneq (true,$(VERBOSE))
 MAKEFLAGS += -s
 ifeq (true,$(CI))
