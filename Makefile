@@ -5,9 +5,9 @@ ifndef CORE_INC_MK_DIR
 CORE_INC_MK_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 endif
 
+include $(CORE_INC_MK_DIR)/chars.inc.mk
 include $(CORE_INC_MK_DIR)/core.inc.mk
 
-include $(CORE_INC_MK_DIR)/chars.inc.mk
 include $(CORE_INC_MK_DIR)/funs.inc.mk
 
 include $(CORE_INC_MK_DIR)/exe.inc.mk
