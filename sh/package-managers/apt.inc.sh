@@ -34,9 +34,6 @@ APT_GET_FORCE_YES+=("--allow-downgrades")
 APT_GET_FORCE_YES+=("--allow-remove-essential")
 APT_GET_FORCE_YES+=("--allow-change-held-packages")
 APT_DPKG=()
-APT_DPKG+=("-o" "Debug::pkgDPkgPM=true")
-APT_DPKG+=("-o" "Debug::pkgDPkgProgressReporting=true")
-APT_DPKG+=("-o" "Debug::pkgProblemResolver=true")
 [[ "${CI:-}" != "true" ]] || {
     apt-get install -y "${APT_GET_FORCE_YES[@]}" --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES=("--force-yes")
