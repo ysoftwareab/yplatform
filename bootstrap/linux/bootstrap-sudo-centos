@@ -13,7 +13,7 @@ if [[ "${EUID}" != "0" ]]; then
         exit 1
     }
     echo_warn "Restarting this shell script as root."
-    exe ${SF_SUDO} ${BASH_SOURCE[0]}
+    exe ${SF_SUDO} --preserve-env --set-home ${BASH_SOURCE[0]}
     exit 0
 fi
 
