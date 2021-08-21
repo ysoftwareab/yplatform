@@ -33,7 +33,7 @@ APT_GET_FORCE_YES=
 APT_DPKG_OPTIONS_CONF=
 [[ "${CI:-}" != "true" ]] || {
     APT_GET_FORCE_YES="--allow-downgrades --allow-remove-essential --allow-change-held-packages"
-    apt-get install -qq ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
+    apt-get install -y ${APT_GET_FORCE_YES} --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES="--force-yes"
     APT_DPKG_OPTIONS_CONF="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold"
 }
@@ -47,7 +47,7 @@ function apt_install_one() {
     }
 
     echo_do "aptitude: Installing ${PKG}..."
-    ${SF_SUDO:-} apt-get install -qq ${APT_GET_FORCE_YES} ${APT_DPKG_OPTIONS_CONF} ${PKG}
+    ${SF_SUDO:-} apt-get install -y ${APT_GET_FORCE_YES} ${APT_DPKG_OPTIONS_CONF} ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
