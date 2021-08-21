@@ -30,12 +30,18 @@ function apt_update() {
 }
 
 APT_GET_FORCE_YES=()
+APT_GET_FORCE_YES+=("--allow-downgrades")
+APT_GET_FORCE_YES+=("--allow-remove-essential")
+APT_GET_FORCE_YES+=("--allow-change-held-packages")
 APT_DPKG=()
+APT_DPKG+=("-o" "Debug::pkgDPkgPM=true")
+APT_DPKG+=("-o" "Debug::pkgDPkgProgressReporting=true")
+APT_DPKG+=("-o" "Debug::pkgProblemResolver=true")
 [[ "${CI:-}" != "true" ]] || {
-    APT_GET_FORCE_YES=("--allow-downgrades" "--allow-remove-essential" "--allow-change-held-packages")
     apt-get install -y "${APT_GET_FORCE_YES[@]}" --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES=("--force-yes")
-    APT_DPKG=("-o" "Debug::pkgDPkgPM=1" "-o" "Dpkg::Options::=--force-confdef" "-o" "Dpkg::Options::=--force-confold")
+    APT_DPKG+=("-o" "Dpkg::Options::=--force-confdef")
+    APT_DPKG+=("-o" "Dpkg::Options::=--force-confold")
 }
 function apt_install_one() {
     local PKG="$1"
