@@ -21,6 +21,12 @@ export DEBIAN_FRONTEND=noninteractive
 
 # keep in sync with dockerfiles/sf-debian/Dockerfile.build.sh
 echo_do "Setup aptitude..."
+cat <<-EOF > /etc/apt/apt.conf.d/sf
+Dpkg::Options {
+    "--force-confdef";
+    "--force-confold";
+}
+EOF
 apt_update
 
 apt_install_one apt-transport-https

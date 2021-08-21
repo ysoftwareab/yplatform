@@ -9,6 +9,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 [[ -f /support-firecloud.bootstrapped ]] || {
     XTRACE_STATE_DOCKERFILE_BUILD_SH="$(set +o | grep xtrace)"
     set -x
+    cat <<EOF > /etc/apt/apt.conf.d/sf
+Dpkg::Options {
+    "--force-confdef";
+    "--force-confold";
+}
+EOF
     apt_update
 
     apt_install_one apt-transport-https
