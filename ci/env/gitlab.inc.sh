@@ -2,8 +2,11 @@
 # shellcheck disable=SC2034
 true
 
-git config --global user.email "gitlab@gitlab.com"
-git config --global user.name "Gitlab CI"
+CI_NAME=Gitlab
+CI_PLATFORM=gitlab
+
+git config --global user.email "${CI_PLATFORM}@gitlab.com"
+git config --global user.name "${CI_NAME}"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 # CI_JOB_ID=

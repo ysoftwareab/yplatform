@@ -2,8 +2,11 @@
 # shellcheck disable=SC2034
 true
 
-git config --global user.email "circleci@circleci.com"
-git config --global user.name "CircleCI"
+CI_NAME=CircleCI
+CI_PLATFORM=circle
+
+git config --global user.email "${CI_PLATFORM}@circleci.com"
+git config --global user.name "${CI_NAME}"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}

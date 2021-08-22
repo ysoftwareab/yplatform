@@ -2,8 +2,11 @@
 # shellcheck disable=SC2034
 true
 
-git config --global user.email "travis@travis-ci.com"
-git config --global user.name "Travis CI"
+CI_NAME="Travis CI"
+CI_PLATFORM=travis
+
+git config --global user.email "${CI_PLATFORM}@travis-ci.com"
+git config --global user.name "${CI_NAME}"
 
 CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
 CI_JOB_ID=${TRAVIS_JOB_ID}

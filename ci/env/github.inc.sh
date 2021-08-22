@@ -2,8 +2,10 @@
 # shellcheck disable=SC2034
 true
 
-git config --global user.email "actions@github.com"
-git config --global user.name "Github Actions CI"
+CI_PLATFORM=github
+
+git config --global user.email "${CI_PLATFORM}@github.com"
+git config --global user.name "${CI_NAME}"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 # travis -> github actions

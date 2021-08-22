@@ -7,6 +7,9 @@ true
 [[ "${GITHUB_EVENT}" = "push" ]] # only push
 [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
 
+CI_NAME=sourcehut
+CI_PLATFORM=sourcehut
+
 git config --global user.email "sourcehut@sourcehut.org"
 git config --global user.name "sourcehut"
 

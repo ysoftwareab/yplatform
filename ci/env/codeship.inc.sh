@@ -2,8 +2,10 @@
 # shellcheck disable=SC2034
 true
 
-git config --global user.email "codeship@codeship.com"
-git config --global user.name "CodeShip"
+CI_PLATFORM=codeship
+
+git config --global user.email "${CI_PLATFORM}@codeship.com"
+git config --global user.name "${CI_NAME}"
 
 CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
 CI_JOB_ID=${CI_BUILD_ID}
