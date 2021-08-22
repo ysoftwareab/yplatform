@@ -35,6 +35,7 @@ APT_GET_FORCE_YES+=("--allow-remove-essential")
 APT_GET_FORCE_YES+=("--allow-change-held-packages")
 APT_DPKG=()
 [[ "${CI:-}" != "true" ]] || {
+    export DEBIAN_FRONTEND=noninteractive
     apt-get install -y "${APT_GET_FORCE_YES[@]}" --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES=("--force-yes")
     [[ -n "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] && cat /etc/apt/apt.conf.d/* | grep -q "force-confdef" || \

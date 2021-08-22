@@ -3,7 +3,6 @@
 set -euo pipefail
 
 export CI=true
-export DEBIAN_FRONTEND=noninteractive
 # export SF_DOCKER_CI_IMAGE_NAME= # --build-arg
 # export SF_DOCKER_CI_IMAGE_TAG= # --build-arg
 # export SF_CI_BREW_INSTALL= # --build-arg
