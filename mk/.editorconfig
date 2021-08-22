@@ -1,0 +1,2 @@
+[target.help.inc.mk]
+max_line_length = unset
