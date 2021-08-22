@@ -109,6 +109,7 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
+[[ "${APPVEYOR:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/appveyor.inc.sh
 [[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/circle.inc.sh
 [[ "${CIRRUS_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/cirrus.inc.sh
 [[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/codeship.inc.sh
