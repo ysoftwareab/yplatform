@@ -48,6 +48,7 @@ fi
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/core-sudo.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/core-os.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/core-os-release.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/core-git.inc.sh
 
 [[ "${CI}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/sh/core-ci.inc.sh
