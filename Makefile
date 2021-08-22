@@ -8,8 +8,6 @@ endif
 include $(CORE_INC_MK_DIR)/chars.inc.mk
 include $(CORE_INC_MK_DIR)/core.inc.mk
 
-include $(CORE_INC_MK_DIR)/funs.inc.mk
-
 include $(CORE_INC_MK_DIR)/exe.inc.mk
 include $(CORE_INC_MK_DIR)/os.inc.mk
 include $(CORE_INC_MK_DIR)/git.inc.mk
