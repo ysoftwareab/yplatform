@@ -30,7 +30,32 @@ apt_install_one gnupg-agent
 
 apt_install_one git
 apt_install_one openssl
-apt_install_one ssh-client
+if [[ "${SEMAPHORE:-}" = "true" ]]; then
+    # cannot skip the prompt about /etc/ssh/sshd_config even though
+    # apt-get install sends dpkg option to choose to keep local version
+    # ┌──────────────────────┤ Configuring openssh-server ├──────────────────────┐
+    # │ /etc/ssh/sshd_config is available, but the version installed currently   │
+    # │ has been locally modified.                                               │
+    # │                                                                          │
+    # │ What do you want to do about modified configuration file sshd_config?    │
+    # │                                                                          │
+    # │           install the package maintainer's version                       │
+    # │           keep the local version currently installed                     │
+    # │           show the differences between the versions                      │
+    # │           show a side-by-side difference between the versions            │
+    # │           show a 3-way difference between available versions             │
+    # │           do a 3-way merge between available versions                    │
+    # │           start a new shell to examine the situation                     │
+    # │                                                                          │
+    # │                                                                          │
+    # │                                  <Ok>                                    │
+    # │                                                                          │
+    # └──────────────────────────────────────────────────────────────────────────┘
+    echo_skip "aptitude: Installing ssh-client..."
+else
+    apt_install_one ssh-client
+fi
+apt_install_one openssl
 apt_install_one sudo
 echo_done
 
