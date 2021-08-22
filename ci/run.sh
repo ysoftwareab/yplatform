@@ -114,6 +114,7 @@ function sf_ci_run() {
 [[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.codeship.inc.sh
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.github-actions.inc.sh
 [[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.gitlab.inc.sh
+[[ "${SEMAPHORE:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.semaphore.inc.sh
 [[ "${CI_NAME:-}" != "sourcehut" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.sourcehut.inc.sh
 [[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env.travis-ci.inc.sh
 
