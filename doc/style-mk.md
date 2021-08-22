@@ -27,11 +27,11 @@ or at the very minimum, include `support-firecloud/build.mk/core.common.mk`.
 This will mean that
 
 * a bunch of sane defaults will be set and utility functions will become available.
-  * See https://github.com/andreineculau/core.inc.mk/blob/master/core.inc.mk
+  * See [mk](../mk)
 * a bunch of exe/os/git variables will become available.
-  * See https://github.com/andreineculau/core.inc.mk/blob/master/exe.inc.mk
-  * See https://github.com/andreineculau/core.inc.mk/blob/master/os.inc.mk
-  * See https://github.com/andreineculau/core.inc.mk/blob/master/git.inc.mk
+  * See [mk/exe.inc.mk](../mk/exe.inc.mk)
+  * See [mk/os.inc.mk](../mk/os.inc.mk)
+  * See [mk/git.inc.mk](../mk/git.inc.mk)
 * a bunch of sane target patterns will become available.
   * `make` = `make all` = `make deps build check`
   * `make clean`, `make nuke`
@@ -57,6 +57,5 @@ TODO
 
 * https://www.gnu.org/prep/standards/html_node/Makefile-Conventions.html
 * http://clarkgrubb.com/makefile-style-guide
-* https://github.com/andreineculau/core.inc.mk
 * http://blog.jgc.org/2013/02/updated-list-of-my-gnu-make-articles.html
 * https://tech.davis-hansson.com/p/make/

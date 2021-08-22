@@ -1,4 +1,4 @@
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.inc.mk/Makefile
+include $(SUPPORT_FIRECLOUD_DIR)/build.mk/mk/Makefile
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.clean.mk
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.transcrypt.mk
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.source-const-inc.mk
