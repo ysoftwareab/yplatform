@@ -30,9 +30,9 @@ DEBUG_CI_TARGETS += \
 # NOTE: below is a workaround for 'make help-all' to work
 ci/appveyor-%:
 ci/circleci-%:
-ci/cirrus:
+ci/cirrus-%:
 ci/codeship-%:
-ci/github:
+ci/github-%:
 ci/gitlab-%:
 ci/semaphore-%:
 ci/travis-%:
@@ -45,9 +45,9 @@ ci/%: ## Force push to a CI branch.
 # NOTE: below is a workaround for 'make help-all' to work
 debug-ci/appveyor-%:
 debug-ci/circleci-%:
-debug-ci/cirrus:
+debug-ci/cirrus-%:
 debug-ci/codeship-%:
-debug-ci/github:
+debug-ci/github-%:
 debug-ci/gitlab-%:
 debug-ci/semaphore-%:
 debug-ci/travis-%:
