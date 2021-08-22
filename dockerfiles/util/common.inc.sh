@@ -9,9 +9,14 @@ if [[ -z "${BASH_VERSINFO}" ]] || [[ -z "${BASH_VERSINFO[0]}" ]] || [[ ${BASH_VE
     echo >&2 "[WARN] Your Bash version is ${BASH_VERSINFO[0]}. ${0} may require >= 4.";
 fi
 
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/core.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/core.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/sudo.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/os.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/os-release.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/git.inc.sh
+
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/exe.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/exe.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/brew.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/magic.inc.sh
