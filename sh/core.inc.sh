@@ -45,10 +45,3 @@ if [[ -n "${VERBOSE}" ]]; then
         export BASH_XTRACEFD
     fi
 fi
-
-source ${SUPPORT_FIRECLOUD_DIR}/sh/sudo.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/sh/os.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/sh/os-release.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/sh/git.inc.sh
-
-[[ "${CI}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/sh/ci.inc.sh
