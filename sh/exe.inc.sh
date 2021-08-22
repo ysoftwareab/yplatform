@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
-    export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 SF_CI_ECHO_BENCHMARK=${SF_CI_ECHO_BENCHMARK:-/dev/null}
 export CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
 
