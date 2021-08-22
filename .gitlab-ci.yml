@@ -7,11 +7,11 @@ variables:
 .aliases:
   - &shared
     image:
-      # name: ubuntu:18.04
+      # name: ubuntu:20.04
       # NOTE using the prebuilt docker image of homebrew (linuxbrew)
       # because homebrew cannot be installed as root,
       # and creating a sudoer user and then running gitlab jobs through it failed
-      name: homebrew/ubuntu18.04:3.2.8
+      name: homebrew/ubuntu20.04:3.2.8
     only:
       - /^gitlab/ # gitlab branches
       - master
