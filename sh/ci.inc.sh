@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 true
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/core-ci-home.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/sh/ci-home.inc.sh
 
 [[ -z "${SEMAPHORE_GIT_BRANCH:-}" ]] || {
     GIT_BRANCH=${SEMAPHORE_GIT_BRANCH}
