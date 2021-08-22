@@ -19,9 +19,6 @@ function on_error() {
 trap 'on_error $?' ERR
 set -o errtrace -o functrace
 
-[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || \
-    export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-
 CI="${CI:-}"
 [[ "${CI}" != "1" ]] || CI=true
 
