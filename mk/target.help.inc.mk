@@ -10,7 +10,7 @@ help: ## Show this help message.
 	done | \
 		$(GREP) "^$(RANDOM_MARKER)" | \
 		$(SED) "s|^$(RANDOM_MARKER)||g" | \
-	  sort -u | \
+		sort -u | \
 		column -t -s "##"
 
 
@@ -27,5 +27,5 @@ help-all: ## Show this help message, including all intermediary targets and sour
 	done | \
 		$(GREP) "^$(RANDOM_MARKER)" | \
 		$(SED) "s|^$(RANDOM_MARKER)||g" | \
-	  sort -u | \
+		sort -u | \
 		column -t -s "##"
