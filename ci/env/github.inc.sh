@@ -2,6 +2,7 @@
 # shellcheck disable=SC2034
 true
 
+CI_NAME="Github Actions"
 CI_PLATFORM=github
 
 git config --global user.email "${CI_PLATFORM}@github.com"

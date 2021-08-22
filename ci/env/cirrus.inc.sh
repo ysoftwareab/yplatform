@@ -2,6 +2,7 @@
 # shellcheck disable=SC2034
 true
 
+CI_NAME="Cirrus CI"
 CI_PLATFORM=cirrus
 
 git config --global user.email "${CI_PLATFORM}@cirrus-ci.com"
