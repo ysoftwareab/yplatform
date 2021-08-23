@@ -109,14 +109,12 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
-[[ "${APPVEYOR:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/appveyor.inc.sh
-[[ "${CIRCLECI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/circle.inc.sh
-[[ "${CIRRUS_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/cirrus.inc.sh
-[[ "${CI_NAME:-}" != "codeship" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/codeship.inc.sh
-[[ "${GITHUB_ACTIONS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/github.inc.sh
-[[ "${GITLAB_CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/gitlab.inc.sh
-[[ "${SEMAPHORE:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/semaphore.inc.sh
-[[ "${CI_NAME:-}" != "sourcehut" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/sourcehut.inc.sh
-[[ "${TRAVIS:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/ci/env/travis.inc.sh
+for SF_CI_ENV_INC_SH in "${SUPPORT_FIRECLOUD_DIR}"/ci/env/*; do
+    source ${SF_CI_ENV_INC_SH}
+    SF_CI_ENV_INC_SH_PLATFORM=$(basename ${SF_CI_ENV_INC_SH} .inc.sh)
+    eval "sf_ci_env_${SF_CI_ENV_INC_SH_PLATFORM}"
+    unset SF_CI_ENV_INC_SH_PLATFORM
+done
+unset SF_CI_ENV_INC_SH
 
 [[ -z "$*" ]] || sf_ci_run "$@"
