@@ -1,0 +1,273 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+set -euo pipefail
+
+#- ci-printvars 1.0
+## Usage: ci-printvars
+## Print CI_* vars in a platform-agnostic way.
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_appveyor() {
+    [[ "${APPVEYOR:-}" = "true" ]] || return 0
+
+    CI_NAME=AppVeyor
+    CI_PLATFORM=appveyor
+
+    git config --global user.email "${CI_PLATFORM}@appveyor.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${APPVEYOR_JOB_ID}
+    CI_JOB_URL=https://ci.appveyor.com/project/${APPVEYOR_ACCOUNT_NAME}/${APPVEYOR_PROJECT_SLUG}/builds/${CI_JOB_ID}
+    CI_PR_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
+    CI_REPO_SLUG=${APPVEYOR_REPO_NAME}
+    CI_IS_PR=false
+    if [[ -n "${APPVEYOR_PULL_REQUEST_NUMBER:-}" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=${APPVEYOR_SCHEDULED_BUILD:-}
+    CI_TAG=${APPVEYOR_REPO_TAG_NAME:-}
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_circle() {
+    [[ "${CIRCLECI:-}" = "true" ]] || return 0
+
+    CI_NAME=CircleCI
+    CI_PLATFORM=circle
+
+    git config --global user.email "${CI_PLATFORM}@circleci.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}
+    CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
+    CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
+    CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
+    CI_IS_PR=false
+    if [[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
+    CI_TAG=${CIRCLE_TAG:-}
+    export USER=$(whoami)
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_cirrus() {
+    [[ "${CIRRUS_CI:-}" = "true" ]] || return 0
+
+    CI_NAME="Cirrus CI"
+    CI_PLATFORM=cirrus
+
+    git config --global user.email "${CI_PLATFORM}@cirrus-ci.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_JOB_ID=${CIRRUS_BUILD_ID}
+    CI_JOB_URL="https://cirrus-ci.com/build/${CIRRUS_BUILD_ID}"
+    CI_PR_SLUG=
+    if [[ -n "${CIRRUS_PR:-}" ]]; then
+        CI_PR_NUMBER=${CIRRUS_PR}
+        CI_PR_SLUG=https://github.com/${CIRRUS_REPO_FULL_NAME}/pull/${CIRRUS_PR}
+        unset CI_PR_NUMBER
+    fi
+    CI_REPO_SLUG=${CIRRUS_REPO_FULL_NAME}
+    CI_IS_PR=false
+    if [[ -n "${CIRRUS_PR:-}" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=false
+    if [[ -n "${CIRRUS_CRON:-}" ]]; then
+        CI_IS_CRON=true
+    fi
+    CI_TAG=${CIRRUS_TAG:-}
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_codeship() {
+    [[ "${CI_NAME:-}" = "codeship" ]] || return 0
+
+    # CI_NAME=codeship
+    CI_PLATFORM=codeship
+
+    git config --global user.email "${CI_PLATFORM}@codeship.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${CI_BUILD_ID}
+    CI_JOB_URL=https://app.codeship.com/projects/${CI_PROJECT_ID}/builds/${CI_BUILD_ID}
+    CI_PR_SLUG= # needs CI_REPO_SLUG
+    # CI_REPO_SLUG=${?????????????????}/${CI_REPO_NAME}
+    CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
+    CI_IS_PR=false
+    if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=false
+    CI_TAG= #TODO
+
+    # TODO assuming github.com
+    CI_PR_SLUG=https://github.com/${CI_REPO_SLUG}/pull/${CI_PR_NUMBER}
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_github() {
+    [[ "${GITHUB_ACTIONS:-}" = "true" ]] || return 0
+
+    CI_NAME="Github Actions"
+    CI_PLATFORM=github
+
+    git config --global user.email "${CI_PLATFORM}@github.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    # travis -> github actions
+    # builds -> workflow runs
+    # jobs   -> job runs
+    CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/github-get-job-id)
+    # CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME"
+    CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/runs/${CI_JOB_ID}?check_suite_focus=true"
+    CI_REPO_SLUG=${GITHUB_REPOSITORY}
+    CI_IS_PR=false
+    CI_PR_SLUG=
+    if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+        CI_IS_PR=true
+        CI_PR_SLUG=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
+    fi
+    CI_IS_CRON=false
+    if [[ -z "${GITHUB_EVENT_NAME}" ]]; then
+        CI_IS_CRON=true
+    fi
+    CI_TAG=
+    if [[ "${GITHUB_REF:-}" =~ ^refs/tags/ ]]; then
+        CI_TAG=${GITHUB_REF#refs\/tags\/}
+    fi
+    export CI=true
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_gitlab() {
+    [[ "${GITLAB_CI:-}" = "true" ]] || return 0
+
+    CI_NAME=Gitlab
+    CI_PLATFORM=gitlab
+
+    git config --global user.email "${CI_PLATFORM}@gitlab.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    # CI_JOB_ID=
+    # CI_JOB_URL=
+    CI_REPO_SLUG=${CI_PROJECT_PATH}
+    CI_IS_PR=$([[ -n "${CI_MERGE_REQUEST_ID:-}" ]] && echo true || echo false)
+    CI_IS_CRON=$([[ "${CI_PIPELINE_SOURCE}" = "schedule" ]] && echo true || echo false)
+    # CI_TAG=
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_semaphore() {
+    [[ "${SEMAPHORE:-}" = "true" ]] || return 0
+
+    CI_NAME="Semaphore CI"
+    CI_PLATFORM=semaphore
+
+    git config --global user.email "${CI_PLATFORM}@semaphoreci.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${SEMAPHORE_JOB_ID}
+    CI_JOB_URL="${SEMAPHORE_ORGANIZATION_URL}/jobs/${CI_JOB_ID}"
+    CI_REPO_SLUG=${SEMAPHORE_GIT_REPO_SLUG}
+    CI_IS_PR=false
+    if [[ -n "${SEMAPHORE_GIT_PR_SLUG:-}" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_PR_SLUG=${SEMAPHORE_GIT_PR_SLUG:-}
+    CI_IS_CRON=${SEMAPHORE_WORKFLOW_TRIGGERED_BY_SCHEDULE}
+    CI_TAG=${SEMAPHORE_GIT_TAG_NAME:-}
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_sourcehut() {
+    [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
+
+    # FIXME sourcehut hasn't been fully tested. narrowing the scope
+    [[ "${BUILD_REASON}" = "github-commit" ]] # only github webhooks
+    [[ "${GITHUB_EVENT}" = "push" ]] # only push
+    [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
+
+    CI_NAME=sourcehut
+    CI_PLATFORM=sourcehut
+
+    git config --global user.email "sourcehut@sourcehut.org"
+    git config --global user.name "sourcehut"
+
+    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    CI_JOB_ID=${JOB_ID}
+    CI_JOB_URL=${JOB_URL}
+    CI_PR_SLUG=
+    CI_REPO_SLUG=${GITHUB_REPO}
+    CI_IS_PR=false
+    CI_IS_CRON=false
+    CI_TAG= #TODO
+
+    export CI=true
+}
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+true
+
+function sf_ci_env_travis() {
+    [[ "${TRAVIS:-}" = "true" ]] || return 0
+
+    CI_NAME="Travis CI"
+    CI_PLATFORM=travis
+
+    git config --global user.email "${CI_PLATFORM}@travis-ci.com"
+    git config --global user.name "${CI_NAME}"
+
+    CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
+    CI_JOB_ID=${TRAVIS_JOB_ID}
+    CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
+    CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
+    CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
+    CI_IS_PR=false
+    if [[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]]; then
+        CI_IS_PR=true
+    fi
+    CI_IS_CRON=false
+    if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
+        CI_IS_CRON=true
+    fi
+    CI_TAG=${TRAVIS_TAG:-}
+}
+for SF_CI_ENV_INC_SH_PLATFORM in  appveyor circle cirrus codeship github gitlab semaphore sourcehut travis; do
+    eval "sf_ci_env_${SF_CI_ENV_INC_SH_PLATFORM}"
+done
+unset SF_CI_ENV_INC_SH_PLATFORM
+
+# cannot use printenv because variables are not exported
+# printenv | grep "^CI[_=]"
+compgen -A variable | sort -u | grep -e "^CI$" -e "^CI_" | while read -r NO_XARGS_R; do
+    [[ -n "${NO_XARGS_R}" ]] || continue;
+    echo "${NO_XARGS_R}=${!NO_XARGS_R}"
+done
