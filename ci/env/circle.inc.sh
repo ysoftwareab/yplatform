@@ -16,7 +16,7 @@ function sf_ci_env_circle() {
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
     CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
     CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]]; then
         CI_IS_PR=true
     fi

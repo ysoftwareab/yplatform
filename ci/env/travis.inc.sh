@@ -16,11 +16,11 @@ function sf_ci_env_travis() {
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
     CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
         CI_IS_CRON=true
     fi

@@ -16,7 +16,7 @@ function sf_ci_env_appveyor() {
     CI_JOB_URL=https://ci.appveyor.com/project/${APPVEYOR_ACCOUNT_NAME}/${APPVEYOR_PROJECT_SLUG}/builds/${CI_JOB_ID}
     CI_PR_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
     CI_REPO_SLUG=${APPVEYOR_REPO_NAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${APPVEYOR_PULL_REQUEST_NUMBER:-}" ]]; then
         CI_IS_PR=true
     fi

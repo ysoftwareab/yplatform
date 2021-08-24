@@ -26,7 +26,7 @@ function sf_ci_env_appveyor() {
     CI_JOB_URL=https://ci.appveyor.com/project/${APPVEYOR_ACCOUNT_NAME}/${APPVEYOR_PROJECT_SLUG}/builds/${CI_JOB_ID}
     CI_PR_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
     CI_REPO_SLUG=${APPVEYOR_REPO_NAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${APPVEYOR_PULL_REQUEST_NUMBER:-}" ]]; then
         CI_IS_PR=true
     fi
@@ -51,7 +51,7 @@ function sf_ci_env_circle() {
     CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
     CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
     CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]]; then
         CI_IS_PR=true
     fi
@@ -81,11 +81,11 @@ function sf_ci_env_cirrus() {
         unset CI_PR_NUMBER
     fi
     CI_REPO_SLUG=${CIRRUS_REPO_FULL_NAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CIRRUS_PR:-}" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     if [[ -n "${CIRRUS_CRON:-}" ]]; then
         CI_IS_CRON=true
     fi
@@ -110,11 +110,11 @@ function sf_ci_env_codeship() {
     CI_PR_SLUG= # needs CI_REPO_SLUG
     # CI_REPO_SLUG=${?????????????????}/${CI_REPO_NAME}
     CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     CI_TAG= #TODO
 
     # TODO assuming github.com
@@ -141,13 +141,13 @@ function sf_ci_env_github() {
     # CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME"
     CI_JOB_URL="https://github.com/${GITHUB_REPOSITORY}/runs/${CI_JOB_ID}?check_suite_focus=true"
     CI_REPO_SLUG=${GITHUB_REPOSITORY}
-    CI_IS_PR=false
+    CI_IS_PR=
     CI_PR_SLUG=
     if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
         CI_IS_PR=true
         CI_PR_SLUG=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     if [[ -z "${GITHUB_EVENT_NAME}" ]]; then
         CI_IS_CRON=true
     fi
@@ -195,7 +195,7 @@ function sf_ci_env_semaphore() {
     CI_JOB_ID=${SEMAPHORE_JOB_ID}
     CI_JOB_URL="${SEMAPHORE_ORGANIZATION_URL}/jobs/${CI_JOB_ID}"
     CI_REPO_SLUG=${SEMAPHORE_GIT_REPO_SLUG}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${SEMAPHORE_GIT_PR_SLUG:-}" ]]; then
         CI_IS_PR=true
     fi
@@ -224,11 +224,11 @@ function sf_ci_env_sourcehut() {
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${JOB_ID}
     CI_JOB_URL=${JOB_URL}
-    CI_PR_SLUG=
+    CI_PR_SLUG= # TODO
     CI_REPO_SLUG=${GITHUB_REPO}
-    CI_IS_PR=false
-    CI_IS_CRON=false
-    CI_TAG= #TODO
+    CI_IS_PR= # TODO
+    CI_IS_CRON= # TODO
+    CI_TAG= # TODO
 
     export CI=true
 }
@@ -250,11 +250,11 @@ function sf_ci_env_travis() {
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
     CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
         CI_IS_CRON=true
     fi
@@ -263,7 +263,6 @@ function sf_ci_env_travis() {
 for SF_CI_ENV_INC_SH_PLATFORM in  appveyor circle cirrus codeship github gitlab semaphore sourcehut travis; do
     eval "sf_ci_env_${SF_CI_ENV_INC_SH_PLATFORM}"
 done
-unset SF_CI_ENV_INC_SH_PLATFORM
 
 # cannot use printenv because variables are not exported
 # printenv | grep "^CI[_=]"

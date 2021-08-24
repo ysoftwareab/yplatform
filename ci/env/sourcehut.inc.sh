@@ -19,11 +19,11 @@ function sf_ci_env_sourcehut() {
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
     CI_JOB_ID=${JOB_ID}
     CI_JOB_URL=${JOB_URL}
-    CI_PR_SLUG=
+    CI_PR_SLUG= # TODO
     CI_REPO_SLUG=${GITHUB_REPO}
-    CI_IS_PR=false
-    CI_IS_CRON=false
-    CI_TAG= #TODO
+    CI_IS_PR= # TODO
+    CI_IS_CRON= # TODO
+    CI_TAG= # TODO
 
     export CI=true
 }

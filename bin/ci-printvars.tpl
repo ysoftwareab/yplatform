@@ -27,7 +27,6 @@ cat <<EOF
 for SF_CI_ENV_INC_SH_PLATFORM in ${SF_CI_ENV_INC_SH_PLATFORMS}; do
     eval "sf_ci_env_\${SF_CI_ENV_INC_SH_PLATFORM}"
 done
-unset SF_CI_ENV_INC_SH_PLATFORM
 
 # cannot use printenv because variables are not exported
 # printenv | grep "^CI[_=]"

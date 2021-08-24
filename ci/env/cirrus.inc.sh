@@ -20,11 +20,11 @@ function sf_ci_env_cirrus() {
         unset CI_PR_NUMBER
     fi
     CI_REPO_SLUG=${CIRRUS_REPO_FULL_NAME}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CIRRUS_PR:-}" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     if [[ -n "${CIRRUS_CRON:-}" ]]; then
         CI_IS_CRON=true
     fi

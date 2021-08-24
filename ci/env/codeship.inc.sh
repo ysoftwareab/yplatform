@@ -17,11 +17,11 @@ function sf_ci_env_codeship() {
     CI_PR_SLUG= # needs CI_REPO_SLUG
     # CI_REPO_SLUG=${?????????????????}/${CI_REPO_NAME}
     CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=false
+    CI_IS_CRON=
     CI_TAG= #TODO
 
     # TODO assuming github.com

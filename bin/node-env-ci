@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Print env-ci's output as CI environment variables.
+# See https://github.com/pvdlg/env-ci
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+SF_NPX_ARGS=
+SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
+SF_NPX_ARGS="${SF_NPX_ARGS} --package env-ci"
+
+function main() {
+    SCRIPT="$(cat <<EOF
+let _ = require('lodash-firecloud');
+let envCi = require('env-ci');
+let data = envCi();
+
+// pass --sf for compatibility with support-firecloud (used in Makefile:test-env-ci target)
+let sfCompat = process.argv[1] === '--sf';
+
+// as listed on https://github.com/pvdlg/env-ci/blob/master/README.md
+let map2sf = {
+    name: 'CI_NAME',
+    service: 'CI_PLATFORM',
+    isCi: 'CI',
+    branch: 'CI_GIT_BRANCH',
+    commit: 'CI_GIT_HASH',
+    tag: 'CI_GIT_TAG',
+    // NOTE our wording implies 1 pipeline -> n jobs
+    // env-ci's wording implies 1 job -> n builds
+    build: 'CI_JOB_ID',
+    buildUrl: 'CI_JOB_URL',
+    job: '', // 'CI_PIPELINE_ID',
+    jobUrl: '', // 'CI_PIPELINE_URL',
+    isPr: 'CI_IS_PR',
+    pr: 'CI_PR_REPO_SLUG',
+    prBranch: '', // 'CI_PR_BRANCH',
+    slug: 'CI_REPO_SLUG',
+    root: '' // 'CI_ROOT'
+};
+
+let knownKeys = _.keys(map2sf);
+let unknownKeys = _.keys(_.omit(data, ...knownKeys));
+
+if (!_.isEmpty(unknownKeys)) {
+    console.error('env-ci has new keys, please update the node-env-ci script:', unknownKeys);
+    process.exit(1);
+}
+
+data = _.omitBy(data, function(_value, key) {
+    return _.isEmpty(map2sf[key]);
+});
+data = _.mapKeys(data, function(_value, key) {
+    return map2sf[key];
+});
+
+if (sfCompat) {
+    // prefer empty instead of false
+    data = _.mapValues(data, function(value) {
+        value = _.toString(value);
+        if (value === 'false') {
+            return '';
+        }
+        return value;
+    });
+}
+
+_.forEach(data, function(value, key) {
+    console.log(key + "=" + value);
+})
+EOF
+)"
+
+    node -e "${SCRIPT}" -- "$@"
+}
+
+source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh

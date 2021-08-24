@@ -15,7 +15,7 @@ function sf_ci_env_semaphore() {
     CI_JOB_ID=${SEMAPHORE_JOB_ID}
     CI_JOB_URL="${SEMAPHORE_ORGANIZATION_URL}/jobs/${CI_JOB_ID}"
     CI_REPO_SLUG=${SEMAPHORE_GIT_REPO_SLUG}
-    CI_IS_PR=false
+    CI_IS_PR=
     if [[ -n "${SEMAPHORE_GIT_PR_SLUG:-}" ]]; then
         CI_IS_PR=true
     fi
