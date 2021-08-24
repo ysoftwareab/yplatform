@@ -148,12 +148,14 @@ test-repo-mk:
 	done
 
 
-gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl gitconfig/dot.gitignore_global.base
 gitconfig/dot.gitignore_global: ## Regenerate gitconfig/dot.gitignore_global.
+gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.base
+gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 	$(call sf-generate-from-template)
 
 
-bootstrap/brew-util/homebrew-install.sh: Brewfile.lock ## Regenerate bootstrap/brew-util/homebrew-install.sh
+bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
+bootstrap/brew-util/homebrew-install.sh: Brewfile.lock
 	$(eval BREW_INSTALL_GITREF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
 	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GITREF)/install.sh
 	if [[ -f "$@.patch" ]]; then \
