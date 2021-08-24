@@ -19,3 +19,9 @@ function sf_ci_env_gitlab() {
     CI_IS_CRON=$([[ "${CI_PIPELINE_SOURCE}" = "schedule" ]] && echo true || echo false)
     # CI_TAG=
 }
+
+function sf_ci_printvars_gitlab() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITLAB[=_]"
+    printenv | grep "^TRIGGER_PAYLOAD="
+}

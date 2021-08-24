@@ -33,6 +33,11 @@ function sf_ci_env_appveyor() {
     CI_IS_CRON=${APPVEYOR_SCHEDULED_BUILD:-}
     CI_TAG=${APPVEYOR_REPO_TAG_NAME:-}
 }
+
+function sf_ci_printvars_appveyor() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^APPVEYOR[=_]"
+}
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 true
@@ -58,6 +63,11 @@ function sf_ci_env_circle() {
     CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
     CI_TAG=${CIRCLE_TAG:-}
     export USER=$(whoami)
+}
+
+function sf_ci_printvars_circle() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^CIRCLE[=_]"
 }
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -91,6 +101,11 @@ function sf_ci_env_cirrus() {
     fi
     CI_TAG=${CIRRUS_TAG:-}
 }
+
+function sf_ci_printvars_cirrus() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^CIRRUS[=_]"
+}
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 true
@@ -119,6 +134,10 @@ function sf_ci_env_codeship() {
 
     # TODO assuming github.com
     CI_PR_SLUG=https://github.com/${CI_REPO_SLUG}/pull/${CI_PR_NUMBER}
+}
+
+function sf_ci_printvars_codeship() {
+    printenv | grep "^CI[=_]"
 }
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -157,6 +176,11 @@ function sf_ci_env_github() {
     fi
     export CI=true
 }
+
+function sf_ci_printvars_github() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITHUB[=_]"
+}
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 true
@@ -177,6 +201,12 @@ function sf_ci_env_gitlab() {
     CI_IS_PR=$([[ -n "${CI_MERGE_REQUEST_ID:-}" ]] && echo true || echo false)
     CI_IS_CRON=$([[ "${CI_PIPELINE_SOURCE}" = "schedule" ]] && echo true || echo false)
     # CI_TAG=
+}
+
+function sf_ci_printvars_gitlab() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITLAB[=_]"
+    printenv | grep "^TRIGGER_PAYLOAD="
 }
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -202,6 +232,11 @@ function sf_ci_env_semaphore() {
     CI_PR_SLUG=${SEMAPHORE_GIT_PR_SLUG:-}
     CI_IS_CRON=${SEMAPHORE_WORKFLOW_TRIGGERED_BY_SCHEDULE}
     CI_TAG=${SEMAPHORE_GIT_TAG_NAME:-}
+}
+
+function sf_ci_printvars_semaphore() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^SEMAPHORE[=_]"
 }
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -232,6 +267,14 @@ function sf_ci_env_sourcehut() {
 
     export CI=true
 }
+
+function sf_ci_printvars_sourcehut() {
+    printenv | grep "^BUILD[=_]"
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITHUB[=_]"
+    printenv | grep "^JOB[=_]"
+    printenv | grep "^PATCHSET[=_]"
+}
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 true
@@ -250,15 +293,20 @@ function sf_ci_env_travis() {
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL}
     CI_PR_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG}
-    CI_IS_PR=
+    CI_IS_PR=false
     if [[ "${TRAVIS_EVENT_TYPE}" = "pull_request" ]]; then
         CI_IS_PR=true
     fi
-    CI_IS_CRON=
+    CI_IS_CRON=false
     if [[ "${TRAVIS_EVENT_TYPE}" = "cron" ]]; then
         CI_IS_CRON=true
     fi
     CI_TAG=${TRAVIS_TAG:-}
+}
+
+function sf_ci_printvars_travis() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^TRAVIS[=_]"
 }
 for SF_CI_ENV_INC_SH_PLATFORM in  appveyor circle cirrus codeship github gitlab semaphore sourcehut travis; do
     eval "sf_ci_env_${SF_CI_ENV_INC_SH_PLATFORM}"

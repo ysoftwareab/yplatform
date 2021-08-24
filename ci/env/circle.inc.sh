@@ -24,3 +24,8 @@ function sf_ci_env_circle() {
     CI_TAG=${CIRCLE_TAG:-}
     export USER=$(whoami)
 }
+
+function sf_ci_printvars_circle() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^CIRCLE[=_]"
+}

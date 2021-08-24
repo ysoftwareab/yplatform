@@ -23,3 +23,8 @@ function sf_ci_env_semaphore() {
     CI_IS_CRON=${SEMAPHORE_WORKFLOW_TRIGGERED_BY_SCHEDULE}
     CI_TAG=${SEMAPHORE_GIT_TAG_NAME:-}
 }
+
+function sf_ci_printvars_semaphore() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^SEMAPHORE[=_]"
+}

@@ -30,3 +30,8 @@ function sf_ci_env_cirrus() {
     fi
     CI_TAG=${CIRRUS_TAG:-}
 }
+
+function sf_ci_printvars_cirrus() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^CIRRUS[=_]"
+}

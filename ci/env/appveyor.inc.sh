@@ -23,3 +23,8 @@ function sf_ci_env_appveyor() {
     CI_IS_CRON=${APPVEYOR_SCHEDULED_BUILD:-}
     CI_TAG=${APPVEYOR_REPO_TAG_NAME:-}
 }
+
+function sf_ci_printvars_appveyor() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^APPVEYOR[=_]"
+}

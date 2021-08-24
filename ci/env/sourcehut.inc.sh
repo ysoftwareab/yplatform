@@ -27,3 +27,11 @@ function sf_ci_env_sourcehut() {
 
     export CI=true
 }
+
+function sf_ci_printvars_sourcehut() {
+    printenv | grep "^BUILD[=_]"
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITHUB[=_]"
+    printenv | grep "^JOB[=_]"
+    printenv | grep "^PATCHSET[=_]"
+}

@@ -35,3 +35,8 @@ function sf_ci_env_github() {
     fi
     export CI=true
 }
+
+function sf_ci_printvars_github() {
+    printenv | grep "^CI[=_]"
+    printenv | grep "^GITHUB[=_]"
+}

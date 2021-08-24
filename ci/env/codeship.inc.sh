@@ -27,3 +27,7 @@ function sf_ci_env_codeship() {
     # TODO assuming github.com
     CI_PR_SLUG=https://github.com/${CI_REPO_SLUG}/pull/${CI_PR_NUMBER}
 }
+
+function sf_ci_printvars_codeship() {
+    printenv | grep "^CI[=_]"
+}
