@@ -117,9 +117,11 @@ Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
 .PHONY: test-secret
 test-secret:
 ifeq ($(SF_IS_TRANSCRYPTED),true)
+	$(ECHO_DO) "Testing transcrypt..."
 	$(CAT) doc/how-to-manage-secrets.md.test.secret
 	$(CAT) doc/how-to-manage-secrets.md.test.secret | \
 		$(GREP) -q "This is a test of transcrypt."
+	$(ECHO_DONE)
 else
 	:
 endif
@@ -127,25 +129,31 @@ endif
 
 .PHONY: test-upload-job-artifacts
 test-upload-job-artifacts:
+	$(ECHO_DO) "Testing upload-job-artifacts..."
 	$(ECHO) "This is a test of upload-job-artifacts" >some-job-artifact.md
+	$(ECHO_DONE)
 
 
 .PHONY: test-gitignore
 test-gitignore:
+	$(ECHO_DO) "Testing .gitignore..."
 	$(CAT) .gitignore | $(GREP) -q -Fx "/some-job-artifact.md"
 	$(GIT) check-ignore --verbose some-job-artifact.md | $(CUT) -d: -f1 | $(GREP) -q -Fx ".gitignore"
 	$(CAT) gitconfig/dot.gitignore_global | $(GREP) -q -Fx "Makefile.lazy"
 	$(GIT) check-ignore --verbose Makefile.lazy | $(CUT) -d: -f1 | $(GREP) -q -Fx ".git/info/exclude"
+	$(ECHO_DONE)
 
 
 .PHONY: test-repo-mk
 test-repo-mk:
+	$(ECHO_DO) "Testing 'make help' and makefiles in build.mk..."
 	$(MAKE) help
 	for mk in $(COMMON_MKS); do \
 		$(ECHO_DO) "Testing $${mk}..."; \
 		$(MAKE) -f build.mk/generic.common.mk -f $${mk} help; \
 		$(ECHO_DONE); \
 	done
+	$(ECHO_DONE)
 
 
 gitconfig/dot.gitignore_global: ## Regenerate gitconfig/dot.gitignore_global.
