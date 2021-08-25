@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
+#- ifne 1.0
+## Usage: ifne -- COMMAND
+## Poor man's version of moreutils ifne.
+##
+##   -n, --not            Reverse operation. Run the command if the standard input is empty.
+##   -f, --fail           Return non-zero exist status if command isn't ran.
+##   -p, --print-on-fail  Print stdin if command isn't ran.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+TMP_IFNE=$(mktemp -t firecloud.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_IFNE}
+}
+trap on_exit EXIT
+
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hvnfp -l help,version,not,fail,print-on-fail -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
+SHOULD_BE_EMPTY=false
+FAIL_COMMAND=true
+PRINT_ON_FAIL=false
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -n|--not)
+            SHOULD_BE_EMPTY=true
+            shift
+            ;;
+        -f|--fail)
+            FAIL_COMMAND=false
+            shift
+            ;;
+        -p|--print-on-fail)
+            PRINT_ON_FAIL=true
+            shift
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+# [[ $# -eq 0 ]] || sh_script_usage
+
+cat - > ${TMP_IFNE}
+
+EMPTY=false
+cat ${TMP_IFNE} | grep -q . || EMPTY=true
+
+case ${EMPTY}-${SHOULD_BE_EMPTY} in
+    true-true|false-false)
+        [[ $# -eq 0 ]] || eval "$@"
+        ;;
+    *)
+        [[ "${PRINT_ON_FAIL}" = "false" ]] || cat ${TMP_IFNE}
+        trap - ERR # disable on_error trap
+        eval "${FAIL_COMMAND}"
+        ;;
+esac
