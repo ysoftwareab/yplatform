@@ -98,6 +98,7 @@ SF_TEST_TARGETS += \
 	test-upload-job-artifacts \
 	test-repo-mk \
 	test-gitignore \
+	test-env-ci \
 
 # ------------------------------------------------------------------------------
 
@@ -142,6 +143,16 @@ test-gitignore:
 	$(GIT) check-ignore --verbose some-job-artifact.md | $(CUT) -d: -f1 | $(GREP) -q -Fx ".gitignore"
 	$(CAT) gitconfig/dot.gitignore_global | $(GREP) -q -Fx "Makefile.lazy"
 	$(GIT) check-ignore --verbose Makefile.lazy | $(CUT) -d: -f1 | $(GREP) -q -Fx ".git/info/exclude"
+	$(ECHO_DONE)
+
+
+.PHONY: test-env-ci
+test-env-ci:
+	$(ECHO_DO) "Testing that we are in sync with env-ci..."
+	$(COMM) -23 \
+		<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
+		<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)) | \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne --not --fail --print-on-fail
 	$(ECHO_DONE)
 
 
