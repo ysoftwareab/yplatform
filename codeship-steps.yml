@@ -5,22 +5,6 @@
   type: serial
   name: ci
   steps:
-    # # - name: ubuntu-1604-minimal
-    # - name: u1604-minimal
-    #   service: sfu1604m
-    #   command: bash -c "CI_STEP_NAME=u1604-minimal ./.codeship/pipeline.sh"
-    # # - name: ubuntu-1604-dev
-    # - name: u1604-dev
-    #   service: sfu1604d
-    #   command: bash -c "CI_STEP_NAME=u1604-dev ./.codeship/pipeline.sh"
-    # - name: ubuntu-1804-minimal
-    - name: u1804-minimal
-      service: sfu1804m
-      command: bash -c "CI_STEP_NAME=u1804-minimal ./.codeship/pipeline.sh"
-    # - name: ubuntu-1804-dev
-    - name: u1804-dev
-      service: sfu1804d
-      command: bash -c "CI_STEP_NAME=u1804-dev ./.codeship/pipeline.sh"
     # - name: ubuntu-2004-minimal
     - name: u2004-minimal
       service: sfu2004m
