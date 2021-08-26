@@ -7,7 +7,9 @@ if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
 fi
 
 # in PRs, only run ux-minimal
-[[ "${CI_IS_PR}" = "true" ]] && [[ "${CI_STEP_NAME}" = "ux-minimal" ]] || exit 0
+if [[ "${CI_IS_PR}" = "true" ]]; then
+    [[ "${CI_STEP_NAME}" = "ux-minimal" ]] || exit 0
+fi
 
 source ci/pipeline.script.sh
 
