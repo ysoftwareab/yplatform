@@ -16,19 +16,19 @@ function bootstrap_brew() {
     local RAW_GUC_URL="https://raw.githubusercontent.com"
     local BREWFILE_LOCK=${GIT_ROOT}/Brewfile.lock
 
-    local BREW_INSTALL_GITREF=refs/heads/master
-    local BREW_GITREF=refs/heads/master
-    local BREW_CORE_GITREF=refs/heads/master
+    local BREW_INSTALL_GIT_REF=refs/heads/master
+    local BREW_GIT_REF=refs/heads/master
+    local BREW_CORE_GIT_REF=refs/heads/master
 
     [[ "${CI}" != "true" ]] || {
         [[ ! -f ${BREWFILE_LOCK} ]] || {
             BREW_INSTALL_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/install " || true)
             [[ -z "${BREW_INSTALL_LOCK}" ]] || \
-                BREW_INSTALL_GITREF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
+                BREW_INSTALL_GIT_REF=$(echo "${BREW_INSTALL_LOCK}" | cut -d" " -f2)
 
             BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
             [[ -z "${BREW_LOCK}" ]] || \
-                BREW_GITREF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
+                BREW_GIT_REF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
 
             case "${OS_SHORT}" in
                 darwin)
@@ -42,19 +42,19 @@ function bootstrap_brew() {
                     ;;
             esac
             [[ -z "${BREW_CORE_LOCK}" ]] || \
-                BREW_CORE_GITREF=$(echo "${BREW_CORE_LOCK}" | cut -d" " -f2)
+                BREW_CORE_GIT_REF=$(echo "${BREW_CORE_LOCK}" | cut -d" " -f2)
         }
     }
 
     # bootstrap/brew-util/homebrew-install.sh
-    export HOMEBREW_BREW_GIT_REF=$(echo ${BREW_GITREF} | sed "s|^refs/heads/|refs/remotes/origin/|")
-    export HOMEBREW_CORE_GIT_REF=$(echo ${BREW_CORE_GITREF} | sed "s|^refs/heads/|refs/remotes/origin/|")
+    export HOMEBREW_BREW_GIT_REF=$(echo ${BREW_GIT_REF} | sed "s|^refs/heads/|refs/remotes/origin/|")
+    export HOMEBREW_CORE_GIT_REF=$(echo ${BREW_CORE_GIT_REF} | sed "s|^refs/heads/|refs/remotes/origin/|")
 
-    BREW_INSTALL_GITREF=$(echo ${BREW_INSTALL_GITREF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
-    BREW_GITREF=$(echo ${BREW_GITREF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
-    BREW_CORE_GITREF=$(echo ${BREW_CORE_GITREF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
+    BREW_INSTALL_GIT_REF=$(echo ${BREW_INSTALL_GIT_REF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
+    BREW_GIT_REF=$(echo ${BREW_GIT_REF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
+    BREW_CORE_GIT_REF=$(echo ${BREW_CORE_GIT_REF} | sed "s|^refs/heads/||" | sed "s|^refs/tags/||")
 
-    local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GITREF}
+    local BREW_INSTALL_URL=${RAW_GUC_URL}/Homebrew/install/${BREW_INSTALL_GIT_REF}
 
     [[ "${CI}" != "true" ]] || {
         if command -v brew >/dev/null 2>&1; then
@@ -96,7 +96,7 @@ function bootstrap_brew() {
                 HOMEBREW_PREFIX=${HOME}/.linuxbrew
                 echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
                 mkdir -p ${HOMEBREW_PREFIX}
-                curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GITREF} | \
+                curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
 
                 [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
