@@ -2,26 +2,49 @@
 # shellcheck disable=SC2034
 true
 
+# see https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
+
 function sf_ci_env_circle() {
     [[ "${CIRCLECI:-}" = "true" ]] || return 0
 
+    [[ "${CIRCLE_REPOSITORY_URL:-}" =~ github.com ]]
+
+    export CI=true
     CI_NAME=CircleCI
     CI_PLATFORM=circle
+    CI_SERVER_HOST=circleci.com
+    CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME:-}/${CIRCLE_PROJECT_REPONAME:-}
+    CI_ROOT=${CIRCLE_WORKING_DIRECTORY:-}
 
-    git config --global user.email "${CI_PLATFORM}@circleci.com"
-    git config --global user.name "${CI_NAME}"
+    CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
+    CI_IS_PR=
+    [[ -z "${CIRCLE_PR_NUMBER:-}" ]] || CI_IS_PR=true # only on forked PRs
+    [[ -z "${CIRCLE_PULL_REQUEST:-}" ]] || CI_IS_PR=true
+
+    CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID:-}
+    # NOTE env-ci's version
+    # CI_JOB_ID=${CIRCLE_BUILD_NUM:-}.${CIRCLE_NODE_INDEX:-}
+    CI_PIPELINE_ID=${CIRCLE_BUILD_NUM:-}
+    CI_JOB_URL=https://${CI_SERVER_HOST}/workflow-run/${CIRCLE_WORKFLOW_ID:-}
+    CI_PIPELINE_URL=${CIRCLE_BUILD_URL:-}
+
+    CI_PR_URL=
+    CI_PR_REPO_SLUG=
+    CI_PR_GIT_HASH=
+    CI_PR_GIT_BRANCH=
+    [[ "${CI_IS_PR}" != "true" ]] || {
+        CI_PR_URL=https://github.com/${CI_REPO_SLUG}/pull/${CIRCLE_PR_NUMBER:-}
+        CI_PR_REPO_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
+        CI_PR_GIT_HASH= # TODO
+        CI_PR_GIT_BRANCH=${CIRCLE_BRANCH:-}
+    }
+
+    CI_GIT_HASH=${CIRCLE_SHA1:-}
+    CI_GIT_BRANCH=${CIRCLE_BRANCH:-}
+    [[ "${CI_IS_PR}" != "true" ]] || CI_GIT_BRANCH=
+    CI_GIT_TAG=${CIRCLE_TAG:-}
 
     CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
-    CI_JOB_ID=${CIRCLE_WORKFLOW_JOB_ID}
-    CI_JOB_URL=https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}
-    CI_PR_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
-    CI_REPO_SLUG=${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}
-    CI_IS_PR=
-    if [[ -n "${CIRCLE_PR_NUMBER:-}" || -n "${CIRCLE_PULL_REQUEST:-}" ]]; then
-        CI_IS_PR=true
-    fi
-    CI_IS_CRON=${CI_IS_CRON:-} # needs to come from .circleci/config.yml
-    CI_TAG=${CIRCLE_TAG:-}
     export USER=$(whoami)
 }
 

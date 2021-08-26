@@ -122,7 +122,7 @@ function sf_github() {
 function sf_transcrypt() {
     # de-transcrypt only for non-PRs or for PRs from the same repo
     [[ "${CI_IS_PR:-}" != "true" ]] || {
-        [[ "${CI_PR_SLUG}" = "${CI_REPO_SLUG}" ]] || return 0
+        [[ "${CI_PR_REPO_SLUG}" = "${CI_REPO_SLUG}" ]] || return 0
     }
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}" ]] || return 0
