@@ -2,9 +2,8 @@
 set -euo pipefail
 
 CI_IS_PR=false
-if [[ -n "${CI_PR_NUMBER:-}" || -n "${CI_PULL_REQUEST:-}" ]]; then
-    CI_IS_PR=true
-fi
+[[ -z "${CI_PR_NUMBER:-}" ]] || CI_IS_PR=true
+[[ -z "${CI_PULL_REQUEST:-}" ]] || CI_IS_PR=true
 
 # in PRs, only run ux-minimal
 if [[ "${CI_IS_PR}" = "true" ]]; then
