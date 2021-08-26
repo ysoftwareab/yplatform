@@ -200,3 +200,36 @@ These patterns can be reused by simply changing the `.ci.sh` template above to i
 source "${SUPPORT_FIRECLOUD_DIR}/sh/app-env.inc.sh"
 source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
 ```
+
+
+## Environment variables
+
+* CI
+* CI_NAME
+* CI_PLATFORM
+* CI_SERVER_HOST
+* CI_REPO_SLUG
+* CI_ROOT
+* ---
+* CI_IS_CRON
+* CI_IS_PR
+* ---
+* CI_JOB_ID
+* CI_PIPELINE_ID
+* CI_JOB_URL
+* CI_PIPELINE_URL
+* ---
+* CI_PR_URL
+* CI_PR_REPO_SLUG
+* CI_PR_GIT_HASH
+* CI_PR_GIT_BRANCH
+* ---
+* CI_GIT_HASH
+* CI_GIT_BRANCH
+* CI_GIT_TAG
+* ---
+* CI_DEBUG_MODE
+* CI_PHASES
+* CI_STEP_NAME
+* CI_ECHO
+* CI_STATUS
