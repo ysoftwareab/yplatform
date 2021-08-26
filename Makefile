@@ -176,13 +176,11 @@ bootstrap/brew-util/homebrew-install.sh: Brewfile.lock
 
 
 .PHONY: Formula/patch-src/%.original.rb
-Formula/patch-src/%.original.rb:
-	# see https://discourse.brew.sh/t/how-to-tap-homebrew-linuxbrew-core-on-macos/8731/3
-	if [[ "$(OS_SHORT)" = "darwin" ]]; then \
-		$(CURL) -q -fsSL https://raw.githubusercontent.com/homebrew/linuxbrew-core/master/Formula/$*.rb -o $@; \
-	else \
-		$(BREW) cat $* > $@; \
-	fi
+Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
+	$(eval BREW_TAP_LOCK_LINUXBREW_CORE_TO := $(shell $(CAT) $(BREWFILE_LOCK) | \
+		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
+	$(CURL) -q -fsSL \
+		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(BREW_TAP_LOCK_LINUXBREW_CORE_TO)/Formula/$*.rb -o $@
 	if [[ -f Formula/$*.linux.patch ]]; then \
 		$(MAKE) Formula/patch-src/$*.rb || { \
 			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
