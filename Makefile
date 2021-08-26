@@ -14,7 +14,7 @@ include support-firecloud/build.mk/core.misc.release.tag.mk
 # ------------------------------------------------------------------------------
 
 RAW_GUC_URL := https://raw.githubusercontent.com
-BREWFILE_LOCK := $(GIT_ROOT)/Brewfile.lock
+BREWFILE_LOCK := Brewfile.lock
 
 # for testing purposes, so that 'make docker-ci' works
 # otherwise SF_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
@@ -163,7 +163,7 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 
 
 bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
-bootstrap/brew-util/homebrew-install.sh: Brewfile.lock
+bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
 	$(eval BREW_INSTALL_GITREF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
 	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GITREF)/install.sh
 	if [[ -f "$@.patch" ]]; then \
