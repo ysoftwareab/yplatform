@@ -2,8 +2,8 @@ class Erlang < Formula
   desc "Programming language for highly scalable real-time systems"
   homepage "https://www.erlang.org/"
   # Download tarball from GitHub; it is served faster than the official tarball.
-  url "https://github.com/erlang/otp/releases/download/OTP-24.0.2/otp_src_24.0.2.tar.gz"
-  sha256 "882e8a93194c32cf8335f62c86489c1850d5a5ec9bdfa35fff55b9317213ab8e"
+  url "https://github.com/erlang/otp/releases/download/OTP-24.0.5/otp_src_24.0.5.tar.gz"
+  sha256 "a5fec674b11d0a2b888963157a9de60fc384be27ff1a2175cd20708a5b9aa97d"
   license "Apache-2.0"
 
   livecheck do
@@ -12,11 +12,11 @@ class Erlang < Formula
   end
 
   bottle do
-    sha256 cellar: :any,                 arm64_big_sur: "d50e7ed210cbf8a06c2bc87d6c261e43f64ae13f1401e3b05e3bf8403c1bfac3"
-    sha256 cellar: :any,                 big_sur:       "db0a9ace0b92a59e8586a560fd7e022aea8b405d5787d2a7e237de3b75ca6fd1"
-    sha256 cellar: :any,                 catalina:      "855422653acbc02598b0308ec3d550ba86d9541cc7018dedfe4c448dc9e2269d"
-    sha256 cellar: :any,                 mojave:        "13db9a1d679b466df28688dc8cd0bc6d842fe1e147391ea55605a4d5a7487d73"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "7569389e8c1f817ee6d21a4b0e5281a149efa1dcdd37b66022ebf93c20033d7a"
+    sha256 cellar: :any,                 arm64_big_sur: "c24a800044ebc42d8844b4e31b81000a0ee07f7109fb76983134d00adfdc271a"
+    sha256 cellar: :any,                 big_sur:       "7795a804b581ad2e0685ecc3b3897d5ac332992bd48b7cad5548da2d45a98c61"
+    sha256 cellar: :any,                 catalina:      "199e559ec28f6e0d636b36b1c06048b92ed0ba2b5cb3c69dd697dfca139f2818"
+    sha256 cellar: :any,                 mojave:        "e44aefc02d6b38885ffa8069f9fcf9cfb4ed09bb5bf9f07772ff2504de809101"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "8f6433b4ea3b5b9672b64997d0141d5017c33f0c2a6b2b76a54b88e7c21f3dab" # linuxbrew-core
   end
 
   head do
@@ -29,7 +29,7 @@ class Erlang < Formula
 
   depends_on "openssl@1.1"
   unless ENV["CI"]
-    depends_on "wxmac" # for GUI apps like observer
+    depends_on "wxwidgets" # for GUI apps like observer
   end
 
   resource "html" do

@@ -4,9 +4,9 @@
    end
  
    depends_on "openssl@1.1"
--  depends_on "wxmac" # for GUI apps like observer
+-  depends_on "wxwidgets" # for GUI apps like observer
 +  unless ENV["CI"]
-+    depends_on "wxmac" # for GUI apps like observer
++    depends_on "wxwidgets" # for GUI apps like observer
 +  end
  
    resource "html" do
