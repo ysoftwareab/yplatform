@@ -98,18 +98,6 @@ function bootstrap_brew() {
                 mkdir -p ${HOMEBREW_PREFIX}
                 curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
                     tar xz --strip 1 -C ${HOMEBREW_PREFIX}
-
-                [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
-                    # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
-                    brew install -s patchelf
-                    brew install --ignore-dependencies binutils gmp isl@0.18 libmpc linux-headers mpfr zlib
-                    brew install --ignore-dependencies gcc || true
-                    brew install glibc
-                    brew postinstall gcc
-                    brew remove patchelf
-                    brew install -s patchelf
-                }
-
                 echo_done
             else
                 (
@@ -121,6 +109,18 @@ function bootstrap_brew() {
                     </dev/null /bin/bash -c "$(cat ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/homebrew-install.sh)"
                 )
             fi
+
+            [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
+                # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
+                brew install -s patchelf
+                brew install --ignore-dependencies binutils gmp isl@0.18 libmpc linux-headers mpfr zlib
+                brew install --ignore-dependencies gcc || true
+                brew install glibc
+                brew postinstall gcc
+                brew remove patchelf
+                brew install -s patchelf
+            }
+
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
