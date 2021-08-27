@@ -8,7 +8,7 @@ SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 SF_NPX_ARGS=
 SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
-SF_NPX_ARGS="${SF_NPX_ARGS} --package env-ci"
+SF_NPX_ARGS="${SF_NPX_ARGS} --package env-ci@5"
 
 function main() {
     SCRIPT="$(cat <<EOF
