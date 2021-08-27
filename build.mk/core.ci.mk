@@ -39,7 +39,9 @@ ci/travis-%:
 $(CI_TARGETS):
 ci/%: ## Force push to a CI branch.
 	$(eval BRANCH := $(@:ci/%=%))
-	$(GIT) push --force --no-verify $(GIT_REMOTE) head:refs/heads/$(BRANCH)
+	$(eval GIT_REMOTE_OR_ORIGIN := $(shell $(ECHO) $(GIT_REMOTE) | \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne -p -n "$(ECHO) origin"))
+	$(GIT) push --force --no-verify $(GIT_REMOTE_OR_ORIGIN) head:refs/heads/$(BRANCH)
 
 .PHONY: $(DEBUG_CI_TARGETS)
 # NOTE: below is a workaround for 'make help-all' to work
@@ -54,7 +56,9 @@ debug-ci/travis-%:
 $(DEBUG_CI_TARGETS):
 debug-ci/%: ## Force push to a CI branch and debug (tmate session).
 	$(eval BRANCH := $(@:debug-ci/%=%))
+	$(eval GIT_REMOTE_OR_ORIGIN := $(shell $(ECHO) $(GIT_REMOTE) | \
+		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne -p -n "$(ECHO) origin"))
 	$(eval GIT_COMMIT_MSG := $(shell $(GIT) log -1 --format="%B"))
 	echo "$(GIT_COMMIT_MSG)" | $(GREP) -q "\[debug ci\]" || \
 		$(GIT) commit --allow-empty -m "$(GIT_COMMIT_MSG) [debug ci]"
-	$(GIT) push --force --no-verify $(GIT_REMOTE) head:refs/heads/$(BRANCH)
+	$(GIT) push --force --no-verify $(GIT_REMOTE_OR_ORIG_IN) head:refs/heads/$(BRANCH)
