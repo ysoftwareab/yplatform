@@ -21,8 +21,7 @@ function sf_ci_env_circle() {
     [[ -z "${CIRCLE_PR_NUMBER:-}" ]] || CI_IS_PR=true # only on forked PRs
     [[ -z "${CIRCLE_PULL_REQUEST:-}" ]] || CI_IS_PR=true
 
-    # CI_JOB_ID=${CIRCLE_BUILD_NUM:-}.${CIRCLE_NODE_INDEX:-}
-    CI_JOB_ID=${CIRCLE_BUILD_NUM:-}
+    CI_JOB_ID=${CIRCLE_BUILD_NUM:-}.${CIRCLE_NODE_INDEX:-}
     CI_PIPELINE_ID=${CIRCLE_WORKFLOW_ID:-}
     CI_JOB_URL=${CIRCLE_BUILD_URL:-}
     # see https://discuss.circleci.com/t/add-a-workflow-url-like-the-previous-v1-job-api-job-url-to-the-get-pipeline-pipeline-id-workflow-api/35921 # editorconfig-checker-disable-line
