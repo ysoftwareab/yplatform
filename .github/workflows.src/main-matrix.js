@@ -81,6 +81,7 @@ jobRefs.smokeMain = [
 ];
 
 jobRefs.smokeMainc = [
+  'main-smoke',
   'mainc-minimal-smoke',
   'mainc-common-smoke'
 ];

@@ -658,6 +658,7 @@ jobs:
           retention-days: 7
   mainc-minimal-arch:
     needs:
+      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
     timeout-minutes: 30
@@ -769,6 +770,7 @@ jobs:
           retention-days: 7
   mainc-minimal-alpine:
     needs:
+      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
     timeout-minutes: 30
@@ -880,6 +882,7 @@ jobs:
           retention-days: 7
   mainc-minimal-centos:
     needs:
+      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
     timeout-minutes: 30
@@ -991,6 +994,7 @@ jobs:
           retention-days: 7
   mainc-minimal-debian:
     needs:
+      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
     timeout-minutes: 30
@@ -1103,6 +1107,7 @@ jobs:
           retention-days: 7
   mainc-minimal-ubuntu:
     needs:
+      - main-smoke
       - mainc-minimal-smoke
       - mainc-common-smoke
     timeout-minutes: 30
