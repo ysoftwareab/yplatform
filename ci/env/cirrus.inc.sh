@@ -7,6 +7,8 @@ true
 function sf_ci_env_cirrus() {
     [[ "${CIRRUS_CI:-}" = "true" ]] || return 0
 
+    [[ "${CIRRUS_REPO_CLONE_HOST:-}" = "github.com" ]]
+
     export CI=true
     CI_NAME="Cirrus CI"
     CI_PLATFORM=cirrus
@@ -19,14 +21,11 @@ function sf_ci_env_cirrus() {
     CI_IS_PR=
     [[ -z "${CIRRUS_PR:-}" ]] || CI_IS_PR=true
 
-    CI_JOB_ID=${CIRRUS_BUILD_ID:-}
-    # env-ci's version
-    # CI_JOB_ID=${CIRRUS_TASK_ID:-}
+
+    CI_JOB_ID=${CIRRUS_TASK_ID:-}
     CI_PIPELINE_ID=${CIRRUS_BUILD_ID:-}
-    CI_JOB_URL="${CIRRUS_CI_DASHBOARD}/build/${CIRRUS_BUILD_ID}"
-    # env-ci's version
-    # CI_JOB_URL="${CIRRUS_CI_DASHBOARD}/task/${CIRRUS_TASK_ID}"
-    CI_PIPELINE_URL="${CIRRUS_CI_DASHBOARD}/build/${CIRRUS_BUILD_ID}"
+    CI_JOB_URL="https://cirrus-ci.com/task/${CI_JOB_ID}"
+    CI_PIPELINE_URL="https://cirrus-ci.com/build/${CI_PIPELINE_ID}"
 
     CI_PR_URL=
     CI_PR_REPO_SLUG=
@@ -36,7 +35,7 @@ function sf_ci_env_cirrus() {
         CI_PR_URL=https://github.com/${CI_REPO_SLUG}/pull/${CIRRUS_PR:-}
         CI_PR_REPO_SLUG= # TODO
         CI_PR_GIT_HASH= # TODO
-        CI_PR_GIT_BRANCH=${CIRRUS_BRANCH}
+        CI_PR_GIT_BRANCH=${CIRRUS_BRANCH:-}
     }
 
     CI_GIT_HASH=
