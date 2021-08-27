@@ -86,6 +86,7 @@ if (sfCompat) {
         data.CI_PIPELINE_ID = dataClone.CI_JOB_ID;
         data.CI_JOB_URL = dataClone.CI_PIPELINE_URL;
         data.CI_PIPELINE_URL = dataClone.CI_JOB_URL;
+        data.CI_PIPELINE_URL = _.replace(data.CI_PIPELINE_URL, '/pipelines/', '/-/pipelines/');
     }
 }
 
