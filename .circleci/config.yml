@@ -27,7 +27,7 @@ aliases:
         - ~/.linuxbrew
 
   - job-main-linux-xenial-minimal: &job-main-linux-xenial-minimal
-      p_ci_is_cron: "false"
+      p_ci_is_cron: "" # false
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:xenial
@@ -35,7 +35,7 @@ aliases:
       p_install: minimal
 
   - job-main-linux-xenial-dev: &job-main-linux-xenial-dev
-      p_ci_is_cron: "false"
+      p_ci_is_cron: "" # false
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:xenial
@@ -43,7 +43,7 @@ aliases:
       p_install: dev
 
   - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
-      p_ci_is_cron: "false"
+      p_ci_is_cron: "" # false
       p_executor:
         name: macos
         p_xcode: "10.1.0"
