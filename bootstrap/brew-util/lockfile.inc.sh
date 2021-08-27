@@ -38,7 +38,6 @@ function brew_lockfile() {
             while read -r BREW_TAP_LOCK; do
             TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
             TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2 | sed "s|^refs/heads/|refs/remotes/origin/|")
-            TAP_SHALLOW_SINCE=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f3-)
 
             case "${OS_SHORT}-${TAP}" in
                 darwin-homebrew/linuxbrew-core)
