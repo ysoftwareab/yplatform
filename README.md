@@ -84,6 +84,7 @@ TODO
 ## Structure
 
 * `/bin` has executable scripts, mostly shell
+* `/mk` has common include makefiles e.g. sourced from `/build.mk` makefiles
 * `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
 *
 * `/bootstrap` has scripts that help bootstrap a machine
