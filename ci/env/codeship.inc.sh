@@ -5,10 +5,10 @@ true
 # see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
 
 function sf_ci_env_codeship() {
-    [[ "${CI_NAME:-}" = "Codeship" ]] || return 0
+    [[ "${CI_NAME:-}" = "codeship" ]] || return 0
 
     export CI=true
-    CI_NAME=Codeship
+    CI_NAME=codeship
     CI_PLATFORM=codeship
     CI_SERVER_HOST=codeship.com
     # CI_REPO_SLUG=${?????????????????}/${CI_REPO_NAME}

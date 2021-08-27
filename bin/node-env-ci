@@ -77,6 +77,9 @@ if (sfCompat) {
         data.CI_JOB_URL = dataClone.CI_PIPELINE_URL;
         data.CI_PIPELINE_URL = dataClone.CI_JOB_URL;
     }
+    if (data.CI_PLATFORM === 'codeship') {
+        data.CI_NAME = 'codeship';
+    }
     if (data.CI_PLATFORM === 'gitlab') {
         let dataClone = _.clone(data);
         data.CI_JOB_ID = dataClone.CI_PIPELINE_ID;
