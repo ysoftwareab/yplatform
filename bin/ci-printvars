@@ -137,10 +137,10 @@ function sf_ci_env_cirrus() {
     [[ -z "${CIRRUS_PR:-}" ]] || CI_IS_PR=true
 
 
-    CI_JOB_ID=${CIRRUS_TASK_ID:-}
-    CI_PIPELINE_ID=${CIRRUS_BUILD_ID:-}
-    CI_JOB_URL="https://cirrus-ci.com/task/${CI_JOB_ID}"
-    CI_PIPELINE_URL="https://cirrus-ci.com/build/${CI_PIPELINE_ID}"
+    CI_JOB_ID=${CIRRUS_BUILD_ID:-}
+    CI_PIPELINE_ID=${CIRRUS_TASK_ID:-}
+    CI_JOB_URL=https://cirrus-ci.com/build/${CI_PIPELINE_ID}
+    CI_PIPELINE_URL=https://cirrus-ci.com/task/${CI_JOB_ID}
 
     CI_PR_URL=
     CI_PR_REPO_SLUG=
@@ -153,7 +153,7 @@ function sf_ci_env_cirrus() {
         CI_PR_GIT_BRANCH=${CIRRUS_BRANCH:-}
     }
 
-    CI_GIT_HASH=
+    CI_GIT_HASH=${CIRRUS_CHANGE_IN_REPO:-}
     CI_GIT_BRANCH=${CIRRUS_BRANCH:-}
     [[ "${CI_IS_PR}" != "true" ]] || CI_GIT_BRANCH=${CIRRUS_BASE_BRANCH:-}
     CI_GIT_TAG=${CIRRUS_TAG:-}
