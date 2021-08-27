@@ -113,18 +113,6 @@ function bootstrap_brew() {
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
-
-            [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
-                # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
-                brew install -s patchelf
-                brew install --ignore-dependencies binutils gmp isl@0.18 libmpc linux-headers mpfr zlib
-                brew install --ignore-dependencies gcc || true
-                brew install glibc
-                brew postinstall gcc
-                brew remove patchelf
-                brew install -s patchelf
-            }
-
             source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
         true-darwin|true-linux)
@@ -138,6 +126,18 @@ function bootstrap_brew() {
 
 bootstrap_brew
 brew_config
+
+
+[[ "${OS_RELEASE_ID}" != "alpine" ]] || {
+    # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
+    brew install -s patchelf
+    brew install --ignore-dependencies binutils gmp isl@0.18 libmpc linux-headers mpfr zlib
+    brew install --ignore-dependencies gcc || true
+    brew install glibc
+    brew postinstall gcc
+    brew remove patchelf
+    brew install -s patchelf
+}
 
 if [[ -f ${GIT_ROOT}/Brewfile.lock ]]; then
     brew_lockfile
