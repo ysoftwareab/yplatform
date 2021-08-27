@@ -16,6 +16,7 @@ MYSELF_CMD_BASENAME="$(basename ${MYSELF_CMD})"
 MYSELF_CMD_DIR="$(cd "$(dirname "${MYSELF_CMD}")" && pwd)"
 VAR_PREFIX="$(echo "${MYSELF_CMD_BASENAME}" | tr "[:lower:]" "[:upper:]" | sed "s/[^A-Z0-9]\{1,\}/_/g" | sed "s/^_//" | sed "s/_$//")" # editorconfig-checker-disable-line
 VAR_PASS="${VAR_PREFIX}_PASS"
+VAR_ARGS_FD="${VAR_PREFIX}_ARGS_FD"
 
 # if first call, install esm and call script again
 if [[ -z "${!VAR_PASS:-}" ]]; then
@@ -34,9 +35,13 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # while 'PATH=/absolute/path/to/:$PATH npx executable' means run 'executable'
     # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
-    eval "${VAR_PASS}=1 npx ${SF_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
+    SF_NPX_CMD_ARGS=("$@")
+    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_CMD_ARGS) \
+        npx ${SF_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
     exit 0
 fi
+
+source "${!VAR_ARGS_FD}"
 
 # make NPX node_modules available to node
 NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
@@ -51,4 +56,4 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     export PATH=${PATH:-}:${NPX_PATH}/.bin
 }
 
-main
+main "${SF_NPX_CMD_ARGS[@]}"

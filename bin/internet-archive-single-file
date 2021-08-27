@@ -69,12 +69,10 @@ SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
 # SF_NPX_ARGS="${SF_NPX_ARGS} --package git://github.com/gildas-lormeau/SingleFile.git#semver:^${SF_SINGLE_FILE_VSN#v}"
 SF_NPX_ARGS="${SF_NPX_ARGS} --package https://github.com/gildas-lormeau/SingleFile/archive/refs/tags/${SF_SINGLE_FILE_VSN}.tar.gz"
 
-ARGS=("$@")
-
 function main() {
     # add chrome, chromium, etc to $PATH for better MacOS comppatibility of single-file
     export PATH="${PATH}:${SUPPORT_FIRECLOUD_DIR}/bin/browsers"
-    single-file "${ARGS[@]}"
+    single-file "$@"
 }
 
 source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
