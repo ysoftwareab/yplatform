@@ -172,7 +172,7 @@ true
 # see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
 
 function sf_ci_env_codeship() {
-    [[ "${CI_NAME:-}" = "codeship" ]] || return 0
+    [[ "${CI_NAME:-}" = "Codeship" ]] || return 0
 
     export CI=true
     CI_NAME=Codeship
