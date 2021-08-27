@@ -113,7 +113,6 @@ function bootstrap_brew() {
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
-            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 
             [[ "${OS_RELEASE_ID}" != "alpine" ]] || {
                 # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
@@ -125,6 +124,8 @@ function bootstrap_brew() {
                 brew remove patchelf
                 brew install -s patchelf
             }
+
+            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
         true-darwin|true-linux)
             ;;
