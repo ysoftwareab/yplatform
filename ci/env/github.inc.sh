@@ -8,7 +8,7 @@ function sf_ci_env_github() {
     [[ "${GITHUB_ACTIONS:-}" = "true" ]] || return 0
 
     export CI=true
-    CI_NAME="Github Actions"
+    CI_NAME="GitHub Actions"
     CI_PLATFORM=github
     CI_SERVER_HOST=${GITHUB_SERVER_URL:-github.com}
     CI_SERVER_HOST=${CI_SERVER_HOST#*://}
@@ -39,7 +39,7 @@ function sf_ci_env_github() {
 
     CI_GIT_HASH=${GITHUB_SHA:-}
     CI_GIT_BRANCH=
-    [[ ! "${GITHUB_REF:-}" =~ ^refs/heads/ ]] || CI_GIT_TAG=${GITHUB_REF#refs/heads/}
+    [[ ! "${GITHUB_REF:-}" =~ ^refs/heads/ ]] || CI_GIT_BRANCH=${GITHUB_REF#refs/heads/}
     CI_GIT_TAG=
     [[ ! "${GITHUB_REF:-}" =~ ^refs/tags/ ]] || CI_GIT_TAG=${GITHUB_REF#refs/tags/}
 
