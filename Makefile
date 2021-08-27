@@ -194,7 +194,9 @@ bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
 	else \
 		$(CP) $@.original $@; \
 	fi
+ifneq (true,$(CI))
 	$(EDITOR) $@
+endif
 	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
 
 
@@ -212,7 +214,9 @@ Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
 	else \
 		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
 	fi
+ifneq (true,$(CI))
 	$(EDITOR) Formula/patch-src/$*.rb
+endif
 	$(MAKE) Formula/$*.linux.patch
 
 
