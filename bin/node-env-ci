@@ -66,6 +66,10 @@ if (sfCompat) {
         }
         return value;
     });
+
+    if (data.CI_PLATFORM === 'circleci') {
+        data.CI_PLATFORM = 'circle';
+    }
 }
 
 _.forEach(data, function(value, key) {
