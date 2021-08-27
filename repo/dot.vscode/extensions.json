@@ -1,5 +1,6 @@
 {
   "recommendations": [
+    "cardinal90.multi-cursor-case-preserve",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
