@@ -153,7 +153,7 @@ test-env-ci:
 		<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
 		<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)) | \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne --not --fail --print-on-fail || { \
-			$(DIFF) -u --label node-env-ci --label ci-printvars \
+			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \
 				<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
 				<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)); \
 		}
