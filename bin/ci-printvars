@@ -281,7 +281,7 @@ function sf_ci_env_gitlab() {
     [[ "${CI_PIPELINE_SOURCE:-}" != "external_pull_request_event" ]]
 
     export CI=true
-    CI_NAME="Gitlab CI/CD"
+    CI_NAME="GitLab CI/CD"
     CI_PLATFORM=gitlab
     CI_SERVER_HOST=${CI_SERVER_HOST:-gitlab.com}
     CI_REPO_SLUG=${CI_PROJECT_PATH:-}
