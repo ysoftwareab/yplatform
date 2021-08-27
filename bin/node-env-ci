@@ -31,13 +31,13 @@ let map2sf = {
     // env-ci's wording implies 1 job -> n builds
     build: 'CI_JOB_ID',
     buildUrl: 'CI_JOB_URL',
-    job: '', // 'CI_PIPELINE_ID',
-    jobUrl: '', // 'CI_PIPELINE_URL',
+    job: 'CI_PIPELINE_ID',
+    jobUrl: 'CI_PIPELINE_URL',
     isPr: 'CI_IS_PR',
     pr: 'CI_PR_REPO_SLUG',
-    prBranch: '', // 'CI_PR_BRANCH',
+    prBranch: 'CI_PR_GIT_BRANCH',
     slug: 'CI_REPO_SLUG',
-    root: '' // 'CI_ROOT'
+    root: 'CI_ROOT'
 };
 
 let knownKeys = _.keys(map2sf);
@@ -56,6 +56,8 @@ data = _.mapKeys(data, function(_value, key) {
 });
 
 if (sfCompat) {
+    data = _.omitBy(data, _.isUndefined);
+
     // prefer empty instead of false
     data = _.mapValues(data, function(value) {
         value = _.toString(value);
