@@ -2,8 +2,6 @@
 # shellcheck disable=SC2034
 true
 
-# see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
-
 function sf_ci_env_codeship() {
     [[ "${CI_NAME:-}" = "codeship" ]] || return 0
 
@@ -47,5 +45,32 @@ function sf_ci_env_codeship() {
 }
 
 function sf_ci_printvars_codeship() {
-    printenv | grep "^CI[=_]"
+    printenv | grep \
+        -e "^CI[=_]"
+}
+
+function sf_ci_known_env_() {
+    # see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
+    cat <<EOF
+CI
+CI_BRANCH
+CI_BUILD_APPROVED
+CI_BUILD_ID
+CI_COMMITTER_EMAIL
+CI_COMMITTER_NAME
+CI_COMMITTER_USERNAME
+CI_COMMIT_DESCRIPTION
+CI_COMMIT_ID
+CI_COMMIT_MESSAGE
+CI_NAME
+CI_PROJECT_ID
+CI_REPO_NAME
+CI_STRING_TIME
+CI_TIMESTAMP
+CI_PR_NUMBER
+CI_PULL_REQUEST
+EOF
+    # undocumented but observed
+    cat <<EOF
+EOF
 }

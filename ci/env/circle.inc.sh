@@ -2,8 +2,6 @@
 # shellcheck disable=SC2034
 true
 
-# see https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
-
 function sf_ci_env_circle() {
     [[ "${CIRCLECI:-}" = "true" ]] || return 0
 
@@ -48,6 +46,50 @@ function sf_ci_env_circle() {
 }
 
 function sf_ci_printvars_circle() {
-    printenv | grep "^CI[=_]"
-    printenv | grep "^CIRCLE[=_]"
+    printenv | grep \
+        -e "^CI[=_]" \
+        -e "^CIRCLE[=_]" \
+        -e "^CIRCLECI$"
+}
+
+function sf_ci_known_env_circle() {
+    # see https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
+    cat <<EOF
+CI
+CIRCLECI
+CIRCLE_BRANCH
+CIRCLE_BUILD_NUM
+CIRCLE_BUILD_URL
+CIRCLE_JOB
+CIRCLE_NODE_INDEX
+CIRCLE_NODE_TOTAL
+CIRCLE_PR_NUMBER
+CIRCLE_PR_REPONAME
+CIRCLE_PR_USERNAME
+CIRCLE_PREVIOUS_BUILD_NUM
+CIRCLE_PROJECT_REPONAME
+CIRCLE_PROJECT_USERNAME
+CIRCLE_PULL_REQUEST
+CIRCLE_PULL_REQUESTS
+CIRCLE_REPOSITORY_URL
+CIRCLE_SHA1
+CIRCLE_TAG
+CIRCLE_USERNAME
+CIRCLE_WORKFLOW_ID
+CIRCLE_WORKING_DIRECTORY
+CIRCLE_INTERNAL_TASK_DATA
+CIRCLE_COMPARE_URL
+CI_PULL_REQUEST
+CI_PULL_REQUESTS
+EOF
+    # undocumented but observed
+    cat <<EOF
+CIRCLE_INTERNAL_CONFIG
+CIRCLE_INTERNAL_SCRATCH
+CIRCLE_SHELL_ENV
+CIRCLE_STAGE
+CIRCLE_WORKFLOW_JOB_ID
+CIRCLE_WORKFLOW_UPSTREAM_JOB_IDS
+CIRCLE_WORKFLOW_WORKSPACE_ID
+EOF
 }

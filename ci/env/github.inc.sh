@@ -2,8 +2,6 @@
 # shellcheck disable=SC2034
 true
 
-# see https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables
-
 function sf_ci_env_github() {
     [[ "${GITHUB_ACTIONS:-}" = "true" ]] || return 0
 
@@ -47,6 +45,51 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
-    printenv | grep "^CI[=_]"
-    printenv | grep "^GITHUB[=_]"
+    printenv | grep \
+        -e "^CI[=_]" \
+        -e "^GITHUB[=_]"
+}
+
+function sf_ci_known_env_() {
+    # see https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables
+    cat <<EOF
+CI
+GITHUB_WORKFLOW
+GITHUB_RUN_ID
+GITHUB_RUN_NUMBER
+GITHUB_JOB
+GITHUB_ACTION
+GITHUB_ACTION_PATH
+GITHUB_ACTIONS
+GITHUB_ACTOR
+GITHUB_REPOSITORY
+GITHUB_EVENT_NAME
+GITHUB_EVENT_PATH
+GITHUB_WORKSPACE
+GITHUB_SHA
+GITHUB_REF
+GITHUB_HEAD_REF
+GITHUB_BASE_REF
+GITHUB_SERVER_URL
+GITHUB_API_URL
+GITHUB_GRAPHQL_URL
+RUNNER_OS
+RUNNER_TEMP
+RUNNER_TOOL_CACHE
+EOF
+    # undocumented but observed
+    cat <<EOF
+GITHUB_ACTION_REF
+GITHUB_ACTION_REPOSITORY
+GITHUB_ENV
+GITHUB_JOB_NAME
+GITHUB_PATH
+GITHUB_REPOSITORY_OWNER
+GITHUB_RETENTION_DAYS
+GITHUB_TOKEN
+RUNNER_PERFLOG
+RUNNER_TRACKING_ID
+RUNNER_USER
+RUNNER_WORKSPACE
+EOF
 }

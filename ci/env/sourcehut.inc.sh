@@ -2,8 +2,6 @@
 # shellcheck disable=SC2034
 true
 
-# see https://man.sr.ht/builds.sr.ht/
-
 function sf_ci_env_sourcehut() {
     [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
 
@@ -46,9 +44,31 @@ function sf_ci_env_sourcehut() {
 }
 
 function sf_ci_printvars_sourcehut() {
-    printenv | grep "^BUILD[=_]"
-    printenv | grep "^CI[=_]"
-    printenv | grep "^GITHUB[=_]"
-    printenv | grep "^JOB[=_]"
-    printenv | grep "^PATCHSET[=_]"
+    # CI is actually missing
+    printenv | grep \
+        -e "^BUILD[=_]" \
+        -e "^GITHUB[=_]" \
+        -e "^JOB[=_]" \
+        -e "^PATCHSET[=_]"
+}
+
+function sf_ci_known_env_() {
+    # see https://man.sr.ht/builds.sr.ht/
+    cat <<EOF
+JOB_ID
+JOB_URL
+BUILD_SUBMITTER
+BUILD_REASON
+BUILD_SUBMITTER
+BUILD_REASON
+PATCHSET_ID
+PATCHSET_URL
+EOF
+    # undocumented but observed
+    cat <<EOF
+GITHUB_DELIVERY
+GITHUB_EVENT
+GITHUB_REF
+GITHUB_REPO
+EOF
 }
