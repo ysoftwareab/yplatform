@@ -52,6 +52,12 @@ if [[ "${SEMAPHORE:-}" = "true" ]]; then
     # │                                                                          │
     # └──────────────────────────────────────────────────────────────────────────┘
     echo_skip "aptitude: Installing ssh-client..."
+elif [[ "${TRAVIS:-}" = "true" ]]; then
+    # stalls after printing
+    # Setting up openssh-server (1:8.2p1-4ubuntu0.3) ...
+    # Installing new version of config file /etc/ssh/moduli ...
+    # rescue-ssh.target is a disabled or a static unit, not starting it.
+    echo_skip "aptitude: Installing ssh-client..."
 else
     apt_install_one ssh-client
 fi
