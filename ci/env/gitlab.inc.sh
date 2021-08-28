@@ -53,7 +53,7 @@ function sf_ci_printvars_gitlab() {
         -e "^TRIGGER_PAYLOAD="
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_gitlab() {
     # see https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
     cat <<EOF
 CHAT_CHANNEL
