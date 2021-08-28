@@ -52,7 +52,7 @@ function sf_ci_printvars_sourcehut() {
         -e "^PATCHSET[=_]"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_sourcehut() {
     # see https://man.sr.ht/builds.sr.ht/
     cat <<EOF
 JOB_ID
