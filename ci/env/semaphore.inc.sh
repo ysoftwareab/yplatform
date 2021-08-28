@@ -46,7 +46,7 @@ function sf_ci_printvars_semaphore() {
         -e "^SEMAPHORE[=_]"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_semaphore() {
     # see https://docs.semaphoreci.com/ci-cd-environment/environment-variables/
     cat <<EOF
 CI
