@@ -53,6 +53,23 @@ function sf_path_append_before() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
+[[ -n "${HOMEBREW_PREFIX:-}" ]] || if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
+    # linux with sudo
+    export HOMEBREW_PREFIX=/home/linuxbrew/.linuxbrew
+elif [[ -x ${HOME}/.linuxbrew/bin/brew ]]; then
+    # linux without sudo
+    export HOMEBREW_PREFIX=${HOME}/.linuxbrew
+elif [[ -x /usr/local/bin/brew ]]; then
+    # macos
+    export HOMEBREW_PREFIX=/usr/local
+elif [[ -x /opt/homebrew/bin/brew ]]; then
+    # macos m1
+    export HOMEBREW_PREFIX=/opt/homebrew
+elif command -v brew >/dev/null 2>&1; then
+    # misc
+    export HOMEBREW_PREFIX=$(brew --prefix)
+fi
+
 # remove homebrew (linuxbrew) from PATH which is appended, not prepended (default homebrew behaviour)
 # see https://github.com/actions/virtual-environments/pull/789
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
@@ -70,29 +87,27 @@ sf_path_prepend /usr/local/bin
 sf_path_prepend ${HOME}/.local/sbin
 sf_path_prepend ${HOME}/.local/bin
 
-if [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-    # linux with sudo
-    eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-elif [ -x ${HOME}/.linuxbrew/bin/brew ]; then
-    # linux without sudo
-    eval $(${HOME}/.linuxbrew/bin/brew shellenv)
-elif [ -x /usr/local/bin/brew ]; then
-    # macos
-    eval $(/usr/local/bin/brew shellenv)
-elif [ -x /opt/homebrew/bin/brew ]; then
-    # macos m1
-    eval $(/opt/homebrew/bin/brew shellenv)
-elif command -v brew >/dev/null 2>&1; then
-    # misc
-    eval $($(brew --prefix)/bin/brew shellenv)
-fi
-
 [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
 
-if command -v brew >/dev/null 2>&1; then
-    HOMEBREW_PREFIX=$(brew --prefix)
+if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
+    # 'brew shellenv' duplicates items in PATH variables
+    eval "$(${HOMEBREW_PREFIX}/bin/brew shellenv | grep -v \
+        -e "^export PATH=" \
+        -e "^export MANPATH=" \
+        -e "^export INFOPATH=")"
+
     sf_path_prepend ${HOMEBREW_PREFIX}/sbin
     sf_path_prepend ${HOMEBREW_PREFIX}/bin
+
+    # sf_manpath_prepend ${HOMEBREW_PREFIX}/share/man
+    HOMEBREW_MANPATH=${HOMEBREW_PREFIX}/share/man
+    echo ":${MANPATH}:" | grep -q ":${HOMEBREW_MANPATH}:" || export MANPATH=${HOMEBREW_MANPATH}:${MANPATH}
+    export MANPATH=$(echo "${MANPATH}" | sed "s|^:||" | sed "s|:$||")
+
+    # sf_infopath_prepend ${HOMEBREW_PREFIX}/share/info
+    HOMEBREW_INFOPATH=${HOMEBREW_PREFIX}/share/info
+    echo ":${INFOPATH}:" | grep -q ":${HOMEBREW_INFOPATH}:" || export INFOPATH=${HOMEBREW_INFOPATH}:${INFOPATH}
+    export INFOPATH=$(echo "${INFOPATH}" | sed "s|^:||" | sed "s|:$||")
 
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
@@ -118,8 +133,6 @@ if command -v brew >/dev/null 2>&1; then
             source ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
         }
     fi
-
-    unset HOMEBREW_PREFIX
 fi
 
 if command -v docker >/dev/null 2>&1; then
