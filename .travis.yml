@@ -47,9 +47,9 @@ after_deploy: ./.ci.sh after_deploy
 
 jobs:
   include:
-    - &stage-linux-bionic-minimal
+    - &stage-linux-focal-minimal
       stage: test
-      name: "Linux Bionic 18.04 with minimal brew"
+      name: "Linux Focal 20.04 with minimal brew"
       os: linux
-      dist: bionic
-      env: CACHE_NAME=linux-bionic-minimal SF_CI_BREW_INSTALL=minimal
+      dist: focal
+      env: CACHE_NAME=linux-focal-minimal SF_CI_BREW_INSTALL=minimal
