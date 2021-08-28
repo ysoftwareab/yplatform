@@ -186,7 +186,10 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 
 
 bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
+ifneq (true,$(CI))
 bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
+endif
+bootstrap/brew-util/homebrew-install.sh:
 	$(eval BREW_INSTALL_GITREF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
 	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GITREF)/install.sh
 	if [[ -f "$@.patch" ]]; then \
@@ -204,7 +207,10 @@ bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
 
 
 .PHONY: Formula/patch-src/%.original.rb
+ifneq (true,$(CI))
 Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
+endif
+Formula/patch-src/%.original.rb:
 	$(eval BREW_TAP_LOCK_LINUXBREW_CORE_TO := $(shell $(CAT) $(BREWFILE_LOCK) | \
 		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
 	$(CURL) -q -fsSL \
