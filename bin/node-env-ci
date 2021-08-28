@@ -69,6 +69,8 @@ if (sfCompat) {
 
     if (data.CI_PLATFORM === 'circleci') {
         data.CI_PLATFORM = 'circle';
+        data.CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
+        data.CI_PIPELINE_ID = process.env.CIRCLE_WORKFLOW_ID;
     }
     if (data.CI_PLATFORM === 'cirrus') {
         let dataClone = _.clone(data);
