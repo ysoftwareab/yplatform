@@ -52,7 +52,7 @@ function sf_ci_printvars_cirrus() {
         -e "^GITHUB_CHECK_SUITE_ID$"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_cirrus() {
     # see https://cirrus-ci.org/guide/writing-tasks/#environment-variables
     cat <<EOF
 CI
