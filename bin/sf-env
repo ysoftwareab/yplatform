@@ -73,6 +73,12 @@ fi
 # remove homebrew (linuxbrew) from PATH which is appended, not prepended (default homebrew behaviour)
 # see https://github.com/actions/virtual-environments/pull/789
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    # see https://github.com/actions/virtual-environments/issues/3981
+    eval "export PATH=${PATH}"
+    eval "export HOMEBREW_PREFIX=${HOMEBREW_PREFIX}"
+    eval "export HOMEBREW_CELLAR=${HOMEBREW_CELLAR}"
+    eval "export HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY}"
+
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/bin:|:|" | sed "s|::|:|")
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/sbin:|:|" | sed "s|::|:|")
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
