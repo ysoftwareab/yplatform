@@ -4,9 +4,18 @@ set -euo pipefail
 
 # see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
-    >&2 echo "The following BASH_COMMAND exited with status $1."
+    local EXIT_STATUS=$1
+    >&2 echo "The following BASH_COMMAND exited with status ${EXIT_STATUS}."
     >&2 echo "=${BASH_COMMAND}"
     >&2 echo "~$(eval echo "${BASH_COMMAND}")"
+    case ${EXIT_STATUS} in
+        127) # command not found
+            # NOTE I'm not sure if this will be the correct PATH though, or just based on the context of 'on_error'
+            >&2 echo "PATH=${PATH}"
+            ;;
+        *)
+            ;;
+    esac
     # see https://bashwizard.com/function-call-stack-and-backtraces/
     for i in "${!BASH_SOURCE[@]}"; do
         # NOTE i=1 instead of i=0 to skip printing info about our 'on_error' function
