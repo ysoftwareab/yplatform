@@ -49,7 +49,7 @@ function sf_ci_printvars_codeship() {
         -e "^CI[=_]"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_codeship() {
     # see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
     cat <<EOF
 CI
