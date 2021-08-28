@@ -12,7 +12,7 @@ function sf_ci_env_sourcehut() {
     [[ "${GITHUB_EVENT}" = "push" ]] # only push
     [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
 
-    export CI=true
+    export CI=true # missing
     CI_NAME=sourcehut
     CI_PLATFORM=sourcehut
     CI_SERVERT_HOST=sourcehut.org
