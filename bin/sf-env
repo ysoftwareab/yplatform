@@ -107,12 +107,12 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
 
     # sf_manpath_prepend ${HOMEBREW_PREFIX}/share/man
     HOMEBREW_MANPATH=${HOMEBREW_PREFIX}/share/man
-    echo ":${MANPATH}:" | grep -q ":${HOMEBREW_MANPATH}:" || export MANPATH=${HOMEBREW_MANPATH}:${MANPATH}
+    echo ":${MANPATH:-}:" | grep -q ":${HOMEBREW_MANPATH}:" || export MANPATH=${HOMEBREW_MANPATH}:${MANPATH:-}
     export MANPATH=$(echo "${MANPATH}" | sed "s|^:||" | sed "s|:$||")
 
     # sf_infopath_prepend ${HOMEBREW_PREFIX}/share/info
     HOMEBREW_INFOPATH=${HOMEBREW_PREFIX}/share/info
-    echo ":${INFOPATH}:" | grep -q ":${HOMEBREW_INFOPATH}:" || export INFOPATH=${HOMEBREW_INFOPATH}:${INFOPATH}
+    echo ":${INFOPATH:-}:" | grep -q ":${HOMEBREW_INFOPATH}:" || export INFOPATH=${HOMEBREW_INFOPATH}:${INFOPATH:-}
     export INFOPATH=$(echo "${INFOPATH}" | sed "s|^:||" | sed "s|:$||")
 
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
