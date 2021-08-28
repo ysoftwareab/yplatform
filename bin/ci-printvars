@@ -865,7 +865,7 @@ function sf_ci_env_travis() {
     CI_IS_PR=false
     [[ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]] || CI_IS_PR=true
 
-    CI_JOB_ID=${TRAVIS_JOB_ID:}
+    CI_JOB_ID=${TRAVIS_JOB_ID:-}
     CI_PIPELINE_ID=${TRAVIS_BUILD_NUMBER:-}
     CI_JOB_URL=${TRAVIS_JOB_WEB_URL:-}
     CI_PIPELINE_URL=${TRAVIS_BUILD_WEB_URL:-}
