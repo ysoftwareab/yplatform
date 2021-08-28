@@ -194,9 +194,12 @@ bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
 	else \
 		$(CP) $@.original $@; \
 	fi
-ifneq (true,$(CI))
-	$(EDITOR) $@
-endif
+	if [[ -t 0 ]] && [[ -t 1 ]]; then \
+		$(EDITOR) $@; \
+	else \
+		$(ECHO_INFO) "No tty."; \
+		$(ECHO_SKIP) "$(EDITOR) $@"; \
+	fi
 	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
 
 
@@ -214,9 +217,12 @@ Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
 	else \
 		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
 	fi
-ifneq (true,$(CI))
-	$(EDITOR) Formula/patch-src/$*.rb
-endif
+	if [[ -t 0 ]] && [[ -t 1 ]]; then \
+		$(EDITOR) Formula/patch-src/$*.rb; \
+	else \
+		$(ECHO_INFO) "No tty."; \
+		$(ECHO_SKIP) "$(EDITOR) Formula/patch-src/$*.rb"; \
+	fi
 	$(MAKE) Formula/$*.linux.patch
 
 
