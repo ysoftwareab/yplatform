@@ -9,10 +9,20 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 
+echo_do "Print state info pre-homebrew..."
+brew_system
+brew_printenv
+echo_done
+
 [[ "${SF_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
 
 [[ "${CI:-}" != "true" ]] || {
+    echo_do "Print state info pre-bootstrap..."
+    brew_system
+    brew_printenv
+    echo_done
+
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-ci.inc.sh
     hash -r
     source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
@@ -20,10 +30,12 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
+echo_do "Print state info post-bootstrap..."
 brew_system
+brew_printenv
 brew_config
 brew_list
-brew_printenv
+echo_done
 
 # see https://github.com/Homebrew/brew/issues/5013
 hash -r
