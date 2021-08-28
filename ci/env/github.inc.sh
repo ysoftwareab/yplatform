@@ -47,10 +47,11 @@ function sf_ci_env_github() {
 function sf_ci_printvars_github() {
     printenv | grep \
         -e "^CI[=_]" \
-        -e "^GITHUB[=_]"
+        -e "^GITHUB[=_]" \
+        -e "^RUNNER[=_]"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_github() {
     # see https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables
     cat <<EOF
 CI
