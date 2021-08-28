@@ -48,7 +48,7 @@ function sf_ci_printvars_travis() {
         -e "^TRAVIS[=_]"
 }
 
-function sf_ci_known_env_() {
+function sf_ci_known_env_travis() {
     # see https://docs-staging.travis-ci.com/user/environment-variables/#default-environment-variables
     cat <<EOF
 CI
