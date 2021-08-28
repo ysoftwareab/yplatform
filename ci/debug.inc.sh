@@ -75,3 +75,8 @@ function sf_ci_debug() {
     fi
 }
 export -f sf_ci_debug
+
+function sf_ci_debug_no_auth() {
+    SF_TMATE_AUTH=none sf_ci_debug
+}
+export -f sf_ci_debug_no_auth
