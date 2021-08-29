@@ -15,7 +15,7 @@ function sf_ci_env_appveyor() {
         done < <(printenv | grep "=True$" | sed "s/=.*//g")
     fi
 
-    [[ "${APPVEYOR_REPO_PROVIDER:-}" = "github" ]]
+    [[ "${APPVEYOR_REPO_PROVIDER:-}" = "gitHub" ]]
 
     export CI=true
     CI_NAME=Appveyor
