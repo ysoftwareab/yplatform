@@ -144,8 +144,8 @@ TODO
   [2]: https://github.com/rokmoln/support-firecloud/workflows/CI/badge.svg?branch=master
   [3]: https://circleci.com/gh/rokmoln/support-firecloud/tree/master
   [4]: https://circleci.com/gh/rokmoln/support-firecloud/tree/master.svg?style=svg
-  [5]: https://travis-ci.com/rokmoln/support-firecloud
-  [6]: https://travis-ci.com/rokmoln/support-firecloud.svg?branch=master
+  [5]: https://app.travis-ci.com/rokmoln/support-firecloud
+  [6]: https://app.travis-ci.com/rokmoln/support-firecloud.svg?branch=master
   [7]: https://app.codeship.com/projects/388210
   [8]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
   [9]: https://rokmoln.semaphoreci.com/projects/support-firecloud
