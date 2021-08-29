@@ -1,0 +1,494 @@
+support-firecloud v0.2.157 Release Notes
+
+Highlights since v0.2.156:
+
+* None
+
+Breaking commits since v0.2.156:
+
+| * 20b2f4dc 2020-12-17 [andreineculau/core.inc.mk] breaking: rename make-runtime-lazy -> make-lazy-once
+| * c45b54d3 2020-12-17 [andreineculau/core.inc.mk] breaking: rename make-session-lazy -> make-runtime-lazy
+| * b1d57cbe 2020-09-06 [andreineculau/core.inc.mk] fix MAKEFLAGS passing down --no-builtin-rules, which breaks C Makefiles that assume built-in rules
+| * 34c67449 2018-12-02 [andreineculau/core.inc.mk] breaking: remove node-related exe vars
+* 4598dba9 2021-08-26 breaking: refactor ci/env, normalize vars
+| * 79e85467 2020-12-17 breaking: rename make-runtime-lazy -> make-lazy-once
+| * 64b26d46 2020-12-17 breaking: rename make-session-lazy -> make-runtime-lazy
+| * 8ea96a14 2020-09-06 fix MAKEFLAGS passing down --no-builtin-rules, which breaks C Makefiles that assume built-in rules
+| * e17043c2 2018-12-02 breaking: remove node-related exe vars
+
+
+Commits since v0.2.156:
+
+* e4f37e74 2021-08-25 mk: gnu vars for all gnu executables. possible issues ID, PR
+* b046106c 2021-08-25 mk: document override
+* 7bddaaea 2021-08-22 lint mk
+* f9ea5255 2021-08-22 rm mk/LICENSE
+*   05b13f0d 2021-08-29 Merge branch 'core.inc.mk'
+|\
+| * 9d44fdd0 2021-08-22 [andreineculau/core.inc.mk] split into exe.which.inc.mk
+| * bf752f14 2021-08-22 [andreineculau/core.inc.mk] merge func.inc.mk into exe.inc.mk
+| * c8c6f26c 2021-08-21 [andreineculau/core.inc.mk] handle V=2, extra verbose
+| * 14050002 2021-08-03 [andreineculau/core.inc.mk] use 'command -v' instead of which
+| * a36a6869 2021-07-27 [andreineculau/core.inc.mk] curl needs -q to be first paramters, otherwise it doesn't count
+| * 3e06ce7c 2021-02-23 [andreineculau/core.inc.mk] add SEMVER
+| * a08e9bca 2021-01-17 [andreineculau/core.inc.mk] enable shell errtrace/functrace
+| * 1d1a0f60 2021-01-14 [andreineculau/core.inc.mk] less calls to uname
+| * 02889f6c 2020-12-21 [andreineculau/core.inc.mk] fixup! use posix sed and no labels for increased compatibility gnu/bsd
+| * 624a45c5 2020-12-21 [andreineculau/core.inc.mk] fixup! use posix sed and no labels for increased compatibility gnu/bsd
+| * 95d23c65 2020-12-20 [andreineculau/core.inc.mk] use posix sed and no labels for increased compatibility gnu/bsd
+| * 0f72be73 2020-12-19 [andreineculau/core.inc.mk] add missing warning about make-lazy-once
+| * 60ebfb8a 2020-12-19 [andreineculau/core.inc.mk] no indent or else 'commands commence before first target.  Stop.' error on older Make
+| * 20b2f4dc 2020-12-17 [andreineculau/core.inc.mk] breaking: rename make-runtime-lazy -> make-lazy-once
+| * 9a482dc0 2020-12-17 [andreineculau/core.inc.mk] document make-lazy and make-runtime-lazy
+| * d0a07631 2020-12-17 [andreineculau/core.inc.mk] restructure
+| * c45b54d3 2020-12-17 [andreineculau/core.inc.mk] breaking: rename make-session-lazy -> make-runtime-lazy
+| * 95e3be37 2020-12-17 [andreineculau/core.inc.mk] use dir/notdir instead of shell dirname/basename
+| * f0884f29 2020-12-17 [andreineculau/core.inc.mk] introduce Makefile.lazy
+| * 8ba72122 2020-12-17 [andreineculau/core.inc.mk] make CORE_INC_MK_DIR lazy
+| * 3aae65af 2020-12-17 [andreineculau/core.inc.mk] introduce make-session-lazy
+| * a023b917 2020-12-17 [andreineculau/core.inc.mk] add .VARIABLE_LAZY and make printvars/lazy
+| * 66a48775 2020-12-17 [andreineculau/core.inc.mk] diff_ss cannot be lazy
+| * 9fdb272a 2020-12-17 [andreineculau/core.inc.mk] indent
+| * 2cf61193 2020-12-17 [andreineculau/core.inc.mk] add printvars/<origin> target
+| * 8609408b 2020-12-17 [andreineculau/core.inc.mk] TOP should be lazy
+| * 2cc1c11b 2020-12-17 [andreineculau/core.inc.mk] MAKE_SELF_PATH should be 'recursive'
+| * 50f0b116 2020-12-12 [andreineculau/core.inc.mk] normalize curl calls to 'curl -fqsSL'
+| * 328666a2 2020-11-17 [andreineculau/core.inc.mk] add $(SLEEP)
+| * 2b5e1f11 2020-10-26 [andreineculau/core.inc.mk] add 'vebose/%' helper target
+| * f580e7ad 2020-09-07 [andreineculau/core.inc.mk] add PATCH_STDOUT
+| * b1d57cbe 2020-09-06 [andreineculau/core.inc.mk] fix MAKEFLAGS passing down --no-builtin-rules, which breaks C Makefiles that assume built-in rules
+| * 072868a1 2020-09-06 [andreineculau/core.inc.mk] Revert "remove --no-builtin-rules MAKEFLAG or else sub-calls to make fail to compile C source code"
+| * ef076ccd 2020-08-26 [andreineculau/core.inc.mk] remove --no-builtin-rules MAKEFLAG or else sub-calls to make fail to compile C source code
+| * 0691f286 2020-08-24 [andreineculau/core.inc.mk] sort
+| * 68524894 2020-08-24 [andreineculau/core.inc.mk] add default EDITOR and VISUAL
+| * 5eade01b 2020-08-10 [andreineculau/core.inc.mk] add TEST
+| * 42ff9fd3 2020-08-06 [andreineculau/core.inc.mk] handle arguments in $(MAKE)
+| * 6a9f2871 2020-08-04 [andreineculau/core.inc.mk] fix help-all: some targets didn't show up due to bad regex
+| * 01d4a158 2020-07-27 [andreineculau/core.inc.mk] add EXPR
+| * 8c8f14f2 2020-07-24 [andreineculau/core.inc.mk] fix 'make help-all'. wrong reference to support-firecloud
+| * 72b339e9 2020-07-20 [andreineculau/core.inc.mk] add WC
+| * a822ab1c 2020-07-15 [andreineculau/core.inc.mk] replace backticks
+| * 56491b44 2020-07-12 [andreineculau/core.inc.mk] add version check for gnu-make, or else make-lazy gives undeterministic errors
+| * 2d06b057 2020-07-11 [andreineculau/core.inc.mk] backing out to 6ea3d91 because early includes modify MAKEFILE_LIST, used for detections
+| * 35a52317 2020-07-11 [andreineculau/core.inc.mk] fixup! fixup! include .env and .makerc
+| * 72609ba7 2020-07-11 [andreineculau/core.inc.mk] fixup! include .env and .makerc
+| * 733c4df7 2020-07-11 [andreineculau/core.inc.mk] include .env and .makerc
+| * b0eecb07 2020-02-12 [andreineculau/core.inc.mk] remove built-in rules https://www.gnu.org/software/make/manual/html_node/Catalogue-of-Rules.html
+| * f2678cfc 2020-02-12 [andreineculau/core.inc.mk] add reference
+| * e0811b41 2020-02-07 [andreineculau/core.inc.mk] skip xargs if empty stdin
+| * b6b40803 2020-02-06 [andreineculau/core.inc.mk] use git push --no-verify or else risk activating a pre-push hook
+| * 76979f44 2020-01-22 [andreineculau/core.inc.mk] fixup! fix for incompat with GNUMake 4.3 '*** empty variable name.  Stop.'
+| * a36eb416 2020-01-21 [andreineculau/core.inc.mk] fix for incompat with GNUMake 4.3 '*** empty variable name.  Stop.'
+| * 6ba035c3 2020-01-21 [andreineculau/core.inc.mk] whitespace
+| * e6e4dc8c 2019-09-08 [andreineculau/core.inc.mk] fix GIT_REPO_HAS_STAGED_FILES
+| * 692b6609 2019-09-05 [andreineculau/core.inc.mk] add UNAME
+| * 664ade40 2019-09-04 [andreineculau/core.inc.mk] fixup! add vars for special chars
+| * c5c6df07 2019-09-03 [andreineculau/core.inc.mk] visual split
+| * b6fc9379 2019-09-03 [andreineculau/core.inc.mk] use exe vars
+| * 4578ea65 2019-09-03 [andreineculau/core.inc.mk] fixup! use GIT variable
+| * 5a41ec66 2019-09-03 [andreineculau/core.inc.mk] fixup! add LN, PATCH, DATE, SEQ
+| * 11ef4bcf 2019-09-03 [andreineculau/core.inc.mk] add LN, PATCH, DATE, SEQ
+| * 9d655f4d 2019-09-03 [andreineculau/core.inc.mk] add GIT_REPO_* flags
+| * 4aa19fb6 2019-09-03 [andreineculau/core.inc.mk] use GIT variable
+| * 1c678bba 2019-08-31 [andreineculau/core.inc.mk] add vars for special chars
+| * ece93ece 2019-08-30 [andreineculau/core.inc.mk] GIT_DESCRIBE ignores tags from merges
+| * 499f36c8 2019-08-30 [andreineculau/core.inc.mk] add GIT_DESCRIBE
+| * cbd91117 2019-05-02 [andreineculau/core.inc.mk] add help-all target
+| * 6ce7e557 2019-03-15 [andreineculau/core.inc.mk] convert python call to work in both python2 and python3
+| * f6420a1f 2019-01-15 [andreineculau/core.inc.mk] xargs -L1
+| * 32cfda47 2018-12-11 [andreineculau/core.inc.mk] keep intermediate files
+| * 34c67449 2018-12-02 [andreineculau/core.inc.mk] breaking: remove node-related exe vars
+| * c8e734c4 2018-04-17 [andreineculau/core.inc.mk] Delete util.mk
+| * f73b1761 2018-04-17 [andreineculau/core.inc.mk] Create uniq.mk
+| * b70a7701 2018-04-17 [andreineculau/core.inc.mk] sort
+| * 768d6191 2018-04-05 [andreineculau/core.inc.mk] add READLINK
+| * b14ab262 2018-04-05 [andreineculau/core.inc.mk] add REALPATH
+| * 2c62ade0 2018-03-31 [andreineculau/core.inc.mk] add uniq function
+| * 362078f3 2018-03-21 [andreineculau/core.inc.mk] typo
+| * 36528ec2 2018-03-21 [andreineculau/core.inc.mk] add link to printvar techniques
+| * a189d392 2018-03-21 [andreineculau/core.inc.mk] add tar
+| * 5ab311aa 2018-03-12 [andreineculau/core.inc.mk] correct GIT_LS_NEW
+| * 3b4525b7 2018-03-12 [andreineculau/core.inc.mk] use curl with --fail
+| * 297c0515 2018-03-03 [andreineculau/core.inc.mk] Revert "add travis git info"
+| * 202e4e03 2018-03-03 [andreineculau/core.inc.mk] Revert "do not rely on TRAVIS_TAG"
+| * 9ec0763a 2018-03-03 [andreineculau/core.inc.mk] Revert "no warn about TRAVIS being undefined"
+| * b2b6b8d4 2018-02-28 [andreineculau/core.inc.mk] typo
+| * 315ac1aa 2018-02-26 [andreineculau/core.inc.mk] no warn about TRAVIS being undefined
+| * ddfbe722 2018-02-26 [andreineculau/core.inc.mk] rename GIT_TAG -> GIT_TAGS
+| * 47cdc39f 2018-02-26 [andreineculau/core.inc.mk] do not rely on TRAVIS_TAG
+| * 5f592b7d 2018-02-26 [andreineculau/core.inc.mk] add travis git info
+| * 7beec27d 2018-02-26 [andreineculau/core.inc.mk] typo
+| * acec9508 2018-02-25 [andreineculau/core.inc.mk] typo
+| * fc1bccf0 2018-02-25 [andreineculau/core.inc.mk] redundant
+| * a71460b8 2018-02-25 [andreineculau/core.inc.mk] sort
+| * 458d035b 2018-02-25 [andreineculau/core.inc.mk] add GIT_REMOTE and GIT_TAG
+| * 31a3c097 2018-02-18 [andreineculau/core.inc.mk] make sure core.inc.mk is loaded only once
+| * 28ac0d78 2017-11-10 [andreineculau/core.inc.mk] which: more consistent var export
+| * c52f4b5d 2017-09-04 [andreineculau/core.inc.mk] fix which
+| * 780a7c37 2017-09-04 [andreineculau/core.inc.mk] fix which
+| * f0cc54a9 2017-09-04 [andreineculau/core.inc.mk] CORE_INC_MK_DIR should be set in core.inc.mk
+| * efb1f20c 2017-09-02 [andreineculau/core.inc.mk] rename CORE_INC_MK_PATH -> CORE_INC_MK_DIR
+| * a5925a82 2017-09-01 [andreineculau/core.inc.mk] use python2
+| * e48139e3 2017-08-25 [andreineculau/core.inc.mk] simplify which
+| * 4b01ad91 2017-08-25 [andreineculau/core.inc.mk] add JEST
+| * 59b93afd 2017-07-20 [andreineculau/core.inc.mk] add check to install core.inc.mk
+| * bfced4c5 2017-06-13 [andreineculau/core.inc.mk] git merge with no-edit
+| * f372a3de 2017-07-11 [andreineculau/core.inc.mk] add exe.echo.inc.mk
+| * c9f00bca 2017-05-31 [andreineculau/core.inc.mk] links
+| * 33955337 2017-05-31 [andreineculau/core.inc.mk] more info on printvar
+| * 18dada66 2017-04-29 [andreineculau/core.inc.mk] separate node's npm and env's npm
+| * 745fff62 2017-04-29 [andreineculau/core.inc.mk] use canonical path to node's npm
+| * 79ac8598 2017-04-17 [andreineculau/core.inc.mk] no util- target prefixes
+| * 36417def 2017-03-31 [andreineculau/core.inc.mk] test before npm version
+| * 7eddae50 2017-03-27 [andreineculau/core.inc.mk] clean before checking out pre-dist branch
+| * 82d6e4db 2017-03-26 [andreineculau/core.inc.mk] clean index needed for publishing
+| * cce38f7c 2017-03-26 [andreineculau/core.inc.mk] updated extra/target.npm-version-publish.inc.mk
+| * c6b71e2d 2017-03-26 [andreineculau/core.inc.mk] fix missing VERBOSE
+| * 50bdaee7 2017-03-26 [andreineculau/core.inc.mk] add target to npm-publish to dist branch
+| * 628771aa 2017-03-26 [andreineculau/core.inc.mk] canonical guard targets
+| * 65fe042a 2017-03-25 [andreineculau/core.inc.mk] add MAKE_SELF
+| * 1db77bb8 2017-03-25 [andreineculau/core.inc.mk] correct paths
+| * be755cf0 2017-03-25 [andreineculau/core.inc.mk] typo
+| * 8372bfc9 2017-03-25 [andreineculau/core.inc.mk] TOP in readme
+| * e9e3b52b 2017-03-25 [andreineculau/core.inc.mk] rebrand as core.inc.mk
+| * 039750d0 2016-05-11 [andreineculau/core.inc.mk] add reference
+| * a3e037cd 2015-04-10 [andreineculau/core.inc.mk] whitespace
+| * 816ecfcb 2015-04-10 [andreineculau/core.inc.mk] add debug printvar
+| * 2207daea 2015-04-10 [andreineculau/core.inc.mk] fix #2: add dir of makefile and pwd
+| * 42fbf8b6 2015-04-10 [andreineculau/core.inc.mk] fix #1: add silence-commands-if-make-is-silent
+| * 13cb5047 2014-10-17 [andreineculau/core.inc.mk] add printvars
+| * 0e4fc112 2014-04-19 [andreineculau/core.inc.mk] add relative and self
+| * a7d87b60 2014-02-07 [andreineculau/core.inc.mk] Update util.mk
+| * a0d6cc96 2014-02-07 [andreineculau/core.inc.mk] better pattern for targets
+| * bc6ffd1c 2014-02-05 [andreineculau/core.inc.mk] Update default.mk
+| * 9bcb1639 2014-02-05 [andreineculau/core.inc.mk] clarify .DEFAULT
+| * 740d8906 2014-02-02 [andreineculau/core.inc.mk] Add complex ifdef
+| * 51c63985 2013-12-21 [andreineculau/core.inc.mk] namespace all
+| * 18c75787 2014-01-16 [andreineculau/core.inc.mk] Create shell.mk
+| * c77ea0ad 2013-12-21 [andreineculau/core.inc.mk] typos
+| * 7fbd8375 2013-12-21 [andreineculau/core.inc.mk] better error output
+| * 298a0507 2013-12-20 [andreineculau/core.inc.mk] add phonies
+| * 24409739 2013-12-20 [andreineculau/core.inc.mk] improve env-has-*
+| * 09422d72 2013-12-20 [andreineculau/core.inc.mk] uniform env-* targets
+| * a68cb4e8 2013-12-20 [andreineculau/core.inc.mk] rename readme
+| * 0333e1da 2013-12-20 [andreineculau/core.inc.mk] add highlight
+| * 65d2c9c3 2013-12-20 [andreineculau/core.inc.mk] move examples to docs
+| * 296f112f 2013-12-20 [andreineculau/core.inc.mk] assignments
+| * bf111c68 2013-12-20 [andreineculau/core.inc.mk] rename
+| * 21e645cb 2013-12-20 [andreineculau/core.inc.mk] add obvious usage
+| * 48393cb3 2013-12-20 [andreineculau/core.inc.mk] add readme and license
+| * 4cf6ac30 2013-12-20 [andreineculau/core.inc.mk] add main
+| * 89897d6b 2013-12-20 [andreineculau/core.inc.mk] add examples
+|/
+* 709daaa5 2021-08-29 mk: remove subtree merge
+* baad1d16 2021-08-29 appveyor is a real pain in the microsoft case
+* fa09b936 2021-08-29 fixup! fixup! appveyor: normalize True to true in env vars
+* ed7c7540 2021-08-29 alpine: use apk's docker
+* 301b941b 2021-08-29 fixup! appveyor: normalize True to true in env vars
+* 99c7bd5b 2021-08-29 travis: fix ci env vars
+* 915900ae 2021-08-29 appveyor: normalize True to true in env vars
+* b0f1e84f 2021-08-29 travis: update badges
+* 134db2f4 2021-08-29 debug brew cloning
+* 221c45f3 2021-08-29 Revert "bypass shellenv"
+* 13ecaf90 2021-08-29 bypass shellenv
+* d428d382 2021-08-29 'brew shellenv' need HOMEBREW_SHELLENV_PREFIX or else it risks being a noop
+* 2ba27a32 2021-08-29 fixup! fixup! sf-env: optimize paths. fix 'brew command not found' on github actions
+* 338c070e 2021-08-29 naming
+* 18145def 2021-08-29 update homebrew install script
+* 62e8271e 2021-08-29 fixup! sf-env: optimize paths. fix 'brew command not found' on github actions
+* b1059a0b 2021-08-28 skip upgrading ssh-client on travis
+* 2aba0a51 2021-08-28 fix alpine
+* db9595df 2021-08-28 typo
+* 39d44d67 2021-08-28 travis: use ubuntu:20.04
+* 53c3c45b 2021-08-28 updated bin/ci-printvars
+* f9a18460 2021-08-28 Update travis.inc.sh
+* 58395743 2021-08-28 Update sourcehut.inc.sh
+* fb799406 2021-08-28 Update semaphore.inc.sh
+* 55083c68 2021-08-28 Update gitlab.inc.sh
+* 82076cac 2021-08-28 Update codeship.inc.sh
+* 8c99b8f3 2021-08-28 Update cirrus.inc.sh
+* 264f12fd 2021-08-28 Update github.inc.sh
+* dc9986ec 2021-08-28 github: fixes only apply to Linux runners
+* d2346140 2021-08-28 handle no MANPATH INFOPATH
+* 1ee8725e 2021-08-28 fix for github actions including literal quotes for PATH and HOMEBREW_* vars on linux
+* 46675364 2021-08-28 sf-env: optimize paths. fix 'brew command not found' on github actions
+* 2da41659 2021-08-28 print PATH on 'command not found' error
+* c4c96576 2021-08-28 appveyor: export all appveyor env vars
+* cf0eda05 2021-08-28 document known CI vars
+* cfa8c81c 2021-08-28 sourcehut actually is missing the CI env var
+* 191e0394 2021-08-28 github: fix PATH
+* d2052c4b 2021-08-28 hardcode test also for intel macos' regular path for consistency
+* ff7fa8e6 2021-08-28 earlier printout of system/homebrew state
+* 7b128702 2021-08-28 order
+* ad88d33e 2021-08-28 echo PATH only when not finding the executable
+* 07389b5a 2021-08-28 no need to regenerate in CI
+* 9b572fde 2021-08-28 Revert "Revert "bump homebrew/brew""
+* b1fc2b64 2021-08-28 fixup! no editor in CI
+* 6ea563ed 2021-08-28 circleci: fix ci env vars
+* 9d1f4ee8 2021-08-28 add sf_ci_debug_no_auth
+* b0e90e9d 2021-08-27 Unused var
+* e17644fa 2021-08-27 gitlab: prefer empty over false
+* 3e4b38a5 2021-08-27 gitlab: fix ci env vars
+* 76f2c6a1 2021-08-27 bootstrap: stop shallowing git repos via Brewfile.lock
+* 27a5bdc3 2021-08-27 docs: reference 'mk' in README
+* 312df390 2021-08-27 lock env-ci to v5
+* 77553674 2021-08-27 gitlab: fix ci env vars
+* 7f582c0c 2021-08-27 codeship: fix ci env vars
+* fbebc128 2021-08-27 no editor in CI
+* bfc7e11f 2021-08-27 gitlab: fix ci env vars
+* 3a711522 2021-08-27 codeship: fix ci env vars
+* d191d473 2021-08-27 gitlab: fix ci env vars
+* c6639229 2021-08-27 cirrus: fix ci env vars
+* 2d777ec0 2021-08-27 test-env-ci: show all vars on diff
+* 713dc817 2021-08-27 cirrus: fix ci env vars
+* 262ae266 2021-08-27 circleci: fix ci env vars
+* aa5acd0e 2021-08-27 Brewfile.lock should be diffed
+* 71b23002 2021-08-27 fixup! fixup! fixup! fixup! brew: install same formulas as in linuxbrew's alpine dockerfile (blind trust)
+* b8d457fd 2021-08-27 Revert "bump homebrew/brew"
+* 95138176 2021-08-26 bump homebrew/brew
+* 48bc7dad 2021-08-26 update awscli formula
+* 191619c4 2021-08-26 update erlang formula
+* f804129f 2021-08-26 bump homebrew taps
+* 54351073 2021-08-26 bump homebrew/install
+* f3b4eee2 2021-08-27 fixup! print diff on failing test-env-ci
+* e58daaad 2021-08-27 fixup! fixup! fixup! brew: install same formulas as in linuxbrew's alpine dockerfile (blind trust)
+* 061ca216 2021-08-27 handle all possible homebrew prefixes
+* 532e742b 2021-08-27 print diff on failing test-env-ci
+* 693001db 2021-08-27 gitlab: fix ci env vars
+* ef168ff4 2021-08-27 gitlab: fix ci env vars
+* 071fe432 2021-08-27 fixup! add node-env-ci helper
+* 96c2cf2d 2021-08-27 cirrus: fix ci env vars
+* 6131f160 2021-08-27 fixup! fixup! brew: install same formulas as in linuxbrew's alpine dockerfile (blind trust)
+* d21bda76 2021-08-27 github: optmize resources. don't test non-smoke containers if smoke VMs fail
+* a7075cf1 2021-08-27 vscode: recommend multi-cursor-case-preserve extension
+* d93b94a6 2021-08-25 mk: gnu vars for all gnu executables. possible issues ID, PR
+* 2340f155 2021-08-27 typo
+* cf3e0f32 2021-08-25 add test-env-ci target
+* 4598dba9 2021-08-26 breaking: refactor ci/env, normalize vars
+* 4a22c2ee 2021-08-24 add sf_ci_printvar_* functions for all CIs
+* 8d070abc 2021-08-24 add node-env-ci helper
+* 17ee4187 2021-08-23 add ci-printvars
+* 99cc9d3b 2021-08-23 refactor ci/env
+* 8dd35fc0 2021-08-27 Revert "stop passing original args (array) to main function"
+* 0ef2f659 2021-08-27 add note that glibc on alpine is not recommended
+* 3f9cff7d 2021-08-27 add sf_ci_debug function
+* 10646968 2021-08-27 make ci/%: allow branch without remote
+* 290184f7 2021-08-26 fixup! brew: install same formulas as in linuxbrew's alpine dockerfile (blind trust)
+* 03d600ab 2021-08-26 typo: GITREF -> GIT_REF
+* 7d12e1a5 2021-08-26 codeship: fix CI_IS_PR
+* b38c2b23 2021-08-26 codeship: run only ubuntu:20.04
+* bd3627e3 2021-08-26 fixup! fixup! add ubuntu-20.04 to codeship
+* cc1ebf5b 2021-08-26 codeship: fix CI_IS_PR
+* 9de90178 2021-08-26 codeship: fix not running unless tagged
+* 23423a41 2021-08-26 codeship: fix not running unless PR
+* 105d7dc6 2021-08-26 style
+* 72477fee 2021-08-26 formula patch: use correct git ref for linuxbrew-core
+* d4a16bae 2021-08-26 docs: CI vars
+* a0fc250f 2021-08-25 more verbose for test targets
+* 5663b78e 2021-08-25 add poor man's moreutils ifne
+* 5777de49 2021-08-25 mk: document override
+* 516a7cd3 2021-08-24 style
+* fae06a60 2021-08-24 redundant
+* afb97bd0 2021-08-22 better support for appveyor environment variables
+* 819dda46 2021-08-22 fixup! fixup! split into core-git/os/sudo
+* db257077 2021-08-22 typo in ci and debug-ci targets
+* 9f34a20c 2021-08-22 fixup! split into core-git/os/sudo
+* 4c55032a 2021-08-22 move DEBIAN_FRONTEND to debian only
+* f04da8bd 2021-08-22 fixup! rename and align with build.mk/core.inc.mk
+* ed4f3b1a 2021-08-22 lint mk
+* 1aad16a7 2021-08-22 rm mk/LICENSE
+* 8c454338 2021-08-22 update references to core.inc.mk
+* 77315f48 2021-08-22 remove build.mk/core.inc.mk
+*   d11e9957 2021-08-22 imported git://github.com/andreineculau/core.inc.mk.git#5a664208ec7f79af98fbc8516951f4a09282515d as mk subfolder
+|\
+| * 5a664208 2021-08-22 split into exe.which.inc.mk
+| * d27b7f44 2021-08-22 merge func.inc.mk into exe.inc.mk
+| * c034b650 2021-08-21 handle V=2, extra verbose
+| * 242bc78d 2021-08-03 use 'command -v' instead of which
+| * d74eeddf 2021-07-27 curl needs -q to be first paramters, otherwise it doesn't count
+| * caa51623 2021-02-23 add SEMVER
+| * 825a7e6a 2021-01-17 enable shell errtrace/functrace
+| * 2ef7129d 2021-01-14 less calls to uname
+| * 06a00fdf 2020-12-21 fixup! use posix sed and no labels for increased compatibility gnu/bsd
+| * b85400d6 2020-12-21 fixup! use posix sed and no labels for increased compatibility gnu/bsd
+| * 520625a5 2020-12-20 use posix sed and no labels for increased compatibility gnu/bsd
+| * 9d810996 2020-12-19 add missing warning about make-lazy-once
+| * e66b4d65 2020-12-19 no indent or else 'commands commence before first target.  Stop.' error on older Make
+| * 79e85467 2020-12-17 breaking: rename make-runtime-lazy -> make-lazy-once
+| * 7dcdddc5 2020-12-17 document make-lazy and make-runtime-lazy
+| * 2f2672fe 2020-12-17 restructure
+| * 64b26d46 2020-12-17 breaking: rename make-session-lazy -> make-runtime-lazy
+| * b253ce63 2020-12-17 use dir/notdir instead of shell dirname/basename
+| * 203e889d 2020-12-17 introduce Makefile.lazy
+| * e5967620 2020-12-17 make CORE_INC_MK_DIR lazy
+| * 0398e1d4 2020-12-17 introduce make-session-lazy
+| * aa0d3966 2020-12-17 add .VARIABLE_LAZY and make printvars/lazy
+| * 7971bda9 2020-12-17 diff_ss cannot be lazy
+| * 8744fcf0 2020-12-17 indent
+| * 2633d516 2020-12-17 add printvars/<origin> target
+| * 1c80bfc5 2020-12-17 TOP should be lazy
+| * 0cfcf5ba 2020-12-17 MAKE_SELF_PATH should be 'recursive'
+| * c71bedb7 2020-12-12 normalize curl calls to 'curl -fqsSL'
+| * 71077bc9 2020-11-17 add $(SLEEP)
+| * b0ec3f8f 2020-10-26 add 'vebose/%' helper target
+| * 8086607f 2020-09-07 add PATCH_STDOUT
+| * 8ea96a14 2020-09-06 fix MAKEFLAGS passing down --no-builtin-rules, which breaks C Makefiles that assume built-in rules
+| * 8650727c 2020-09-06 Revert "remove --no-builtin-rules MAKEFLAG or else sub-calls to make fail to compile C source code"
+| * 60b6c6db 2020-08-26 remove --no-builtin-rules MAKEFLAG or else sub-calls to make fail to compile C source code
+| * 539b2b3b 2020-08-24 sort
+| * e1a515fc 2020-08-24 add default EDITOR and VISUAL
+| * 4a24040a 2020-08-10 add TEST
+| * 644e9ea5 2020-08-06 handle arguments in $(MAKE)
+| * b9bc3ed0 2020-08-04 fix help-all: some targets didn't show up due to bad regex
+| * 84f95ec3 2020-07-27 add EXPR
+| * 7bc8cacb 2020-07-24 fix 'make help-all'. wrong reference to support-firecloud
+| * 9db1021c 2020-07-20 add WC
+| * 3ea96a8b 2020-07-15 replace backticks
+| * 94855ee5 2020-07-12 add version check for gnu-make, or else make-lazy gives undeterministic errors
+| * 6a8bda05 2020-07-11 backing out to 6ea3d91 because early includes modify MAKEFILE_LIST, used for detections
+| * f83c49b1 2020-07-11 fixup! fixup! include .env and .makerc
+| * 310cd87d 2020-07-11 fixup! include .env and .makerc
+| * a9893317 2020-07-11 include .env and .makerc
+| * 6ea3d91a 2020-02-12 remove built-in rules https://www.gnu.org/software/make/manual/html_node/Catalogue-of-Rules.html
+| * a7bc5e83 2020-02-12 add reference
+| * 43bbedbf 2020-02-07 skip xargs if empty stdin
+| * 997a7e5d 2020-02-06 use git push --no-verify or else risk activating a pre-push hook
+| * 1e480872 2020-01-22 fixup! fix for incompat with GNUMake 4.3 '*** empty variable name.  Stop.'
+| * c750011c 2020-01-21 fix for incompat with GNUMake 4.3 '*** empty variable name.  Stop.'
+| * 8b0df1b1 2020-01-21 whitespace
+| * ed808b85 2019-09-08 fix GIT_REPO_HAS_STAGED_FILES
+| * e28bf6cb 2019-09-05 add UNAME
+| * 3cee6713 2019-09-04 fixup! add vars for special chars
+| * f7c412b8 2019-09-03 visual split
+| * 2d2c1131 2019-09-03 use exe vars
+| * 92f2aa0d 2019-09-03 fixup! use GIT variable
+| * 51121179 2019-09-03 fixup! add LN, PATCH, DATE, SEQ
+| * eba30a00 2019-09-03 add LN, PATCH, DATE, SEQ
+| * 11a51681 2019-09-03 add GIT_REPO_* flags
+| * a0e08446 2019-09-03 use GIT variable
+| * fd4a6410 2019-08-31 add vars for special chars
+| * 32912f7f 2019-08-30 GIT_DESCRIBE ignores tags from merges
+| * f6dd0b8a 2019-08-30 add GIT_DESCRIBE
+| * 54f6e729 2019-05-02 add help-all target
+| * eef03645 2019-03-15 convert python call to work in both python2 and python3
+| * f09461fe 2019-01-15 xargs -L1
+| * aa0fbca9 2018-12-11 keep intermediate files
+| * e17043c2 2018-12-02 breaking: remove node-related exe vars
+| * 66fd419e 2018-04-17 Delete util.mk
+| * 310aa73a 2018-04-17 Create uniq.mk
+| * 9f594d37 2018-04-17 sort
+| * 484e4e07 2018-04-05 add READLINK
+| * ca8b888f 2018-04-05 add REALPATH
+| * 6b9f6def 2018-03-31 add uniq function
+| * 657a3a29 2018-03-21 typo
+| * cd2a9106 2018-03-21 add link to printvar techniques
+| * 59afbf61 2018-03-21 add tar
+| * 1985483d 2018-03-12 correct GIT_LS_NEW
+| * 373a4835 2018-03-12 use curl with --fail
+| * 98aa5b45 2018-03-03 Revert "add travis git info"
+| * d48b20ea 2018-03-03 Revert "do not rely on TRAVIS_TAG"
+| * b3b1ece4 2018-03-03 Revert "no warn about TRAVIS being undefined"
+| * 61511ce5 2018-02-28 typo
+| * 5006104c 2018-02-26 no warn about TRAVIS being undefined
+| * 5db6fa1f 2018-02-26 rename GIT_TAG -> GIT_TAGS
+| * ec7c9fa0 2018-02-26 do not rely on TRAVIS_TAG
+| * ba46b469 2018-02-26 add travis git info
+| * bdd1799f 2018-02-26 typo
+| * 0666bdcc 2018-02-25 typo
+| * 319c8d89 2018-02-25 redundant
+| * adcf21ad 2018-02-25 sort
+| * 532c711c 2018-02-25 add GIT_REMOTE and GIT_TAG
+| * 8d8618b0 2018-02-18 make sure core.inc.mk is loaded only once
+| * c4d97801 2017-11-10 which: more consistent var export
+| * c206edda 2017-09-04 fix which
+| * 502a4445 2017-09-04 fix which
+| * eb1f15b5 2017-09-04 CORE_INC_MK_DIR should be set in core.inc.mk
+| * 55ad221b 2017-09-02 rename CORE_INC_MK_PATH -> CORE_INC_MK_DIR
+| * 94f0b269 2017-09-01 use python2
+| * f962d3ab 2017-08-25 simplify which
+| * 91f0a0ec 2017-08-25 add JEST
+| * 971de4af 2017-07-20 add check to install core.inc.mk
+| * c68c7259 2017-06-13 git merge with no-edit
+| * 7d8b5ef6 2017-07-11 add exe.echo.inc.mk
+| * 0a6b789b 2017-05-31 links
+| * 1e274a5d 2017-05-31 more info on printvar
+| * b81b160f 2017-04-29 separate node's npm and env's npm
+| * 48182bab 2017-04-29 use canonical path to node's npm
+| * 0e60931c 2017-04-17 no util- target prefixes
+| * 7facecb1 2017-03-31 test before npm version
+| * 7adef766 2017-03-27 clean before checking out pre-dist branch
+| * 7c3985e4 2017-03-26 clean index needed for publishing
+| * 614b59cc 2017-03-26 updated extra/target.npm-version-publish.inc.mk
+| * dbb87461 2017-03-26 fix missing VERBOSE
+| * c64f565d 2017-03-26 add target to npm-publish to dist branch
+| * d9832afd 2017-03-26 canonical guard targets
+| * 9352afe9 2017-03-25 add MAKE_SELF
+| * 927ead6b 2017-03-25 correct paths
+| * f7536f5d 2017-03-25 typo
+| * 4bdebb33 2017-03-25 TOP in readme
+| * 240ac4ab 2017-03-25 rebrand as core.inc.mk
+| * f2a949a1 2016-05-11 add reference
+| * 8e6e2438 2015-04-10 whitespace
+| * 1f248d6e 2015-04-10 add debug printvar
+| * db145b30 2015-04-10 fix #2: add dir of makefile and pwd
+| * e553522b 2015-04-10 fix #1: add silence-commands-if-make-is-silent
+| * 4bc93d0e 2014-10-17 add printvars
+| * e2321a68 2014-04-19 add relative and self
+| * f6a2c901 2014-02-07 Update util.mk
+| * 19931357 2014-02-07 better pattern for targets
+| * 6bdbcf1a 2014-02-05 Update default.mk
+| * 60db29d8 2014-02-05 clarify .DEFAULT
+| * 42dcce9d 2014-02-02 Add complex ifdef
+| * 79a19996 2013-12-21 namespace all
+| * ab32855b 2014-01-16 Create shell.mk
+| * eceb7e97 2013-12-21 typos
+| * ec200439 2013-12-21 better error output
+| * 06c4b0c9 2013-12-20 add phonies
+| * 27c576d2 2013-12-20 improve env-has-*
+| * 9190569a 2013-12-20 uniform env-* targets
+| * 24a5dea1 2013-12-20 rename readme
+| * fd8223cd 2013-12-20 add highlight
+| * b4d79994 2013-12-20 move examples to docs
+| * 5d18f171 2013-12-20 assignments
+| * 8a8285fe 2013-12-20 rename
+| * c23154a6 2013-12-20 add obvious usage
+| * 6f942bd2 2013-12-20 add readme and license
+| * 2918cb09 2013-12-20 add main
+| * 29dad52d 2013-12-20 add examples
+| * e9dc7ee6 2013-12-20 [empty] initial commit
+|/
+* ceea432f 2021-08-22 updated build.mk/core.inc.mk
+* 061dc1bb 2021-08-22 is it needed to defined support_firecloud_dir in exe.inc.sh, in addition to env.inc.sh?
+* 5a6b7a32 2021-08-22 is it needed to defined support_firecloud_dir in core.inc.sh, in addition to env.inc.sh?
+* 2aa722d3 2021-08-22 keep core.inc.sh core, align with build.mk/core.inc.mk
+* aec6c339 2021-08-22 rename and align with build.mk/core.inc.mk
+* ff9962ef 2021-08-22 split into os and os-release
+* cd9ed3c9 2021-08-22 split into core-git/os/sudo
+* b1ad8d2f 2021-08-22 fixup! collect all CI env to ci/env. see #232
+* bce4626e 2021-08-22 fixup! better support for semaphore ci environment variables
+* 684a21df 2021-08-22 collect all CI env to ci/env. see #232
+* 4d746c14 2021-08-22 better support for semaphore ci environment variables
+* b98ee11c 2021-08-22 switch gitlab to ubuntu:20.04
+* 0b4a97b0 2021-08-22 skip upgrading ssh-client on semaphore
+* 0aacd246 2021-08-22 switch semaphore ci to ubuntu:20.04
+* 683c9a5f 2021-08-22 Debug::pkgDPkgPM=true will actually ONLY print the dpkg command, but not execute it. or so it seems
+* c01e4335 2021-08-22 suppress duplicate dpkg options
+* f05d3af9 2021-08-22 style
+* 04c79f08 2021-08-21 print PATH when debugging an executable
+* 0374c3b4 2021-08-21 github-workflow: placeholder for debug purposes
+* 94fd202f 2021-08-21 use bash arrays
+* 9fdabb5f 2021-08-21 apt-get seems to ignore dpkg options after the install keyword
+* e0a1ebe7 2021-08-21 Revert "apt-get: use -qq instead of -y (-y is implied by -qq) for less noise"
+* de2eec40 2021-08-21 apt-get --force-yes only in CI
+* 50931346 2021-08-21 bootstrap: preserve env when switching to root
+* c58b4478 2021-08-21 dpkg settings in /etc/apt/apt.conf.d don't seem to stick for 'apt-get install'
+* d8fd1845 2021-08-21 apt-get install openssh-server may prompt the user if /etc/ssh/sshd_config has been modified. turn prompt off in CI
+* f7c54341 2021-08-21 handle V=2, extra verbose
+* a4024b67 2021-08-20 fixup! add sourcehut.org manifest
+* e1db8b46 2021-08-21 fixup! github-checkout: allow running without a GITHUB_SHA
+* cbf91b40 2021-08-20 add sourcehut.org manifest
+* d7c18b8d 2021-08-21 github-checkout: allow running without a GITHUB_SHA
+* c732ffe1 2021-08-21 github-checkout: allow running in envs without a GITHUB_TOKEN
+* 36808728 2021-08-20 style
+* dca735de 2021-08-20 missing version id
+o 557cacde 2021-08-20 0.2.156
