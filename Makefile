@@ -190,8 +190,8 @@ ifneq (true,$(CI))
 bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
 endif
 bootstrap/brew-util/homebrew-install.sh:
-	$(eval BREW_INSTALL_GITREF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
-	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GITREF)/install.sh
+	$(eval BREW_INSTALL_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
+	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GIT_REF)/install.sh
 	if [[ -f "$@.patch" ]]; then \
 		$(CAT) $@.patch | $(PATCH) $@.original -o $@; \
 	else \
@@ -211,10 +211,10 @@ ifneq (true,$(CI))
 Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
 endif
 Formula/patch-src/%.original.rb:
-	$(eval BREW_TAP_LOCK_LINUXBREW_CORE_TO := $(shell $(CAT) $(BREWFILE_LOCK) | \
+	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
 		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
 	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(BREW_TAP_LOCK_LINUXBREW_CORE_TO)/Formula/$*.rb -o $@
+		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
 	if [[ -f Formula/$*.linux.patch ]]; then \
 		$(MAKE) Formula/patch-src/$*.rb || { \
 			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
