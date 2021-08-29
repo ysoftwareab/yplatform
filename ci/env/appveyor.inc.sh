@@ -5,15 +5,15 @@ true
 # see https://www.appveyor.com/docs/environment-variables/
 
 function sf_ci_env_appveyor() {
+    [[ "${APPVEYOR:-}" = "True" ]] || return 0
+
     if printenv | grep -q "=True$"; then
         # normalize 'True' to 'true'
-        printenv | grep "=True$" | sed "s/=.*//g" | while read -r NO_XARGS_R; do
+        while read -r NO_XARGS_R; do
             [[ -n "${NO_XARGS_R}" ]] || continue;
             eval "export ${NO_XARGS_R}=true"
-        done
+        done < <(printenv | grep "=True$" | sed "s/=.*//g")
     fi
-
-    [[ "${APPVEYOR:-}" = "true" ]] || return 0
 
     [[ "${APPVEYOR_REPO_PROVIDER:-}" = "github" ]]
 
