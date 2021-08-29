@@ -12,10 +12,10 @@ function sf_ci_env_travis() {
     CI_REPO_SLUG=${TRAVIS_REPO_SLUG:-}
     CI_ROOT=${TRAVIS_BUILD_DIR:-}
 
-    CI_IS_CRON=false
-    [[ "${TRAVIS_EVENT_TYPE}" != "cron" ]] || CI_IS_CRON=true
-    CI_IS_PR=false
-    [[ "${TRAVIS_EVENT_TYPE}" != "pull_request" ]] || CI_IS_PR=true
+    CI_IS_CRON=
+    [[ "${TRAVIS_EVENT_TYPE:-}" != "cron" ]] || CI_IS_CRON=true
+    CI_IS_PR=
+    [[ "${TRAVIS_EVENT_TYPE:-}" != "pull_request" ]] || CI_IS_PR=true
 
     CI_JOB_ID=${TRAVIS_JOB_ID:-}
     CI_PIPELINE_ID=${TRAVIS_BUILD_NUMBER:-}

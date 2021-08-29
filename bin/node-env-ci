@@ -90,6 +90,15 @@ if (sfCompat) {
         data.CI_PIPELINE_URL = dataClone.CI_JOB_URL;
         data.CI_PIPELINE_URL = _.replace(data.CI_PIPELINE_URL, '/pipelines/', '/-/pipelines/');
     }
+    if (data.CI_PLATFORM === 'travis') {
+        let dataClone = _.clone(data);
+        data.CI_JOB_ID = dataClone.CI_PIPELINE_ID;
+        data.CI_PIPELINE_ID = dataClone.CI_JOB_ID;
+        data.CI_JOB_URL = dataClone.CI_PIPELINE_URL;
+        data.CI_PIPELINE_URL = dataClone.CI_JOB_URL;
+        data.CI_JOB_ID = process.env.TRAVIS_JOB_ID;
+        data.CI_PIPELINE_ID = process.env.TRAVIS_BUILD_NUMBER;
+    }
 }
 
 _.forEach(data, function(value, key) {
