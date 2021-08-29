@@ -103,10 +103,11 @@ sf_path_prepend ${HOME}/.local/bin
 [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
 
 if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
-    export HOMEBREW_CELLAR=${HOMEBREW_CELLAR:-${HOMEBREW_PREFIX}/Cellar}
-    export HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY:-${HOMEBREW_PREFIX}/Homebrew}
-    export HOMEBREW_CELLAR=${HOMEBREW_CELLAR:-${HOMEBREW_PREFIX}/Cellar}
-    export HOMEBREW_SHELLENV_PREFIX=${HOMEBREW_SHELLENV_PREFIX:-${HOMEBREW_PREFIX}}
+    # 'brew shellenv' duplicates items in PATH variables
+    eval "$(HOMEBREW_SHELLENV_PREFIX="" ${HOMEBREW_PREFIX}/bin/brew shellenv | grep -v \
+        -e "^export PATH=" \
+        -e "^export MANPATH=" \
+        -e "^export INFOPATH=")"
 
     sf_path_prepend ${HOMEBREW_PREFIX}/sbin
     sf_path_prepend ${HOMEBREW_PREFIX}/bin
