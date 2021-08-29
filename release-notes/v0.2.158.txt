@@ -1,0 +1,14 @@
+support-firecloud v0.2.158 Release Notes
+
+Highlights since v0.2.157:
+
+* None
+
+Breaking commits since v0.2.157:
+
+* None
+
+Commits since v0.2.157:
+
+* 25ee34db 2021-08-30 fixup! appveyor is a real pain in the microsoft case
+o d2b21cd0 2021-08-30 0.2.157
