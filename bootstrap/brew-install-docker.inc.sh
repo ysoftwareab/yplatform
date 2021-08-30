@@ -34,6 +34,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         apk_install_one docker
         apk_install_one docker-compose
         ${SF_SUDO} addgroup $(whoami) docker
+        apk_install_one openrc
         ${SF_SUDO} rc-update add docker boot
         ${SF_SUDO} service docker start
         # END https://wiki.alpinelinux.org/wiki/Docker#Installation
