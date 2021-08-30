@@ -1,0 +1,19 @@
+support-firecloud v0.2.159 Release Notes
+
+Highlights since v0.2.158:
+
+* None
+
+Breaking commits since v0.2.158:
+
+* None
+
+Commits since v0.2.158:
+
+* 18145106 2021-08-30 lint
+* a7996cea 2021-08-30 appveyor: fix ci env vars
+* 17dbb090 2021-08-30 alpine: make sure openrc is installed for docker
+* 1a76e093 2021-08-30 fixup! appveyor: handle both prr and post this script
+* 7b4deb09 2021-08-30 appveyor: handle both prr and post this script
+* 00e77f52 2021-08-30 alpine: missing sudo
+o 01dd67ce 2021-08-30 0.2.158
