@@ -1,0 +1,14 @@
+support-firecloud v0.2.160 Release Notes
+
+Highlights since v0.2.159:
+
+* None
+
+Breaking commits since v0.2.159:
+
+* None
+
+Commits since v0.2.159:
+
+* ea3393ca 2021-08-30 we don't need to start docker on init
+o c1ebdf62 2021-08-30 0.2.159
