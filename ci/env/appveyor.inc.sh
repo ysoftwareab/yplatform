@@ -34,9 +34,9 @@ function sf_ci_env_appveyor() {
 
     CI_JOB_ID=${APPVEYOR_JOB_ID:-}
     CI_PIPELINE_ID=${APPVEYOR_BUILD_NUMBER:-}
-    # CI_JOB_URL=${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/builds/${CI_JOB_ID}
-    CI_JOB_URL=${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/job/${CI_JOB_ID}
-    CI_PIPELINE_URL=${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/${CI_PIPELINE_ID} # editorconfig-checker-disable-line
+    # CI_JOB_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/builds/${CI_JOB_ID}
+    CI_JOB_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/job/${CI_JOB_ID}
+    CI_PIPELINE_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/${CI_PIPELINE_ID} # editorconfig-checker-disable-line
 
     CI_PR_URL=
     CI_PR_REPO_SLUG=

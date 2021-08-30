@@ -67,6 +67,26 @@ if (sfCompat) {
         return value;
     });
 
+    if (data.CI_PLATFORM === 'appveyor') {
+        data.CI_JOB_ID=process.env.APPVEYOR_JOB_ID;
+        data.CI_PIPELINE_ID=process.env.APPVEYOR_BUILD_NUMBER;
+        data.CI_JOB_URL=_.join([
+            'https://ci.appveyor.com/project/',
+            process.env.APPVEYOR_ACCOUNT_NAME,
+            '/',
+            process.env.APPVEYOR_PROJECT_SLUG,
+            '/build/job/',
+            process.env.APPVEYOR_JOB_ID
+        ], '');
+        data.CI_PIPELINE_URL=_.join([
+            'https://ci.appveyor.com/project/',
+            process.env.APPVEYOR_ACCOUNT_NAME,
+            '/',
+            process.env.APPVEYOR_PROJECT_SLUG,
+            '/build/',
+            process.env.APPVEYOR_BUILD_NUMBER
+        ], '');
+    }
     if (data.CI_PLATFORM === 'circleci') {
         data.CI_PLATFORM = 'circle';
         data.CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
