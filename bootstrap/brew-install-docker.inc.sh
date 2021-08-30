@@ -33,9 +33,9 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # BEGIN https://wiki.alpinelinux.org/wiki/Docker#Installation
         apk_install_one docker
         apk_install_one docker-compose
-        addgroup $(whoami) docker
-        rc-update add docker boot
-        service docker start
+        ${SF_SUDO} addgroup $(whoami) docker
+        ${SF_SUDO} rc-update add docker boot
+        ${SF_SUDO} service docker start
         # END https://wiki.alpinelinux.org/wiki/Docker#Installation
 
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
