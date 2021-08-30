@@ -15,7 +15,10 @@ true
 # see https://www.appveyor.com/docs/environment-variables/
 
 function sf_ci_env_appveyor() {
-    [[ "${APPVEYOR:-}" = "True" ]] || return 0
+    false || \
+        [[ "${APPVEYOR:-}" = "True" ]] || \
+        [[ "${APPVEYOR:-}" = "true" ]] || \
+        return 0
 
     if printenv | grep -q "=True$"; then
         # normalize 'True' to 'true'
