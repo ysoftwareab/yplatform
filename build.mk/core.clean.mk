@@ -39,7 +39,7 @@ nuke: ## Nuke all files/changes not checked in.
 		$(ECHO) "[Q   ] Continue?"; \
 		$(ECHO) "       Press ENTER to Continue."; \
 		$(ECHO) "       Press Ctrl+C to Cancel."; \
-		read -p ""; \
+		read -r -p "" -n1; \
 	}
 	$(ECHO_DO) "Nuking..."
 	$(GIT) reset -- .

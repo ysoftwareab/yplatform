@@ -152,7 +152,7 @@ endif
 	$(ECHO) "[Q   ] $(PKG_VSN) => $(PKG_VSN_NEW). Correct?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
-	read -p ""
+	read -r -p "" -n1
 	$(MAKE) release/$(RELEASE_LEVEL)
 
 

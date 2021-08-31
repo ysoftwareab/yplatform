@@ -61,7 +61,7 @@ support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecl
 	$(ECHO) "[Q   ] Updating $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN). OK?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
-	read -p ""
+	read -r -p "" -n1
 	$(GIT) -C $(SF_SUBMODULE_PATH) reset --hard $(SF_UPDATE_COMMIT)
 	$(GIT) add $(SF_SUBMODULE_PATH)
 	$(GIT) commit -m "updated $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN)"

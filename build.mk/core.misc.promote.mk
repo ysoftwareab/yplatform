@@ -48,7 +48,7 @@ _promote:
 	$(ECHO) "[Q   ] Still want to promote $(SF_PROMOTE_TAG) to $(SF_PROMOTE_BRANCH)?"
 	$(ECHO) "       Press ENTER to Continue."
 	$(ECHO) "       Press Ctrl+C to Cancel."
-	read -p ""
+	read -r -p "" -n1
 	$(GIT) push --no-verify -f $(GIT_REMOTE) \
 		$(TAG_COMMIT):refs/heads/$(SF_PROMOTE_BRANCH) \
 		$(TAG_COMMIT):refs/tags/$(SF_PROMOTE_BRANCH)/$(MAKE_DATE)-$(MAKE_TIME)-$(SF_PROMOTE_TAG)
