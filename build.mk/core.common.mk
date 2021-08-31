@@ -15,7 +15,7 @@ endif
 endif
 
 SF_CI_ECHO_BENCHMARK ?= /dev/null
-CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
+SF_CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
 include $(SUPPORT_FIRECLOUD_DIR)/mk/Makefile
 
 SF_COMMIT =

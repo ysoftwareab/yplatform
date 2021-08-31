@@ -2,35 +2,35 @@
 set -euo pipefail
 
 SF_CI_ECHO_BENCHMARK=${SF_CI_ECHO_BENCHMARK:-/dev/null}
-export CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
+export SF_CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
 
 function echo_next() {
-    ${CI_ECHO} "[NEXT]" "$@"
+    ${SF_CI_ECHO} "[NEXT]" "$@"
 }
 
 function echo_do() {
-    ${CI_ECHO} "[DO  ]" "$@"
+    ${SF_CI_ECHO} "[DO  ]" "$@"
 }
 
 # shellcheck disable=SC2120
 function echo_done() {
-    ${CI_ECHO} "[DONE]" "$@"
+    ${SF_CI_ECHO} "[DONE]" "$@"
 }
 
 function echo_info() {
-    ${CI_ECHO} "[INFO]" "$@"
+    ${SF_CI_ECHO} "[INFO]" "$@"
 }
 
 function echo_skip() {
-    ${CI_ECHO} "[SKIP]" "$@"
+    ${SF_CI_ECHO} "[SKIP]" "$@"
 }
 
 function echo_warn() {
-    ${CI_ECHO} "[WARN]" "$@"
+    ${SF_CI_ECHO} "[WARN]" "$@"
 }
 
 function echo_err() {
-    ${CI_ECHO} "[ERR ]" "$@"
+    ${SF_CI_ECHO} "[ERR ]" "$@"
 }
 
 # ------------------------------------------------------------------------------

@@ -231,5 +231,5 @@ source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
 * CI_DEBUG_MODE
 * CI_PHASES
 * CI_STEP_NAME
-* CI_ECHO
+* SF_CI_ECHO
 * CI_STATUS
