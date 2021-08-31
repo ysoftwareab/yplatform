@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# ECHO -------------------------------------------------------------------------
+
 SF_CI_ECHO_BENCHMARK=${SF_CI_ECHO_BENCHMARK:-/dev/null}
 export SF_CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
 
@@ -33,7 +35,7 @@ function echo_err() {
     ${SF_CI_ECHO} "[ERR ]" "$@"
 }
 
-# ------------------------------------------------------------------------------
+# SHELL ------------------------------------------------------------------------
 
 function sh_script_usage() {
     grep "^##" "${0}" | cut -c 4- | if command -v envsubst >/dev/null 2>&1; then envsubst; else cat; fi
@@ -70,49 +72,11 @@ function sh_shellopts_restore() {
     eval "$1"
 }
 
-# ------------------------------------------------------------------------------
+# EXE --------------------------------------------------------------------------
 
 function exe() {
     >&2 echo "$(pwd)\$ $*"
     "$@"
-}
-
-# list shell variables, not just exported variables
-function printenv_all() {
-    # see https://askubuntu.com/a/275972
-    if [[ -n "${BASH_VERSION:-}" ]]; then
-        ( set -o posix ; set )
-    elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        ( setopt posixbuiltin; set; )
-    else
-        echo_warn "Unsupported shell ${SHELL}. Falling back to printing only exported variables."
-        printenv
-    fi
-}
-
-function printenv_uniq() {
-    tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
-}
-
-function printenv_with_name() {
-    for f in "$@"; do
-        echo "${f}=$(printenv ${f} || echo "")"
-    done
-}
-
-function debug_exe() {
-    local EXECUTABLE="$1"
-    local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
-    if [[ "${EXECUTABLE_TYPE}" = "file" ]]; then
-        type -a ${EXECUTABLE}
-        type -a -p ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do \
-            ls -l "${EXECUTABLE_PATH}"
-        done
-        type ${EXECUTABLE} || true
-    else
-        echo "PATH=${PATH}"
-        echo "${EXECUTABLE} is ${EXECUTABLE_TYPE}."
-    fi
 }
 
 function exe_and_grep_q() {
@@ -157,6 +121,48 @@ function unless_exe_and_grep_q_then() {
         exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"
     }
 }
+
+function debug_exe() {
+    local EXECUTABLE="$1"
+    local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
+    if [[ "${EXECUTABLE_TYPE}" = "file" ]]; then
+        type -a ${EXECUTABLE}
+        type -a -p ${EXECUTABLE} | while read -r EXECUTABLE_PATH; do \
+            ls -l "${EXECUTABLE_PATH}"
+        done
+        type ${EXECUTABLE} || true
+    else
+        echo "PATH=${PATH}"
+        echo "${EXECUTABLE} is ${EXECUTABLE_TYPE}."
+    fi
+}
+
+# PRINTENV ---------------------------------------------------------------------
+
+# list shell variables, not just exported variables
+function printenv_all() {
+    # see https://askubuntu.com/a/275972
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        ( set -o posix ; set )
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        ( setopt posixbuiltin; set; )
+    else
+        echo_warn "Unsupported shell ${SHELL}. Falling back to printing only exported variables."
+        printenv
+    fi
+}
+
+function printenv_uniq() {
+    tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
+}
+
+function printenv_with_name() {
+    for f in "$@"; do
+        echo "${f}=$(printenv ${f} || echo "")"
+    done
+}
+
+# MISC -------------------------------------------------------------------------
 
 function prompt_q_to_continue() {
     local Q="${1:-Are you sure you want to continue?}"
