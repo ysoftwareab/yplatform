@@ -117,9 +117,9 @@ for SF_CI_ENV_INC_SH in "${SUPPORT_FIRECLOUD_DIR}"/ci/env/*; do
 done
 unset SF_CI_ENV_INC_SH
 
-[[ -z "${CI_PLATFORM:-}" ]] || [[ -z "${CI_SERVER_HOST:-}" ]] || \
-    git config --global user.email "${CI_PLATFORM}@${CI_SERVER_HOST}"
-[[ -z "${CI_NAME:-}" ]] || \
-    git config --global user.name "${CI_NAME}"
+[[ -z "${SF_CI_PLATFORM:-}" ]] || [[ -z "${SF_CI_SERVER_HOST:-}" ]] || \
+    git config --global user.email "${SF_CI_PLATFORM}@${SF_CI_SERVER_HOST}"
+[[ -z "${SF_CI_NAME:-}" ]] || \
+    git config --global user.name "${SF_CI_NAME}"
 
 [[ -z "$*" ]] || sf_ci_run "$@"

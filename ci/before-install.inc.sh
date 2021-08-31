@@ -33,7 +33,7 @@ function sf_github_https_deploy() {
 
     echo_do "Setting up authenticated HTTPS-protocol for current repo's origin..."
     exe git remote -v show
-    exe git remote set-url origin https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git
+    exe git remote set-url origin https://${SF_GH_TOKEN_DEPLOY}@github.com/${SF_CI_REPO_SLUG}.git
     echo_done
 }
 
@@ -121,8 +121,8 @@ function sf_github() {
 
 function sf_transcrypt() {
     # de-transcrypt only for non-PRs or for PRs from the same repo
-    [[ "${CI_IS_PR:-}" != "true" ]] || {
-        [[ "${CI_PR_REPO_SLUG}" = "${CI_REPO_SLUG}" ]] || return 0
+    [[ "${SF_CI_IS_PR:-}" != "true" ]] || {
+        [[ "${SF_CI_PR_REPO_SLUG}" = "${SF_CI_REPO_SLUG}" ]] || return 0
     }
     [[ -x "./transcrypt" ]] || return 0
     [[ -n "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}" ]] || return 0
@@ -221,7 +221,7 @@ function sf_os() {
         }
     }
 
-    [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
+    [[ "${SF_CI_DEBUG_MODE:-}" != "true" ]] || {
         SF_LOG_BOOTSTRAP=${SF_LOG_BOOTSTRAP:-true}
     }
     echo_info "${FUNCNAME[0]}: Running with"
@@ -270,7 +270,7 @@ function sf_ci_run_before_install() {
     sf_os
     sf_pyenv_init
 
-    [[ "${CI_DEBUG_MODE:-}" != "true" ]] || {
+    [[ "${SF_CI_DEBUG_MODE:-}" != "true" ]] || {
         echo
         echo "  Please run \`./.ci.sh debug\` to activate your debug session !!!"
         echo

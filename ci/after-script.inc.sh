@@ -14,10 +14,10 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     echo_do "Uploading job artifacts..."
 
     local GIT_HASH=$(git rev-parse HEAD)
-    local JOB_GIT_REF=refs/jobs/${CI_JOB_ID}
+    local JOB_GIT_REF=refs/jobs/${SF_CI_JOB_ID}
 
-    git checkout --orphan jobs/${CI_JOB_ID}
-    git ls-files -- "*/.gitignore" | \
+    git checkout --orphan jobs/${SF_SF_CI_JOB_ID}
+    git ls-fiSF_les -- "*/.gitignore" | \
         while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; rm -f "${NO_XARGS_R}"; done
     git reset -- .
     git ls-files -X .artifacts --other --ignored | \
@@ -47,7 +47,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
         touch log.sh-session
         exe curl -qfsSL \
             "${CURL_GITHUB_API_HEADERS[@]}" \
-            https://api.github.com/repos/${CI_REPO_SLUG}/actions/jobs/${CI_JOB_ID}/logs >log.sh-session || true
+            https://api.github.com/repos/${SF_CI_REPO_SLUG}/actions/jobs/${SF_CI_JOB_ID}/logs >log.sh-session || true
         git add -f log.sh-session
     }
 
@@ -55,7 +55,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     cat <<-EOF >README.md
 ${JOB_GIT_REF}
 
-# Job [${CI_JOB_ID}](${CI_JOB_URL})
+# Job [${SF_CI_JOB_ID}](${SF_CI_JOB_URL})
 
 ## Artifacts
 
@@ -65,11 +65,11 @@ while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "* [${NO
 EOF
     git add -f README.md
 
-    git commit -m "${CI_JOB_ID}"
+    git commit -m "${SF_CI_JOB_ID}"
     local JOB_GIT_HASH=$(git rev-parse HEAD)
 
     # Upload to git refs/job/<job_id>
-    git push --no-verify -f https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
+    git push --no-verify -f https://${SF_GH_TOKEN_DEPLOY}@github.com/${SF_CI_REPO_SLUG}.git HEAD:${JOB_GIT_REF} || true
 
 
     git checkout -f - || git checkout -f ${GIT_HASH}
@@ -81,7 +81,7 @@ EOF
 
     echo_done
 
-    local JOB_GITHUB_UI_URL=https://github.com/${CI_REPO_SLUG}/tree/${JOB_GIT_HASH}
+    local JOB_GITHUB_UI_URL=https://github.com/${SF_CI_REPO_SLUG}/tree/${JOB_GIT_HASH}
 
     echo
     echo_info "View job artifacts on Github: ${JOB_GITHUB_UI_URL}"
@@ -109,7 +109,7 @@ EOF
         done 3< <(git ls-remote origin "refs/jobs/*" | cut -f2)
         echo_done
         git push --no-verify -f \
-            https://${SF_GH_TOKEN_DEPLOY}@github.com/${CI_REPO_SLUG}.git ${JOB_GIT_HASH}:refs/jobs/prune || true
+            https://${SF_GH_TOKEN_DEPLOY}@github.com/${SF_CI_REPO_SLUG}.git ${JOB_GIT_HASH}:refs/jobs/prune || true
             true
     else
         echo_skip "Pruning remote refs/jobs/*..."

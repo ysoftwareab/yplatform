@@ -130,7 +130,7 @@ ci_run_deploy() {
     local GIT_TAG=$(git tag -l --points-at HEAD | head -1)
 
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
-        --repo-slug ${CI_REPO_SLUG} \
+        --repo-slug ${SF_CI_REPO_SLUG} \
         --tag ${GIT_TAG} \
         --target $(git rev-parse HEAD) \
         --asset dist/app.zip \

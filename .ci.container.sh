@@ -53,7 +53,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
 
-    local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
     exe docker push ${TAG}
@@ -62,7 +62,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     # TODO deprecated image name that uses codename
     local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
-        local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
+        local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
@@ -71,7 +71,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        local TAG=${GH_DOCKER_HUB}/${CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}

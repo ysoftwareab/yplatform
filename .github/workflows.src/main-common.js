@@ -96,7 +96,7 @@ ciShSteps.push({
   env: {
     SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}',
     SLACK_CHANNEL: 'cloud-ci',
-    CI_STATUS: '${{ job.status }}'
+    SF_CI_STATUS: '${{ job.status }}'
   },
   run: './.ci.sh notifications || true'
 });

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-CI_IS_PR=false
+SF_CI_IS_PR=false
 # codeship set CI_PR_NUMBER=0 for non-PR executions...
-[[ -z "${CI_PR_NUMBER:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || CI_IS_PR=true
-[[ -z "${CI_PULL_REQUEST:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || CI_IS_PR=true
+[[ -z "${CI_PR_NUMBER:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || SF_CI_IS_PR=true
+[[ -z "${CI_PULL_REQUEST:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || SF_CI_IS_PR=true
 
 # in PRs, only run ux-minimal
-if [[ "${CI_IS_PR}" = "true" ]]; then
-    [[ "${CI_STEP_NAME}" = "ux-minimal" ]] || exit 0
+if [[ "${SF_CI_IS_PR}" = "true" ]]; then
+    [[ "${SF_CI_STEP_NAME}" = "ux-minimal" ]] || exit 0
 fi
 
 source ci/pipeline.script.sh

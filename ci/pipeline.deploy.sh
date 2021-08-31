@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # don't deploy from PRs ever
-[[ "${CI_IS_PR}" != "true" ]] || exit 0
+[[ "${SF_CI_IS_PR}" != "true" ]] || exit 0
 
 ./.ci.sh before_deploy
 

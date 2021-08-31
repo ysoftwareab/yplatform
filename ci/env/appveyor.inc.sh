@@ -21,39 +21,39 @@ function sf_ci_env_appveyor() {
     [[ "${APPVEYOR_REPO_PROVIDER:-}" = "gitHub" ]]
 
     export CI=true
-    CI_NAME=Appveyor
-    CI_PLATFORM=appveyor
-    CI_SERVER_HOST=${APPVEYOR_URL:-ci.appveyor.com}
-    CI_SERVER_HOST=${CI_SERVER_HOST#*://}
-    CI_REPO_SLUG=${APPVEYOR_REPO_NAME:-}
-    CI_ROOT=${APPVEYOR_BUILD_FOLDER}
+    SF_CI_NAME=Appveyor
+    SF_CI_PLATFORM=appveyor
+    SF_CI_SERVER_HOST=${APPVEYOR_URL:-ci.appveyor.com}
+    SF_CI_SERVER_HOST=${SF_CI_SERVER_HOST#*://}
+    SF_CI_REPO_SLUG=${APPVEYOR_REPO_NAME:-}
+    SF_CI_ROOT=${APPVEYOR_BUILD_FOLDER}
 
-    CI_IS_CRON=${APPVEYOR_SCHEDULED_BUILD:-}
-    CI_IS_PR=
-    [[ -z "${APPVEYOR_PULL_REQUEST_NUMBER:-}" ]] || CI_IS_PR=true
+    SF_CI_IS_CRON=${APPVEYOR_SCHEDULED_BUILD:-}
+    SF_CI_IS_PR=
+    [[ -z "${APPVEYOR_PULL_REQUEST_NUMBER:-}" ]] || SF_CI_IS_PR=true
 
-    CI_JOB_ID=${APPVEYOR_JOB_ID:-}
-    CI_PIPELINE_ID=${APPVEYOR_BUILD_NUMBER:-}
-    # CI_JOB_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/builds/${CI_JOB_ID} # editorconfig-checker-disable-line
-    CI_JOB_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/job/${CI_JOB_ID} # editorconfig-checker-disable-line
-    CI_PIPELINE_URL=https://${CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/${CI_PIPELINE_ID} # editorconfig-checker-disable-line
+    SF_CI_JOB_ID=${APPVEYOR_JOB_ID:-}
+    SF_CI_PIPELINE_ID=${APPVEYOR_BUILD_NUMBER:-}
+    # SF_CI_JOB_URL=https://${SF_CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/builds/${SF_CI_JOB_ID} # editorconfig-checker-disable-line
+    SF_CI_JOB_URL=https://${SF_CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/job/${SF_CI_JOB_ID} # editorconfig-checker-disable-line
+    SF_CI_PIPELINE_URL=https://${SF_CI_SERVER_HOST}/project/${APPVEYOR_ACCOUNT_NAME:-}/${APPVEYOR_PROJECT_SLUG:-}/build/${SF_CI_PIPELINE_ID} # editorconfig-checker-disable-line
 
-    CI_PR_URL=
-    CI_PR_REPO_SLUG=
-    CI_PR_GIT_HASH=
-    CI_PR_GIT_BRANCH=
-    [[ "${CI_IS_PR}" != "true" ]] || {
-        CI_REPO_URL=https://github.com/${CI_REPO_SLUG}/pull/${APPVEYOR_PULL_REQUEST_NUMBER:-}
-        CI_PR_REPO_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
-        CI_PR_GIT_HASH=${APPVEYOR_PULL_REQUEST_HEAD_COMMIT:-}
-        CI_PR_GIT_BRANCH=${APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH:-}
+    SF_CI_PR_URL=
+    SF_CI_PR_REPO_SLUG=
+    SF_CI_PR_GIT_HASH=
+    SF_CI_PR_GIT_BRANCH=
+    [[ "${SF_CI_IS_PR}" != "true" ]] || {
+        SF_CI_REPO_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${APPVEYOR_PULL_REQUEST_NUMBER:-}
+        SF_CI_PR_REPO_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
+        SF_CI_PR_GIT_HASH=${APPVEYOR_PULL_REQUEST_HEAD_COMMIT:-}
+        SF_CI_PR_GIT_BRANCH=${APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH:-}
     }
 
-    CI_GIT_HASH=${APPVEYOR_REPO_COMMIT:-}
-    CI_GIT_BRANCH=${APPVEYOR_REPO_BRANCH:-}
-    CI_GIT_TAG=${APPVEYOR_REPO_TAG_NAME:-}
+    SF_CI_GIT_HASH=${APPVEYOR_REPO_COMMIT:-}
+    SF_CI_GIT_BRANCH=${APPVEYOR_REPO_BRANCH:-}
+    SF_CI_GIT_TAG=${APPVEYOR_REPO_TAG_NAME:-}
 
-    CI_DEBUG_MODE=${CI_DEBUG_MODE:-}
+    SF_CI_DEBUG_MODE=${SF_CI_DEBUG_MODE:-}
 }
 
 function sf_ci_printvars_appveyor() {
