@@ -5,11 +5,7 @@ set -euo pipefail
 function sf_nosudo() {
     echo "[ERR ] sudo required, but not available for running the following command:"
     echo "       $*"
-    echo "[Q   ] Run the command yourself as root, then continue."
-    echo "       Press ENTER to Continue."
-    echo "       Press Ctrl-C to Cancel."
-    read -r -p ""
-    echo
+    prompt_q_to_continue "Run the command yourself as root, then continue."
 }
 export -f sf_nosudo
 
