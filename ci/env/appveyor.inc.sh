@@ -57,7 +57,7 @@ function sf_ci_env_appveyor() {
 }
 
 function sf_ci_printvars_appveyor() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^APPVEYOR[=_]" \
         -e "^CI[=_]" \
         -e "^CONFIGURATION$" \

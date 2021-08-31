@@ -44,7 +44,7 @@ function sf_ci_env_sourcehut() {
 }
 
 function sf_ci_printvars_sourcehut() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^BUILD[=_]" \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \

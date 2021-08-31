@@ -35,7 +35,7 @@ done
 if [[ -n "\${SF_CI_PLATFORM:-}" ]]; then
     eval "sf_ci_printvars_\${SF_CI_PLATFORM}"
 else
-    compgen -A variable | sort -u | grep -e "^CI\$" -e "^SF_CI_"
+    printenv_all_names | sort -u | grep -e "^CI\$" -e "^SF_CI_"
 fi
 
 if [[ -n "\${SF_CI_PLATFORM:-}" ]]; then

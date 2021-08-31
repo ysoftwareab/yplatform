@@ -139,26 +139,18 @@ function debug_exe() {
 
 # PRINTENV ---------------------------------------------------------------------
 
+# list all shell variables' names, not just exported variables
+function printenv_all_names() {
+    compgen -A variable
+}
+
 # list shell variables, not just exported variables
 function printenv_all() {
-    # see https://askubuntu.com/a/275972
-    if [[ -n "${BASH_VERSION:-}" ]]; then
-        ( set -o posix ; set )
-    elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        ( setopt posixbuiltin; set; )
-    else
-        echo_warn "Unsupported shell ${SHELL}. Falling back to printing only exported variables."
-        printenv
-    fi
-}
+    local VARS="$*"
+    [[ $# -ne 0 ]] || VARS="$(printenv_all_names | grep -v "^VARS$")"
 
-function printenv_uniq() {
-    tac | sort -u -t= -k1,1 | sed "/=$$/d" | sed "/=%/d" | sed "/^$$/d"
-}
-
-function printenv_with_name() {
-    for f in "$@"; do
-        echo "${f}=$(printenv ${f} || echo "")"
+    for VAR in ${VARS}; do
+        echo "${VAR}=${!VAR}"
     done
 }
 

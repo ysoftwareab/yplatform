@@ -71,7 +71,7 @@ function sf_ci_env_appveyor() {
 }
 
 function sf_ci_printvars_appveyor() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^APPVEYOR[=_]" \
         -e "^CI[=_]" \
         -e "^CONFIGURATION$" \
@@ -182,7 +182,7 @@ function sf_ci_env_circle() {
 }
 
 function sf_ci_printvars_circle() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRCLE[=_]" \
         -e "^CIRCLECI$"
@@ -276,7 +276,7 @@ function sf_ci_env_cirrus() {
 }
 
 function sf_ci_printvars_cirrus() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRRUS[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
@@ -383,7 +383,7 @@ function sf_ci_env_codeship() {
 }
 
 function sf_ci_printvars_codeship() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]"
 }
 
@@ -464,7 +464,7 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
         -e "^RUNNER[=_]"
@@ -561,7 +561,7 @@ function sf_ci_env_gitlab() {
 }
 
 function sf_ci_printvars_gitlab() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CHAT[=_]" \
         -e "^CI[=_]" \
         -e "^GITLAB[=_]" \
@@ -732,7 +732,7 @@ function sf_ci_env_semaphore() {
 }
 
 function sf_ci_printvars_semaphore() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^SEMAPHORE[=_]"
 }
@@ -838,7 +838,7 @@ function sf_ci_env_sourcehut() {
 }
 
 function sf_ci_printvars_sourcehut() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^BUILD[=_]" \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
@@ -909,7 +909,7 @@ function sf_ci_env_travis() {
 }
 
 function sf_ci_printvars_travis() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
         -e "^HAS_JOSH_K_SEAL_OF_APPROVAL$" \
@@ -1027,7 +1027,7 @@ done
 if [[ -n "${SF_CI_PLATFORM:-}" ]]; then
     eval "sf_ci_printvars_${SF_CI_PLATFORM}"
 else
-    compgen -A variable | sort -u | grep -e "^CI$" -e "^SF_CI_"
+    printenv_all_names | sort -u | grep -e "^CI$" -e "^SF_CI_"
 fi
 
 if [[ -n "${SF_CI_PLATFORM:-}" ]]; then

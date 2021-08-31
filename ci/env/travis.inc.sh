@@ -41,7 +41,7 @@ function sf_ci_env_travis() {
 }
 
 function sf_ci_printvars_travis() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
         -e "^HAS_JOSH_K_SEAL_OF_APPROVAL$" \

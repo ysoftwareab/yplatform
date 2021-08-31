@@ -50,7 +50,7 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
-    compgen -A variable | sort -u | grep \
+    printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
         -e "^RUNNER[=_]"
