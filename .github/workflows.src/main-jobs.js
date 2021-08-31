@@ -27,9 +27,9 @@ WSLENV = `${WSLENV}:GH_TOKEN:GH_USERNAME`;
 // transcrypt
 WSLENV = `${WSLENV}:SF_TRANSCRYPT_PASSWORD`;
 // slack
-WSLENV = `${WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL:SF_CI_STATUS`;
+WSLENV = `${WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL`;
 // custom
-WSLENV = `${WSLENV}:SF_CI_BREW_INSTALL`;
+WSLENV = `${WSLENV}:SF_CI_BREW_INSTALL:SF_CI_STATUS`;
 
 // -----------------------------------------------------------------------------
 
