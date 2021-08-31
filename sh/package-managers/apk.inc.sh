@@ -43,7 +43,7 @@ function apk_install_one_if() {
         echo_skip "apk: Installing ${PKG}..."
     else
         apk_install_one "${PKG}"
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
 }

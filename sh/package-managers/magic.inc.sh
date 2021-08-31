@@ -91,7 +91,7 @@ function magic_install_one_if() {
         echo_skip "magic: Installing ${PKG} using ${PACKAGE_MANAGER}..."
     else
         magic_install_one "${PKG}"
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
 }

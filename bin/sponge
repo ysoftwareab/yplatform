@@ -80,7 +80,7 @@ case "${GNU_CHOWN}-${OS_SHORT}" in
         ;;
     *)
         echo_err "GNU or Darwin chown file required."
-        >&2 exe_debug "chown"
+        >&2 debug_exe "chown"
         exit 1
         ;;
 esac
@@ -103,7 +103,7 @@ case "${GNU_CHMOD}-${OS_SHORT}" in
         ;;
     *)
         echo_err "GNU or Darwin chmod required."
-        >&2 exe_debug "chmod"
+        >&2 debug_exe "chmod"
         exit 1
         ;;
 esac

@@ -141,7 +141,7 @@ function brew_install_one_if() {
         echo_skip "brew: Installing ${FORMULA}..."
     else
         brew_install_one "${FORMULA}"
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
 }

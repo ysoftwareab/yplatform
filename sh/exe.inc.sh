@@ -100,7 +100,7 @@ function printenv_with_name() {
     done
 }
 
-function exe_debug() {
+function debug_exe() {
     local EXECUTABLE="$1"
     local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
     if [[ "${EXECUTABLE_TYPE}" = "file" ]]; then
@@ -135,7 +135,7 @@ function exe_and_grep_q() {
         echo_err "Command '${CMD}' with stdout '${CMD_STDOUT}' failed to match '${EXPECTED_STDOUT}'."
         echo_info "Command stderr: $(cat ${CMD_STDERR})"
         echo_info "Command's executable info:"
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         rm -f ${CMD_STDERR}
         return 1
     fi
@@ -153,7 +153,7 @@ function unless_exe_and_grep_q_then() {
     exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}" || {
         "$@"
         hash -r # see https://github.com/Homebrew/brew/issues/5013
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"
     }
 }

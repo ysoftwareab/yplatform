@@ -47,7 +47,7 @@ function pacman_install_one_if() {
         echo_skip "pacman: Installing ${FORMULA}..."
     else
         pacman_install_one "${FORMULA}"
-        >&2 exe_debug "${EXECUTABLE}"
+        >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "$@"
     fi
 }
