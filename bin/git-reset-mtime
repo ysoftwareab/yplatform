@@ -14,7 +14,7 @@ function repo-reset-mtime() {
         }
 
         git ls-files | \
-            grep -Fvxf <(! test -e .gitmodules || git config --file .gitmodules --get-regexp path | cut -d' ' -f2) | \
+            grep -Fvxf <([[ ! -e .gitmodules ]] || git config --file .gitmodules --get-regexp path | cut -d' ' -f2) | \
             while read -r FILE; do
                 {
                     TIMESTAMP="$(TZ=UTC git log --pretty=format:%cd --date=format-local:%Y%m%d%H%M.%S -1 HEAD -- "${FILE}")"

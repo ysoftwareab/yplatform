@@ -44,8 +44,8 @@ done
 # [[ $# -eq 0 ]] || sh_script_usage
 
 function cd_to_makefile() {
-    test "$(pwd)" != "/"
-    test -f Makefile || {
+    [[ "$(pwd)" != "/" ]]
+    [[ -f Makefile ]] || {
         cd ..
         cd_to_makefile
     }

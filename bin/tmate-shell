@@ -23,7 +23,7 @@ rm -rf ${TMP_TMATE_SOCKET}
 exe tmate -S ${TMP_TMATE_SOCKET} ${AUTHENTICATED_KEYS_ARG} new-session -d "${SHELL} -l"
 tmate -S ${TMP_TMATE_SOCKET} wait tmate-ready
 
-while test -e ${TMP_TMATE_SOCKET} && tmate -S ${TMP_TMATE_SOCKET} has-session; do
+while [[ -e ${TMP_TMATE_SOCKET} ]] && tmate -S ${TMP_TMATE_SOCKET} has-session; do
     echo
     tmate -S ${TMP_TMATE_SOCKET} display -p "#{tmate_ssh}"
     # NOTE skip web interface. it's convenient but buggy

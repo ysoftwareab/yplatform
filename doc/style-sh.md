@@ -52,7 +52,7 @@ At times `do_this` may be just a condition e.g. `test -f /some/file`.
 Other times `do_that` may become `do_that && then_some_more`, so you write
 
 ```shell
-test -f /some/file || {
+[[ -f /some/file ]] || {
     do_that
     then_some_more
 }
@@ -61,15 +61,15 @@ test -f /some/file || {
 The above is a slightly more controversial (some may say 'less readable') version of
 
 ```shell
-if ! test -f /some/file; then
+if [[ ! -f /some/file ]]; then
     do_that
     then_some_more
 fi
 ```
 
-Be aware though of the construct `test -f /some/file && do_this || do_that` because `do_that` can be executed
-both if `test -f /some/file`, or `do_this` fails.
-It is not equivalent to `if test -f /some/file; then do_this; else do_that; fi`.
+Be aware though of the construct `[[ -f /some/file ]] && do_this || do_that` because `do_that` can be executed
+both if `[[ -f /some/file ]]`, or `do_this` fails.
+It is not equivalent to `if [[ -f /some/file ]]; then do_this; else do_that; fi`.
 
 
 ## Double brackets `[[ ]]`

@@ -700,7 +700,7 @@ if should_install_command_line_tools && version_ge "$macos_version" "10.13"; the
 fi
 
 # Headless install may have failed, so fallback to original 'xcode-select' method
-if should_install_command_line_tools && test -t 0; then
+if should_install_command_line_tools && [[ -t 0 ]] && [[ -t 1 ]]; then
   ohai "Installing the Command Line Tools (expect a GUI popup):"
   execute_sudo "/usr/bin/xcode-select" "--install"
   echo "Press any key when the installation has completed."
