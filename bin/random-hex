@@ -3,4 +3,5 @@ set -euo pipefail
 
 LENGTH=${1:-16}
 
-hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random
+# hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random
+xxd -l ${LENGTH} -p -c 1000000 /dev/urandom
