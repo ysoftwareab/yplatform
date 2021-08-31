@@ -202,9 +202,9 @@ function sf_os_bootstrap_with_script() {
 
 function sf_os() {
     [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || {
-        SF_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
+        local SF_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
         [[ ! -f /support-firecloud.bootstrapped ]] || {
-            SF_GIT_HASH_BOOTSTRAPPED=$(cat /support-firecloud.bootstrapped)
+            local SF_GIT_HASH_BOOTSTRAPPED=$(cat /support-firecloud.bootstrapped)
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped exists."
             echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped references ${SF_GIT_HASH_BOOTSTRAPPED}."
             echo_info "${FUNCNAME[0]}: ${SUPPORT_FIRECLOUD_DIR} references ${SF_GIT_HASH}."
@@ -218,7 +218,9 @@ function sf_os() {
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
             fi
+            unset SF_GIT_HASH_BOOTSTRAPPED
         }
+        unset SF_GIT_HASH
     }
 
     [[ "${SF_CI_DEBUG_MODE:-}" != "true" ]] || {
