@@ -46,7 +46,7 @@ function sf_ci_env_gitlab() {
 }
 
 function sf_ci_printvars_gitlab() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CHAT[=_]" \
         -e "^CI[=_]" \
         -e "^GITLAB[=_]" \

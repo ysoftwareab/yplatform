@@ -2,11 +2,15 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
 #- ci-printvars 1.0
 ## Usage: ci-printvars
-## Print SF_CI_* vars in a platform-agnostic way.
-
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+## Print SF_CI_* environment variables in a platform-agnostic way.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
 
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -67,7 +71,7 @@ function sf_ci_env_appveyor() {
 }
 
 function sf_ci_printvars_appveyor() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^APPVEYOR[=_]" \
         -e "^CI[=_]" \
         -e "^CONFIGURATION$" \
@@ -178,7 +182,7 @@ function sf_ci_env_circle() {
 }
 
 function sf_ci_printvars_circle() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRCLE[=_]" \
         -e "^CIRCLECI$"
@@ -272,7 +276,7 @@ function sf_ci_env_cirrus() {
 }
 
 function sf_ci_printvars_cirrus() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRRUS[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
@@ -379,7 +383,7 @@ function sf_ci_env_codeship() {
 }
 
 function sf_ci_printvars_codeship() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]"
 }
 
@@ -439,14 +443,19 @@ function sf_ci_env_github() {
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
-        SF_CI_PR_REPO_SLUG=$(jq -r .github.event.pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
-        SF_CI_PR_GIT_HASH=$(jq -r .github.event.pull_request.head.sha ${GITHUB_EVENT_PATH})
-        SF_CI_PR_GIT_BRANCH=$(jq -r .github.event.pull_request.head.ref ${GITHUB_EVENT_PATH})
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_URL=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_REPO_SLUG=$(jq -r .github.event.pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_GIT_HASH=$(jq -r .github.event.pull_request.head.sha ${GITHUB_EVENT_PATH})
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_GIT_BRANCH=$(jq -r .github.event.pull_request.head.ref ${GITHUB_EVENT_PATH})
     }
 
     SF_CI_GIT_HASH=${GITHUB_SHA:-}
     SF_CI_GIT_BRANCH=
+    GITHUB_REF=${GITHUB_REF:-}
     [[ ! "${GITHUB_REF:-}" =~ ^refs/heads/ ]] || SF_CI_GIT_BRANCH=${GITHUB_REF#refs/heads/}
     SF_CI_GIT_TAG=
     [[ ! "${GITHUB_REF:-}" =~ ^refs/tags/ ]] || SF_CI_GIT_TAG=${GITHUB_REF#refs/tags/}
@@ -455,7 +464,7 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
         -e "^RUNNER[=_]"
@@ -552,7 +561,7 @@ function sf_ci_env_gitlab() {
 }
 
 function sf_ci_printvars_gitlab() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CHAT[=_]" \
         -e "^CI[=_]" \
         -e "^GITLAB[=_]" \
@@ -723,7 +732,7 @@ function sf_ci_env_semaphore() {
 }
 
 function sf_ci_printvars_semaphore() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^SEMAPHORE[=_]"
 }
@@ -829,9 +838,9 @@ function sf_ci_env_sourcehut() {
 }
 
 function sf_ci_printvars_sourcehut() {
-    # CI is actually missing
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^BUILD[=_]" \
+        -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
         -e "^JOB[=_]" \
         -e "^PATCHSET[=_]"
@@ -900,7 +909,7 @@ function sf_ci_env_travis() {
 }
 
 function sf_ci_printvars_travis() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
         -e "^HAS_JOSH_K_SEAL_OF_APPROVAL$" \
@@ -1015,9 +1024,13 @@ for SF_CI_PRINTVAR_PLATFORM in  appveyor circle cirrus codeship github gitlab se
     eval "sf_ci_env_${SF_CI_PRINTVAR_PLATFORM}"
 done
 
-# cannot use printenv because variables are not exported
-# printenv | grep "^CI[_=]"
-compgen -A variable | sort -u | grep -e "^CI$" -e "^SF_CI_" | while read -r NO_XARGS_R; do
-    [[ -n "${NO_XARGS_R}" ]] || continue;
-    echo "${NO_XARGS_R}=${!NO_XARGS_R}"
-done
+if [[ -n "${SF_CI_PLATFORM:-}" ]]; then
+    eval "sf_ci_printvars_${SF_CI_PLATFORM}"
+else
+    compgen -A variable | sort -u | grep -e "^CI$" -e "^SF_CI_"
+fi
+
+if [[ -n "${SF_CI_PLATFORM:-}" ]]; then
+    echo "Unknown:"
+    eval "sf_ci_printvars_${SF_CI_PLATFORM}" | sed "s/=.*//g" | grep -Fvxf <("sf_ci_known_env_${SF_CI_PLATFORM}")
+fi

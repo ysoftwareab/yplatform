@@ -9,11 +9,15 @@ cat <<EOF
 # shellcheck disable=SC2034
 set -euo pipefail
 
+SUPPORT_FIRECLOUD_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")/.." && pwd)"
+source \${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+
 #- ci-printvars 1.0
 ## Usage: ci-printvars
-## Print SF_CI_* vars in a platform-agnostic way.
-
-SUPPORT_FIRECLOUD_DIR="\$(cd "\$(dirname "\${BASH_SOURCE[0]}")/.." && pwd)"
+## Print SF_CI_* environment variables in a platform-agnostic way.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
 
 EOF
 
@@ -28,10 +32,14 @@ for SF_CI_PRINTVAR_PLATFORM in ${SF_CI_PRINTVAR_PLATFORMS}; do
     eval "sf_ci_env_\${SF_CI_PRINTVAR_PLATFORM}"
 done
 
-# cannot use printenv because variables are not exported
-# printenv | grep "^CI[_=]"
-compgen -A variable | sort -u | grep -e "^CI\$" -e "^SF_CI_" | while read -r NO_XARGS_R; do
-    [[ -n "\${NO_XARGS_R}" ]] || continue;
-    echo "\${NO_XARGS_R}=\${!NO_XARGS_R}"
-done
+if [[ -n "\${SF_CI_PLATFORM:-}" ]]; then
+    eval "sf_ci_printvars_\${SF_CI_PLATFORM}"
+else
+    compgen -A variable | sort -u | grep -e "^CI\$" -e "^SF_CI_"
+fi
+
+if [[ -n "\${SF_CI_PLATFORM:-}" ]]; then
+    echo "Unknown:"
+    eval "sf_ci_printvars_\${SF_CI_PLATFORM}" | sed "s/=.*//g" | grep -Fvxf <("sf_ci_known_env_\${SF_CI_PLATFORM}")
+fi
 EOF

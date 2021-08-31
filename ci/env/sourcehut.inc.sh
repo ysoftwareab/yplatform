@@ -44,9 +44,9 @@ function sf_ci_env_sourcehut() {
 }
 
 function sf_ci_printvars_sourcehut() {
-    # CI is actually missing
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^BUILD[=_]" \
+        -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
         -e "^JOB[=_]" \
         -e "^PATCHSET[=_]"

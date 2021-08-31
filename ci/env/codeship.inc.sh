@@ -45,7 +45,7 @@ function sf_ci_env_codeship() {
 }
 
 function sf_ci_printvars_codeship() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]"
 }
 

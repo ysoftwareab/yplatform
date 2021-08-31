@@ -41,7 +41,7 @@ function sf_ci_env_semaphore() {
 }
 
 function sf_ci_printvars_semaphore() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^SEMAPHORE[=_]"
 }

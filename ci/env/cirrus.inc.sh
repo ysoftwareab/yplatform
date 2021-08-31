@@ -45,7 +45,7 @@ function sf_ci_env_cirrus() {
 }
 
 function sf_ci_printvars_cirrus() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRRUS[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \

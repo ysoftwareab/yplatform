@@ -46,7 +46,7 @@ function sf_ci_env_circle() {
 }
 
 function sf_ci_printvars_circle() {
-    printenv | grep \
+    compgen -A variable | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRCLE[=_]" \
         -e "^CIRCLECI$"
