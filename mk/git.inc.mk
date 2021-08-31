@@ -8,6 +8,14 @@ GIT_HASH = $(shell $(GIT) rev-parse HEAD 2>/dev/null)
 GIT_HASH_SHORT = $(shell $(GIT) rev-parse --short HEAD 2>/dev/null)
 GIT_TAGS = $(shell $(GIT) tag --points-at HEAD 2>/dev/null)
 
+ifdef SEMAPHORE_GIT_BRANCH
+GIT_BRANCH = $(SEMAPHORE_GIT_BRANCH)
+endif
+
+ifdef TRAVIS_BRANCH
+GIT_BRANCH = $(TRAVIS_BRANCH)
+endif
+
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_REMOTE_OR_ORIGIN = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null | \
 	$(SUPPORT_FIRECLOUD_DIR)/bin/ifne -p -n "$(ECHO) origin")

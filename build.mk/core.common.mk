@@ -44,10 +44,6 @@ ifneq (,$(wildcard .makerc))
 include .makerc
 endif
 
-ifdef TRAVIS_BRANCH
-GIT_BRANCH = $(TRAVIS_BRANCH)
-endif
-
 # NOTE use npm package.json by default with 'name' and 'version', even if the project is not using npm
 PKG_NAME ?= $(shell $(CAT) package.json | $(JQ) -r ".name")
 PKG_VSN ?= $(shell $(CAT) package.json | $(JQ) -r ".version")

@@ -12,6 +12,16 @@ GIT_HASH=$(git rev-parse HEAD 2>/dev/null || true)
 GIT_HASH_SHORT=$(git rev-parse --short HEAD 2>/dev/null || true)
 GIT_TAGS=$(git tag --points-at HEAD 2>/dev/null || true)
 
+[[ -z "${SEMAPHORE_GIT_BRANCH:-}" ]] || {
+    GIT_BRANCH=${SEMAPHORE_GIT_BRANCH}
+    GIT_BRANCH_SHORT=$(basename ${SEMAPHORE_GIT_BRANCH})
+}
+
+[[ -z "${TRAVIS_BRANCH:-}" ]] || {
+    GIT_BRANCH=${TRAVIS_BRANCH}
+    GIT_BRANCH_SHORT=$(basename ${TRAVIS_BRANCH})
+}
+
 GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 GIT_REMOTE_OR_ORIGIN=${GIT_REMOTE:-origin}
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
