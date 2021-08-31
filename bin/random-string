@@ -53,5 +53,9 @@ done
 [[ $# -eq 0 ]] || sh_script_usage
 
 # NOTE 141 means SIGPIPE
-cat /dev/urandom | env LC_CTYPE=C tr -dc "${SET}" | head -c "${LENGTH}" || \
-    if [[ $? -eq 141 ]]; then true; else exit $?; fi
+# cat /dev/urandom | env LC_CTYPE=C tr -dc "${SET}" | head -c "${LENGTH}" || exit_allow_sigpipe
+
+# see https://vegardit.github.io/bash-funk/docs/random.html#-random-string
+# "2> >(grep -v "write error" >&2)" and "|| true" to mitigate "tr: write error: Broken pipe" on e.g. GitHub Actions
+env -i LC_CTYPE=C tr -dc "${SET}" </dev/urandom 2> >(grep -v "write error" >&2 || true) | head -c "${LENGTH}" || \
+    exit_allow_sigpipe

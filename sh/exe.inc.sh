@@ -164,6 +164,11 @@ function printenv_with_name() {
 
 # MISC -------------------------------------------------------------------------
 
+function exit_allow_sigpipe() {
+    local EXIT_STATUS=$?
+    [[ ${EXIT_STATUS} -eq 141 ]] || exit ${EXIT_STATUS}
+}
+
 function prompt_q_to_continue() {
     local Q="${1:-Are you sure you want to continue?}"
     local CANCEL_KEY="${2:-Ctrl-C}"

@@ -129,10 +129,8 @@ else
     echo_done
 fi
 
-# NOTE 141 means SIGPIPE
 # wrapping directory is sometimes not stable (${REPO_ORG}-)?${REPO_NAME}-(${REPO_HASH}|${REPO_HASH_SHORT})
-TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || \
-    if [[ $? -eq 141 ]]; then true; else exit $?; fi)
+TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
 
 echo_do "Extracting ${TAR_FILE}${REPO_DIR}..."
 tar -xvf "${TAR_FILE}" \
