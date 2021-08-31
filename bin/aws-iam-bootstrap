@@ -104,7 +104,7 @@ echo
 echo "--------------------------------------------------------------------------------"
 echo "Bookmark the links above for the roles that are relevant to your work."
 echo "You can always find these in ${GIT_ROOT}/aws-iam-console-switch-role.md ."
-read -r -p "Press enter to continue"
+read -r -p "Press ENTER to Continue."
 
 [[ -n ${AWS_ACCESS_KEY_ID} && -n ${AWS_SECRET_ACCESS_KEY} ]] || exit 0
 
@@ -113,11 +113,11 @@ cat ${CREDENTIALS_TPL_FILE} | envsubst
 echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ${AWS_SHARED_CREDENTIALS_FILE:-~/.aws/credentials}."
-read -r -p "Press enter to continue"
+read -r -p "Press ENTER to Continue."
 
 printf "\ec" # clear
 cat ${CONFIG_TPL_FILE} | envsubst
 echo
 echo "--------------------------------------------------------------------------------"
 echo "Paste the above in your ~/.aws/config."
-read -r -p "Press enter to continue"
+read -r -p "Press ENTER to Continue."
