@@ -22,7 +22,7 @@ function ci_run_script_env_git() {
 
 function ci_run_script_env() {
     PKG_VSN=$(cat package.json | jq -r ".version")
-    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
+    echo "${GIT_TAGS}" | grep -q "\bv${PKG_VSN}\b" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
         return 1
     }
@@ -102,7 +102,7 @@ function ci_run_script() {
 
 function ci_run_deploy() {
     PKG_VSN=$(cat package.json | jq -r ".version")
-    echo "${GIT_TAGS}" | grep -q "v${PKG_VSN}" || {
+    echo "${GIT_TAGS}" | grep -q "\bv${PKG_VSN}\b" || {
         echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."
         return 1
     }
