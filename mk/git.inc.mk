@@ -9,8 +9,10 @@ GIT_HASH_SHORT = $(shell $(GIT) rev-parse --short HEAD 2>/dev/null)
 GIT_TAGS = $(shell $(GIT) tag --points-at HEAD 2>/dev/null)
 
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
+GIT_REMOTE_OR_ORIGIN = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null | \
+	$(SUPPORT_FIRECLOUD_DIR)/bin/ifne -p -n "$(ECHO) origin")
 GIT_ROOT = $(shell $(GIT) rev-parse --show-toplevel 2>/dev/null)
-$(foreach VAR,GIT_REMOTE GIT_ROOT,$(call make-lazy-once,$(VAR)))
+$(foreach VAR,GIT_REMOTE GIT_REMOTE_OR_ORIGIN GIT_ROOT,$(call make-lazy-once,$(VAR)))
 
 GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && \
 	echo true || echo false)
