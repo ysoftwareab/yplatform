@@ -988,7 +988,7 @@ function sf_ci_env_zz() {
 
     export CI=true
     SF_CI_NAME="$(whoami)@$(hostname)"
-    SF_CI_PLATFORM=$(whoami)
+    SF_CI_PLATFORM=zz
     SF_CI_SERVER_HOST=$(hostname)
     SF_CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
     SF_CI_ROOT=${GIT_ROOT:-}
