@@ -10,7 +10,7 @@ trap on_exit EXIT
 GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
 GIT_TAG=
 [[ -n "${GIT_BRANCH#HEAD}" ]] || {
-    GIT_TAG=$(git -C $1 tag -l --points-at HEAD | head -1)
+    GIT_TAG=$(git -C $1 tag --points-at HEAD | head -1)
     GIT_BRANCH="${GIT_TAG}"
 }
 [[ -n "${GIT_BRANCH#HEAD}" ]] || {

@@ -28,7 +28,7 @@ SF_COMMIT = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 SF_VSN_DESCRIBE = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	describe --first-parent --always --dirty | $(SED) "s/^v//")
 SF_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
-	tag -l --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
+	tag --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
 $(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy-once,$(VAR)))
 

@@ -75,13 +75,13 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-# RANGE_FROM_VSN=$(git tag -l --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
-RANGE_TO_VSN=$(git tag -l --points-at ${RANGE_TO} | { grep "${VERSION_PATTERN}" || true; })
+# RANGE_FROM_VSN=$(git tag --points-at ${RANGE_FROM:-${FIRST_COMMIT}} | { grep -e "${VERSION_PATTERN}" || true; })
+RANGE_TO_VSN=$(git tag --points-at ${RANGE_TO} | { grep "${VERSION_PATTERN}" || true; })
 PKG_VSN=${PKG_VSN:-${RANGE_TO_VSN}}
 
 if [[ -z "${RANGE_FROM}" ]]; then
     PREV_VSNS="$(git log --simplify-by-decoration --format=%H ${FIRST_COMMIT}..${RANGE_TO}~ |
-    while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag -l --points-at "${NO_XARGS_R}"; done |
+    while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; git tag --points-at "${NO_XARGS_R}"; done |
     { grep "${VERSION_PATTERN}" || true; } |
     sort -V |
     tac)"

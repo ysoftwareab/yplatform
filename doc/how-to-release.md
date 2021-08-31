@@ -127,7 +127,7 @@ The CI is configured with
 
 ```bash
 ci_run_deploy() {
-    local GIT_TAG=$(git tag -l --points-at HEAD | head -1)
+    local GIT_TAG=$(git tag --points-at HEAD | head -1)
 
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
         --repo-slug ${SF_CI_REPO_SLUG} \

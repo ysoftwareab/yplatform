@@ -14,7 +14,7 @@ fi
 source ci/pipeline.script.sh
 
 # deploy only version tags
-GIT_TAG=$(git tag -l --points-at HEAD | head -1)
+GIT_TAG=$(git tag --points-at HEAD | head -1)
 if [[ -n "${GIT_TAG}" ]]; then
     echo "${GIT_TAG}" | grep -q "^v[0-9]\+\.[0-9]\+\.[0-9]\+$" || exit 0
 fi

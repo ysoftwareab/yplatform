@@ -25,7 +25,7 @@ archive/zip: ## Archive source files as a zip file.
 archive/%:
 	$(eval SF_TARBALL_FORMAT := $*)
 	if [[ -n "$(GIT_TAGS)" ]]; then \
-		SF_TARBALL=archive-$(shell $(GIT) tag -l --points-at HEAD | $(HEAD) -1); \
+		SF_TARBALL=archive-$(shell $(GIT) tag --points-at HEAD | $(HEAD) -1); \
 	elif [[ -n "$(GIT_BRANCH)" ]]; then \
 		SF_TARBALL=archive-$(GIT_BRANCH)-$(GIT_HASH); \
 	else \
