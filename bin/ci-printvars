@@ -9,7 +9,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: ci-printvars
 ## Print detected-CI-platform's environment variables.
 ##
-##   --unknown      Print only unknown environment variables' name.
+##   -u, --unknown  Print only unknown environment variables' name.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
@@ -23,7 +23,7 @@ UNKNOWN=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --unknown)
+        -u|--unknown)
             UNKNOWN=true
             shift
             ;;
