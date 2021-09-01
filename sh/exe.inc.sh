@@ -50,7 +50,7 @@ function sh_script_version() {
 }
 
 function sh_shellopts() {
-    # usage: OLDOPTS="$(sh_shellopts)"; ...; eval "${OLDOPTS}"
+    # usage: OLDOPTS="$(sh_shellopts)"; ...; sh_shellopts_restore "${OLDOPTS}"
 
     # see https://unix.stackexchange.com/a/383581/61053
     # see https://unix.stackexchange.com/a/476710/61053
