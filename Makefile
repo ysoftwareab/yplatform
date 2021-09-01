@@ -151,11 +151,11 @@ test-env-ci:
 	$(ECHO_DO) "Testing that we are in sync with env-ci..."
 	$(COMM) -23 \
 		<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
-		<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)) | \
+		<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars --sf | $(SORT)) | \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne --not --fail --print-on-fail || { \
 			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \
 				<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
-				<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)); \
+				<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars --sf | $(SORT)); \
 		}
 	$(ECHO_DONE)
 
