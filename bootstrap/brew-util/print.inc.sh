@@ -33,12 +33,10 @@ function brew_printenv() {
         printenv_all
     else
         echo_info "Printing only excerpts of printenv."
-                cat <<EOF
-^CI=
-^CONTINUOUS_INTEGRATION=
         printenv_all | grep -f <(
+                cat <<EOF | sort -u | grep -v -e "^$" -e "^#"
+# core
 ^EDITOR=
-^GIT_
 ^HOME=
 ^HOMEBREW_NO_
 ^INFOPATH=
@@ -51,11 +49,18 @@ function brew_printenv() {
 ^PATH=
 ^PWD=
 ^SHELL=
+^TZ=
+^USER=
+
+# ci
+^CI=
+^CONTINUOUS_INTEGRATION=
+
+# sf
+^GIT_
 ^SF_LOG_BOOTSTRAP=
 ^SF_PRINTENV_BOOTSTRAP=
 ^SF_SUDO=
-^TZ=
-^USER=
 EOF
             )
     fi
