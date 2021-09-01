@@ -30,13 +30,13 @@ function brew_system() {
 function brew_printenv() {
     echo_do "Printenv..."
     if [[ "${SF_PRINTENV_BOOTSTRAP:-}" = "true" ]]; then
-        printenv
+        printenv_all
     else
         echo_info "Printing only excerpts of printenv."
-        printenv | grep -f <(
                 cat <<EOF
 ^CI=
 ^CONTINUOUS_INTEGRATION=
+        printenv_all | grep -f <(
 ^EDITOR=
 ^GIT_
 ^HOME=
