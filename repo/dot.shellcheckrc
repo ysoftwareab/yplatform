@@ -34,3 +34,7 @@ disable=SC2155
 
 # SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
 disable=SC2164
+
+# Quote expansions in this for loop glob to prevent wordsplitting, e.g. "$dir"/*.txt
+# NOTE possibly enforce this
+disable=SC2231
