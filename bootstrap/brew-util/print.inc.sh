@@ -41,6 +41,7 @@ function brew_printenv() {
 ^GIT_
 ^HOME=
 ^HOMEBREW_NO_
+^INFOPATH=
 ^LANG=
 ^LANGUAGE=
 ^LC_ALL=
