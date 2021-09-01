@@ -57,6 +57,12 @@ for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
 done
 unset SF_CI_ENV_FUN
 
+[[ -n "${SF_CI_PLATFORM:-}" ]] || {
+    echo "${SF_CI_PLATFORM:-}"
+    echo_warn "No CI platform detected."
+    exit 0
+}
+
 [[ "${UNKNOWN}" != "true" ]] || {
     "sf_ci_printvars_${SF_CI_PLATFORM}" | \
         sed "s/=.*//g" | \
@@ -65,9 +71,4 @@ unset SF_CI_ENV_FUN
     exit 0
 }
 
-[[ -n "${SF_CI_PLATFORM:-}" ]] || {
-    echo "${SF_CI_PLATFORM:-}"
-    echo_warn "No CI platform detected."
-    exit 0
-}
 "sf_ci_printvars_${SF_CI_PLATFORM}"
