@@ -164,6 +164,7 @@ test-env-ci:
 test-env-ci-unknown:
 	$(ECHO_DO) "Testing that we there are no new environment variables in CI..."
 	$(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars --unknown
+	$(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars --unknown --sf
 	$(ECHO_DONE)
 
 

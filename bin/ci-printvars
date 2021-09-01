@@ -9,20 +9,26 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: ci-printvars
 ## Print detected-CI-platform's environment variables.
 ##
+##   -s, --sf       Print only SF_CI_* environment variables.
 ##   -u, --unknown  Print only unknown environment variables' name.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(getopt -o hvu -l help,version,unknown -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o hvsu -l help,version,sf,unknown -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
+SF=false
 UNKNOWN=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        -s|--sf)
+            SF=true
+            shift
+            ;;
         -u|--unknown)
             UNKNOWN=true
             shift
@@ -63,12 +69,15 @@ unset SF_CI_ENV_FUN
     exit 0
 }
 
+PLATFORM=${SF_CI_PLATFORM}
+[[ "${SF}" != "true" ]] || PLATFORM=sf
+
 [[ "${UNKNOWN}" != "true" ]] || {
-    "sf_ci_printvars_${SF_CI_PLATFORM}" | \
-        sed "s/=.*//g" | \
-        grep -Fvxf <("sf_ci_known_env_${SF_CI_PLATFORM}") | \
-        ${SUPPORT_FIRECLOUD_DIR}/bin/ifne --fail
+    comm -23 \
+        <("sf_ci_printvars_${PLATFORM}" | sed "s/=.*//g" | sort -u) \
+        <("sf_ci_known_env_${PLATFORM}" | sort -u) | \
+        ${SUPPORT_FIRECLOUD_DIR}/bin/ifne --not --fail --print-on-fail
     exit 0
 }
 
-"sf_ci_printvars_${SF_CI_PLATFORM}"
+"sf_ci_printvars_${PLATFORM}"
