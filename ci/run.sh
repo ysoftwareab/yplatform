@@ -109,13 +109,14 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
-for SF_CI_ENV_INC_SH in "${SUPPORT_FIRECLOUD_DIR}"/ci/env/*; do
-    source ${SF_CI_ENV_INC_SH}
-    SF_CI_ENV_INC_SH_PLATFORM=$(basename ${SF_CI_ENV_INC_SH} .inc.sh)
-    eval "sf_ci_env_${SF_CI_ENV_INC_SH_PLATFORM}"
-    unset SF_CI_ENV_INC_SH_PLATFORM
+for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
+    source ${SF_CI_ENV}
 done
-unset SF_CI_ENV_INC_SH
+unset SF_CI_ENV
+for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
+    "${SF_CI_ENV_FUN}"
+done
+unset SF_CI_ENV_FUN
 
 [[ -z "${SF_CI_PLATFORM:-}" ]] || [[ -z "${SF_CI_SERVER_HOST:-}" ]] || \
     git config --global user.email "${SF_CI_PLATFORM}@${SF_CI_SERVER_HOST}"

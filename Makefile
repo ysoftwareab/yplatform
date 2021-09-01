@@ -82,7 +82,6 @@ SF_CHECK_TPL_FILES += \
 	.github/workflows/main.yml \
 	.github/workflows/deploy.yml \
 	Formula/editorconfig-checker.rb \
-	bin/ci-printvars \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
@@ -170,13 +169,6 @@ test-repo-mk:
 		$(ECHO_DONE); \
 	done
 	$(ECHO_DONE)
-
-
-bin/ci-printvars: ## Regenerate bin/ci-printvars.
-bin/ci-printvars: $(wildcard ci/env/*)
-bin/ci-printvars: bin/ci-printvars.tpl
-	$(call sf-generate-from-template)
-	$(CHMOD) +x $@
 
 
 gitconfig/dot.gitignore_global: ## Regenerate gitconfig/dot.gitignore_global.
