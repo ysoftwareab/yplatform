@@ -98,6 +98,7 @@ SF_TEST_TARGETS += \
 	test-repo-mk \
 	test-gitignore \
 	test-env-ci \
+	test-env-ci-unknown \
 
 # ------------------------------------------------------------------------------
 
@@ -156,6 +157,13 @@ test-env-ci:
 				<($(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci --sf | $(SORT)) \
 				<($(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars | $(SORT)); \
 		}
+	$(ECHO_DONE)
+
+
+.PHONY: test-env-ci-unknown
+test-env-ci-unknown:
+	$(ECHO_DO) "Testing that we there are no new environment variables in CI..."
+	$(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars --unknown
 	$(ECHO_DONE)
 
 
