@@ -149,9 +149,13 @@ function printenv_all() {
     local VARS="$*"
     [[ $# -ne 0 ]] || VARS="$(printenv_all_names | grep -v "^VARS$")"
 
+    # not sure why, but printenv_all_names catches "undefined" vars e.g. BASH_ALIASES
+    local NOUNSET_STATE="$(set +o | grep nounset)"
+    set +u
     for VAR in ${VARS}; do
         echo "${VAR}=${!VAR}"
     done
+    eval "${NOUNSET_STATE}"
 }
 
 # MISC -------------------------------------------------------------------------
