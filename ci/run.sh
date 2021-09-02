@@ -5,44 +5,27 @@
 exec 2>&1
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/ci/util/env.inc.sh
 
-if command -v git >/dev/null 2>&1; then
-    GIT_COMMIT_MSG=$(git log -1 --format="%B")
-    if echo "${GIT_COMMIT_MSG}" | grep -q "\[skip ci\]"; then
-        echo_info "Detected '[skip ci]' marker in git commit message."
-        echo_skip "$*"
-        exit 0
-    fi
+# debug
+[[ "${1:-}" != "debug" ]] || {
+    echo
+    echo "[INFO] You can run specific stages like"
+    echo "       ./.ci.sh before_install"
+    echo "       or you can run them all (before_install, install, before_script, script)"
+    echo "       ./.ci.sh all"
+    echo
+    export SF_CI_DEBUG_MODE=true
 
-    if echo "${GIT_COMMIT_MSG}" | grep -q "\[env [^=]\+=[^]]\+\]"; then
-        echo_info "Detected '[env key=value]' marker in git commit message."
-        echo "${GIT_COMMIT_MSG}" | \
-            grep --only-matching "\[env [^=]\+=[^]]\+\]" | \
-            sed "s/^\[env /export /g" | \
-            sed "s/\]\$//g" | while read -r EXPORT_KV; do
-            echo_info "${EXPORT_KV}"
-            eval "${EXPORT_KV}"
-        done
-        unset EXPORT_KV
-    fi
-fi
+    # export all functions $(e.g. nvm)
+    source <(declare -F | sed "s/^declare /export /g")
 
-set -a
-# shellcheck disable=SC1091
-[[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
-if git config --local transcrypt.version >/dev/null; then
-    # shellcheck disable=SC1091
-    [[ ! -f ${GIT_ROOT}/CONST.inc.secret ]] || source ${GIT_ROOT}/CONST.inc.secret
-fi
-set +a
+    # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
+    PS1="\w\$ " bash
+    exit 0
+}
 
-source ${SUPPORT_FIRECLOUD_DIR}/ci/debug.inc.sh
-
-source ${SUPPORT_FIRECLOUD_DIR}/ci/run.docker-ci.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/run.travis-docker.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/run.travis-swap.inc.sh
-
+# pipeline
 source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/install.inc.sh
 # source ${SUPPORT_FIRECLOUD_DIR}/ci/before-script.inc.sh
@@ -54,7 +37,6 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/before-deploy.inc.sh
 # source ${SUPPORT_FIRECLOUD_DIR}/ci/deploy.inc.sh
 # source ${SUPPORT_FIRECLOUD_DIR}/ci/after-deploy.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/ci/after-script.inc.sh
-
 source ${SUPPORT_FIRECLOUD_DIR}/ci/notifications.inc.sh
 
 
@@ -108,10 +90,5 @@ function sf_ci_run() {
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
-
-[[ -z "${SF_CI_PLATFORM:-}" ]] || [[ -z "${SF_CI_SERVER_HOST:-}" ]] || \
-    git config --global user.email "${SF_CI_PLATFORM}@${SF_CI_SERVER_HOST}"
-[[ -z "${SF_CI_NAME:-}" ]] || \
-    git config --global user.name "${SF_CI_NAME}"
 
 [[ -z "$*" ]] || sf_ci_run "$@"

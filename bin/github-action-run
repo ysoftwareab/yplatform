@@ -5,7 +5,7 @@ set -euo pipefail
 
 # FIXME https://github.com/actions/runner/issues/863
 echo ::group::\$HOME
-source "${GITHUB_ACTION_PATH}/sh/ci-home.inc.sh"
+source "${GITHUB_ACTION_PATH}/ci/util/home.inc.sh"
 echo ::endgroup::
 
 # FIXME https://github.com/actions/runner/issues/716

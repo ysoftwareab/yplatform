@@ -15,7 +15,5 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/os.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/os-release.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/git.inc.sh
 
-[[ "${CI:-}" != "true" ]] || source ${SUPPORT_FIRECLOUD_DIR}/sh/ci.inc.sh
-
 source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe.inc.sh

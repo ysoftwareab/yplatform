@@ -26,7 +26,9 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 
     >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
     >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
-    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
+    # NOTE can't use SF_CI_PLATFORM because this script is sourced before
+    # [[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
+    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
         >&2 echo "$(date +"%H:%M:%S") [INFO] Updating \$GITHUB_ENV..."
         grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | tee -a ${GITHUB_ENV} || \
             grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | ${SF_SUDO:-sudo} tee -a ${GITHUB_ENV}
