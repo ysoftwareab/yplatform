@@ -106,6 +106,26 @@ function exe_and_grep_q() {
     rm -f ${CMD_STDERR}
 }
 
+function if_exe_and_grep_q() {
+    local CMD="$1"
+    shift
+    local EXPECTED_STDOUT="$1"
+    shift
+
+    local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
+
+    if exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"; then
+        "$@"
+        hash -r # see https://github.com/Homebrew/brew/issues/5013
+        >&2 debug_exe "${EXECUTABLE}"
+        if exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"; then
+            return 1
+        fi
+    else
+        >&2 echo_skip "$@"
+    fi
+}
+
 function unless_exe_and_grep_q() {
     local CMD="$1"
     shift
@@ -114,12 +134,14 @@ function unless_exe_and_grep_q() {
 
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)
 
-    exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}" || {
+    if exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"; then
+        >&2 echo_skip "$@"
+    else
         "$@"
         hash -r # see https://github.com/Homebrew/brew/issues/5013
         >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"
-    }
+    fi
 }
 
 function debug_exe() {

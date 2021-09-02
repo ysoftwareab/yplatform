@@ -15,8 +15,8 @@ brew_install_one_unless git "git --version | head -1" "^git version 2\."
 
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
-[[ -f "${SUPPORT_FIRECLOUD_DIR}/bin/.jq/jq" ]] && \
-    brew_install_one_unless jq "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$"
+[[ -f "${SUPPORT_FIRECLOUD_DIR}/bin/.jq/jq" ]]
+if_exe_and_grep_q "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$" brew_install_one_unless jq
 
 brew_install_one_unless shellcheck "shellcheck --version | head -2 | tail -1" "^version: 0\.7\."
 brew_install_one_unless unzip "unzip --version 2>&1 | head -2 | tail -1" "^UnZip 6\."
