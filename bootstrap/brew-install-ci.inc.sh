@@ -29,7 +29,7 @@ brew_install_one_unless git "git --version | head -1" "^git version 2\."
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
 [[ -f "${SUPPORT_FIRECLOUD_DIR}/bin/.jq/jq" ]]
-if_exe_and_grep_q "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$" brew_install_one_unless jq
+if_exe_and_grep_q "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$" brew_install_one jq
 
 brew_install_one_unless screenfetch "screenfetch --version | head -1" "^.*screenFetch.* - Version 3\."
 brew_install_one_unless tmate "tmate -V | head -1" "^tmate 2\."
