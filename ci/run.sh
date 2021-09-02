@@ -5,6 +5,16 @@
 exec 2>&1
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
+    source ${SF_CI_ENV}
+done
+unset SF_CI_ENV
+for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
+    "${SF_CI_ENV_FUN}"
+done
+unset SF_CI_ENV_FUN
+
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 if command -v git >/dev/null 2>&1; then
@@ -108,15 +118,6 @@ function sf_ci_run() {
 
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
-
-for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
-    source ${SF_CI_ENV}
-done
-unset SF_CI_ENV
-for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
-    "${SF_CI_ENV_FUN}"
-done
-unset SF_CI_ENV_FUN
 
 [[ -z "${SF_CI_PLATFORM:-}" ]] || [[ -z "${SF_CI_SERVER_HOST:-}" ]] || \
     git config --global user.email "${SF_CI_PLATFORM}@${SF_CI_SERVER_HOST}"

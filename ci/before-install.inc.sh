@@ -85,7 +85,7 @@ function sf_github() {
 
     # GH_TOKEN is a common way to pass a personal access token to CI jobs
     export SF_GH_TOKEN=${SF_GH_TOKEN:-${GH_TOKEN:-}}
-    if [[ "${GITHUB_ACTIONS:-}" = true ]]; then
+    if [[ "${SF_CI_PLATFORM:-}" = "github" ]]; then
         # GITHUB_TOKEN is Github Actions' default deploy key
         export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY:-${GITHUB_TOKEN:-}}
     else
@@ -94,8 +94,8 @@ function sf_github() {
         export SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN}
     fi
 
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env "SF_GH_TOKEN=${SF_GH_TOKEN}"
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env  "SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY}"
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "SF_GH_TOKEN=${SF_GH_TOKEN}"
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env  "SF_GH_TOKEN_DEPLOY=${SF_GH_TOKEN_DEPLOY}"
 
     if [[ -n "${SF_GH_TOKEN:-}" ]]; then
         sf_github_https_insteadof_all
@@ -142,14 +142,14 @@ function sf_transcrypt() {
         -p "${SF_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}"
 
     unset SF_TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env "SF_TRANSCRYPT_CIPHER="
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "SF_TRANSCRYPT_CIPHER="
     unset TRANSCRYPT_CIPHER
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env "TRANSCRYPT_CIPHER="
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "TRANSCRYPT_CIPHER="
 
     unset SF_TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env "SF_TRANSCRYPT_PASSWORD="
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "SF_TRANSCRYPT_PASSWORD="
     unset TRANSCRYPT_PASSWORD
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || sf_ga_set_env "TRANSCRYPT_PASSWORD="
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "TRANSCRYPT_PASSWORD="
 
     echo_done
 }

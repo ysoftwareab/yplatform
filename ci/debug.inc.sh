@@ -42,7 +42,7 @@ function sf_ci_debug() {
         SF_TMATE_AUTH=${GIT_ROOT}/.tmate.authorized_keys
     }
 
-    [[ -n ${SF_TMATE_AUTH:-} ]] || [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    [[ -n ${SF_TMATE_AUTH:-} ]] || [[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
         echo_info "Tmate session will be restricted to GITHUB_ACTOR=${GITHUB_ACTOR}."
         # default to github actor's public ssh keys
         SF_TMATE_AUTH=$(mktemp -t firecloud.XXXXXXXXXX)

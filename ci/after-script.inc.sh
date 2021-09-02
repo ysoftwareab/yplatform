@@ -40,7 +40,7 @@ function sf_ci_run_after_script_upload_job_artifacts() {
 
     # FIXME not working because logs are only available after the job is terminated
     # see https://github.community/t/how-to-see-the-full-log-while-a-workflow-is-in-progress/17455
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+    [[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
         # (Try to) Create log.sh-session
         local CURL_GITHUB_API_HEADERS=(-H "accept: application/vnd.github.v3+json")
         CURL_GITHUB_API_HEADERS+=(-H "authorization: token ${SF_GH_TOKEN_DEPLOY}")
