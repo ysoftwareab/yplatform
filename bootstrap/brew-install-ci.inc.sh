@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+[[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
     [[ "${OS_SHORT}" != "darwin" ]] || {
         echo_do "Uninstalling Python 2.7..."
         set -x

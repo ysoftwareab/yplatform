@@ -53,16 +53,6 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
-    source ${SF_CI_ENV}
-done
-unset SF_CI_ENV
-
-for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
-    "${SF_CI_ENV_FUN}"
-done
-unset SF_CI_ENV_FUN
-
 [[ -n "${SF_CI_PLATFORM:-}" ]] || {
     echo "${SF_CI_PLATFORM:-}"
     echo_warn "No CI platform detected."
