@@ -25,7 +25,12 @@ echo_do "brew: Installing CI packages..."
 # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
 brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 4\."
 brew_install_one_if git "git --version | head -1" "^git version 2\."
+
 brew_install_one_if jq "jq --version | head -1" "^jq-1\."
+# install if we're falling back to our jq proxy
+[[ -f "${SUPPORT_FIRECLOUD_DIR}/bin/.jq/jq" ]] && \
+    brew_install_one_if jq "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$"
+
 brew_install_one_if screenfetch "screenfetch --version | head -1" "^.*screenFetch.* - Version 3\."
 brew_install_one_if tmate "tmate -V | head -1" "^tmate 2\."
 
