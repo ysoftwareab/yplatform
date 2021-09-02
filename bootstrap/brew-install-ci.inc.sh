@@ -23,16 +23,16 @@ set -euo pipefail
 echo_do "brew: Installing CI packages..."
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
 # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
-brew_install_one_if findutils "find --version | head -1" "^find (GNU findutils) 4\."
-brew_install_one_if git "git --version | head -1" "^git version 2\."
+brew_install_one_unless findutils "find --version | head -1" "^find (GNU findutils) 4\."
+brew_install_one_unless git "git --version | head -1" "^git version 2\."
 
-brew_install_one_if jq "jq --version | head -1" "^jq-1\."
+brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
 [[ -f "${SUPPORT_FIRECLOUD_DIR}/bin/.jq/jq" ]] && \
-    brew_install_one_if jq "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$"
+    brew_install_one_unless jq "which jq" "^${SUPPORT_FIRECLOUD_DIR}/bin/\.jq/jq$"
 
-brew_install_one_if screenfetch "screenfetch --version | head -1" "^.*screenFetch.* - Version 3\."
-brew_install_one_if tmate "tmate -V | head -1" "^tmate 2\."
+brew_install_one_unless screenfetch "screenfetch --version | head -1" "^.*screenFetch.* - Version 3\."
+brew_install_one_unless tmate "tmate -V | head -1" "^tmate 2\."
 
 # need an extra condition, because the original one fails intermitently
 # exe_and_grep_q "xargs --help 2>&1" "no-run-if-empty"

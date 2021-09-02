@@ -3,8 +3,8 @@ set -euo pipefail
 
 echo_do "brew: Installing asdf..."
 
-# NOTE can't run brew_install_one_if because we need to activate asdf
-# brew_install_one_if asdf "asdf --version | head -1" "^0\."
+# NOTE can't run brew_install_one_unless because we need to activate asdf
+# brew_install_one_unless asdf "asdf --version | head -1" "^0\."
 exe_and_grep_q "asdf --version | head -1" "^v0\." >/dev/null || brew_install_one asdf
 
 echo_do "Enabling asdf..."

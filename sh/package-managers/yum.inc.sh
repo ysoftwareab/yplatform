@@ -41,7 +41,7 @@ function yum_install_one() {
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function yum_install_one_if() {
+function yum_install_one_unless() {
     local PKG="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)

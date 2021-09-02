@@ -27,7 +27,7 @@ set -euo pipefail
 
 echo_do "brew: Installing AWS utils..."
 
-brew_install_one_if awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
+brew_install_one_unless awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || {
     # Possible error on CircleCI, Github Actions (ubuntu 18.04)
     #
     # The conflict is caused by:

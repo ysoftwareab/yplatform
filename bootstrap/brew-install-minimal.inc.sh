@@ -22,10 +22,10 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
     case ${OS_RELEASE_ID} in
         alpine)
             # "brew install nq" will trigger segmentation fault when calling 'nq'
-            magic_install_one_if nq "nq echo 123 | tee ${TMP_NQ} | head -1" "^,"
+            magic_install_one_unless nq "nq echo 123 | tee ${TMP_NQ} | head -1" "^,"
             ;;
         *)
-            brew_install_one_if nq "nq echo 123 | tee ${TMP_NQ} | head -1" "^,"
+            brew_install_one_unless nq "nq echo 123 | tee ${TMP_NQ} | head -1" "^,"
             ;;
     esac
     rm -f $(cat ${TMP_NQ})

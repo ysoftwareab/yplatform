@@ -10,7 +10,7 @@ echo_do "brew: Installing NodeJS packages..."
 brew_install_one node
 exe_and_grep_q "node --version | head -1" "^v"
 
-brew_install_one_if pnpm "pnpm --version | head -1" "^6\."
+brew_install_one_unless pnpm "pnpm --version | head -1" "^6\."
 
 # allow npm upgrade to fail on WSL; fails with EACCESS
 unless_exe_and_grep_q_then "npm --version | head -1" "^6\." \

@@ -34,7 +34,7 @@ function apk_install_one() {
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function apk_install_one_if() {
+function apk_install_one_unless() {
     local PKG="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)

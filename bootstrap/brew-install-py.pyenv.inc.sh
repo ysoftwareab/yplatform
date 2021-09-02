@@ -24,8 +24,8 @@ if [[ "${OS_SHORT}" = "linux" ]]; then
     apt_install_one git
 fi
 
-# NOTE can't run brew_install_one_if because we need to activate pyenv
-# brew_install_one_if pyenv "pyenv --version | head -1" "^pyenv "
+# NOTE can't run brew_install_one_unless because we need to activate pyenv
+# brew_install_one_unless pyenv "pyenv --version | head -1" "^pyenv "
 exe_and_grep_q "pyenv --version | head -1" "^pyenv " >/dev/null || brew_install_one pyenv
 eval "$(pyenv init -)"
 mkdir -p ${HOME}/.pyenv/versions

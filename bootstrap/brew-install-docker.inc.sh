@@ -5,8 +5,8 @@ echo_do "brew: Installing Docker packages..."
 
 case ${OS_SHORT}-${OS_RELEASE_ID} in
     darwin-*|linux-arch|linux-centos)
-        brew_install_one_if docker "docker --version | head -1" "^Docker version \(19\|20\)\."
-        brew_install_one_if docker-compose "docker-compose --version | head -1" "^docker-compose version 1\."
+        brew_install_one_unless docker "docker --version | head -1" "^Docker version \(19\|20\)\."
+        brew_install_one_unless docker-compose "docker-compose --version | head -1" "^docker-compose version 1\."
         ;;
     linux-alpine)
         # docker via linuxbrew will throw
@@ -88,7 +88,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
 esac
 
-brew_install_one_if ctop "ctop -v | head -1" "^ctop version 0\."
-brew_install_one_if dive "dive --version | head -1" "^dive 0\."
+brew_install_one_unless ctop "ctop -v | head -1" "^ctop version 0\."
+brew_install_one_unless dive "dive --version | head -1" "^dive 0\."
 
 echo_done

@@ -132,7 +132,7 @@ function brew_install_one() {
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function brew_install_one_if() {
+function brew_install_one_unless() {
     local FORMULA="$1"
     shift
     local EXECUTABLE=$(echo "$1" | cut -d" " -f1)

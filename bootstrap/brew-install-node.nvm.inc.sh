@@ -6,8 +6,8 @@ echo_do "brew: Installing NVM packages..."
 export NVM_DIR=${NVM_DIR:-${HOME}/.nvm}
 mkdir -p ${NVM_DIR}
 
-# NOTE can't run brew_install_one_if because we need to activate nvm
-# brew_install_one_if nvm "nvm --version | head -1" "^0\."
+# NOTE can't run brew_install_one_unless because we need to activate nvm
+# brew_install_one_unless nvm "nvm --version | head -1" "^0\."
 exe_and_grep_q "nvm --version | head -1" "^0\." >/dev/null || brew_install_one nvm
 
 echo_do "Enabling NVM..."

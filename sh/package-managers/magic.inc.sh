@@ -81,7 +81,7 @@ function magic_install_one() {
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
-function magic_install_one_if() {
+function magic_install_one_unless() {
     local PACKAGE_MANAGER=$(magic_package_manager)
     local PKG="$1"
     shift
