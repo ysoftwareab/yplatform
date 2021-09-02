@@ -106,7 +106,7 @@ function exe_and_grep_q() {
     rm -f ${CMD_STDERR}
 }
 
-function unless_exe_and_grep_q_then() {
+function unless_exe_and_grep_q() {
     local CMD="$1"
     shift
     local EXPECTED_STDOUT="$1"
