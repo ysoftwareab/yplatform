@@ -18,7 +18,8 @@ function sf_ci_env_sourcehut() {
     SF_CI_ROOT=${HOME}
 
     SF_CI_IS_CRON=
-    SF_CI_IS_PR= # TODO
+    SF_CI_IS_PR=
+    [[ "${BUILD_REASON:-}" != "github-pr" ]] || SF_CI_IS_PR=true
 
     SF_CI_JOB_ID=${JOB_ID:-}
     SF_CI_PIPELINE_ID=${SF_CI_JOB_ID}
@@ -36,9 +37,9 @@ function sf_ci_env_sourcehut() {
         SF_CI_PR_GIT_BRANCH= # TODO
     }
 
-    SF_CI_GIT_HASH= # TODO
-    SF_CI_GIT_BRANCH # TODO
-    SF_CI_GIT_TAG= # TODO
+    SF_CI_GIT_HASH=$(git rev-parse HEAD 2>/dev/null || true)
+    SF_CI_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+    SF_CI_GIT_TAG=$(git tag --points-at HEAD 2>/dev/null || true)
 
     SF_CI_DEBUG_MODE=${SF_CI_DEBUG_MODE:-}
 }
