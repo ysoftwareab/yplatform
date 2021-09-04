@@ -56,6 +56,7 @@ done
 for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
     source ${SF_CI_ENV}
 done
+unset SF_CI_ENV
 
 [[ -n "${SF_CI_PLATFORM:-}" ]] || {
     echo "${SF_CI_PLATFORM:-}"
