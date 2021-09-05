@@ -3,18 +3,20 @@
 true
 
 function sf_ci_env_sourcehut() {
-    [[ "${SF_CI_NAME:-}" = "sourcehut" ]] || return 0
+    [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
+
+    printenv
 
     # TODO sourcehut hasn't been fully tested. narrowing the scope
     [[ "${BUILD_REASON}" =~ ^github ]] # only github webhooks
-    [[ "${GITHUB_EVENT}" = "push" ]] # only push
+    [[ "${GITHUB_EVENT}" = "push" ]] || [[ "${GITHUB_EVENT}" = "pull_request" ]] # only commits and pull reviews
     [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
 
     export CI=true # missing
     SF_CI_NAME=sourcehut
     SF_CI_PLATFORM=sourcehut
     SF_CI_SERVERT_HOST=sourcehut.org
-    SF_CI_REPO_SLUG=
+    SF_CI_REPO_SLUG=${GITHUB_REPO}
     SF_CI_ROOT=${HOME}
 
     SF_CI_IS_CRON=
@@ -31,8 +33,8 @@ function sf_ci_env_sourcehut() {
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL= # TODO
-        SF_CI_PR_REPO_SLUG= # TODO
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${GITHUB_PR_NUMBER:-}
+        SF_CI_PR_REPO_SLUG=https://github.com/${GITHUB_HEAD_REPO:-}
         SF_CI_PR_GIT_HASH= # TODO
         SF_CI_PR_GIT_BRANCH= # TODO
     }
@@ -65,11 +67,16 @@ BUILD_REASON
 PATCHSET_ID
 PATCHSET_URL
 EOF
-    # undocumented but observed
+    # see https://man.sr.ht/dispatch.sr.ht/github.md
     cat <<EOF
 GITHUB_DELIVERY
 GITHUB_EVENT
 GITHUB_REF
 GITHUB_REPO
+GITHUB_PR_NUMBER
+GITHUB_PR_TITLE
+GITHUB_PR_BODY
+GITHUB_BASE_REPO
+GITHUB_HEAD_REPO
 EOF
 }
