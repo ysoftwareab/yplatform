@@ -8,10 +8,14 @@ tasks:
 
       set -euo pipefail
       if [[ "${BUILD_REASON}" = "github-pr" ]]; then
-        true
-      elif [[ "${GITHUB_REF:-}" =~ ^refs/heads/sourcehut ]]; then
+        export GITHUB_REF=refs/pull/${GITHUB_PR_NUMBER}/head
+      fi
+
+      if [[ "${GITHUB_REF:-}" =~ ^refs/heads/sourcehut ]]; then
         true
       elif [[ "${GITHUB_REF:-}" = "refs/heads/master" ]]; then
+        true
+      elif [[ "${GITHUB_REF:-}" =~ ^refs/pull/ ]]; then
         true
       else
         # skip
