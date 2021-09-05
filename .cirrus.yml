@@ -9,7 +9,7 @@ env:
 
 task:
   name: "continuous-integration/cirrus" # otherwise 'main' shows in Github UI
-  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus.*'
+  only_if: $CIRRUS_BRANCH == 'master' || $CIRRUS_BRANCH =~ 'cirrus.*' || $CIRRUS_BRANCH =~ 'pull/.*'
   container:
     # name: ubuntu:18.04
     # NOTE using the prebuilt docker image of homebrew (linuxbrew)
@@ -18,10 +18,16 @@ task:
     image: homebrew/ubuntu18.04
   # see https://cirrus-ci.org/guide/tips-and-tricks/#custom-clone-command
   clone_script: |
-    git clone --recursive --branch=$CIRRUS_BRANCH \
+    GIT_CLONE_BRANCH=$CIRRUS_BRANCH
+    [[ -z "$CIRRUS_PR" ]] || GIT_CLONE_BRANCH=$CIRRUS_DEFAULT_BRANCH
+    git clone --recursive --branch=$GIT_CLONE_BRANCH \
       https://x-access-token:${CIRRUS_REPO_CLONE_TOKEN}@github.com/${CIRRUS_REPO_FULL_NAME}.git \
       $CIRRUS_WORKING_DIR
-    [[ -z "$CIRRUS_PR" ]] || git fetch origin pull/$CIRRUS_PR/head:pull/$CIRRUS_PR
+    [[ -z "$CIRRUS_PR" ]] || {
+      git fetch origin refs/pull/$CIRRUS_PR/head:$CIRRUS_BRANCH
+      git checkout $CIRRUS_BRANCH
+    }
+    unset GIT_CLONE_BRANCH
     git reset --hard $CIRRUS_CHANGE_IN_REPO
   clone_submodule_script: |
     git submodule sync --recursive
