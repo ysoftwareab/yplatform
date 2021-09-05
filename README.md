@@ -44,29 +44,29 @@ Import this repository as a `submodule`, and you will gain access to:
     * cross-platform. See [above](#cross-platform).
     * Docker images available for Linux
       * Alpine 3.11.7
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-alpine-3.11.7-common)
       * Archlinux
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-arch-0-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-arch-0-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-arch-0-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-arch-0-common)
       * Centos 8
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-centos-8-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-centos-8-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-centos-8-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-centos-8-common)
       * Debian 9
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-debian-stretch-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-debian-stretch-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-debian-stretch-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-debian-stretch-common)
       * Debian 10
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-debian-buster-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-debian-buster-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-debian-buster-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-debian-buster-common)
       * Ubuntu 16.04
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-xenial-common)
       * Ubuntu 18.04
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-bionic-common)
       * Ubuntu 20.04
-        * [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal)
-        * [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
+        , [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal)
+        , [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
       * [potentially more if you request/contribute it](https://github.com/rokmoln/support-firecloud/issues/new/choose)
   * **a robust yet flexible build system based on GNU Make**
   * **sane per-repo configuration** (e.g. vscode)
