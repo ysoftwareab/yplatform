@@ -22,12 +22,14 @@ function sf_ci_env_semaphore() {
     SF_CI_JOB_URL="${SEMAPHORE_ORGANIZATION_URL:-}/jobs/${SF_CI_JOB_ID}"
     SF_CI_PIPELINE_URL="${SEMAPHORE_ORGANIZATION_URL:-}/workflows/${SF_CI_PIPELINE_ID}"
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SEMAPHORE_GIT_PR_NUMBER:-}
+        SF_CI_PR_NUMBER=${SEMAPHORE_GIT_PR_NUMBER:-}
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
         SF_CI_PR_REPO_SLUG=${SEMAPHORE_GIT_PR_SLUG:-}
         SF_CI_PR_GIT_HASH=${SEMAPHORE_GIT_PR_SHA:-}
         SF_CI_PR_GIT_BRANCH=${SEMAPHORE_GIT_PR_BRANCH:-}
