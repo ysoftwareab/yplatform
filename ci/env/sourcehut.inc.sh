@@ -7,14 +7,14 @@ function sf_ci_env_sourcehut() {
 
     # TODO sourcehut hasn't been fully tested. narrowing the scope
     [[ "${BUILD_REASON}" =~ ^github ]] # only github webhooks
-    [[ "${GITHUB_EVENT}" = "push" ]] || [[ "${GITHUB_EVENT}" = "pull_request" ]] # only commits and pull reviews
-    [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
+    [[ "${GITHUB_EVENT}" = "push" ]] || [[ "${GITHUB_EVENT}" = "pull_request" ]] # only commits and pull requests
+    [[ ${GITHUB_REF} =~ ^refs/heads/ ]] || [[ ${GITHUB_REF} =~ ^refs/pull/ ]] # only branches and pull requests
 
     export CI=true # missing
     SF_CI_NAME=sourcehut
     SF_CI_PLATFORM=sourcehut
     SF_CI_SERVERT_HOST=sourcehut.org
-    SF_CI_REPO_SLUG=${GITHUB_REPO}
+    SF_CI_REPO_SLUG=${GITHUB_REPO:-${GITHUB_BASE_REPO:-}}
     SF_CI_ROOT=${HOME}
 
     SF_CI_IS_CRON=
