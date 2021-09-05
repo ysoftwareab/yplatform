@@ -7,10 +7,10 @@ tasks:
       export SF_PRINTENV_BOOTSTRAP=true
 
       set -euo pipefail
-      if [[ ${GITHUB_REF} =~ ^refs/heads/sourcehut ]]; then
+      if [[ "${GITHUB_REF}" =~ ^refs/heads/sourcehut ]]; then
         true
-      # elif [[ "${GITHUB_REF}" = "refs/heads/master" ]]; then
-      #   true
+      elif [[ "${GITHUB_REF}" = "refs/heads/master" ]]; then
+        true
       else
         # skip
         exit 0
