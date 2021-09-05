@@ -15,7 +15,7 @@ function sf_ci_env_appveyor() {
         while read -r NO_XARGS_R; do
             [[ -n "${NO_XARGS_R}" ]] || continue;
             eval "export ${NO_XARGS_R}=true"
-        done < <(printenv | grep "=True$" | sed "s/=.*//g")
+        done < <(printenv | grep "=True$" | sed "s/=.*//g" | grep "^[a-zA-Z_][a-zA-Z0-9_]*$")
     fi
 
     [[ "${APPVEYOR_REPO_PROVIDER:-}" = "gitHub" ]]
