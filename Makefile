@@ -157,7 +157,10 @@ test-env-ci:
 			$(ECHO_ERR) "Found the above differences with env-ci."; \
 			$(ECHO_INFO) "A full diff between SF_CI_* env vars between bin/env-ci and bin/ci-printvars follows:"; \
 			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \
-				<($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)); \
+				<($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) || true; \
+			$(ECHO_INFO) "A full printout of CI env vars follows:"; \
+			$(CI_PRINTVARS) | $(SORT); \
+			exit 1; \
 		}
 	$(ECHO_DONE)
 
