@@ -24,7 +24,7 @@ tasks:
 
       # use github-checkout to checkout correct ref
       mkdir run
-      GITHUB_REPOSITORY=${GITHUB_REPO:-} \
+      GITHUB_REPOSITORY=${GITHUB_REPO:-${GITHUB_BASE_REPO:-}} \
         GITHUB_EVENT_NAME=${GITHUB_EVENT:-} \
         GITHUB_WORKSPACE=$(pwd)/run \
         support-firecloud/bin/github-checkout
