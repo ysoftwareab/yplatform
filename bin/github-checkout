@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 
 [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
     >&2 echo "[ERR ] GITHUB_REPOSITORY is undefined."
