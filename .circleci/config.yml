@@ -56,6 +56,7 @@ aliases:
           only:
             - /circle.*/ # circleci branches
             - /master/
+            - /pull\/[0-9]+/
         tags:
           only: /^v(\d+)\.(\d+)\.(\d+)/ # version tags
 
