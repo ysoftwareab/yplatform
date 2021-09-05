@@ -43,7 +43,7 @@ function sf_ci_env_appveyor() {
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_REPO_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${APPVEYOR_PULL_REQUEST_NUMBER:-}
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${APPVEYOR_PULL_REQUEST_NUMBER:-}
         SF_CI_PR_REPO_SLUG=${APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME:-}
         SF_CI_PR_GIT_HASH=${APPVEYOR_PULL_REQUEST_HEAD_COMMIT:-}
         SF_CI_PR_GIT_BRANCH=${APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH:-}
