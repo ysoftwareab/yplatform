@@ -1,6 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+set -x
+bin/ci-printvars
+bin/ci-printvars --sf
+exit 1
+
 # basic git config
 git config --global core.autocrlf false
 git config --global core.eol lf

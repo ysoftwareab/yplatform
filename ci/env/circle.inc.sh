@@ -5,6 +5,7 @@ true
 function sf_ci_env_circle() {
     [[ "${CIRCLECI:-}" = "true" ]] || return 0
 
+    set -x
     [[ "${CIRCLE_REPOSITORY_URL:-}" =~ github.com ]]
 
     export CI=true
