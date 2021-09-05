@@ -50,6 +50,7 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
+    export GITHUB_EVENT_JSON="$(cat ${GITHUB_EVENT_PATH} | jq -c .)"
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
@@ -97,5 +98,9 @@ RUNNER_PERFLOG
 RUNNER_TRACKING_ID
 RUNNER_USER
 RUNNER_WORKSPACE
+EOF
+    # see sf_ci_printvars_github above
+    cat <<EOF
+GITHUB_EVENT_JSON
 EOF
 }
