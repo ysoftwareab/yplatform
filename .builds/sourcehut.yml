@@ -7,9 +7,15 @@ tasks:
       export SF_PRINTENV_BOOTSTRAP=true
 
       set -euo pipefail
-      if [[ "${GITHUB_REF}" =~ ^refs/heads/sourcehut ]]; then
+      if [[ "${BUILD_REASON}" = "github-pr" ]]; then
+        export GITHUB_REF=refs/pull/${GITHUB_PR_NUMBER}/head
+      fi
+
+      if [[ "${GITHUB_REF:-}" =~ ^refs/heads/sourcehut ]]; then
         true
-      elif [[ "${GITHUB_REF}" = "refs/heads/master" ]]; then
+      elif [[ "${GITHUB_REF:-}" = "refs/heads/master" ]]; then
+        true
+      elif [[ "${GITHUB_REF:-}" =~ ^refs/pull/ ]]; then
         true
       else
         # skip
@@ -18,8 +24,8 @@ tasks:
 
       # use github-checkout to checkout correct ref
       mkdir run
-      GITHUB_REPOSITORY=${GITHUB_REPO} \
-        GITHUB_EVENT_NAME=${GITHUB_EVENT} \
+      GITHUB_REPOSITORY=${GITHUB_REPO:-} \
+        GITHUB_EVENT_NAME=${GITHUB_EVENT:-} \
         GITHUB_WORKSPACE=$(pwd)/run \
         support-firecloud/bin/github-checkout
       cd run
