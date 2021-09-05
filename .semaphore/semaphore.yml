@@ -21,7 +21,7 @@ blocks:
   - name: main_block
     run:
       # when: "branch =~ '^semaphore' OR branch = 'master' OR /^v(\d+)\.(\d+)\.(\d+)/"
-      when: "branch =~ '^semaphore' OR branch = 'master' OR pull_request != ''"
+      when: "branch =~ '^semaphore' OR branch = 'master'"
     task:
       env_vars:
         - name: SF_CI_BREW_INSTALL
