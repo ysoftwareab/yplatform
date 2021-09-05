@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+[[ -n "${GITHUB_REPOSITORY:-}" ]] || {
+    >&2 echo "[ERR ] GITHUB_REPOSITORY is undefined."
+    exit 1
+}
+
+[[ -n "${GITHUB_REF:-}" ]] || {
+    >&2 echo "[ERR ] GITHUB_REF is undefined."
+    exit 1
+}
+
 # basic git config
 git config --global core.autocrlf false
 git config --global core.eol lf
@@ -32,18 +42,20 @@ git config --global --add url."https://github.com/".insteadOf "ssh://git@github.
 
 # clone/fetch
 GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+GIT_BRANCH_ARG=
 if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
     GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
 elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
     GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
 fi
-cd ${GITHUB_WORKSPACE}
+[[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
 git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
 # shellcheck disable=SC2193
-if [[ "${GITHUB_EVENT_NAME}" = "pull_request" ]]; then
+if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
     git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
     GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-    GITHUB_REF=refs/heads/${GITHUB_BASE_REF}
+    GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
+    GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
 fi
 
 # ------------------------------------------------------------------------------
@@ -56,7 +68,7 @@ elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
 else
     set -x
     printenv
-    cat ${GITHUB_EVENT_PATH}
+    cat ${GITHUB_EVENT_PATH:-/dev/null}
     exit 1
 fi
 
