@@ -30,13 +30,13 @@ function sf_ci_env_github() {
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_URL=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
+            SF_CI_PR_URL=$(jq -r .pull_request.url ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_REPO_SLUG=$(jq -r .github.event.pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
+            SF_CI_PR_REPO_SLUG=$(jq -r .pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_GIT_HASH=$(jq -r .github.event.pull_request.head.sha ${GITHUB_EVENT_PATH})
+            SF_CI_PR_GIT_HASH=$(jq -r .pull_request.head.sha ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_GIT_BRANCH=$(jq -r .github.event.pull_request.head.ref ${GITHUB_EVENT_PATH})
+            SF_CI_PR_GIT_BRANCH=$(jq -r .pull_request.head.ref ${GITHUB_EVENT_PATH})
     }
 
     SF_CI_GIT_HASH=${GITHUB_SHA:-}
