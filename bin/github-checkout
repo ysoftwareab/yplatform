@@ -33,7 +33,10 @@ git config --global --add url."https://github.com/".insteadOf "ssh://git@github.
 }
 
 # use git protocol version 2 if available
-! git config --help | grep -q "wire protocol version 2" || {
+GIT_DEPTH_ARG=
+# NOTE may fail if git-man is not installed
+# ! git config --help | grep -q "wire protocol version 2" || {
+! grep -q "protocol version 2" $(command -v git) || {
     git config --global --add protocol.version 2
     GIT_DEPTH_ARG="--depth=1"
 }
