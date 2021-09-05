@@ -63,6 +63,7 @@ SF_PATH_FILES_IGNORE += \
 	-e "^repo/dot.github/" \
 
 SF_ECLINT_FILES_IGNORE += \
+	-e "^\.github/workflows/deploy\.yml$$" \
 	-e "^\.github/workflows/main\.yml$$" \
 	-e "^\.travis\.yml\.bak$$" \
 	-e "^bin/" \
