@@ -7,7 +7,7 @@ function sf_ci_env_sourcehut() {
 
     # TODO sourcehut hasn't been fully tested. narrowing the scope
     [[ "${BUILD_REASON}" =~ ^github ]] # only github webhooks
-    [[ "${GITHUB_EVENT}" = "push" ]] # only push
+    [[ "${GITHUB_EVENT}" = "push" ]] || [[ "${GITHUB_EVENT}" = "pull_request" ]] # only commits and pull reviews
     [[ ${GITHUB_REF} =~ ^refs/heads/ ]] # only branches
 
     export CI=true # missing
