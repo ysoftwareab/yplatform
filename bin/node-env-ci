@@ -34,7 +34,7 @@ let map2sf = {
     job: 'SF_CI_PIPELINE_ID',
     jobUrl: 'SF_CI_PIPELINE_URL',
     isPr: 'SF_CI_IS_PR',
-    pr: 'SF_CI_PR_REPO_SLUG',
+    pr: 'SF_CI_PR_NUMBER',
     prBranch: 'SF_CI_PR_GIT_BRANCH',
     slug: 'SF_CI_REPO_SLUG',
     root: 'SF_CI_ROOT'

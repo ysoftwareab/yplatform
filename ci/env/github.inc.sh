@@ -24,11 +24,14 @@ function sf_ci_env_github() {
     SF_CI_JOB_URL="${GITHUB_SERVER_URL:-}/${SF_CI_REPO_SLUG}/runs/${SF_CI_JOB_ID}?check_suite_focus=true"
     SF_CI_PIPELINE_URL="${GITHUB_SERVER_URL:-}/${SF_CI_REPO_SLUG}/actions/runs/${SF_CI_PIPELINE_ID}"
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_NUMBER=$(jq -r .number ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
             SF_CI_PR_URL=$(jq -r .pull_request.url ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \

@@ -26,12 +26,14 @@ function sf_ci_env_sourcehut() {
     SF_CI_JOB_URL=${JOB_URL:-}
     SF_CI_PIPELINE_URL=${SF_CI_JOB_URL}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${GITHUB_PR_NUMBER:-}
+        SF_CI_PR_NUMBER=${GITHUB_PR_NUMBER:-}
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
         SF_CI_PR_REPO_SLUG=https://github.com/${GITHUB_HEAD_REPO:-}
         SF_CI_PR_GIT_HASH= # TODO
         SF_CI_PR_GIT_BRANCH= # TODO

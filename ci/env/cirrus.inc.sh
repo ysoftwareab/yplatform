@@ -25,12 +25,14 @@ function sf_ci_env_cirrus() {
     SF_CI_JOB_URL=https://cirrus-ci.com/task/${SF_CI_JOB_ID}
     SF_CI_PIPELINE_URL=https://cirrus-ci.com/build/${SF_CI_PIPELINE_ID}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${CIRRUS_PR:-}
+        SF_CI_PR_NUMBER=${CIRRUS_PR:-}
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
         SF_CI_PR_REPO_SLUG= # TODO
         SF_CI_PR_GIT_HASH= # TODO
         SF_CI_PR_GIT_BRANCH=${CIRRUS_BRANCH:-}
