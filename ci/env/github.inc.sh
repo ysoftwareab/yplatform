@@ -24,19 +24,22 @@ function sf_ci_env_github() {
     SF_CI_JOB_URL="${GITHUB_SERVER_URL:-}/${SF_CI_REPO_SLUG}/runs/${SF_CI_JOB_ID}?check_suite_focus=true"
     SF_CI_PIPELINE_URL="${GITHUB_SERVER_URL:-}/${SF_CI_REPO_SLUG}/actions/runs/${SF_CI_PIPELINE_ID}"
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_URL=$(jq -r .github.event.pull_request.url ${GITHUB_EVENT_PATH})
+            SF_CI_PR_NUMBER=$(jq -r .number ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_REPO_SLUG=$(jq -r .github.event.pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
+            SF_CI_PR_URL=$(jq -r .pull_request.url ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_GIT_HASH=$(jq -r .github.event.pull_request.head.sha ${GITHUB_EVENT_PATH})
+            SF_CI_PR_REPO_SLUG=$(jq -r .pull_request.head.repo.full_name ${GITHUB_EVENT_PATH})
         [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
-            SF_CI_PR_GIT_BRANCH=$(jq -r .github.event.pull_request.head.ref ${GITHUB_EVENT_PATH})
+            SF_CI_PR_GIT_HASH=$(jq -r .pull_request.head.sha ${GITHUB_EVENT_PATH})
+        [[ -e "${GITHUB_EVENT_PATH:-}" ]] || \
+            SF_CI_PR_GIT_BRANCH=$(jq -r .pull_request.head.ref ${GITHUB_EVENT_PATH})
     }
 
     SF_CI_GIT_HASH=${GITHUB_SHA:-}
@@ -50,6 +53,7 @@ function sf_ci_env_github() {
 }
 
 function sf_ci_printvars_github() {
+    export GITHUB_EVENT_JSON="$(cat ${GITHUB_EVENT_PATH} | jq -c .)"
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^GITHUB[=_]" \
@@ -97,5 +101,9 @@ RUNNER_PERFLOG
 RUNNER_TRACKING_ID
 RUNNER_USER
 RUNNER_WORKSPACE
+EOF
+    # see sf_ci_printvars_github above
+    cat <<EOF
+GITHUB_EVENT_JSON
 EOF
 }

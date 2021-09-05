@@ -25,12 +25,14 @@ function sf_ci_env_codeship() {
     SF_CI_JOB_URL=https://app.codeship.com/projects/${CI_PROJECT_ID:-}/builds/${SF_CI_JOB_ID}
     SF_CI_PIPELINE_URL=${CI_BUILD_URL:-}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        # SF_CI_PR_URL=https://github.com/${CI_REPO_SLUG}/pull/${CI_PR_NUMBER:-}
+        SF_CI_PR_NUMBER= # TODO
+        # SF_CI_PR_URL=https://github.com/${CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
         SF_CI_PR_URL=${CI_PULL_REQUEST:-}
         SF_CI_PR_REPO_SLUG= # TODO
         SF_CI_PR_GIT_HASH= # TODO
