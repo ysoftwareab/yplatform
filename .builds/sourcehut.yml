@@ -24,6 +24,7 @@ tasks:
 
       # use github-checkout to checkout correct ref
       mkdir run
+      printenv
       GITHUB_REPOSITORY=${GITHUB_REPO:-} \
         GITHUB_EVENT_NAME=${GITHUB_EVENT:-} \
         GITHUB_WORKSPACE=$(pwd)/run \
