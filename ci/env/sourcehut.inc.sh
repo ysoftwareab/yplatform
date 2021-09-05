@@ -5,8 +5,6 @@ true
 function sf_ci_env_sourcehut() {
     [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
 
-    printenv
-
     # TODO sourcehut hasn't been fully tested. narrowing the scope
     [[ "${BUILD_REASON}" =~ ^github ]] # only github webhooks
     [[ "${GITHUB_EVENT}" = "push" ]] || [[ "${GITHUB_EVENT}" = "pull_request" ]] # only commits and pull reviews
