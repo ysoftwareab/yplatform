@@ -267,6 +267,11 @@ function sf_pyenv_init() {
 
 
 function sf_ci_run_before_install() {
+    set -x
+    bin/ci-printvars
+    bin/ci-printvars --sf
+    exit 1
+
     sf_github
     sf_transcrypt
     sf_os
