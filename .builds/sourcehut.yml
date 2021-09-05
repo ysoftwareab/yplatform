@@ -6,6 +6,9 @@ tasks:
       export SF_LOG_BOOTSTRAP=true
       export SF_PRINTENV_BOOTSTRAP=true
 
+      git rev-parse --abbrev-ref HEAD 2>/dev/null || true
+      printenv
+
       set -euo pipefail
       if [[ "${GITHUB_REF}" =~ ^refs/heads/sourcehut ]]; then
         true
