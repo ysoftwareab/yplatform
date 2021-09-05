@@ -3,7 +3,7 @@
 true
 
 function sf_ci_env_sourcehut() {
-    [[ "${SF_CI_NAME:-}" = "sourcehut" ]] || return 0
+    [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
 
     # TODO sourcehut hasn't been fully tested. narrowing the scope
     [[ "${BUILD_REASON}" =~ ^github ]] # only github webhooks
