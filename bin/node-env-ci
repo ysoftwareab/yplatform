@@ -67,6 +67,24 @@ if (sfCompat) {
         return value;
     });
 
+    let dataClone = _.clone(data); // useful for switching job and build
+
+    // our wording implies 1 pipeline -> n jobs
+    // env-ci's wording seems to imply 1 job -> n builds
+    switch (data.SF_CI_PLATFORM) {
+        cirrus:
+        gitlab:
+        travis:
+            data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
+            data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
+            data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
+            data.SF_CI_PIPELINE_URL = dataClone.SF_CI_JOB_URL;
+            break;
+        default:
+            true;
+            break;
+    }
+
     if (data.SF_CI_PLATFORM === 'appveyor') {
         data.SF_CI_JOB_ID=process.env.APPVEYOR_JOB_ID;
         data.SF_CI_PIPELINE_ID=process.env.APPVEYOR_BUILD_NUMBER;
@@ -92,13 +110,6 @@ if (sfCompat) {
         data.SF_CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
         data.SF_CI_PIPELINE_ID = process.env.CIRCLE_WORKFLOW_ID;
     }
-    if (data.SF_CI_PLATFORM === 'cirrus') {
-        let dataClone = _.clone(data);
-        data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
-        data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
-        data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
-        data.SF_CI_PIPELINE_URL = dataClone.SF_CI_JOB_URL;
-    }
     if (data.SF_CI_PLATFORM === 'codeship') {
         data.SF_CI_NAME = 'codeship';
     }
@@ -107,19 +118,9 @@ if (sfCompat) {
         delete data.SF_CI_PR_GIT_BRANCH;
     }
     if (data.SF_CI_PLATFORM === 'gitlab') {
-        let dataClone = _.clone(data);
-        data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
-        data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
-        data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
-        data.SF_CI_PIPELINE_URL = dataClone.SF_CI_JOB_URL;
         data.SF_CI_PIPELINE_URL = _.replace(data.SF_CI_PIPELINE_URL, '/pipelines/', '/-/pipelines/');
     }
     if (data.SF_CI_PLATFORM === 'travis') {
-        let dataClone = _.clone(data);
-        data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
-        data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
-        data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
-        data.SF_CI_PIPELINE_URL = dataClone.SF_CI_JOB_URL;
         data.SF_CI_JOB_ID = process.env.TRAVIS_JOB_ID;
         data.SF_CI_PIPELINE_ID = process.env.TRAVIS_BUILD_NUMBER;
     }
