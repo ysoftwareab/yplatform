@@ -14,7 +14,7 @@ function sf_ci_env_sourcehut() {
     SF_CI_NAME=sourcehut
     SF_CI_PLATFORM=sourcehut
     SF_CI_SERVERT_HOST=sourcehut.org
-    SF_CI_REPO_SLUG=${GITHUB_REPO:-${GITHUB_BASE_REPO:-}}
+    SF_CI_REPO_SLUG=${GITHUB_BASE_REPO:-${GITHUB_REPO:-}}
     SF_CI_ROOT=${HOME}
 
     SF_CI_IS_CRON=
