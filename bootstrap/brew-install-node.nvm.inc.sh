@@ -11,10 +11,12 @@ mkdir -p ${NVM_DIR}
 exe_and_grep_q "nvm --version | head -1" "^0\." >/dev/null || brew_install_one nvm
 
 echo_do "Enabling NVM..."
+NOUNSET_STATE="$(set +o | grep nounset)"
 set +u
 # shellcheck disable=SC1091
 source $(brew --prefix nvm)/nvm.sh --no-use
-set -u
+eval "${NOUNSET_STATE}"
+unset NOUNSET_STATE
 echo_done
 
 exe_and_grep_q "nvm --version | head -1" "^0\."
