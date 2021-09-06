@@ -3,6 +3,7 @@ sources:
   - https://github.com/rokmoln/support-firecloud.git
 tasks:
   - script: |
+      export SF_CI_BREW_INSTALL=minimal
       export SF_LOG_BOOTSTRAP=true
       export SF_PRINTENV_BOOTSTRAP=true
 
