@@ -43,5 +43,6 @@ yum_install_one python3
 
 # scripts tend to call /usr/bin/pyhon to intend calling python2 or python3, whichever is available
 [[ -e /usr/bin/python ]] || ln -s /usr/bin/python3 /usr/bin/python
+echo_done
 
 yum_list_installed
