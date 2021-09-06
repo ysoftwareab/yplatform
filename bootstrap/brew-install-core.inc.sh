@@ -5,10 +5,8 @@ echo_do "brew: Installing core packages..."
 # provides run-parts needed by Dockerfile.entrypoint.sh
 brew_install_one debianutils
 
-brew_install_one_unless ${SUPPORT_FIRECLOUD_DIR}/homebrew/Formula/editorconfig-checker.rb \
-    "editorconfig-checker --version | head -1" "^2\."
-brew_install_one_unless ${SUPPORT_FIRECLOUD_DIR}/homebrew/Formula/retry.rb \
-    "retry --help | head -1" "^Usage: retry"
+brew_install_one_unless rokmoln/support-firecloud/editorconfig-checker "editorconfig-checker --version | head -1" "^2\."
+brew_install_one_unless rokmoln/support-firecloud/retry "retry --help | head -1" "^Usage: retry"
 
 brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."
