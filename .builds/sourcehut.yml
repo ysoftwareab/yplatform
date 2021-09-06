@@ -8,7 +8,7 @@ tasks:
 
       set -euo pipefail
       if [[ "${BUILD_REASON}" = "github-pr" ]]; then
-        export GITHUB_REF=refs/pull/${GITHUB_PR_NUMBER}/head
+        export GITHUB_REF=refs/pull/${GITHUB_PR_NUMBER}/merge
       fi
 
       if [[ "${GITHUB_REF:-}" =~ ^refs/heads/sourcehut ]]; then
