@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # shellcheck disable=SC2034
 SF_DOCKER_CI_IMAGE=false
