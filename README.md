@@ -4,6 +4,15 @@
 
 This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
 
+![GitHub](https://img.shields.io/github/license/rokmoln/support-firecloud)
+![GitHub contributors](https://img.shields.io/github/contributors-anon/rokmoln/support-firecloud)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/rokmoln/support-firecloud/master)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/rokmoln/support-firecloud/master)
+![GitHub language count](https://img.shields.io/github/languages/count/rokmoln/support-firecloud)
+![GitHub top language](https://img.shields.io/github/languages/top/rokmoln/support-firecloud)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/rokmoln/support-firecloud)
+![GitHub repo size](https://img.shields.io/github/repo-size/rokmoln/support-firecloud)
+
 ---
 
 `git clone` this repository and you will gain access to:
