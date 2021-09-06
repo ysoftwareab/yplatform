@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_run_docker_ci_login() {
     SF_DOCKER_CI_USERNAME="${SF_DOCKER_CI_USERNAME:-${DOCKER_USERNAME:-}}"

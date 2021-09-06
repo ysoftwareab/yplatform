@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_ci_run_all() {
     local SF_CI_PHASES="$(cat <<-EOF

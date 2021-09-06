@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
-true
+set -euo pipefail
 
 function sf_ci_env_cirrus() {
     [[ "${CIRRUS_CI:-}" = "true" ]] || return 0

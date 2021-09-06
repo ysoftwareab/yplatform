@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_ci_run_before_cache_stats() {
     echo_do "Showing cache stats..."

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_run_docker_ci_in_travis() {
     (

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
-true
+set -euo pipefail
 
 # see https://www.appveyor.com/docs/environment-variables/
 

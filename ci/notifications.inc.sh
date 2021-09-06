@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_ci_run_notifications_slack() {
     [[ -n "${SLACK_WEBHOOK:-}" ]] || return 0

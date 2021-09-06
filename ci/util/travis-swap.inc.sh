@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_enable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0

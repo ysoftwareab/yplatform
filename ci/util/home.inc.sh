@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
-true
+set -euo pipefail
 
 # HOME is always set incorrectly to /github/home, even in containers
 # see https://github.com/actions/runner/issues/863

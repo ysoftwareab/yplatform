@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # CIs have issues keeping stdout and stderr in sync because they parse the streams
 # e.g. to mask secret values

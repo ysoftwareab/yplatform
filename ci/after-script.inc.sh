@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 function sf_ci_run_after_script_upload_job_artifacts() {
     [[ -f .artifacts ]] || {

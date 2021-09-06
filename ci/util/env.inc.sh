@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 # fix $HOME
 source ${SUPPORT_FIRECLOUD_DIR}/ci/util/home.inc.sh
