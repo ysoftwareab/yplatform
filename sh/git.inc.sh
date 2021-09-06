@@ -26,13 +26,13 @@ GIT_REMOTE=$(git config branch.${GIT_BRANCH}.remote 2>/dev/null || true)
 GIT_REMOTE_OR_ORIGIN=${GIT_REMOTE:-origin}
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
 
-GIT_REPO_HAS_CHANGED_FILES=$(git status --porcelain | grep -q -v -e "^$$" && \
+GIT_REPO_HAS_CHANGED_FILES=$(git status --porcelain 2>/dev/null | grep -q -v -e "^$$" && \
     echo true || echo false)
-GIT_REPO_HAS_STAGED_FILES=$(git status --porcelain | grep -q -e "^[^ U\?]" && \
+GIT_REPO_HAS_STAGED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^[^ U\?]" && \
     echo true || echo false)
-GIT_REPO_HAS_UNSTAGED_FILES=$(git status --porcelain | grep -q -e "^ [^ ]" && \
+GIT_REPO_HAS_UNSTAGED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^ [^ ]" && \
     echo true || echo false)
-GIT_REPO_HAS_UNTRACKED_FILES=$(git status --porcelain | grep -q -e "^\?\?" && \
+GIT_REPO_HAS_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^\?\?" && \
     echo true || echo false)
-GIT_REPO_HAS_CONFLICTS=$(git status --porcelain | grep -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
+GIT_REPO_HAS_CONFLICTS=$(git status --porcelain 2>/dev/null | grep -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
     echo true || echo false)
