@@ -1,5 +1,4 @@
 /BUILD
-/Formula/patch-lib/
 /VERSION
 /bin/jq-*
 /bootstrap/brew-util/homebrew-install.sh.original
