@@ -102,6 +102,10 @@ if (sfCompat) {
     if (data.SF_CI_PLATFORM === 'codeship') {
         data.SF_CI_NAME = 'codeship';
     }
+    if (data.SF_CI_PLATFORM === 'github') {
+        // node-env-ci reports e.g. 'refs/pull/239/merge' instead of the branch of the PR
+        delete data.SF_CI_PR_GIT_BRANCH;
+    }
     if (data.SF_CI_PLATFORM === 'gitlab') {
         let dataClone = _.clone(data);
         data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
