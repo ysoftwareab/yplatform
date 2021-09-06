@@ -58,6 +58,8 @@ function sf_ci_printvars_sourcehut() {
 function sf_ci_known_env_sourcehut() {
     # see https://man.sr.ht/builds.sr.ht/
     cat <<EOF
+CI
+CI_NAME
 JOB_ID
 JOB_URL
 BUILD_SUBMITTER
