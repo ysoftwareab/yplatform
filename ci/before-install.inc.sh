@@ -268,6 +268,7 @@ function sf_pyenv_init() {
 
 
 function sf_ci_run_before_install() {
+    echo debug
     sf_github
     sf_transcrypt
     sf_os
