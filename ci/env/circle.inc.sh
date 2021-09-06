@@ -25,12 +25,14 @@ function sf_ci_env_circle() {
     # see https://discuss.circleci.com/t/add-a-workflow-url-like-the-previous-v1-job-api-job-url-to-the-get-pipeline-pipeline-id-workflow-api/35921 # editorconfig-checker-disable-line
     SF_CI_PIPELINE_URL=https://app.${SF_CI_SERVER_HOST}/pipelines/workflows/${SF_CI_PIPELINE_ID}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${CIRCLE_PR_NUMBER:-}
+        SF_CI_PR_NUMBER=${CIRCLE_PR_NUMBER:-}
+        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
         SF_CI_PR_REPO_SLUG=${CIRCLE_PR_USERNAME:-}/${CIRCLE_PR_REPONAME:-}
         SF_CI_PR_GIT_HASH= # TODO
         SF_CI_PR_GIT_BRANCH=${CIRCLE_BRANCH:-}

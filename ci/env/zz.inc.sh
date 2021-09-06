@@ -21,6 +21,7 @@ function sf_ci_env_zz() {
     SF_CI_JOB_URL=https://example.com/${SF_CI_NAME}/${SF_CI_REPO_SLUG}/job/${SF_CI_JOB_ID}
     SF_CI_PIPELINE_URL=https://example.com/${SF_CI_NAME}/${SF_CI_REPO_SLUG}/pipeline/${SF_CI_PIPELINE_ID}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=

@@ -26,12 +26,14 @@ function sf_ci_env_gitlab() {
     SF_CI_JOB_URL=${CI_JOB_URL:-}
     SF_CI_PIPELINE_URL=${CI_PIPELINE_URL:-${CI_PROJECT_URL:-}/-/pipelines/${SF_CI_PIPELINE_ID}}
 
+    SF_CI_PR_NUMBER=
     SF_CI_PR_URL=
     SF_CI_PR_REPO_SLUG=
     SF_CI_PR_GIT_HASH=
     SF_CI_PR_GIT_BRANCH=
     [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_URL=${CI_PROJECT_URL:-}/-/merge_requests/${CI_MERGE_REQUEST_ID:-}
+        SF_CI_PR_NUMBER=${CI_MERGE_REQUEST_ID:-}
+        SF_CI_PR_URL=${CI_PROJECT_URL:-}/-/merge_requests/${SF_CI_PR_NUMBER}
         SF_CI_PR_REPO_SLUG=${CI_MERGE_REQUEST_SOURCE_PROJECT_PATH:-}
         SF_CI_PR_GIT_HASH=${CI_MERGE_REQUEST_SOURCE_BRANCH_SHA:-}
         SF_CI_PR_GIT_BRANCH=${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME:-}
