@@ -72,9 +72,9 @@ if (sfCompat) {
     // our wording implies 1 pipeline -> n jobs
     // env-ci's wording seems to imply 1 job -> n builds
     switch (data.SF_CI_PLATFORM) {
-        case cirrus:
-        case gitlab:
-        case travis:
+        case 'cirrus':
+        case 'gitlab':
+        case 'travis':
             data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
             data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
             data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
