@@ -28,9 +28,6 @@ CI_PRINTVARS := $(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
-FORMULA_PATCH_FILES = $(shell $(GIT_LS) "homebrew/Formula/*.patch")
-FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "homebrew/Formula/patch-src/*.original.rb"))
-
 SF_CLEAN_FILES += \
 	support-firecloud \
 
@@ -188,59 +185,4 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 	$(call sf-generate-from-template)
 
 
-bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
-ifneq (true,$(CI))
-bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
-endif
-bootstrap/brew-util/homebrew-install.sh:
-	$(eval BREW_INSTALL_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
-	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GIT_REF)/install.sh
-	if [[ -f "$@.patch" ]]; then \
-		$(CAT) $@.patch | $(PATCH) $@.original -o $@; \
-	else \
-		$(CP) $@.original $@; \
-	fi
-	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) $@; \
-	else \
-		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) $@"; \
-	fi
-	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
-
-
-.PHONY: homebrew/Formula/patch-src/%.original.rb
-ifneq (true,$(CI))
-homebrew/Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
-endif
-homebrew/Formula/patch-src/%.original.rb:
-	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
-		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
-	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
-	if [[ -f homebrew/Formula/$*.linux.patch ]]; then \
-		$(MAKE) homebrew/Formula/patch-src/$*.rb || { \
-			$(ECHO_ERR) "Failed to apply old patch homebrew/Formula/$*.linux.patch"; \
-			$(ECHO_ERR) "and update patched file Formula/patch-src/$*.rb."; \
-			exit 1; \
-		} \
-	else \
-		$(CP) homebrew/Formula/patch-src/$*.original.rb homebrew/Formula/patch-src/$*.rb; \
-	fi
-	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) homebrew/Formula/patch-src/$*.rb; \
-	else \
-		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) homebrew/Formula/patch-src/$*.rb"; \
-	fi
-	$(MAKE) homebrew/Formula/$*.linux.patch
-
-
-.PHONY: homebrew/Formula/%.linux.patch
-homebrew/Formula/%.linux.patch: homebrew/Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patch,Formula/patch-src/$*.rb)
-
-
-.PHONY: homebrew/Formula/patch-src/%.rb
-homebrew/Formula/patch-src/%.rb: homebrew/Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patched,homebrew/Formula/$*.linux.patch)
+include Makefile.homebrew
