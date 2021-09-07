@@ -44,7 +44,7 @@ brew_install_one_unless awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || 
 
     # AWSCLI_VSN="$(brew info --json=v1 awscli | jq -r ".[0].versions.stable")"
     AWSCLI_VSN="$(
-        brew info --json=v1 ${SUPPORT_FIRECLOUD_DIR}/Formula/patch-lib/awscli.rb | \
+        brew info --json=v1 ${SUPPORT_FIRECLOUD_DIR}/Formula/awscli.rb | \
             jq -r ".[0].versions.stable")"
 
     AWSCLI_URL="https://awscli.amazonaws.com/awscli-exe-linux-${ARCH}-${AWSCLI_VSN}.zip"
