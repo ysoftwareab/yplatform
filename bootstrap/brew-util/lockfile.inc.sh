@@ -39,6 +39,21 @@ function brew_lockfile() {
             TAP=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f1)
             TAP_TO=$(echo "${BREW_TAP_LOCK}" | cut -d" " -f2 | sed "s|^refs/heads/|refs/remotes/origin/|")
 
+            [[ "${TAP_TO}" != ".gitmodules" ]] || {
+                TAP_TO_GITMODULE=
+                GIT_SUBMODULE_PATHS="$(git config --file ${GIT_ROOT}/.gitmodules --get-regexp path | cut -d" " -f2)"
+                for GIT_SUBMODULE_PATH in ${GIT_SUBMODULE_PATHS}; do
+                    git -C ${GIT_ROOT}/${GIT_SUBMODULE_PATH} remote get-url origin | grep "${TAP}" || continue
+                    TAP_TO_GITMODULE=${GIT_ROOT}/${GIT_SUBMODULE_PATH}
+                    break
+                done
+                [[ -n "${TAP_TO_GITMODULE}" ]] || {
+                    echo_err "Couldn't find a submodule to match ${TAP}, in order to infer what hash to reset it to."
+                    exit 1
+                }
+                TAP_TO=$(git -C "${TAP_TO_GITMODULE}" rev-parse --short HEAD)
+            }
+
             case "${OS_SHORT}-${TAP}" in
                 linux-homebrew/homebrew-cask)
                     echo_skip "Resetting Homebrew tap ${TAP}..."
@@ -56,6 +71,7 @@ function brew_lockfile() {
             }
 
             TAP_FROM=$(git -C "${TAP}" rev-list -1 HEAD)
+
             echo_do "Resetting Homebrew tap ${TAP}..."
             echo_info "Resetting Homebrew tap ${TAP} from ${TAP_FROM} to ${TAP_TO}."
             git -C "${TAP}" fetch
