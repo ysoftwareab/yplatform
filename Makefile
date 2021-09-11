@@ -28,15 +28,10 @@ CI_PRINTVARS := $(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
-FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
-FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
-
 SF_CLEAN_FILES += \
 	support-firecloud \
 
 SF_VENDOR_FILES_IGNORE += \
-	-e "^Formula/.*\.patch$$" \
-	-e "^Formula/patch-src/" \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/transcrypt$$" \
@@ -48,7 +43,6 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^doc/bak/" \
 
 SF_PATH_FILES_IGNORE += \
-	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
 	-e "^dockerfiles/build.FROM_DOCKER_IMAGE_TAG$$" \
 	-e "^generic/dot\.gitattributes_global$$" \
@@ -84,7 +78,7 @@ SF_CHECK_TPL_FILES += \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
 	.github/workflows/deploy.yml \
-	Formula/editorconfig-checker.rb \
+	homebrew/Formula/editorconfig-checker.rb \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
@@ -115,7 +109,7 @@ SF_TEST_TARGETS += \
 	$(call sf-generate-from-template)
 
 
-Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
+homebrew/Formula/editorconfig-checker.rb: homebrew/Formula/editorconfig-checker.rb.tpl
 	$(call sf-generate-from-template)
 
 
@@ -191,58 +185,4 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 	$(call sf-generate-from-template)
 
 
-bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
-ifneq (true,$(CI))
-bootstrap/brew-util/homebrew-install.sh: $(BREWFILE_LOCK)
-endif
-bootstrap/brew-util/homebrew-install.sh:
-	$(eval BREW_INSTALL_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | $(GREP) "^homebrew/install " | $(CUT) -d" " -f2 || $(ECHO) "master")) # editorconfig-checker-disable-line
-	$(CURL) -o $@.original $(RAW_GUC_URL)/Homebrew/install/$(BREW_INSTALL_GIT_REF)/install.sh
-	if [[ -f "$@.patch" ]]; then \
-		$(CAT) $@.patch | $(PATCH) $@.original -o $@; \
-	else \
-		$(CP) $@.original $@; \
-	fi
-	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) $@; \
-	else \
-		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) $@"; \
-	fi
-	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
-
-
-.PHONY: Formula/patch-src/%.original.rb
-ifneq (true,$(CI))
-Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
-endif
-Formula/patch-src/%.original.rb:
-	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
-		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
-	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
-	if [[ -f Formula/$*.linux.patch ]]; then \
-		$(MAKE) Formula/patch-src/$*.rb || { \
-			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
-			exit 1; \
-		} \
-	else \
-		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
-	fi
-	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) Formula/patch-src/$*.rb; \
-	else \
-		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) Formula/patch-src/$*.rb"; \
-	fi
-	$(MAKE) Formula/$*.linux.patch
-
-
-.PHONY: Formula/%.linux.patch
-Formula/%.linux.patch: Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patch,Formula/patch-src/$*.rb)
-
-
-.PHONY: Formula/patch-src/%.rb
-Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patched,Formula/$*.linux.patch)
+include Makefile.homebrew
