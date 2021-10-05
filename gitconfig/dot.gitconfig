@@ -39,9 +39,9 @@
 [diff "custom-sf-odf"]
     textconv            = odt2txt
 [diff "custom-sf-pdf"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
-    textconv            = "f(){ \
-                            pdftotext -layout -enc UTF-8 \"$1\" - | sed \"s/(\^M$)|(^\^L)//\" }; \
-                            }; f"
+#    textconv            = "f(){ \
+#                            pdftotext -layout -enc UTF-8 \"$1\" - | sed \"s/(\^M$)|(^\^L)//\" }; \
+#                            }; f"
 [diff "custom-sf-plist"]
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
