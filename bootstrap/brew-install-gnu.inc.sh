@@ -10,7 +10,7 @@ echo_do "brew: Installing GNU packages..."
 # NOTE 'bash' >=4 provides functionality like associative arrays, globstar, etc
 # see https://tldp.org/LDP/abs/html/bashver4.html
 brew_install_one_unless bash "bash --version | head -1" "^GNU bash, version [^123]\."
-brew_install_one_unless coreutils "cat --version | head -1" "^cat (GNU coreutils) 8\."
+brew_install_one_unless coreutils "cat --version | head -1" "^cat (GNU coreutils) [89]\."
 brew_install_one_unless diffutils "diff --version | head -1" "^diff (GNU diffutils) 3\."
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
 # NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
