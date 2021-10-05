@@ -17,7 +17,7 @@ brew_install_one_unless diffutils "diff --version | head -1" "^diff (GNU diffuti
 brew_install_one_unless findutils "find --version | head -1" "^find (GNU findutils) 4\."
 brew_install_one_unless gawk "awk --version | head -1" "^GNU Awk 5\."
 # NOTE 'gettext' provides 'envsubst'
-brew_install_one_unless gettext "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) \(0\.20\|0\.21\)"
+brew_install_one_unless gettext "envsubst --version | head -1" "^envsubst (GNU gettext-runtime) 0\.2[01]"
 brew_install_one_unless gnu-getopt "getopt --version | head -1" "^getopt from util-linux 2\."
 brew_install_one_unless gnu-sed "sed --version | head -1" "^sed (GNU sed) 4\."
 brew_install_one_unless gnu-tar "tar --version | head -1" "^tar (GNU tar) 1\."
