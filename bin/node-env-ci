@@ -56,21 +56,9 @@ data = _.mapKeys(data, function(_value, key) {
 });
 
 if (sfCompat) {
-    data = _.omitBy(data, _.isUndefined);
-
-    // prefer empty instead of false
-    data = _.mapValues(data, function(value) {
-        value = _.toString(value);
-        if (value === 'false') {
-            return '';
-        }
-        return value;
-    });
-
-    let dataClone = _.clone(data); // useful for switching job and build
-
     // our wording implies 1 pipeline -> n jobs
     // env-ci's wording seems to imply 1 job -> n builds
+    let dataClone = _.clone(data);
     switch (data.SF_CI_PLATFORM) {
         case 'cirrus':
         case 'github':
@@ -85,6 +73,17 @@ if (sfCompat) {
             true;
             break;
     }
+
+    data = _.omitBy(data, _.isUndefined);
+
+    // prefer empty instead of false
+    data = _.mapValues(data, function(value) {
+        value = _.toString(value);
+        if (value === 'false') {
+            return '';
+        }
+        return value;
+    });
 
     if (data.SF_CI_PLATFORM === 'appveyor') {
         data.SF_CI_JOB_ID=process.env.APPVEYOR_JOB_ID;
