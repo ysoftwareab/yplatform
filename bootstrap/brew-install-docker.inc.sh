@@ -6,7 +6,7 @@ echo_do "brew: Installing Docker packages..."
 case ${OS_SHORT}-${OS_RELEASE_ID} in
     darwin-*|linux-arch|linux-centos)
         brew_install_one_unless docker "docker --version | head -1" "^Docker version \(19\|20\)\."
-        brew_install_one_unless docker-compose "docker-compose --version | head -1" "^docker-compose version \(1\|2\)\."
+        brew_install_one_unless docker-compose "docker-compose --version | head -1" "^\(docker-compose version 1\|Docker Compose version 2\."
         ;;
     linux-alpine)
         # docker via linuxbrew will throw
@@ -40,7 +40,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # END https://wiki.alpinelinux.org/wiki/Docker#Installation
 
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
-        exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version \(1\|2\)\."
+        exe_and_grep_q "docker-compose --version | head -1" "^\(docker-compose version 1\|Docker Compose version 2\."
         ;;
     linux-debian|linux-ubuntu)
         # docker-compose via linuxbrew will throw 'Illegal instruction' for e.g. 'docker-compose --version'
@@ -80,7 +80,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # END https://docs.docker.com/compose/install/
 
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
-        exe_and_grep_q "docker-compose --version | head -1" "^docker-compose version \(1\|2\)\."
+        exe_and_grep_q "docker-compose --version | head -1" "^\(docker-compose version 1\|Docker Compose version 2\."
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing Docker."
