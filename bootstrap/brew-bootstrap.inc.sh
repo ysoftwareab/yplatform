@@ -72,8 +72,18 @@ function bootstrap_brew() {
     local HAS_BREW_2=true
     bootstrap_has_brew || HAS_BREW_2=false
 
-    case ${HAS_BREW_2}-${OS_SHORT} in
-        false-darwin)
+    case ${HAS_BREW_2}-${OS_SHORT}-${SF_SUDO:-false} in
+        true-darwin-*|true-linux-*)
+            ;;
+        false-linux-false|false-linux-sf_nosudo|false-linux-sf_nosudo_fallback)
+            HOMEBREW_PREFIX=${HOME}/.linuxbrew
+            echo_do "brew: Installing homebrew without sudo into ${HOMEBREW_PREFIX}..."
+            mkdir -p ${HOMEBREW_PREFIX}
+            curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
+                tar xz --strip 1 -C ${HOMEBREW_PREFIX}
+            echo_done
+            ;;
+        false-darwin-*|false-linux-*)
             echo_do "brew: Installing homebrew..."
             (
                 # FIXME needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
@@ -88,37 +98,8 @@ function bootstrap_brew() {
             hash -r
             source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
-        false-linux)
-            echo_do "brew: Installing homebrew..."
-            if [[ "${SF_SUDO}" = "" ]] || \
-                [[ "${SF_SUDO}" = "sf_nosudo" ]] || \
-                [[ "${SF_SUDO}" = "sf_nosudo_fallback" ]]; then
-                HOMEBREW_PREFIX=${HOME}/.linuxbrew
-                echo_do "brew: Installing without sudo into ${HOMEBREW_PREFIX}..."
-                mkdir -p ${HOMEBREW_PREFIX}
-                curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
-                    tar xz --strip 1 -C ${HOMEBREW_PREFIX}
-                echo_done
-            else
-                (
-                    # FIXME needed for HOMEBREW_FORCE_BREWED_{CURL,GIT}
-                    # see https://github.com/Homebrew/install/issues/522
-                    # shellcheck disable=SC2030,SC2031
-                    export HOMEBREW_NO_AUTO_UPDATE=
-                    # </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/install.sh)"
-                    </dev/null /bin/bash -c "$(cat ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/homebrew-install.sh)"
-                )
-            fi
-
-            echo_done
-            # see https://github.com/Homebrew/brew/issues/5013
-            hash -r
-            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
-            ;;
-        true-darwin|true-linux)
-            ;;
         *)
-            echo_err "brew: ${OS_SHORT} is an unsupported OS."
+            echo_err "brew: Cannot handle HAS_BREW_2=${HAS_BREW_2} OS_SHORT=${OS_SHORT} SF_SUDO=${SF_SUDO}."
             return 1
             ;;
     esac
