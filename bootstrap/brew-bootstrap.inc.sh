@@ -31,11 +31,8 @@ function bootstrap_brew() {
                 BREW_GIT_REF=$(echo "${BREW_LOCK}" | cut -d" " -f2)
 
             case "${OS_SHORT}" in
-                darwin)
+                darwin|linux)
                     BREW_CORE_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/homebrew-core " || true)
-                    ;;
-                linux)
-                    BREW_CORE_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/linuxbrew-core " || true)
                     ;;
                 *)
                     echo_err "OS_SHORT=${OS_SHORT}"
