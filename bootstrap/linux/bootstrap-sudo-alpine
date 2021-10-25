@@ -44,8 +44,9 @@ apk_install_one python3
 
 # NOTE homebrew alpine deps as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
 # NOTE skipping libc6-compat since it conflicts with the glibc installation below
+# NOTE added ruby-io-console
 for f in bash coreutils curl file g++ grep git make ruby \
-    ruby-bigdecimal ruby-etc ruby-fiddle ruby-irb ruby-json ruby-test-unit sudo; do
+    ruby-bigdecimal ruby-etc ruby-fiddle ruby-io-console ruby-irb ruby-json ruby-test-unit sudo; do
     apk_install_one ${f}
 done
 
