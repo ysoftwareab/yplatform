@@ -46,7 +46,8 @@ function sf_path_append_before() {
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
-    local MAKE_COMMAND=$(type -a -p make | head -1)
+    # NOTE zsh would output "make is /path/to/make"
+    local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
     case "$1" in
         --help|--version)
             ${MAKE_COMMAND} "$@"
