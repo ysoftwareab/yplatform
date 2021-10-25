@@ -30,6 +30,10 @@ function brew_install_one_patched() {
     brew cat ${NAME} > ${ORIGINAL}
     patch ${ORIGINAL} ${PATCH} -o ${PATCHED} || {
         cat ${PATCHED}.rej
+        echo_info "${ORIGINAL}"
+        cat ${ORIGINAL}
+        echo_info "${PATCH}"
+        cat ${PATCH}
         exit 1
     }
     echo_done
