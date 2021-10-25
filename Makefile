@@ -218,10 +218,10 @@ ifneq (true,$(CI))
 Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
 endif
 Formula/patch-src/%.original.rb:
-	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
-		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
+	$(eval HOMEBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
+		$(GREP) "^homebrew/homebrew-core" | $(CUT) -d" " -f2))
 	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
+		https://raw.githubusercontent.com/homebrew/homebrew-core/$(HOMEBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
 	if [[ -f Formula/$*.linux.patch ]]; then \
 		$(MAKE) Formula/patch-src/$*.rb || { \
 			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
