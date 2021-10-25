@@ -2,7 +2,6 @@
 /Formula/patch-lib/
 /VERSION
 /bin/jq-*
-/bootstrap/brew-util/homebrew-install.sh.original
 /codeship.aes
 /gitconfig/github-global-gitignore/
 /make.sh.successful
