@@ -43,5 +43,5 @@ Commits since v0.2.34:
 * 4712257 2020-07-06 add editor&os sections in gitignore
 * 4f0ea22 2020-07-06 ignore more OS files
 * 90784de 2020-07-06 add sf-install script
-* 84a4c2a 2020-07-06 tobiipro/support-firecloud -> ysoftwareab/platform
+* 84a4c2a 2020-07-06 tobiipro/support-firecloud -> ysoftwareab/yplatform
 o 7e9d0d1 2020-07-06 0.2.34

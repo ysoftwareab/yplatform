@@ -1,6 +1,6 @@
 <!-- Thank you for your contribution! Make sure that `make all test` passes!
 
-https://github.com/ysoftwareab/platform/blob/master/doc/working-with-git-pr.md :
+https://github.com/ysoftwareab/yplatform/blob/master/doc/working-with-git-pr.md :
 0. Small is Best
 1. Correct
 2. Consistent

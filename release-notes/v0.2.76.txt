@@ -43,5 +43,5 @@ Commits since v0.2.75:
 * 519215a 2020-10-18 allow {SF_DOCKER_CI,DOCKER}_{USERNAME,TOKEN} as env vars to perform 'docker login' for using SF_DOCKER_CI_IMAGE
 * 31404d7 2020-10-18 increase verbosity
 * 65410ce 2020-10-13 retry 'brew update'
-* b495bae 2020-10-12 handle 'brew install <already-installed-but-not-linked-formula>'. https://github.com/ysoftwareab/platform/runs/1240870408?check_suite_focus=true#step:7:1400
+* b495bae 2020-10-12 handle 'brew install <already-installed-but-not-linked-formula>'. https://github.com/ysoftwareab/yplatform/runs/1240870408?check_suite_focus=true#step:7:1400
 o 44dffd2 2020-10-12 0.2.75

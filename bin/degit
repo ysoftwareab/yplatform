@@ -45,14 +45,14 @@ done
 # [[ $# -eq 0 ]] || sh_script_usage
 
 # example URIs
-# https://github.com/ysoftwareab/platform
+# https://github.com/ysoftwareab/yplatform
 # https://gitlab.com/mikecardwell/safernode
 # https://bitbucket.org/atlassian/openapi-diff
 # https://git.sr.ht/~nsh/emacs.d
-# ysoftwareab/platform
-# github:ysoftwareab/platform
-# https://github.com/ysoftwareab/platform/bin
-# https://github.com/ysoftwareab/platform/bin#<commit-ish>
+# ysoftwareab/yplatform
+# github:ysoftwareab/yplatform
+# https://github.com/ysoftwareab/yplatform/bin
+# https://github.com/ysoftwareab/yplatform/bin#<commit-ish>
 
 URI="$1"
 [[ "${URI}" =~ ^.+://.+$ ]] || {

@@ -1,4 +1,4 @@
-_extends: ysoftwareab/platform:repo/dot.github/settings.base.yml
+_extends: ysoftwareab/yplatform:repo/dot.github/settings.base.yml
 
 repository:
   name: support-firecloud

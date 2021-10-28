@@ -1,17 +1,17 @@
-# support-firecloud [![Github Actions CI Status][2]][1]
+# yplatform [![Github Actions CI Status][2]][1]
 
-`support-firecloud` is software and configuration that supports various cycles of software development, through a canonical set of commands.
+`yplatform` supports various cycles of software development, through a canonical set of commands.
 
 This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
 
-![GitHub](https://img.shields.io/github/license/ysoftwareab/platform)
-![GitHub contributors](https://img.shields.io/github/contributors-anon/ysoftwareab/platform)
-![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ysoftwareab/platform/master)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/ysoftwareab/platform/master)
-![GitHub language count](https://img.shields.io/github/languages/count/ysoftwareab/platform)
-![GitHub top language](https://img.shields.io/github/languages/top/ysoftwareab/platform)
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ysoftwareab/platform)
-![GitHub repo size](https://img.shields.io/github/repo-size/ysoftwareab/platform)
+![GitHub](https://img.shields.io/github/license/ysoftwareab/yplatform)
+![GitHub contributors](https://img.shields.io/github/contributors-anon/ysoftwareab/yplatform)
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ysoftwareab/yplatform/master)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/m/ysoftwareab/yplatform/master)
+![GitHub language count](https://img.shields.io/github/languages/count/ysoftwareab/yplatform)
+![GitHub top language](https://img.shields.io/github/languages/top/ysoftwareab/yplatform)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ysoftwareab/yplatform)
+![GitHub repo size](https://img.shields.io/github/repo-size/ysoftwareab/yplatform)
 
 ---
 
@@ -25,7 +25,7 @@ This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipr
       * Linux (Debian)
       * Linux (Ubuntu)
       * Microsoft Windows (WSL)
-      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/platform/issues/new/choose)
+      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/yplatform/issues/new/choose)
     * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked. No more worries about different flags, different behaviour or missing features!
     * brings [Homebrew](https://brew.sh). No more worries about different versions available in distros' repositositories, or libraries/utilities not being available at all.
   * **sane per-user configuration** (e.g. git)
@@ -76,7 +76,7 @@ Import this repository as a `submodule`, and you will gain access to:
       * Ubuntu 20.04
         , [minimal](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-minimal)
         , [common](https://hub.docker.com/r/rokmoln/sf-ubuntu-focal-common)
-      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/platform/issues/new/choose)
+      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/yplatform/issues/new/choose)
   * **a robust yet flexible build system based on GNU Make**
   * **sane per-repo configuration** (e.g. vscode)
   * **various utility scripts**
@@ -104,7 +104,7 @@ TODO
 *
 * `/gitconfig` has git configuration
 *
-* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `support-firecloud`
+* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
 
 ---
 
@@ -149,21 +149,21 @@ TODO
 [Apache-2.0](LICENSE)
 
 
-  [1]: https://github.com/ysoftwareab/platform/actions?query=workflow%3ACI+branch%3Amaster
-  [2]: https://github.com/ysoftwareab/platform/workflows/CI/badge.svg?branch=master
-  [3]: https://circleci.com/gh/ysoftwareab/platform/tree/master
-  [4]: https://circleci.com/gh/ysoftwareab/platform/tree/master.svg?style=shield
-  [5]: https://app.travis-ci.com/ysoftwareab/platform
-  [6]: https://app.travis-ci.com/ysoftwareab/platform.svg?branch=master
+  [1]: https://github.com/ysoftwareab/yplatform/actions?query=workflow%3ACI+branch%3Amaster
+  [2]: https://github.com/ysoftwareab/yplatform/workflows/CI/badge.svg?branch=master
+  [3]: https://circleci.com/gh/ysoftwareab/yplatform/tree/master
+  [4]: https://circleci.com/gh/ysoftwareab/yplatform/tree/master.svg?style=shield
+  [5]: https://app.travis-ci.com/ysoftwareab/yplatform
+  [6]: https://app.travis-ci.com/ysoftwareab/yplatform.svg?branch=master
   [7]: https://app.codeship.com/projects/388210
   [8]: https://app.codeship.com/projects/8fe9ad00-438f-0138-d313-2e664bcb50ed/status?branch=master
-  [9]: https://ysoftwareab.semaphoreci.com/projects/platform
-  [10]: https://ysoftwareab.semaphoreci.com/badges/platform/branches/master.svg?style=shields
-  [11]: https://gitlab.com/ysoftwareab/platform/commits/master
-  [12]: https://gitlab.com/ysoftwareab/platform/badges/master/pipeline.svg
-  [13]: https://ci.appveyor.com/project/andreineculau/platform/branch/master
+  [9]: https://ysoftwareab.semaphoreci.com/projects/yplatform
+  [10]: https://ysoftwareab.semaphoreci.com/badges/yplatform/branches/master.svg?style=shields
+  [11]: https://gitlab.com/ysoftwareab/yplatform/commits/master
+  [12]: https://gitlab.com/ysoftwareab/yplatform/badges/master/pipeline.svg
+  [13]: https://ci.appveyor.com/project/andreineculau/yplatform/branch/master
   [14]: https://ci.appveyor.com/api/projects/status/da744jauw31fi66h/branch/master?svg=true
-  [15]: https://cirrus-ci.com/github/ysoftwareab/platform/master
-  [16]: https://api.cirrus-ci.com/github/ysoftwareab/platform.svg?branch=master
-  [17]: https://builds.sr.ht/~andreineculau/ysoftwareab-platform/commits/sourcehut.yml
-  [18]: https://builds.sr.ht/~andreineculau/ysoftwareab-platform/commits/sourcehut.yml.svg
+  [15]: https://cirrus-ci.com/github/ysoftwareab/yplatform/master
+  [16]: https://api.cirrus-ci.com/github/ysoftwareab/yplatform.svg?branch=master
+  [17]: https://builds.sr.ht/~andreineculau/ysoftwareab-yplatform/commits/sourcehut.yml
+  [18]: https://builds.sr.ht/~andreineculau/ysoftwareab-yplatform/commits/sourcehut.yml.svg

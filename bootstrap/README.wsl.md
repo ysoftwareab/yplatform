@@ -18,7 +18,7 @@ You can also copy and paste the following in a PowerShell (Administrator) on Win
 ```powershell
 Set-ExecutionPolicy Bypass -Scope Process -Force;
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
-$Script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ysoftwareab/platform/bin/windows-install-wsl.ps1'))
+$Script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ysoftwareab/yplatform/bin/windows-install-wsl.ps1'))
 Invoke-Command -ScriptBlock ([scriptblock]::Create($Script))
 Invoke-Command -ScriptBlock ([scriptblock]::Create($Script)) -ArgumentList
 ```
@@ -30,7 +30,7 @@ $DistroId = "Ubuntu-18.04"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force;
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
-$Script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ysoftwareab/platform/bin/windows-install-wsl-app.ps1'))
+$Script = ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/ysoftwareab/yplatform/bin/windows-install-wsl-app.ps1'))
 Invoke-Command -ScriptBlock ([scriptblock]::Create($Script)) -ArgumentList $DistroId
 ```
 

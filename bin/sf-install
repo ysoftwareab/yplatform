@@ -3,7 +3,7 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR=support-firecloud
 
-git submodule add --force -b master git://github.com/ysoftwareab/platform.git ${SUPPORT_FIRECLOUD_DIR}
+git submodule add --force -b master git://github.com/ysoftwareab/yplatform.git ${SUPPORT_FIRECLOUD_DIR}
 git submodule sync --recursive
 git submodule update --init --recursive
 (

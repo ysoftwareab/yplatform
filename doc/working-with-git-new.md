@@ -11,7 +11,7 @@ git init
 Set up `support-firecloud` as a `git` submodule via
 
 ```shell
-bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/platform/master/bin/sf-install)"
+bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/yplatform/master/bin/sf-install)"
 ```
 
 In order to bootstrap/scaffold the repository, run
@@ -50,7 +50,7 @@ Please name the repository appropriately, where appropriately stands for, but no
   * an accronym: [KATT](https://github.com/for-GET/katt)
 * if not unique then prefixed or suffixed with team name and mentioning software ecosystem
   * prefixed: firecloud-dashboard
-  * suffixed: [support-firecloud](https://github.com/ysoftwareab/platform)
+  * suffixed: [support-firecloud](https://github.com/ysoftwareab/yplatform)
   * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/rokmoln/eslint-config-firecloud)
 
 A description is optional by Github standards, but we require it.
