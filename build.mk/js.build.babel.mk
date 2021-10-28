@@ -18,11 +18,11 @@ LIB_JS_MAP_FILES += \
 	$(patsubst src/%.js,lib/%.js.map,$(SRC_JS_FILES)) \
 	$(patsubst src/%.ts,lib/%.js.map,$(SRC_TS_FILES)) \
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	$(LIB_JS_FILES) \
 	$(LIB_JS_MAP_FILES) \
 
-SF_BUILD_TARGETS += \
+YP_BUILD_TARGETS += \
 	build-babel \
 
 BABEL_ARGS += \
@@ -42,7 +42,7 @@ $(LIB_JS_FROM_TS_FILES): lib/%.js: src/%.ts $(SRC_JS_FILES) $(BABELRC)
 
 .PHONY: build-babel
 build-babel:
-	SF_BABEL_FILES_TMP=($(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES)); \
-	[[ "$${#SF_BABEL_FILES_TMP[@]}" = "0" ]] || { \
-		$(MAKE) $${SF_BABEL_FILES_TMP[@]}; \
+	YP_BABEL_FILES_TMP=($(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES)); \
+	[[ "$${#YP_BABEL_FILES_TMP[@]}" = "0" ]] || { \
+		$(MAKE) $${YP_BABEL_FILES_TMP[@]}; \
 	}

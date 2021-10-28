@@ -6,40 +6,40 @@ function sf_ci_env_travis() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
 
     export CI=true
-    SF_CI_NAME="Travis CI"
-    SF_CI_PLATFORM=travis
-    SF_CI_SERVER_HOST=travis-ci.org
-    SF_CI_REPO_SLUG=${TRAVIS_REPO_SLUG:-}
-    SF_CI_ROOT=${TRAVIS_BUILD_DIR:-}
+    YP_CI_NAME="Travis CI"
+    YP_CI_PLATFORM=travis
+    YP_CI_SERVER_HOST=travis-ci.org
+    YP_CI_REPO_SLUG=${TRAVIS_REPO_SLUG:-}
+    YP_CI_ROOT=${TRAVIS_BUILD_DIR:-}
 
-    SF_CI_IS_CRON=
-    [[ "${TRAVIS_EVENT_TYPE:-}" != "cron" ]] || SF_CI_IS_CRON=true
-    SF_CI_IS_PR=
-    [[ "${TRAVIS_EVENT_TYPE:-}" != "pull_request" ]] || SF_CI_IS_PR=true
+    YP_CI_IS_CRON=
+    [[ "${TRAVIS_EVENT_TYPE:-}" != "cron" ]] || YP_CI_IS_CRON=true
+    YP_CI_IS_PR=
+    [[ "${TRAVIS_EVENT_TYPE:-}" != "pull_request" ]] || YP_CI_IS_PR=true
 
-    SF_CI_JOB_ID=${TRAVIS_JOB_ID:-}
-    SF_CI_PIPELINE_ID=${TRAVIS_BUILD_NUMBER:-}
-    SF_CI_JOB_URL=${TRAVIS_JOB_WEB_URL:-}
-    SF_CI_PIPELINE_URL=${TRAVIS_BUILD_WEB_URL:-}
+    YP_CI_JOB_ID=${TRAVIS_JOB_ID:-}
+    YP_CI_PIPELINE_ID=${TRAVIS_BUILD_NUMBER:-}
+    YP_CI_JOB_URL=${TRAVIS_JOB_WEB_URL:-}
+    YP_CI_PIPELINE_URL=${TRAVIS_BUILD_WEB_URL:-}
 
-    SF_CI_PR_NUMBER=
-    SF_CI_PR_URL=
-    SF_CI_PR_REPO_SLUG=
-    SF_CI_PR_GIT_HASH=
-    SF_CI_PR_GIT_BRANCH=
-    [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_NUMBER=${TRAVIS_PULL_REQUEST:-}
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
-        SF_CI_PR_REPO_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
-        SF_CI_PR_GIT_HASH=${TRAVIS_PULL_REQUEST_SHA:-}
-        SF_CI_PR_GIT_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-}
+    YP_CI_PR_NUMBER=
+    YP_CI_PR_URL=
+    YP_CI_PR_REPO_SLUG=
+    YP_CI_PR_GIT_HASH=
+    YP_CI_PR_GIT_BRANCH=
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
+        YP_CI_PR_NUMBER=${TRAVIS_PULL_REQUEST:-}
+        YP_CI_PR_URL=https://github.com/${YP_CI_REPO_SLUG}/pull/${YP_CI_PR_NUMBER}
+        YP_CI_PR_REPO_SLUG=${TRAVIS_PULL_REQUEST_SLUG:-}
+        YP_CI_PR_GIT_HASH=${TRAVIS_PULL_REQUEST_SHA:-}
+        YP_CI_PR_GIT_BRANCH=${TRAVIS_PULL_REQUEST_BRANCH:-}
     }
 
-    SF_CI_GIT_HASH=${TRAVIS_COMMIT:-}
-    SF_CI_GIT_BRANCH=${TRAVIS_BRANCH:-}
-    SF_CI_GIT_TAG=${TRAVIS_TAG:-}
+    YP_CI_GIT_HASH=${TRAVIS_COMMIT:-}
+    YP_CI_GIT_BRANCH=${TRAVIS_BRANCH:-}
+    YP_CI_GIT_TAG=${TRAVIS_TAG:-}
 
-    SF_CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
+    YP_CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
 }
 
 function sf_ci_printvars_travis() {

@@ -4,7 +4,7 @@
 # 2. Env
 env:
   global:
-    - SF_LOG_BOOTSTRAP=true
+    - YP_LOG_BOOTSTRAP=true
 
 # 3. Git
 branches:
@@ -52,4 +52,4 @@ jobs:
       name: "Linux Focal 20.04 with minimal brew"
       os: linux
       dist: focal
-      env: CACHE_NAME=linux-focal-minimal SF_CI_BREW_INSTALL=minimal
+      env: CACHE_NAME=linux-focal-minimal YP_CI_BREW_INSTALL=minimal

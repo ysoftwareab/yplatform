@@ -120,7 +120,7 @@ make release
 
 The CI is configured with
 
-1. a personal access token giving `:repo` access, via a `SF_GH_TOKEN` environment variable
+1. a personal access token giving `:repo` access, via a `YP_GH_TOKEN` environment variable
 2. a deploy flow for tags, via `.ci.sh deploy`
 
 `.ci.sh` is configured with
@@ -130,12 +130,12 @@ ci_run_deploy() {
     local GIT_TAG=$(git tag --points-at HEAD | head -1)
 
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
-        --repo-slug ${SF_CI_REPO_SLUG} \
+        --repo-slug ${YP_CI_REPO_SLUG} \
         --tag ${GIT_TAG} \
         --target $(git rev-parse HEAD) \
         --asset dist/app.zip \
         --asset snapshot.zip \
-        --token ${SF_GH_TOKEN}
+        --token ${YP_GH_TOKEN}
 }
 ```
 

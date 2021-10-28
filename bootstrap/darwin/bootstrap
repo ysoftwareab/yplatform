@@ -4,7 +4,7 @@ set -euo pipefail
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
-[[ "${SF_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
+[[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
     ${SUPPORT_FIRECLOUD_DIR}/bootstrap/darwin/bootstrap-sudo
 
 source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
@@ -14,7 +14,7 @@ brew_system
 brew_printenv
 echo_done
 
-[[ "${SF_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
+[[ "${YP_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
     source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
 
 [[ "${CI:-}" != "true" ]] || {

@@ -23,16 +23,16 @@ archive/tar: ## Archive source files as a tar file.
 archive/tgz: ## Archive source files as a tgz file.
 archive/zip: ## Archive source files as a zip file.
 archive/%:
-	$(eval SF_TARBALL_FORMAT := $*)
+	$(eval YP_TARBALL_FORMAT := $*)
 	if [[ -n "$(GIT_TAGS)" ]]; then \
-		SF_TARBALL=archive-$(shell $(GIT) tag --points-at HEAD | $(HEAD) -1); \
+		YP_TARBALL=archive-$(shell $(GIT) tag --points-at HEAD | $(HEAD) -1); \
 	elif [[ -n "$(GIT_BRANCH)" ]]; then \
-		SF_TARBALL=archive-$(GIT_BRANCH)-$(GIT_HASH); \
+		YP_TARBALL=archive-$(GIT_BRANCH)-$(GIT_HASH); \
 	else \
-		SF_TARBALL=archive-$(GIT_HASH); \
+		YP_TARBALL=archive-$(GIT_HASH); \
 	fi; \
-	$(ECHO_DO) "Archiving into $${SF_TARBALL}.$(SF_TARBALL_FORMAT)..."; \
+	$(ECHO_DO) "Archiving into $${YP_TARBALL}.$(YP_TARBALL_FORMAT)..."; \
 	$(SUPPORT_FIRECLOUD_DIR)/bin/git-archive-all \
-		--format=$(SF_TARBALL_FORMAT) \
-		-o $${SF_TARBALL}.$(SF_TARBALL_FORMAT) HEAD; \
+		--format=$(YP_TARBALL_FORMAT) \
+		-o $${YP_TARBALL}.$(YP_TARBALL_FORMAT) HEAD; \
 	$(ECHO_DONE)

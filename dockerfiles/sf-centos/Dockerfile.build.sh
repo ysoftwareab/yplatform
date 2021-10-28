@@ -20,7 +20,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
     yum_install_one sudo
     yum_install_one which
 
-    [[ "${SF_SUDO}" = "sf_nosudo_fallback" ]] || export SF_SUDO=sudo
+    [[ "${YP_SUDO}" = "sf_nosudo_fallback" ]] || export YP_SUDO=sudo
 
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/gitconfig.inc.sh
     source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/user.inc.sh

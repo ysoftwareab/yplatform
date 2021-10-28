@@ -3,16 +3,16 @@
 # ------------------------------------------------------------------------------
 
 # NOTE might be enough with core.common.mk
-ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
+ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including js.common.mk .)
 endif
 
-SF_JS_COMMON_INCLUDES_DEFAULT += \
+YP_JS_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/js.deps.npm.mk \
 
-SF_JS_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_JS_COMMON_INCLUDES_DEFAULT))
+YP_JS_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_JS_COMMON_INCLUDES_DEFAULT))
 
-include $(SF_JS_COMMON_INCLUDES)
+include $(YP_JS_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 

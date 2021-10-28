@@ -1,5 +1,5 @@
 # Adds 'deps-yarn' and 'deps-yarn-prod' internal targets to install all and respectively prod-only npm dependencies.
-# The 'deps-yarn' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
+# The 'deps-yarn' target is automatically included in the 'deps' target via YP_DEPS_TARGETS.
 #
 # In addition to 'yarn install' functionality, we also:
 # * check (and fail) for unmet peer dependencies.
@@ -27,14 +27,14 @@ YARN_CI_OR_INSTALL := install \
 
 endif
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	node_modules \
 
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	deps-yarn \
 
-ifdef SF_ECCHECKER_FILES_IGNORE
-SF_ECCHECKER_FILES_IGNORE += \
+ifdef YP_ECCHECKER_FILES_IGNORE
+YP_ECCHECKER_FILES_IGNORE += \
 	-e "^yarn.lock$$" \
 	-e "^yarn.lock.unmet-peer$$" \
 

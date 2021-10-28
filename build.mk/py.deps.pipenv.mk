@@ -1,15 +1,15 @@
 # Adds 'deps-pipenv' and 'deps-pipenv-prod' targets to install all and respectively prod-only pipenv dependencies.
-# The 'deps-pipenv' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
+# The 'deps-pipenv' target is automatically included in the 'deps' target via YP_DEPS_TARGETS.
 #
 # ------------------------------------------------------------------------------
 
 PIPENV = $(call which,PIPENV,pipenv)
 $(foreach VAR,PIPENV,$(call make-lazy,$(VAR)))
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	.venv \
 
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	deps-pipenv \
 
 export PIPENV_NO_INHERIT = 1

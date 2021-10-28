@@ -66,50 +66,50 @@ either write a `ci_run_<phase>` function in `.ci.sh` as mentioned above, or set 
 Here's a list of the environment variables that customize the code execution:
 
 * **BOOTSTRAP**
-  * `SF_CI_ECHO_BENCHMARK`
+  * `YP_CI_ECHO_BENCHMARK`
     * set to a file that will collect `bin/ci-echo` DO-DONE durations for benchmarking
-  * `SF_LOG_BOOTSTRAP`
+  * `YP_LOG_BOOTSTRAP`
     * set to `true` to enable printing the whole bootstrap log which is hidden by default
-  * `SF_PRINTENV_BOOTSTRAP`
+  * `YP_PRINTENV_BOOTSTRAP`
     * set to `true` to enables printing all environment variables
-  * `SF_SKIP_BREW_BOOTSTRAP`
+  * `YP_SKIP_BREW_BOOTSTRAP`
     * set to `true` to skip brew bootstrapping `bootstrap/brew-bootstrap.inc.sh`
-  * `SF_SKIP_SUDO_BOOTSTRAP`
+  * `YP_SKIP_SUDO_BOOTSTRAP`
     * set to `true` to skip sudo bootstrapping `bootstrap/<OS_SHORT>/bootstrap-sudo`
-  * `SF_SUDO`
+  * `YP_SUDO`
     * set to `sf_nosudo` to bootstrap without sudo
     * set to a custom `sudo` executable path
 
 * **GITHUB**
-  * `SF_GH_TOKEN`
+  * `YP_GH_TOKEN`
     * enables authenticated HTTPS for git calls to github.com instead of SSH
     * defaults to another environment variable `GH_TOKEN`
-  * `SF_GH_TOKEN_DEPLOY`
+  * `YP_GH_TOKEN_DEPLOY`
     * a deploy token that enables read/push to the current repo
     * defaults to another environment variable `GITHUB_TOKEN` in Github Actions (automatic deploy key)
       * see [Authentication in a workflow](https://docs.github.com/en/actions/reference/authentication-in-a-workflow#permissions-for-the-github_token)
 
 * **TRANSCRYPT**
-  * `SF_TRANSCRYPT_PASSWORD`
+  * `YP_TRANSCRYPT_PASSWORD`
     * enables automatic setup of `transcrypt`.
     * see [how-to-manage-secrets.md](how-to-manage-secrets.md)
     * defaults to another environment variable `TRANSCRYPT_PASSWORD` for backwards compatibility
-  * `SF_TRANSCRYPT_CIPHER`
+  * `YP_TRANSCRYPT_CIPHER`
     * customizes the `transcrypt` cipher, defaults to `aes-256-cbc`
     * defaults to another environment variable `TRANSCRYPT_CIPHER` for backwards compatibility
 
 * **DOCKER ON TRAVIS CI**
-  * `SF_DOCKER_CI_IMAGE`
+  * `YP_DOCKER_CI_IMAGE`
     * customizes the Docker image for `docker pull`
     * set to `false` to disable running inside a Docker image altogether
-  * `SF_DOCKER_CI_USERNAME`/`SF_DOCKER_CI_TOKEN`
+  * `YP_DOCKER_CI_USERNAME`/`YP_DOCKER_CI_TOKEN`
     * enable pulling the Docker image with credentials
     * defaults to another environment variable `DOCKER_USERNAME`/`DOCKER_TOKEN`
-  * `SF_DOCKER_CI_SERVER`
+  * `YP_DOCKER_CI_SERVER`
     * customizes the identity server for `docker login`
 
 * **DEBUG**
-  * `SF_TMATE_AUTH`
+  * `YP_TMATE_AUTH`
     * a path to a `~/.ssh/authorized_keys` file (i.e. one public key per line)
     * restricts who can access the tmate session triggered by a `[debug ci]` commit
     * set to `none` if you don't want to restrict and have an insecure session
@@ -205,32 +205,32 @@ source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
 ## Environment variables
 
 * CI
-* SF_CI_NAME
-* SF_CI_PLATFORM
-* SF_CI_SERVER_HOST
-* SF_CI_REPO_SLUG
-* SF_CI_ROOT
+* YP_CI_NAME
+* YP_CI_PLATFORM
+* YP_CI_SERVER_HOST
+* YP_CI_REPO_SLUG
+* YP_CI_ROOT
 * ---
-* SF_CI_IS_CRON
-* SF_CI_IS_PR
+* YP_CI_IS_CRON
+* YP_CI_IS_PR
 * ---
-* SF_CI_JOB_ID
-* SF_CI_PIPELINE_ID
-* SF_CI_JOB_URL
-* SF_CI_PIPELINE_URL
+* YP_CI_JOB_ID
+* YP_CI_PIPELINE_ID
+* YP_CI_JOB_URL
+* YP_CI_PIPELINE_URL
 * ---
-* SF_CI_PR_NUMBER
-* SF_CI_PR_URL
-* SF_CI_PR_REPO_SLUG
-* SF_CI_PR_GIT_HASH
-* SF_CI_PR_GIT_BRANCH
+* YP_CI_PR_NUMBER
+* YP_CI_PR_URL
+* YP_CI_PR_REPO_SLUG
+* YP_CI_PR_GIT_HASH
+* YP_CI_PR_GIT_BRANCH
 * ---
-* SF_CI_GIT_HASH
-* SF_CI_GIT_BRANCH
-* SF_CI_GIT_TAG
+* YP_CI_GIT_HASH
+* YP_CI_GIT_BRANCH
+* YP_CI_GIT_TAG
 * ---
-* SF_CI_DEBUG_MODE
-* SF_CI_PHASES
-* SF_CI_STEP_NAME
-* SF_CI_ECHO
-* SF_CI_STATUS
+* YP_CI_DEBUG_MODE
+* YP_CI_PHASES
+* YP_CI_STEP_NAME
+* YP_CI_ECHO
+* YP_CI_STATUS

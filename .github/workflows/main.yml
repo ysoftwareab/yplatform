@@ -29,12 +29,12 @@ jobs:
     runs-on: '${{ matrix.os }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -141,7 +141,7 @@ jobs:
         env:
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
-          SF_CI_STATUS: '${{ job.status }}'
+          YP_CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -170,12 +170,12 @@ jobs:
     runs-on: '${{ matrix.os }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -282,7 +282,7 @@ jobs:
         env:
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
-          SF_CI_STATUS: '${{ job.status }}'
+          YP_CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -312,12 +312,12 @@ jobs:
     runs-on: '${{ matrix.os }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -424,7 +424,7 @@ jobs:
         env:
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
-          SF_CI_STATUS: '${{ job.status }}'
+          YP_CI_STATUS: '${{ job.status }}'
         run: ./.ci.sh notifications || true
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
@@ -452,14 +452,14 @@ jobs:
     runs-on: '${{ matrix.os }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}'
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       WSLENV: >-
-        CI:V:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:SF_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:SF_CI_BREW_INSTALL:SF_CI_STATUS
+        CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:YP_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS
       WSLUSER: github
       WSLGROUP: github
     steps:
@@ -605,7 +605,7 @@ jobs:
         env:
           SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
           SLACK_CHANNEL: cloud-ci
-          SF_CI_STATUS: '${{ job.status }}'
+          YP_CI_STATUS: '${{ job.status }}'
         run: bin/wsl-bash -c "./.ci.sh notifications || true"
   mainc-minimal-smoke:
     needs: []
@@ -621,16 +621,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -748,16 +748,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -875,16 +875,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1002,16 +1002,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1130,16 +1130,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1258,16 +1258,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1382,16 +1382,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1506,16 +1506,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1630,16 +1630,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1754,16 +1754,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1879,16 +1879,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -2004,16 +2004,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash

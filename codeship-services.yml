@@ -4,8 +4,8 @@ sfu2004m:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:
   environment:
-    SF_CI_BREW_INSTALL: minimal
-    SF_LOG_BOOTSTRAP: true
+    YP_CI_BREW_INSTALL: minimal
+    YP_LOG_BOOTSTRAP: true
   cached: false
 
 # yplatform-ubuntu-2004-dev:
@@ -14,6 +14,6 @@ sfu2004d:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:
   environment:
-    SF_CI_BREW_INSTALL: dev
-    SF_LOG_BOOTSTRAP: true
+    YP_CI_BREW_INSTALL: dev
+    YP_LOG_BOOTSTRAP: true
   cached: false

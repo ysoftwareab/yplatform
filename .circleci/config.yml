@@ -89,9 +89,9 @@ commands:
       p_install:
         type: string
     steps:
-      - run: echo "SF_CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
-      - run: echo "SF_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
-      - run: echo "SF_LOG_BOOTSTRAP=true" >> $BASH_ENV
+      - run: echo "YP_CI_IS_CRON=<< parameters.p_ci_is_cron >>" >> $BASH_ENV
+      - run: echo "YP_CI_BREW_INSTALL=<< parameters.p_install >>" >> $BASH_ENV
+      - run: echo "YP_LOG_BOOTSTRAP=true" >> $BASH_ENV
       - run: date +%v > ~/week-number
       - checkout
       - jq/install

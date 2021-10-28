@@ -1,8 +1,8 @@
 variables:
   FORCE_UNSAFE_CONFIGURE: "1"
   GIT_SUBMODULE_STRATEGY: recursive
-  SF_CI_BREW_INSTALL: minimal
-  SF_LOG_BOOTSTRAP: "true"
+  YP_CI_BREW_INSTALL: minimal
+  YP_LOG_BOOTSTRAP: "true"
 
 .aliases:
   - &shared

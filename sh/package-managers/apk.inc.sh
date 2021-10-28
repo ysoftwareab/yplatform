@@ -3,7 +3,7 @@ set -euo pipefail
 
 function apk_list_installed() {
     echo_do "apk: Listing packages..."
-    ${SF_SUDO:-} apk list --installed
+    ${YP_SUDO:-} apk list --installed
     echo_done
 }
 
@@ -15,7 +15,7 @@ function apk_cache_prune() {
 
 function apk_update() {
     echo_do "apk: Updating..."
-    ${SF_SUDO:-} apk update
+    ${YP_SUDO:-} apk update
     echo_done
 }
 
@@ -29,7 +29,7 @@ function apk_install_one() {
     }
 
     echo_do "apk: Installing ${PKG}..."
-    ${SF_SUDO:-} apk add --no-cache ${PKG}
+    ${YP_SUDO:-} apk add --no-cache ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

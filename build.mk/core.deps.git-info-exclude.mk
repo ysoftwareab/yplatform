@@ -1,11 +1,11 @@
 # Symlinks '.git/info/exclude' to yplatform 'gitconfig/dot.gitignore_global'
 #
-# '.git/info/exclude' is automatically added to the 'deps' target via SF_DEPS_TARGETS.
+# '.git/info/exclude' is automatically added to the 'deps' target via YP_DEPS_TARGETS.
 #
 # ------------------------------------------------------------------------------
 
 ifneq (,$(wildcard .git))
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	.git/info/exclude \
 
 endif

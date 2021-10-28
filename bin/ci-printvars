@@ -9,7 +9,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 ## Usage: ci-printvars
 ## Print detected-CI-platform's environment variables.
 ##
-##   -s, --sf       Print only SF_CI_* environment variables.
+##   -s, --sf       Print only YP_CI_* environment variables.
 ##   -u, --unknown  Print only unknown environment variables' name.
 ##
 ##   -h, --help     Display this help and exit
@@ -53,18 +53,18 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
-    source ${SF_CI_ENV}
+for YP_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
+    source ${YP_CI_ENV}
 done
-unset SF_CI_ENV
+unset YP_CI_ENV
 
-[[ -n "${SF_CI_PLATFORM:-}" ]] || {
-    echo "${SF_CI_PLATFORM:-}"
+[[ -n "${YP_CI_PLATFORM:-}" ]] || {
+    echo "${YP_CI_PLATFORM:-}"
     echo_warn "No CI platform detected."
     exit 0
 }
 
-PLATFORM=${SF_CI_PLATFORM}
+PLATFORM=${YP_CI_PLATFORM}
 [[ "${SF}" != "true" ]] || PLATFORM=sf
 
 [[ "${UNKNOWN}" != "true" ]] || {

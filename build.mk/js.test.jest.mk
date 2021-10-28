@@ -2,8 +2,8 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'test-jest' internal target to run all SF_JEST_TEST_FILES (defaults to test/**/*.test.js).
-# The 'test-jest' target is automatically included in the 'test' target via SF_TEST_TARGETS.
+# Adds a 'test-jest' internal target to run all YP_JEST_TEST_FILES (defaults to test/**/*.test.js).
+# The 'test-jest' target is automatically included in the 'test' target via YP_TEST_TARGETS.
 #
 # The jest executable is lazy-found inside ./node_modules/.bin and $PATH.
 # The arguments to the jest executable can be changed via JEST_ARGS.
@@ -15,29 +15,29 @@ $(foreach VAR,JEST,$(call make-lazy,$(VAR)))
 
 JEST_ARGS += \
 
-SF_JEST_TEST_FILES += \
+YP_JEST_TEST_FILES += \
 	$(shell $(FIND_Q_NOSYM) test -type f -name "*.test.js" -print) \
 
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "/__mocks__/" \
 	-e "/__snapshots__/" \
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	coverage \
 
-SF_TEST_TARGETS += \
+YP_TEST_TARGETS += \
 	test-jest \
 
 # ------------------------------------------------------------------------------
 
 .PHONY: test-jest
 test-jest:
-	SF_JEST_TEST_FILES_TMP=($(SF_JEST_TEST_FILES)); \
-	[[ "$${#SF_JEST_TEST_FILES_TMP[@]}" = "0" ]] || { \
+	YP_JEST_TEST_FILES_TMP=($(YP_JEST_TEST_FILES)); \
+	[[ "$${#YP_JEST_TEST_FILES_TMP[@]}" = "0" ]] || { \
 		$(JEST) $(JEST_ARGS); \
 	}
 
 
-.PHONY: $(SF_JEST_TEST_FILES)
-$(SF_JEST_TEST_FILES):
+.PHONY: $(YP_JEST_TEST_FILES)
+$(YP_JEST_TEST_FILES):
 	$(JEST) $(JEST_ARGS) $@

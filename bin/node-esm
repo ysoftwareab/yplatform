@@ -7,9 +7,9 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-SF_NPX_ARGS=
-SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
-SF_NPX_ARGS="${SF_NPX_ARGS} --package esm"
+YP_NPX_ARGS=
+YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
+YP_NPX_ARGS="${YP_NPX_ARGS} --package esm"
 
 function main() {
     # require esm and run script

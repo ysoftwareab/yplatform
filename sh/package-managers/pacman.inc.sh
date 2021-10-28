@@ -3,15 +3,15 @@ set -euo pipefail
 
 function pacman_list_installed() {
     echo_do "pacman: Listing packages..."
-    ${SF_SUDO:-} pacman -Q
+    ${YP_SUDO:-} pacman -Q
     echo_done
 }
 
 function pacman_cache_prune() {
     echo_do "pacman: Pruning cache..."
-    # ${SF_SUDO:-} pacman -Scc
-    ${SF_SUDO:-} pacman -Sc
-    ${SF_SUDO:-} rm -rf /var/cache/pacman/pkg/*
+    # ${YP_SUDO:-} pacman -Scc
+    ${YP_SUDO:-} pacman -Sc
+    ${YP_SUDO:-} rm -rf /var/cache/pacman/pkg/*
     echo_done
 }
 
@@ -19,7 +19,7 @@ function pacman_cache_prune() {
 
 function pacman_update() {
     echo_do "pacman: Updating..."
-    ${SF_SUDO:-} pacman -Syy
+    ${YP_SUDO:-} pacman -Syy
     echo_done
 }
 
@@ -33,7 +33,7 @@ function pacman_install_one() {
     }
 
     echo_do "pacman: Installing ${PKG}..."
-    ${SF_SUDO:-} pacman -S --noconfirm ${PKG}
+    ${YP_SUDO:-} pacman -S --noconfirm ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

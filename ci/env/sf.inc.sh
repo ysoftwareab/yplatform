@@ -9,7 +9,7 @@ function sf_ci_env_sf() {
 function sf_ci_printvars_sf() {
     printenv_all | sort -u | grep \
         -e "^CI=" \
-        -e "^SF_CI_"
+        -e "^YP_CI_"
 }
 
 function sf_ci_known_env_sf() {
@@ -17,43 +17,43 @@ function sf_ci_known_env_sf() {
     cat <<EOF | sort -u | grep -v -e "^$" -e "^#"
 # core
 CI
-SF_CI_NAME
-SF_CI_PLATFORM
-SF_CI_SERVER_HOST
-SF_CI_REPO_SLUG
-SF_CI_ROOT
+YP_CI_NAME
+YP_CI_PLATFORM
+YP_CI_SERVER_HOST
+YP_CI_REPO_SLUG
+YP_CI_ROOT
 
 # is
-SF_CI_IS_CRON
-SF_CI_IS_PR
+YP_CI_IS_CRON
+YP_CI_IS_PR
 
 # job/pipeline
-SF_CI_JOB_ID
-SF_CI_PIPELINE_ID
-SF_CI_JOB_URL
-SF_CI_PIPELINE_URL
+YP_CI_JOB_ID
+YP_CI_PIPELINE_ID
+YP_CI_JOB_URL
+YP_CI_PIPELINE_URL
 
 # pr
-SF_CI_PR_NUMBER
-SF_CI_PR_URL
-SF_CI_PR_REPO_SLUG
-SF_CI_PR_GIT_HASH
-SF_CI_PR_GIT_BRANCH
+YP_CI_PR_NUMBER
+YP_CI_PR_URL
+YP_CI_PR_REPO_SLUG
+YP_CI_PR_GIT_HASH
+YP_CI_PR_GIT_BRANCH
 
 # git
-SF_CI_GIT_HASH
-SF_CI_GIT_BRANCH
-SF_CI_GIT_TAG
+YP_CI_GIT_HASH
+YP_CI_GIT_BRANCH
+YP_CI_GIT_TAG
 
 # misc
-SF_CI_DEBUG_MODE
-SF_CI_PHASES
-SF_CI_STEP_NAME
-SF_CI_ECHO
-SF_CI_ECHO_BENCHMARK
-SF_CI_STATUS
+YP_CI_DEBUG_MODE
+YP_CI_PHASES
+YP_CI_STEP_NAME
+YP_CI_ECHO
+YP_CI_ECHO_BENCHMARK
+YP_CI_STATUS
 
-# TODO should be renamed to not have a SF_CI_ prefix
-SF_CI_BREW_INSTALL
+# TODO should be renamed to not have a YP_CI_ prefix
+YP_CI_BREW_INSTALL
 EOF
 }

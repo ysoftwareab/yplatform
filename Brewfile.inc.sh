@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
 # when not in CI, use dev install
-[[ "${CI:-}" = "true" ]] || SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL:-dev}
+[[ "${CI:-}" = "true" ]] || YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL:-dev}
 
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${SF_CI_BREW_INSTALL}.inc.sh
+source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${YP_CI_BREW_INSTALL}.inc.sh
 
-# SF_DOCKER declared in dockerfiles/*/Dockerfile.build.sh
-[[ "${SF_DOCKER:-}" != "true" ]] || {
-    [[ "${SF_CI_BREW_INSTALL}" = "minimal" ]] || { \
+# YP_DOCKER declared in dockerfiles/*/Dockerfile.build.sh
+[[ "${YP_DOCKER:-}" != "true" ]] || {
+    [[ "${YP_CI_BREW_INSTALL}" = "minimal" ]] || { \
         # installing perl for performance reasons,
         # since it takes a very long time to install via homebrew on Linux
         # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux

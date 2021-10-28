@@ -2,16 +2,16 @@
 set -euo pipefail
 
 function sf_run_docker_ci_login() {
-    SF_DOCKER_CI_USERNAME="${SF_DOCKER_CI_USERNAME:-${DOCKER_USERNAME:-}}"
-    SF_DOCKER_CI_TOKEN="${SF_DOCKER_CI_TOKEN:-${DOCKER_TOKEN:-}}"
+    YP_DOCKER_CI_USERNAME="${YP_DOCKER_CI_USERNAME:-${DOCKER_USERNAME:-}}"
+    YP_DOCKER_CI_TOKEN="${YP_DOCKER_CI_TOKEN:-${DOCKER_TOKEN:-}}"
 
-    [[ -n "${SF_DOCKER_CI_USERNAME:-}" ]] || return
-    [[ -n "${SF_DOCKER_CI_TOKEN:-}" ]] || return
-    echo "${SF_DOCKER_CI_TOKEN}" | exe docker login -u "${SF_DOCKER_CI_USERNAME}" --password-stdin ${SF_DOCKER_CI_SERVER:-} # editorconfig-checker-disable-line
+    [[ -n "${YP_DOCKER_CI_USERNAME:-}" ]] || return
+    [[ -n "${YP_DOCKER_CI_TOKEN:-}" ]] || return
+    echo "${YP_DOCKER_CI_TOKEN}" | exe docker login -u "${YP_DOCKER_CI_USERNAME}" --password-stdin ${YP_DOCKER_CI_SERVER:-} # editorconfig-checker-disable-line
 }
 
 function sf_run_docker_ci_image() {
-    local SF_DOCKER_CI_IMAGE=${1}
+    local YP_DOCKER_CI_IMAGE=${1}
     local MOUNT_DIR=${2:-${PWD}}
     local CONTAINER_NAME=${3:-sf-docker-ci}
 
@@ -20,12 +20,12 @@ function sf_run_docker_ci_image() {
     local GNAME=$(id -g -n)
     local UNAME=$(id -u -n)
 
-    echo_do "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
+    echo_do "Spinning up Docker for ${YP_DOCKER_CI_IMAGE}..."
 
     echo | docker login | grep -q "Login Succeeded" || sf_run_docker_ci_login
 
-    echo_do "Pulling ${SF_DOCKER_CI_IMAGE} image..."
-    exe docker pull ${SF_DOCKER_CI_IMAGE}
+    echo_do "Pulling ${YP_DOCKER_CI_IMAGE} image..."
+    exe docker pull ${YP_DOCKER_CI_IMAGE}
     echo_done
 
     echo_do "Running the ${CONTAINER_NAME} container, proxying relevant env vars and mounting ${MOUNT_DIR} folder..."
@@ -40,7 +40,7 @@ function sf_run_docker_ci_image() {
         --env CI=true \
         --env USER=${UNAME} \
         --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
-        ${SF_DOCKER_CI_IMAGE}
+        ${YP_DOCKER_CI_IMAGE}
     echo_done
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
@@ -88,29 +88,29 @@ function sf_run_docker_ci_image() {
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
-    echo_done # "Spinning up Docker for ${SF_DOCKER_CI_IMAGE}..."
+    echo_done # "Spinning up Docker for ${YP_DOCKER_CI_IMAGE}..."
 }
 
 
 function sf_get_docker_ci_image() {
-    [[ -n "${SF_DOCKER_CI_IMAGE:-}" ]] || \
-        SF_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
+    [[ -n "${YP_DOCKER_CI_IMAGE:-}" ]] || \
+        YP_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
     # if given a rokmoln/sf- image, but without a tag,
     # set the tag to the version of SF
-    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
-        [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
+    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
+        [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
             cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
+        YP_DOCKER_CI_IMAGE="${YP_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
     # if given a docker.pkg.github.com/ysoftwareab/yplatform/sf- image, but without a tag
     # set the tag to the version of SF
-    if [[ ${SF_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/ysoftwareab/yplatform/sf- ]] && \
-        [[ ! "${SF_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
+    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/ysoftwareab/yplatform/sf- ]] && \
+        [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
             cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
-        SF_DOCKER_CI_IMAGE="${SF_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
+        YP_DOCKER_CI_IMAGE="${YP_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
 
-    echo "${SF_DOCKER_CI_IMAGE}"
+    echo "${YP_DOCKER_CI_IMAGE}"
 }

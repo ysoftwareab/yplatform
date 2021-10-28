@@ -1,67 +1,67 @@
 # Adds a 'check-path' internal target to run path and filename checks
-# over SF_PATH_FILES (defaults to all committed and staged files).
-# The 'check-path' target is automatically added to the 'check' target via SF_CHECK_TARGETS.
+# over YP_PATH_FILES (defaults to all committed and staged files).
+# The 'check-path' target is automatically added to the 'check' target via YP_CHECK_TARGETS.
 #
-# The check is a match check against a regular expression defined via SF_PATH_LINT_RE.
+# The check is a match check against a regular expression defined via YP_PATH_LINT_RE.
 #
 # For convenience, specific files can be ignored
-# via grep arguments given to SF_PATH_FILES_IGNORE:
-# SF_PATH_FILES_IGNORE += \
+# via grep arguments given to YP_PATH_FILES_IGNORE:
+# YP_PATH_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
 # ------------------------------------------------------------------------------
 
-SF_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
+YP_PATH_LINT_RE := ^[a-z0-9/.-]\+$$
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^$$" \
-	$(SF_VENDOR_FILES_IGNORE) \
+	$(YP_VENDOR_FILES_IGNORE) \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^.github/" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^AUTHORS$$" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^Brewfile" \
 	-e "/Brewfile" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^CONST\.inc$$" \
 	-e "^CONST\.inc\.secret$$" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^Dockerfile" \
 	-e "/Dockerfile" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^Makefile" \
 	-e "/Makefile" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^README" \
 	-e "/README" \
 
-SF_PATH_FILES += $(shell $(GIT_LS) . | \
+YP_PATH_FILES += $(shell $(GIT_LS) . | \
 	$(GREP) -Fvxf <($(GIT) config --file .gitmodules --get-regexp path | $(CUT) -d' ' -f2 || true) | \
-	$(GREP) -v $(SF_PATH_FILES_IGNORE) | \
+	$(GREP) -v $(YP_PATH_FILES_IGNORE) | \
 	$(SED) "s/^/'/g" | \
 	$(SED) "s/$$/'/g")
 
-SF_CHECK_TARGETS += \
+YP_CHECK_TARGETS += \
 	check-path \
 
 # ------------------------------------------------------------------------------
 
 .PHONY: check-path
 check-path:
-	SF_PATH_FILES_TMP=($(SF_PATH_FILES)); \
-	[[ "$${#SF_PATH_FILES_TMP[@]}" = "0" ]] || { \
-		for f in $${SF_PATH_FILES_TMP[@]}; do \
-			$(ECHO) "$${f}" | $(GREP) -qv "$(SF_PATH_LINT_RE)" || continue; \
-			$(ECHO_ERR) "$${f} not following file/folder naming convention '$(SF_PATH_LINT_RE)'."; \
+	YP_PATH_FILES_TMP=($(YP_PATH_FILES)); \
+	[[ "$${#YP_PATH_FILES_TMP[@]}" = "0" ]] || { \
+		for f in $${YP_PATH_FILES_TMP[@]}; do \
+			$(ECHO) "$${f}" | $(GREP) -qv "$(YP_PATH_LINT_RE)" || continue; \
+			$(ECHO_ERR) "$${f} not following file/folder naming convention '$(YP_PATH_LINT_RE)'."; \
 			exit 1; \
 		done; \
 	}

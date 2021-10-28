@@ -1,7 +1,7 @@
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "^node_modules_private/" \
 
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	deps-node_modules_private \
 
 # ------------------------------------------------------------------------------

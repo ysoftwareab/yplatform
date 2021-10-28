@@ -1,10 +1,10 @@
 timeout_in: 30m
 
 env:
-  SF_CI_BREW_INSTALL: minimal
-  SF_LOG_BOOTSTRAP: "true"
-  SF_PRINTENV_BOOTSTRAP: "false"
-  SF_TRANSCRYPT_PASSWORD: ""
+  YP_CI_BREW_INSTALL: minimal
+  YP_LOG_BOOTSTRAP: "true"
+  YP_PRINTENV_BOOTSTRAP: "false"
+  YP_TRANSCRYPT_PASSWORD: ""
   V: ""
 
 task:

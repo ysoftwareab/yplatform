@@ -29,7 +29,7 @@ function brew_system() {
 # brew_ namespace chosen for consistency, even if less relevant for printenv
 function brew_printenv() {
     echo_do "Printenv..."
-    if [[ "${SF_PRINTENV_BOOTSTRAP:-}" = "true" ]]; then
+    if [[ "${YP_PRINTENV_BOOTSTRAP:-}" = "true" ]]; then
         printenv_all
     else
         echo_info "Printing only excerpts of printenv."
@@ -58,9 +58,9 @@ function brew_printenv() {
 
 # sf
 ^GIT_
-^SF_LOG_BOOTSTRAP=
-^SF_PRINTENV_BOOTSTRAP=
-^SF_SUDO=
+^YP_LOG_BOOTSTRAP=
+^YP_PRINTENV_BOOTSTRAP=
+^YP_SUDO=
 EOF
             )
     fi

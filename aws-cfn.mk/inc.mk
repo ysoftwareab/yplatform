@@ -63,8 +63,8 @@ STACK_POLICY_BAK_FILES := $(patsubst %.inc.mk,%.cfn.policy.json.bak,$(CFN_MK_FIL
 CHANGE_SET_FILE ?= $(STACK_STEM).change-set.json
 CHANGE_SET_FILES := $(patsubst %.inc.mk,%.change-set.json,$(CFN_MK_FILES))
 
-SF_CLEAN_FILES := \
-	$(SF_CLEAN_FILES) \
+YP_CLEAN_FILES := \
+	$(YP_CLEAN_FILES) \
 	$(STACK_TPL_FILES) \
 	$(STACK_TPL_BAK_FILES) \
 	$(STACK_TPL_DIFF_FILES) \

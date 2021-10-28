@@ -3,27 +3,27 @@ set -euo pipefail
 
 function apt_list_installed() {
     echo_do "aptitude: Listing packages..."
-    ${SF_SUDO:-} apt list --installed
+    ${YP_SUDO:-} apt list --installed
     echo_done
 }
 
 function apt_cache_prune() {
     echo_do "apt: Pruning cache..."
-    ${SF_SUDO:-} apt-get clean
-    ${SF_SUDO:-} rm -rf /var/lib/apt/lists/*
+    ${YP_SUDO:-} apt-get clean
+    ${YP_SUDO:-} rm -rf /var/lib/apt/lists/*
     echo_done
 }
 
 function apt_update() {
     echo_do "aptitude: Updating..."
-    ${SF_SUDO:-} apt-get -y --fix-missing update 2>&1 || {
+    ${YP_SUDO:-} apt-get -y --fix-missing update 2>&1 || {
         set -x
         # try to handle "Hash Sum mismatch" error
-        ${SF_SUDO:-} apt-get clean
-        ${SF_SUDO:-} rm -rf /var/lib/apt/lists/*
+        ${YP_SUDO:-} apt-get clean
+        ${YP_SUDO:-} rm -rf /var/lib/apt/lists/*
         # see https://bugs.launchpad.net/ubuntu/+source/apt/+bug/1785778
-        ${SF_SUDO:-} apt-get -o Acquire::CompressionTypes::Order::=gz update
-        ${SF_SUDO:-} apt-get -y --fix-missing update
+        ${YP_SUDO:-} apt-get -o Acquire::CompressionTypes::Order::=gz update
+        ${YP_SUDO:-} apt-get -y --fix-missing update
         set +x
     }
     echo_done
@@ -53,7 +53,7 @@ function apt_install_one() {
     }
 
     echo_do "aptitude: Installing ${PKG}..."
-    ${SF_SUDO:-} apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+    ${YP_SUDO:-} apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }

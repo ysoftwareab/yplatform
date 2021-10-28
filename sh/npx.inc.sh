@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # USAGE:
-# - declare SF_NPX_ARGS
+# - declare YP_NPX_ARGS
 # - declare 'main' function
 # - source npx.inc.sh
 # - main will be called with the same positional args as the caller
@@ -25,7 +25,7 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     [[ "${VERBOSE}" != "1" ]] || VERBOSE=true
     # npm_config_loglevel doesn't seem to work for npx ?!
     # [[ -z "${VERBOSE}" ]] || export npm_config_loglevel=verbose
-    [[ -z "${VERBOSE}" ]] || SF_NPX_ARGS="${SF_NPX_ARGS} --loglevel=verbose"
+    [[ -z "${VERBOSE}" ]] || YP_NPX_ARGS="${YP_NPX_ARGS} --loglevel=verbose"
 
     # npm@6 and npm@7 are not compatible regarding the --yes flag
     # see https://github.com/npm/cli/issues/2226#issuecomment-732475247
@@ -35,9 +35,9 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # while 'PATH=/absolute/path/to/:$PATH npx executable' means run 'executable'
     # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
-    SF_NPX_CMD_ARGS=("$@")
-    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p SF_NPX_CMD_ARGS) \
-        npx ${SF_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
+    YP_NPX_CMD_ARGS=("$@")
+    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p YP_NPX_CMD_ARGS) \
+        npx ${YP_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
     exit 0
 fi
 
@@ -56,4 +56,4 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     export PATH=${PATH:-}:${NPX_PATH}/.bin
 }
 
-main "${SF_NPX_CMD_ARGS[@]}"
+main "${YP_NPX_CMD_ARGS[@]}"

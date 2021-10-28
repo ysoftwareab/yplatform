@@ -5,24 +5,24 @@ set -euo pipefail
 source ${SUPPORT_FIRECLOUD_DIR}/ci/util/home.inc.sh
 
 # detect CI platform
-for SF_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
-    source ${SF_CI_ENV}
+for YP_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
+    source ${YP_CI_ENV}
 done
-unset SF_CI_ENV
-for SF_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
-    "${SF_CI_ENV_FUN}"
-    [[ -z "${SF_CI_PLATFORM:-}" ]] || break
+unset YP_CI_ENV
+for YP_CI_ENV_FUN in $(declare -F | grep --only-matching "\bsf_ci_env_.*"); do
+    "${YP_CI_ENV_FUN}"
+    [[ -z "${YP_CI_PLATFORM:-}" ]] || break
 done
-unset SF_CI_ENV_FUN
+unset YP_CI_ENV_FUN
 
-[[ -z "${SF_CI_PLATFORM:-}" ]] || eval "export $(sf_ci_known_env_sf | tr "\n" " ")"
+[[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(sf_ci_known_env_sf | tr "\n" " ")"
 
 # set git user
 if command -v git >/dev/null 2>&1; then
-    [[ -z "${SF_CI_PLATFORM:-}" ]] || [[ -z "${SF_CI_SERVER_HOST:-}" ]] || \
-        git config --global user.email "${SF_CI_PLATFORM}@${SF_CI_SERVER_HOST}"
-    [[ -z "${SF_CI_NAME:-}" ]] || \
-        git config --global user.name "${SF_CI_NAME}"
+    [[ -z "${YP_CI_PLATFORM:-}" ]] || [[ -z "${YP_CI_SERVER_HOST:-}" ]] || \
+        git config --global user.email "${YP_CI_PLATFORM}@${YP_CI_SERVER_HOST}"
+    [[ -z "${YP_CI_NAME:-}" ]] || \
+        git config --global user.name "${YP_CI_NAME}"
 fi
 
 # common env

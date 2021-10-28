@@ -13,7 +13,7 @@ DOCKER_IMAGE_NAME=
 DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")-local
 DOCKERFILE=
 
-SF_CI_BREW_INSTALL=minimal
+YP_CI_BREW_INSTALL=minimal
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
@@ -30,7 +30,7 @@ while [[ $# -gt 0 ]]; do
             shift 2
             ;;
         --sf-ci-brew-install)
-            SF_CI_BREW_INSTALL=$2
+            YP_CI_BREW_INSTALL=$2
             shift 2
             ;;
         -h|--help)
@@ -78,15 +78,15 @@ OS_RELEASE_DIR2="${SUPPORT_FIRECLOUD_DIR}/dockerfiles/sf-${DOCKER_OS_RELEASE_ID}
     DOCKERFILE=$(readlink -f ${OS_RELEASE_DIR}/Dockerfile)
 
 [[ -n "${DOCKER_IMAGE_NAME}" ]] || \
-    DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${SF_CI_BREW_INSTALL}
+    DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}
 
 echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
 exe docker build ${SUPPORT_FIRECLOUD_DIR} \
     --file ${DOCKERFILE} \
     --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
-    --build-arg SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL} \
-    --build-arg SF_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
-    --build-arg SF_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
-    --build-arg SF_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-    --build-arg SF_OS_RELEASE_DIR=${OS_RELEASE_DIR#${SUPPORT_FIRECLOUD_DIR}/}
+    --build-arg YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL} \
+    --build-arg YP_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
+    --build-arg YP_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
+    --build-arg YP_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+    --build-arg YP_OS_RELEASE_DIR=${OS_RELEASE_DIR#${SUPPORT_FIRECLOUD_DIR}/}
 echo_done

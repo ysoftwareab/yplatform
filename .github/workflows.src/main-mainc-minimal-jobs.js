@@ -50,7 +50,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      SF_DEPLOY_DRYRUN: true
+      YP_DEPLOY_DRYRUN: true
     },
     steps: [
       checkoutStep,

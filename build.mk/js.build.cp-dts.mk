@@ -4,10 +4,10 @@ SRC_D_TS_FILES += \
 LIB_D_TS_FILES += \
 	$(patsubst src/%.d.ts,lib/%.d.ts,$(SRC_D_TS_FILES)) \
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	$(LIB_D_TS_FILES) \
 
-SF_BUILD_TARGETS += \
+YP_BUILD_TARGETS += \
 	build-cp-dts
 
 # ------------------------------------------------------------------------------

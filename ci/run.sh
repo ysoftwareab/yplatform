@@ -16,7 +16,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/util/env.inc.sh
     echo "       or you can run them all (before_install, install, before_script, script)"
     echo "       ./.ci.sh all"
     echo
-    export SF_CI_DEBUG_MODE=true
+    export YP_CI_DEBUG_MODE=true
 
     # export all functions $(e.g. nvm)
     source <(declare -F | sed "s/^declare /export /g")
@@ -63,8 +63,8 @@ function sf_ci_run() {
             echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
         elif ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl; then
             echo_info "Skipping the sf-docker-ci container because the host OS is Windows Subsystem for Linux."
-        elif [[ "${SF_DOCKER_CI_IMAGE:-}" = "false" ]]; then
-            echo_info "Skipping the sf-docker-ci container because SF_DOCKER_CI_IMAGE=false."
+        elif [[ "${YP_DOCKER_CI_IMAGE:-}" = "false" ]]; then
+            echo_info "Skipping the sf-docker-ci container because YP_DOCKER_CI_IMAGE=false."
         else
             local RUN_IN_SF_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
             CMD="${RUN_IN_SF_DOCKER_CI} ${0} $* 2>&1"

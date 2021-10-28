@@ -6,9 +6,9 @@ set -euo pipefail
 
 SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-SF_NPX_ARGS=
-SF_NPX_ARGS="${SF_NPX_ARGS} --quiet"
-SF_NPX_ARGS="${SF_NPX_ARGS} --package env-ci@5"
+YP_NPX_ARGS=
+YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
+YP_NPX_ARGS="${YP_NPX_ARGS} --package env-ci@5"
 
 function main() {
     SCRIPT="$(cat <<EOF
@@ -21,23 +21,23 @@ let sfCompat = process.argv[1] === '--sf';
 
 // as listed on https://github.com/pvdlg/env-ci/blob/master/README.md
 let map2sf = {
-    name: 'SF_CI_NAME',
-    service: 'SF_CI_PLATFORM',
+    name: 'YP_CI_NAME',
+    service: 'YP_CI_PLATFORM',
     isCi: 'CI',
-    branch: 'SF_CI_GIT_BRANCH',
-    commit: 'SF_CI_GIT_HASH',
-    tag: 'SF_CI_GIT_TAG',
+    branch: 'YP_CI_GIT_BRANCH',
+    commit: 'YP_CI_GIT_HASH',
+    tag: 'YP_CI_GIT_TAG',
     // NOTE our wording implies 1 pipeline -> n jobs
     // env-ci's wording implies 1 job -> n builds
-    build: 'SF_CI_JOB_ID',
-    buildUrl: 'SF_CI_JOB_URL',
-    job: 'SF_CI_PIPELINE_ID',
-    jobUrl: 'SF_CI_PIPELINE_URL',
-    isPr: 'SF_CI_IS_PR',
-    pr: 'SF_CI_PR_NUMBER',
-    prBranch: 'SF_CI_PR_GIT_BRANCH',
-    slug: 'SF_CI_REPO_SLUG',
-    root: 'SF_CI_ROOT'
+    build: 'YP_CI_JOB_ID',
+    buildUrl: 'YP_CI_JOB_URL',
+    job: 'YP_CI_PIPELINE_ID',
+    jobUrl: 'YP_CI_PIPELINE_URL',
+    isPr: 'YP_CI_IS_PR',
+    pr: 'YP_CI_PR_NUMBER',
+    prBranch: 'YP_CI_PR_GIT_BRANCH',
+    slug: 'YP_CI_REPO_SLUG',
+    root: 'YP_CI_ROOT'
 };
 
 let knownKeys = _.keys(map2sf);
@@ -59,15 +59,15 @@ if (sfCompat) {
     // our wording implies 1 pipeline -> n jobs
     // env-ci's wording seems to imply 1 job -> n builds
     let dataClone = _.clone(data);
-    switch (data.SF_CI_PLATFORM) {
+    switch (data.YP_CI_PLATFORM) {
         case 'cirrus':
         case 'github':
         case 'gitlab':
         case 'travis':
-            data.SF_CI_JOB_ID = dataClone.SF_CI_PIPELINE_ID;
-            data.SF_CI_PIPELINE_ID = dataClone.SF_CI_JOB_ID;
-            data.SF_CI_JOB_URL = dataClone.SF_CI_PIPELINE_URL;
-            data.SF_CI_PIPELINE_URL = dataClone.SF_CI_JOB_URL;
+            data.YP_CI_JOB_ID = dataClone.YP_CI_PIPELINE_ID;
+            data.YP_CI_PIPELINE_ID = dataClone.YP_CI_JOB_ID;
+            data.YP_CI_JOB_URL = dataClone.YP_CI_PIPELINE_URL;
+            data.YP_CI_PIPELINE_URL = dataClone.YP_CI_JOB_URL;
             break;
         default:
             true;
@@ -85,10 +85,10 @@ if (sfCompat) {
         return value;
     });
 
-    if (data.SF_CI_PLATFORM === 'appveyor') {
-        data.SF_CI_JOB_ID=process.env.APPVEYOR_JOB_ID;
-        data.SF_CI_PIPELINE_ID=process.env.APPVEYOR_BUILD_NUMBER;
-        data.SF_CI_JOB_URL=_.join([
+    if (data.YP_CI_PLATFORM === 'appveyor') {
+        data.YP_CI_JOB_ID=process.env.APPVEYOR_JOB_ID;
+        data.YP_CI_PIPELINE_ID=process.env.APPVEYOR_BUILD_NUMBER;
+        data.YP_CI_JOB_URL=_.join([
             'https://ci.appveyor.com/project/',
             process.env.APPVEYOR_ACCOUNT_NAME,
             '/',
@@ -96,7 +96,7 @@ if (sfCompat) {
             '/build/job/',
             process.env.APPVEYOR_JOB_ID
         ], '');
-        data.SF_CI_PIPELINE_URL=_.join([
+        data.YP_CI_PIPELINE_URL=_.join([
             'https://ci.appveyor.com/project/',
             process.env.APPVEYOR_ACCOUNT_NAME,
             '/',
@@ -105,24 +105,24 @@ if (sfCompat) {
             process.env.APPVEYOR_BUILD_NUMBER
         ], '');
     }
-    if (data.SF_CI_PLATFORM === 'circleci') {
-        data.SF_CI_PLATFORM = 'circle';
-        data.SF_CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
-        data.SF_CI_PIPELINE_ID = process.env.CIRCLE_WORKFLOW_ID;
+    if (data.YP_CI_PLATFORM === 'circleci') {
+        data.YP_CI_PLATFORM = 'circle';
+        data.YP_CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
+        data.YP_CI_PIPELINE_ID = process.env.CIRCLE_WORKFLOW_ID;
     }
-    if (data.SF_CI_PLATFORM === 'codeship') {
-        data.SF_CI_NAME = 'codeship';
+    if (data.YP_CI_PLATFORM === 'codeship') {
+        data.YP_CI_NAME = 'codeship';
     }
-    if (data.SF_CI_PLATFORM === 'github') {
+    if (data.YP_CI_PLATFORM === 'github') {
         // env-ci reports e.g. 'refs/pull/239/merge' instead of the branch of the PR
-        delete data.SF_CI_PR_GIT_BRANCH;
+        delete data.YP_CI_PR_GIT_BRANCH;
     }
-    if (data.SF_CI_PLATFORM === 'gitlab') {
-        data.SF_CI_PIPELINE_URL = _.replace(data.SF_CI_PIPELINE_URL, '/pipelines/', '/-/pipelines/');
+    if (data.YP_CI_PLATFORM === 'gitlab') {
+        data.YP_CI_PIPELINE_URL = _.replace(data.YP_CI_PIPELINE_URL, '/pipelines/', '/-/pipelines/');
     }
-    if (data.SF_CI_PLATFORM === 'travis') {
-        data.SF_CI_JOB_ID = process.env.TRAVIS_JOB_ID;
-        data.SF_CI_PIPELINE_ID = process.env.TRAVIS_BUILD_NUMBER;
+    if (data.YP_CI_PLATFORM === 'travis') {
+        data.YP_CI_JOB_ID = process.env.TRAVIS_JOB_ID;
+        data.YP_CI_PIPELINE_ID = process.env.TRAVIS_BUILD_NUMBER;
     }
 }
 

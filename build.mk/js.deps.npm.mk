@@ -1,5 +1,5 @@
 # Adds 'deps-npm' and 'deps-npm-prod' internal targets to install all and respectively prod-only npm dependencies.
-# The 'deps-npm' target is automatically included in the 'deps' target via SF_DEPS_TARGETS.
+# The 'deps-npm' target is automatically included in the 'deps' target via YP_DEPS_TARGETS.
 #
 # In addition to 'npm install' functionality, we also:
 # * install babel-preset-firecloud and eslint-plugin-firecloud peer dependencies
@@ -30,18 +30,18 @@ endif
 endif
 endif
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	node_modules \
 
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	deps-npm \
 
-SF_CHECK_TARGETS += \
+YP_CHECK_TARGETS += \
 	check-package-json \
 	check-package-lock-json \
 
-ifdef SF_ECCHECKER_FILES_IGNORE
-SF_ECCHECKER_FILES_IGNORE += \
+ifdef YP_ECCHECKER_FILES_IGNORE
+YP_ECCHECKER_FILES_IGNORE += \
 	-e "^package-lock.json$$" \
 	-e "^package.json.unmet-peer$$" \
 

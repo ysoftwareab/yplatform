@@ -6,7 +6,7 @@ SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))
 
 # ------------------------------------------------------------------------------
 
-ifndef SF_DEV_INC_SH
+ifndef YP_DEV_INC_SH
 ifeq (0,$(MAKELEVEL))
 NVM_DIR := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env NVM_DIR)
 PATH := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/sf-env PATH)
@@ -14,23 +14,23 @@ export NVM_DIR PATH
 endif
 endif
 
-SF_CI_ECHO_BENCHMARK ?= /dev/null
-SF_CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(SF_CI_ECHO_BENCHMARK)
+YP_CI_ECHO_BENCHMARK ?= /dev/null
+YP_CI_ECHO ?= $(SUPPORT_FIRECLOUD_DIR)/bin/ci-echo --benchmark $(YP_CI_ECHO_BENCHMARK)
 include $(SUPPORT_FIRECLOUD_DIR)/mk/Makefile
 
-SF_COMMIT =
-SF_VSN = $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
-SF_VSN_DESCRIBE = $(SF_VSN)-dirty
-SF_VSN_TAG =
+YP_COMMIT =
+YP_VSN = $(shell $(CAT) $(SUPPORT_FIRECLOUD_DIR)/package.json | $(JQ) -r ".version")
+YP_VSN_DESCRIBE = $(YP_VSN)-dirty
+YP_VSN_TAG =
 ifneq (,$(wildcard $(SUPPORT_FIRECLOUD_DIR)/.git))
-SF_COMMIT = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+YP_COMMIT = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	rev-parse HEAD^{commit})
-SF_VSN_DESCRIBE = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+YP_VSN_DESCRIBE = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	describe --first-parent --always --dirty | $(SED) "s/^v//")
-SF_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
+YP_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(SUPPORT_FIRECLOUD_DIR) \
 	tag --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
-$(foreach VAR,SF_COMMIT SF_VSN SF_VSN_DESCRIBE SF_VSN_TAG,$(call make-lazy-once,$(VAR)))
+$(foreach VAR,YP_COMMIT YP_VSN YP_VSN_DESCRIBE YP_VSN_TAG,$(call make-lazy-once,$(VAR)))
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
@@ -54,9 +54,9 @@ $(foreach VAR,PKG_NAME PKG_VSN,$(call make-lazy-once,$(VAR)))
 .PHONY: all
 all: deps build check ## Fetch dependencies, build and check.
 
-SF_INCLUDES_IGNORE ?=
+YP_INCLUDES_IGNORE ?=
 
-SF_CORE_COMMON_INCLUDES_DEFAULT += \
+YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.vendor.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.clean.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.mk \
@@ -65,20 +65,20 @@ SF_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.shell.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.test.mk \
 
-SF_CORE_COMMON_INCLUDES_DEFAULT += \
+YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-info-attributes.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-info-exclude.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-submodules.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-reset-mtime.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.deps.git-hook-pre-push.mk \
 
-SF_CORE_COMMON_INCLUDES_DEFAULT += \
+YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.node.mk \
 
-SF_CORE_COMMON_INCLUDES_DEFAULT += \
+YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.archive.mk \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/core.ci.mk \
 
-SF_CORE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_CORE_COMMON_INCLUDES_DEFAULT))
+YP_CORE_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_CORE_COMMON_INCLUDES_DEFAULT))
 
-include $(SF_CORE_COMMON_INCLUDES)
+include $(YP_CORE_COMMON_INCLUDES)

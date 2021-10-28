@@ -17,8 +17,8 @@ RAW_GUC_URL := https://raw.githubusercontent.com
 BREWFILE_LOCK := Brewfile.lock
 
 # for testing purposes, so that 'make docker-ci' works
-# otherwise SF_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
-SF_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
+# otherwise YP_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
+YP_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
 
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
@@ -31,10 +31,10 @@ COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
 FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	yplatform \
 
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "^Formula/.*\.patch$$" \
 	-e "^Formula/patch-src/" \
 	-e "^bin/aws-cfviz$$" \
@@ -48,7 +48,7 @@ SF_VENDOR_FILES_IGNORE += \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
 	-e "^doc/bak/" \
 
-SF_PATH_FILES_IGNORE += \
+YP_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
 	-e "^dockerfiles/build.FROM_DOCKER_IMAGE_TAG$$" \
@@ -65,7 +65,7 @@ SF_PATH_FILES_IGNORE += \
 	-e "^repo/UNLICENSE$$" \
 	-e "^repo/dot.github/" \
 
-SF_ECLINT_FILES_IGNORE += \
+YP_ECLINT_FILES_IGNORE += \
 	-e "^\.github/workflows/deploy\.yml$$" \
 	-e "^\.github/workflows/main\.yml$$" \
 	-e "^\.travis\.yml\.bak$$" \
@@ -77,10 +77,10 @@ SF_ECLINT_FILES_IGNORE += \
 	-e "^repo/UNLICENSE$$" \
 	-e "^yplatform$$" \
 
-SF_SHELLCHECK_FILES_IGNORE += \
+YP_SHELLCHECK_FILES_IGNORE += \
 	-e "^doc/ci\-sh\.md$$" \
 
-SF_CHECK_TPL_FILES += \
+YP_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
@@ -92,11 +92,11 @@ ifeq (true,$(CI))
 .PHONY: $(sf_CHECK_TPL_FILES)
 endif
 
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	.github/workflows/main.yml \
 	.github/workflows/deploy.yml \
 
-SF_TEST_TARGETS += \
+YP_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
 	test-repo-mk \
@@ -122,7 +122,7 @@ Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
 
 .PHONY: test-secret
 test-secret:
-ifeq ($(SF_IS_TRANSCRYPTED),true)
+ifeq ($(YP_IS_TRANSCRYPTED),true)
 	$(ECHO_DO) "Testing transcrypt..."
 	$(CAT) doc/how-to-manage-secrets.md.test.secret
 	$(CAT) doc/how-to-manage-secrets.md.test.secret | \
@@ -156,7 +156,7 @@ test-env-ci:
 	$(COMM) -23 <($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) | \
 		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne --not --fail --print-on-fail || { \
 			$(ECHO_ERR) "Found the above differences with env-ci."; \
-			$(ECHO_INFO) "A full diff between SF_CI_* env vars between bin/env-ci and bin/ci-printvars follows:"; \
+			$(ECHO_INFO) "A full diff between YP_CI_* env vars between bin/env-ci and bin/ci-printvars follows:"; \
 			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \
 				<($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) || true; \
 			$(ECHO_INFO) "A full printout of CI env vars follows:"; \

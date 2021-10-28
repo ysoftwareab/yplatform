@@ -1,11 +1,11 @@
 # Symlinks '.git/info/attributes' to yplatform 'gitconfig/dot.gitattributes_global'.
 #
-# '.git/info/attributes' is automatically added to the 'deps' target via SF_DEPS_TARGETS.
+# '.git/info/attributes' is automatically added to the 'deps' target via YP_DEPS_TARGETS.
 #
 # ------------------------------------------------------------------------------
 
 ifneq (,$(wildcard .git))
-SF_DEPS_TARGETS += \
+YP_DEPS_TARGETS += \
 	.git/info/attributes \
 
 endif

@@ -4,8 +4,8 @@ FROM ubuntu:20.04
 SHELL ["/bin/bash", "-c"]
 
 ADD . /yplatform
-RUN SF_DOCKER_CI_IMAGE_NAME=sf-$(source /etc/os-release && echo "${ID}-${VERSION_ID}") \
-  SF_DOCKER_CI_IMAGE_TAG=codeship \
+RUN YP_DOCKER_CI_IMAGE_NAME=sf-$(source /etc/os-release && echo "${ID}-${VERSION_ID}") \
+  YP_DOCKER_CI_IMAGE_TAG=codeship \
   /yplatform/.codeship/$(source /etc/os-release && echo "${ID}-${VERSION_ID}")/Dockerfile.build.sh
 ADD . /home/codeship/build
 RUN chown -R codeship:codeship /home/codeship/build

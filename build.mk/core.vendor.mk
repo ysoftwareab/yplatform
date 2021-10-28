@@ -1,6 +1,6 @@
 # For convenience, vendor files can be ignored from various targets
-# via grep arguments given to SF_VENDOR_FILES_IGNORE:
-# SF_VENDOR_FILES_IGNORE += \
+# via grep arguments given to YP_VENDOR_FILES_IGNORE:
+# YP_VENDOR_FILES_IGNORE += \
 #	-e "^path/to/dir/" \
 #	-e "^path/to/file$" \
 #
@@ -9,7 +9,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "^$$" \
 	-e "^LICENSE$$" \
 	-e "^NOTICE$$" \

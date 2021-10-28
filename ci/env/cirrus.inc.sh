@@ -8,42 +8,42 @@ function sf_ci_env_cirrus() {
     [[ "${CIRRUS_REPO_CLONE_HOST:-}" = "github.com" ]]
 
     export CI=true
-    SF_CI_NAME="Cirrus CI"
-    SF_CI_PLATFORM=cirrus
-    SF_CI_SERVER_HOST=cirrus-ci.com
-    SF_CI_REPO_SLUG=${CIRRUS_REPO_FULL_NAME:-}
-    SF_CI_ROOT=${CIRRUS_WORKING_DIR:-}
+    YP_CI_NAME="Cirrus CI"
+    YP_CI_PLATFORM=cirrus
+    YP_CI_SERVER_HOST=cirrus-ci.com
+    YP_CI_REPO_SLUG=${CIRRUS_REPO_FULL_NAME:-}
+    YP_CI_ROOT=${CIRRUS_WORKING_DIR:-}
 
-    SF_CI_IS_CRON=
-    [[ -z "${CIRRUS_CRON:-}" ]] || SF_CI_IS_CRON=true
-    SF_CI_IS_PR=
-    [[ -z "${CIRRUS_PR:-}" ]] || SF_CI_IS_PR=true
+    YP_CI_IS_CRON=
+    [[ -z "${CIRRUS_CRON:-}" ]] || YP_CI_IS_CRON=true
+    YP_CI_IS_PR=
+    [[ -z "${CIRRUS_PR:-}" ]] || YP_CI_IS_PR=true
 
 
-    SF_CI_JOB_ID=${CIRRUS_TASK_ID:-}
-    SF_CI_PIPELINE_ID=${CIRRUS_BUILD_ID:-}
-    SF_CI_JOB_URL=https://cirrus-ci.com/task/${SF_CI_JOB_ID}
-    SF_CI_PIPELINE_URL=https://cirrus-ci.com/build/${SF_CI_PIPELINE_ID}
+    YP_CI_JOB_ID=${CIRRUS_TASK_ID:-}
+    YP_CI_PIPELINE_ID=${CIRRUS_BUILD_ID:-}
+    YP_CI_JOB_URL=https://cirrus-ci.com/task/${YP_CI_JOB_ID}
+    YP_CI_PIPELINE_URL=https://cirrus-ci.com/build/${YP_CI_PIPELINE_ID}
 
-    SF_CI_PR_NUMBER=
-    SF_CI_PR_URL=
-    SF_CI_PR_REPO_SLUG=
-    SF_CI_PR_GIT_HASH=
-    SF_CI_PR_GIT_BRANCH=
-    [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_NUMBER=${CIRRUS_PR:-}
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
-        SF_CI_PR_REPO_SLUG= # TODO
-        SF_CI_PR_GIT_HASH= # TODO
-        SF_CI_PR_GIT_BRANCH=${CIRRUS_BRANCH:-}
+    YP_CI_PR_NUMBER=
+    YP_CI_PR_URL=
+    YP_CI_PR_REPO_SLUG=
+    YP_CI_PR_GIT_HASH=
+    YP_CI_PR_GIT_BRANCH=
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
+        YP_CI_PR_NUMBER=${CIRRUS_PR:-}
+        YP_CI_PR_URL=https://github.com/${YP_CI_REPO_SLUG}/pull/${YP_CI_PR_NUMBER}
+        YP_CI_PR_REPO_SLUG= # TODO
+        YP_CI_PR_GIT_HASH= # TODO
+        YP_CI_PR_GIT_BRANCH=${CIRRUS_BRANCH:-}
     }
 
-    SF_CI_GIT_HASH=${CIRRUS_CHANGE_IN_REPO:-}
-    SF_CI_GIT_BRANCH=${CIRRUS_BRANCH:-}
-    [[ "${SF_CI_IS_PR}" != "true" ]] || SF_CI_GIT_BRANCH=${CIRRUS_BASE_BRANCH:-}
-    SF_CI_GIT_TAG=${CIRRUS_TAG:-}
+    YP_CI_GIT_HASH=${CIRRUS_CHANGE_IN_REPO:-}
+    YP_CI_GIT_BRANCH=${CIRRUS_BRANCH:-}
+    [[ "${YP_CI_IS_PR}" != "true" ]] || YP_CI_GIT_BRANCH=${CIRRUS_BASE_BRANCH:-}
+    YP_CI_GIT_TAG=${CIRRUS_TAG:-}
 
-    SF_CI_DEBUG_MODE=${SF_CI_DEBUG_MODE:-}
+    YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
 function sf_ci_printvars_cirrus() {

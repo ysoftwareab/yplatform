@@ -3,22 +3,22 @@
 # ------------------------------------------------------------------------------
 
 # NOTE might be enough with core.common.mk
-ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
+ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including node.common.mk .)
 endif
 
 include $(SUPPORT_FIRECLOUD_DIR)/build.mk/js.common.mk
 
-SF_NODE_COMMON_INCLUDES_DEFAULT += \
+YP_NODE_COMMON_INCLUDES_DEFAULT += \
 	$(SUPPORT_FIRECLOUD_DIR)/build.mk/js.build.babel.mk \
 
-SF_NODE_COMMON_INCLUDES = $(filter-out $(SF_INCLUDES_IGNORE), $(SF_NODE_COMMON_INCLUDES_DEFAULT))
+YP_NODE_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_NODE_COMMON_INCLUDES_DEFAULT))
 
-include $(SF_NODE_COMMON_INCLUDES)
+include $(YP_NODE_COMMON_INCLUDES)
 
 # ------------------------------------------------------------------------------
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	dist \
 	lib \
 

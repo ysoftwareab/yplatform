@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # shellcheck disable=SC2034
-SF_DOCKER_CI_IMAGE=false
+YP_DOCKER_CI_IMAGE=false
 DOCKER_ORG=${DOCKER_ORG:-rokmoln}
 
 # publish to hub.docker.com if given
@@ -54,7 +54,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
 
-    local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
+    local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
     echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
     exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
     exe docker push ${TAG}
@@ -63,7 +63,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     # TODO deprecated image name that uses codename
     local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
-        local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
+        local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
@@ -72,7 +72,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
 
     local PUBLISH_AS_LATEST_TAG=$1
     if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        local TAG=${GH_DOCKER_HUB}/${SF_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
+        local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
         exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
         exe docker push ${TAG}
@@ -97,7 +97,7 @@ function ci_run_deploy_docker_image() {
         FROM_DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
         DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
     else
-        [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || {
+        [[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || {
             DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
         }
     fi
@@ -114,8 +114,8 @@ function ci_run_deploy_docker_image() {
         --docker-image-tag "${DOCKER_IMAGE_TAG}" \
         --sf-ci-brew-install "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}"
 
-    [[ "${SF_DEPLOY_DRYRUN:-}" != "true" ]] || {
-        echo_info "SF_DEPLOY_DRYRUN=${SF_DEPLOY_DRYRUN}"
+    [[ "${YP_DEPLOY_DRYRUN:-}" != "true" ]] || {
+        echo_info "YP_DEPLOY_DRYRUN=${YP_DEPLOY_DRYRUN}"
         echo_skip "Pushing to docker registries..."
         return 0
     }
@@ -136,7 +136,7 @@ function ci_run_deploy_docker_image() {
 }
 
 function ci_run_deploy() {
-    [[ "${SF_DEPLOY_DRYRUN:-}" = "true" ]] || {
+    [[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || {
         PKG_VSN=$(cat package.json | jq -r ".version")
         echo "${GIT_TAGS}" | grep -q "\v${PKG_VSN}\b" || {
             echo_err "${FUNCNAME[0]}: git tags ${GIT_TAGS} do not match package.json version v${PKG_VSN}."

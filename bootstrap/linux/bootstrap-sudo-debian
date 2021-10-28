@@ -7,13 +7,13 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
 
 if [[ "${EUID}" != "0" ]]; then
     echo_info "EUID=${EUID}"
-    [[ -n "${SF_SUDO}" ]] || {
-        echo_info "SF_SUDO=${SF_SUDO}"
+    [[ -n "${YP_SUDO}" ]] || {
+        echo_info "YP_SUDO=${YP_SUDO}"
         echo_err "Restarting this shell script as root is impossible."
         exit 1
     }
     echo_warn "Restarting this shell script as root."
-    exe ${SF_SUDO} --preserve-env --set-home ${BASH_SOURCE[0]}
+    exe ${YP_SUDO} --preserve-env --set-home ${BASH_SOURCE[0]}
     exit 0
 fi
 

@@ -3,36 +3,36 @@ set -euo pipefail
 
 # ECHO -------------------------------------------------------------------------
 
-SF_CI_ECHO_BENCHMARK=${SF_CI_ECHO_BENCHMARK:-/dev/null}
-export SF_CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${SF_CI_ECHO_BENCHMARK}"
+YP_CI_ECHO_BENCHMARK=${YP_CI_ECHO_BENCHMARK:-/dev/null}
+export YP_CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${YP_CI_ECHO_BENCHMARK}"
 
 function echo_next() {
-    ${SF_CI_ECHO} "[NEXT]" "$@"
+    ${YP_CI_ECHO} "[NEXT]" "$@"
 }
 
 function echo_do() {
-    ${SF_CI_ECHO} "[DO  ]" "$@"
+    ${YP_CI_ECHO} "[DO  ]" "$@"
 }
 
 # shellcheck disable=SC2120
 function echo_done() {
-    ${SF_CI_ECHO} "[DONE]" "$@"
+    ${YP_CI_ECHO} "[DONE]" "$@"
 }
 
 function echo_info() {
-    ${SF_CI_ECHO} "[INFO]" "$@"
+    ${YP_CI_ECHO} "[INFO]" "$@"
 }
 
 function echo_skip() {
-    ${SF_CI_ECHO} "[SKIP]" "$@"
+    ${YP_CI_ECHO} "[SKIP]" "$@"
 }
 
 function echo_warn() {
-    ${SF_CI_ECHO} "[WARN]" "$@"
+    ${YP_CI_ECHO} "[WARN]" "$@"
 }
 
 function echo_err() {
-    ${SF_CI_ECHO} "[ERR ]" "$@"
+    ${YP_CI_ECHO} "[ERR ]" "$@"
 }
 
 # SHELL ------------------------------------------------------------------------

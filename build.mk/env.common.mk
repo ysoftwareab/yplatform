@@ -10,7 +10,7 @@
 # ------------------------------------------------------------------------------
 
 # NOTE might be enough with core.common.mk
-ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
+ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including env.common.mk .)
 endif
 
@@ -19,7 +19,7 @@ include $(SUPPORT_FIRECLOUD_DIR)/build.mk/env.teardown.mk
 
 # ------------------------------------------------------------------------------
 
-SF_PROMOTE_ENVS += \
+YP_PROMOTE_ENVS += \
 	dev \
 	prod-staging \
 	prod \

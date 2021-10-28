@@ -16,12 +16,12 @@ LIB_DTS_FILES += \
 	$(patsubst src/%.js,lib/%.d.ts,$(SRC_JS_FILES)) \
 	$(patsubst src/%.ts,lib/%.d.ts,$(SRC_TS_FILES)) \
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	$(LIB_JS_FILES) \
 	$(LIB_JS_MAP_FILES) \
 	$(LIB_DTS_FILES) \
 
-SF_BUILD_TARGETS += \
+YP_BUILD_TARGETS += \
 	build-ts \
 
 TSC_ARGS += \

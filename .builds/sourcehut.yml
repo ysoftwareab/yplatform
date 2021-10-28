@@ -3,9 +3,9 @@ sources:
   - https://github.com/ysoftwareab/yplatform.git
 tasks:
   - script: |
-      export SF_CI_BREW_INSTALL=minimal
-      export SF_LOG_BOOTSTRAP=true
-      export SF_PRINTENV_BOOTSTRAP=true
+      export YP_CI_BREW_INSTALL=minimal
+      export YP_LOG_BOOTSTRAP=true
+      export YP_PRINTENV_BOOTSTRAP=true
 
       set -euo pipefail
       if [[ "${BUILD_REASON}" = "github-pr" ]]; then

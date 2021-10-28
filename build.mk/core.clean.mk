@@ -1,4 +1,4 @@
-# Adds a 'clean' target that will remove all SF_CLEAN_FILES.
+# Adds a 'clean' target that will remove all YP_CLEAN_FILES.
 # This is a so-called safe target that removes only defined files,
 # leaving untouched files that are unknown to the repository.
 #
@@ -10,21 +10,21 @@
 # the repository from scratch, when the 'clean' target fails to fix unforeseen issues.
 #
 # To add another file/folder to the list of files to clean do
-# SF_CLEAN_FILES += \
+# YP_CLEAN_FILES += \
 #	clean/some/other/path \
 #
 # ------------------------------------------------------------------------------
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	Makefile.lazy \
 
 # ------------------------------------------------------------------------------
 
 .PHONY: clean
 clean: ## Clean.
-	[[ "$(words $(SF_CLEAN_FILES))" = "0" ]] || { \
+	[[ "$(words $(YP_CLEAN_FILES))" = "0" ]] || { \
 		$(ECHO_DO) "Cleaning..."; \
-		$(RM) $(SF_CLEAN_FILES); \
+		$(RM) $(YP_CLEAN_FILES); \
 		$(ECHO_DONE); \
 	}
 

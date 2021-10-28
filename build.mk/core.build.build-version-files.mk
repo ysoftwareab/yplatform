@@ -1,6 +1,6 @@
 # Adds 'BUILD' and 'VERSION' internal targets to generate the respective files,
 # which include variables that can be sourced by shell scripts and Makefiles.
-# The 'BUILD' and 'VERSION' targets are automatically included in the 'build' target via SF_BUILD_TARGETS.
+# The 'BUILD' and 'VERSION' targets are automatically included in the 'build' target via YP_BUILD_TARGETS.
 #
 # ------------------------------------------------------------------------------
 #
@@ -18,11 +18,11 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_CLEAN_FILES += \
+YP_CLEAN_FILES += \
 	BUILD \
 	VERSION \
 
-SF_BUILD_TARGETS += \
+YP_BUILD_TARGETS += \
 	VERSION \
 
 BUILD_DATE ?= $(MAKE_DATE)
@@ -42,7 +42,7 @@ BUILD_OS_SYSTEM ?= $(shell $(UNAME) -a)
 BUILD_VSN ?= $(PKG_VSN)_$(GIT_HASH)
 
 
-SF_BUILD_VARS = \
+YP_BUILD_VARS = \
 	BUILD_VSN \
 	BUILD_DATE \
 	BUILD_TIME \
@@ -56,15 +56,15 @@ SF_BUILD_VARS = \
 	BUILD_USER \
 	BUILD_HOSTNAME \
 
-SF_VERSION_VARS = \
+YP_VERSION_VARS = \
 	PKG_NAME \
 	PKG_VSN \
-	$(SF_BUILD_VARS)
+	$(YP_BUILD_VARS)
 
 define sf-substitute-version-vars-in-file
 	< $1 > $2 \
-		$(foreach VAR,$(SF_VERSION_VARS),$(VAR)=$($(VAR))) \
-		envsubst '$(foreach VAR,$(SF_VERSION_VARS),$${$(VAR)})'
+		$(foreach VAR,$(YP_VERSION_VARS),$(VAR)=$($(VAR))) \
+		envsubst '$(foreach VAR,$(YP_VERSION_VARS),$${$(VAR)})'
 endef
 
 # ------------------------------------------------------------------------------
@@ -73,12 +73,12 @@ endef
 BUILD:
 	$(ECHO_DO) "Generating $@..."
 	$(RM) $@
-	$(ECHO) $(foreach VAR,$(SF_BUILD_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
+	$(ECHO) $(foreach VAR,$(YP_BUILD_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
 	$(ECHO_DONE)
 
 
 VERSION: BUILD
 	$(ECHO_DO) "Generating $@..."
 	$(RM) $@
-	$(ECHO) $(foreach VAR,$(SF_VERSION_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
+	$(ECHO) $(foreach VAR,$(YP_VERSION_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
 	$(ECHO_DONE)

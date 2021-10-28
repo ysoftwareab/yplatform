@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-[[ "${SF_CI_PLATFORM:-}" != "github" ]] || {
+[[ "${YP_CI_PLATFORM:-}" != "github" ]] || {
     [[ "${OS_SHORT}" != "darwin" ]] || {
         echo_do "Uninstalling Python 2.7..."
         set -x
         # uninstall Python 2.7, or else we get symlink conflicts, etc
-        ${SF_SUDO} rm -rf /Applications/Python\ 2.7
-        ${SF_SUDO} rm -rf /Library/Frameworks/Python.framework
+        ${YP_SUDO} rm -rf /Applications/Python\ 2.7
+        ${YP_SUDO} rm -rf /Library/Frameworks/Python.framework
         find /usr/local/bin -type l -print0 | \
             xargs -0 stat -f "%N %Y" | \
             grep "/Library/Frameworks/Python\.framework" | \
             cut -d" " -f1 | while read -r NO_XARGS_R; do
                 [[ -n "${NO_XARGS_R}" ]] || continue;
-                ${SF_SUDO} rm -rf ${NO_XARGS_R}
+                ${YP_SUDO} rm -rf ${NO_XARGS_R}
             done
         set +x
         echo_done

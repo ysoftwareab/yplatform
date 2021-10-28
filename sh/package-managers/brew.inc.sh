@@ -8,7 +8,7 @@ function brew_list_installed() {
 }
 function brew_cache_prune() {
     echo_do "brew: Pruning cache in $(brew --cache)..."
-    ${SF_SUDO:-} rm -rf "$(brew --cache)"
+    ${YP_SUDO:-} rm -rf "$(brew --cache)"
     echo_done
 }
 

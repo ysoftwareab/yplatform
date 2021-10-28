@@ -11,39 +11,39 @@ function sf_ci_env_sourcehut() {
     [[ ${GITHUB_REF} =~ ^refs/heads/ ]] || [[ ${GITHUB_REF} =~ ^refs/pull/ ]] # only branches and pull requests
 
     export CI=true # missing
-    SF_CI_NAME=sourcehut
-    SF_CI_PLATFORM=sourcehut
-    SF_CI_SERVERT_HOST=sourcehut.org
-    SF_CI_REPO_SLUG=${GITHUB_BASE_REPO:-${GITHUB_REPO:-}}
-    SF_CI_ROOT=${HOME}
+    YP_CI_NAME=sourcehut
+    YP_CI_PLATFORM=sourcehut
+    YP_CI_SERVERT_HOST=sourcehut.org
+    YP_CI_REPO_SLUG=${GITHUB_BASE_REPO:-${GITHUB_REPO:-}}
+    YP_CI_ROOT=${HOME}
 
-    SF_CI_IS_CRON=
-    SF_CI_IS_PR=
-    [[ "${BUILD_REASON:-}" != "github-pr" ]] || SF_CI_IS_PR=true
+    YP_CI_IS_CRON=
+    YP_CI_IS_PR=
+    [[ "${BUILD_REASON:-}" != "github-pr" ]] || YP_CI_IS_PR=true
 
-    SF_CI_JOB_ID=${JOB_ID:-}
-    SF_CI_PIPELINE_ID=${SF_CI_JOB_ID}
-    SF_CI_JOB_URL=${JOB_URL:-}
-    SF_CI_PIPELINE_URL=${SF_CI_JOB_URL}
+    YP_CI_JOB_ID=${JOB_ID:-}
+    YP_CI_PIPELINE_ID=${YP_CI_JOB_ID}
+    YP_CI_JOB_URL=${JOB_URL:-}
+    YP_CI_PIPELINE_URL=${YP_CI_JOB_URL}
 
-    SF_CI_PR_NUMBER=
-    SF_CI_PR_URL=
-    SF_CI_PR_REPO_SLUG=
-    SF_CI_PR_GIT_HASH=
-    SF_CI_PR_GIT_BRANCH=
-    [[ "${SF_CI_IS_PR}" != "true" ]] || {
-        SF_CI_PR_NUMBER=${GITHUB_PR_NUMBER:-}
-        SF_CI_PR_URL=https://github.com/${SF_CI_REPO_SLUG}/pull/${SF_CI_PR_NUMBER}
-        SF_CI_PR_REPO_SLUG=https://github.com/${GITHUB_HEAD_REPO:-}
-        SF_CI_PR_GIT_HASH= # TODO
-        SF_CI_PR_GIT_BRANCH= # TODO
+    YP_CI_PR_NUMBER=
+    YP_CI_PR_URL=
+    YP_CI_PR_REPO_SLUG=
+    YP_CI_PR_GIT_HASH=
+    YP_CI_PR_GIT_BRANCH=
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
+        YP_CI_PR_NUMBER=${GITHUB_PR_NUMBER:-}
+        YP_CI_PR_URL=https://github.com/${YP_CI_REPO_SLUG}/pull/${YP_CI_PR_NUMBER}
+        YP_CI_PR_REPO_SLUG=https://github.com/${GITHUB_HEAD_REPO:-}
+        YP_CI_PR_GIT_HASH= # TODO
+        YP_CI_PR_GIT_BRANCH= # TODO
     }
 
-    SF_CI_GIT_HASH=$(git rev-parse HEAD 2>/dev/null || true)
-    SF_CI_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
-    SF_CI_GIT_TAG=$(git tag --points-at HEAD 2>/dev/null || true)
+    YP_CI_GIT_HASH=$(git rev-parse HEAD 2>/dev/null || true)
+    YP_CI_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
+    YP_CI_GIT_TAG=$(git tag --points-at HEAD 2>/dev/null || true)
 
-    SF_CI_DEBUG_MODE=${SF_CI_DEBUG_MODE:-}
+    YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
 function sf_ci_printvars_sourcehut() {

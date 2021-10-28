@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1
-ARG SF_DOCKER_CI_FROM
-FROM ${SF_DOCKER_CI_FROM}
+ARG YP_DOCKER_CI_FROM
+FROM ${YP_DOCKER_CI_FROM}
 
-ARG SF_CI_BREW_INSTALL
-ARG SF_DOCKER_CI_IMAGE_NAME
-ARG SF_DOCKER_CI_IMAGE_TAG
-ARG SF_OS_RELEASE_DIR
+ARG YP_CI_BREW_INSTALL
+ARG YP_DOCKER_CI_IMAGE_NAME
+ARG YP_DOCKER_CI_IMAGE_TAG
+ARG YP_OS_RELEASE_DIR
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
@@ -13,15 +13,15 @@ COPY . /yplatform
 
 # see https://www.camptocamp.com/en/news-events/flexible-docker-entrypoints-scripts
 # see https://github.com/camptocamp/docker-git/blob/master/docker-entrypoint.sh
-RUN cp -Rp -L /yplatform/${SF_OS_RELEASE_DIR}/Dockerfile.entrypoint.sh /Dockerfile.entrypoint.sh
-RUN cp -Rp -L /yplatform/${SF_OS_RELEASE_DIR}/Dockerfile.entrypoint.d /Dockerfile.entrypoint.d
+RUN cp -Rp -L /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.entrypoint.sh /Dockerfile.entrypoint.sh
+RUN cp -Rp -L /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.entrypoint.d /Dockerfile.entrypoint.d
 # ONBUILD COPY Dockerfile.entrypoint.d/* /Dockerfile.entrypoint.d/
 # ONBUILD COPY docker-entrypoint.d/* /Dockerfile.entrypoint.d/ # ?! compat with camptocamp
 ENTRYPOINT ["/Dockerfile.entrypoint.sh"]
 
-RUN SF_DOCKER_CI_IMAGE_NAME=${SF_DOCKER_CI_IMAGE_NAME} \
-  SF_DOCKER_CI_IMAGE_TAG=${SF_DOCKER_CI_IMAGE_TAG} \
-  SF_CI_BREW_INSTALL=${SF_CI_BREW_INSTALL} \
+RUN YP_DOCKER_CI_IMAGE_NAME=${YP_DOCKER_CI_IMAGE_NAME} \
+  YP_DOCKER_CI_IMAGE_TAG=${YP_DOCKER_CI_IMAGE_TAG} \
+  YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL} \
   /yplatform/dockerfiles/$(source /etc/os-release && echo "sf-${ID}-${VERSION_ID:-0}")/Dockerfile.build.sh
 
 CMD ["bash"]

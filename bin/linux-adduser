@@ -169,7 +169,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         [[ "${FORCE_BADNAME}" != "true" ]] || \
             echo_warn "'--force-badname' is not supported. Trying anyway."
         ARGS+=("${USER}")
-        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
         ;;
     linux-arch-*|linux-centos-*)
         ARGS=()
@@ -184,12 +184,12 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
         [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--badnames")
         ARGS+=("${USER}")
-        exe ${SF_SUDO:-} /usr/sbin/useradd "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/useradd "${ARGS[@]}"
         [[ "${DISABLED_PASSWORD}" != "true" ]] || {
             if [[ -x /usr/bin/passwd ]]; then
-                exe ${SF_SUDO:-} /usr/bin/passwd -l "${USER}"
+                exe ${YP_SUDO:-} /usr/bin/passwd -l "${USER}"
             elif [[ -x /usr/sbin/passwd ]]; then
-                exe ${SF_SUDO:-} /usr/sbin/passwd -l "${USER}"
+                exe ${YP_SUDO:-} /usr/sbin/passwd -l "${USER}"
             else
                 echo_err "No /usr/bin/passwd nor /usr/sbin/passwd available."
                 exit 1
@@ -209,7 +209,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         [[ "${DISABLED_PASSWORD}" != "true" ]] || ARGS+=("--disabled-password")
         [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--force-badname")
         ARGS+=("${USER}")
-        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a user."

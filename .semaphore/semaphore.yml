@@ -24,9 +24,9 @@ blocks:
       when: "branch =~ '^semaphore' OR branch = 'master' OR pull_request !~ '^$'"
     task:
       env_vars:
-        - name: SF_CI_BREW_INSTALL
+        - name: YP_CI_BREW_INSTALL
           value: dev
-        - name: SF_LOG_BOOTSTRAP
+        - name: YP_LOG_BOOTSTRAP
           value: 'true'
       prologue:
         commands:

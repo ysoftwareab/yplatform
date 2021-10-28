@@ -8,14 +8,14 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a SF_IS_TRANSCRYPTED variable to check if the repository has been decrypted.
+# Adds a YP_IS_TRANSCRYPTED variable to check if the repository has been decrypted.
 #
 # ------------------------------------------------------------------------------
 
-SF_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
-$(foreach VAR,SF_IS_TRANSCRYPTED,$(call make-lazy-once,$(VAR)))
+YP_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
+$(foreach VAR,YP_IS_TRANSCRYPTED,$(call make-lazy-once,$(VAR)))
 
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "^.transcrypt/" \
 	-e "^transcrypt$$" \
 

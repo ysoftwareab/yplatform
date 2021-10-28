@@ -76,7 +76,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
             echo_warn "'--force-badname' is not supported. Trying anyway."
         ARGS+=("${USER}")
         ARGS+=("${GROUP}")
-        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
         ;;
     linux-arch-*|linux-centos-*)
         ARGS=()
@@ -84,14 +84,14 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         ARGS+=("-a")
         ARGS+=("-G" "${GROUP}")
         ARGS+=("${USER}")
-        exe ${SF_SUDO:-} /usr/sbin/usermod "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/usermod "${ARGS[@]}"
         ;;
     linux-debian-*|linux-ubuntu-*)
         ARGS=()
         [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--force-badname")
         ARGS+=("${USER}")
         ARGS+=("${GROUP}")
-        exe ${SF_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/adduser "${ARGS[@]}"
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a user to a group."

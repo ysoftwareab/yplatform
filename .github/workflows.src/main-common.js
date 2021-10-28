@@ -43,9 +43,9 @@ let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, '
 
 let env = {
   GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
-  SF_LOG_BOOTSTRAP: true,
-  SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}',
-  SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}',
+  YP_LOG_BOOTSTRAP: true,
+  YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}',
+  YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}',
   V: '${{ secrets.V }}'
 };
 
@@ -96,7 +96,7 @@ ciShSteps.push({
   env: {
     SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}',
     SLACK_CHANNEL: 'cloud-ci',
-    SF_CI_STATUS: '${{ job.status }}'
+    YP_CI_STATUS: '${{ job.status }}'
   },
   run: './.ci.sh notifications || true'
 });

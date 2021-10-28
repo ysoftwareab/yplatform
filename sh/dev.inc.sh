@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[[ "${SF_DEV_INC_SH:-}" = "true" ]] || {
+[[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
         GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
         GLOBAL_SUPPORT_FIRECLOUD_DIR="$(cd "${GLOBAL_SUPPORT_FIRECLOUD_DIR}" && pwd)"
@@ -22,5 +22,5 @@
     sf_path_prepend ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/dev/bin
     sf_path_append ./node_modules/.bin
 
-    export SF_DEV_INC_SH=true
+    export YP_DEV_INC_SH=true
 }

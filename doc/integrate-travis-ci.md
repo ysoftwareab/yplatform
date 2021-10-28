@@ -58,7 +58,7 @@ Don't forget to commit the most important thing: a `.travis.yml` ([template](../
 If your job has artifacts, like logs that you'd like to access outside of the Travis CI job log,
 then you need to
 
-* Add a `SF_GH_TOKEN_DEPLOY`, alternatively `SF_GH_TOKEN`, secure environment variable in the Travis CI web UI.
+* Add a `YP_GH_TOKEN_DEPLOY`, alternatively `YP_GH_TOKEN`, secure environment variable in the Travis CI web UI.
   Use the Github API token of the `svc-pro-github` user (can be found in **the designated safe location**).
   This Github API token should have enough permissions to push to the repository.
 * Give access to the repo to `rokmoln/zz-svc-pro-github` team with a level `Write`.
@@ -88,17 +88,17 @@ and having the same user and home folder contents as the host.
 because they will only affect the host machine, and not the Docker container where the pipeline runs.
 
 The Docker image is by default `rokmoln/sf-<os>-<os_version>-common`,
-but it can be specified via an environment variable `SF_DOCKER_CI_IMAGE` in the Travis UI.
+but it can be specified via an environment variable `YP_DOCKER_CI_IMAGE` in the Travis UI.
 
-Alternatively, you can disable running the pipeline in a Docker container, via `SF_DOCKER_CI_IMAGE=false`.
+Alternatively, you can disable running the pipeline in a Docker container, via `YP_DOCKER_CI_IMAGE=false`.
 
 Starting 2020-11-01, Docker will impose rate limits for pulling public images from hub.docker.com.
 In order to not risk getting rate-limited, one should authenticate the calls.
 Credentials can be passed via environment variables:
 
-* `SF_DOCKER_CI_USERNAME`, defaults to another environment variable `DOCKER_USERNAME`
-* `SF_DOCKER_CI_TOKEN`, defaults to another environment variable `DOCKER_TOKEN`
-* `SF_DOCKER_CI_SERVER`, defaults to `hub.docker.com`
+* `YP_DOCKER_CI_USERNAME`, defaults to another environment variable `DOCKER_USERNAME`
+* `YP_DOCKER_CI_TOKEN`, defaults to another environment variable `DOCKER_TOKEN`
+* `YP_DOCKER_CI_SERVER`, defaults to `hub.docker.com`
 
 
 ## Debugging
@@ -172,7 +172,7 @@ For more info, see:
 ### `transcrypt`-ed repository
 
 If your repository is `transcrypt`-ed, and you want to access the secrets in Travis CI,
-you need to add `SF_TRANSCRYPT_PASSWORD` variable in Travis Web UI.
+you need to add `YP_TRANSCRYPT_PASSWORD` variable in Travis Web UI.
 
 The decryption of the repository will happen automatically in non-pull-request builds,
 if `.travis.yml` runs `./travis.sh before_install` in `before_install`

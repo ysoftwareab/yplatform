@@ -14,7 +14,7 @@
 #
 # ------------------------------------------------------------------------------
 
-SF_VENDOR_FILES_IGNORE += \
+YP_VENDOR_FILES_IGNORE += \
 	-e "^release\-notes/" \
 
 VERSION_LEVELS := \

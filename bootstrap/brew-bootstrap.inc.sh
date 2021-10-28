@@ -55,7 +55,7 @@ function bootstrap_brew() {
 
     [[ "${CI}" != "true" ]] || {
         if command -v brew >/dev/null 2>&1; then
-            if [[ "${SF_SKIP_BREW_UNINSTALL:-}" = "true" ]]; then
+            if [[ "${YP_SKIP_BREW_UNINSTALL:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else
                 echo_do "brew: Uninstalling homebrew..."
@@ -69,7 +69,7 @@ function bootstrap_brew() {
     local HAS_BREW_2=true
     bootstrap_has_brew || HAS_BREW_2=false
 
-    case ${HAS_BREW_2}-${OS_SHORT}-${SF_SUDO:-false} in
+    case ${HAS_BREW_2}-${OS_SHORT}-${YP_SUDO:-false} in
         true-darwin-*|true-linux-*)
             ;;
         false-linux-false|false-linux-sf_nosudo|false-linux-sf_nosudo_fallback)
@@ -96,7 +96,7 @@ function bootstrap_brew() {
             source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
             ;;
         *)
-            echo_err "brew: Cannot handle HAS_BREW_2=${HAS_BREW_2} OS_SHORT=${OS_SHORT} SF_SUDO=${SF_SUDO}."
+            echo_err "brew: Cannot handle HAS_BREW_2=${HAS_BREW_2} OS_SHORT=${OS_SHORT} YP_SUDO=${YP_SUDO}."
             return 1
             ;;
     esac

@@ -20,9 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -144,9 +144,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -268,9 +268,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -392,9 +392,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -517,9 +517,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -642,9 +642,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -765,9 +765,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -888,9 +888,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -1011,9 +1011,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -1134,9 +1134,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -1258,9 +1258,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -1382,9 +1382,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      SF_LOG_BOOTSTRAP: true
-      SF_PRINTENV_BOOTSTRAP: '${{ secrets.SF_PRINTENV_BOOTSTRAP }}'
-      SF_TRANSCRYPT_PASSWORD: '${{ secrets.SF_TRANSCRYPT_PASSWORD }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'

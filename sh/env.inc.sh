@@ -40,7 +40,7 @@ function sf_path_append_before() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-[[ "${SF_DEV_INC_SH:-}" = "true" ]] || {
+[[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
     source ${SUPPORT_FIRECLOUD_DIR}/bin/sf-env
 }
 
@@ -56,12 +56,12 @@ function make() {
         *)
             ;;
     esac
-    if [[ -z "${SF_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
+    if [[ -z "${YP_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
         [[ -f make.sh.successful ]] || {
             echo >&2 "[INFO] Running    ${PWD}/make.sh $*"
             echo >&2 "       instead of ${MAKE_COMMAND} $*"
         }
-        SF_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
+        YP_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
         local EXIT_CODE=$?
         # á la Ubuntu's ~/.sudo_as_admin_successful
         [[ ${EXIT_CODE} -ne 0 ]] || touch make.sh.successful

@@ -21,15 +21,15 @@ let env = {
 // ci
 let WSLENV = 'CI:V';
 // yplatform
-WSLENV = `${WSLENV}:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP`;
+WSLENV = `${WSLENV}:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP`;
 // github
 WSLENV = `${WSLENV}:GH_TOKEN:GH_USERNAME`;
 // transcrypt
-WSLENV = `${WSLENV}:SF_TRANSCRYPT_PASSWORD`;
+WSLENV = `${WSLENV}:YP_TRANSCRYPT_PASSWORD`;
 // slack
 WSLENV = `${WSLENV}:SLACK_WEBHOOK:SLACK_CHANNEL`;
 // custom
-WSLENV = `${WSLENV}:SF_CI_BREW_INSTALL:SF_CI_STATUS`;
+WSLENV = `${WSLENV}:YP_CI_BREW_INSTALL:YP_CI_STATUS`;
 
 // -----------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ let makeJobsWindows = function(matrixOs, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
       WSLENV,
       WSLUSER: 'github',
       WSLGROUP: 'github'
@@ -157,7 +157,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
     },
     steps: [
       checkoutStep,

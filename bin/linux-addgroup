@@ -77,21 +77,21 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         [[ "${SYSTEM}" != "true" ]] || ARGS+=("-S")
         [[ -z "${GROUP_ID}" ]] || ARGS+=("-g" "${GROUP_ID}")
         ARGS+=("${GROUP}")
-        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
         ;;
     linux-arch-*|linux-centos-*)
         ARGS=()
         [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
         [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
         ARGS+=("${GROUP}")
-        exe ${SF_SUDO:-} /usr/sbin/groupadd "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/groupadd "${ARGS[@]}"
         ;;
     linux-debian-*|linux-ubuntu-*)
         ARGS=()
         [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
         [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
         ARGS+=("${GROUP}")
-        exe ${SF_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
+        exe ${YP_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} is an unsupported OS for adding a group."

@@ -28,7 +28,7 @@ function ci_run_script_env() {
     }
 
     # Cron jobs should just run tests (skip provision)
-    if [[ "${SF_CI_IS_CRON}" = "true" ]]; then
+    if [[ "${YP_CI_IS_CRON}" = "true" ]]; then
         ${GIT_ROOT}/bin/get-snapshot
         make reset-to-snapshot
         [[ ! -f ${GIT_ROOT}/bin/test-env ]] || ${GIT_ROOT}/bin/test-env
@@ -64,7 +64,7 @@ function ci_run_script_teardown_env() {
 
 function ci_run_script() {
     # handle PRs
-    [[ "${SF_CI_IS_PR}" != "true" ]] || {
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
         sf_ci_run_install # see ci_run_install above
         sf_ci_run_script
         return 0
@@ -116,10 +116,10 @@ function ci_run_deploy() {
         echo "${ASSETS}" | \
         while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "--asset ${NO_XARGS_R}"; done)
     ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
-        --repo-slug ${SF_CI_REPO_SLUG} \
+        --repo-slug ${YP_CI_REPO_SLUG} \
         --tag "v${PKG_VSN}" \
         --body "$(cat release-notes/v${PKG_VSN}.txt)" \
         --target $(git rev-parse HEAD) \
         ${ASSETS_ARGS} \
-        --token ${SF_GH_TOKEN}
+        --token ${YP_GH_TOKEN}
 }

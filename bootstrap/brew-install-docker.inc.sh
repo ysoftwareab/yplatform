@@ -34,10 +34,10 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # BEGIN https://wiki.alpinelinux.org/wiki/Docker#Installation
         apk_install_one docker
         apk_install_one docker-compose
-        # ${SF_SUDO} addgroup $(whoami) docker
+        # ${YP_SUDO} addgroup $(whoami) docker
         # apk_install_one openrc
-        # ${SF_SUDO} rc-update add docker boot
-        # ${SF_SUDO} service docker start
+        # ${YP_SUDO} rc-update add docker boot
+        # ${YP_SUDO} service docker start
         # END https://wiki.alpinelinux.org/wiki/Docker#Installation
 
         exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\)\."
@@ -51,7 +51,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
 
         # BEGIN https://docs.docker.com/engine/install/ubuntu/
         for PKG in docker docker-engine docker.io containerd runc; do
-            ${SF_SUDO} apt-get remove ${PKG} || true;
+            ${YP_SUDO} apt-get remove ${PKG} || true;
         done
         unset PKG
 
@@ -61,9 +61,9 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         apt_install_one gnupg-agent
         apt_install_one software-properties-common
 
-        curl -qfsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${SF_SUDO} apt-key add -
-        ${SF_SUDO} apt-key fingerprint 0EBFCD88
-        ${SF_SUDO} add-apt-repository -u \
+        curl -qfsSL https://download.docker.com/linux/${OS_RELEASE_ID}/gpg | ${YP_SUDO} apt-key add -
+        ${YP_SUDO} apt-key fingerprint 0EBFCD88
+        ${YP_SUDO} add-apt-repository -u \
             "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable" # editorconfig-checker-disable-line
 
         apt_install_one docker-ce
@@ -75,9 +75,9 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # FIXME 1.28 uses python@3.9. see https://github.com/docker/compose/issues/8048
         # DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/latest/download
         DOCKER_COMPOSE_LATEST_URL=https://github.com/docker/compose/releases/download/1.27.4
-        ${SF_SUDO} curl -qfsSL -o /usr/local/bin/docker-compose \
+        ${YP_SUDO} curl -qfsSL -o /usr/local/bin/docker-compose \
             "${DOCKER_COMPOSE_LATEST_URL}/docker-compose-$(uname -s)-$(uname -m)"
-        ${SF_SUDO} chmod +x /usr/local/bin/docker-compose
+        ${YP_SUDO} chmod +x /usr/local/bin/docker-compose
         unset DOCKER_COMPOSE_LATEST_URL
         # END https://docs.docker.com/compose/install/
 
