@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_travis() {
+function yp_ci_env_travis() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
 
     export CI=true
@@ -42,7 +42,7 @@ function sf_ci_env_travis() {
     YP_CI_DEBUG_MODE=${TRAVIS_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_travis() {
+function yp_ci_printvars_travis() {
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CONTINUOUS_INTEGRATION$" \
@@ -50,7 +50,7 @@ function sf_ci_printvars_travis() {
         -e "^TRAVIS[=_]"
 }
 
-function sf_ci_known_env_travis() {
+function yp_ci_known_env_travis() {
     # see https://docs-staging.travis-ci.com/user/environment-variables/#default-environment-variables
     cat <<EOF
 CI

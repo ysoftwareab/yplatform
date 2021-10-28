@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 function ci_run_install() {
-    # defer calling 'sf_ci_run_install' to the 'script' stage
+    # defer calling 'yp_ci_run_install' to the 'script' stage
     true
 }
 
@@ -65,8 +65,8 @@ function ci_run_script_teardown_env() {
 function ci_run_script() {
     # handle PRs
     [[ "${YP_CI_IS_PR}" != "true" ]] || {
-        sf_ci_run_install # see ci_run_install above
-        sf_ci_run_script
+        yp_ci_run_install # see ci_run_install above
+        yp_ci_run_script
         return 0
     }
 
@@ -86,8 +86,8 @@ function ci_run_script() {
             ;;
         # handle git-env branches
         master|*-env)
-            sf_ci_run_install # see ci_run_install above
-            sf_ci_run_script
+            yp_ci_run_install # see ci_run_install above
+            yp_ci_run_script
             ci_run_script_env_git
             return 0
             ;;
@@ -96,8 +96,8 @@ function ci_run_script() {
             ;;
     esac
 
-    sf_ci_run_install # see ci_run_install above
-    sf_ci_run_script
+    yp_ci_run_install # see ci_run_install above
+    yp_ci_run_script
 }
 
 function ci_run_deploy() {

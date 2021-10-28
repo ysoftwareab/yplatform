@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_circle() {
+function yp_ci_env_circle() {
     [[ "${CIRCLECI:-}" = "true" ]] || return 0
 
     [[ "${CIRCLE_REPOSITORY_URL:-}" =~ github.com ]]
@@ -47,14 +47,14 @@ function sf_ci_env_circle() {
     export USER=$(whoami)
 }
 
-function sf_ci_printvars_circle() {
+function yp_ci_printvars_circle() {
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRCLE[=_]" \
         -e "^CIRCLECI$"
 }
 
-function sf_ci_known_env_circle() {
+function yp_ci_known_env_circle() {
     # see https://circleci.com/docs/2.0/env-vars/#built-in-environment-variables
     cat <<EOF
 CI

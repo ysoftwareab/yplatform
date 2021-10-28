@@ -14,9 +14,9 @@ jobs:
       matrix:
         container:
           - sf-ubuntu-20.04
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -27,8 +27,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -123,7 +123,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -138,9 +138,9 @@ jobs:
       matrix:
         container:
           - sf-arch-0
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -151,8 +151,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -247,7 +247,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -262,9 +262,9 @@ jobs:
       matrix:
         container:
           - sf-alpine-3.11.7
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -275,8 +275,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -371,7 +371,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -386,9 +386,9 @@ jobs:
       matrix:
         container:
           - sf-centos-8
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -399,8 +399,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -495,7 +495,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -511,9 +511,9 @@ jobs:
         container:
           - sf-debian-9
           - sf-debian-10
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -524,8 +524,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -620,7 +620,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -636,9 +636,9 @@ jobs:
         container:
           - sf-ubuntu-16.04
           - sf-ubuntu-18.04
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -649,8 +649,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -745,7 +745,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -759,9 +759,9 @@ jobs:
       matrix:
         container:
           - sf-ubuntu-20.04
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -772,8 +772,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -868,7 +868,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -882,9 +882,9 @@ jobs:
       matrix:
         container:
           - sf-arch-0
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -895,8 +895,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -991,7 +991,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1005,9 +1005,9 @@ jobs:
       matrix:
         container:
           - sf-alpine-3.11.7
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1018,8 +1018,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1114,7 +1114,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1128,9 +1128,9 @@ jobs:
       matrix:
         container:
           - sf-centos-8
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1141,8 +1141,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1237,7 +1237,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1252,9 +1252,9 @@ jobs:
         container:
           - sf-debian-9
           - sf-debian-10
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1265,8 +1265,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1361,7 +1361,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md
@@ -1376,9 +1376,9 @@ jobs:
         container:
           - sf-ubuntu-16.04
           - sf-ubuntu-18.04
-        sf_ci_brew_install:
+        yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1389,8 +1389,8 @@ jobs:
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1485,7 +1485,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
+          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             sf-ci-echo-benchmark
             some-job-artifact.md

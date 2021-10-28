@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_ci_run_before_cache_stats() {
+function yp_ci_run_before_cache_stats() {
     echo_do "Showing cache stats..."
 
     [[ "${TRAVIS:-}" != "true" ]] || {
@@ -17,6 +17,6 @@ function sf_ci_run_before_cache_stats() {
 }
 
 
-function sf_ci_run_before_cache() {
-    sf_ci_run_before_cache_stats || true
+function yp_ci_run_before_cache() {
+    yp_ci_run_before_cache_stats || true
 }

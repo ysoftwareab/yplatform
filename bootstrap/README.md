@@ -54,7 +54,7 @@ source ~/git/yplatform/sh/dev.inc.sh
 3. running `~/git/yplatform/dev/bootstrap`
 
 **NOTE** You can also try to bootstrap without using `sudo`.
-Run `YP_SUDO=sf_nosudo ~/git/yplatform/dev/bootstrap` instead.
+Run `YP_SUDO=yp_nosudo ~/git/yplatform/dev/bootstrap` instead.
 
 4. testing that everything is fine by checking that running `echo $YP_DEV_INC_SH` prints `true`.
 

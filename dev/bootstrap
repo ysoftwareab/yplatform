@@ -29,7 +29,7 @@ fi
 echo_info "Bootstrapping with YP_SUDO=${YP_SUDO}..."
 if [[ -z "${YP_SUDO}" ]]; then
     true
-elif [[ "${YP_SUDO}" = "sf_nosudo_fallback" ]]; then
+elif [[ "${YP_SUDO}" = "yp_nosudo_fallback" ]]; then
     prompt_q_to_continue "sudo is not available. Do you have root access instead?"
 else
     echo "Enter your sudo password for bootstrap."

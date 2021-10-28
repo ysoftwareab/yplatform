@@ -19,7 +19,7 @@ let env = {
   DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}',
   DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}',
   GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}',
-  GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+  GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
 };
 
 // -----------------------------------------------------------------------------
@@ -32,7 +32,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
   ];
 
   // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
-  let name = '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}';
+  let name = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`mainc-minimal-${nameSuffix}`] = {
     needs: _.includes(jobRefs.smokeMainc, `mainc-minimal-${nameSuffix}`) ? [] : jobRefs.smokeMainc,
     'timeout-minutes': 30,
@@ -40,7 +40,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
       'fail-fast': false,
       matrix: {
         container: matrixContainer,
-        sf_ci_brew_install: [
+        yp_ci_brew_install: [
           'minimal'
         ]
       }

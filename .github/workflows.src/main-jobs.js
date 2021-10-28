@@ -81,7 +81,7 @@ wslSteps.push({
 let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
-  let name = 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}';
+  let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
     needs: jobRefs.smokeMain,
     'timeout-minutes': 60,
@@ -89,7 +89,7 @@ let makeJobsWindows = function(matrixOs, nameSuffix) {
       'fail-fast': false,
       matrix: {
         os: matrixOs,
-        sf_ci_brew_install: [
+        yp_ci_brew_install: [
           'minimal'
         ]
       }
@@ -99,7 +99,7 @@ let makeJobsWindows = function(matrixOs, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}',
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}',
       WSLENV,
       WSLUSER: 'github',
       WSLGROUP: 'github'
@@ -135,7 +135,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     return;
   }
 
-  let name = 'main-${{ matrix.sf_ci_brew_install }}-${{ matrix.os }}';
+  let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
     needs: _.includes(jobRefs.smokeMain, `main-${nameSuffix}`) ? [] : jobRefs.smokeMain,
     // some macos agents simply have lower I/O rates and take longer
@@ -146,7 +146,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
       'fail-fast': false,
       matrix: {
         os: matrixOs,
-        sf_ci_brew_install: [
+        yp_ci_brew_install: [
           'minimal',
           'dev'
         ]
@@ -157,7 +157,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      YP_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
     },
     steps: [
       checkoutStep,

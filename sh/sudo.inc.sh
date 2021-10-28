@@ -2,12 +2,12 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_nosudo() {
+function yp_nosudo() {
     echo "[ERR ] sudo required, but not available for running the following command:"
     echo "       $*"
     prompt_q_to_continue "Run the command yourself as root, then continue."
 }
-export -f sf_nosudo
+export -f yp_nosudo
 
 if printenv | grep -q "^YP_SUDO="; then
     # Don't change if already set and exported.
@@ -22,11 +22,11 @@ else
             true
         else
             # The user has no sudo installed.
-            YP_SUDO=sf_nosudo_fallback
-            function sf_nosudo_fallback() {
-                sf_nosudo "$@"
+            YP_SUDO=yp_nosudo_fallback
+            function yp_nosudo_fallback() {
+                yp_nosudo "$@"
             }
-            export -f sf_nosudo_fallback
+            export -f yp_nosudo_fallback
         fi
     fi
     export YP_SUDO

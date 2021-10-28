@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_semaphore() {
+function yp_ci_env_semaphore() {
     [[ "${SEMAPHORE:-}" = "true" ]] || return 0
 
     export CI=true
@@ -42,13 +42,13 @@ function sf_ci_env_semaphore() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_semaphore() {
+function yp_ci_printvars_semaphore() {
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^SEMAPHORE[=_]"
 }
 
-function sf_ci_known_env_semaphore() {
+function yp_ci_known_env_semaphore() {
     # see https://docs.semaphoreci.com/ci-cd-environment/environment-variables/
     cat <<EOF
 CI

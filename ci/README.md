@@ -35,15 +35,15 @@ source "${YP_DIR}/repo/dot.ci.sh.sf"
 ```
 
 Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
-where we actually call `sf_ci_run <phase>`.
+where we actually call `yp_ci_run <phase>`.
 
-The `sf_ci_run` function will mainly check
+The `yp_ci_run` function will mainly check
 
 * if there's a `ci_run_<phase>` function defined, call it
-* otherwise, if there's a `sf_ci_run_<phase>`, call that one instead.
+* otherwise, if there's a `yp_ci_run_<phase>`, call that one instead.
 
 `ci_run_<phase>` functions are custom implementations for each phase,
-while `sf_ci_run_<phase>` are default implementations,
+while `yp_ci_run_<phase>` are default implementations,
 mainly wrapping the `make` targets defined in [build.mk](../build.mk).
 
 
@@ -77,7 +77,7 @@ Here's a list of the environment variables that customize the code execution:
   * `YP_SKIP_SUDO_BOOTSTRAP`
     * set to `true` to skip sudo bootstrapping `bootstrap/<OS_SHORT>/bootstrap-sudo`
   * `YP_SUDO`
-    * set to `sf_nosudo` to bootstrap without sudo
+    * set to `yp_nosudo` to bootstrap without sudo
     * set to a custom `sudo` executable path
 
 * **GITHUB**

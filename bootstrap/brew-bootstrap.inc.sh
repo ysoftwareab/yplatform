@@ -72,7 +72,7 @@ function bootstrap_brew() {
     case ${HAS_BREW_2}-${OS_SHORT}-${YP_SUDO:-false} in
         true-darwin-*|true-linux-*)
             ;;
-        false-linux-false|false-linux-sf_nosudo|false-linux-sf_nosudo_fallback)
+        false-linux-false|false-linux-yp_nosudo|false-linux-yp_nosudo_fallback)
             HOMEBREW_PREFIX=${HOME}/.linuxbrew
             echo_do "brew: Installing homebrew without sudo into ${HOMEBREW_PREFIX}..."
             mkdir -p ${HOMEBREW_PREFIX}

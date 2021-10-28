@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_ci_run_notifications_slack() {
+function yp_ci_run_notifications_slack() {
     [[ -n "${SLACK_WEBHOOK:-}" ]] || return 0
 
     echo "YP_CI_STATUS=${YP_CI_STATUS:-}"
@@ -25,6 +25,6 @@ function sf_ci_run_notifications_slack() {
         completed with status '${YP_CI_STATUS}'."
 }
 
-function sf_ci_run_notifications() {
-    sf_ci_run_notifications_slack
+function yp_ci_run_notifications() {
+    yp_ci_run_notifications_slack
 }

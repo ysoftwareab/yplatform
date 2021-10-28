@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_zz() {
+function yp_ci_env_zz() {
     [[ "${CI:-}" = "true" ]] || return 0
     [[ -z "${YP_CI_PLATFORM:-}" ]] || return 0
 
@@ -34,10 +34,10 @@ function sf_ci_env_zz() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_zz() {
+function yp_ci_printvars_zz() {
     true
 }
 
-function sf_ci_known_env_zz() {
+function yp_ci_known_env_zz() {
     true
 }

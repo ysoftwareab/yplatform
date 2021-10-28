@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_codeship() {
+function yp_ci_env_codeship() {
     [[ "${CI_NAME:-}" = "codeship" ]] || return 0
 
     export CI=true
@@ -46,12 +46,12 @@ function sf_ci_env_codeship() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_codeship() {
+function yp_ci_printvars_codeship() {
     printenv_all | sort -u | grep \
         -e "^CI[=_]"
 }
 
-function sf_ci_known_env_codeship() {
+function yp_ci_known_env_codeship() {
     # see https://docs.cloudbees.com/docs/cloudbees-codeship/latest/pro-builds-and-configuration/environment-variables
     cat <<EOF
 CI

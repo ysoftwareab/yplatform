@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_run_docker_ci_login() {
+function yp_run_docker_ci_login() {
     YP_DOCKER_CI_USERNAME="${YP_DOCKER_CI_USERNAME:-${DOCKER_USERNAME:-}}"
     YP_DOCKER_CI_TOKEN="${YP_DOCKER_CI_TOKEN:-${DOCKER_TOKEN:-}}"
 
@@ -10,7 +10,7 @@ function sf_run_docker_ci_login() {
     echo "${YP_DOCKER_CI_TOKEN}" | exe docker login -u "${YP_DOCKER_CI_USERNAME}" --password-stdin ${YP_DOCKER_CI_SERVER:-} # editorconfig-checker-disable-line
 }
 
-function sf_run_docker_ci_image() {
+function yp_run_docker_ci_image() {
     local YP_DOCKER_CI_IMAGE=${1}
     local MOUNT_DIR=${2:-${PWD}}
     local CONTAINER_NAME=${3:-sf-docker-ci}
@@ -22,7 +22,7 @@ function sf_run_docker_ci_image() {
 
     echo_do "Spinning up Docker for ${YP_DOCKER_CI_IMAGE}..."
 
-    echo | docker login | grep -q "Login Succeeded" || sf_run_docker_ci_login
+    echo | docker login | grep -q "Login Succeeded" || yp_run_docker_ci_login
 
     echo_do "Pulling ${YP_DOCKER_CI_IMAGE} image..."
     exe docker pull ${YP_DOCKER_CI_IMAGE}
@@ -92,7 +92,7 @@ function sf_run_docker_ci_image() {
 }
 
 
-function sf_get_docker_ci_image() {
+function yp_get_docker_ci_image() {
     [[ -n "${YP_DOCKER_CI_IMAGE:-}" ]] || \
         YP_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
     # if given a rokmoln/sf- image, but without a tag,

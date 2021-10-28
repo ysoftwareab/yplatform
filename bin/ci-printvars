@@ -69,10 +69,10 @@ PLATFORM=${YP_CI_PLATFORM}
 
 [[ "${UNKNOWN}" != "true" ]] || {
     comm -23 \
-        <("sf_ci_printvars_${PLATFORM}" | sed "s/=.*//g" | grep "^[a-zA-Z_][a-zA-Z0-9_]*$" | sort -u) \
-        <("sf_ci_known_env_${PLATFORM}" | sort -u) | \
+        <("yp_ci_printvars_${PLATFORM}" | sed "s/=.*//g" | grep "^[a-zA-Z_][a-zA-Z0-9_]*$" | sort -u) \
+        <("yp_ci_known_env_${PLATFORM}" | sort -u) | \
         ${YP_DIR}/bin/ifne --not --fail --print-on-fail
     exit 0
 }
 
-"sf_ci_printvars_${PLATFORM}"
+"yp_ci_printvars_${PLATFORM}"

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_ci_run_after_script_upload_job_artifacts() {
+function yp_ci_run_after_script_upload_job_artifacts() {
     [[ -f .artifacts ]] || {
         echo_skip "${FUNCNAME[0]}: No .artifacts found..."
         return 0
@@ -17,8 +17,8 @@ function sf_ci_run_after_script_upload_job_artifacts() {
     local GIT_HASH=$(git rev-parse HEAD)
     local JOB_GIT_REF=refs/jobs/${YP_CI_JOB_ID}
 
-    git checkout --orphan jobs/${YP_SF_CI_JOB_ID}
-    git ls-fiSF_les -- "*/.gitignore" | \
+    git checkout --orphan jobs/${YP_YP_CI_JOB_ID}
+    git ls-fi_YP_les -- "*/.gitignore" | \
         while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; rm -f "${NO_XARGS_R}"; done
     git reset -- .
     git ls-files -X .artifacts --other --ignored | \
@@ -119,6 +119,6 @@ EOF
 }
 
 
-function sf_ci_run_after_script() {
-    sf_ci_run_after_script_upload_job_artifacts
+function yp_ci_run_after_script() {
+    yp_ci_run_after_script_upload_job_artifacts
 }

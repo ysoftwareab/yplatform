@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_github() {
+function yp_ci_env_github() {
     [[ "${GITHUB_ACTIONS:-}" = "true" ]] || return 0
 
     export CI=true
@@ -53,7 +53,7 @@ function sf_ci_env_github() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_github() {
+function yp_ci_printvars_github() {
     export GITHUB_EVENT_JSON="$(cat ${GITHUB_EVENT_PATH} | jq -c .)"
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
@@ -61,7 +61,7 @@ function sf_ci_printvars_github() {
         -e "^RUNNER[=_]"
 }
 
-function sf_ci_known_env_github() {
+function yp_ci_known_env_github() {
     # see https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables
     cat <<EOF
 CI
@@ -105,7 +105,7 @@ RUNNER_TRACKING_ID
 RUNNER_USER
 RUNNER_WORKSPACE
 EOF
-    # see sf_ci_printvars_github above
+    # see yp_ci_printvars_github above
     cat <<EOF
 GITHUB_EVENT_JSON
 EOF

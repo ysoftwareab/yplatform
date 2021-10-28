@@ -45,5 +45,5 @@ echo_done
 
 if git log -1 --format="%B" | grep -q "\[debug ci\]"; then
     echo_info "Detected '[debug ci]' marker in git commit message."
-    sf_ci_debug
+    yp_ci_debug
 fi

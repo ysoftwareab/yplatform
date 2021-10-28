@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_ci_run_all() {
+function yp_ci_run_all() {
     local YP_CI_PHASES="$(cat <<-EOF
 before_install
 install
@@ -11,12 +11,12 @@ EOF
 )"
 
     for f in ${YP_CI_PHASES}; do
-        sf_ci_run ${f};
+        yp_ci_run ${f};
     done
 }
 
 # call this function from wherever you want to start a debug shell
-function sf_ci_debug() {
+function yp_ci_debug() {
     echo_info "Starting a debug shell via ${YP_DIR}/bin/tmate-shell."
     echo_info "Run 'touch ${GIT_ROOT}/.tmate.continue', if you want the workflow to continue."
     echo_info "Workflow will be cancelled otherwise."
@@ -57,9 +57,9 @@ function sf_ci_debug() {
         exit 1
     fi
 }
-export -f sf_ci_debug
+export -f yp_ci_debug
 
-function sf_ci_debug_no_auth() {
-    YP_TMATE_AUTH=none sf_ci_debug
+function yp_ci_debug_no_auth() {
+    YP_TMATE_AUTH=none yp_ci_debug
 }
-export -f sf_ci_debug_no_auth
+export -f yp_ci_debug_no_auth

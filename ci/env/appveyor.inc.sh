@@ -4,7 +4,7 @@ set -euo pipefail
 
 # see https://www.appveyor.com/docs/environment-variables/
 
-function sf_ci_env_appveyor() {
+function yp_ci_env_appveyor() {
     false || \
         [[ "${APPVEYOR:-}" = "True" ]] || \
         [[ "${APPVEYOR:-}" = "true" ]] || \
@@ -58,7 +58,7 @@ function sf_ci_env_appveyor() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_appveyor() {
+function yp_ci_printvars_appveyor() {
     printenv_all | sort -u | grep \
         -e "^APPVEYOR[=_]" \
         -e "^CI[=_]" \
@@ -66,7 +66,7 @@ function sf_ci_printvars_appveyor() {
         -e "^PLATFORM$"
 }
 
-function sf_ci_known_env_appveyor() {
+function yp_ci_known_env_appveyor() {
     cat <<EOF
 CI
 APPVEYOR

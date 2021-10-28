@@ -21,7 +21,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     apt_install_one ssh-client
     apt_install_one sudo
 
-    [[ "${YP_SUDO}" = "sf_nosudo_fallback" ]] || export YP_SUDO=sudo
+    [[ "${YP_SUDO}" = "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
 
     source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh
     source ${YP_DIR}/dockerfiles/util/user.inc.sh

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_run_docker_ci_in_travis() {
+function yp_run_docker_ci_in_travis() {
     (
         source ${YP_DIR}/bootstrap/brew-util.inc.sh
         apt_update
@@ -9,5 +9,5 @@ function sf_run_docker_ci_in_travis() {
         apt_install pv
     )
 
-    sf_run_docker_ci_image "$(sf_get_docker_ci_image)" "${HOME}" sf-docker-ci-travis
+    yp_run_docker_ci_image "$(yp_get_docker_ci_image)" "${HOME}" sf-docker-ci-travis
 }

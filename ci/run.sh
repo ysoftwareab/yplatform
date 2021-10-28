@@ -41,16 +41,16 @@ source ${YP_DIR}/ci/after-script.inc.sh
 source ${YP_DIR}/ci/notifications.inc.sh
 
 
-function sf_ci_run() {
+function yp_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
 
     CMD=
     if [[ "$(type -t "ci_run_${1}" || true)" = "function" ]]; then
         CMD="ci_run_${1}"
-    elif [[ "$(type -t "sf_ci_run_${1}" || true)" = "function" ]]; then
-        CMD="sf_ci_run_${1}"
+    elif [[ "$(type -t "yp_ci_run_${1}" || true)" = "function" ]]; then
+        CMD="yp_ci_run_${1}"
     else
-        >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${1} or sf_ci_run_${1} function."
+        >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${1} or yp_ci_run_${1} function."
 
         >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
         return 0
@@ -66,21 +66,21 @@ function sf_ci_run() {
         elif [[ "${YP_DOCKER_CI_IMAGE:-}" = "false" ]]; then
             echo_info "Skipping the sf-docker-ci container because YP_DOCKER_CI_IMAGE=false."
         else
-            local RUN_IN_SF_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
-            CMD="${RUN_IN_SF_DOCKER_CI} ${0} $* 2>&1"
+            local RUN_IN_YP_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
+            CMD="${RUN_IN_YP_DOCKER_CI} ${0} $* 2>&1"
             # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
             CMD="unbuffer ${CMD} | pv -q -L 3k"
 
             [[ "${1}" != "before_install" ]] || {
-                sf_run_docker_ci_in_travis
+                yp_run_docker_ci_in_travis
 
                 # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
-                ${RUN_IN_SF_DOCKER_CI} ${YP_DIR}/bin/linux-adduser2group sf travis
+                ${RUN_IN_YP_DOCKER_CI} ${YP_DIR}/bin/linux-adduser2group sf travis
             }
         fi
 
         [[ "${1}" != "before_install" ]] || {
-            [[ -f /yplatform.docker-ci ]] || sf_enable_travis_swap
+            [[ -f /yplatform.docker-ci ]] || yp_enable_travis_swap
         }
     }
 
@@ -92,4 +92,4 @@ function sf_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
 }
 
-[[ -z "$*" ]] || sf_ci_run "$@"
+[[ -z "$*" ]] || yp_ci_run "$@"

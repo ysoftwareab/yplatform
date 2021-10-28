@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-function sf_rvm_unfuck() {
+function yp_rvm_unfuck() {
     # from https://github.com/matthew-brett/multibuild/blob/34b988aab60a93fa3c7bd1eb88dd7c4361ca464f/common_utils.sh#L17
 
     # Work round bug in travis xcode image described at
@@ -15,16 +15,16 @@ function sf_rvm_unfuck() {
     unset -f pushd
     unset -f popd
 }
-sf_rvm_unfuck
+yp_rvm_unfuck
 
 
 # github action set-env
-function sf_ga_set_env() {
+function yp_ga_set_env() {
     echo "$1" | ${YP_SUDO} tee -a ${GITHUB_ENV} >/dev/null
 }
 
 
-function sf_github_https_deploy() {
+function yp_github_https_deploy() {
     # if we have a deploy token, use that to authenticate https for the current repo
     # and don't require SSH keys
 
@@ -39,7 +39,7 @@ function sf_github_https_deploy() {
 }
 
 
-function sf_github_https_insteadof_git() {
+function yp_github_https_insteadof_git() {
     # NOTE git (over ssh) is a smarter protocol than https
     # but requires SSH keys, though there's no security server-side
 
@@ -52,7 +52,7 @@ function sf_github_https_insteadof_git() {
 }
 
 
-function sf_github_https_insteadof_all() {
+function yp_github_https_insteadof_all() {
     # if we have a personal access token, use that to authenticate https
     # and don't require SSH keys
 
@@ -74,7 +74,7 @@ function sf_github_https_insteadof_all() {
 }
 
 
-function sf_github() {
+function yp_github() {
     # NOTE we need to prepend to .gitconfig, or else settings are ignored
     # due to url settings in gitconfig/dot.gitconfig
 
@@ -95,14 +95,14 @@ function sf_github() {
         export YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN}
     fi
 
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "YP_GH_TOKEN=${YP_GH_TOKEN}"
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env  "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN=${YP_GH_TOKEN}"
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env  "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
 
     if [[ -n "${YP_GH_TOKEN:-}" ]]; then
-        sf_github_https_insteadof_all
+        yp_github_https_insteadof_all
     else
-        sf_github_https_insteadof_git
-        [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || sf_github_https_deploy
+        yp_github_https_insteadof_git
+        [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || yp_github_https_deploy
     fi
 
     # shellcheck disable=SC2094
@@ -120,7 +120,7 @@ function sf_github() {
 }
 
 
-function sf_transcrypt() {
+function yp_transcrypt() {
     # de-transcrypt only for non-PRs or for PRs from the same repo
     [[ "${YP_CI_IS_PR:-}" != "true" ]] || {
         [[ "${YP_CI_PR_REPO_SLUG}" = "${YP_CI_REPO_SLUG}" ]] || return 0
@@ -143,20 +143,20 @@ function sf_transcrypt() {
         -p "${YP_TRANSCRYPT_PASSWORD:-${TRANSCRYPT_PASSWORD:-}}"
 
     unset YP_TRANSCRYPT_CIPHER
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "YP_TRANSCRYPT_CIPHER="
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_TRANSCRYPT_CIPHER="
     unset TRANSCRYPT_CIPHER
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "TRANSCRYPT_CIPHER="
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "TRANSCRYPT_CIPHER="
 
     unset YP_TRANSCRYPT_PASSWORD
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "YP_TRANSCRYPT_PASSWORD="
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_TRANSCRYPT_PASSWORD="
     unset TRANSCRYPT_PASSWORD
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || sf_ga_set_env "TRANSCRYPT_PASSWORD="
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "TRANSCRYPT_PASSWORD="
 
     echo_done
 }
 
 
-function sf_os_get_dir_owner() {
+function yp_os_get_dir_owner() {
     local GNU_STAT=$(stat --version 2>/dev/null | head -1 | grep -q "GNU" && echo true || echo false)
     case "${GNU_STAT}" in
         true)
@@ -176,7 +176,7 @@ function sf_os_get_dir_owner() {
     stat ${STAT_FORMAT_ARG} ${STAT_FORMAT_USER} $1
 }
 
-function sf_os_bootstrap_with_script() {
+function yp_os_bootstrap_with_script() {
     BOOTSTRAP_SCRIPT=$1
 
     # recursive chown is slow in Docker, but linuxbrew requires the invoking user to own the linuxbrew folders
@@ -184,11 +184,11 @@ function sf_os_bootstrap_with_script() {
     # see https://github.com/docker/for-linux/issues/388
     local BOOTSTRAP_SCRIPT_USER=$(id -u -n)
     if command -v brew >/dev/null 2>&1; then
-        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(brew --prefix)/Homebrew)
     elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
     elif [[ -x ${HOME}/.linuxbrew/bin/brew ]]; then
-        BOOTSTRAP_SCRIPT_USER=$(sf_os_get_dir_owner $(${HOME}/.linuxbrew/bin/brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(${HOME}/.linuxbrew/bin/brew --prefix)/Homebrew)
     fi
 
     if [[ "$(id -u -n)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then
@@ -201,7 +201,7 @@ function sf_os_bootstrap_with_script() {
 }
 
 
-function sf_os() {
+function yp_os() {
     [[ "${YP_FORCE_BOOTSTRAP:-}" = "true" ]] || {
         local YP_GIT_HASH=$(git -C ${YP_DIR} rev-parse HEAD)
         [[ ! -f /yplatform.bootstrapped ]] || {
@@ -234,23 +234,23 @@ function sf_os() {
     local BOOTSTRAP_SCRIPT="${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap"
 
     if [[ "${YP_LOG_BOOTSTRAP:-}" = "true" ]]; then
-        sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}
+        yp_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}
         return 0
     fi
 
-    local TMP_SF_OS_LOG=$(mktemp -t firecloud.XXXXXXXXXX)
-    echo_info "${FUNCNAME[0]}: Redirecting into ${TMP_SF_OS_LOG} to minimize CI log..."
+    local TMP_YP_OS_LOG=$(mktemp -t firecloud.XXXXXXXXXX)
+    echo_info "${FUNCNAME[0]}: Redirecting into ${TMP_YP_OS_LOG} to minimize CI log..."
 
     echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"
     while :;do echo -n " ."; /bin/sleep 60; done &
     local WHILE_LOOP_PID=$!
     # shellcheck disable=SC2064
     trap "kill ${WHILE_LOOP_PID}" EXIT
-    sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT} >${TMP_SF_OS_LOG} 2>&1 || {
+    yp_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT} >${TMP_YP_OS_LOG} 2>&1 || {
         hash -r
         echo
         echo_err "${FUNCNAME[0]}: Failed. The latest log tail follows:"
-        tail -n1000 ${TMP_SF_OS_LOG}
+        tail -n1000 ${TMP_YP_OS_LOG}
         sleep 10 # see https://github.com/travis-ci/travis-ci/issues/6018
         return 1
     }
@@ -260,18 +260,18 @@ function sf_os() {
 }
 
 
-function sf_pyenv_init() {
+function yp_pyenv_init() {
     if command -v pyenv >/dev/null 2>&1; then
         eval "$(pyenv init -)"
     fi
 }
 
 
-function sf_ci_run_before_install() {
-    sf_github
-    sf_transcrypt
-    sf_os
-    sf_pyenv_init
+function yp_ci_run_before_install() {
+    yp_github
+    yp_transcrypt
+    yp_os
+    yp_pyenv_init
 
     [[ "${YP_CI_DEBUG_MODE:-}" != "true" ]] || {
         echo

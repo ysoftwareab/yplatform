@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_gitlab() {
+function yp_ci_env_gitlab() {
     [[ "${GITLAB_CI:-}" = "true" ]] || return 0
 
     # TODO handle external_pull_request_event
@@ -47,7 +47,7 @@ function sf_ci_env_gitlab() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_gitlab() {
+function yp_ci_printvars_gitlab() {
     printenv_all | sort -u | grep \
         -e "^CHAT[=_]" \
         -e "^CI[=_]" \
@@ -55,7 +55,7 @@ function sf_ci_printvars_gitlab() {
         -e "^TRIGGER_PAYLOAD="
 }
 
-function sf_ci_known_env_gitlab() {
+function yp_ci_known_env_gitlab() {
     # see https://docs.gitlab.com/ee/ci/variables/predefined_variables.html
     cat <<EOF
 CHAT_CHANNEL

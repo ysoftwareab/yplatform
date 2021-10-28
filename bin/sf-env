@@ -25,30 +25,30 @@ fi
     fi
 }
 
-function sf_path_prepend() {
+function yp_path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function sf_path_prepend_after() {
+function yp_path_prepend_after() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
         export PATH=$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")
     else
-        sf_path_prepend "$1"
+        yp_path_prepend "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function sf_path_append() {
+function yp_path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function sf_path_append_before() {
+function yp_path_append_before() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
       export PATH=$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")
     else
-        sf_path_append "$1"
+        yp_path_append "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
@@ -87,12 +87,12 @@ fi
 
 # jq becomes always available
 # NOTE if needed to bypass system's jq, call sf-jq
-sf_path_append ${YP_DIR}/bin/.jq
+yp_path_append ${YP_DIR}/bin/.jq
 
-sf_path_prepend /usr/local/sbin
-sf_path_prepend /usr/local/bin
-sf_path_prepend ${HOME}/.local/sbin
-sf_path_prepend ${HOME}/.local/bin
+yp_path_prepend /usr/local/sbin
+yp_path_prepend /usr/local/bin
+yp_path_prepend ${HOME}/.local/sbin
+yp_path_prepend ${HOME}/.local/bin
 
 [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
 
@@ -103,24 +103,24 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
         -e "^export MANPATH=" \
         -e "^export INFOPATH=")"
 
-    sf_path_prepend ${HOMEBREW_PREFIX}/sbin
-    sf_path_prepend ${HOMEBREW_PREFIX}/bin
+    yp_path_prepend ${HOMEBREW_PREFIX}/sbin
+    yp_path_prepend ${HOMEBREW_PREFIX}/bin
 
-    # sf_manpath_prepend ${HOMEBREW_PREFIX}/share/man
+    # yp_manpath_prepend ${HOMEBREW_PREFIX}/share/man
     HOMEBREW_MANPATH=${HOMEBREW_PREFIX}/share/man
     echo ":${MANPATH:-}:" | grep -q ":${HOMEBREW_MANPATH}:" || export MANPATH=${HOMEBREW_MANPATH}:${MANPATH:-}
     export MANPATH=$(echo "${MANPATH}" | sed "s|^:||" | sed "s|:$||")
 
-    # sf_infopath_prepend ${HOMEBREW_PREFIX}/share/info
+    # yp_infopath_prepend ${HOMEBREW_PREFIX}/share/info
     HOMEBREW_INFOPATH=${HOMEBREW_PREFIX}/share/info
     echo ":${INFOPATH:-}:" | grep -q ":${HOMEBREW_INFOPATH}:" || export INFOPATH=${HOMEBREW_INFOPATH}:${INFOPATH:-}
     export INFOPATH=$(echo "${INFOPATH}" | sed "s|^:||" | sed "s|:$||")
 
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
-        sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
+        yp_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
     done
     for f in curl gettext gnu-getopt unzip zip; do
-        sf_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
+        yp_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
 
     type nvm >/dev/null 2>&1 || {

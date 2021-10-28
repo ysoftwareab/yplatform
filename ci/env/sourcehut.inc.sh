@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_sourcehut() {
+function yp_ci_env_sourcehut() {
     [[ "${CI_NAME:-}" = "sourcehut" ]] || return 0
 
     # TODO sourcehut hasn't been fully tested. narrowing the scope
@@ -46,7 +46,7 @@ function sf_ci_env_sourcehut() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_sourcehut() {
+function yp_ci_printvars_sourcehut() {
     printenv_all | sort -u | grep \
         -e "^BUILD[=_]" \
         -e "^CI[=_]" \
@@ -55,7 +55,7 @@ function sf_ci_printvars_sourcehut() {
         -e "^PATCHSET[=_]"
 }
 
-function sf_ci_known_env_sourcehut() {
+function yp_ci_known_env_sourcehut() {
     # see https://man.sr.ht/builds.sr.ht/
     cat <<EOF
 CI

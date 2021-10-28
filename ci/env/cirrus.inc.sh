@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function sf_ci_env_cirrus() {
+function yp_ci_env_cirrus() {
     [[ "${CIRRUS_CI:-}" = "true" ]] || return 0
 
     [[ "${CIRRUS_REPO_CLONE_HOST:-}" = "github.com" ]]
@@ -46,7 +46,7 @@ function sf_ci_env_cirrus() {
     YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
 }
 
-function sf_ci_printvars_cirrus() {
+function yp_ci_printvars_cirrus() {
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
         -e "^CIRRUS[=_]" \
@@ -54,7 +54,7 @@ function sf_ci_printvars_cirrus() {
         -e "^GITHUB_CHECK_SUITE_ID$"
 }
 
-function sf_ci_known_env_cirrus() {
+function yp_ci_known_env_cirrus() {
     # see https://cirrus-ci.org/guide/writing-tasks/#environment-variables
     cat <<EOF
 CI
