@@ -28,6 +28,6 @@ tasks:
       GITHUB_REPOSITORY=${GITHUB_REPO:-${GITHUB_BASE_REPO:-}} \
         GITHUB_EVENT_NAME=${GITHUB_EVENT:-} \
         GITHUB_WORKSPACE=$(pwd)/run \
-        support-firecloud/bin/github-checkout
+        yplatform/bin/github-checkout
       cd run
       source ci/pipeline.script.sh
