@@ -4,9 +4,9 @@ Use these Makefile "puzzle" pieces by making your main `Makefile` look like this
 
 ```Makefile
 ifeq (,$(wildcard yplatform/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive yplatform)
+INSTALL_YP := $(shell git submodule update --init --recursive yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
-undefine INSTALL_SUPPORT_FIRECLOUD
+undefine INSTALL_YP
 endif
 endif
 

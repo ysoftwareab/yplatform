@@ -1,7 +1,7 @@
 ifeq (,$(wildcard yplatform/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell ln -s . yplatform)
+INSTALL_YP := $(shell ln -s . yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
-undefine INSTALL_SUPPORT_FIRECLOUD
+undefine INSTALL_YP
 endif
 endif
 
