@@ -1,17 +1,17 @@
-ifeq (,$(wildcard support-firecloud/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive support-firecloud)
+ifeq (,$(wildcard yplatform/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
 undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/build.mk/node.common.mk
-# include support-firecloud/build.mk/js.deps.private.mk
-# include support-firecloud/build.mk/js.build.dts.mk
-# include support-firecloud/build.mk/js.check.eslint.mk
-# include support-firecloud/build.mk/js.test.jest.mk
-# include support-firecloud/build.mk/core.misc.release.npg.mk
-# include support-firecloud/build.mk/core.misc.release.tag.mk
+include yplatform/build.mk/node.common.mk
+# include yplatform/build.mk/js.deps.private.mk
+# include yplatform/build.mk/js.build.dts.mk
+# include yplatform/build.mk/js.check.eslint.mk
+# include yplatform/build.mk/js.test.jest.mk
+# include yplatform/build.mk/core.misc.release.npg.mk
+# include yplatform/build.mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 

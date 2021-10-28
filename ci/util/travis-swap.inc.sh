@@ -5,7 +5,7 @@ function sf_enable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
     ! ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl || return 0
-    [[ ! -f /support-firecloud.docker-ci ]] || return 0
+    [[ ! -f /yplatform.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
     local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))
@@ -25,7 +25,7 @@ function sf_disable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
     ! ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl || return 0
-    [[ ! -f /support-firecloud.docker-ci ]] || return 0
+    [[ ! -f /yplatform.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
     local MEM_GIB=$(( (${MEM_MIB}*2 + 1023) / 1024 ))

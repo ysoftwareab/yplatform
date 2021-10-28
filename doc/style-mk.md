@@ -8,21 +8,21 @@
 Use `Makefile`, although we write only GNU Makefiles, thus we could use `GNUMakefile`.
 
 
-## Include `support-firecloud`
+## Include `yplatform`
 
 ``` Makefile
-ifeq (,$(wildcard support-firecloud/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive support-firecloud)
+ifeq (,$(wildcard yplatform/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
 undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/build.mk/...
+include yplatform/build.mk/...
 ```
 
-Include `support-firecloud/build.mk/generic.common.mk`,
-or at the very minimum, include `support-firecloud/build.mk/core.common.mk`.
+Include `yplatform/build.mk/generic.common.mk`,
+or at the very minimum, include `yplatform/build.mk/core.common.mk`.
 
 This will mean that
 

@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR=/support-firecloud
+SUPPORT_FIRECLOUD_DIR=/yplatform
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/common.inc.sh
 
 # DEPS
 # keep in sync with bootstrap/linux/bootstrap-sudo-centos
-[[ -f /support-firecloud.bootstrapped ]] || {
+[[ -f /yplatform.bootstrapped ]] || {
     XTRACE_STATE_DOCKERFILE_BUILD_SH="$(set +o | grep xtrace)"
     set -x
     yum_update

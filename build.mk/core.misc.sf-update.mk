@@ -1,4 +1,4 @@
-# Adds a 'support-firecloud/update' target which will update the support-firecloud git submodule
+# Adds a 'yplatform/update' target which will update the yplatform git submodule
 # to the latest version (semver tag), while also showing the git commits that the update will introduce.
 #
 # Commits that have the word 'break' will be colour highlighted,
@@ -6,29 +6,29 @@
 #
 # ------------------------------------------------------------------------------
 
-.PHONY: _support-firecloud/update
-_support-firecloud/update:
+.PHONY: _yplatform/update
+_yplatform/update:
 	$(eval SF_SUBMODULE_PATH := $(shell $(GIT) config --file .gitmodules --get-regexp path | \
 		$(GREP) $(shell basename $(SUPPORT_FIRECLOUD_DIR)) | $(CUT) -d' ' -f2))
 	[[ -n "$(SF_SUBMODULE_PATH)" ]] || { \
-		$(ECHO_ERR) "Couldn't find 'support-firecloud' git submodule."; \
+		$(ECHO_ERR) "Couldn't find 'yplatform' git submodule."; \
 		exit 1; \
 	}
 	$(GIT) submodule update --init --recursive $(SF_SUBMODULE_PATH)
 	$(GIT) -C $(SF_SUBMODULE_PATH) fetch --force --tags
 
 
-.PHONY: support-firecloud/update
-support-firecloud/update: _support-firecloud/update ## Update 'support-firecloud' to latest version.
-	$(MAKE) support-firecloud/update/$$($(GIT) -C $(SF_SUBMODULE_PATH) tag \
+.PHONY: yplatform/update
+yplatform/update: _yplatform/update ## Update 'yplatform' to latest version.
+	$(MAKE) yplatform/update/$$($(GIT) -C $(SF_SUBMODULE_PATH) tag \
 		--list \
 		--sort=version:refname "v*" | \
 		$(TAIL) -n1)
 
 
-.PHONY: support-firecloud/update/v%
-support-firecloud/update/v%: _support-firecloud/update ## Update 'support-firecloud' to a specific version.
-	$(eval SF_UPDATE_VSN := $(@:support-firecloud/update/v%=%))
+.PHONY: yplatform/update/v%
+yplatform/update/v%: _yplatform/update ## Update 'yplatform' to a specific version.
+	$(eval SF_UPDATE_VSN := $(@:yplatform/update/v%=%))
 	$(eval SF_UPDATE_COMMIT := refs/tags/v$(SF_UPDATE_VSN))
 	$(eval SF_UPDATE_COMMIT_RANGE := $(SF_COMMIT)..$(SF_UPDATE_COMMIT))
 	$(ECHO_DO) "Updating $(SF_SUBMODULE_PATH) to v$(SF_UPDATE_VSN)..."

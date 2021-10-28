@@ -49,11 +49,11 @@ done
 
 cd ${SUPPORT_FIRECLOUD_DIR}/..
 git rev-parse --show-toplevel >/dev/null || {
-    echo_err "support-firecloud is not in a git repository"
+    echo_err "yplatform is not in a git repository"
     exit 1
 }
 [[ "$(cd $(git rev-parse --show-toplevel) && pwd -P)" = "$(pwd -P)" ]] || {
-    echo_err "support-firecloud is not in the root of a git repository"
+    echo_err "yplatform is not in the root of a git repository"
     exit 1
 }
 
@@ -67,7 +67,7 @@ if ${DIFF}; then
     echo_info "e.g. opendiff . ${TMP_VANILLA_DIR}"
     echo_info "e.g. ksdiff . ${TMP_VANILLA_DIR}"
     echo
-    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP_VANILLA_DIR}/support-firecloud
+    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP_VANILLA_DIR}/yplatform
     cd ${TMP_VANILLA_DIR}
 fi
 

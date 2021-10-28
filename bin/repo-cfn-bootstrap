@@ -53,7 +53,7 @@ done
 (
     cd ${SUPPORT_FIRECLOUD_DIR}/..
     git rev-parse --show-toplevel >/dev/null || {
-        echo_err "support-firecloud is not in a git repo"
+        echo_err "yplatform is not in a git repo"
         exit 1
     }
 )

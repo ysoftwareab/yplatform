@@ -85,7 +85,7 @@ which gives them FULL IAM power, without them needing to assume the `infra-OpsR-
   * assume a role in the CLI
 
 
-## How to support support-firecloud's aws-iam-bootstrap
+## How to support yplatform's aws-iam-bootstrap
 
 If you own a repository that version controls the `infra` stack (with roles and policies),
 you may want to support [`aws-iam-bootstrap`](../bin/aws-iam-bootstrap),

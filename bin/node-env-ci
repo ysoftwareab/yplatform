@@ -16,7 +16,7 @@ let _ = require('lodash-firecloud');
 let envCi = require('env-ci');
 let data = envCi();
 
-// pass --sf for compatibility with support-firecloud (used in Makefile:test-env-ci target)
+// pass --sf for compatibility with yplatform (used in Makefile:test-env-ci target)
 let sfCompat = process.argv[1] === '--sf';
 
 // as listed on https://github.com/pvdlg/env-ci/blob/master/README.md

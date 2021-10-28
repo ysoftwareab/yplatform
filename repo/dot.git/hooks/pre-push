@@ -10,7 +10,7 @@ function on_exit() {
 
 trap on_exit EXIT
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../support-firecloud" && pwd)"
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../yplatform" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 GIT_MODIFIED_FILES="$(git diff --name-only)"

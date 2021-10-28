@@ -2,7 +2,7 @@
 
 `yplatform` supports various cycles of software development, through a canonical set of commands.
 
-This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/support-firecloud).
+This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/yplatform).
 
 ![GitHub](https://img.shields.io/github/license/ysoftwareab/yplatform)
 ![GitHub contributors](https://img.shields.io/github/contributors-anon/ysoftwareab/yplatform)

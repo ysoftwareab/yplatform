@@ -8,7 +8,7 @@ cd new-repo
 git init
 ```
 
-Set up `support-firecloud` as a `git` submodule via
+Set up `yplatform` as a `git` submodule via
 
 ```shell
 bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/yplatform/master/bin/sf-install)"
@@ -18,10 +18,10 @@ In order to bootstrap/scaffold the repository, run
 
 ```shell
 # for a generic repository
-support-firecloud/bin/repo-generic-bootstrap
+yplatform/bin/repo-generic-bootstrap
 
 # for a Node.js repository
-support-firecloud/bin/repo-node-bootstrap
+yplatform/bin/repo-node-bootstrap
 ```
 
 and follow the instructions to supply the info.
@@ -50,7 +50,7 @@ Please name the repository appropriately, where appropriately stands for, but no
   * an accronym: [KATT](https://github.com/for-GET/katt)
 * if not unique then prefixed or suffixed with team name and mentioning software ecosystem
   * prefixed: firecloud-dashboard
-  * suffixed: [support-firecloud](https://github.com/ysoftwareab/yplatform)
+  * suffixed: [yplatform](https://github.com/ysoftwareab/yplatform)
   * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/rokmoln/eslint-config-firecloud)
 
 A description is optional by Github standards, but we require it.

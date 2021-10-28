@@ -1,4 +1,4 @@
-# Composite Github Action to make 'support-firecloud' scripts available, and run sub-actions.
+# Composite Github Action to make 'yplatform' scripts available, and run sub-actions.
 # Default sub-action is 'run'.
 # NOTE 'debug' action is just an example. Could have been implemented just fine via 'run'.
 #
@@ -25,7 +25,7 @@
 #           xtrace: true/false # optional
 #
 
-name: 'support-firecloud'
+name: 'yplatform'
 description: 'Execute a command'
 inputs:
   action:

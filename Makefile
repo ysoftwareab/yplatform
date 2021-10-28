@@ -1,15 +1,15 @@
-ifeq (,$(wildcard support-firecloud/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell ln -s . support-firecloud)
+ifeq (,$(wildcard yplatform/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell ln -s . yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
 undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/build.mk/generic.common.mk
-include support-firecloud/build.mk/sh.check.shellcheck.mk
-include support-firecloud/build.mk/js.deps.npm.mk
-include support-firecloud/build.mk/js.check.eslint.mk
-include support-firecloud/build.mk/core.misc.release.tag.mk
+include yplatform/build.mk/generic.common.mk
+include yplatform/build.mk/sh.check.shellcheck.mk
+include yplatform/build.mk/js.deps.npm.mk
+include yplatform/build.mk/js.check.eslint.mk
+include yplatform/build.mk/core.misc.release.tag.mk
 
 # ------------------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
 FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
 
 SF_CLEAN_FILES += \
-	support-firecloud \
+	yplatform \
 
 SF_VENDOR_FILES_IGNORE += \
 	-e "^Formula/.*\.patch$$" \
@@ -75,7 +75,7 @@ SF_ECLINT_FILES_IGNORE += \
 	-e "^release\-notes/" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/UNLICENSE$$" \
-	-e "^support-firecloud$$" \
+	-e "^yplatform$$" \
 
 SF_SHELLCHECK_FILES_IGNORE += \
 	-e "^doc/ci\-sh\.md$$" \

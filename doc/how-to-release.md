@@ -2,7 +2,7 @@
 
 Below you will find flows that talk about `npm` packages and webapps and libraries.
 Those are purely for the purpose of giving simple examples.
-The same flows apply to any repository that has been bootstrapped with `support-firecloud`, no matter the programming languaguage.
+The same flows apply to any repository that has been bootstrapped with `yplatform`, no matter the programming languaguage.
 
 
 ## Semantic Versioning

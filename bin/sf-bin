@@ -24,11 +24,11 @@ fi
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
 SF_BIN=$(basename $0)
 
-# use the current repo's support-firecloud bin
-if [[ -x ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} ]]; then
-    ${GIT_ROOT}/support-firecloud/bin/${SF_BIN} "$@"
+# use the current repo's yplatform bin
+if [[ -x ${GIT_ROOT}/yplatform/bin/${SF_BIN} ]]; then
+    ${GIT_ROOT}/yplatform/bin/${SF_BIN} "$@"
     exit 0
 fi
 
-# default to global support-firecloud bin
+# default to global yplatform bin
 ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/${SF_BIN} "$@"

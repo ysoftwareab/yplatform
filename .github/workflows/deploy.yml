@@ -30,7 +30,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -154,7 +154,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -278,7 +278,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -402,7 +402,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -527,7 +527,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -652,7 +652,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -775,7 +775,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -898,7 +898,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -1021,7 +1021,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -1144,7 +1144,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -1268,7 +1268,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x
@@ -1392,7 +1392,7 @@ jobs:
       GITHUB_MATRIX_SF_CI_BREW_INSTALL: '${{ matrix.sf_ci_brew_install }}'
       GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.sf_ci_brew_install }}'
     steps:
-      - name: support-firecloud/bin/github-checkout
+      - name: yplatform/bin/github-checkout
         shell: bash
         run: |
           set -x

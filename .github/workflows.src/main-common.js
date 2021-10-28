@@ -50,7 +50,7 @@ let env = {
 };
 
 let checkoutStep = {
-  name: 'support-firecloud/bin/github-checkout',
+  name: 'yplatform/bin/github-checkout',
   shell: 'bash',
   run: [
     'set -x',

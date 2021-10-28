@@ -1,4 +1,4 @@
-# Symlinks '.git/info/exclude' to support-firecloud 'gitconfig/dot.gitignore_global'
+# Symlinks '.git/info/exclude' to yplatform 'gitconfig/dot.gitignore_global'
 #
 # '.git/info/exclude' is automatically added to the 'deps' target via SF_DEPS_TARGETS.
 #

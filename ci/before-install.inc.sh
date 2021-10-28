@@ -204,10 +204,10 @@ function sf_os_bootstrap_with_script() {
 function sf_os() {
     [[ "${SF_FORCE_BOOTSTRAP:-}" = "true" ]] || {
         local SF_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
-        [[ ! -f /support-firecloud.bootstrapped ]] || {
-            local SF_GIT_HASH_BOOTSTRAPPED=$(cat /support-firecloud.bootstrapped)
-            echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped exists."
-            echo_info "${FUNCNAME[0]}: /support-firecloud.bootstrapped references ${SF_GIT_HASH_BOOTSTRAPPED}."
+        [[ ! -f /yplatform.bootstrapped ]] || {
+            local SF_GIT_HASH_BOOTSTRAPPED=$(cat /yplatform.bootstrapped)
+            echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped exists."
+            echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped references ${SF_GIT_HASH_BOOTSTRAPPED}."
             echo_info "${FUNCNAME[0]}: ${SUPPORT_FIRECLOUD_DIR} references ${SF_GIT_HASH}."
             if [[ "${SF_GIT_HASH}" = "${SF_GIT_HASH_BOOTSTRAPPED}" ]]; then
                 echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without brew bootstrap."

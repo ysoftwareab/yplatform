@@ -45,7 +45,7 @@ function sf_run_docker_ci_image() {
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        touch /support-firecloud.docker-ci
+        touch /yplatform.docker-ci
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \

@@ -1,6 +1,6 @@
 # `.ci.sh`
 
-The CI/CD mindset of `support-firecloud` is to be 99% agnostic to the CI/CD platform it runs on.
+The CI/CD mindset of `yplatform` is to be 99% agnostic to the CI/CD platform it runs on.
 
 Therefore we don't run (write) actual code in the CI platform configurations.
 Instead we call a `.ci.sh` script and leave it to that.
@@ -15,7 +15,7 @@ A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot
 ```shell
 #!/usr/bin/env bash
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/support-firecloud" && pwd)"
+SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
 source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 
 ## to override an existing phase implementation

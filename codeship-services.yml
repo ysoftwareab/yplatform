@@ -1,4 +1,4 @@
-# support-firecloud-ubuntu-2004-minimal:
+# yplatform-ubuntu-2004-minimal:
 sfu2004m:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
@@ -8,7 +8,7 @@ sfu2004m:
     SF_LOG_BOOTSTRAP: true
   cached: false
 
-# support-firecloud-ubuntu-2004-dev:
+# yplatform-ubuntu-2004-dev:
 sfu2004d:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile

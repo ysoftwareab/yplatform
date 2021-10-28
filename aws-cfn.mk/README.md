@@ -49,16 +49,16 @@ This has a few striking benefits, like:
 .
 +-- cfn
     +-- env-web
-        +-- index.js        ~  ../../support-firecloud/aws-cfn.mk/tpl.stack-stem.cfn.js
+        +-- index.js        ~  ../../yplatform/aws-cfn.mk/tpl.stack-stem.cfn.js
         +-- s3.web.cfn.js
         +-- kms.web.cfn.js
     +-- infra
-        +-- index.js        ~  ../../support-firecloud/aws-cfn.mk/tpl.stack-stem.cfn.js
+        +-- index.js        ~  ../../yplatform/aws-cfn.mk/tpl.stack-stem.cfn.js
         +-- iam.cfn.js
-    +-- .gitignore          ~  ../support-firecloud/aws-cfn.mk/tpl.gitignore
-    +-- Makefile            ~  ../support-firecloud/aws-cfn.mk/tpl.Makefile
-    +-- env-web.inc.mk      ~  ../support-firecloud/aws-cfn.mk/tpl.stack-stem.inc.mk
-    +-- infra.inc.mk        ~  ../support-firecloud/aws-cfn.mk/tpl.stack-stem.inc.mk
+    +-- .gitignore          ~  ../yplatform/aws-cfn.mk/tpl.gitignore
+    +-- Makefile            ~  ../yplatform/aws-cfn.mk/tpl.Makefile
+    +-- env-web.inc.mk      ~  ../yplatform/aws-cfn.mk/tpl.stack-stem.inc.mk
+    +-- infra.inc.mk        ~  ../yplatform/aws-cfn.mk/tpl.stack-stem.inc.mk
 ```
 
 Above is an example of a folder structure in a repo with a `cfn` folder,
@@ -78,8 +78,8 @@ while the `env-web` stack is per environment, n per AWS account.
 ## Bootstrapping a repo with AWS CloudFormation templates
 
 ```shell
-support-firecloud/bin/repo-cfn-boostrap --stack-stem env-web
-support-firecloud/bin/repo-cfn-boostrap --stack-stem infra
+yplatform/bin/repo-cfn-boostrap --stack-stem env-web
+yplatform/bin/repo-cfn-boostrap --stack-stem infra
 ```
 
 

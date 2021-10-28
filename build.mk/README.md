@@ -1,17 +1,17 @@
-# support-firecloud/build.mk
+# yplatform/build.mk
 
 Use these Makefile "puzzle" pieces by making your main `Makefile` look like this:
 
 ```Makefile
-ifeq (,$(wildcard support-firecloud/Makefile))
-INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive support-firecloud)
+ifeq (,$(wildcard yplatform/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive yplatform)
 ifneq (,$(filter undefine,$(.FEATURES)))
 undefine INSTALL_SUPPORT_FIRECLOUD
 endif
 endif
 
-include support-firecloud/build.mk/generic.common.mk
-include support-firecloud/build.mk/...
+include yplatform/build.mk/generic.common.mk
+include yplatform/build.mk/...
 
 # ------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@ include support-firecloud/build.mk/...
 
 ... include here custom variables ...
 
-... include here support-firecloud variables (configuration) ...
+... include here yplatform variables (configuration) ...
 
 # ------------------------------------------------------------------------------
 

@@ -20,7 +20,7 @@ let env = {
 
 // ci
 let WSLENV = 'CI:V';
-// support-firecloud
+// yplatform
 WSLENV = `${WSLENV}:SF_LOG_BOOTSTRAP:SF_PRINTENV_BOOTSTRAP`;
 // github
 WSLENV = `${WSLENV}:GH_TOKEN:GH_USERNAME`;

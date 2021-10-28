@@ -5,7 +5,7 @@
 /codeship.aes
 /gitconfig/github-global-gitignore/
 /make.sh.successful
-/support-firecloud
+/yplatform
 
 # artifacts
 /sf-ci-echo-benchmark

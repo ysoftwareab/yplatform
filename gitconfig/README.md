@@ -1,8 +1,8 @@
 # `git` configuration
 
 ```shell
-ln -s {~/git/support-firecloud/generic/dot,~/}.gitignore_global
-ln -s {~/git/support-firecloud/generic/dot,~/}.gitattributes_global
+ln -s {~/git/yplatform/generic/dot,~/}.gitignore_global
+ln -s {~/git/yplatform/generic/dot,~/}.gitattributes_global
 ```
 
 If you have `git` 2.13+ and you'd like to restrict the `git` config to firecloud-related repos,
@@ -10,7 +10,7 @@ in your `~/.gitconfig` prepend AT THE TOP
 
 ```
 [includeIf "gitdir:~/git/firecloud/"]
-    path = ~/git/support-firecloud/generic/dot.gitconfig
+    path = ~/git/yplatform/generic/dot.gitconfig
 ```
 
 **NOTE** You can change the path `~/git/firecloud` accordingly, or duplicate the snippet with additional paths.
@@ -21,5 +21,5 @@ in your `~/.gitconfig` prepend AT THE TOP
 
 ```
 [include]
-    path = ~/git/support-firecloud/generic/dot.gitconfig
+    path = ~/git/yplatform/generic/dot.gitconfig
 ```

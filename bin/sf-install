@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR=support-firecloud
+SUPPORT_FIRECLOUD_DIR=yplatform
 
 git submodule add --force -b master git://github.com/ysoftwareab/yplatform.git ${SUPPORT_FIRECLOUD_DIR}
 git submodule sync --recursive

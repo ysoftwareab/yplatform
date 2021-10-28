@@ -114,13 +114,13 @@ ssh rFjXYvZt3FotUuXVOKo1z2WOc@to2.tmate.io
 For official info, see [how to debug](https://docs.travis-ci.com/user/running-build-in-debug-mode/).
 
 If you debug often, you can speed up the process,
-by running `support-firecloud/bin/travis-debug --token X --job Y`, where
+by running `yplatform/bin/travis-debug --token X --job Y`, where
 - X is the token that you see at https://travis-ci.com/profile/
   - you can omit `--token X` if you have an environment variable `TRAVIS_API_TOKEN`
 - Y can be a numeric job ID or a job URL or even a build URL (most useful)
 
 **NOTE** Remember that you can almost always run `--help`,
-so `support-firecloud/bin/travis-debug --help`, to get proper info.
+so `yplatform/bin/travis-debug --help`, to get proper info.
 
 Once you SSH via the tmate session, you will be welcomed by the message:
 
@@ -201,7 +201,7 @@ printenv | grep MY_SECRET_VAR_PREFIX_
 * Open terminal in the repository folder
 * Generate new Travis secret as mentioned in [Secrets](#Secrets).
 Assuming that you want notifications in #cloud-ci channel command will look like:
-  * in a case of a public repository `support-firecloud/bin/travis-encrypt "rokmoln:<token>#cloud-ci"`
+  * in a case of a public repository `yplatform/bin/travis-encrypt "rokmoln:<token>#cloud-ci"`
   * in a case of an internal/private repository `travis encrypt --pro "rokmoln:<token>#cloud-ci"` (you will need to run `travis login --pro` before that)
 * Add secret in the `.travis.yml` and configure other options
 ```yaml

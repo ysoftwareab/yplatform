@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR=/support-firecloud
+SUPPORT_FIRECLOUD_DIR=/yplatform
 source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
 # shellcheck disable=SC2034
 UNAME=codeship
@@ -15,7 +15,7 @@ GIT_USER_NAME="Codeship"
 # DEPS
 source ${SUPPORT_FIRECLOUD_DIR}/sh/exe.inc.sh
 source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
-[[ -f /support-firecloud.bootstrapped ]] || {
+[[ -f /yplatform.bootstrapped ]] || {
     apt_update
 
     apt_install_one apt-transport-https

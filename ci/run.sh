@@ -57,7 +57,7 @@ function sf_ci_run() {
     fi
 
     [[ "${TRAVIS:-}" != "true" ]] || {
-        if [[ -f /support-firecloud.docker-ci ]]; then
+        if [[ -f /yplatform.docker-ci ]]; then
             echo_info "Running inside the sf-docker-ci container."
         elif [[ "${OS_SHORT:-}" != "linux" ]]; then
             echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
@@ -80,7 +80,7 @@ function sf_ci_run() {
         fi
 
         [[ "${1}" != "before_install" ]] || {
-            [[ -f /support-firecloud.docker-ci ]] || sf_enable_travis_swap
+            [[ -f /yplatform.docker-ci ]] || sf_enable_travis_swap
         }
     }
 

@@ -34,7 +34,7 @@ where you mark which file patterns should be considered for encryption e.g.
 **/.git* !filter !diff
 ```
 
-The `support-firecloud` repository has a version of `transcrypt` available in the `bin` folder.
+The `yplatform` repository has a version of `transcrypt` available in the `bin` folder.
 
 Copy it to your repository and commit the executable, as it will be both safer
 (in case of breaking changes) and more convenient for other users to not search
@@ -43,7 +43,7 @@ and install `transcrypt`.
 ```shell
 cd path/to/repo
 git add .gitattributes
-ln -sf support-firecloud/bin/transcrypt ./
+ln -sf yplatform/bin/transcrypt ./
 git add transcrypt
 git commit -m "add transcrypt"
 ```

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "support-firecloud",
+  "name": "yplatform",
   "description": "Software and configuration that supports various cycles of software development.",
   "version": "0.2.160",
   "license": "Apache-2.0",
