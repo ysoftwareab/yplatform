@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+# YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 export YP_CI_ECHO_BENCHMARK=${GIT_ROOT}/sf-ci-echo-benchmark
 

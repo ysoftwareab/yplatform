@@ -13,12 +13,12 @@ fi
 # sh/env.inc.sh:11
 # build.mk/core.common.mk:9
 
-[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || {
+[[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
-        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-        # echo >&2 SUPPORT_FIRECLOUD_DIR=$SUPPORT_FIRECLOUD_DIR
+        YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+        # echo >&2 YP_DIR=$YP_DIR
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
+        YP_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
     else
         echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
         exit 1
@@ -87,7 +87,7 @@ fi
 
 # jq becomes always available
 # NOTE if needed to bypass system's jq, call sf-jq
-sf_path_append ${SUPPORT_FIRECLOUD_DIR}/bin/.jq
+sf_path_append ${YP_DIR}/bin/.jq
 
 sf_path_prepend /usr/local/sbin
 sf_path_prepend /usr/local/bin

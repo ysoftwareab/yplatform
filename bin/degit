@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- degit 1.0
 ## Usage: degit -- URI
@@ -77,7 +77,7 @@ URI="$1"
             exit 1
     esac
 }
-source <(${SUPPORT_FIRECLOUD_DIR}/bin/parse-uri "${URI}")
+source <(${YP_DIR}/bin/parse-uri "${URI}")
 
 REPO_SERVICE=${URI_HOST}
 REPO_SERVICE=${REPO_SERVICE/%.com/}

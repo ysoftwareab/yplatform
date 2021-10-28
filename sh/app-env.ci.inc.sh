@@ -115,7 +115,7 @@ function ci_run_deploy() {
     local ASSETS_ARGS=$(
         echo "${ASSETS}" | \
         while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; echo "--asset ${NO_XARGS_R}"; done)
-    ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
+    ${YP_DIR}/bin/github-create-release \
         --repo-slug ${YP_CI_REPO_SLUG} \
         --tag "v${PKG_VSN}" \
         --body "$(cat release-notes/v${PKG_VSN}.txt)" \

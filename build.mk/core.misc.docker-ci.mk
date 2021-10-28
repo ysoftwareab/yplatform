@@ -17,8 +17,8 @@ endif
 .PHONY: docker-ci
 docker-ci:
 	$(eval CONTAINER_NAME := $(shell echo "sf-docker-ci-$$(basename $(PWD))"))
-	source $(SUPPORT_FIRECLOUD_DIR)/sh/common.inc.sh && \
-		source $(SUPPORT_FIRECLOUD_DIR)/ci/run.docker-ci.inc.sh && \
+	source $(YP_DIR)/sh/common.inc.sh && \
+		source $(YP_DIR)/ci/run.docker-ci.inc.sh && \
 		sf_run_docker_ci_image $(YP_DOCKER_CI_IMAGE) $(PWD) $(CONTAINER_NAME)
 	$(ECHO) "[WARN] Make sure to export relevant environment variables!"
 	docker exec -it -w $(PWD) -u $$(id -u):$$(id -g) $(CONTAINER_NAME) ./.ci.sh debug || true

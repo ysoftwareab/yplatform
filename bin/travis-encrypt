@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- travis-encrypt 1.0
 ## Usage: travis-encrypt [OPTION]

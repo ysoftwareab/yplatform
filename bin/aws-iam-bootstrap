@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- aws-iam-bootstrap 1.0
 ## Usage: aws-iam-bootstrap [OPTION]
@@ -98,7 +98,7 @@ set +a
 AWS_ACCOUNT_NAME=${AWS_ACCOUNT_NAME:-${DEV_AWS_ACCOUNT_NAME}}
 
 printf "\ec" # clear
-${SUPPORT_FIRECLOUD_DIR}/bin/aws-iam-console-switch-role > ${GIT_ROOT}/aws-iam-console-switch-role.md
+${YP_DIR}/bin/aws-iam-console-switch-role > ${GIT_ROOT}/aws-iam-console-switch-role.md
 cat ${GIT_ROOT}/aws-iam-console-switch-role.md
 echo
 echo "--------------------------------------------------------------------------------"

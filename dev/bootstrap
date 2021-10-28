@@ -7,10 +7,10 @@ set -euo pipefail
     }
 }
 
-export SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+export YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
-cd ${SUPPORT_FIRECLOUD_DIR}
+cd ${YP_DIR}
 
 YP_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 if [[ "${YP_GIT_BRANCH}" = "master" ]]; then
@@ -41,14 +41,14 @@ else
 fi
 
 # Execute the OS specific boostrap process.
-${SUPPORT_FIRECLOUD_DIR}/bootstrap/${OS_SHORT}/bootstrap
+${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap
 
 # Offer to upgrade users login shell to homebrew's bash.
-${SUPPORT_FIRECLOUD_DIR}/bin/use-homebrew-bash
+${YP_DIR}/bin/use-homebrew-bash
 
 # User feedback
 echo
-echo "Append 'source ~/${SUPPORT_FIRECLOUD_DIR#${HOME}/}/sh/dev.inc.sh'"
+echo "Append 'source ~/${YP_DIR#${HOME}/}/sh/dev.inc.sh'"
 echo "to your '~/.bashrc' or '~/.zshrc' or similar."
 echo
 echo "Restart your shell, and you're good to go."

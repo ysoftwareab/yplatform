@@ -7,10 +7,10 @@ ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including node.common.mk .)
 endif
 
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/js.common.mk
+include $(YP_DIR)/build.mk/js.common.mk
 
 YP_NODE_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/build.mk/js.build.babel.mk \
+	$(YP_DIR)/build.mk/js.build.babel.mk \
 
 YP_NODE_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_NODE_COMMON_INCLUDES_DEFAULT))
 

@@ -5,8 +5,8 @@ set -euo pipefail
 # OLD_VARS=$(printenv_all_names | sort -u)
 OLD_VARS=$(compgen -A variable | sort -u)
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- sf-printvars 1.0
 ## Usage: sf-printvars

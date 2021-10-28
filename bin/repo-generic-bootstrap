@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- repo-generic-bootstrap 1.0
 ## Usage: repo-generic-boostrap [OPTION]
@@ -47,7 +47,7 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-cd ${SUPPORT_FIRECLOUD_DIR}/..
+cd ${YP_DIR}/..
 git rev-parse --show-toplevel >/dev/null || {
     echo_err "yplatform is not in a git repository"
     exit 1
@@ -57,7 +57,7 @@ git rev-parse --show-toplevel >/dev/null || {
     exit 1
 }
 
-SUPPORT_FIRECLOUD_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)'))")"
+YP_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${YP_DIR}', '$(pwd)'))")"
 ARTIFACTS=
 
 if ${DIFF}; then
@@ -67,7 +67,7 @@ if ${DIFF}; then
     echo_info "e.g. opendiff . ${TMP_VANILLA_DIR}"
     echo_info "e.g. ksdiff . ${TMP_VANILLA_DIR}"
     echo
-    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP_VANILLA_DIR}/yplatform
+    ln -s ${YP_DIR} ${TMP_VANILLA_DIR}/yplatform
     cd ${TMP_VANILLA_DIR}
 fi
 
@@ -75,25 +75,25 @@ fi
 
 ARTIFACT=.editorconfig
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.editorconfig ${ARTIFACT}
+    ln -s ${YP_DIR_REL}/repo/dot.editorconfig ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
 ARTIFACT=.ci.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.ci.sh ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/dot.ci.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 [[ -e .github ]] || {
     mkdir -p .github
-    for ARTIFACT in "${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github"/* "${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.github"/.*; do
+    for ARTIFACT in "${YP_DIR_REL}/repo/dot.github"/* "${YP_DIR_REL}/repo/dot.github"/.*; do
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ "${ARTIFACT}" != ".github/settings.base.yml" ]] || continue
         [[ -e ${ARTIFACT} ]] || {
-            cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            cp ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Created ${ARTIFACT}."
         }
@@ -102,17 +102,17 @@ ARTIFACT=.ci.sh
 
 ARTIFACT=.shellcheckrc
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.shellcheckrc ${ARTIFACT}
+    ln -s ${YP_DIR_REL}/repo/dot.shellcheckrc ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
 [[ -e .vscode ]] || {
     mkdir -p .vscode
-    for ARTIFACT in "${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode"/* "${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.vscode"/.*; do
+    for ARTIFACT in "${YP_DIR_REL}/repo/dot.vscode"/* "${YP_DIR_REL}/repo/dot.vscode"/.*; do
         ARTIFACT=.vscode/$(basename ${ARTIFACT})
         [[ -e ${ARTIFACT} ]] || {
-            ln -s ../${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            ln -s ../${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Symlinked ${ARTIFACT}."
         }
@@ -121,14 +121,14 @@ ARTIFACT=.shellcheckrc
 
 ARTIFACT=LICENSE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/LICENSE ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/LICENSE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=NOTICE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/NOTICE ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/NOTICE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -136,7 +136,7 @@ ARTIFACT=NOTICE
 
 ARTIFACT=AUTHORS
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/AUTHORS ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/AUTHORS ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -144,7 +144,7 @@ ARTIFACT=AUTHORS
 
 ARTIFACT=Brewfile.inc.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -152,14 +152,14 @@ ARTIFACT=Brewfile.inc.sh
 
 ARTIFACT=Brewfile.lock
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/Brewfile.lock ${ARTIFACT}
+    ln -s ${YP_DIR_REL}/Brewfile.lock ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -167,7 +167,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=README.md
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/README.md ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/README.md ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -175,7 +175,7 @@ ARTIFACT=README.md
 
 ARTIFACT=package.json
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/package.json ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/package.json ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."

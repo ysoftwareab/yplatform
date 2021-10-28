@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR=/yplatform
-source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/env.inc.sh
+YP_DIR=/yplatform
+source ${YP_DIR}/dockerfiles/util/env.inc.sh
 # shellcheck disable=SC2034
 UNAME=codeship
 # shellcheck disable=SC2034
@@ -13,8 +13,8 @@ GIT_USER_EMAIL="bot@codeship.com"
 GIT_USER_NAME="Codeship"
 
 # DEPS
-source ${SUPPORT_FIRECLOUD_DIR}/sh/exe.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
+source ${YP_DIR}/sh/exe.inc.sh
+source ${YP_DIR}/sh/package-managers/apt.inc.sh
 [[ -f /yplatform.bootstrapped ]] || {
     apt_update
 
@@ -28,9 +28,9 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/package-managers/apt.inc.sh
     apt_install_one ssh-client
     apt_install_one sudo
 
-    source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/gitconfig.inc.sh
-    source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/user.inc.sh
+    source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh
+    source ${YP_DIR}/dockerfiles/util/user.inc.sh
 }
 
-# source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/bootstrap.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/util/clean.inc.sh
+# source ${YP_DIR}/dockerfiles/util/bootstrap.inc.sh
+# source ${YP_DIR}/dockerfiles/util/clean.inc.sh

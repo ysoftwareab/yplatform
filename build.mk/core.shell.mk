@@ -23,4 +23,4 @@ shell:
 
 .PHONY: shell/tmate
 shell/tmate:
-	$(SUPPORT_FIRECLOUD_DIR)/bin/tmate-shell
+	$(YP_DIR)/bin/tmate-shell

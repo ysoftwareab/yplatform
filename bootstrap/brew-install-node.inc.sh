@@ -14,7 +14,7 @@ brew_install_one_unless pnpm "pnpm --version | head -1" "^6\."
 
 # allow npm upgrade to fail on WSL; fails with EACCESS
 unless_exe_and_grep_q "npm --version | head -1" "^6\." \
-    npm install --global --force npm@6 || ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl
+    npm install --global --force npm@6 || ${YP_DIR}/bin/is-wsl
 
 unless_exe_and_grep_q "json --version | head -1" "^json 9\." \
     npm install --global json@9

@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- sf-printvar 1.0
 ## Usage: sf-printvar -- VARIABLE
 ## Source sh/common.inc.sh and print the variable's value.
 ##
-## Example: sf-printvar SUPPORT_FIRECLOUD_DIR
+## Example: sf-printvar YP_DIR
 ## Example: sf-printvar OS_RELEASE_ID
 ## Example: sf-printvar OS_SHORT
 

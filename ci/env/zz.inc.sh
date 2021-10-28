@@ -16,8 +16,8 @@ function sf_ci_env_zz() {
     YP_CI_IS_CRON=
     YP_CI_IS_PR=
 
-    YP_CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/random-hex)
-    YP_CI_PIPELINE_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/random-hex)
+    YP_CI_JOB_ID=$(${YP_DIR}/bin/random-hex)
+    YP_CI_PIPELINE_ID=$(${YP_DIR}/bin/random-hex)
     YP_CI_JOB_URL=https://example.com/${YP_CI_NAME}/${YP_CI_REPO_SLUG}/job/${YP_CI_JOB_ID}
     YP_CI_PIPELINE_URL=https://example.com/${YP_CI_NAME}/${YP_CI_REPO_SLUG}/pipeline/${YP_CI_PIPELINE_ID}
 

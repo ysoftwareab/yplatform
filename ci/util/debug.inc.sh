@@ -17,7 +17,7 @@ EOF
 
 # call this function from wherever you want to start a debug shell
 function sf_ci_debug() {
-    echo_info "Starting a debug shell via ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell."
+    echo_info "Starting a debug shell via ${YP_DIR}/bin/tmate-shell."
     echo_info "Run 'touch ${GIT_ROOT}/.tmate.continue', if you want the workflow to continue."
     echo_info "Workflow will be cancelled otherwise."
 
@@ -38,14 +38,14 @@ function sf_ci_debug() {
 
     if [[ "${YP_TMATE_AUTH:-}" = "none" ]]; then
         echo_warn "Tmate session will be unrestricted due to YP_TMATE_AUTH=${YP_TMATE_AUTH}."
-        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+        ${YP_DIR}/bin/tmate-shell
     elif [[ "${YP_DOCKER:-}" = "true" ]]; then
         echo_warn "Tmate session will be unrestricted due to YP_DOCKER=${YP_DOCKER}."
-        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell
+        ${YP_DIR}/bin/tmate-shell
     elif [[ -n ${YP_TMATE_AUTH:-} ]]; then
         echo_info "Tmate session will be restricted to YP_TMATE_AUTH=${YP_TMATE_AUTH}."
         cat ${YP_TMATE_AUTH}
-        ${SUPPORT_FIRECLOUD_DIR}/bin/tmate-shell ${YP_TMATE_AUTH}
+        ${YP_DIR}/bin/tmate-shell ${YP_TMATE_AUTH}
     else
         echo_err "No YP_TMATE_AUTH defined. Refusing to start a tmate session open to the world."
         echo_info "Define YP_TMATE_AUTH=none if you really want to."

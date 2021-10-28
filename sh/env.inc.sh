@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-[[ -n "${SUPPORT_FIRECLOUD_DIR:-}" ]] || {
+[[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
-        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-        # echo >&2 SUPPORT_FIRECLOUD_DIR=$SUPPORT_FIRECLOUD_DIR
+        YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+        # echo >&2 YP_DIR=$YP_DIR
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
+        YP_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
     else
         echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
         exit 1
@@ -41,7 +41,7 @@ function sf_path_append_before() {
 }
 
 [[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
-    source ${SUPPORT_FIRECLOUD_DIR}/bin/sf-env
+    source ${YP_DIR}/bin/sf-env
 }
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function

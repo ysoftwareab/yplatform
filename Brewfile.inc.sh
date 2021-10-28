@@ -3,7 +3,7 @@
 # when not in CI, use dev install
 [[ "${CI:-}" = "true" ]] || YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL:-dev}
 
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-${YP_CI_BREW_INSTALL}.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-${YP_CI_BREW_INSTALL}.inc.sh
 
 # YP_DOCKER declared in dockerfiles/*/Dockerfile.build.sh
 [[ "${YP_DOCKER:-}" != "true" ]] || {

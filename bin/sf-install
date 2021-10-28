@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR=yplatform
+YP_DIR=yplatform
 
-git submodule add --force -b master git://github.com/ysoftwareab/yplatform.git ${SUPPORT_FIRECLOUD_DIR}
+git submodule add --force -b master git://github.com/ysoftwareab/yplatform.git ${YP_DIR}
 git submodule sync --recursive
 git submodule update --init --recursive
 (
-    cd ${SUPPORT_FIRECLOUD_DIR}
+    cd ${YP_DIR}
     # checkout latest version
     git checkout $(git tag --list --sort=version:refname "v*" | tail -n1)
 )

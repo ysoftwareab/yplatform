@@ -2,10 +2,10 @@
 set -euo pipefail
 
 # fix $HOME
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/home.inc.sh
+source ${YP_DIR}/ci/util/home.inc.sh
 
 # detect CI platform
-for YP_CI_ENV in ${SUPPORT_FIRECLOUD_DIR}/ci/env/*.inc.sh; do
+for YP_CI_ENV in ${YP_DIR}/ci/env/*.inc.sh; do
     source ${YP_CI_ENV}
 done
 unset YP_CI_ENV
@@ -26,7 +26,7 @@ if command -v git >/dev/null 2>&1; then
 fi
 
 # common env
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+source ${YP_DIR}/sh/common.inc.sh
 
 # skip from commit message
 if echo "${GIT_COMMIT_MSG}" | grep -q "\[skip ci\]"; then
@@ -59,7 +59,7 @@ fi
 set +a
 
 # util functions
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/debug.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/docker-ci.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/travis-docker.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/travis-swap.inc.sh
+source ${YP_DIR}/ci/util/debug.inc.sh
+source ${YP_DIR}/ci/util/docker-ci.inc.sh
+source ${YP_DIR}/ci/util/travis-docker.inc.sh
+source ${YP_DIR}/ci/util/travis-swap.inc.sh

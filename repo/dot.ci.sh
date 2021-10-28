@@ -2,10 +2,10 @@
 # shellcheck disable=SC2034
 true
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
-[[ -e ${SUPPORT_FIRECLOUD_DIR}/Makefile ]] || \
-    git submodule update --init --recursive ${SUPPORT_FIRECLOUD_DIR}
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
+[[ -e ${YP_DIR}/Makefile ]] || \
+    git submodule update --init --recursive ${YP_DIR}
+source ${YP_DIR}/sh/common.inc.sh
 
 ## to override an existing phase implementation
 # function ci_run_<phase>() {
@@ -20,4 +20,4 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 # }
 #
 
-source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.sf"

@@ -4,7 +4,7 @@ set -euo pipefail
 function sf_enable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
-    ! ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl || return 0
+    ! ${YP_DIR}/bin/is-wsl || return 0
     [[ ! -f /yplatform.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)
@@ -24,7 +24,7 @@ function sf_enable_travis_swap() {
 function sf_disable_travis_swap() {
     [[ "${TRAVIS:-}" = "true" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
-    ! ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl || return 0
+    ! ${YP_DIR}/bin/is-wsl || return 0
     [[ ! -f /yplatform.docker-ci ]] || return 0
 
     local MEM_MIB=$(free -m | grep Mem | sed "s/ \+/ /g" | cut -d" " -f2)

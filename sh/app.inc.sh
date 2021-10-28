@@ -45,7 +45,7 @@ function app_provision_cfn_stack() {
     local STACK_ITERATION=${STACK_ITERATION:-1}
 
     local STACK_NAME=${STACK_STEM/#env/${ENV_NAME}}
-    local STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+    local STACK_ID=$(${YP_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
     local AWS_CFN_URL=https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home
 
@@ -59,7 +59,7 @@ function app_provision_cfn_stack() {
             [[ "${DRYRUN:-}" = "true" ]] || {
                 # FIXME see https://github.com/m3t/travis_wait
                 # make ${STACK_STEM}.cfn.json/exec
-                ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
+                ${YP_DIR}/bin/travis-wait \
                     -i ${TRAVIS_WAIT_INTERVAL} \
                     -l ${TRAVIS_WAIT_MAX} \
                     "make ${STACK_STEM}.cfn.json/exec" \
@@ -76,7 +76,7 @@ function app_provision_cfn_stack() {
             [[ "${DRYRUN:-}" = "true" ]] || {
                 # FIXME see https://github.com/m3t/travis_wait
                 # make ${STACK_STEM}.change-set.json/exec
-                ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
+                ${YP_DIR}/bin/travis-wait \
                     -i ${TRAVIS_WAIT_INTERVAL} \
                     -l ${TRAVIS_WAIT_MAX} \
                     "make ${STACK_STEM}.change-set.json/exec" \
@@ -103,8 +103,8 @@ function app_provision_cfn_stack() {
 
                     for SLACK_CHANNEL in $(echo ${SLACK_CHANNELS} | sed "s/[, ]+/\n/g"); do
                         echo_info "Notifying Slack #${SLACK_CHANNEL}..."
-                        STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
-                        ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo --to "#${SLACK_CHANNEL}" " \
+                        STACK_ID=$(${YP_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+                        ${YP_DIR}/bin/slack-echo --to "#${SLACK_CHANNEL}" " \
 Stack ${STACK_NAME} has drifted. \
 See ${AWS_CFN_URL}?region=${AWS_REGION}#/stack/detail/drift?stackId=${STACK_ID//\//%2f} . \
 "
@@ -142,7 +142,7 @@ function app_teardown_cfn_stack() {
     local TRAVIS_WAIT_ALLOW_APPEND=1
 
     local STACK_NAME=${STACK_STEM/#env-/${ENV_NAME}-}
-    local STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+    local STACK_ID=$(${YP_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
     [[ -n "${STACK_ID}" ]] || {
         echo_skip "Stack ${STACK_NAME} for env ${ENV_NAME} not found"
@@ -153,7 +153,7 @@ function app_teardown_cfn_stack() {
         echo_do "Tearing down stack ${STACK_NAME}..."
         exe cd ${GIT_ROOT}/cfn
 
-        ${SUPPORT_FIRECLOUD_DIR}/bin/travis-wait \
+        ${YP_DIR}/bin/travis-wait \
             -i ${TRAVIS_WAIT_INTERVAL} \
             -l ${TRAVIS_WAIT_MAX} \
             -a ${TRAVIS_WAIT_ALLOW_APPEND} \
@@ -166,7 +166,7 @@ function app_teardown_cfn_stack() {
         echo_done
     )
 
-    STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+    STACK_ID=$(${YP_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
     [[ -z "${STACK_ID}" ]] || (
         echo_err "Teardown of stack ${STACK_NAME} failed"
         exit 1

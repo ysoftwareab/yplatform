@@ -31,7 +31,7 @@ function aws-iam-login() {
 
     CREDENTIALS_TEMP=$(mktemp -t firecloud.XXXXXXXXXX)
 
-    ${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/aws-get-cli-sts > ${CREDENTIALS_TEMP}
+    ${GLOBAL_YP_DIR}/bin/aws-get-cli-sts > ${CREDENTIALS_TEMP}
     source ${CREDENTIALS_TEMP}
 
     rm -f ${CREDENTIALS_TEMP}

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- internet-archive 1.0
 ## Usage: internet-archive URL
@@ -41,4 +41,4 @@ done
 URL=$1
 
 # curl -qfsSL "https://web.archive.org/save/$(echo -n "${URL}" | jq -sRr @uri)"
-curl -qfsSL "https://web.archive.org/save/$(${SUPPORT_FIRECLOUD_DIR}/bin/urlencode "${URL}")"
+curl -qfsSL "https://web.archive.org/save/$(${YP_DIR}/bin/urlencode "${URL}")"

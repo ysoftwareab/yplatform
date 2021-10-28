@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 export YP_SINGLE_FILE_VSN=v0.3.26
 
@@ -71,8 +71,8 @@ YP_NPX_ARGS="${YP_NPX_ARGS} --package https://github.com/gildas-lormeau/SingleFi
 
 function main() {
     # add chrome, chromium, etc to $PATH for better MacOS comppatibility of single-file
-    export PATH="${PATH}:${SUPPORT_FIRECLOUD_DIR}/bin/browsers"
+    export PATH="${PATH}:${YP_DIR}/bin/browsers"
     single-file "$@"
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
+source ${YP_DIR}/sh/npx.inc.sh

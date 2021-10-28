@@ -97,12 +97,12 @@ deps-npm-install:
 	$(NPM) install
 #	convenience. install peer dependencies from babel/eslint firecloud packages
 	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/babel-preset-firecloud/package.json
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/babel-preset-firecloud/package.json
 	[[ ! -f node_modules/eslint-plugin-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/eslint-plugin-firecloud/package.json
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-plugin-firecloud/package.json
 #	deprecated
 	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/npm-install-peer-deps node_modules/eslint-config-firecloud/package.json
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-config-firecloud/package.json
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \
@@ -115,7 +115,7 @@ deps-npm-install:
 				else .devDependencies \
 				end) \
 		" | \
-		${SUPPORT_FIRECLOUD_DIR}/bin/sponge package.json
+		${YP_DIR}/bin/sponge package.json
 #	check that installing peer dependencies didn't modify package.json
 	$(GIT) diff --exit-code package.json || [[ "$(PACKAGE_JSON_WAS_CHANGED)" = "true" ]] || { \
 		$(NPM) install; \

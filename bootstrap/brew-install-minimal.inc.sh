@@ -2,7 +2,7 @@
 set -euo pipefail
 
 echo_do "brew: Installing minimal packages..."
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-core.inc.sh
 # NOTE installing formulas that depend on python might exibit
 # - reinstalling 1 broken dependent from source
 # - bad interpreter
@@ -12,11 +12,11 @@ source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-core.inc.sh
 # but historically it has been a problem for aws-cli as well on ubuntu.
 # NOTE we install by force via homebrew, without checking system's python
 # because formulas like docker-compose, dependent on python, will no use the system's python
-# source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-py.inc.sh
+# source ${YP_DIR}/bootstrap/brew-install-py.inc.sh
 brew_install_one python
 
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-asdf.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-node.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-asdf.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-node.inc.sh
 {
     TMP_NQ=$(mktemp -t firecloud.XXXXXXXXXX)
     case ${OS_SHORT} in

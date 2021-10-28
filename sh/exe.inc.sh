@@ -4,7 +4,7 @@ set -euo pipefail
 # ECHO -------------------------------------------------------------------------
 
 YP_CI_ECHO_BENCHMARK=${YP_CI_ECHO_BENCHMARK:-/dev/null}
-export YP_CI_ECHO="${SUPPORT_FIRECLOUD_DIR}/bin/ci-echo --benchmark ${YP_CI_ECHO_BENCHMARK}"
+export YP_CI_ECHO="${YP_DIR}/bin/ci-echo --benchmark ${YP_CI_ECHO_BENCHMARK}"
 
 function echo_next() {
     ${YP_CI_ECHO} "[NEXT]" "$@"

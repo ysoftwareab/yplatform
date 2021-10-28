@@ -9,7 +9,7 @@
 .PHONY: _yplatform/update
 _yplatform/update:
 	$(eval YP_SUBMODULE_PATH := $(shell $(GIT) config --file .gitmodules --get-regexp path | \
-		$(GREP) $(shell basename $(SUPPORT_FIRECLOUD_DIR)) | $(CUT) -d' ' -f2))
+		$(GREP) $(shell basename $(YP_DIR)) | $(CUT) -d' ' -f2))
 	[[ -n "$(YP_SUBMODULE_PATH)" ]] || { \
 		$(ECHO_ERR) "Couldn't find 'yplatform' git submodule."; \
 		exit 1; \

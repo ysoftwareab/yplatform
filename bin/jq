@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 VSN=1.6
 JQ_URL=https://github.com/stedolan/jq/releases/download
@@ -10,12 +10,12 @@ JQ_URL=https://github.com/stedolan/jq/releases/download
 case ${OS_SHORT} in
     linux)
         BINARY=jq-linux${ARCH_BIT}
-        BINARY_LOCAL=${SUPPORT_FIRECLOUD_DIR}/bin/jq-${VSN}/${BINARY}
+        BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
         BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
         ;;
     darwin)
         BINARY=jq-osx-amd64
-        BINARY_LOCAL=${SUPPORT_FIRECLOUD_DIR}/bin/jq-${VSN}/${BINARY}
+        BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
         BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
         ;;
     *)

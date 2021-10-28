@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- travis-hide-secure-env-vars 1.0
 ## Usage: travis-hide-secure-env-vars [OPTION]
@@ -47,7 +47,7 @@ done
 
 cat >"${TMP_STDIN}"
 
-${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars --secure | sed "s/^[^=]\+=//g" | while read -r VALUE; do
+${YP_DIR}/bin/travis-get-env-vars --secure | sed "s/^[^=]\+=//g" | while read -r VALUE; do
     # using | as delimiter in order to allow \ in $VALUE
     sed -i "s|${VALUE}|[secure]|g" "${TMP_STDIN}"
 done

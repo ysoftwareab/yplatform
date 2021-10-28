@@ -12,7 +12,7 @@ fi
 MYSELF=$(readlink "${MYSELF}")
 [[ "${MYSELF:0:1}" = "/" ]] || MYSELF=$(dirname ${MYSELF})/${MYSELF}
 
-GLOBAL_SUPPORT_FIRECLOUD_DIR="${GLOBAL_SUPPORT_FIRECLOUD_DIR:-$(dirname ${MYSELF})/../..}"
+GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${MYSELF})/../..}"
 
 if [[ -n "${ZSH_VERSION}" ]]; then
     autoload -U compaudit compinit bashcompinit
@@ -31,4 +31,4 @@ if [[ -x ${GIT_ROOT}/yplatform/bin/${YP_BIN} ]]; then
 fi
 
 # default to global yplatform bin
-${GLOBAL_SUPPORT_FIRECLOUD_DIR}/bin/${YP_BIN} "$@"
+${GLOBAL_YP_DIR}/bin/${YP_BIN} "$@"

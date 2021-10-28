@@ -36,7 +36,7 @@ YP_GIT_HOOKS_PRE_PUSH_TARGETS += \
 
 # ------------------------------------------------------------------------------
 
-.git/hooks/pre-push: $(SUPPORT_FIRECLOUD_DIR)/repo/dot.git/hooks/pre-push
+.git/hooks/pre-push: $(YP_DIR)/repo/dot.git/hooks/pre-push
 	$(MKDIR) $$(dirname $@)
 	$(CP) $< $@
 

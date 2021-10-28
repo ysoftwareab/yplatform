@@ -22,8 +22,8 @@ YP_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
 
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
-NODE_ENV_CI := $(SUPPORT_FIRECLOUD_DIR)/bin/node-env-ci
-CI_PRINTVARS := $(SUPPORT_FIRECLOUD_DIR)/bin/ci-printvars
+NODE_ENV_CI := $(YP_DIR)/bin/node-env-ci
+CI_PRINTVARS := $(YP_DIR)/bin/ci-printvars
 
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
@@ -154,7 +154,7 @@ test-gitignore:
 test-env-ci:
 	$(ECHO_DO) "Testing that we are in sync with env-ci..."
 	$(COMM) -23 <($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) | \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/ifne --not --fail --print-on-fail || { \
+		$(YP_DIR)/bin/ifne --not --fail --print-on-fail || { \
 			$(ECHO_ERR) "Found the above differences with env-ci."; \
 			$(ECHO_INFO) "A full diff between YP_CI_* env vars between bin/env-ci and bin/ci-printvars follows:"; \
 			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \

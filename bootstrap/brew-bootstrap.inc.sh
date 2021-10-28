@@ -88,12 +88,12 @@ function bootstrap_brew() {
                 # shellcheck disable=SC2030,SC2031
                 export HOMEBREW_NO_AUTO_UPDATE=
                 # </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/install.sh)"
-                </dev/null /bin/bash -c "$(cat ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/homebrew-install.sh)"
+                </dev/null /bin/bash -c "$(cat ${YP_DIR}/bootstrap/brew-util/homebrew-install.sh)"
             )
             echo_done
             # see https://github.com/Homebrew/brew/issues/5013
             hash -r
-            source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
+            source ${YP_DIR}/sh/env.inc.sh
             ;;
         *)
             echo_err "brew: Cannot handle HAS_BREW_2=${HAS_BREW_2} OS_SHORT=${OS_SHORT} YP_SUDO=${YP_SUDO}."

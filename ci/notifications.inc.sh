@@ -16,7 +16,7 @@ function sf_ci_run_notifications_slack() {
 
     local FEMALE_OR_MALE=female
     [[ $(( ${RANDOM} % 2 )) -eq 0 ]] || FEMALE_OR_MALE=male
-    exe ${SUPPORT_FIRECLOUD_DIR}/bin/slack-echo \
+    exe ${YP_DIR}/bin/slack-echo \
         --from "$(git config user.name)" \
         --icon ":${FEMALE_OR_MALE}-technologist:" \
         "Build ${YP_CI_JOB_ID} (${YP_CI_GIT_HASH}) of \

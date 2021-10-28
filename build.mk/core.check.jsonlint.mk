@@ -17,7 +17,7 @@
 
 YP_IS_TRANSCRYPTED ?= false
 
-JSONLINT = $(SUPPORT_FIRECLOUD_DIR)/bin/jsonlint
+JSONLINT = $(YP_DIR)/bin/jsonlint
 
 JSONLINT_ARGS += \
 

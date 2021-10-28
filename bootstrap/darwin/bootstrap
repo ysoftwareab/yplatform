@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 [[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
-    ${SUPPORT_FIRECLOUD_DIR}/bootstrap/darwin/bootstrap-sudo
+    ${YP_DIR}/bootstrap/darwin/bootstrap-sudo
 
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
+source ${YP_DIR}/bootstrap/brew-util.inc.sh
 
 echo_do "Print state info pre-homebrew..."
 brew_system
@@ -15,7 +15,7 @@ brew_printenv
 echo_done
 
 [[ "${YP_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
-    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap.inc.sh
+    source ${YP_DIR}/bootstrap/brew-bootstrap.inc.sh
 
 [[ "${CI:-}" != "true" ]] || {
     echo_do "Print state info pre-bootstrap..."
@@ -23,12 +23,12 @@ echo_done
     brew_printenv
     echo_done
 
-    source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-ci.inc.sh
+    source ${YP_DIR}/bootstrap/brew-install-ci.inc.sh
     hash -r
-    source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+    source ${YP_DIR}/sh/common.inc.sh
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
+source ${YP_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
 echo_do "Print state info post-bootstrap..."
 brew_system

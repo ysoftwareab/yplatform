@@ -39,7 +39,7 @@ function sf_run_docker_ci_image() {
         --volume "${MOUNT_DIR}:${MOUNT_DIR}:rw" \
         --env CI=true \
         --env USER=${UNAME} \
-        --env-file <(${SUPPORT_FIRECLOUD_DIR}/bin/travis-get-env-vars) \
+        --env-file <(${YP_DIR}/bin/travis-get-env-vars) \
         ${YP_DOCKER_CI_IMAGE}
     echo_done
 
@@ -50,14 +50,14 @@ function sf_run_docker_ci_image() {
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
-            $(SUPPORT_FIRECLOUD_DIR)/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
+            $(YP_DIR)/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
     local GNAME_REAL=$(docker exec -it -u root ${CONTAINER_NAME} \
         getent group ${GID2} | cut -d: -f1)
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser \
+        ${YP_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
         --ingroup ${GNAME_REAL} \
@@ -67,7 +67,7 @@ function sf_run_docker_ci_image() {
         "${UNAME}"
 
     exe docker exec -it -u root ${CONTAINER_NAME} \
-        ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group \
+        ${YP_DIR}/bin/linux-adduser2group \
         --force-badname \
         "${UNAME}" \
         sudo;
@@ -100,7 +100,7 @@ function sf_get_docker_ci_image() {
     if [[ ${YP_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
         [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
-            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+            cat ${YP_DIR}/package.json | jq -r ".version")
         YP_DOCKER_CI_IMAGE="${YP_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
     # if given a docker.pkg.github.com/ysoftwareab/yplatform/sf- image, but without a tag
@@ -108,7 +108,7 @@ function sf_get_docker_ci_image() {
     if [[ ${YP_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/ysoftwareab/yplatform/sf- ]] && \
         [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
-            cat ${SUPPORT_FIRECLOUD_DIR}/package.json | jq -r ".version")
+            cat ${YP_DIR}/package.json | jq -r ".version")
         YP_DOCKER_CI_IMAGE="${YP_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
 

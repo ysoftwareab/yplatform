@@ -32,7 +32,7 @@ archive/%:
 		YP_TARBALL=archive-$(GIT_HASH); \
 	fi; \
 	$(ECHO_DO) "Archiving into $${YP_TARBALL}.$(YP_TARBALL_FORMAT)..."; \
-	$(SUPPORT_FIRECLOUD_DIR)/bin/git-archive-all \
+	$(YP_DIR)/bin/git-archive-all \
 		--format=$(YP_TARBALL_FORMAT) \
 		-o $${YP_TARBALL}.$(YP_TARBALL_FORMAT) HEAD; \
 	$(ECHO_DONE)

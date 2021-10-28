@@ -2,10 +2,10 @@
 set -euo pipefail
 
 echo_do "brew: Installing dev packages..."
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-common.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-aws.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-git-diff.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-install-py.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-common.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-aws.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-git-diff.inc.sh
+source ${YP_DIR}/bootstrap/brew-install-py.inc.sh
 
 brew_install_one_unless jid "jid --version | head -1" "^jid version v0\."
 brew_install_one_unless tmate "tmate -V | head -1" "^tmate 2\."

@@ -1,5 +1,5 @@
-export SUPPORT_FIRECLOUD_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/<SUPPORT_FIRECLOUD_DIR_REL>)
-include $(SUPPORT_FIRECLOUD_DIR)/aws-cfn.mk/inc.mk
+export YP_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/<YP_DIR_REL>)
+include $(YP_DIR)/aws-cfn.mk/inc.mk
 
 STACK_DIR ?= $(MAKE_PATH)/$(STACK_STEM)
 STACK_NAME ?= $(patsubst env-%,$(ENV_NAME)-%,$(STACK_STEM))

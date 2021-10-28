@@ -15,8 +15,8 @@ A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot
 ```shell
 #!/usr/bin/env bash
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 ## to override an existing phase implementation
 # function ci_run_<phase>() {
@@ -31,7 +31,7 @@ source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
 # }
 #
 
-source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.sf"
 ```
 
 Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
@@ -197,8 +197,8 @@ we have grouped these custom `ci_run_<phase>` functions in
 These patterns can be reused by simply changing the `.ci.sh` template above to include at the bottom:
 
 ```
-source "${SUPPORT_FIRECLOUD_DIR}/sh/app-env.inc.sh"
-source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/sh/app-env.inc.sh"
+source "${YP_DIR}/repo/dot.ci.sh.sf"
 ```
 
 

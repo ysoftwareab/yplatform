@@ -15,6 +15,6 @@ deps-git-reset-mtime:
 		$(ECHO_SKIP) "Resetting mtime based on git log..."; \
 	else \
 		$(ECHO_DO) "Resetting mtime based on git log..."; \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/git-reset-mtime; \
+		$(YP_DIR)/bin/git-reset-mtime; \
 		$(ECHO_DONE); \
 	fi

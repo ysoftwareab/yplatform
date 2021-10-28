@@ -129,7 +129,7 @@ The CI is configured with
 ci_run_deploy() {
     local GIT_TAG=$(git tag --points-at HEAD | head -1)
 
-    ${SUPPORT_FIRECLOUD_DIR}/bin/github-create-release \
+    ${YP_DIR}/bin/github-create-release \
         --repo-slug ${YP_CI_REPO_SLUG} \
         --tag ${GIT_TAG} \
         --target $(git rev-parse HEAD) \

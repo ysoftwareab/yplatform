@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-cd ${SUPPORT_FIRECLOUD_DIR}
+cd ${YP_DIR}
 
 chown -R root:root .
 
@@ -17,7 +17,7 @@ sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
 unset YP_DOCKER
 chown -R root:root .
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/env.inc.sh
+source ${YP_DIR}/sh/env.inc.sh
 make BUILD
 make VERSION
 

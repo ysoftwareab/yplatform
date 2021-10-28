@@ -18,7 +18,7 @@ function sf_ci_env_github() {
     YP_CI_IS_PR=
     [[ "${GITHUB_EVENT_NAME:-}" != "pull_request" ]] || YP_CI_IS_PR=true
 
-    YP_CI_JOB_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/github-get-job-id)
+    YP_CI_JOB_ID=$(${YP_DIR}/bin/github-get-job-id)
     YP_CI_PIPELINE_ID=${GITHUB_RUN_ID:-}
     # YP_CI_JOB_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}/checks?check_suite_id=FIXME"
     YP_CI_JOB_URL="${GITHUB_SERVER_URL:-}/${YP_CI_REPO_SLUG}/runs/${YP_CI_JOB_ID}?check_suite_focus=true"

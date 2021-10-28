@@ -3,19 +3,19 @@ set -euo pipefail
 
 GID_INDEX=$((GID_INDEX + 1))
 cat /etc/group | cut -d":" -f3 | grep -q "^${GID_INDEX}$" || {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/linux-addgroup --gid ${GID_INDEX} ${GNAME}
+    ${YP_DIR}/bin/linux-addgroup --gid ${GID_INDEX} ${GNAME}
 }
 GNAME_REAL=$(getent group ${GID_INDEX} | cut -d: -f1)
 
 UID_INDEX=$((UID_INDEX + 1))
-${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser \
+${YP_DIR}/bin/linux-adduser \
     --uid ${UID_INDEX} \
     --ingroup ${GNAME_REAL} \
     --home /home/${UNAME} \
     --shell /bin/sh \
     --disabled-password \
     ${UNAME}
-! cat /etc/group | cut -d":" -f1 | grep -q "^sudo$" || ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group ${UNAME} sudo
+! cat /etc/group | cut -d":" -f1 | grep -q "^sudo$" || ${YP_DIR}/bin/linux-adduser2group ${UNAME} sudo
 echo "${UNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
@@ -35,8 +35,8 @@ chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.bashrc
 cat <<EOF >> /home/${UNAME}/.bash_aliases
 # poor-man version of sh/exe.inc.sh:sh_shellopts
 OPTS_STATE="\$(set +o); \$(shopt -p)"
-source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util/env.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/sh/dev.inc.sh
+source ${YP_DIR}/bootstrap/brew-util/env.inc.sh
+source ${YP_DIR}/sh/dev.inc.sh
 # revert any shell options set in the scripts above
 eval "\${OPTS_STATE}"; unset OPTS_STATE
 EOF

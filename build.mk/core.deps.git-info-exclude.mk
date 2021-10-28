@@ -13,7 +13,7 @@ endif
 # ------------------------------------------------------------------------------
 
 .PHONY: .git/info/exclude
-.git/info/exclude: $(SUPPORT_FIRECLOUD_DIR)/gitconfig/dot.gitignore_global
+.git/info/exclude: $(YP_DIR)/gitconfig/dot.gitignore_global
 	$(MKDIR) $$(dirname $@)
 	[[ -f $@ ]] && $(CAT) $@ 2>/dev/null | $(GREP) -v -e "^#" -e "^\s\+$$"| $(GREP) -q "^." || \
 			$(LN) -sf $< $@

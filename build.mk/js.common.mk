@@ -8,7 +8,7 @@ $(error Please include generic.common.mk, before including js.common.mk .)
 endif
 
 YP_JS_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/build.mk/js.deps.npm.mk \
+	$(YP_DIR)/build.mk/js.deps.npm.mk \
 
 YP_JS_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_JS_COMMON_INCLUDES_DEFAULT))
 

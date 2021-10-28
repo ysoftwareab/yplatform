@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- aws-cloudformation-delete-stack 1.0
 ## Usage: aws-cloudformation-delete-stack [OPTION]
@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-STACK_ID=$(${SUPPORT_FIRECLOUD_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
+STACK_ID=$(${YP_DIR}/bin/aws-get-stack-id --stack-name ${STACK_NAME} || true)
 
 SED_UNTIL=$(aws cloudformation describe-stack-events ${STACK_NAME_ARG} --max-items 1 | jq -r ".StackEvents[0].EventId")
 

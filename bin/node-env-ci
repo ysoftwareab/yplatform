@@ -4,7 +4,7 @@ set -euo pipefail
 # Print env-ci's output as CI environment variables.
 # See https://github.com/pvdlg/env-ci
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
@@ -135,4 +135,4 @@ EOF
     node -e "${SCRIPT}" -- "$@"
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
+source ${YP_DIR}/sh/npx.inc.sh

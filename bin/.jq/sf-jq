@@ -7,7 +7,7 @@ set -euo pipefail
 # This scripts assumes that there's no system executable 'sf-jq',
 # so it will always call our 'bin/jq' script.
 
-# can't symlink to ../jq or else SUPPORT_FIRECLOUD_DIR detection in ../jq fails
+# can't symlink to ../jq or else YP_DIR detection in ../jq fails
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-${SUPPORT_FIRECLOUD_DIR}/bin/jq "$@"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+${YP_DIR}/bin/jq "$@"

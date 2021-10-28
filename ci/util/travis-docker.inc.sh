@@ -3,7 +3,7 @@ set -euo pipefail
 
 function sf_run_docker_ci_in_travis() {
     (
-        source ${SUPPORT_FIRECLOUD_DIR}/bootstrap/brew-util.inc.sh
+        source ${YP_DIR}/bootstrap/brew-util.inc.sh
         apt_update
         apt_install expect # install unbuffer
         apt_install pv

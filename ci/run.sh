@@ -5,8 +5,8 @@ set -euo pipefail
 # e.g. to mask secret values
 exec 2>&1
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/ci/util/env.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/ci/util/env.inc.sh
 
 # debug
 [[ "${1:-}" != "debug" ]] || {
@@ -27,18 +27,18 @@ source ${SUPPORT_FIRECLOUD_DIR}/ci/util/env.inc.sh
 }
 
 # pipeline
-source ${SUPPORT_FIRECLOUD_DIR}/ci/before-install.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/install.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/ci/before-script.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/script.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/before-cache.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-success.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-failure.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/before-deploy.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/ci/deploy.inc.sh
-# source ${SUPPORT_FIRECLOUD_DIR}/ci/after-deploy.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/after-script.inc.sh
-source ${SUPPORT_FIRECLOUD_DIR}/ci/notifications.inc.sh
+source ${YP_DIR}/ci/before-install.inc.sh
+source ${YP_DIR}/ci/install.inc.sh
+# source ${YP_DIR}/ci/before-script.inc.sh
+source ${YP_DIR}/ci/script.inc.sh
+source ${YP_DIR}/ci/before-cache.inc.sh
+# source ${YP_DIR}/ci/after-success.inc.sh
+# source ${YP_DIR}/ci/after-failure.inc.sh
+source ${YP_DIR}/ci/before-deploy.inc.sh
+# source ${YP_DIR}/ci/deploy.inc.sh
+# source ${YP_DIR}/ci/after-deploy.inc.sh
+source ${YP_DIR}/ci/after-script.inc.sh
+source ${YP_DIR}/ci/notifications.inc.sh
 
 
 function sf_ci_run() {
@@ -61,7 +61,7 @@ function sf_ci_run() {
             echo_info "Running inside the sf-docker-ci container."
         elif [[ "${OS_SHORT:-}" != "linux" ]]; then
             echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
-        elif ${SUPPORT_FIRECLOUD_DIR}/bin/is-wsl; then
+        elif ${YP_DIR}/bin/is-wsl; then
             echo_info "Skipping the sf-docker-ci container because the host OS is Windows Subsystem for Linux."
         elif [[ "${YP_DOCKER_CI_IMAGE:-}" = "false" ]]; then
             echo_info "Skipping the sf-docker-ci container because YP_DOCKER_CI_IMAGE=false."
@@ -75,7 +75,7 @@ function sf_ci_run() {
                 sf_run_docker_ci_in_travis
 
                 # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
-                ${RUN_IN_SF_DOCKER_CI} ${SUPPORT_FIRECLOUD_DIR}/bin/linux-adduser2group sf travis
+                ${RUN_IN_SF_DOCKER_CI} ${YP_DIR}/bin/linux-adduser2group sf travis
             }
         fi
 

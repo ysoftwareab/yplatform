@@ -23,7 +23,7 @@ exe_and_grep_q "asdf --version | head -1" "^v0\."
 asdf plugin list | grep -q "^nodejs$" || asdf plugin add nodejs
 
 [[ ! -f .tool-versions ]] || {
-    ${SUPPORT_FIRECLOUD_DIR}/bin/asdf-plugin-add-deps
+    ${YP_DIR}/bin/asdf-plugin-add-deps
 }
 
 echo_do "asdf: Printing info..."

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- repo-cfn-bootstrap 1.0
 ## Usage: repo-cfn-boostrap [OPTION] -- CFN_DIR
@@ -51,7 +51,7 @@ done
 # [[ $# -eq 0 ]] || sh_script_usage
 
 (
-    cd ${SUPPORT_FIRECLOUD_DIR}/..
+    cd ${YP_DIR}/..
     git rev-parse --show-toplevel >/dev/null || {
         echo_err "yplatform is not in a git repo"
         exit 1
@@ -59,7 +59,7 @@ done
 )
 
 CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
-SUPPORT_FIRECLOUD_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)'))")"
+YP_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${YP_DIR}', '$(pwd)'))")"
 ARTIFACTS=
 
 mkdir -p ${CFN_DIR}
@@ -68,15 +68,15 @@ mkdir -p ${CFN_DIR}
 
 ARTIFACT=${CFN_DIR}/.gitignore
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.gitignore ${ARTIFACT}
+    cp ${YP_DIR_REL}/aws-cfn.mk/tpl.gitignore ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=${CFN_DIR}/Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.Makefile ${ARTIFACT}
-    sed -i "s|<SUPPORT_FIRECLOUD_DIR_REL>|${SUPPORT_FIRECLOUD_DIR_REL}|g" ${ARTIFACT}
+    cp ${YP_DIR_REL}/aws-cfn.mk/tpl.Makefile ${ARTIFACT}
+    sed -i "s|<YP_DIR_REL>|${YP_DIR_REL}|g" ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -91,14 +91,14 @@ ARTIFACT=${CFN_DIR}/Makefile
 ARTIFACT=${CFN_DIR}/${STACK_STEM}/index.js
 [[ -e ${ARTIFACT} ]] || {
     mkdir -p $(dirname ${ARTIFACT})
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.stack-stem/index.js ${ARTIFACT}
+    cp ${YP_DIR_REL}/aws-cfn.mk/tpl.stack-stem/index.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=${CFN_DIR}/${STACK_STEM}.inc.mk
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/aws-cfn.mk/tpl.stack-stem.inc.mk ${ARTIFACT}
+    cp ${YP_DIR_REL}/aws-cfn.mk/tpl.stack-stem.inc.mk ${ARTIFACT}
     sed -i "s|<STACK_STEM>|${STACK_STEM}|g" ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."

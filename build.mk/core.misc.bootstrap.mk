@@ -6,5 +6,5 @@
 .PHONY: bootstrap
 bootstrap: ## Bootstrap your system.
 	$(ECHO_DO) "Bootstrapping..."
-	$(SUPPORT_FIRECLOUD_DIR)/ci/$(OS_SHORT)/bootstrap
+	$(YP_DIR)/ci/$(OS_SHORT)/bootstrap
 	$(ECHO_DONE)

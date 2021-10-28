@@ -18,7 +18,7 @@ endif
 
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_REMOTE_OR_ORIGIN = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null | \
-	$(SUPPORT_FIRECLOUD_DIR)/bin/ifne -p -n "$(ECHO) origin")
+	$(YP_DIR)/bin/ifne -p -n "$(ECHO) origin")
 GIT_ROOT = $(shell $(GIT) rev-parse --show-toplevel 2>/dev/null)
 $(foreach VAR,GIT_REMOTE GIT_REMOTE_OR_ORIGIN GIT_ROOT,$(call make-lazy-once,$(VAR)))
 

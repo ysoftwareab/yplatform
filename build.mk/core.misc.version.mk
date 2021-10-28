@@ -67,7 +67,7 @@ release-notes/%:
 			$(ECHO_ERR) "release-notes/$(VSN_TAG).txt has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/release-notes \
+		$(YP_DIR)/bin/release-notes \
 			--pkg-name $(PKG_NAME) \
 			--pkg-vsn $(VSN_TAG) \
 			--to $(RANGE_TO) \
@@ -85,7 +85,7 @@ release-notes/%:
 		fi; \
 		$(CAT) release-notes/$(VSN_TAG).txt; \
 	else \
-		$(SUPPORT_FIRECLOUD_DIR)/bin/release-notes \
+		$(YP_DIR)/bin/release-notes \
 			--pkg-name $(PKG_NAME) \
 			--pkg-vsn $(VSN_TAG) \
 			--to $(RANGE_TO); \

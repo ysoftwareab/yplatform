@@ -106,7 +106,7 @@ function sf_github() {
     fi
 
     # shellcheck disable=SC2094
-    cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${SUPPORT_FIRECLOUD_DIR}/bin/sponge ${HOME}/.gitconfig
+    cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${YP_DIR}/bin/sponge ${HOME}/.gitconfig
 
     echo_do "Printing ${HOME}/.gitconfig ..."
     cat ${HOME}/.gitconfig
@@ -203,12 +203,12 @@ function sf_os_bootstrap_with_script() {
 
 function sf_os() {
     [[ "${YP_FORCE_BOOTSTRAP:-}" = "true" ]] || {
-        local YP_GIT_HASH=$(git -C ${SUPPORT_FIRECLOUD_DIR} rev-parse HEAD)
+        local YP_GIT_HASH=$(git -C ${YP_DIR} rev-parse HEAD)
         [[ ! -f /yplatform.bootstrapped ]] || {
             local YP_GIT_HASH_BOOTSTRAPPED=$(cat /yplatform.bootstrapped)
             echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped exists."
             echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped references ${YP_GIT_HASH_BOOTSTRAPPED}."
-            echo_info "${FUNCNAME[0]}: ${SUPPORT_FIRECLOUD_DIR} references ${YP_GIT_HASH}."
+            echo_info "${FUNCNAME[0]}: ${YP_DIR} references ${YP_GIT_HASH}."
             if [[ "${YP_GIT_HASH}" = "${YP_GIT_HASH_BOOTSTRAPPED}" ]]; then
                 echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without brew bootstrap."
                 echo_info "${FUNCNAME[0]}: Running with YP_SKIP_BREW_BOOTSTRAP=true."
@@ -231,7 +231,7 @@ function sf_os() {
     echo_info "${FUNCNAME[0]}: YP_LOG_BOOTSTRAP=${YP_LOG_BOOTSTRAP:-}"
     echo_info "${FUNCNAME[0]}: YP_PRINTENV_BOOTSTRAP=${YP_PRINTENV_BOOTSTRAP:-}"
 
-    local BOOTSTRAP_SCRIPT="${SUPPORT_FIRECLOUD_DIR}/bootstrap/${OS_SHORT}/bootstrap"
+    local BOOTSTRAP_SCRIPT="${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap"
 
     if [[ "${YP_LOG_BOOTSTRAP:-}" = "true" ]]; then
         sf_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}

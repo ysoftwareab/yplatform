@@ -3,8 +3,8 @@ set -euo pipefail
 
 # inspired by https://github.com/moul/docker-diff
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- docker-image2ls 1.0
 ## Usage: docker-image2ls [OPTION] IMAGE

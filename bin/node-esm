@@ -5,7 +5,7 @@ set -euo pipefail
 # e.g. instead of `node some/script.js` use `node-esm some/script.js`
 # See https://github.com/standard-things/esm
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
@@ -16,4 +16,4 @@ function main() {
     node -r esm "$@"
 }
 
-source ${SUPPORT_FIRECLOUD_DIR}/sh/npx.inc.sh
+source ${YP_DIR}/sh/npx.inc.sh

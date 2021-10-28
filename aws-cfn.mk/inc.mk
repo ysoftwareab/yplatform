@@ -1,10 +1,10 @@
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/mk/Makefile
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.clean.mk
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.transcrypt.mk
-include $(SUPPORT_FIRECLOUD_DIR)/build.mk/core.misc.source-const-inc.mk
+include $(YP_DIR)/build.mk/mk/Makefile
+include $(YP_DIR)/build.mk/core.clean.mk
+include $(YP_DIR)/build.mk/core.misc.transcrypt.mk
+include $(YP_DIR)/build.mk/core.misc.source-const-inc.mk
 
 # need access to node-esm
-PATH := $(PATH):$(SUPPORT_FIRECLOUD_DIR)/dev/bin
+PATH := $(PATH):$(YP_DIR)/dev/bin
 export PATH
 
 # makefile-folder node_modules exebutables
@@ -25,11 +25,11 @@ AWS_ACCOUNT_ID ?= $(shell $(AWS) sts get-caller-identity --output text --query A
 $(foreach VAR,AWS_ACCOUNT_ID,$(call make-lazy,$(VAR)))
 
 AWS = $(call which,AWS,aws)
-AWS_CFN_CU_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-cu-stack
-AWS_CFN_DETECT_STACK_DRIFT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-detect-stack-drift
-AWS_CFN_D_STACK = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-delete-stack
-AWS_CFN2DOT = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cfn2dot
-AWS_CFN_C_STACK_POLICY = $(SUPPORT_FIRECLOUD_DIR)/bin/aws-cloudformation-create-stack-policy
+AWS_CFN_CU_STACK = $(YP_DIR)/bin/aws-cloudformation-cu-stack
+AWS_CFN_DETECT_STACK_DRIFT = $(YP_DIR)/bin/aws-cloudformation-detect-stack-drift
+AWS_CFN_D_STACK = $(YP_DIR)/bin/aws-cloudformation-delete-stack
+AWS_CFN2DOT = $(YP_DIR)/bin/aws-cfn2dot
+AWS_CFN_C_STACK_POLICY = $(YP_DIR)/bin/aws-cloudformation-create-stack-policy
 DOT = $(call which,GRAPHVIZ_DOT,dot)
 $(foreach VAR,AWS AWS_CFN_CU_STACK AWS_CFN_D_STACK AWS_CFN2DOT DOT,$(call make-lazy,$(VAR)))
 

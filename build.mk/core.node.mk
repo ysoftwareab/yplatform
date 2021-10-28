@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------
 
 ifneq (,$(wildcard .nvmrc))
-NVM_BIN := $(shell $(SUPPORT_FIRECLOUD_DIR)/bin/nvm-get-nvm-bin)
+NVM_BIN := $(shell $(YP_DIR)/bin/nvm-get-nvm-bin)
 export PATH := $(NVM_BIN):$(PATH)
 endif
 

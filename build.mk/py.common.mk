@@ -8,7 +8,7 @@ $(error Please include generic.common.mk, before including py.common.mk .)
 endif
 
 YP_PY_COMMON_INCLUDES_DEFAULT += \
-	$(SUPPORT_FIRECLOUD_DIR)/build.mk/py.deps.pipenv.mk \
+	$(YP_DIR)/build.mk/py.deps.pipenv.mk \
 
 YP_PY_COMMON_INCLUDES = $(filter-out $(YP_INCLUDES_IGNORE), $(YP_PY_COMMON_INCLUDES_DEFAULT))
 

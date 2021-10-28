@@ -36,7 +36,7 @@ function git_dir_shallow() {
     set -x
     {
         du -hcs $1
-        ${SUPPORT_FIRECLOUD_DIR}/bin/git-shallow $1
+        ${YP_DIR}/bin/git-shallow $1
         du -hcs $1
     } || true
     set +x
@@ -44,10 +44,10 @@ function git_dir_shallow() {
 }
 
 (
-    cd ${SUPPORT_FIRECLOUD_DIR}
+    cd ${YP_DIR}
     git add -f -- BUILD VERSION
-    git_dir_clean ${SUPPORT_FIRECLOUD_DIR}
-    git_dir_shallow ${SUPPORT_FIRECLOUD_DIR}
+    git_dir_clean ${YP_DIR}
+    git_dir_shallow ${YP_DIR}
     git reset -- BUILD VERSION
 )
 

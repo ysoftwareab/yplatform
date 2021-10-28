@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-SUPPORT_FIRECLOUD_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-source ${SUPPORT_FIRECLOUD_DIR}/sh/common.inc.sh
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
 #- repo-node-bootstrap 1.0
 ## Usage: repo-node-boostrap [OPTION]
@@ -47,7 +47,7 @@ while [[ $# -gt 0 ]]; do
 done
 [[ $# -eq 0 ]] || sh_script_usage
 
-cd ${SUPPORT_FIRECLOUD_DIR}/..
+cd ${YP_DIR}/..
 git rev-parse --show-toplevel >/dev/null || {
     echo_err "yplatform is not in a git repository"
     exit 1
@@ -58,7 +58,7 @@ git rev-parse --show-toplevel >/dev/null || {
 }
 
 
-SUPPORT_FIRECLOUD_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${SUPPORT_FIRECLOUD_DIR}', '$(pwd)'))")"
+YP_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${YP_DIR}', '$(pwd)'))")"
 ARTIFACTS=
 
 if ${DIFF}; then
@@ -68,7 +68,7 @@ if ${DIFF}; then
     echo_info "e.g. opendiff . ${TMP_VANILLA_DIR}"
     echo_info "e.g. ksdiff . ${TMP_VANILLA_DIR}"
     echo
-    ln -s ${SUPPORT_FIRECLOUD_DIR} ${TMP_VANILLA_DIR}/yplatform
+    ln -s ${YP_DIR} ${TMP_VANILLA_DIR}/yplatform
     cd ${TMP_VANILLA_DIR}
     git init >/dev/null
 fi
@@ -77,7 +77,7 @@ fi
 
 ARTIFACT=.gitignore
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -85,7 +85,7 @@ ARTIFACT=.gitignore
 
 ARTIFACT=.eslintrc.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.eslintrc.js ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/dot.eslintrc.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -93,14 +93,14 @@ ARTIFACT=.eslintrc.js
 
 ARTIFACT=.npmrc
 [[ -e ${ARTIFACT} ]] || {
-    ln -s ${SUPPORT_FIRECLOUD_DIR_REL}/repo/dot.npmrc ${ARTIFACT}
+    ln -s ${YP_DIR_REL}/repo/dot.npmrc ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Symlinked ${ARTIFACT}."
 }
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/Makefile.node ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/Makefile.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -108,11 +108,11 @@ ARTIFACT=Makefile
 
 ARTIFACT=jest.config.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${SUPPORT_FIRECLOUD_DIR_REL}/repo/jest.config.js ${ARTIFACT}
+    cp ${YP_DIR_REL}/repo/jest.config.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
-${SUPPORT_FIRECLOUD_DIR_REL}/bin/repo-generic-bootstrap
+${YP_DIR_REL}/bin/repo-generic-bootstrap
 
 echo -e "${ARTIFACTS}" | sort -u

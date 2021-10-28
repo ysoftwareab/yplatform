@@ -86,15 +86,15 @@ function ci_run_deploy_docker_image() {
     DOCKER_IMAGE_FROM=
 
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
+    local DOCKER_OS_RELEASE_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
+    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
     local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
-    if [[ -f ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
-        FROM_DOCKER_IMAGE_TAG=$(cat ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
+    if [[ -f ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
+        FROM_DOCKER_IMAGE_TAG=$(cat ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
         DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_SF_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
     else
         [[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_SF_CI_BREW_INSTALL}" != "common" ]] || {
@@ -108,7 +108,7 @@ function ci_run_deploy_docker_image() {
             while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; date +%s -d "${NO_XARGS_R}"; done || \
             echo 0)
 
-    ${SUPPORT_FIRECLOUD_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
+    ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
         --docker-image-from "${DOCKER_IMAGE_FROM}" \
         --docker-image-name "${DOCKER_IMAGE_NAME}" \
         --docker-image-tag "${DOCKER_IMAGE_TAG}" \
@@ -147,4 +147,4 @@ function ci_run_deploy() {
     ci_run_deploy_docker_image
 }
 
-source "${SUPPORT_FIRECLOUD_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.sf"
