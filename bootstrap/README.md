@@ -8,7 +8,7 @@ symlinking `~/git/support-firecloud` to the folder of your choice, so copy-pasti
 
 ```shell
 cd # make sure that you are at home dir (~)
-git clone git://github.com/rokmoln/support-firecloud.git ~/git/support-firecloud
+git clone git://github.com/ysoftwareab/platform.git ~/git/support-firecloud
 ```
 
 

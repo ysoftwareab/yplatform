@@ -45,14 +45,14 @@ done
 # [[ $# -eq 0 ]] || sh_script_usage
 
 # example URIs
-# https://github.com/rokmoln/support-firecloud
+# https://github.com/ysoftwareab/platform
 # https://gitlab.com/mikecardwell/safernode
 # https://bitbucket.org/atlassian/openapi-diff
 # https://git.sr.ht/~nsh/emacs.d
-# rokmoln/support-firecloud
-# github:rokmoln/support-firecloud
-# https://github.com/rokmoln/support-firecloud/bin
-# https://github.com/rokmoln/support-firecloud/bin#<commit-ish>
+# ysoftwareab/platform
+# github:ysoftwareab/platform
+# https://github.com/ysoftwareab/platform/bin
+# https://github.com/ysoftwareab/platform/bin#<commit-ish>
 
 URI="$1"
 [[ "${URI}" =~ ^.+://.+$ ]] || {

@@ -6,7 +6,7 @@
 # jobs:
 #   main:
 #     steps:
-#       - uses: rokmoln/support-firecloud@master
+#       - uses: ysoftwareab/platform@master
 #         with:
 #           action: debug
 #           xtrace: true/false # optional
@@ -15,7 +15,7 @@
 # jobs:
 #   main:
 #     steps:
-#       - uses: rokmoln/support-firecloud@master
+#       - uses: ysoftwareab/platform@master
 #         with:
 #           action: run # optional
 #           shell: bash # optional

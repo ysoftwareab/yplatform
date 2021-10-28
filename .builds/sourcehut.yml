@@ -1,6 +1,6 @@
 image: ubuntu/20.04
 sources:
-  - https://github.com/rokmoln/support-firecloud.git
+  - https://github.com/ysoftwareab/platform.git
 tasks:
   - script: |
       export SF_CI_BREW_INSTALL=minimal

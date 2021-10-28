@@ -5,7 +5,7 @@ set -euo pipefail
     # https://github.com/actions/virtual-environments/commit/0fa2247a898625b8020d8dfb1dc4a54ddb2b256c
     # Github Actions CI already installs awscli via pkg,
     # which will make 'brew install awscli' to fail when linking.
-    # See https://github.com/rokmoln/support-firecloud/runs/1291359454
+    # See https://github.com/ysoftwareab/platform/runs/1291359454
     pkgutil --pkgs | grep -q "^com\.amazon\.aws\.cli2" && HAS_AWSCLI_PKG=true || HAS_AWSCLI_PKG=false
     [[ "${HAS_AWSCLI_PKG}" = "false" ]] || (
         ls -la /usr/local/bin/aws
