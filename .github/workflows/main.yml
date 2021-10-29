@@ -446,6 +446,7 @@ jobs:
       matrix:
         os:
           - windows-2019
+          - windows-2022
         yp_ci_brew_install:
           - minimal
     name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'

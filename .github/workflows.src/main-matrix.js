@@ -18,7 +18,8 @@ let matrixOs = {
     'macos-11'
   ],
   windows: [
-    'windows-2019'
+    'windows-2019',
+    'windows-2022'
   ]
 };
 
