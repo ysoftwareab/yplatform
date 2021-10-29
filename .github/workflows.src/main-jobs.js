@@ -72,7 +72,10 @@ wslSteps.push({
     'wsl bash -c "sudo echo \\"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\\" >> /etc/sudoers"',
     '# Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted',
     '# See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0',
-    'wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"'
+    'wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"',
+    // Need to shutdown wsl, in order to apply the wsl.conf config
+    // https://github.com/MicrosoftDocs/WSL/blob/master/WSL/wsl-config.md
+    'wsl --shutdown'
   ], '\n')
 });
 
