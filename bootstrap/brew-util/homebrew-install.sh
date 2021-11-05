@@ -47,6 +47,7 @@ then
   fi
   HOMEBREW_CACHE="${HOME}/Library/Caches/Homebrew"
 
+  STAT="/usr/bin/stat"
   STAT_FLAG="-f"
   PERMISSION_FORMAT="%A"
   CHOWN="/usr/sbin/chown"
@@ -61,6 +62,7 @@ else
   HOMEBREW_PREFIX_DEFAULT="/home/linuxbrew/.linuxbrew"
   HOMEBREW_CACHE="${HOME}/.cache/Homebrew"
 
+  STAT="/bin/stat"
   STAT_FLAG="--printf"
   PERMISSION_FORMAT="%a"
   CHOWN="/bin/chown"
@@ -264,7 +266,7 @@ should_install_command_line_tools() {
 }
 
 get_permission() {
-  stat "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
+  "${STAT}" "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
 }
 
 user_only_chmod() {
@@ -276,7 +278,7 @@ exists_but_not_writable() {
 }
 
 get_owner() {
-  stat "${STAT_FLAG}" "%u" "$1"
+  "${STAT}" "${STAT_FLAG}" "%u" "$1"
 }
 
 file_not_owned() {
@@ -284,7 +286,7 @@ file_not_owned() {
 }
 
 get_group() {
-  stat "${STAT_FLAG}" "%g" "$1"
+  "${STAT}" "${STAT_FLAG}" "%g" "$1"
 }
 
 file_not_grpowned() {
