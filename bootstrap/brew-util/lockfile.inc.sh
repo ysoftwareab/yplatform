@@ -12,7 +12,7 @@ function brew_lockfile() {
     echo_info "Found a ${BREWFILE_LOCK}:"
     cat ${BREWFILE_LOCK}
 
-    local BREW_FROM=$(git -C "$(brew --prefix)/Homebrew" rev-list -1 HEAD)
+    local BREW_FROM=$(git -C "$(brew --repository)" rev-list -1 HEAD)
     local BREW_LOCK=$(cat "${BREWFILE_LOCK}" | grep "^homebrew/brew " || true)
     if [[ -z "${BREW_LOCK}" ]]; then
         echo_skip "Resetting Homebrew..."
@@ -21,17 +21,17 @@ function brew_lockfile() {
 
         echo_do "Resetting Homebrew..."
         echo_info "Resetting Homebrew from ${BREW_FROM} to ${BREW_TO}."
-        git -C "$(brew --prefix)/Homebrew" fetch --tags
-        git -C "$(brew --prefix)/Homebrew" fetch
-        git -C "$(brew --prefix)/Homebrew" reset --hard "${BREW_TO}"
+        git -C "$(brew --repository)" fetch --tags
+        git -C "$(brew --repository)" fetch
+        git -C "$(brew --repository)" reset --hard "${BREW_TO}"
         echo_info "Reset Homebrew"
-        echo_info "from $(git -C "$(brew --prefix)/Homebrew" log -1 --format="%cd" "${BREW_FROM}") ${BREW_FROM}"
-        echo_info "to   $(git -C "$(brew --prefix)/Homebrew" log -1 --format="%cd" "${BREW_TO}") ${BREW_TO}"
+        echo_info "from $(git -C "$(brew --repository)" log -1 --format="%cd" "${BREW_FROM}") ${BREW_FROM}"
+        echo_info "to   $(git -C "$(brew --repository)" log -1 --format="%cd" "${BREW_TO}") ${BREW_TO}"
         echo_done
     fi
 
     (
-        cd "$(brew --prefix)/Homebrew/Library/Taps"
+        cd "$(brew --repository)/Library/Taps"
         cat ${BREWFILE_LOCK} | \
             grep -v "^homebrew/brew " | \
             grep -v "^homebrew/install " | \

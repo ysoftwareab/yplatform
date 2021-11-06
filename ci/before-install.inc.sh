@@ -184,11 +184,11 @@ function yp_os_bootstrap_with_script() {
     # see https://github.com/docker/for-linux/issues/388
     local BOOTSTRAP_SCRIPT_USER=$(id -u -n)
     if command -v brew >/dev/null 2>&1; then
-        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(brew --repository))
     elif [[ -x /home/linuxbrew/.linuxbrew/bin/brew ]]; then
-        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(/home/linuxbrew/.linuxbrew/bin/brew --repository))
     elif [[ -x ${HOME}/.linuxbrew/bin/brew ]]; then
-        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(${HOME}/.linuxbrew/bin/brew --prefix)/Homebrew)
+        BOOTSTRAP_SCRIPT_USER=$(yp_os_get_dir_owner $(${HOME}/.linuxbrew/bin/brew --repository))
     fi
 
     if [[ "$(id -u -n)" = "${BOOTSTRAP_SCRIPT_USER}" ]]; then

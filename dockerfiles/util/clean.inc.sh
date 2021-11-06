@@ -56,7 +56,7 @@ magic_cache_prune
 dir_clean ${HOME}/.cache/* # misc cache for root
 dir_clean /home/${UNAME}/.cache/* # misc cache for sf user
 
-for DIR in /home/linuxbrew/.linuxbrew/Homebrew /home/linuxbrew/.linuxbrew/Homebrew/Library/Taps/*/*; do
+for DIR in $(brew --repository) $(brew --repository)/Library/Taps/*/*; do
     git_dir_shallow ${DIR}
     chown -R ${UNAME}:${GNAME} ${DIR}
 done
