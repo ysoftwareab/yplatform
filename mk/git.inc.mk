@@ -1,5 +1,6 @@
 # sync with  sh/git.inc.sh
 
+GIT_DIR = $(shell $(GIT) rev-parse --git-dir 2>/dev/null)
 GIT_BRANCH = $(shell $(GIT) rev-parse --abbrev-ref HEAD 2>/dev/null)
 GIT_BRANCH_SHORT = $(notdir $(GIT_BRANCH))
 GIT_COMMIT_MSG = $(shell $(GIT) log -1 --format="%B" 2>/dev/null)

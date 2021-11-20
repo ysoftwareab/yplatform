@@ -10,7 +10,9 @@ function on_exit() {
 
 trap on_exit EXIT
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../yplatform" && pwd)"
+GIT_DIR=$(git rev-parse --git-dir)
+GIT_ROOT=$(git rev-parse --show-toplevel)
+YP_DIR="${GIT_ROOT}/yplatform"
 source ${YP_DIR}/sh/common.inc.sh
 
 GIT_MODIFIED_FILES="$(git diff --name-only)"
@@ -23,4 +25,4 @@ GIT_MODIFIED_FILES="$(git diff --name-only)"
 export GIT_HOOK_STDIN="$(cat /dev/stdin)"
 export GIT_HOOK_ARGS="$*"
 
-make .git/hooks/pre-push/run
+make ${GIT_DIR}/hooks/pre-push/run

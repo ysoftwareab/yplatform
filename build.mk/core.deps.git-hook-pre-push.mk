@@ -24,31 +24,31 @@
 #
 # ------------------------------------------------------------------------------
 
-ifneq (,$(wildcard .git))
+ifneq (,$(GIT_DIR))
 YP_DEPS_TARGETS += \
-	.git/hooks/pre-push \
+	$(GIT_DIR)/hooks/pre-push \
 
 endif
 
 YP_GIT_HOOKS_PRE_PUSH_TARGETS += \
 	check \
-	.git/hooks/pre-push/run/git-lfs \
+	$(GIT_DIR)/hooks/pre-push/run/git-lfs \
 
 # ------------------------------------------------------------------------------
 
-.git/hooks/pre-push: $(YP_DIR)/repo/dot.git/hooks/pre-push
+$(GIT_DIR)/hooks/pre-push: $(YP_DIR)/repo/dot.git/hooks/pre-push
 	$(MKDIR) $$(dirname $@)
 	$(CP) $< $@
 
 
-.PHONY: .git/hooks/pre-push/run
-.git/hooks/pre-push/run:
+.PHONY: $(GIT_DIR)/hooks/pre-push/run
+$(GIT_DIR)/hooks/pre-push/run:
 	[[ "$(words $(YP_GIT_HOOKS_PRE_PUSH_TARGETS))" = "0" ]] || { \
 		$(MAKE) $(YP_GIT_HOOKS_PRE_PUSH_TARGETS); \
 	}
 
 
 # if there's no git-lfs installed
-.PHONY: .git/hooks/pre-push/run/git-lfs
-.git/hooks/pre-push/run/git-lfs:
+.PHONY: $(GIT_DIR)/hooks/pre-push/run/git-lfs
+$(GIT_DIR)/hooks/pre-push/run/git-lfs:
 	echo "$(GIT_HOOK_STDIN)" | $(GIT) lfs pre-push $(GIT_HOOK_ARGS)

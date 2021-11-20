@@ -4,16 +4,16 @@
 #
 # ------------------------------------------------------------------------------
 
-ifneq (,$(wildcard .git))
+ifneq (,$(GIT_DIR))
 YP_DEPS_TARGETS += \
-	.git/info/attributes \
+	$(GIT_DIR)/info/attributes \
 
 endif
 
 # ------------------------------------------------------------------------------
 
-.PHONY: .git/info/attributes
-.git/info/attributes: $(YP_DIR)/gitconfig/dot.gitattributes_global
+.PHONY: $(GIT_DIR)/info/attributes
+$(GIT_DIR)/info/attributes: $(YP_DIR)/gitconfig/dot.gitattributes_global
 	$(MKDIR) $$(dirname $@)
 	[[ -f $@ ]] && $(CAT) $@ 2>/dev/null | $(GREP) -v -e "^#" -e "^\s\+$$"| $(GREP) -q "^." || \
 			$(LN) -sf $< $@

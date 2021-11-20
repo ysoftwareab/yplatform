@@ -4,16 +4,16 @@
 #
 # ------------------------------------------------------------------------------
 
-ifneq (,$(wildcard .git))
+ifneq (,$(GIT_DIR))
 YP_DEPS_TARGETS += \
-	.git/info/exclude \
+	$(GIT_DIR)/info/exclude \
 
 endif
 
 # ------------------------------------------------------------------------------
 
-.PHONY: .git/info/exclude
-.git/info/exclude: $(YP_DIR)/gitconfig/dot.gitignore_global
+.PHONY: $(GIT_DIR)/info/exclude
+$(GIT_DIR)/info/exclude: $(YP_DIR)/gitconfig/dot.gitignore_global
 	$(MKDIR) $$(dirname $@)
 	[[ -f $@ ]] && $(CAT) $@ 2>/dev/null | $(GREP) -v -e "^#" -e "^\s\+$$"| $(GREP) -q "^." || \
 			$(LN) -sf $< $@
