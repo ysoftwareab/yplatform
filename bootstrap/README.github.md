@@ -28,9 +28,14 @@ and select your appropriate email addresses for each organization.
 
 We access repositories via SSH (not HTTPS), so you need to
 
-* [set up an SSH key](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent), if you don't have one already
-* [and add it to your Github account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account)
+* generate SSH key/s, if you didn't already
+  * [see local instructions](../dot.ssh/config)
+  * [alternatively see github's instructions](https://help.github.com/en/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+* [add SSH key/s to your Github account](https://help.github.com/en/articles/adding-a-new-ssh-key-to-your-github-account)
+* configure your `~/.ssh/config` as per [local instructions](../dot.ssh/config)
 
 You also need to click "Enable SSO" at https://github.com/settings/keys for your SSH key,
-if you are part of an organization behind SSO. Same goes for "Personal access tokens",
+if you are part of an organization behind SSO.
+
+Same goes for "Personal access tokens",
 if you will ever need them to work with your organization: https://github.com/settings/tokens .
