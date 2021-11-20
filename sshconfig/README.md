@@ -41,7 +41,7 @@ ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
 # Include ~/.ssh/yplatform/config
 # Include ~/.ssh/yplatform/config.github
 grep -q "^Include ~/\.ssh/yplatform/config\.github$" ~/.ssh/config || \
-  echo "Include ~/.ssh/yplatform/config.github\n$(cat ~/.ssh/config)" > ~/.ssh/config
+  echo -e "Include ~/.ssh/yplatform/config.github\n$(cat ~/.ssh/config)" > ~/.ssh/config
 grep -q "^Include ~/\.ssh/yplatform/config$" ~/.ssh/config || \
-  echo "Include ~/.ssh/yplatform/config\n$(cat ~/.ssh/config)" > ~/.ssh/config
+  echo -e "Include ~/.ssh/yplatform/config\n$(cat ~/.ssh/config)" > ~/.ssh/config
 ```
