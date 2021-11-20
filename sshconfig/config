@@ -14,7 +14,7 @@
 ###############################################################################
 
 # USE THIS CONFIG BY SYMLINKING
-# ln -sf path/to/yplatform/dot.ssh ~/.ssh/yplatform
+# ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
 #
 # AND PREPENDING TO YOUR ~/.ssh/config
 # Include ~/.ssh/yplatform/config
