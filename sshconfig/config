@@ -1,27 +1,3 @@
-# HOW TO GENERATE NEW KEYS
-# see https://infosec.mozilla.org/guidelines/openssh#OpenSSH_client#key-generation
-#
-# mkdir -p ${HOME}/.ssh
-# chmod 700 ${HOME}/.ssh
-# ssh-keygen -f ${HOME}/.ssh/id_ed25519 -q -N "" -C "$(whoami)@$(hostname)" -a 100 -t ed25519
-# ssh-keygen -f ${HOME}/.ssh/id_rsa -q -N "" -C "$(whoami)@$(hostname)" -a 100 -t rsa -b 4096
-#
-# NOTE optionally use your email address instead of `$(whoami)@$(hostname)`
-# NOTE optionally add a suffix to the `id_*` file: `.<scope>.$(date +%Y-%m-%d)`
-#
-# NOTE optionally run `ssh-add ${HOME}/.ssh/id_*`
-
-###############################################################################
-
-# USE THIS CONFIG BY SYMLINKING
-# ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
-#
-# AND PREPENDING TO YOUR ~/.ssh/config
-# Include ~/.ssh/yplatform/config
-# Include ~/.ssh/yplatform/config.github
-
-###############################################################################
-
 IgnoreUnknown UseKeychain
 
 # see https://infosec.mozilla.org/guidelines/openssh#OpenSSH_client#openssh-client
