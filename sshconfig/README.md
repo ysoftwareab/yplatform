@@ -37,11 +37,12 @@ Optionally run `ssh-add ${HOME}/.ssh/id_*`.
 # Create a symlink ~/.ssh/yplatform to this README's folder e.g. path/to/yplatform/sshconfig
 ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
 
-# Prepend these lines to ~/.ssh/config
-# Include ~/.ssh/yplatform/config
+# NOTE as per ssh_config manual: "the first obtained value for each parameter is used".
+# Append these lines to ~/.ssh/config and they will act as default values:
 # Include ~/.ssh/yplatform/config.github
-grep -q "^Include ~/\.ssh/yplatform/config\.github$" ~/.ssh/config || \
-  echo -e "Include ~/.ssh/yplatform/config.github\n$(cat ~/.ssh/config)" > ~/.ssh/config
+# Include ~/.ssh/yplatform/config
 grep -q "^Include ~/\.ssh/yplatform/config$" ~/.ssh/config || \
-  echo -e "Include ~/.ssh/yplatform/config\n$(cat ~/.ssh/config)" > ~/.ssh/config
+  echo "Include ~/.ssh/yplatform/config" > ~/.ssh/config
+grep -q "^Include ~/\.ssh/yplatform/config\.github$" ~/.ssh/config || \
+  echo "Include ~/.ssh/yplatform/config.github" > ~/.ssh/config
 ```

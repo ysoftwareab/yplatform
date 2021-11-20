@@ -13,13 +13,8 @@ Host *.github.com
 Host github.com gist.github.com ssh.github.com 443.github.com *.github.com *.gist.github.com *.ssh.github.com *.443.github.com
     User git
 
-    Protocol 2
-
     StrictHostKeyChecking yes
     UserKnownHostsFile ~/.ssh/yplatform/known_hosts.github
 
     # GitHub has not yet (2011-05) implemented SSHFP (RFC 4255)
     VerifyHostKeyDNS no
-
-    IdentitiesOnly yes
-    # IdentityFile ~/.ssh/id_ed25519

@@ -37,6 +37,9 @@ Host *
 # misc
 Host *
     AddKeysToAgent yes
+    IdentityFile ~/.ssh/id_ed25519
+    IdentityFile ~/.ssh/id_rsa
+    IdentitiesOnly yes
     ServerAliveCountMax 0
     ServerAliveInterval 600
     StrictHostKeyChecking ask
