@@ -56,7 +56,7 @@ EOF
 chmod 600 /home/${UNAME}/.ssh/config
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh/config
 
-ssh-keygen -f ${HOME}/.ssh/id_ed25519 -q -N "" -C "${GIT_USER_EMAIL}" -a 100 -t ed25519
+ssh-keygen -f /home/${UNAME}/.ssh/id_ed25519 -q -N "" -C "${GIT_USER_EMAIL}" -a 100 -t ed25519
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh/id_ed25519
 
 touch /home/${UNAME}/.sudo_as_admin_successful
