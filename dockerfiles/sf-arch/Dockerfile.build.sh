@@ -15,6 +15,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     pacman_install_one gnupg
 
     pacman_install_one git
+    pacman_install_one openssh
     pacman_install_one openssl
     pacman_install_one sudo
     pacman_install_one which
