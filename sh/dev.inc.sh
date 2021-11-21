@@ -5,6 +5,7 @@
         GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
         GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" && pwd)"
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2296
         GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${(%):-%x})/..}"
         GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" && pwd)"
         autoload -U compaudit compinit bashcompinit

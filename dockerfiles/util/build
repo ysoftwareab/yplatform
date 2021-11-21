@@ -88,5 +88,5 @@ exe docker build ${YP_DIR} \
     --build-arg YP_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
     --build-arg YP_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
     --build-arg YP_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
-    --build-arg YP_OS_RELEASE_DIR=${OS_RELEASE_DIR#${YP_DIR}/}
+    --build-arg YP_OS_RELEASE_DIR=${OS_RELEASE_DIR#"${YP_DIR}"/}
 echo_done

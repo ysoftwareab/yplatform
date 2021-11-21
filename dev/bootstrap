@@ -49,7 +49,7 @@ ${YP_DIR}/bin/use-homebrew-bash
 
 # User feedback
 echo
-echo "Append 'source ~/${YP_DIR#${HOME}/}/sh/dev.inc.sh'"
+echo "Append 'source ~/${YP_DIR#"${HOME}"/}/sh/dev.inc.sh'"
 echo "to your '~/.bashrc' or '~/.zshrc' or similar."
 echo
 echo "Restart your shell, and you're good to go."

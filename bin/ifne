@@ -71,6 +71,8 @@ cat ${TMP_IFNE} | grep -q . || EMPTY=true
 
 case ${EMPTY}-${SHOULD_BE_EMPTY} in
     true-true|false-false)
+        # we need eval
+        # shellcheck disable=SC2294
         [[ $# -eq 0 ]] || eval "$@"
         ;;
     *)

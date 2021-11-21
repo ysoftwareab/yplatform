@@ -3,6 +3,7 @@
 if [[ -n "${BASH_VERSION}" ]]; then
     MYSELF=${BASH_SOURCE[0]}
 elif [[ -n "${ZSH_VERSION}" ]]; then
+    # shellcheck disable=SC2296
     MYSELF=${(%):-%x}
 else
     echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."

@@ -5,6 +5,7 @@
         YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
         # echo >&2 YP_DIR=$YP_DIR
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2296
         YP_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
     else
         echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
