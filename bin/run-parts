@@ -1,0 +1,240 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+#- run-parts 1.0
+## Usage: run-parts [OPTIONS] -- DIRECTORY
+## A port of debianutils run-parts (v4.11.2 in Ubuntu 20.04) to bash.
+## Source: https://git.launchpad.net/ubuntu/+source/debianutils/tree/run-parts.c?h=ubuntu/focal
+## Manual: http://manpages.ubuntu.com/manpages/focal/man8/run-parts.8.html
+##
+##       --test          print script names which would run, but don't run them.
+##       --list          print names of all valid files (can not be used with
+##                       --test)
+##   -v, --verbose       print script names before running them.
+##       --report        print script names if they produce output.
+##       --reverse       reverse execution order of scripts.
+##       --exit-on-error exit as soon as a script returns with a non-zero exit
+##                       code.
+#       --stdin         multiplex stdin to scripts being run, using temporary file
+##       --lsbsysinit    validate filenames based on LSB sysinit specs.
+##       --new-session   run each script in a separate process session
+##       --regex PATTERN validate filenames based on POSIX ERE pattern PATTERN.
+##   -u, --umask UMASK   sets umask to UMASK (octal), default is 022.
+##   -a, --arg ARGUMENT  pass ARGUMENT to scripts, use once for each argument.
+##   -V, --version       output version information and exit.
+##   -h, --help          display this help and exit.
+##
+## WARN --stdin is not supported as of now.
+## WARN that = form is not supported for options e.g. "--umask=022" should be "--umask 022".
+##
+## NOTE that -v is used as a verbose shorthand, and -V for a version shorthand
+##      in order to be on par with the original run-parts programme.
+
+# Related work
+# - https://github.com/ikysil/run-parts
+# - https://github.com/wolfbox/run-parts/blob/master/run-parts.sh
+
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o vu:a:Vh -l test,list,verbose,report,reverse,exit-on-error,lsbsysinit,new-session,regex:,umask:,arg:,version,help -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
+TEST_MODE=false
+LIST_MODE=false
+VERBOSE_MODE=false
+REPORT_MODE=false
+REVERSE_MODE=false
+EXIT_ON_ERROR_MODE=false
+# STDIN_MODE=false
+LSBSYSINIT_MODE=false
+NEW_SESSION_MODE=false
+REGEX="^[a-zA-Z0-9_-]\+$"
+UMASK=022
+ARGS=()
+
+HIERRE="^_?([a-z0-9_.]\+-)\+[a-z0-9]\+$"
+EXCSRE="^[a-z0-9-].*\\.dpkg-(old|dist|new|tmp)$"
+TRADRE="^[a-z0-9][a-z0-9-]*$"
+EXIT_STATUS=0
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --test)
+            TEST_MODE=true
+            shift
+            ;;
+        --list)
+            LIST_MODE=true
+            shift
+            ;;
+        -v|--verbose)
+            VERBOSE_MODE=true
+            shift
+            ;;
+        --report)
+            REPORT_MODE=true
+            shift
+            ;;
+        --reverse)
+            REVERSE_MODE=true
+            shift
+            ;;
+        --exit-on-error)
+            EXIT_ON_ERROR_MODE=true
+            shift
+            ;;
+        # --stdin)
+        #     STDIN_MODE=true
+        #     shift
+        #     ;;
+        --lsbsysinit)
+            LSBSYSINIT_MODE=true
+            shift
+            ;;
+        --new-session)
+            NEW_SESSION_MODE=true
+            shift
+            ;;
+        --regex)
+            REGEX=$2
+            shift 2
+            ;;
+        -u|--umask)
+            UMASK=$2
+            shift 2
+            ;;
+        -a|--arg)
+            ARGS+=("$2")
+            shift 2
+            ;;
+        -V|--version)
+            sh_script_version
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+[[ $# -eq 1 ]] || sh_script_usage
+
+DIR="$1"
+
+[[ -n "${DIR}" ]] || {
+    >&2 echo "failed to open directory ${DIR}: No such file or directory"
+    exit 1
+}
+
+[[ -d "${DIR}" ]] || {
+    >&2 echo "failed to open directory ${DIR}: No such file or directory"
+    exit 1
+}
+
+[[ "${TEST_MODE}" != "true" ]] || [[ "${LIST_MODE}" != "true" ]] || {
+    >&2 echo "--list and --test can not be used together"
+    exit 1
+}
+
+function run_parts_sort() {
+    if [[ "${REVERSE_MODE}" = "true" ]]; then
+        sort -r
+    else
+        sort
+    fi
+}
+
+function run_parts_filter() {
+    while IFS= read -r LINE; do
+        if [[ "${LSBSYSINIT_MODE}" = "true" ]]; then
+            if basename "${LINE}" | grep -q "${HIERRE}"; then
+                if basename "${LINE}" | grep -q -v "${EXCSRE}"; then
+                    echo "${LINE}"
+                fi
+            else
+                if basename "${LINE}" | grep -q "${TRADRE}"; then
+                    echo "${LINE}"
+                fi
+            fi
+        else
+            if basename "${LINE}" | grep -q "${REGEX}"; then
+                echo "${LINE}"
+            fi
+        fi
+    done
+}
+
+function maybe_new_session() {
+    [[ "${NEW_SESSION_MODE}" = "true" ]] || {
+        "$@"
+        return
+    }
+
+	( "$@" ) &
+	local PID=$!
+	wait "${PID}"
+	return $?
+}
+
+function run_part() {
+    [[ "${REPORT_MODE}" = "true" ]] || {
+        maybe_new_session "$@"
+        return
+    }
+    maybe_new_session "$@" 2> >(sed "s|^|${PART}:|g" >&2) | sed "s|^|${PART}:|g"
+}
+
+umask "${UMASK}"
+
+# NOTE need to modify EXIT_STATUS, so no pipe
+# find -L "${DIR}" -type f | run_parts_sort | run_parts_filter | while IFS= read -r PART; do
+while IFS= read -r PART; do
+    [[ -n "${PART}" ]] || continue
+    [[ ! -x "${PART}" ]] || {
+        if [[ "${TEST_MODE}" = "true" ]]; then
+            echo "${PART}"
+        elif [[ "${LIST_MODE}" = "true" ]]; then
+            [[ ! -r "${PART}" ]] || echo "${PART}"
+        elif [[ "${VERBOSE_MODE}" = "true" ]]; then
+            >&2 echo "run-parts: executing ${PART} ${ARGS[*]}"
+        fi
+
+        run_part "${PART}" "${ARGS[@]}" || {
+            EXIT_STATUS=$?
+            [[ "${EXIT_ON_ERROR_MODE}" != "true" ]] || exit ${EXIT_STATUS}
+        }
+        continue
+    }
+
+    [[ ! -r "${PART}" ]] || {
+        [[ "${LIST_MODE}" != "true" ]] || echo "${PART}"
+        continue
+    }
+
+    [[ ! -L "${PART}" ]] || [[ -e "${PART}" ]] || {
+        [[ "${LIST_MODE}" != "true" ]] || {
+            >&2 echo "run-parts: component ${PART} is a broken symbolic link"
+            EXIT_STATUS=1
+        }
+        continue
+    }
+
+    [[ -f "${PART}" ]] || [[ -d "${PART}" ]] || {
+        >&2 echo "run-parts: component ${PART} is not an executable plain file"
+        EXIT_STATUS=1
+        continue
+    }
+done <<<$(find "${DIR}" | run_parts_sort | run_parts_filter)
+
+exit ${EXIT_STATUS}
