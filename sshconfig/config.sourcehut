@@ -1,0 +1,5 @@
+Host git.sr.ht
+    User git
+
+    StrictHostKeyChecking yes
+    UserKnownHostsFile ~/.ssh/yplatform/known_hosts.sourcehut

@@ -1,3 +1,7 @@
+Include ~/.ssh/yplatform/config.github
+Include ~/.ssh/yplatform/config.gitlab
+Include ~/.ssh/yplatform/config.sourehut
+
 IgnoreUnknown UseKeychain
 
 # see https://infosec.mozilla.org/guidelines/openssh#OpenSSH_client#openssh-client

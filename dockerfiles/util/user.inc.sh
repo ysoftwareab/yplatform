@@ -50,7 +50,6 @@ ln -sf /yplatform/sshconfig /home/${UNAME}/.ssh/yplatform
 chown ${UID_INDEX}:${GID_INDEX} /home/${UNAME}/.ssh/yplatform
 
 cat <<EOF > /home/${UNAME}/.ssh/config
-Include ~/.ssh/yplatform/config.github
 Include ~/.ssh/yplatform/config
 EOF
 chmod 600 /home/${UNAME}/.ssh/config

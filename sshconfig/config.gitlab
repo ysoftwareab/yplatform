@@ -1,0 +1,5 @@
+Host gitlab.com
+    User git
+
+    StrictHostKeyChecking yes
+    UserKnownHostsFile ~/.ssh/yplatform/known_hosts.gitlab

@@ -64,7 +64,7 @@ YP_PATH_FILES_IGNORE += \
 	-e "^repo/NOTICE$$" \
 	-e "^repo/UNLICENSE$$" \
 	-e "^repo/dot\.github/" \
-	-e "^sshconfig/known_hosts\.github$$" \
+	-e "^sshconfig/known_hosts\." \
 
 YP_ECLINT_FILES_IGNORE += \
 	-e "^\.github/workflows/deploy\.yml$$" \

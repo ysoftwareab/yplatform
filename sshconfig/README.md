@@ -39,10 +39,7 @@ ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
 
 # NOTE as per ssh_config manual: "the first obtained value for each parameter is used".
 # Append these lines to ~/.ssh/config and they will act as default values:
-# Include ~/.ssh/yplatform/config.github
 # Include ~/.ssh/yplatform/config
 grep -q "^Include ~/\.ssh/yplatform/config$" ~/.ssh/config || \
   echo "Include ~/.ssh/yplatform/config" > ~/.ssh/config
-grep -q "^Include ~/\.ssh/yplatform/config\.github$" ~/.ssh/config || \
-  echo "Include ~/.ssh/yplatform/config.github" > ~/.ssh/config
 ```
