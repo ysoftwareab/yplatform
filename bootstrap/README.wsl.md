@@ -23,10 +23,10 @@ Invoke-Command -ScriptBlock ([scriptblock]::Create($Script))
 Invoke-Command -ScriptBlock ([scriptblock]::Create($Script)) -ArgumentList
 ```
 
-And install Ubuntu 18.04 distro:
+And install Ubuntu 20.04 distro:
 
 ```powershell
-$DistroId = "Ubuntu-18.04"
+$DistroId = "Ubuntu-20.04"
 
 Set-ExecutionPolicy Bypass -Scope Process -Force;
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072;
