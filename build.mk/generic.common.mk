@@ -10,6 +10,8 @@ YP_GENERIC_COMMON_INCLUDES_DEFAULT += \
 
 YP_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(YP_DIR)/build.mk/core.check.path.mk \
+	$(YP_DIR)/build.mk/core.check.path-sensitive.mk \
+	$(YP_DIR)/build.mk/core.check.symlinks.mk \
 	$(YP_DIR)/build.mk/core.check.tpl.mk \
 	$(YP_DIR)/build.mk/core.check.editorconfig.mk \
 	$(YP_DIR)/build.mk/core.check.jsonlint.mk \
