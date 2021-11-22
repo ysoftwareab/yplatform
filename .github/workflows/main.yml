@@ -446,6 +446,7 @@ jobs:
       matrix:
         os:
           - windows-2019
+          - windows-2022
         yp_ci_brew_install:
           - minimal
     name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
@@ -584,6 +585,8 @@ jobs:
           # See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
 
           wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
+
+          wsl --shutdown
       - shell: bash
         run: bin/wsl-bash -c "./.ci.sh before_install"
       - shell: bash
