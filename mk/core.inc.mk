@@ -31,6 +31,7 @@ endif
 ifeq (2,$(VERBOSE))
 VERBOSE := true
 # see https://www.runscripts.com/support/guides/scripting/bash/debugging-bash/verbose-tracing
+# NOTE can't use $(DATE)
 export PS4:=+ $$(date +"%Y-%m-%d %H:%M:%S") +$${SECONDS}s $${BASH_SOURCE[0]:-}:$${LINENO} +$(\n)
 endif
 
@@ -48,6 +49,7 @@ endif
 
 # ------------------------------------------------------------------------------
 
+# NOTE can't use $(DATE)
 MAKE_DATE := $(shell date +'%y%m%d')
 MAKE_TIME := $(shell date +'%H%M%S')
 
@@ -60,5 +62,6 @@ MAKE_SELF_FILENAME = $(notdir $(lastword $(MAKEFILE_LIST)))
 MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 
 TOP ?= $(MAKE_PATH)
+# NOTE can't use $(PYTHON)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
 $(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))

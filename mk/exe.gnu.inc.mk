@@ -145,6 +145,10 @@ $(foreach VAR,FIND LOCATE UPDATEDB XARGS,$(call make-lazy,$(VAR))) # editorconfi
 AWK = $(call which,AWK,gawk awk)
 $(foreach VAR,AWK,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
 
+# gettext
+ENVSUBST = $(call which,ENVSUBST,envsubst)
+$(foreach VAR,ENVSUBST,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
+
 # grep
 EGREP = $(call which,EGREP,gegrep egrep)
 FGREP = $(call which,FGREP,gfgrep fgrep)
@@ -155,13 +159,13 @@ $(foreach VAR,EGREP FGREP GREP,$(call make-lazy,$(VAR))) # editorconfig-checker-
 SED = $(call which,SED,gsed sed)
 $(foreach VAR,SED,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
 
-# patch
-PATCH = $(call which,PATCH,gpatch patch)
-$(foreach VAR,PATCH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
-
 # gnu-tar
 TAR = $(call which,TAR,gtar tar)
 $(foreach VAR,TAR,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
+
+# patch
+PATCH = $(call which,PATCH,gpatch patch)
+$(foreach VAR,PATCH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
 
 # watch
 WATCH = $(call which,WATCH,gwatch watch)

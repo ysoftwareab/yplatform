@@ -51,4 +51,4 @@ $(GIT_DIR)/hooks/pre-push/run:
 # if there's no git-lfs installed
 .PHONY: $(GIT_DIR)/hooks/pre-push/run/git-lfs
 $(GIT_DIR)/hooks/pre-push/run/git-lfs:
-	echo "$(GIT_HOOK_STDIN)" | $(GIT) lfs pre-push $(GIT_HOOK_ARGS)
+	$(ECHO) "$(GIT_HOOK_STDIN)" | $(GIT) lfs pre-push $(GIT_HOOK_ARGS)

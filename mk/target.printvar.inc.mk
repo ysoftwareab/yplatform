@@ -35,7 +35,7 @@ printvars/lazy:
 
 .PHONY: printvar-%
 printvar-%: ## Print one Makefile variable.
-	@echo $*=$($*)
-	@echo '  origin = $(origin $*)'
-	@echo '  flavor = $(flavor $*)'
-	@echo '   value = $(value  $*)'
+	@$(ECHO) $*=$($*)
+	@$(ECHO) '  origin = $(origin $*)'
+	@$(ECHO) '  flavor = $(flavor $*)'
+	@$(ECHO) '   value = $(value  $*)'

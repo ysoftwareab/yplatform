@@ -51,7 +51,7 @@ deps-yarn-unmet-peer:
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
 	$(MV) yarn.lock $(YARN_LOCK_TMP)
 	$(YARN) import >$(YARN_IMPORT_TMP) 2>&1
-	diff -U0 \
+	$(DIFF) -U0 \
 		<(cat yarn.lock.unmet-peer 2>/dev/null | \
 			$(GREP) --only-matching -e "warning \"[^\"]\+\" has unmet peer dependency \"[^\"]\+\"" | \
 			$(SORT) -u || true) \

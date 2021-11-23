@@ -54,6 +54,6 @@ debug-ci/travis-%:
 $(DEBUG_CI_TARGETS):
 debug-ci/%: ## Force push to a CI branch and debug (tmate session).
 	$(eval BRANCH := $(@:debug-ci/%=%))
-	echo "$(GIT_COMMIT_MSG)" | $(GREP) -q "\[debug ci\]" || \
+	$(ECHO) "$(GIT_COMMIT_MSG)" | $(GREP) -q "\[debug ci\]" || \
 		$(GIT) commit --allow-empty -m "$(GIT_COMMIT_MSG) [debug ci]"
 	$(GIT) push --force --no-verify $(GIT_REMOTE_OR_ORIGIN) head:refs/heads/$(BRANCH)

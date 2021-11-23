@@ -2,11 +2,14 @@
 #
 # ------------------------------------------------------------------------------
 
+JET = $(call which,JET,jet)
+$(foreach VAR,JET,$(call make-lazy,$(VAR)))
+
 # ------------------------------------------------------------------------------
 
 .PHONY: jet-steps
 jet-steps:
-	jet steps \
+	$(JET) steps \
 		--env CI=true \
 		--env CI_NAME=codeship \
 		--ci-branch $(GIT_BRANCH) \

@@ -14,7 +14,7 @@ define npm-which
 $(shell \
 	export PATH="$(PATH_NPM):$(PATH)"; \
 	export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
-	echo "$${RESULT:-$(1)_NOT_FOUND}")
+	$(ECHO) "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 
 NODE = $(call which,NODE,node)

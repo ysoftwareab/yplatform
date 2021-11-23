@@ -54,7 +54,7 @@ deps-npm-unmet-peer:
 	$(eval NPM_LIST_TMP := $(shell $(MKTEMP)))
 	$(eval UNMET_PEER_DIFF_TMP := $(shell $(MKTEMP)))
 	$(NPM) list --depth=0 >$(NPM_LIST_TMP) 2>&1 || true
-	diff -U0 \
+	$(DIFF) -U0 \
 		<(cat package.json.unmet-peer 2>/dev/null | \
 			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
 			$(SORT) -u || true) \
@@ -87,7 +87,7 @@ deps-npm-ci:
 
 .PHONY: deps-npm-install
 deps-npm-install:
-	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json >/dev/null && echo false || echo true))
+	$(eval PACKAGE_JSON_WAS_CHANGED := $(shell $(GIT) diff --exit-code package.json >/dev/null && $(ECHO) false || $(ECHO) true))
 	[[ ! -f "package-lock.json" ]] || { \
 		[[ "$$($(NPM) config get package-lock)" = "true" ]] || { \
 			$(ECHO_ERR) "npm's package-lock flag is not on. Please check your .npmrc file."; \
@@ -195,7 +195,7 @@ check-package-lock-json: check-package-json
 			$(ECHO_ERR) "package-lock.json has changed. Please commit your changes."; \
 			exit 1; \
 		}; \
-		diff \
+		$(DIFF) \
 			<($(GIT) show $(PACKAGE_LOCK_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) \
 			<($(GIT) show $(PACKAGE_JSON_HASH):package.json | $(JQ) -S $(JQ_EXPR)) || { \
 			$(ECHO_ERR) "package.json dependencies have changed without package-lock.json getting updated."; \

@@ -64,7 +64,7 @@ YP_VERSION_VARS = \
 define sf-substitute-version-vars-in-file
 	< $1 > $2 \
 		$(foreach VAR,$(YP_VERSION_VARS),$(VAR)=$($(VAR))) \
-		envsubst '$(foreach VAR,$(YP_VERSION_VARS),$${$(VAR)})'
+		$(ENVSUBST) '$(foreach VAR,$(YP_VERSION_VARS),$${$(VAR)})'
 endef
 
 # ------------------------------------------------------------------------------

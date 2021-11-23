@@ -12,7 +12,7 @@
 #
 # ------------------------------------------------------------------------------
 
-YP_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && echo true || echo false)
+YP_IS_TRANSCRYPTED = $(shell $(GIT) config --local transcrypt.version >/dev/null && $(ECHO) true || $(ECHO) false)
 $(foreach VAR,YP_IS_TRANSCRYPTED,$(call make-lazy-once,$(VAR)))
 
 YP_VENDOR_FILES_IGNORE += \
@@ -34,7 +34,7 @@ decrypt: ## Decrypt this repository with transcrypt.
 		$(ECHO) "[Q   ] Which identity do you want to use to decrypt this repository?"; \
 		$(LS) -1 .transcrypt | $(SED) "s/\.asc$$//g" | $(SED) "s/^/       /g"; \
 		$(ECHO_INFO) "Alternatively you can enter the plain-text password."; \
-		read ID_OR_PASS && \
+		read -r ID_OR_PASS && \
 			if [[ -f .transcrypt/$${ID_OR_PASS}.asc ]]; then \
 				$(ECHO_INFO) "Decrypting with identity .transcrypt/$${ID_OR_PASS}.asc ."; \
 				./transcrypt -y --import-gpg .transcrypt/$${ID_OR_PASS}.asc; \
