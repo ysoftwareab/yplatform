@@ -75,7 +75,7 @@ wslSteps.push({
     'wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"',
     // Need to shutdown wsl, in order to apply the wsl.conf config
     // https://github.com/MicrosoftDocs/WSL/blob/master/WSL/wsl-config.md
-    'wsl --shutdown'
+    'wsl --help 2>&1 | grep -q "shutdown" && wsl --shutdown || true'
   ], '\n')
 });
 

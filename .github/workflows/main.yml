@@ -586,7 +586,7 @@ jobs:
 
           wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
 
-          wsl --shutdown
+          wsl --help 2>&1 | grep -q "shutdown" && wsl --shutdown || true
       - shell: bash
         run: bin/wsl-bash -c "./.ci.sh before_install"
       - shell: bash
