@@ -12,8 +12,8 @@ ARCH_NORMALIZED = $(shell $(ECHO) $(ARCH) | $(SED) \
 	-e "s|^x86_64$$|amd64|" \
 	-e "s|^x86\-64$$|amd64|" \
 )
-ARCH_SHORT = $(shell $(ECHO) $(ARCH) | grep -q "64" && $(ECHO) "x64" || $(ECHO) "x86")
-ARCH_BIT = $(shell $(ECHO) $(ARCH) | grep -q "64" && $(ECHO) "64" || $(ECHO) "32")
+ARCH_SHORT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "x64" || $(ECHO) "x86")
+ARCH_BIT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "64" || $(ECHO) "32")
 $(foreach VAR,ARCH ARCH_NORMALIZED ARCH_SHORT ARCH_BIT,$(call make-lazy,$(VAR)))
 
 OS = $(shell $(UNAME) | $(TR) "[:upper:]" "[:lower:]")

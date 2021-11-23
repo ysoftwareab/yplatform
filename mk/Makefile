@@ -5,6 +5,12 @@ ifndef CORE_INC_MK_DIR
 CORE_INC_MK_DIR := $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
 endif
 
+# defined here for consistency, later defined properly in exe.gnu.inc.mk
+DATE := date
+ECHO := echo
+GREP := grep
+PYTHON := python
+
 include $(CORE_INC_MK_DIR)/chars.inc.mk
 include $(CORE_INC_MK_DIR)/core.inc.mk
 
