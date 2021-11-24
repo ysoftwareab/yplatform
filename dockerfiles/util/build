@@ -7,7 +7,7 @@ source ${YP_DIR}/sh/common.inc.sh
 DOCKER_OS_RELEASE_ID=
 DOCKER_OS_RELEASE_VERSION_ID=
 
-DOCKER_ORG=rokmoln
+DOCKER_ORG=ysoftwareab
 DOCKER_IMAGE_FROM=
 DOCKER_IMAGE_NAME=
 DOCKER_IMAGE_TAG=$(cat ${YP_DIR}/package.json | jq -r ".version")-local

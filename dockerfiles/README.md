@@ -1,7 +1,7 @@
 # Docker images
 
 Docker images are built on each release of `yplatform`,
-and pushed to https://hub.docker.com/u/rokmoln .
+and pushed to https://hub.docker.com/u/ysoftwareab .
 
 These images can then be used in CIs to skip not only the time-consuming process of bootstrapping,
 but also to increase the determinism of the execution,

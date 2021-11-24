@@ -3,7 +3,7 @@ set -euo pipefail
 
 # shellcheck disable=SC2034
 YP_DOCKER_CI_IMAGE=false
-DOCKER_ORG=${DOCKER_ORG:-rokmoln}
+DOCKER_ORG=${DOCKER_ORG:-ysoftwareab}
 
 # publish to hub.docker.com if given
 # DOCKER_USERNAME/DOCKER_TOKEN

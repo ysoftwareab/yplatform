@@ -58,8 +58,8 @@ What you end up having in a `git` tag is an exact match of what would be availab
 so there are no `git` submodules to checkout, no devDependecies to install, no build process.
 Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm-publish-git/blob/master/README.md).
 
-An example flow for publishing [`minlog`](https://github.com/rokmoln/minlog)
-which in its [Makefile](https://github.com/rokmoln/minlog/blob/master/Makefile) is using
+An example flow for publishing [`minlog`](https://github.com/ysoftwareab/minlog)
+which in its [Makefile](https://github.com/ysoftwareab/minlog/blob/master/Makefile) is using
 
 * [build.mk/node.common.mk](../build.mk/node.common.mk)
 * [build.mk/core.misc.release.npg.mk](../build.mk/core.misc.release.npg.mk)
@@ -80,8 +80,8 @@ git commit -m "some changes"
 make release
 ```
 
-From this point on, using `git://github.com/rokmoln/minlog.git#v0.0.1`
-or `git://github.com/rokmoln/minlog.git#semver:~0.0.1` is **exactly** the same
+From this point on, using `git://github.com/ysoftwareab/minlog.git#v0.0.1`
+or `git://github.com/ysoftwareab/minlog.git#semver:~0.0.1` is **exactly** the same
 as if `minlog` would be published on the `npm` registry
 and you would have used only `0.0.1`, respectively `~0.0.1`, as a version specifier.
 

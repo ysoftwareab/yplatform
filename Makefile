@@ -18,7 +18,7 @@ BREWFILE_LOCK := Brewfile.lock
 
 # for testing purposes, so that 'make docker-ci' works
 # otherwise YP_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
-YP_DOCKER_CI_IMAGE := rokmoln/yp-ubuntu-bionic-minimal
+YP_DOCKER_CI_IMAGE := ysoftwareab/yp-ubuntu-bionic-minimal
 
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))

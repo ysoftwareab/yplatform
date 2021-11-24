@@ -68,7 +68,7 @@ we make use of partial `Makefile`s that when combined cover a great deal of the 
 while still allowing for customization/extensibility where needed.
 
 For more information, see [yplatform/build.mk](../build.mk/README.md) and check out different `Makefile`s
-of the [`rokmoln` GitHub repos](https://github.com/rokmoln).
+of the [`ysoftwareab` GitHub repos](https://github.com/ysoftwareab).
 
 
 ## References

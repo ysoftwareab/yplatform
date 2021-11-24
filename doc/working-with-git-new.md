@@ -35,7 +35,7 @@ git commit -m "initial commit"
 
 ## Creating a new repository on Github
 
-[When creating a new repository](https://github.com/organizations/rokmoln/repositories/new),
+[When creating a new repository](https://github.com/organizations/ysoftwareab/repositories/new),
 it's recommended that you start with an **internal** if using Github Enterprise, or a **private** repository otherwise.
 
 Once you push your commits, you and your team members can then inspect and verify
@@ -46,12 +46,12 @@ that everything looks ok, and only then make it public.
 
 Please name the repository appropriately, where appropriately stands for, but not only:
 * descriptive and unique e.g. a real name, an accronym
-  * a real name: [minlog](https://github.com/rokmoln/minlog)
+  * a real name: [minlog](https://github.com/ysoftwareab/minlog)
   * an accronym: [KATT](https://github.com/for-GET/katt)
 * if not unique then prefixed or suffixed with team name and mentioning software ecosystem
   * prefixed: firecloud-dashboard
   * suffixed: [yplatform](https://github.com/ysoftwareab/yplatform)
-  * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/rokmoln/eslint-config-firecloud)
+  * mentioning software ecosystem: [eslint-config-firecloud](https://github.com/ysoftwareab/eslint-config-firecloud)
 
 A description is optional by Github standards, but we require it.
 
@@ -127,7 +127,7 @@ Go to `Code` tab.
 
 Topics will make it easier to filter our repositories, both public, internal and private ones.
 
-**Topics are also public, making them a good marketing trick. So unless the topic is generic, do prefix it with rokmoln !!!**
+**Topics are also public, making them a good marketing trick. So unless the topic is generic, do prefix it with ysoftwareab !!!**
 
 * team/project name e.g. `company-frontend`, `company-merlin`
 * purpose e.g, `eslint-config` or `eslint-plugin`
