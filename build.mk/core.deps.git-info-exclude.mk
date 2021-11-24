@@ -16,4 +16,4 @@ endif
 $(GIT_DIR)/info/exclude: $(YP_DIR)/gitconfig/dot.gitignore_global
 	$(MKDIR) $$(dirname $@)
 	[[ -f $@ ]] && $(CAT) $@ 2>/dev/null | $(GREP) -v -e "^#" -e "^\s\+$$"| $(GREP) -q "^." || \
-			$(LN) -sf $< $@
+			$(LN) -s $< $@
