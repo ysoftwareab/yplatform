@@ -1,1 +1,1 @@
-../sf-alpine/Dockerfile
+../yp-alpine/Dockerfile

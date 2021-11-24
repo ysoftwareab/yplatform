@@ -1,1 +1,1 @@
-../sf-ubuntu/Dockerfile
+../yp-ubuntu/Dockerfile

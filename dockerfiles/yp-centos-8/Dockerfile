@@ -1,1 +1,1 @@
-../sf-centos/Dockerfile
+../yp-centos/Dockerfile

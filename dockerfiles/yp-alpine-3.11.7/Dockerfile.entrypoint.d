@@ -1,1 +1,1 @@
-../sf-alpine/Dockerfile.entrypoint.d
+../yp-alpine/Dockerfile.entrypoint.d

@@ -1,1 +1,1 @@
-../sf-centos/Dockerfile.entrypoint.d
+../yp-centos/Dockerfile.entrypoint.d

@@ -1,1 +1,1 @@
-../sf-ubuntu/Dockerfile.entrypoint.d
+../yp-ubuntu/Dockerfile.entrypoint.d

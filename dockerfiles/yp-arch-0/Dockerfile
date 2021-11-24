@@ -1,1 +1,1 @@
-../sf-arch/Dockerfile
+../yp-arch/Dockerfile

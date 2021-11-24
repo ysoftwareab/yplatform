@@ -1,1 +1,1 @@
-../sf-debian/Dockerfile.entrypoint.d
+../yp-debian/Dockerfile.entrypoint.d

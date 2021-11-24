@@ -1,1 +1,1 @@
-../sf-alpine/Dockerfile.build.sh
+../yp-alpine/Dockerfile.build.sh

@@ -1,1 +1,1 @@
-../sf-arch/Dockerfile.entrypoint.d
+../yp-arch/Dockerfile.entrypoint.d

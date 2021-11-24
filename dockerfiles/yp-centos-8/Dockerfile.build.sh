@@ -1,1 +1,1 @@
-../sf-centos/Dockerfile.build.sh
+../yp-centos/Dockerfile.build.sh

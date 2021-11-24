@@ -1,1 +1,1 @@
-../sf-ubuntu/Dockerfile.build.sh
+../yp-ubuntu/Dockerfile.build.sh
