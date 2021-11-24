@@ -4,14 +4,14 @@
 #
 # ------------------------------------------------------------------------------
 #
-# Adds a 'sf-substitute-version-vars-in-file' function
+# Adds a 'yp-substitute-version-vars-in-file' function
 # that can generate files based on templates
 # that reference variables in the BUILD or VERSION files.
 # This is useful for referencing version information at runtime.
 # Usage:
 #
 # some/version.js: some/tpl.version.js
-#	$(call sf-substitute-version-vars-in-file,$<,$@)
+#	$(call yp-substitute-version-vars-in-file,$<,$@)
 #
 # where 'some/tpl.version.js' could be:
 # export default {gitHash: '${BUILD_GIT_HASH}'};
@@ -61,7 +61,7 @@ YP_VERSION_VARS = \
 	PKG_VSN \
 	$(YP_BUILD_VARS)
 
-define sf-substitute-version-vars-in-file
+define yp-substitute-version-vars-in-file
 	< $1 > $2 \
 		$(foreach VAR,$(YP_VERSION_VARS),$(VAR)=$($(VAR))) \
 		$(ENVSUBST) '$(foreach VAR,$(YP_VERSION_VARS),$${$(VAR)})'

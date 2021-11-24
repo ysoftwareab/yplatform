@@ -58,15 +58,15 @@ function yp_ci_run() {
 
     [[ "${TRAVIS:-}" != "true" ]] || {
         if [[ -f /yplatform.docker-ci ]]; then
-            echo_info "Running inside the sf-docker-ci container."
+            echo_info "Running inside the yp-docker-ci container."
         elif [[ "${OS_SHORT:-}" != "linux" ]]; then
-            echo_info "Skipping the sf-docker-ci container because the host OS is not linux."
+            echo_info "Skipping the yp-docker-ci container because the host OS is not linux."
         elif ${YP_DIR}/bin/is-wsl; then
-            echo_info "Skipping the sf-docker-ci container because the host OS is Windows Subsystem for Linux."
+            echo_info "Skipping the yp-docker-ci container because the host OS is Windows Subsystem for Linux."
         elif [[ "${YP_DOCKER_CI_IMAGE:-}" = "false" ]]; then
-            echo_info "Skipping the sf-docker-ci container because YP_DOCKER_CI_IMAGE=false."
+            echo_info "Skipping the yp-docker-ci container because YP_DOCKER_CI_IMAGE=false."
         else
-            local RUN_IN_YP_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) sf-docker-ci-travis"
+            local RUN_IN_YP_DOCKER_CI="docker exec -it -w ${TRAVIS_BUILD_DIR} -u $(id -u):$(id -g) yp-docker-ci-travis"
             CMD="${RUN_IN_YP_DOCKER_CI} ${0} $* 2>&1"
             # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
             CMD="unbuffer ${CMD} | pv -q -L 3k"
@@ -74,8 +74,8 @@ function yp_ci_run() {
             [[ "${1}" != "before_install" ]] || {
                 yp_run_docker_ci_in_travis
 
-                # /home/travis is not readable by others, like the sf:sf user which will do the bootstrapping
-                ${RUN_IN_YP_DOCKER_CI} ${YP_DIR}/bin/linux-adduser2group sf travis
+                # /home/travis is not readable by others, like the yp:yp user which will do the bootstrapping
+                ${RUN_IN_YP_DOCKER_CI} ${YP_DIR}/bin/linux-adduser2group yp travis
             }
         fi
 

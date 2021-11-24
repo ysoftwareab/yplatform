@@ -137,7 +137,7 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.tex          text diff=tex
 
 # Text =========================================================================
-*.plist        text diff=custom-sf-plist filter=custom-sf-plist
+*.plist        text diff=custom-yp-plist filter=custom-yp-plist
 
 *.bat          text
 *.cmd          text
@@ -164,38 +164,38 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 Makefile*      text
 
 # Binaries =====================================================================
-*.exe          binary diff=custom-sf-bin
+*.exe          binary diff=custom-yp-bin
 
-# *.doc          binary diff=custom-sf-doc
-# *.dot          binary diff=custom-sf-doc
+# *.doc          binary diff=custom-yp-doc
+# *.dot          binary diff=custom-yp-doc
 
-*.docm         binary diff=custom-sf-docx
-*.docx         binary diff=custom-sf-docx
-*.dotm         binary diff=custom-sf-docx
-*.dotx         binary diff=custom-sf-docx
+*.docm         binary diff=custom-yp-docx
+*.docx         binary diff=custom-yp-docx
+*.dotm         binary diff=custom-yp-docx
+*.dotx         binary diff=custom-yp-docx
 
-*.gif          binary diff=custom-sf-exif
-*.jpg          binary diff=custom-sf-exif
-*.jpeg         binary diff=custom-sf-exif
-*.png          binary diff=custom-sf-exif
+*.gif          binary diff=custom-yp-exif
+*.jpg          binary diff=custom-yp-exif
+*.jpeg         binary diff=custom-yp-exif
+*.png          binary diff=custom-yp-exif
 
-*.gpg          binary diff=custom-sf-gpg
+*.gpg          binary diff=custom-yp-gpg
 
-*.ods          binary diff=custom-sf-odf
-*.odt          binary diff=custom-sf-odf
-*.odp          binary diff=custom-sf-odf
+*.ods          binary diff=custom-yp-odf
+*.odt          binary diff=custom-yp-odf
+*.odp          binary diff=custom-yp-odf
 
-*.pdf          binary diff=custom-sf-pdf
+*.pdf          binary diff=custom-yp-pdf
 
-*.bz2          binary diff=custom-sf-bz2
-*.gz           binary diff=custom-sf-gz
-*.tar          binary diff=custom-sf-tar
-*.tar.bz2      binary diff=custom-sf-tar-bz2
-*.tar.gz       binary diff=custom-sf-tar-gz
-*.tar.xz       binary diff=custom-sf-tar-xz
-*.tgz          binary diff=custom-sf-tar-gz
-*.zip          binary diff=custom-sf-zip
-*.xz           binary diff=custom-sf-xz
+*.bz2          binary diff=custom-yp-bz2
+*.gz           binary diff=custom-yp-gz
+*.tar          binary diff=custom-yp-tar
+*.tar.bz2      binary diff=custom-yp-tar-bz2
+*.tar.gz       binary diff=custom-yp-tar-gz
+*.tar.xz       binary diff=custom-yp-tar-xz
+*.tgz          binary diff=custom-yp-tar-gz
+*.zip          binary diff=custom-yp-zip
+*.xz           binary diff=custom-yp-xz
 
 *.doc          binary
 *.dot          binary

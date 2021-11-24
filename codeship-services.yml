@@ -1,5 +1,5 @@
 # yplatform-ubuntu-2004-minimal:
-sfu2004m:
+ypu2004m:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:
@@ -9,7 +9,7 @@ sfu2004m:
   cached: false
 
 # yplatform-ubuntu-2004-dev:
-sfu2004d:
+ypu2004d:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:

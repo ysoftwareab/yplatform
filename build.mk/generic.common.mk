@@ -25,7 +25,7 @@ YP_GENERIC_COMMON_INCLUDES_DEFAULT += \
 YP_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(YP_DIR)/build.mk/core.misc.docker-ci.mk \
 	$(YP_DIR)/build.mk/core.misc.bootstrap.mk \
-	$(YP_DIR)/build.mk/core.misc.sf-update.mk \
+	$(YP_DIR)/build.mk/core.misc.yp-update.mk \
 	$(YP_DIR)/build.mk/core.misc.snapshot.mk \
 	$(YP_DIR)/build.mk/core.misc.transcrypt.mk \
 

@@ -42,7 +42,7 @@ function yp_path_append_before() {
 }
 
 [[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
-    source ${YP_DIR}/bin/sf-env
+    source ${YP_DIR}/bin/yp-env
 }
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function

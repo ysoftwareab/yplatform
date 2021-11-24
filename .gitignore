@@ -8,5 +8,5 @@
 /yplatform
 
 # artifacts
-/sf-ci-echo-benchmark
+/yp-ci-echo-benchmark
 /some-job-artifact.md

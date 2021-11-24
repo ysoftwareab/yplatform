@@ -25,26 +25,26 @@ let matrixOs = {
 
 let matrixContainer = {
   smoke: [
-    'sf-ubuntu-20.04'
+    'yp-ubuntu-20.04'
   ],
   arch: [
-    'sf-arch-0'
+    'yp-arch-0'
   ],
   alpine: [
-    'sf-alpine-3.11.7'
+    'yp-alpine-3.11.7'
   ],
   centos: [
-    'sf-centos-8'
+    'yp-centos-8'
   ],
   debian: [
-    'sf-debian-9',
-    'sf-debian-10'
+    'yp-debian-9',
+    'yp-debian-10'
   ],
   ubuntu: [
-    'sf-ubuntu-16.04',
-    'sf-ubuntu-18.04'
+    'yp-ubuntu-16.04',
+    'yp-ubuntu-18.04'
     // part of 'smoke'
-    // 'sf-ubuntu-20.04'
+    // 'yp-ubuntu-20.04'
   ]
 };
 

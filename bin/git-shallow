@@ -15,10 +15,10 @@ GIT_TAG=
 }
 [[ -n "${GIT_BRANCH#HEAD}" ]] || {
     # attach temporarily
-    echo >&2 "[INFO] Creating temporary branch sf-git-shallow."
-    git -C $1 checkout -B sf-git-shallow
+    echo >&2 "[INFO] Creating temporary branch yp-git-shallow."
+    git -C $1 checkout -B yp-git-shallow
     GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
-    [[ "${GIT_BRANCH}" = "sf-git-shallow" ]]
+    [[ "${GIT_BRANCH}" = "yp-git-shallow" ]]
 }
 
 echo >&2 "[INFO] Shallow-cloning branch/tag ${GIT_BRANCH}."
@@ -37,7 +37,7 @@ rm -rf ${TMP_GIT_SHALLOW}/.git/refs/remotes
 rm -rf ${1}/.git
 mv ${TMP_GIT_SHALLOW}/.git ${1}/
 
-if [[ "${GIT_BRANCH}" != "sf-git-shallow" ]]; then
+if [[ "${GIT_BRANCH}" != "yp-git-shallow" ]]; then
     if [[ -n "${GIT_TAG}" ]]; then
         git -C $1 config remote.origin.fetch "+refs/tags/${GIT_TAG}:refs/tags/${GIT_TAG}"
     else
@@ -46,8 +46,8 @@ if [[ "${GIT_BRANCH}" != "sf-git-shallow" ]]; then
 else
     git -C $1 config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     # detach again
-    echo >&2 "[INFO] Deattach from sf-git-shallow."
-    GIT_BRANCH=sf-git-shallow
+    echo >&2 "[INFO] Deattach from yp-git-shallow."
+    GIT_BRANCH=yp-git-shallow
     git -C $1 checkout $(git -C $1 rev-parse HEAD)
     git -C $1 branch -D ${GIT_BRANCH}
     git -C $1 branch -r -D origin/${GIT_BRANCH}

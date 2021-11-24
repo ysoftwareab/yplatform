@@ -54,7 +54,7 @@ function git_dir_shallow() {
 brew_cache_prune
 magic_cache_prune
 dir_clean ${HOME}/.cache/* # misc cache for root
-dir_clean /home/${UNAME}/.cache/* # misc cache for sf user
+dir_clean /home/${UNAME}/.cache/* # misc cache for yp user
 
 for DIR in $(brew --repository) $(brew --repository)/Library/Taps/*/*; do
     git_dir_shallow ${DIR}

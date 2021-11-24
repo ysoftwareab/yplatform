@@ -8,8 +8,8 @@ YP_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/..)
 
 ifndef YP_DEV_INC_SH
 ifeq (0,$(MAKELEVEL))
-NVM_DIR := $(shell $(YP_DIR)/bin/sf-env NVM_DIR)
-PATH := $(shell $(YP_DIR)/bin/sf-env PATH)
+NVM_DIR := $(shell $(YP_DIR)/bin/yp-env NVM_DIR)
+PATH := $(shell $(YP_DIR)/bin/yp-env PATH)
 export NVM_DIR PATH
 endif
 endif

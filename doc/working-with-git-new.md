@@ -11,7 +11,7 @@ git init
 Set up `yplatform` as a `git` submodule via
 
 ```shell
-bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/yplatform/master/bin/sf-install)"
+bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/yplatform/master/bin/yp-install)"
 ```
 
 In order to bootstrap/scaffold the repository, run

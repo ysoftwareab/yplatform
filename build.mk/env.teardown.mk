@@ -7,5 +7,5 @@ teardown-env: ## Teardown env
 		$(GIT) status --porcelain | $(GREP) -e "^[^ U]"; \
 		exit 1; \
 	}
-	$(GIT) commit --allow-empty -m "[sf teardown-$(ENV_NAME)]"
+	$(GIT) commit --allow-empty -m "[yp teardown-$(ENV_NAME)]"
 	$(GIT) push --no-verify -f

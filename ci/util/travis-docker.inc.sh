@@ -9,5 +9,5 @@ function yp_run_docker_ci_in_travis() {
         apt_install pv
     )
 
-    yp_run_docker_ci_image "$(yp_get_docker_ci_image)" "${HOME}" sf-docker-ci-travis
+    yp_run_docker_ci_image "$(yp_get_docker_ci_image)" "${HOME}" yp-docker-ci-travis
 }

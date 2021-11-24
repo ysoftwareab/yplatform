@@ -9,7 +9,7 @@
 ifeq (linux,$(OS_SHORT))
 YP_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && yp_get_docker_ci_image 2>/dev/null)
 else
-YP_DOCKER_CI_IMAGE ?= rokmoln/sf-ubuntu-20.04-minimal
+YP_DOCKER_CI_IMAGE ?= rokmoln/yp-ubuntu-20.04-minimal
 endif
 
 DOCKER = $(call which,DOCKER,docker)
@@ -19,7 +19,7 @@ $(foreach VAR,DOCKER,$(call make-lazy,$(VAR)))
 
 .PHONY: docker-ci
 docker-ci:
-	$(eval CONTAINER_NAME := $(shell $(ECHO) "sf-docker-ci-$$(basename $(PWD))"))
+	$(eval CONTAINER_NAME := $(shell $(ECHO) "yp-docker-ci-$$(basename $(PWD))"))
 	source $(YP_DIR)/sh/common.inc.sh && \
 		source $(YP_DIR)/ci/run.docker-ci.inc.sh && \
 		yp_run_docker_ci_image $(YP_DOCKER_CI_IMAGE) $(PWD) $(CONTAINER_NAME)

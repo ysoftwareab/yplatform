@@ -7,9 +7,9 @@
   steps:
     # - name: ubuntu-2004-minimal
     - name: u2004-minimal
-      service: sfu2004m
+      service: ypu2004m
       command: bash -c "YP_CI_STEP_NAME=u2004-minimal ./.codeship/pipeline.sh"
     # - name: ubuntu-2004-dev
     - name: u2004-dev
-      service: sfu2004d
+      service: ypu2004d
       command: bash -c "YP_CI_STEP_NAME=u2004-dev ./.codeship/pipeline.sh"

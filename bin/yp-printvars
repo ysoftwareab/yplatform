@@ -8,8 +8,8 @@ OLD_VARS=$(compgen -A variable | sort -u)
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-#- sf-printvars 1.0
-## Usage: sf-printvars
+#- yp-printvars 1.0
+## Usage: yp-printvars
 ## Source sh/common.inc.sh and print all custom variables.
 
 CURRENT_VARS=$(printenv_all_names | grep -v "^OLD_VARS$" | sort -u)

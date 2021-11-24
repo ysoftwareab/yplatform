@@ -56,7 +56,7 @@ function brew_printenv() {
 ^CI=
 ^CONTINUOUS_INTEGRATION=
 
-# sf
+# yp
 ^GIT_
 ^YP_LOG_BOOTSTRAP=
 ^YP_PRINTENV_BOOTSTRAP=

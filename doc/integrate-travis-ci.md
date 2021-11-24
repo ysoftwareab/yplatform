@@ -87,7 +87,7 @@ and having the same user and home folder contents as the host.
 **NOTE** This means that Travis directives like `addons` in `.travis.yml` are redundant,
 because they will only affect the host machine, and not the Docker container where the pipeline runs.
 
-The Docker image is by default `rokmoln/sf-<os>-<os_version>-common`,
+The Docker image is by default `rokmoln/yp-<os>-<os_version>-common`,
 but it can be specified via an environment variable `YP_DOCKER_CI_IMAGE` in the Travis UI.
 
 Alternatively, you can disable running the pipeline in a Docker container, via `YP_DOCKER_CI_IMAGE=false`.

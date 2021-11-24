@@ -9,7 +9,7 @@ else
     echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
 fi
 
-# assume this is a symlink to sf-bin. it is intended to be used like that
+# assume this is a symlink to yp-bin. it is intended to be used like that
 MYSELF=$(readlink "${MYSELF}")
 [[ "${MYSELF:0:1}" = "/" ]] || MYSELF=$(dirname ${MYSELF})/${MYSELF}
 

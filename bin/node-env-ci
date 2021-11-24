@@ -16,11 +16,11 @@ let _ = require('lodash-firecloud');
 let envCi = require('env-ci');
 let data = envCi();
 
-// pass --sf for compatibility with yplatform (used in Makefile:test-env-ci target)
-let sfCompat = process.argv[1] === '--sf';
+// pass --yp for compatibility with yplatform (used in Makefile:test-env-ci target)
+let ypCompat = process.argv[1] === '--yp';
 
 // as listed on https://github.com/pvdlg/env-ci/blob/master/README.md
-let map2sf = {
+let map2yp = {
     name: 'YP_CI_NAME',
     service: 'YP_CI_PLATFORM',
     isCi: 'CI',
@@ -40,7 +40,7 @@ let map2sf = {
     root: 'YP_CI_ROOT'
 };
 
-let knownKeys = _.keys(map2sf);
+let knownKeys = _.keys(map2yp);
 let unknownKeys = _.keys(_.omit(data, ...knownKeys));
 
 if (!_.isEmpty(unknownKeys)) {
@@ -49,13 +49,13 @@ if (!_.isEmpty(unknownKeys)) {
 }
 
 data = _.omitBy(data, function(_value, key) {
-    return _.isEmpty(map2sf[key]);
+    return _.isEmpty(map2yp[key]);
 });
 data = _.mapKeys(data, function(_value, key) {
-    return map2sf[key];
+    return map2yp[key];
 });
 
-if (sfCompat) {
+if (ypCompat) {
     // our wording implies 1 pipeline -> n jobs
     // env-ci's wording seems to imply 1 job -> n builds
     let dataClone = _.clone(data);

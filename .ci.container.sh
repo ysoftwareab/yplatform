@@ -27,7 +27,7 @@ function ci_run_deploy_docker_image_hubdockercom() {
     echo_done
 
     # TODO deprecated image name that uses codename
-    local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    local DOCKER_IMAGE_NAME_CODENAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
         local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
         echo_do "Pushing ${TAG} to hub.docker.com..."
@@ -61,7 +61,7 @@ function ci_run_deploy_docker_image_dockerpkggithubcom() {
     echo_done
 
     # TODO deprecated image name that uses codename
-    local DOCKER_IMAGE_NAME_CODENAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    local DOCKER_IMAGE_NAME_CODENAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
         local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
         echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
@@ -90,15 +90,15 @@ function ci_run_deploy_docker_image() {
     # shellcheck disable=SC1091
     local DOCKER_OS_RELEASE_VERSION_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
-    local DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
+    local DOCKER_IMAGE_NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
     if [[ -f ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
         FROM_DOCKER_IMAGE_TAG=$(cat ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
-        DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+        DOCKER_IMAGE_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
     else
         [[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}" != "common" ]] || {
-            DOCKER_IMAGE_FROM=${DOCKER_ORG}/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+            DOCKER_IMAGE_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
         }
     fi
 
@@ -112,7 +112,7 @@ function ci_run_deploy_docker_image() {
         --docker-image-from "${DOCKER_IMAGE_FROM}" \
         --docker-image-name "${DOCKER_IMAGE_NAME}" \
         --docker-image-tag "${DOCKER_IMAGE_TAG}" \
-        --sf-ci-brew-install "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}"
+        --yp-ci-brew-install "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}"
 
     [[ "${YP_DEPLOY_DRYRUN:-}" != "true" ]] || {
         echo_info "YP_DEPLOY_DRYRUN=${YP_DEPLOY_DRYRUN}"
@@ -147,4 +147,4 @@ function ci_run_deploy() {
     ci_run_deploy_docker_image
 }
 
-source "${YP_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.yp"

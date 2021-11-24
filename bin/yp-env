@@ -87,7 +87,7 @@ fi
 }
 
 # jq becomes always available
-# NOTE if needed to bypass system's jq, call sf-jq
+# NOTE if needed to bypass system's jq, call yp-jq
 yp_path_append ${YP_DIR}/bin/.jq
 
 yp_path_prepend /usr/local/sbin

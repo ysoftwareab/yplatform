@@ -4,12 +4,12 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-#- sf-printvar 1.0
-## Usage: sf-printvar -- VARIABLE
+#- yp-printvar 1.0
+## Usage: yp-printvar -- VARIABLE
 ## Source sh/common.inc.sh and print the variable's value.
 ##
-## Example: sf-printvar YP_DIR
-## Example: sf-printvar OS_RELEASE_ID
-## Example: sf-printvar OS_SHORT
+## Example: yp-printvar YP_DIR
+## Example: yp-printvar OS_RELEASE_ID
+## Example: yp-printvar OS_SHORT
 
 echo ${!1}

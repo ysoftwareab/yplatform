@@ -2,17 +2,17 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-function yp_ci_env_sf() {
+function yp_ci_env_yp() {
     true
 }
 
-function yp_ci_printvars_sf() {
+function yp_ci_printvars_yp() {
     printenv_all | sort -u | grep \
         -e "^CI=" \
         -e "^YP_CI_"
 }
 
-function yp_ci_known_env_sf() {
+function yp_ci_known_env_yp() {
     # keep in sync with ci/README.md
     cat <<EOF | sort -u | grep -v -e "^$" -e "^#"
 # core

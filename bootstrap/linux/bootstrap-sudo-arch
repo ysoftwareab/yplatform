@@ -17,7 +17,7 @@ if [[ "${EUID}" != "0" ]]; then
     exit 0
 fi
 
-# keep in sync with dockerfiles/sf-arch/Dockerfile.build.sh
+# keep in sync with dockerfiles/yp-arch/Dockerfile.build.sh
 echo_do "Setup pacman..."
 pacman_update
 

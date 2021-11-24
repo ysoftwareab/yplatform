@@ -18,44 +18,44 @@
     mnemonicprefix      = true
     algorithm           = patience
     submodule           = log
-[diff "custom-sf-bin"]
+[diff "custom-yp-bin"]
     textconv            = hexdump -v -C
-[diff "custom-sf-bz2"]
+[diff "custom-yp-bz2"]
     textconv            = bzcat
-# [diff "custom-sf-doc"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+# [diff "custom-yp-doc"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
 #     textconv            = "!f(){ \
 #                             antiword -m UTF-8 \"$1\" | sed \"s/\^M$//\; \
 #                             }; f"
-[diff "custom-sf-docx"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+[diff "custom-yp-docx"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
     textconv            = "!f(){ \
                             docx2txt \"$1\" -; }; \
                             }; f"
-[diff "custom-sf-exif"]
+[diff "custom-yp-exif"]
     textconv            = exiftool
-[diff "custom-sf-gpg"]
+[diff "custom-yp-gpg"]
     textconv            = gpg -v
-[diff "custom-sf-gz"]
+[diff "custom-yp-gz"]
     textconv            = gzcat
-[diff "custom-sf-odf"]
+[diff "custom-yp-odf"]
     textconv            = odt2txt
-[diff "custom-sf-pdf"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
+[diff "custom-yp-pdf"] # https://github.com/git-for-windows/build-extra/blob/fe88392/git-extra/astextplain
 #    textconv            = "f(){ \
 #                            pdftotext -layout -enc UTF-8 \"$1\" - | sed \"s/(\^M$)|(^\^L)//\" }; \
 #                            }; f"
-[diff "custom-sf-plist"]
+[diff "custom-yp-plist"]
     textconv            = plutil -convert xml1 -o -
     cachetextconv       = true
-[diff "custom-sf-tar"]
+[diff "custom-yp-tar"]
     textconv            = tar         -O -xf
-[diff "custom-sf-tar-bz2"]
+[diff "custom-yp-tar-bz2"]
     textconv            = tar --bzip2 -O -xf
-[diff "custom-sf-tar-gz"]
+[diff "custom-yp-tar-gz"]
     textconv            = tar --gzip  -O -xf
-[diff "custom-sf-tar-xz"]
+[diff "custom-yp-tar-xz"]
     textconv            = tar --xz    -O -xf
-[diff "custom-sf-xz"]
+[diff "custom-yp-xz"]
     textconv            = xzcat
-[diff "custom-sf-zip"]
+[diff "custom-yp-zip"]
     textconv            = unzip -p
 [difftool]
     prompt              = false
@@ -104,7 +104,7 @@
     clean               = git-lfs clean -- %f
     required            = true
     process             = git-lfs filter-process
-[filter "custom-sf-plist"]
+[filter "custom-yp-plist"]
     clean               = plutil -convert xml1 -o - -
     smudge              = plutil -convert binary1 -o - -
 

@@ -20,4 +20,4 @@ source ${YP_DIR}/sh/common.inc.sh
 # }
 #
 
-source "${YP_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.yp"

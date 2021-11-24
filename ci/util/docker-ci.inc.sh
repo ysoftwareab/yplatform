@@ -13,7 +13,7 @@ function yp_run_docker_ci_login() {
 function yp_run_docker_ci_image() {
     local YP_DOCKER_CI_IMAGE=${1}
     local MOUNT_DIR=${2:-${PWD}}
-    local CONTAINER_NAME=${3:-sf-docker-ci}
+    local CONTAINER_NAME=${3:-yp-docker-ci}
 
     local GID2=$(id -g)
     local UID2=$(id -u)
@@ -94,18 +94,18 @@ function yp_run_docker_ci_image() {
 
 function yp_get_docker_ci_image() {
     [[ -n "${YP_DOCKER_CI_IMAGE:-}" ]] || \
-        YP_DOCKER_CI_IMAGE=rokmoln/sf-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
-    # if given a rokmoln/sf- image, but without a tag,
-    # set the tag to the version of SF
-    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^rokmoln/sf- ]] && \
+        YP_DOCKER_CI_IMAGE=rokmoln/yp-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal
+    # if given a rokmoln/yp- image, but without a tag,
+    # set the tag to the version of YP
+    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^rokmoln/yp- ]] && \
         [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
             cat ${YP_DIR}/package.json | jq -r ".version")
         YP_DOCKER_CI_IMAGE="${YP_DOCKER_CI_IMAGE}:${DOCKER_IMAGE_TAG}"
     fi
-    # if given a docker.pkg.github.com/ysoftwareab/yplatform/sf- image, but without a tag
-    # set the tag to the version of SF
-    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/ysoftwareab/yplatform/sf- ]] && \
+    # if given a docker.pkg.github.com/ysoftwareab/yplatform/yp- image, but without a tag
+    # set the tag to the version of YP
+    if [[ ${YP_DOCKER_CI_IMAGE} =~ ^docker.pkg.github.com/ysoftwareab/yplatform/yp- ]] && \
         [[ ! "${YP_DOCKER_CI_IMAGE}" =~ /:/ ]]; then
         local DOCKER_IMAGE_TAG=$(
             cat ${YP_DIR}/package.json | jq -r ".version")

@@ -31,10 +31,10 @@ source ${YP_DIR}/sh/common.inc.sh
 # }
 #
 
-source "${YP_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.yp"
 ```
 
-Code execution really starts at the bottom of [repo/dot.ci.sh.sf](../repo/dot.ci.sh.sf),
+Code execution really starts at the bottom of [repo/dot.ci.sh.yp](../repo/dot.ci.sh.yp),
 where we actually call `yp_ci_run <phase>`.
 
 The `yp_ci_run` function will mainly check
@@ -198,7 +198,7 @@ These patterns can be reused by simply changing the `.ci.sh` template above to i
 
 ```
 source "${YP_DIR}/sh/app-env.inc.sh"
-source "${YP_DIR}/repo/dot.ci.sh.sf"
+source "${YP_DIR}/repo/dot.ci.sh.yp"
 ```
 
 

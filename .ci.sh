@@ -5,7 +5,7 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-export YP_CI_ECHO_BENCHMARK=${GIT_ROOT}/sf-ci-echo-benchmark
+export YP_CI_ECHO_BENCHMARK=${GIT_ROOT}/yp-ci-echo-benchmark
 
 GITHUB_JOB=${GITHUB_JOB:-main}
 

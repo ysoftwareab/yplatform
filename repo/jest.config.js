@@ -1,3 +1,3 @@
-let sfConfig = require('./yplatform/repo/jest.config.sf');
+let ypConfig = require('./yplatform/repo/jest.config.yp');
 
-module.exports = sfConfig;
+module.exports = ypConfig;

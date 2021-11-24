@@ -1,6 +1,6 @@
 let path = require('path');
 
-let sfConfig = {
+let ypConfig = {
   // TODO coverage is disabled due to https://github.com/facebook/jest/issues/3959
   collectCoverage: false,
   collectCoverageFrom: [
@@ -53,13 +53,13 @@ try {
     throw new Error(`babel-jest is not a dev dependency in ${topPackageJson}`);
   }
 
-  sfConfig.transform['^.+\\.js$'] = 'babel-jest';
+  ypConfig.transform['^.+\\.js$'] = 'babel-jest';
 
   if (topPackage.devDependencies['@babel/preset-typescript']) {
-    sfConfig.transform['^.+\\.ts$'] = 'babel-jest';
+    ypConfig.transform['^.+\\.ts$'] = 'babel-jest';
   }
 } catch (_err) {
   // console.log(_err);
 }
 
-module.exports = sfConfig;
+module.exports = ypConfig;

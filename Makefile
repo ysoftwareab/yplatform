@@ -18,7 +18,7 @@ BREWFILE_LOCK := Brewfile.lock
 
 # for testing purposes, so that 'make docker-ci' works
 # otherwise YP_DOCKER_CI_IMAGE=false (set in .ci.main.sh)
-YP_DOCKER_CI_IMAGE := rokmoln/sf-ubuntu-bionic-minimal
+YP_DOCKER_CI_IMAGE := rokmoln/yp-ubuntu-bionic-minimal
 
 BREW = $(call which,BREW,brew)
 $(foreach VAR,BREW,$(call make-lazy,$(VAR)))
@@ -109,16 +109,16 @@ YP_TEST_TARGETS += \
 
 .github/workflows/main.yml: bin/github-checkout $(wildcard .github/workflows.src/main*)
 .github/workflows/main.yml: .github/workflows/main.yml.tpl
-	$(call sf-generate-from-template)
+	$(call yp-generate-from-template)
 
 
 .github/workflows/deploy.yml: bin/github-checkout $(wildcard .github/workflows.src/deploy*)
 .github/workflows/deploy.yml: .github/workflows/deploy.yml.tpl
-	$(call sf-generate-from-template)
+	$(call yp-generate-from-template)
 
 
 Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
-	$(call sf-generate-from-template)
+	$(call yp-generate-from-template)
 
 
 .PHONY: test-secret
@@ -154,12 +154,12 @@ test-gitignore:
 .PHONY: test-env-ci
 test-env-ci:
 	$(ECHO_DO) "Testing that we are in sync with env-ci..."
-	$(COMM) -23 <($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) | \
+	$(COMM) -23 <($(NODE_ENV_CI) --yp | $(SORT)) <($(CI_PRINTVARS) --yp | $(SORT)) | \
 		$(YP_DIR)/bin/ifne --not --fail --print-on-fail || { \
 			$(ECHO_ERR) "Found the above differences with env-ci."; \
 			$(ECHO_INFO) "A full diff between YP_CI_* env vars between bin/env-ci and bin/ci-printvars follows:"; \
 			$(DIFF) --unified=1000000 --label node-env-ci --label ci-printvars \
-				<($(NODE_ENV_CI) --sf | $(SORT)) <($(CI_PRINTVARS) --sf | $(SORT)) || true; \
+				<($(NODE_ENV_CI) --yp | $(SORT)) <($(CI_PRINTVARS) --yp | $(SORT)) || true; \
 			$(ECHO_INFO) "A full printout of CI env vars follows:"; \
 			$(CI_PRINTVARS) | $(SORT); \
 			exit 1; \
@@ -171,7 +171,7 @@ test-env-ci:
 test-env-ci-unknown:
 	$(ECHO_DO) "Testing that we there are no new environment variables in CI..."
 	$(CI_PRINTVARS) --unknown
-	$(CI_PRINTVARS) --unknown --sf
+	$(CI_PRINTVARS) --unknown --yp
 	$(ECHO_DONE)
 
 
@@ -190,7 +190,7 @@ test-repo-mk:
 gitconfig/dot.gitignore_global: ## Regenerate gitconfig/dot.gitignore_global.
 gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.base
 gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
-	$(call sf-generate-from-template)
+	$(call yp-generate-from-template)
 
 
 bootstrap/brew-util/homebrew-install.sh: ## Regenerate bootstrap/brew-util/homebrew-install.sh
@@ -242,9 +242,9 @@ Formula/patch-src/%.original.rb:
 
 .PHONY: Formula/%.linux.patch
 Formula/%.linux.patch: Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patch,Formula/patch-src/$*.rb)
+	$(call yp-generate-from-template-patch,Formula/patch-src/$*.rb)
 
 
 .PHONY: Formula/patch-src/%.rb
 Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
-	$(call sf-generate-from-template-patched,Formula/$*.linux.patch)
+	$(call yp-generate-from-template-patched,Formula/$*.linux.patch)

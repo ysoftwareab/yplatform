@@ -9,24 +9,24 @@ source ${YP_DIR}/sh/common.inc.sh
 ## Usage: ci-printvars
 ## Print detected-CI-platform's environment variables.
 ##
-##   -s, --sf       Print only YP_CI_* environment variables.
+##   -s, --yp       Print only YP_CI_* environment variables.
 ##   -u, --unknown  Print only unknown environment variables' name.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(getopt -o hvsu -l help,version,sf,unknown -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o hvsu -l help,version,yp,unknown -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
-SF=false
+YP=false
 UNKNOWN=false
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        -s|--sf)
-            SF=true
+        -s|--yp)
+            YP=true
             shift
             ;;
         -u|--unknown)
@@ -65,7 +65,7 @@ unset YP_CI_ENV
 }
 
 PLATFORM=${YP_CI_PLATFORM}
-[[ "${SF}" != "true" ]] || PLATFORM=sf
+[[ "${YP}" != "true" ]] || PLATFORM=yp
 
 [[ "${UNKNOWN}" != "true" ]] || {
     comm -23 \

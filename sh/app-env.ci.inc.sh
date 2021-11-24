@@ -44,7 +44,7 @@ function ci_run_script_teardown_env() {
     case "${GIT_BRANCH}" in
         # handle env branches
         env/*)
-            # ignore '[sf teardown-<ENV_NAME>]' commit, to allow for snapshot detection
+            # ignore '[yp teardown-<ENV_NAME>]' commit, to allow for snapshot detection
             git reset --hard HEAD~
             ${GIT_ROOT}/bin/get-snapshot
             make reset-to-snapshot
@@ -72,7 +72,7 @@ function ci_run_script() {
 
     # handle teardown
     local ENV_NAME=${ENV_NAME:-$(${GIT_ROOT}/bin/get-env-name)}
-    local TEARDOWN_PATTERN="^\[sf teardown-${ENV_NAME}\]"
+    local TEARDOWN_PATTERN="^\[yp teardown-${ENV_NAME}\]"
     if [[ $(git log --format=%s -n1) =~ ${TEARDOWN_PATTERN} ]] ; then
         ci_run_script_teardown_env
         return 0

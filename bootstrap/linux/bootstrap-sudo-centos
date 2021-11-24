@@ -17,7 +17,7 @@ if [[ "${EUID}" != "0" ]]; then
     exit 0
 fi
 
-# keep in sync with dockerfiles/sf-centos/Dockerfile.build.sh
+# keep in sync with dockerfiles/yp-centos/Dockerfile.build.sh
 echo_do "Setup yum..."
 yum_update
 

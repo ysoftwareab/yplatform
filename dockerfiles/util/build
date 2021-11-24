@@ -29,7 +29,7 @@ while [[ $# -gt 0 ]]; do
             DOCKER_IMAGE_TAG=$2
             shift 2
             ;;
-        --sf-ci-brew-install)
+        --yp-ci-brew-install)
             YP_CI_BREW_INSTALL=$2
             shift 2
             ;;
@@ -55,7 +55,7 @@ OS_RELEASE_FILE=$(dirname ${MYSELF})/os-release
 DOCKER_OS_RELEASE_ID="$(source ${OS_RELEASE_FILE} && echo ${ID})"
 DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID:-0})"
 
-OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}"
+OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}"
 [[ "${OS_RELEASE_DIR}" = "${OS_RELEASE_DIR2}" ]] || {
     echo_info "OS_RELEASE_DIR=${OS_RELEASE_DIR}"
     echo_info "OS_RELEASE_DIR2=${OS_RELEASE_DIR2}"
@@ -78,7 +78,7 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
     DOCKERFILE=$(readlink -f ${OS_RELEASE_DIR}/Dockerfile)
 
 [[ -n "${DOCKER_IMAGE_NAME}" ]] || \
-    DOCKER_IMAGE_NAME=sf-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}
+    DOCKER_IMAGE_NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}
 
 echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
 exe docker build ${YP_DIR} \
