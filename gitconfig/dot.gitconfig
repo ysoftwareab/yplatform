@@ -113,7 +113,13 @@
 [advice]
     detachedHead        = false
 [blame]
-    ignoreRevsFile      = .git-blame-ignore-revs
+    # FIXME git fails if ignoreRevsFile doesn't exist. Ongoing discussions to mark it as optional
+    # see https://www.spinics.net/lists/git/msg415935.html
+    # ignoreRevsFile      = .git-blame-ignore-revs
+    # https://www.spinics.net/lists/git/msg415950.html
+    # ignoreRevsFileIsOptional = true
+    # https://www.spinics.net/lists/git/msg415951.html
+    # ignoreRevsFile = :(optional).git-blame-ignore-revs
 [gc]
     auto                = 0
 [init]
