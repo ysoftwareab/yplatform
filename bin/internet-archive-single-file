@@ -51,7 +51,7 @@ done
 # [[ $# -eq 0 ]] || sh_script_usage
 
 if [[ "${DOCKER}" = "true" ]]; then
-    TMP_SINGLE_FILE_DIR=$(mktemp -d -t firecloud.XXXXXXXXXX)
+    TMP_SINGLE_FILE_DIR=$(mktemp -d -t yplatform.XXXXXXXXXX)
     function on_exit() {
         rm -rf ${TMP_SINGLE_FILE_DIR}
     }

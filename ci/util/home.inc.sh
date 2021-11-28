@@ -9,7 +9,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     >&2 echo "$(date +"%H:%M:%S") [WARN] \$HOME is overriden to ${HOME}."
     >&2 echo "$(date +"%H:%M:%S") [DO  ] Resetting \$HOME to ${HOME_REAL}..."
 
-    TMP_ENV=$(mktemp -t firecloud.XXXXXXXXXX)
+    TMP_ENV=$(mktemp -t yplatform.XXXXXXXXXX)
     printenv >${TMP_ENV}
 
     export HOME="${HOME_REAL}"

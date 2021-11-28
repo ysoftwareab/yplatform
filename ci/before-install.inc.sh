@@ -78,7 +78,7 @@ function yp_github() {
     # NOTE we need to prepend to .gitconfig, or else settings are ignored
     # due to url settings in gitconfig/dot.gitconfig
 
-    local GITCONFIG_BAK=$(mktemp -t firecloud.XXXXXXXXXX)
+    local GITCONFIG_BAK=$(mktemp -t yplatform.XXXXXXXXXX)
     [[ ! -e "${HOME}/.gitconfig" ]] || {
         mv ${HOME}/.gitconfig ${GITCONFIG_BAK}
         touch ${HOME}/.gitconfig
@@ -238,7 +238,7 @@ function yp_os() {
         return 0
     fi
 
-    local TMP_YP_OS_LOG=$(mktemp -t firecloud.XXXXXXXXXX)
+    local TMP_YP_OS_LOG=$(mktemp -t yplatform.XXXXXXXXXX)
     echo_info "${FUNCNAME[0]}: Redirecting into ${TMP_YP_OS_LOG} to minimize CI log..."
 
     echo " 0 1 2 3 4 5 6 7 8 9101112131415 min"

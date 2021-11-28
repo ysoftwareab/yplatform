@@ -22,7 +22,7 @@ Commits since v0.2.137:
 * 331b2fcf 2021-08-11 sponge: handle new file
 * 0488092d 2021-08-11 fixup! sponge: print to stdout by default, if no filename given
 * 3fca2480 2021-08-11 fixup! add ubuntu-20.04 to codeship
-* c22332a4 2021-08-11 consistency: mktemp -> mktemp -t firecloud.XXXXXXXXXX
+* c22332a4 2021-08-11 consistency: mktemp -> mktemp -t yplatform.XXXXXXXXXX
 * 82788cb0 2021-08-11 if cmd is not found, then there's output noise due to exit code 127
 * 13bd6b26 2021-08-11 compatibility with Bash v3
 * df8ead21 2021-08-11 increase timeout to 60m on macos. see https://github.com/actions/virtual-environments/issues/3885

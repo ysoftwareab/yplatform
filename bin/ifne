@@ -15,7 +15,7 @@ source ${YP_DIR}/sh/common.inc.sh
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
-TMP_IFNE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_IFNE=$(mktemp -t yplatform.XXXXXXXXXX)
 function on_exit() {
     rm -rf ${TMP_IFNE}
 }

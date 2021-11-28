@@ -88,7 +88,7 @@ function exe_and_grep_q() {
     local EXECUTABLE="$(echo "${CMD}" | cut -d" " -f1)"
     local EXECUTABLE_TYPE="$(type -t ${EXECUTABLE} || echo "undefined")"
     local CMD_STDOUT="command not found: ${EXECUTABLE}"
-    local CMD_STDERR="$(mktemp -t firecloud.XXXXXXXXXX)"
+    local CMD_STDERR="$(mktemp -t yplatform.XXXXXXXXXX)"
     if [[ "${EXECUTABLE_TYPE}" != "undefined" ]]; then
         CMD_STDOUT="$(eval "${CMD}" 2>${CMD_STDERR} || true)"
     fi

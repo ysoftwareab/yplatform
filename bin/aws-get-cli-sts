@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TMP_AWS_CLI_CACHE=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_AWS_CLI_CACHE=$(mktemp -t yplatform.XXXXXXXXXX)
 function on_exit() {
     rm -rf ${TMP_AWS_CLI_CACHE}
 }

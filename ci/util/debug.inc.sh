@@ -28,7 +28,7 @@ function yp_ci_debug() {
     [[ -n ${YP_TMATE_AUTH:-} ]] || [[ "${YP_CI_PLATFORM:-}" != "github" ]] || {
         echo_info "Tmate session will be restricted to GITHUB_ACTOR=${GITHUB_ACTOR}."
         # default to github actor's public ssh keys
-        YP_TMATE_AUTH=$(mktemp -t firecloud.XXXXXXXXXX)
+        YP_TMATE_AUTH=$(mktemp -t yplatform.XXXXXXXXXX)
         exe curl -qfsSL \
             -H "accept: application/vnd.github.v3+json" \
             -H "authorization: token ${YP_GH_TOKEN_DEPLOY}" \

@@ -50,7 +50,7 @@ while [[ $# -gt 0 ]]; do
 done
 # [[ $# -eq 0 ]] || sh_script_usage
 
-TMP_DOCKER_DIFF=$(mktemp -d -t firecloud.XXXXXXXXXX)
+TMP_DOCKER_DIFF=$(mktemp -d -t yplatform.XXXXXXXXXX)
 IMAGE=$1
 
 echo_info "Creating a container for ${IMAGE}..."

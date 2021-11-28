@@ -5,7 +5,7 @@ source ${YP_DIR}/sh/common.inc.sh
 
 echo_info "Install 'tmate' via 'brew install tmate'."
 
-TMP_TMATE_SOCKET=$(mktemp -t firecloud.XXXXXXXXXX)
+TMP_TMATE_SOCKET=$(mktemp -t yplatform.XXXXXXXXXX)
 echo_info "tmate socket: ${TMP_TMATE_SOCKET}"
 
 AUTHENTICATED_KEYS=${1:-}

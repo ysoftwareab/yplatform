@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TMP_GIT_SHALLOW=$(mktemp -d -t firecloud.XXXXXXXXXX)
+TMP_GIT_SHALLOW=$(mktemp -d -t yplatform.XXXXXXXXXX)
 function on_exit() {
     rm -rf ${TMP_GIT_SHALLOW}
 }

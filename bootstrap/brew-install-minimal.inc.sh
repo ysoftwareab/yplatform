@@ -18,7 +18,7 @@ brew_install_one python
 source ${YP_DIR}/bootstrap/brew-install-asdf.inc.sh
 source ${YP_DIR}/bootstrap/brew-install-node.inc.sh
 {
-    TMP_NQ=$(mktemp -t firecloud.XXXXXXXXXX)
+    TMP_NQ=$(mktemp -t yplatform.XXXXXXXXXX)
     case ${OS_SHORT} in
         linux-alpine)
             # NOTE "brew install nq" will trigger segmentation fault when calling 'nq'

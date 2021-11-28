@@ -55,7 +55,7 @@ done
 # see https://github.com/sgerrand/alpine-pkg-glibc
 # see https://ariadne.space/2021/08/26/there-is-no-such-thing-as-a-glibc-based-alpine-image/
 (
-    cd $(mktemp -d -t firecloud.XXXXXXXXXX)
+    cd $(mktemp -d -t yplatform.XXXXXXXXXX)
     curl -qfsSL -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
     GLIBC_VSN=2.32-r0
     curl -qfsSL -O \
