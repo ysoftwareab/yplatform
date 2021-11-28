@@ -4,10 +4,27 @@ Below you will find flows that talk about `npm` packages and webapps and librari
 Those are purely for the purpose of giving simple examples.
 The same flows apply to any repository that has been bootstrapped with `yplatform`, no matter the programming languaguage.
 
+## 0-based Versioning (recommended)
+
+See https://0ver.org .
+
+**TL;DR** :
+
+* `0.0.1` initial version
+* `0.0.2` minor version with **bugfixes, new features**
+* `0.1.0` major version with bugfixes, new features, **breaking changes**
+  
+**You don't need to remember all of these if you use the `make release/*` targets below.**
+
+* `make release/bugfix` is equivalent to `make release/patch`
+* `make release/feature` is equivalent to `make release/patch`
+* `make release/breaking` is equivalent to `make release/minor`
+* there's no equivalent obviously for `make release/major`
+
 
 ## Semantic Versioning
 
-See https://semver.org/spec/v2.0.0.html .
+An alternative to 0-based versioning is semantic versioning. See https://semver.org/spec/v2.0.0.html .
 
 **TL;DR** :
 
