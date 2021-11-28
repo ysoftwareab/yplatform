@@ -43,7 +43,7 @@ See https://semver.org/spec/v2.0.0.html .
 as dependencies for other packages i.e. this section is for library repositories, not webapp repositories.
 
 In order to simplify the release process and not depend on `npm` registries,
-we publish to the `git` repository itself thanks to [npm-publish-git](https://github.com/andreineculau/npm-publish-git).
+we publish to the `git` repository itself thanks to [npm-publish-git](https://github.com/ysoftwareab/npm-publish-git).
 
 If that sounds weird to you, it is not. `npm` had support for
 git urls as dependencies](https://docs.npmjs.com/files/package.json#git-urls-as-dependencies)
@@ -56,7 +56,7 @@ although you are only interested in the artifact.
 And this is what `npm-publish-git` addresses.
 What you end up having in a `git` tag is an exact match of what would be available on a `npm` registry,
 so there are no `git` submodules to checkout, no devDependecies to install, no build process.
-Read more in the [`npm-publish-git` README](https://github.com/andreineculau/npm-publish-git/blob/master/README.md).
+Read more in the [`npm-publish-git` README](https://github.com/ysoftwareab/npm-publish-git/blob/master/README.md).
 
 An example flow for publishing [`minlog`](https://github.com/ysoftwareab/minlog)
 which in its [Makefile](https://github.com/ysoftwareab/minlog/blob/master/Makefile) is using
