@@ -1,21 +1,30 @@
 #!/usr/bin/env bash
 
-if [[ -n "${BASH_VERSION}" ]]; then
-    MYSELF=${BASH_SOURCE[0]}
-elif [[ -n "${ZSH_VERSION}" ]]; then
-    # shellcheck disable=SC2296
-    MYSELF=${(%):-%x}
-else
-    echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
-fi
+[[ -n "${GLOBAL_YP_DIR:-}" ]] || {
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        MYSELF=${BASH_SOURCE[0]}
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2296
+        MYSELF=${(%):-%x}
+    else
+        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+    fi
 
-# assume this is a symlink to yp-bin. it is intended to be used like that
-MYSELF=$(readlink "${MYSELF}")
-[[ "${MYSELF:0:1}" = "/" ]] || MYSELF=$(dirname ${MYSELF})/${MYSELF}
+    # assume this is a symlink to yp-bin. it is intended to be used like that
+    MYSELF_RESOLVED=$(readlink "${MYSELF}")
+    [[ "${MYSELF_RESOLVED}" =~ .+/bin/yp-bin ]] || {
+        >&2 echo "[INFO] ${MYSELF} points to ${MYSELF_RESOLVED}."
+        >&2 echo "[ERR ] Expected ${MYSELF} to symlink to bin/yp-bin instead."
+        exit 1
+    }
+    [[ "${MYSELF_RESOLVED:0:1}" = "/" ]] || MYSELF_RESOLVED=$(dirname ${MYSELF})/${MYSELF_RESOLVED}
+    MYSELF=${MYSELF_RESOLVED}
+    unset MYSELF_RESOLVED
 
-GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${MYSELF})/../..}"
+    GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${MYSELF})/..}"
+}
 
-if [[ -n "${ZSH_VERSION}" ]]; then
+if [[ -n "${ZSH_VERSION:-}" ]]; then
     autoload -U compaudit compinit bashcompinit
     bashcompinit || {
         echo >&2 "Initialization of zsh completion features has failed."
