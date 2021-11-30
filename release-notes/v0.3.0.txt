@@ -1,0 +1,218 @@
+yplatform v0.3.0 Release Notes
+
+Highlights since v0.2.160:
+
+* rokmoln becomes ysoftwareab
+* support-firecloud becomes yplatform
+* firecloud becomes y
+* consider all changes as breaking changes
+
+Breaking commits since v0.2.160:
+
+* bf371039 2021-11-30 breaking: rm JSON, move SEMVER closer to usage
+* 86ee3ed9 2021-11-29 breaking: rm generic (deprecated). use gitconfig
+* 4b78abad 2021-09-02 breaking: unless_exe_and_grep_q_then -> unless_exe_and_grep_q
+* 6e4dd59a 2021-09-02 breaking: *_install_one_if -> _:install_one_unless
+* c944e95d 2021-09-01 breaking: printenv shell functions
+* 5f8d80ff 2021-09-01 breaking: remove bin/random-string as it's not cross-platform, issues with broken pipe. improve random-hex, alternative to random-string
+* f9c96a5e 2021-08-31 breaking: naming. exe_debug -> debug_exe
+
+
+Commits since v0.2.160:
+
+* f9d904dc 2021-11-30 semver: use npx in case semver is not installed globally
+* bf371039 2021-11-30 breaking: rm JSON, move SEMVER closer to usage
+* 24752f8c 2021-11-30 style
+* 42fd968d 2021-11-29 fix yp-bin detection of GLOBAL_YP_DIR
+* 86ee3ed9 2021-11-29 breaking: rm generic (deprecated). use gitconfig
+* 1b435e4b 2021-11-29 fixup! rename firecloud.XXXXXXXXXX -> yplatform.XXXXXXXXXX
+* 23f1c8d4 2021-11-29 rename firecloud.XXXXXXXXXX -> yplatform.XXXXXXXXXX
+* 73af08ea 2021-11-28 fixup! wsl: handle missing --shutdown on windows server 2019
+* 2e5ddf43 2021-11-28 bin/ci-printvars: remove confusing short options
+* a2bcb1f9 2021-11-28 bin/ci-printvars: fails to detect ci platform. how did it work all this time?
+* bb39c841 2021-11-28 recommend 0-based versioning
+* fff0b4a6 2021-11-28 update npm-publish-git link
+* da065051 2021-11-28 gitconfig: emergency fix to disable blame.ignoreRevsFile
+* 68bc286f 2021-11-24 rename: rokmoln -> ysoftwareab
+* d826014a 2021-11-24 redundant to -f to LN, which resolves to 'ln -f'
+* c62c0217 2021-11-24 rename: sf -> yp
+* 15e8ec37 2021-11-24 rename: sf -> yp
+* e087516f 2021-11-24 rename: sf -> yp
+* ff253fff 2021-11-23 wsl: handle missing --shutdown on windows server 2019
+* 6ee7f80e 2021-11-24 fixup! use variables instead of static/env executables for consistency
+* c9335f95 2021-11-23 used GREP
+* c1f78a6c 2021-11-23 ARCH_NORMALIZED
+* 462ee081 2021-11-23 order
+* b84ee896 2021-11-23 correct arch for all 64 bit
+* b9f80ccb 2021-11-23 use variables instead of static/env executables for consistency
+* 7fb0818f 2021-11-23 js-yaml: pin to 3.14.1 or else quotes are introduced willy-nilly. weirdly only locally, not on CI
+* 46b93dcc 2021-11-23 enable HOMEBREW_VERBOSE_USING_DOTS
+* 415222c7 2021-11-23 default HOMEBREW_GITHUB_API_TOKEN to YP_GH_TOKEN
+* f4d33d8d 2021-11-23 enable HOMEBREW_DISPLAY_INSTALL_TIMES
+* cd15e6f1 2021-11-23 trust homebrew's install script to get brewed curl/git on demand. ref #243
+* 40fec0d8 2021-11-22 add make targets to check for case-sensitive files and broken symlinks. fix #246
+* b3d205a0 2021-11-22 docs: use ubuntu 20.04 on wsl
+* 3def6686 2021-11-22 switch cirrus to ubuntu 20.04
+*   478cfa86 2021-11-22 Merge pull request #248 from ysoftwareab/github-windows-2022
+|\
+| * cb711ee4 2021-10-29 add another reference to wsl config
+| * 2d733636 2021-10-29 make sure that wsl.conf changes are applied
+| * b36228f7 2021-10-29 github: test windows-2022
+* | bcf8d56b 2021-11-21 add bin/run-parts
+* | d71912de 2021-11-21 shellcheck fixes
+* | 1fdcddd2 2021-11-21 ssh: add gitlab and sourcehut. simplify setup by including only one file
+* | 4f9f8ff4 2021-11-21 Revert "generate an ssh key for every docker image"
+* | 59b3c40f 2021-11-21 arch: install openssh for ssh-keygen availability
+* | 0c4e6ffa 2021-11-20 allow long lines
+* | 498f166d 2021-11-20 handle submodules. .git can be just a reference, instead of a folder
+* | c5ad7c01 2021-11-20 fixup! generate an ssh key for every docker image
+* | 4df11524 2021-11-20 fix path lint
+* | 87233dff 2021-11-20 generate an ssh key for every docker image
+* | 6c42a321 2021-11-20 fixup! cleanup and fix ssh config order
+* | e9739d37 2021-11-20 cleanup and fix ssh config order
+* | 777b61fb 2021-11-20 fixup! add sshconfig README
+* | 7010cab3 2021-11-20 add sshconfig README
+* | 72fd49fc 2021-11-20 fixup! dot.ssh -> sshconfig
+* | c9e6c750 2021-11-20 dot.ssh -> sshconfig
+* | 16157107 2021-11-20 use ssh config when bootstrapping docker images
+* | 5d6914d3 2021-11-20 update known ssh keys for github. see https://github.blog/2021-09-01-improving-git-protocol-security-github/
+* | bf229782 2021-11-20 add ssh config
+* | 9a287e3b 2021-11-20 use ed25519 instead of rsa
+* | bb4f6eeb 2021-11-06 don't make assumptions about the path of the homebrew's repository
+* | c284ee0c 2021-11-06 wait for command line tools to be installed
+* | 568f8fc4 2021-11-06 ack new ci env vars on github
+* | a7dfb132 2021-11-05 use system's stat
+|/
+* 2f769c4b 2021-10-28 fixup! rename SF_ -> YP_
+* 37b7c6e3 2021-10-28 rename INSTALL_SUPPORT_FIRECLOUD -> INSTALL_YP
+* 8c1e9abb 2021-10-28 rename SUPPORT_FIRECLOUD_DIR -> YP_DIR
+* fd68851b 2021-10-28 rename SF_ -> YP_
+* f942f5de 2021-10-28 rename support-firecloud -> yplatform
+* c0765a98 2021-10-28 sourcehut.yml: fix path to github-checkout
+* c1c33148 2021-10-28 fixup! rename rokmoln/support-firecloud -> ysoftwareab/platform
+* 04d6f823 2021-10-28 rename rokmoln/support-firecloud -> ysoftwareab/platform
+* a4a21480 2021-10-27 brew: try to build nq from source on linux. no bottle available
+* 26286d7a 2021-10-26 Update Brewfile.lock
+* 9569c38a 2021-10-26 handle more undocumented semaphore-ci env vars
+* 242dff26 2021-10-26 fixup! fixup! fixup! handle docker-composer 2
+* 475de2e9 2021-10-25 fixup! fixup! handle docker-composer 2
+* 0ef5f830 2021-10-25 fixup! handle docker-composer 2
+* ed329075 2021-10-25 no need to patch awscli formula
+* c8f39a08 2021-10-25 verbose when patch fails
+* a6e8c6a5 2021-10-25 fixup! linuxbrew-core has been merged into homebrew-core
+* 6a2daa52 2021-10-25 handle zsh's type output
+* 273ff5a7 2021-10-25 alpine: latest homebrew require ruby's io/console
+* def836da 2021-10-25 handle docker-composer 2
+* cdee2f3e 2021-10-25 linuxbrew-core has been merged into homebrew-core
+* d0649aec 2021-10-25 refactor homebrew installation
+* 7219ae0d 2021-10-25 bump homebrew
+* e2fc2c3d 2021-10-24 acknowledge GITHUB_RUN_ATTEMPT and RUNNER_NAME on github
+* 04f3effc 2021-10-24 switch job-pipeline first. if undefined, needs omitted
+* 7108907e 2021-10-23 fix for latest node-env-ci
+* 6887008f 2021-10-05 style
+* 0384a4e9 2021-10-05 allow coreutils 9
+* ec8ffc72 2021-10-05 temp fixme disable custom-sf-pdf diff in gitconfig
+* e119def1 2021-09-06 typo
+* 8c376a1d 2021-09-06 sourcehut: fix ci env
+* de13c60c 2021-09-06 fail pipeline if steps failed
+* 35cecd83 2021-09-06 node-env-ci: fix switch statement
+* 15e7ed30 2021-09-06 fixup! fix pipeline.script.sh: errexit doesn't work for commands executed in a && or || list
+* 6bb71ea2 2021-09-06 sourcehut: missing SF_CI_BREW_INSTALL
+* 2e2f6cde 2021-09-06 missing echo_done
+* b86b5186 2021-09-06 less noise for git command not found
+* 378a3623 2021-09-06 fix pipeline.script.sh: errexit doesn't work for commands executed in a && or || list
+* 1956fe10 2021-09-06 whitespace
+* 698e6ac8 2021-09-06 fixup! ci: make sure strict bash is enabled
+* 1485cd60 2021-09-06 normalize temporarily setting nounset
+* 8b1a04a1 2021-09-06 add interesting shield badges
+* 22539f40 2021-09-06 node-env-ci: refactor
+* cec4054b 2021-09-06 editorial
+* 499608d9 2021-09-06 node-env-ci: fix SF_CI_PR_GIT_BRANCH for github
+* 845cdfe1 2021-09-06 ci: make sure strict bash is enabled
+* 7af968f1 2021-09-06 github: fix ci envs for prs
+* 183f6ae3 2021-09-06 sourcehut: SF_CI_REPO_SLUG. correct precedence
+* 7f86dde7 2021-09-06 sourcehut: use merge ref for prs (that's what github does)
+* d2c54788 2021-09-05 add SF_CI_PR_NUMBER
+* f3743b11 2021-09-05 github: fix json paths for GITHUB_EVENT_PATH
+* c6514873 2021-09-05 better detection of env var names
+* 4bd12412 2021-09-05 print all ci env vars when test-env-ci target fails, for debug purposes
+* b7050942 2021-09-05 improvements to test-env-ci target
+* 2e0f830c 2021-09-05 add GITHUB_EVENT_JSON
+* 1fec6f40 2021-09-05 sourcehut: GITHUB_REPO is undefined for prs
+* 9b844b35 2021-09-05 fixup! fixup! sourcehut: improvement to bin/github-checkout to allow 'refs/pull/x' as GITHUB_REF
+* 93496133 2021-09-05 fixup! sourcehut: improvement to bin/github-checkout to allow 'refs/pull/x' as GITHUB_REF
+* e41d45b4 2021-09-05 ignore generated deploy.yml from linting
+* 36dcc4d2 2021-09-05 style
+* f607d9cc 2021-09-05 updated .github/workflows/deploy.yml .github/workflows/main.yml
+* a66f2a65 2021-09-05 alternative to checking for protocol version 2 support in current git executable
+* 732d9748 2021-09-05 sourcehut: improvement to bin/github-checkout to allow 'refs/pull/x' as GITHUB_REF
+* e7435096 2021-09-05 sourcehut: better ci env vars
+* 136d04b1 2021-09-05 sourcehut: enable prs
+* 07d3ecc6 2021-09-05 sourcehut: fix ci detection
+* a11dcd0b 2021-09-05 semaphore: enable prs
+* b037f022 2021-09-05 cirrus: fix git clone for prs
+* e44e7077 2021-09-05 cirrus: enable prs
+* 9743faa9 2021-09-05 circleci: use ubuntu@20.04
+* 047940b2 2021-09-05 sourcehut: enable master branch
+* 5ce871c4 2021-09-05 appveyor: typo SF_CI_REPO_URL -> SF_CI_PR_URL
+* 2fe11f46 2021-09-05 circleci: enable prs
+* f956b555 2021-09-05 style
+* 69f99845 2021-09-05 sourcehut: add more sf_ci_* env vars. handle prs
+* a99f4083 2021-09-05 sourcehut: allow all github triggers, including pr
+* 8f46dcb0 2021-09-05 sourcehut: use ubuntu@20.04
+* 8e56aacb 2021-09-04 travis: add undocumented env vars
+* 78e9bf6a 2021-09-04 remove fix for github actions https://github.com/actions/virtual-environments/issues/3981
+* 2e6eb0bd 2021-09-04 unset
+* d66b3a95 2021-09-02 mark SF_CI_BREW_INSTALL for renaming
+* a2fcc588 2021-09-02 refactor ci env. fix #237
+* 917f288d 2021-09-02 fixup! use SF_CI_PLATFORM. fix #234
+* 06e1556c 2021-09-02 use SF_CI_PLATFORM. fix #234
+* 197077cc 2021-09-02 fixup! refactor bin/ci-printvars
+* 80e6e1f9 2021-09-02 allow undefined CI
+* 702456ff 2021-09-02 fixup! fixup! bootstrap: detect jq proxy
+* e2313990 2021-09-02 fixup! bootstrap: detect jq proxy
+* 4b78abad 2021-09-02 breaking: unless_exe_and_grep_q_then -> unless_exe_and_grep_q
+* 6e4dd59a 2021-09-02 breaking: *_install_one_if -> _:install_one_unless
+* e08091d2 2021-09-02 better error message when make is not installed
+* beca6787 2021-09-02 bootstrap: detect jq proxy
+* 7416254d 2021-09-01 fix test-env-ci
+* 359481aa 2021-09-01 style
+* f7f4909c 2021-09-01 bootstrap: printenv INFOPATH
+* da49611a 2021-09-01 bootstrap: use printenv_all
+* f0a3a82c 2021-09-01 test for unknown SF_CI_* vars
+* 361d9743 2021-09-01 test early for detected platform
+* 562eaf47 2021-09-01 -u is also allowed
+* 4000629f 2021-09-01 editorial
+* 4a38db69 2021-09-01 updated repo/dot.shellcheckrc
+* 3c09efb2 2021-09-01 fixup! fixup! wip: test known ci envs
+* 280991c7 2021-09-01 refactor bin/ci-printvars
+* 66b49502 2021-09-01 fixup! wip: test known ci envs
+* 4414dc09 2021-09-01 printenv_all learned to handle unset vars
+* 2fd78ddc 2021-09-01 typo
+* c944e95d 2021-09-01 breaking: printenv shell functions
+* 5f8d80ff 2021-09-01 breaking: remove bin/random-string as it's not cross-platform, issues with broken pipe. improve random-hex, alternative to random-string
+* f829dbbd 2021-09-01 better sigpipe/141 handling. fix #236
+* dc1b110b 2021-08-31 normalize calls to read
+* 22879735 2021-08-31 sf_nosudo: use prompt_q_to_continue
+* 35d5d539 2021-08-31 style
+* 70885bdc 2021-08-31 order
+* f9c96a5e 2021-08-31 breaking: naming. exe_debug -> debug_exe
+* 53487e47 2021-08-31 fallback platform should be static
+* 725aa0e9 2021-08-31 wip: test known ci envs
+* 67b81849 2021-08-31 use ubuntu 20.04 as default image for 'make docker-ci'
+* 5fc18cbf 2021-08-31 consolidate GIT_BRANCH ammendments in CI
+* 62cf5881 2021-08-31 typo
+* d80d4c83 2021-08-31 ci and debug-ci: reuse vars
+* 9d9b2c8b 2021-08-31 add GIT_REMOTE_OR_ORIGIN
+* 8d9da9bd 2021-08-31 BUILD_GIT_HASH: use full hash
+* 37cc7c9b 2021-08-31 add fallback CI env
+* fa29f686 2021-08-31 sf_os: unset vars
+* c54129f9 2021-08-31 ci_run_deploy: better check for expected tag
+* 0decfcce 2021-08-31 sync git.inc.sh with git.inc.mk
+* 3557ac31 2021-08-31 normalize getting git tag/s to 'git tag --points-at'
+* c868344b 2021-08-31 prefer [[ ]] instead of 'test'
+* 484e6f91 2021-08-31 order
+* e8087d4a 2021-08-31 rename CI_* -> SF_CI_*. fix #237
+* 98fbab7d 2021-08-31 CI_ECHO -> SF_CI_ECHO. see #237
+* 57386df1 2021-08-30 badge style for ciecleci
+o 87a2cad7 2021-08-30 0.2.160
