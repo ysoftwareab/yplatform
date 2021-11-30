@@ -25,8 +25,10 @@ VERSION_LEVELS := \
 VERSION_TARGETS += \
 	$(patsubst %,version/%,$(VERSION_LEVELS)) \
 
-SEMVER = $(call npm-which,SEMVER,semver)
-$(foreach VAR,SEMVER,$(call make-lazy,$(VAR)))
+# SEMVER = $(call npm-which,SEMVER,semver)
+# $(foreach VAR,SEMVER,$(call make-lazy,$(VAR)))
+# NOTE using npx in case semver is not global as per bootstrap/brew-install-node.inc.sh
+SEMVER ?= $(NPX) semver@7
 
 PKG_VSN_MAJOR = $(shell $(ECHO) "$(PKG_VSN)" | $(CUT) -d"." -f1)
 PKG_VSN_PUBLIC =
