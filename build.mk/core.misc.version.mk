@@ -25,6 +25,9 @@ VERSION_LEVELS := \
 VERSION_TARGETS += \
 	$(patsubst %,version/%,$(VERSION_LEVELS)) \
 
+SEMVER = $(call npm-which,SEMVER,semver)
+$(foreach VAR,SEMVER,$(call make-lazy,$(VAR)))
+
 PKG_VSN_MAJOR = $(shell $(ECHO) "$(PKG_VSN)" | $(CUT) -d"." -f1)
 PKG_VSN_PUBLIC =
 ifneq (0,$(PKG_VSN_MAJOR))

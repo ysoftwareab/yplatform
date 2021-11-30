@@ -10,9 +10,7 @@ $(foreach VAR,DIFF_SS,$(call make-lazy-once,$(VAR)))
 
 CURL = $(call which,CURL,curl) -qfsSL
 JQ = $(call which,JQ,jq)
-JSON = $(call which,JSON,json) -D " " # to allow / or . in a key
-SEMVER = $(call which,SEMVER,semver)
-$(foreach VAR,CURL JQ JSON SEMVER,$(call make-lazy,$(VAR)))
+$(foreach VAR,CURL JQ,$(call make-lazy,$(VAR)))
 
 GIT = $(call which,GIT,git)
 GIT_LS = $(GIT) ls-files
