@@ -83,9 +83,9 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
 echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
 GIT_DIR="$(git rev-parse --git-dir)"
 [[ "${GIT_DIR}" = ".git" ]] || {
-  echo_info ".git is now a $(stat --format=%F .git) and git dir points to ${GIT_DIR}."
-  echo_err ".git is required to be the git dir, a directory and not a soft link."
-  exit 1
+    echo_info ".git is now a $(stat --format=%F .git) and git dir points to ${GIT_DIR}."
+    echo_err ".git is required to be the git dir, a directory and not a soft link."
+    exit 1
 }
 exe docker build ${YP_DIR} \
     --file ${DOCKERFILE} \
