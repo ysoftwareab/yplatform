@@ -1,0 +1,16 @@
+yplatform v0.3.1 Release Notes
+
+Highlights since v0.3.0:
+
+* None
+
+Breaking commits since v0.3.0:
+
+* None
+
+Commits since v0.3.0:
+
+* 81ffd44a 2021-12-01 fixup! semver: use npx in case semver is not installed globally
+* e35e3359 2021-12-01 ci-echo: argument fix
+* cc36e97c 2021-12-01 verbose is-wsl
+o eb8c53b2 2021-11-30 0.3.0
