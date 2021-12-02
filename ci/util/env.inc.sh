@@ -15,7 +15,7 @@ for YP_CI_ENV_FUN in $(declare -F | grep --only-matching "\byp_ci_env_.*"); do
 done
 unset YP_CI_ENV_FUN
 
-[[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(yp_ci_known_env_sf | tr "\n" " ")"
+[[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(yp_ci_known_env_yp | tr "\n" " ")"
 
 # set git user
 if command -v git >/dev/null 2>&1; then
