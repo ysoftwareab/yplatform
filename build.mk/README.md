@@ -106,3 +106,9 @@ Addon pieces by type of repository:
   * [py.check.flake.mk](py.check.flake.mk)
 
 For a full list of available pieces [click here](./).
+
+
+# References
+
+* http://blog.jgc.org/2013/02/updated-list-of-my-gnu-make-articles.html
+* https://tech.davis-hansson.com/p/make/
