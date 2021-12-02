@@ -1,4 +1,4 @@
-include $(YP_DIR)/build.mk/mk/Makefile
+include $(YP_DIR)/mk/common.inc.mk
 include $(YP_DIR)/build.mk/core.clean.mk
 include $(YP_DIR)/build.mk/core.misc.transcrypt.mk
 include $(YP_DIR)/build.mk/core.misc.source-const-inc.mk

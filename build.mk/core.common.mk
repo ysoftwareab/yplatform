@@ -16,7 +16,7 @@ endif
 
 YP_CI_ECHO_BENCHMARK ?= /dev/null
 YP_CI_ECHO ?= $(YP_DIR)/bin/ci-echo --benchmark $(YP_CI_ECHO_BENCHMARK)
-include $(YP_DIR)/mk/Makefile
+include $(YP_DIR)/mk/common.inc.mk
 
 YP_COMMIT =
 YP_VSN = $(shell $(CAT) $(YP_DIR)/package.json | $(JQ) -r ".version")
