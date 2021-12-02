@@ -1,0 +1,17 @@
+yplatform v0.3.2 Release Notes
+
+Highlights since v0.3.1:
+
+* None
+
+Breaking commits since v0.3.1:
+
+* None
+
+Commits since v0.3.1:
+
+* 60caa207 2021-12-02 fix ln: failed to create symbolic link '/usr/local/bin/git': File exists
+* 73244308 2021-12-02 rename: sf -> yp
+* a2469080 2021-12-01 fixup! warn when .git is not a directory
+* 04e2a4ab 2021-12-01 warn when .git is not a directory
+o f8f5088d 2021-12-01 0.3.1
