@@ -44,7 +44,7 @@ The pieces **MUST** be included in this order:
 * variables
 * targets
 
-The high-level colletions of pieces are as follows:
+The high-level collections of pieces are as follows:
 
 * [core.common.mk](core.common.mk) - for bare minimum repositories
   * [core.vendor.mk](core.vendor.mk)
