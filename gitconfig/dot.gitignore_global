@@ -55,7 +55,7 @@ Makefile.lazy
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Backup.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Backup.gitignore
 
 *.bak
 *.gho
@@ -63,11 +63,11 @@ Makefile.lazy
 *.orig
 *.tmp
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Backup.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Backup.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Linux.gitignore
 
 *~
 
@@ -83,20 +83,20 @@ Makefile.lazy
 # .nfs files are created when an open file is removed but is still being accessed
 .nfs*
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Linux.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Linux.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Patch.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Patch.gitignore
 
 *.orig
 *.rej
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Patch.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Patch.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Vim.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Vim.gitignore
 
 # Swap
 [._]*.s[a-v][a-z]
@@ -118,27 +118,30 @@ tags
 # Persistent undo
 [._]*.un~
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Vim.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Vim.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/VisualStudioCode.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/VisualStudioCode.gitignore
 
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-*.code-workspace
+!.vscode/*.code-snippets
 
 # Local History for Visual Studio Code
 .history/
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/VisualStudioCode.gitignore
+# Built Visual Studio Code Extensions
+*.vsix
+
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/VisualStudioCode.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/Windows.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Windows.gitignore
 
 # Windows thumbnail cache files
 Thumbs.db
@@ -165,11 +168,11 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/Windows.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/Windows.gitignore
 
 ################################################################################
 
-# BEGIN https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
+# BEGIN https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/macOS.gitignore
 
 # General
 .DS_Store
@@ -198,4 +201,4 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
-# END https://raw.githubusercontent.com/github/gitignore/master/Global/macOS.gitignore
+# END https://raw.githubusercontent.com/github/gitignore/96d68766538413194aabd55e3622734cd501e715/Global/macOS.gitignore
