@@ -45,6 +45,11 @@ e.g. `false | echo 123` will fail in strict mode, but actually succeed otherwise
 even though `false` returns a exit code 1.
 
 
+## Idempotent commands
+
+(Strive for resilient shell scripts by writing idempotent commands.)[https://arslan.io/2019/07/03/how-to-write-idempotent-bash-scripts/]
+
+
 ## `if` statements
 
 Due to `set -e`, it becomes natural to write `do_this || do_that`.
