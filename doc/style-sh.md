@@ -1,6 +1,5 @@
 # Style for shell scripts
 
-
 We follow [Google's Shell Style Guide](https://google.github.io/styleguide/shellguide.html),
 with a few exceptions:
 
@@ -15,6 +14,26 @@ Other notable mentions:
 
 * we haven't used constants, via `readonly` or `declare -r`, but it would be ok to
 * we haven't used the concept of a `main` function, but it would be a nice addition
+
+
+## Include `yplatform`
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../path/to/yplatform" && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+```
+
+This will mean that
+
+* a bunch of sane defaults will be set and utility functions will become available.
+  * See [sh](../sh)
+* a bunch of exe/os/git variables will become available.
+  * See [sh/exe.inc.sh](../sh/exe.inc.sh)
+  * See [sh/os.inc.sh](../sh/os.inc.sh)
+  * See [sh/git.inc.sh](../sh/git.inc.sh)
 
 
 ## BASH
