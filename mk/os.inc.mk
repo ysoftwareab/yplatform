@@ -2,8 +2,8 @@ ARCH = $(shell $(UNAME) -m)
 # https://github.com/containerd/containerd/blob/f2c3122e9c6470c052318497899b290a5afc74a5/platforms/platforms.go#L88-L94
 # https://github.com/BretFisher/multi-platform-docker-build
 ARCH_NORMALIZED = $(shell $(ECHO) $(ARCH) | $(SED) \
-	-e "s|^aarch64$$|amd64|" \
-	-e "s|^arm64/v8$$|amd64|" \
+	-e "s|^aarch64$$|arm64|" \
+	-e "s|^arm64/v8$$|arm64|" \
 	-e "s|^armhf$$|arm|" \
 	-e "s|^arm64/v7$$|arm|" \
 	-e "s|^armel$$|arm/v6|" \
