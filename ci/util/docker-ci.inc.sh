@@ -31,6 +31,7 @@ function yp_run_docker_ci_image() {
 
     echo_do "Running the ${CONTAINER_NAME} container, proxying relevant env vars and mounting ${MOUNT_DIR} folder..."
     exe docker run -d -it --rm \
+        --platform linux/amd64 \
         --privileged \
         --name ${CONTAINER_NAME} \
         --hostname ${CONTAINER_NAME} \
