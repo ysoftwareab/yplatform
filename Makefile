@@ -211,7 +211,13 @@ bootstrap/brew-util/homebrew-install.sh:
 		$(ECHO_INFO) "No tty."; \
 		$(ECHO_SKIP) "$(EDITOR) $@"; \
 	fi
-	$(DIFF) -u --label $@.original --label $@ $@.original $@ > $@.patch || true
+	$(MAKE) $@.patch
+
+
+PHONY: bootstrap/brew-util/homebrew-install.sh.patch
+bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-install.sh.original
+bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-install.sh
+	$(DIFF) -u --label $< --label $(word 2,$^) $< $(word 2,$^) > $@ || true
 
 
 .PHONY: Formula/patch-src/%.original.rb
