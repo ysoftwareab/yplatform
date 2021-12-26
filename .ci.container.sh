@@ -5,85 +5,20 @@ set -euo pipefail
 YP_DOCKER_CI_IMAGE=false
 DOCKER_ORG=${DOCKER_ORG:-ysoftwareab}
 
-# publish to hub.docker.com if given
+# publish to docker.io (aka hub.docker.com) if given
 # DOCKER_USERNAME/DOCKER_TOKEN
 
-# publish to docker.pkg.github.com if given
+# publish to ghcr.io (aka docker.pkg.github.com) if given
 # GH_USERNAME/GH_TOKEN
 
 function ci_run_before_deploy() {
     true
 }
 
-function ci_run_deploy_docker_image_hubdockercom() {
-    [[ -n "${DOCKER_USERNAME:-}" ]] || return 0
-    [[ -n "${DOCKER_TOKEN:-}" ]] || return 0
-
-    echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
-
-    local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
-    echo_do "Pushing ${TAG} to hub.docker.com..."
-    exe docker push ${TAG}
-    echo_done
-
-    # TODO deprecated image name that uses codename
-    local DOCKER_IMAGE_NAME_CODENAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
-    [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
-        local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
-        echo_do "Pushing ${TAG} to hub.docker.com..."
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        exe docker push ${TAG}
-        echo_done
-    }
-
-    local PUBLISH_AS_LATEST_TAG=$1
-    if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        local TAG=${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest
-        echo_do "Pushing ${TAG} to hub.docker.com..."
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        exe docker push ${TAG}
-        echo_done
-    fi
-}
-
-function ci_run_deploy_docker_image_dockerpkggithubcom() {
-    [[ -n "${GH_USERNAME:-}" ]] || return 0
-    [[ -n "${GH_TOKEN:-}" ]] || return 0
-
-    local GH_DOCKER_HUB=docker.pkg.github.com
-
-    echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ${GH_DOCKER_HUB}
-
-    local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}
-    echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
-    exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-    exe docker push ${TAG}
-    echo_done
-
-    # TODO deprecated image name that uses codename
-    local DOCKER_IMAGE_NAME_CODENAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_CODENAME:-${DOCKER_OS_RELEASE_VERSION_ID}}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
-    [[ "${DOCKER_IMAGE_NAME_CODENAME}" = "${DOCKER_IMAGE_NAME}" ]] || {
-        local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME_CODENAME}:${DOCKER_IMAGE_TAG}
-        echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        exe docker push ${TAG}
-        echo_done
-    }
-
-    local PUBLISH_AS_LATEST_TAG=$1
-    if [[ "${PUBLISH_AS_LATEST_TAG}" = "true" ]]; then
-        local TAG=${GH_DOCKER_HUB}/${YP_CI_REPO_SLUG}/${DOCKER_IMAGE_NAME}:latest
-        echo_do "Pushing ${TAG} to ${GH_DOCKER_HUB}..."
-        exe docker tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} ${TAG}
-        exe docker push ${TAG}
-        echo_done
-    fi
-}
-
 function ci_run_deploy_docker_image() {
     # NOTE jq must be preinstalled
 
-    DOCKER_IMAGE_FROM=
+    ARG_FROM=
 
     # shellcheck disable=SC1091
     local DOCKER_OS_RELEASE_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
@@ -93,12 +28,12 @@ function ci_run_deploy_docker_image() {
     local DOCKER_IMAGE_NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
 
-    if [[ -f ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG ]]; then
-        FROM_DOCKER_IMAGE_TAG=$(cat ${YP_DIR}/dockerfiles/build.FROM_DOCKER_IMAGE_TAG)
-        DOCKER_IMAGE_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL}:${FROM_DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+    if [[ -f ${YP_DIR}/dockerfiles/build.FROM_TAG ]]; then
+        ARG_FROM_TAG=$(cat ${YP_DIR}/dockerfiles/build.FROM_TAG)
+        ARG_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL}:${ARG_FROM_TAG} # editorconfig-checker-disable-line
     else
         [[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || [[ "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}" != "common" ]] || {
-            DOCKER_IMAGE_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
+            ARG_FROM=${DOCKER_ORG}/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-minimal:${DOCKER_IMAGE_TAG} # editorconfig-checker-disable-line
         }
     fi
 
@@ -108,31 +43,40 @@ function ci_run_deploy_docker_image() {
             while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; date +%s -d "${NO_XARGS_R}"; done || \
             echo 0)
 
-    ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
-        --docker-image-from "${DOCKER_IMAGE_FROM}" \
-        --docker-image-name "${DOCKER_IMAGE_NAME}" \
-        --docker-image-tag "${DOCKER_IMAGE_TAG}" \
-        --yp-ci-brew-install "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}"
+    local TAGS=()
+    TAGS+=("${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
 
-    [[ "${YP_DEPLOY_DRYRUN:-}" != "true" ]] || {
-        echo_info "YP_DEPLOY_DRYRUN=${YP_DEPLOY_DRYRUN}"
-        echo_skip "Pushing to docker registries..."
-        return 0
-    }
-
-    # don't push as 'latest' tag if the tag has been updated after the current commit
-    local PUBLISH_AS_LATEST_TAG=false
-    if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
-        PUBLISH_AS_LATEST_TAG=true
-    fi
-
-    ci_run_deploy_docker_image_hubdockercom ${PUBLISH_AS_LATEST_TAG}
-
-    # DONT USE docker.pkg.github.com
+    # DONT USE ghcr.io aka docker.pkg.github.com
     # 1. it requires credentials even for downloading *public* packages
     # 2. *public* packages cannot be deleted, neither entirely, nor specific versions
     # https://help.github.com/en/github/managing-packages-with-github-packages/deleting-a-package
-    # ci_run_deploy_docker_image_dockerpkggithubcom ${PUBLISH_AS_LATEST_TAG}
+    # TAGS+=("ghcr.io/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+
+    # don't push as 'latest' tag if the tag has been updated after the current commit
+    if [[ $(git show -s --format=%ct HEAD) -ge ${TIMESTAMP_LATEST} ]]; then
+        TAGS+=("${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest")
+        # see above
+        # TAGS+=("ghcr.io/${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:latest")
+    fi
+
+    [[ -z "${DOCKER_USERNAME:-}" ]] || [[ -z "${DOCKER_TOKEN:-}" ]] || {
+        [[ -n "${YP_DEPLOY_DRYRUN}" ]] || YP_DEPLOY_DRYRUN=false
+        echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
+    }
+    # see above
+    # [[ -z "${GH_USERNAME:-}" ]] || [[ -z "${GH_TOKEN:-}" ]] || {
+    #     [[ -n "${YP_DEPLOY_DRYRUN}" ]] || YP_DEPLOY_DRYRUN=false
+    #     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ghcr.io
+    # }
+
+    ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
+        --platforms linux/amd64 \
+        --name "${DOCKER_IMAGE_NAME}" \
+        --tags $(IFS=,; echo "${TAGS[*]}") \
+        $([[ -z "${ARG_FROM}" ]] || echo "--from" "${ARG_FROM}") \
+        --yp-ci-brew-install "${GITHUB_MATRIX_YP_CI_BREW_INSTALL}" \
+        $([[ "${YP_DEPLOY_DRYRUN:-}" = "true" ]] || echo "--push")
+
 }
 
 function ci_run_deploy() {

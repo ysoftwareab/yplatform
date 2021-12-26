@@ -7,30 +7,42 @@ source ${YP_DIR}/sh/common.inc.sh
 DOCKER_OS_RELEASE_ID=
 DOCKER_OS_RELEASE_VERSION_ID=
 
-DOCKER_ORG=ysoftwareab
-DOCKER_IMAGE_FROM=
-DOCKER_IMAGE_NAME=
-DOCKER_IMAGE_TAG=$(cat ${YP_DIR}/package.json | jq -r ".version")-local
 DOCKERFILE=
-
-YP_CI_BREW_INSTALL=minimal
+PLATFORMS=
+NAME=
+TAGS=
+PUSH=
+ARG_FROM=
+ARG_YP_CI_BREW_INSTALL=minimal
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
-        --docker-image-from)
-            DOCKER_IMAGE_FROM=$2
+        --dockerfile)
+            DOCKERFILE=$2
             shift 2
             ;;
-        --docker-image-name)
-            DOCKER_IMAGE_NAME=$2
+        --platforms)
+            PLATFORMS=$2
             shift 2
             ;;
-        --docker-image-tag)
-            DOCKER_IMAGE_TAG=$2
+        --name)
+            NAME=$2
+            shift 2
+            ;;
+        --tags)
+            TAGS=$2
+            shift 2
+            ;;
+        --push)
+            PUSH=true
+            shift
+            ;;
+        --from)
+            ARG_FROM=$2
             shift 2
             ;;
         --yp-ci-brew-install)
-            YP_CI_BREW_INSTALL=$2
+            ARG_YP_CI_BREW_INSTALL=$2
             shift 2
             ;;
         -h|--help)
@@ -63,13 +75,13 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
     exit 1
 }
 
-[[ -n "${DOCKER_IMAGE_FROM}" ]] || {
+[[ -n "${ARG_FROM}" ]] || {
     case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
         arch-0)
-            DOCKER_IMAGE_FROM=archlinux:latest
+            ARG_FROM=archlinux:latest
             ;;
         *)
-            DOCKER_IMAGE_FROM=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
+            ARG_FROM=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
             ;;
     esac
 }
@@ -77,22 +89,43 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
 [[ -n "${DOCKERFILE}" ]] || \
     DOCKERFILE=$(readlink -f ${OS_RELEASE_DIR}/Dockerfile)
 
-[[ -n "${DOCKER_IMAGE_NAME}" ]] || \
-    DOCKER_IMAGE_NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}
+[[ -n "${NAME}" ]] || {
+    NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${ARG_YP_CI_BREW_INSTALL}
+}
 
-echo_do "Building ${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}..."
+[[ -n "${TAGS}" ]] || {
+    [[ "${PUSH}" != "true" ]] || {
+        echo_err "--docker-image-tags is required when --docker-image-push."
+        exit 1
+    }
+    TAGS=ysoftwareab/${NAME}:$(cat ${YP_DIR}/package.json | jq -r ".version")-local
+}
+
+echo_do "Building ${TAGS//,/ }..."
+
 GIT_DIR="$(git rev-parse --git-dir)"
 [[ "${GIT_DIR}" = ".git" ]] || [[ "${GIT_DIR}" = "${GIT_ROOT}/.git" ]] || {
     echo_info "${GIT_ROOT}/.git is now a $(stat --format=%F ${GIT_ROOT}/.git) and git dir points to ${GIT_DIR}."
     echo_err "${GIT_ROOT}/.git is required to be the git dir, a directory and not a soft link."
     exit 1
 }
-exe docker build ${YP_DIR} \
+
+BUILDX_PLATFORM_ARG=
+[[ -z "${PLATFORMS}" ]] || BUILDX_PLATFORM_ARG="--platform ${PLATFORMS}"
+BUILDX_PUSH_ARG=
+[[ "${PUSH}" != "true" ]] || BUILDX_PUSH_ARG="--push"
+BUILDX_TAG_ARG=
+for TAG in ${TAGS//,/ }; do
+    BUILDX_TAG_ARG+=" --tag ${TAG}"
+done
+exe docker buildx build ${YP_DIR} \
+    ${BUILDX_PLATFORM_ARG} \
+    ${BUILDX_PUSH_ARG} \
+    ${BUILDX_TAG_ARG} \
     --file ${DOCKERFILE} \
-    --tag ${DOCKER_ORG}/${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG} \
-    --build-arg YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL} \
-    --build-arg YP_DOCKER_CI_FROM=${DOCKER_IMAGE_FROM} \
-    --build-arg YP_DOCKER_CI_IMAGE_NAME=${DOCKER_IMAGE_NAME} \
-    --build-arg YP_DOCKER_CI_IMAGE_TAG=${DOCKER_IMAGE_TAG} \
+    --build-arg YP_CI_BREW_INSTALL=${ARG_YP_CI_BREW_INSTALL} \
+    --build-arg YP_DOCKER_CI_FROM=${ARG_FROM} \
+    --build-arg YP_DOCKER_CI_IMAGE_NAME=${NAME} \
+    --build-arg YP_DOCKER_CI_IMAGE_TAG=${TAG} \
     --build-arg YP_OS_RELEASE_DIR=${OS_RELEASE_DIR#"${YP_DIR}"/}
 echo_done
