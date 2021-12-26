@@ -129,7 +129,6 @@ dockerBuildxSteps.push({
   }
 });
 
-
 let artifactsStep = {
   name: 'Upload Artifacts',
   uses: 'actions/upload-artifact@v2',
