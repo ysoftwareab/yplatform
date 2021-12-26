@@ -4,6 +4,7 @@ let _ = require('lodash-firecloud');
 
 let {
   artifactsStep,
+  cacheHomebrewLinuxSteps,
   checkoutStep,
   ciShStepsDeploy,
   dockerBuildxSteps,
@@ -55,6 +56,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     steps: [
       checkoutStep,
       ...dockerBuildxSteps,
+      ...cacheHomebrewLinuxSteps,
       ...ciShStepsDeploy,
       _.merge({}, artifactsStep, {
         with: {

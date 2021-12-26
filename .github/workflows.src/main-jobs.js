@@ -5,6 +5,7 @@ let _ = require('lodash-firecloud');
 let {
   WSLENV,
   artifactsStep,
+  cacheHomebrewLinuxSteps,
   checkoutStep,
   ciShSteps,
   env: commonEnv,
@@ -105,6 +106,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     },
     steps: [
       checkoutStep,
+      ...cacheHomebrewLinuxSteps,
       ...ciShSteps,
       _.merge({}, artifactsStep, {
         with: {

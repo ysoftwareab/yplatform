@@ -51,6 +51,45 @@ let artifactsStep = {
 
 // -----------------------------------------------------------------------------
 
+let cacheHomebrewLinuxSteps = [];
+
+cacheHomebrewLinuxSteps.push({
+  if: "${{ runner.os == 'Linux' }}",
+  name: 'Cache Homebrew on Linux (keys)',
+  id: 'cache-homebrew-on-linux-keys',
+  shell: 'bash',
+  run: _.join([
+    'set -x',
+    'echo "::set-output name=date::$(/bin/date -u "+%Y%m")"',
+    'echo "::set-output name=unamea::$(uname -a | tr "[:upper:]" "[:lower:]" | sed "s/[^a-z0-9]\\{1,\\}/_/g")"'
+  ], '\n')
+});
+
+cacheHomebrewLinuxSteps.push({
+  if: "${{ runner.os == 'Linux' }}",
+  name: 'Cache Homebrew on Linux',
+  uses: 'actions/cache@v2',
+  with: {
+    path: _.join([
+      '/home/linuxbrew/.linuxbrew', // with sudo
+      '/home/yp/.linuxbrew', // without sudo
+      '/home/yp/.cache-docker-buildx' // docker buildx cache
+    ], '\n'),
+    key: _.join([
+      'homebrew',
+      '${{ steps.cache-homebrew-on-linux-keys.outputs.date }}',
+      '${{ matrix.os }}',
+      '${{ matrix.container }}',
+      '${{ matrix.yp_ci_brew_install }}',
+      '${{ steps.cache-homebrew-on-linux-keys.outputs.unamea }}',
+      "${{ hashFiles('Brewfile.lock') }}",
+      "${{ hashFiles('dockerfiles/*/os-release') }}"
+    ], '-')
+  }
+});
+
+// -----------------------------------------------------------------------------
+
 let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
 
 let checkoutStep = {
@@ -225,6 +264,7 @@ wslSteps.push({
 module.exports = {
   WSLENV,
   artifactsStep,
+  cacheHomebrewLinuxSteps,
   checkoutStep,
   ciShSteps,
   ciShStepsDeploy,
