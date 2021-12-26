@@ -7,22 +7,25 @@ source ${YP_DIR}/sh/common.inc.sh
 VSN=1.6
 JQ_URL=https://github.com/stedolan/jq/releases/download
 
-case ${OS_SHORT} in
-    linux)
-        BINARY=jq-linux${ARCH_BIT}
-        BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
-        BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
+    darwin-amd64|darwin-arm64)
+        # local arm64; not available in a github release
+        BINARY=jq-osx-${ARCH_NORMALIZED}
         ;;
-    darwin)
-        BINARY=jq-osx-amd64
-        BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
-        BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
+    linux-386|linux-amd64)
+        BINARY=jq-${OS_SHORT}${ARCH_BIT}
+        ;;
+    linux-arm64)
+        # local arm64; not available in a github release
+        BINARY=jq-${OS_SHORT}-${ARCH_NORMALIZED}
         ;;
     *)
-        echo_err "jq: ${OS_SHORT} is an unsupported OS."
+        echo_err "jq: ${OS_SHORT} is an unsupported OS-ARCH."
         exit 1
         ;;
 esac
+BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
+BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
 
 mkdir -p $(dirname ${BINARY_LOCAL})
 
