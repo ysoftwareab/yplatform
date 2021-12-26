@@ -87,7 +87,6 @@ YP_CHECK_TPL_FILES += \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
 	.github/workflows/deploy.yml \
-	Formula/editorconfig-checker.rb \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))

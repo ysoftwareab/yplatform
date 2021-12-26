@@ -4,11 +4,9 @@ set -euo pipefail
 echo_do "brew: Installing core packages..."
 
 # download binaries
+${YP_DIR}/bin/editorconfig-checker -h >/dev/null
 ${YP_DIR}/bin/gitleaks -h >/dev/null
 ${YP_DIR}/bin/jq -h >/dev/null
-
-brew_install_one_unless ${YP_DIR}/Formula/editorconfig-checker.rb \
-    "editorconfig-checker --version | head -1" "^2\."
 
 brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."

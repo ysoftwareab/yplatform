@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+VSN=2.4.0
+ECCHECKER_URL=https://github.com/editorconfig-checker/editorconfig-checker/releases/download
+
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
+    darwin-amd64|darwin-arm64)
+        BINARY=ec-${OS_SHORT}-${ARCH_NORMALIZED}
+        ;;
+    linux-386|linux-amd64|linux-arm64)
+        BINARY=ec-${OS_SHORT}-${ARCH_NORMALIZED}
+        ;;
+    *)
+        echo_err "editorconfig-checker: ${OS_SHORT} is an unsupported OS-ARCH."
+        exit 1
+        ;;
+esac
+BINARY_LOCAL=${YP_DIR}/bin/editorconfig-checker-${VSN}/bin/${BINARY}
+BINARY_REMOTE=${ECCHECKER_URL}/${VSN}/${BINARY}
+
+mkdir -p $(dirname ${BINARY_LOCAL})
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    echo_info "Fetching ${BINARY_REMOTE}.tar.gz..."
+    curl -qfsSL \
+         -o ${BINARY_LOCAL}.tar.gz \
+         ${BINARY_REMOTE}.tar.gz
+    (
+        cd $(dirname ${BINARY_LOCAL})
+        tar -zxf ${BINARY_LOCAL}.tar.gz bin/${BINARY}
+    )
+}
+
+echo_info "Proxying to 'editorconfig-checker' as ${BINARY_LOCAL}."
+${BINARY_LOCAL} "$@"
