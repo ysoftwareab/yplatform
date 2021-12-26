@@ -223,6 +223,7 @@ wslSteps.push({
 });
 
 module.exports = {
+  WSLENV,
   artifactsStep,
   checkoutStep,
   ciShSteps,
