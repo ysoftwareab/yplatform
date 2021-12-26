@@ -1,35 +1,35 @@
 # WARNING: DO NOT EDIT. AUTO-GENERATED CODE (Formula/editorconfig-checker.rb.tpl)
 
 class EditorconfigChecker < Formula
-  version "2.3.3"
+  version "2.4.0"
   bottle :unneeded
 
   on_macos do
     if Hardware::CPU.is_64_bit?
-      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-darwin-amd64.tar.gz"
-      sha256 "3057c66e3da4efe4d02e99ea685a3af0e9da16ee59c49f84511ffea3243d03f4"
+      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-darwin-amd64.tar.gz"
+      sha256 "28fafcba28df8249e3f07edc22af2337258973bce29f872a2f6eab48335206fe"
     else
-      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-darwin-386.tar.gz"
-      sha256 "885899b336a159922b5008dbfc656143e1006a609535f8b7702f9e0f823e0f45"
+      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-darwin-386.tar.gz"
+      sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     end
   end
 
   on_linux do
     if Hardware::CPU.intel?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-linux-amd64.tar.gz"
-        sha256 "a9aade95018ee9c5c43e381d5ab1f69ba1ebd839b33c23afcf4d6bc86736a89a"
+        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-linux-amd64.tar.gz"
+        sha256 "91796ba6ae1d7c12c1dc92c081e41adc66a073839f2131c540d74b7bcc546b1d"
       else
-        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-linux-386.tar.gz"
-        sha256 "ca66f38244d7f8732df612fba47205826690b37d2fd39ac58550c8818bac546d"
+        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-linux-386.tar.gz"
+        sha256 "d9246e71d7b56bb517540b7037b9eb5b547013ded3e0f281a144851e87dc888b"
       end
     elsif Hardware::CPU.arm?
       if Hardware::CPU.is_64_bit?
-        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-linux-arm64.tar.gz"
-        sha256 "8d20401796fa0ea4d7479af6f56f033e52ceeb6208387b2046536e7cccc2ea3a"
+        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-linux-arm64.tar.gz"
+        sha256 "7bb169c55ddaff45a4429266c80d3ba5d3e3dace733195bdb7066646a864ae0b"
       else
-        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.3.3/ec-linux-arm.tar.gz"
-        sha256 "c990a1ed55339aef69832d5bffd49b16f85be7e8fe64564c092209e3f02b8f85"
+        url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-linux-arm.tar.gz"
+        sha256 "1dd390e4e8f843418e00be4154a5a01e835623d737e9227c649f1cfedb8fd6b7"
       end
     end
   end

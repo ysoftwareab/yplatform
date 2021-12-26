@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-VSN=2.3.3
+VSN=2.4.0
 
 SRC_FILE=Formula/editorconfig-checker.rb.tpl
 
