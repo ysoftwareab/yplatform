@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+VSN=8.2.4
+GITLEAKS_URL=https://github.com/zricethezav/gitleaks/releases/download
+
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
+    darwin-amd64|darwin-arm64)
+        BINARY=gitleaks_${VSN}_${OS_SHORT}_${ARCH_NORMALIZED}
+        ;;
+    linux-386|linux-amd64)
+        BINARY=gitleaks_${VSN}_${OS_SHORT}_x${ARCH_BIT}
+        ;;
+    linux-arm64)
+        BINARY=gitleaks_${VSN}_${OS_SHORT}_${ARCH_NORMALIZED}
+        ;;
+    *)
+        echo_err "gitleaks: ${OS_SHORT}-${ARCH_NORMALIZED} is an unsupported OS-ARCH."
+        exit 1
+        ;;
+esac
+BINARY_LOCAL=${YP_DIR}/bin/gitleaks-${VSN}/gitleaks
+BINARY_REMOTE=${GITLEAKS_URL}/v${VSN}/${BINARY}
+
+mkdir -p $(dirname ${BINARY_LOCAL})
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    echo_info "Fetching ${BINARY_REMOTE}.tar.gz..."
+    curl -qfsSL \
+         -o ${BINARY_LOCAL}.tar.gz \
+         ${BINARY_REMOTE}.tar.gz
+    (
+        cd $(dirname ${BINARY_LOCAL})
+        tar -zxf ${BINARY_LOCAL}.tar.gz gitleaks
+    )
+}
+
+echo_info "Proxying to 'gitleaks' as ${BINARY_LOCAL}."
+${BINARY_LOCAL} "$@"

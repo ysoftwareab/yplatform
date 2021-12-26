@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# NOTE since this folder is meant to be appended to $PATH as
+# PATH=${PATH}:path/to/yplatform/bin/.gitleaks
+# calling 'gitleaks' might call the system executable 'gitleaks'.
+# This scripts assumes that there's no system executable 'yp-gitleaks',
+# so it will always call our 'bin/gitleaks' script.
+
+# can't symlink to ../gitleaks or else YP_DIR detection in ../gitleaks fails
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+${YP_DIR}/bin/gitleaks "$@"

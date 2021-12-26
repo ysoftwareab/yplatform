@@ -1,6 +1,7 @@
 /BUILD
 /Formula/patch-lib/
 /VERSION
+/bin/gitleaks-*
 /bin/jq-*
 /codeship.aes
 /gitconfig/github-global-gitignore/
