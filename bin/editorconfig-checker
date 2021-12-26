@@ -19,19 +19,22 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
         exit 1
         ;;
 esac
-BINARY_LOCAL=${YP_DIR}/bin/editorconfig-checker-${VSN}/bin/${BINARY}
-BINARY_REMOTE=${ECCHECKER_URL}/${VSN}/${BINARY}
+ASSET_LOCAL=${YP_DIR}/bin/editorconfig-checker-${VSN}/${BINARY}.tar.gz
+ASSET_REMOTE=${ECCHECKER_URL}/${VSN}/${BINARY}.tar.gz
 
-mkdir -p $(dirname ${BINARY_LOCAL})
+BINARY_LOCAL_REL=bin/${BINARY}
+BINARY_LOCAL=$(dirname ${ASSET_LOCAL})/${BINARY_LOCAL_REL}
 
-[[ -f ${BINARY_LOCAL} ]] || {
-    echo_info "Fetching ${BINARY_REMOTE}.tar.gz..."
+mkdir -p $(dirname ${ASSET_LOCAL})
+
+[[ -f ${ASSET_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
     curl -qfsSL \
-         -o ${BINARY_LOCAL}.tar.gz \
-         ${BINARY_REMOTE}.tar.gz
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
     (
-        cd $(dirname ${BINARY_LOCAL})
-        tar -zxf ${BINARY_LOCAL}.tar.gz bin/${BINARY}
+        cd $(dirname ${ASSET_LOCAL})
+        tar -zxf ${ASSET_LOCAL} ${BINARY_LOCAL_REL}
     )
 }
 

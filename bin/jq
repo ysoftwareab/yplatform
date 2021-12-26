@@ -24,16 +24,18 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
         exit 1
         ;;
 esac
-BINARY_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
-BINARY_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
+ASSET_LOCAL=${YP_DIR}/bin/jq-${VSN}/${BINARY}
+ASSET_REMOTE=${JQ_URL}/jq-${VSN}/${BINARY}
 
-mkdir -p $(dirname ${BINARY_LOCAL})
+BINARY_LOCAL=${ASSET_LOCAL}
 
-[[ -f ${BINARY_LOCAL} ]] || {
-    echo_info "Fetching ${BINARY_REMOTE}..."
+mkdir -p $(dirname ${ASSET_LOCAL})
+
+[[ -f ${ASSET_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
     curl -qfsSL \
-         -o ${BINARY_LOCAL} \
-         ${BINARY_REMOTE}
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
     chmod +x ${BINARY_LOCAL}
 }
 

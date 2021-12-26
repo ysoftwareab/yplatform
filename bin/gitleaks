@@ -22,19 +22,22 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
         exit 1
         ;;
 esac
-BINARY_LOCAL=${YP_DIR}/bin/gitleaks-${VSN}/gitleaks
-BINARY_REMOTE=${GITLEAKS_URL}/v${VSN}/${BINARY}
+ASSET_LOCAL=${YP_DIR}/bin/gitleaks-${VSN}/${BINARY}.tar.gz
+ASSET_REMOTE=${GITLEAKS_URL}/v${VSN}/${BINARY}.tar.gz
 
-mkdir -p $(dirname ${BINARY_LOCAL})
+BINARY_LOCAL_REL=gitleaks
+BINARY_LOCAL=$(dirname ${ASSET_LOCAL})/${BINARY_LOCAL_REL}
 
-[[ -f ${BINARY_LOCAL} ]] || {
-    echo_info "Fetching ${BINARY_REMOTE}.tar.gz..."
+mkdir -p $(dirname ${ASSET_LOCAL})
+
+[[ -f ${ASSET_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
     curl -qfsSL \
-         -o ${BINARY_LOCAL}.tar.gz \
-         ${BINARY_REMOTE}.tar.gz
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
     (
-        cd $(dirname ${BINARY_LOCAL})
-        tar -zxf ${BINARY_LOCAL}.tar.gz gitleaks
+        cd $(dirname ${ASSET_LOCAL})
+        tar -zxf ${ASSET_LOCAL} ${BINARY_LOCAL_REL}
     )
 }
 
