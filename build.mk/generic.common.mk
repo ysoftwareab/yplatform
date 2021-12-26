@@ -15,6 +15,7 @@ YP_GENERIC_COMMON_INCLUDES_DEFAULT += \
 	$(YP_DIR)/build.mk/core.check.tpl.mk \
 	$(YP_DIR)/build.mk/core.check.editorconfig.mk \
 	$(YP_DIR)/build.mk/core.check.jsonlint.mk \
+	$(YP_DIR)/build.mk/core.check.gitleaks.mk \
 
 # core.misc.release.mk depends on core.misc.version.mk
 YP_GENERIC_COMMON_INCLUDES_DEFAULT += \

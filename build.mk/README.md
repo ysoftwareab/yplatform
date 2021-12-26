@@ -67,6 +67,7 @@ The high-level collections of pieces are as follows:
   * [core.check.tpl.mk](core.check.tpl.mk)
   * [core.check.editorconfig.mk](core.check.editorconfig.mk)
   * [core.check.jsonlint.mk](core.check.jsonlint.mk)
+  * [core.check.gitleaks.mk](core.check.gitleaks.mk)
   * [core.misc.promote.mk](core.misc.promote.mk)
   * [core.misc.version.mk](core.misc.version.mk)
   * [core.misc.release.mk](core.misc.release.mk)
