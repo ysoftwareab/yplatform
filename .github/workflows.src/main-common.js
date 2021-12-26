@@ -115,6 +115,21 @@ ciShStepsDeploy.push({
   run: './.ci.sh after_deploy || true'
 });
 
+let dockerBuildxSteps = [];
+dockerBuildxSteps.push({
+  name: 'Set up QEMU',
+  uses: 'docker/setup-qemu-action@v1'
+});
+dockerBuildxSteps.push({
+  name: 'Set up Docker Buildx',
+  id: 'buildx',
+  uses: 'docker/setup-buildx-action@v1',
+  with: {
+    'buildkitd-flags': '--debug'
+  }
+});
+
+
 let artifactsStep = {
   name: 'Upload Artifacts',
   uses: 'actions/upload-artifact@v2',
@@ -130,5 +145,6 @@ module.exports = {
   checkoutStep,
   ciShSteps,
   ciShStepsDeploy,
+  dockerBuildxSteps,
   env
 };

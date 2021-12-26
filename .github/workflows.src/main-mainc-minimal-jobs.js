@@ -6,6 +6,7 @@ let {
   artifactsStep,
   checkoutStep,
   ciShStepsDeploy,
+  dockerBuildxSteps,
   env: commonEnv
 } = require('./main-common');
 
@@ -54,6 +55,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     },
     steps: [
       checkoutStep,
+      ...dockerBuildxSteps,
       ...ciShStepsDeploy,
       _.merge({}, artifactsStep, {
         with: {
