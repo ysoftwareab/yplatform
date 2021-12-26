@@ -9,8 +9,8 @@ class EditorconfigChecker < Formula
       url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-darwin-amd64.tar.gz"
       sha256 "28fafcba28df8249e3f07edc22af2337258973bce29f872a2f6eab48335206fe"
     else
-      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-darwin-386.tar.gz"
-      sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      url "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/2.4.0/ec-darwin-arm64.tar.gz"
+      sha256 "094969345dcaf5d0272489c3f2e4297971922825dd2db4545d56d50733a50ce1"
     end
   end
 

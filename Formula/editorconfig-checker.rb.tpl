@@ -14,6 +14,7 @@ function get_asset_url() {
   OS=$1
   ARCH=$2
 
+  >&2 echo "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/${VSN}/ec-${OS}-${ARCH}.tar.gz"
   echo "https://github.com/editorconfig-checker/editorconfig-checker/releases/download/${VSN}/ec-${OS}-${ARCH}.tar.gz"
 }
 
@@ -43,8 +44,8 @@ class ${ID} < Formula
       url "$(get_asset_url darwin amd64)"
       sha256 "$(get_asset_sha256 darwin amd64)"
     else
-      url "$(get_asset_url darwin 386)"
-      sha256 "$(get_asset_sha256 darwin 386)"
+      url "$(get_asset_url darwin arm64)"
+      sha256 "$(get_asset_sha256 darwin arm64)"
     end
   end
 
