@@ -39,15 +39,19 @@ let artifacts = (function() {
   return artifacts;
 })();
 
-let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
-
-let env = {
-  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
-  YP_LOG_BOOTSTRAP: true,
-  YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}',
-  YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}',
-  V: '${{ secrets.V }}'
+let artifactsStep = {
+  name: 'Upload Artifacts',
+  uses: 'actions/upload-artifact@v2',
+  with: {
+    name: undefined, // need to overwrite
+    path: artifacts,
+    'retention-days': 7
+  }
 };
+
+// -----------------------------------------------------------------------------
+
+let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
 
 let checkoutStep = {
   name: 'yplatform/bin/github-checkout',
@@ -57,6 +61,8 @@ let checkoutStep = {
     githubCheckout
   ].join('\n')
 };
+
+// -----------------------------------------------------------------------------
 
 let ciShSteps = [];
 
@@ -101,7 +107,10 @@ ciShSteps.push({
   run: './.ci.sh notifications || true'
 });
 
+// -----------------------------------------------------------------------------
+
 let ciShStepsDeploy = [];
+
 ciShStepsDeploy.push({
   shell: 'bash',
   run: './.ci.sh before_deploy'
@@ -115,7 +124,10 @@ ciShStepsDeploy.push({
   run: './.ci.sh after_deploy || true'
 });
 
+// -----------------------------------------------------------------------------
+
 let dockerBuildxSteps = [];
+
 dockerBuildxSteps.push({
   name: 'Set up QEMU',
   uses: 'docker/setup-qemu-action@v1'
@@ -129,15 +141,17 @@ dockerBuildxSteps.push({
   }
 });
 
-let artifactsStep = {
-  name: 'Upload Artifacts',
-  uses: 'actions/upload-artifact@v2',
-  with: {
-    name: undefined, // need to overwrite
-    path: artifacts,
-    'retention-days': 7
-  }
+// -----------------------------------------------------------------------------
+
+let env = {
+  GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}',
+  YP_LOG_BOOTSTRAP: true,
+  YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}',
+  YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}',
+  V: '${{ secrets.V }}'
 };
+
+// -----------------------------------------------------------------------------
 
 module.exports = {
   artifactsStep,
