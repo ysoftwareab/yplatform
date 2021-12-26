@@ -7,8 +7,6 @@ brew_install_one debianutils
 
 brew_install_one_unless ${YP_DIR}/Formula/editorconfig-checker.rb \
     "editorconfig-checker --version | head -1" "^2\."
-brew_install_one_unless ${YP_DIR}/Formula/retry.rb \
-    "retry --help | head -1" "^Usage: retry"
 
 brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."

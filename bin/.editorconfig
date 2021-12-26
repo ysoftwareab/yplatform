@@ -22,3 +22,6 @@ indent_size = 2
 
 [.eslintrc.js]
 indent_size = 2
+
+[retry]
+indent_size = 2

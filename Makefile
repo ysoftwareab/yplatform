@@ -39,6 +39,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^Formula/patch-src/" \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/git-archive-all$$" \
+	-e "^bin/retry$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \
 	-e "^bin/urldecode$$" \
