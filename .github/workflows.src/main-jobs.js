@@ -3,6 +3,7 @@
 let _ = require('lodash-firecloud');
 
 let {
+  WSLENV,
   artifactsStep,
   checkoutStep,
   ciShSteps,
