@@ -2,8 +2,6 @@
 set -euo pipefail
 
 echo_do "brew: Installing core packages..."
-# provides run-parts needed by Dockerfile.entrypoint.sh
-brew_install_one debianutils
 
 brew_install_one_unless ${YP_DIR}/Formula/editorconfig-checker.rb \
     "editorconfig-checker --version | head -1" "^2\."
