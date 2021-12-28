@@ -116,6 +116,8 @@ if (ypCompat) {
         data.YP_CI_PIPELINE_ID = process.env.BITRISE_BUILD_NUMBER;
         data.YP_CI_JOB_URL = process.env.BITRISE_BUILD_URL;
         data.YP_CI_PIPELINE_URL = process.env.BITRISE_BUILD_URL;
+        // env-ci reports e.g. 'd4c696b6b4e2be16' (BITRISE_APP_SLUG) instead of the repo slug
+        delete data.YP_CI_REPO_SLUG;
     }
     if (data.YP_CI_PLATFORM === 'circleci') {
         data.YP_CI_PLATFORM = 'circle';
