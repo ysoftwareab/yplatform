@@ -1,0 +1,15 @@
+yplatform v0.3.4 Release Notes
+
+Highlights since v0.3.3:
+
+* None
+
+Breaking commits since v0.3.3:
+
+* None
+
+Commits since v0.3.3:
+
+* 852a253b 2021-12-28 fix YP_DEPLOY_DRYRUN unbound variable
+* 50b3ee05 2021-12-28 skip LOGNAME variable
+o e4043130 2021-12-28 0.3.3
