@@ -6,9 +6,9 @@ function yp_ci_env_buddy() {
     [[ "${BUDDY:-}" = "true" ]] || return 0
 
     export CI=true
-    YP_CI_NAME="Buddy"
+    YP_CI_NAME=Buddy
     YP_CI_PLATFORM=buddy
-    YP_CI_SERVER_HOST=${CI_SERVER_HOST:-buddy.works}
+    YP_CI_SERVER_HOST=buddy.works
     YP_CI_REPO_SLUG=${BUDDY_REPO_SLUG:-}
     YP_CI_ROOT=${WORKING_DIR:-}
 
@@ -46,7 +46,7 @@ function yp_ci_env_buddy() {
 
 function yp_ci_printvars_buddy() {
     printenv_all | sort -u | grep \
-        -e "^CI[=_]" \
+        -e "^CI=" \
         -e "^BUDDY[=_]" \
         -e "^WORKING_DIR="
 }
