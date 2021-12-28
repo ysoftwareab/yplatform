@@ -1,0 +1,57 @@
+yplatform v0.3.3 Release Notes
+
+Highlights since v0.3.2:
+
+* None
+
+Breaking commits since v0.3.2:
+
+* None
+
+Commits since v0.3.2:
+
+* ad4fda66 2021-12-28 add wait-for@2.2.1 https://github.com/eficode/wait-for
+* b58a6007 2021-12-28 fix links to sourcehut
+* 27adea73 2021-12-28 add blocked and high-effort label
+* 0290745d 2021-12-28 fixup! add gitleaks@8.2.4
+* cd2d84eb 2021-12-27 refactor bin proxies: editorconfig-checker gitleaks jq
+* eee1e0c6 2021-12-27 move editorconfig-checker from brew formula to bin proxy
+* 1fe7600c 2021-12-27 bootstrap: download binaries for yplatform's bin proxies
+* 83972411 2021-12-26 use yplatform's run-parts
+* 5a4bb7e6 2021-12-26 add retry@7d2caa9 (1.0.1) as a standalone script
+* 071210e5 2021-12-26 fix editorconfig-checker formula for darwin arm64
+* b978be60 2021-12-26 bump editorconfig-checker to 2.4.0
+* 7f8e0e2f 2021-12-26 add check-gitleaks target
+* 6d8245f3 2021-12-26 typo
+* 8364e65a 2021-12-26 add gitleaks@8.2.4
+* 55866a6e 2021-12-26 print url of jq release
+* 194b9fad 2021-12-26 fix local jq to support arm64
+* 03dfb9cd 2021-12-26 add binary for jq-linux-arm64 since it's not part of jq releases
+* 153620bc 2021-12-26 add binary for jq-osx-arm64 since it's not part of jq releases
+* b509cb66 2021-12-26 fixup! move wslSteps together with other steps
+* cee8ce2f 2021-12-26 fixup! move wslSteps together with other steps
+* 16b4c6e4 2021-12-26 move wslSteps together with other steps
+* 59313cbe 2021-12-26 whitespace
+* 58015e78 2021-12-26 style
+* 6d512fd8 2021-12-26 whitespace
+* 2274f228 2021-12-26 github: add qemu and buildx to docker. see #244
+* eb790dd0 2021-12-26 refactor "docker build" to use buildx, in preparation for multiplatform builds. see #244
+* 3b8cd3da 2021-12-25 fixup! warn when .git is not a directory
+* aa4c4614 2021-12-26 fixup! style
+* ca8c5e23 2021-12-26 make docker-ci should always use linux/amd64 platform, because we don't have yet arm64 images
+* eb954a16 2021-12-25 allow docker.io and ghcr.io prefixes for docker images
+* 4782a947 2021-12-25 style
+* 085a7d75 2021-12-26 add bootstrap/brew-util/homebrew-install.sh.patch target
+* 558efe8b 2021-12-25 updated bootstrap/brew-util/homebrew-install.sh.patch
+* 2f8a8782 2021-12-25 fixup! ARCH_NORMALIZED
+* 0df548a3 2021-12-06 typo
+* ffd6375c 2021-12-02 rename mk/Makefile -> mk/common.inc.mk to sync with sh folder. fix aws-cfn
+* 126d983a 2021-12-02 remove old core.inc.mk README
+* c479b4fe 2021-12-24 gitlab: document CI_JOB_JWT_V1 and CI_JOB_JWT_V2
+* 232aa00c 2021-12-24 updated gitconfig/dot.gitignore_global
+* 9dd40468 2021-12-24 lock gitignore_global to commit (stable builds)
+* cb211240 2021-12-24 lock gitignore_global to master
+* 039a1d5a 2021-12-24 add openssl@1.1 to PATH
+* 63fdebce 2021-12-24 backup https://arslan.io/2019/07/03/how-to-write-idempotent-bash-scripts/
+* cc236bd6 2021-12-24 mention idempotency in shell scripts
+o 1bb0ee36 2021-12-02 0.3.2
