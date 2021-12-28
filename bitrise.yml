@@ -19,10 +19,10 @@ workflows:
     envs:
       - opts:
           is_expand: false
-          YP_CI_BREW_INSTALL: minimal
+        YP_CI_BREW_INSTALL: minimal
       - opts:
           is_expand: false
-          YP_LOG_BOOTSTRAP: "true"
+        YP_LOG_BOOTSTRAP: "true"
     steps:
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
