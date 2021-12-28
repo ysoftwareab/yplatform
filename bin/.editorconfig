@@ -25,3 +25,6 @@ indent_size = 2
 
 [retry]
 indent_size = 2
+
+[wait-for]
+indent_size = 2

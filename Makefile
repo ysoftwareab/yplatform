@@ -44,6 +44,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bin/travis-wait$$" \
 	-e "^bin/urldecode$$" \
 	-e "^bin/urlencode$$" \
+	-e "^bin/wait-for$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.original$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
