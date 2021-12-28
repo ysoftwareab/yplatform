@@ -1,0 +1,42 @@
+---
+format_version: "11"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: other
+trigger_map:
+- push_branch: master
+  workflow: primary
+- push_branch: bitrise*
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+meta:
+  bitrise.io:
+    stack: linux-docker-android-20.04
+    machine_type_id: standard
+    # docker_image: homebrew/ubuntu20.04:3.2.8
+workflows:
+  primary:
+    envs:
+      - opts:
+          is_expand: false
+          YP_CI_BREW_INSTALL: minimal
+      - opts:
+          is_expand: false
+          YP_LOG_BOOTSTRAP: "true"
+    steps:
+      - activate-ssh-key@4:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone@6:
+          inputs:
+            - clone_depth: "1"
+      - script@1:
+          title: Do anything with Script step
+          inputs:
+            - content: |
+                set -x
+                sudo chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
+                set +x
+                set -euo pipefail
+                cd ${BITRISE_DIR_DIR}
+                source ci/pipeline.script.sh
+      - deploy-to-bitrise-io@2: {}
