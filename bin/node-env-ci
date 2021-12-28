@@ -105,6 +105,12 @@ if (ypCompat) {
             process.env.APPVEYOR_BUILD_NUMBER
         ], '');
     }
+    if (data.YP_CI_PLATFORM === 'buddy') {
+        data.YP_CI_JOB_ID = process.env.BUDDY_EXECUTION_ID;
+        data.YP_CI_PIPELINE_ID = process.env.BUDDY_PIPELINE_ID;
+        data.YP_CI_JOB_URL = process.env.BUDDY_EXECUTION_URL;
+        data.YP_CI_PIPELINE_URL = process.env.BUDDY_PIPELINE_URL;
+    }
     if (data.YP_CI_PLATFORM === 'circleci') {
         data.YP_CI_PLATFORM = 'circle';
         data.YP_CI_JOB_ID = process.env.CIRCLE_BUILD_NUM;
