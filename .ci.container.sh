@@ -60,12 +60,12 @@ function ci_run_deploy_docker_image() {
     fi
 
     [[ -z "${DOCKER_USERNAME:-}" ]] || [[ -z "${DOCKER_TOKEN:-}" ]] || {
-        [[ -n "${YP_DEPLOY_DRYRUN}" ]] || YP_DEPLOY_DRYRUN=false
+        [[ -n "${YP_DEPLOY_DRYRUN:-}" ]] || YP_DEPLOY_DRYRUN=false
         echo "${DOCKER_TOKEN}" | exe docker login -u "${DOCKER_USERNAME}" --password-stdin
     }
     # see above
     # [[ -z "${GH_USERNAME:-}" ]] || [[ -z "${GH_TOKEN:-}" ]] || {
-    #     [[ -n "${YP_DEPLOY_DRYRUN}" ]] || YP_DEPLOY_DRYRUN=false
+    #     [[ -n "${YP_DEPLOY_DRYRUN:-}" ]] || YP_DEPLOY_DRYRUN=false
     #     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ghcr.io
     # }
 
