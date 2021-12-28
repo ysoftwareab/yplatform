@@ -165,5 +165,5 @@ TODO
   [14]: https://ci.appveyor.com/api/projects/status/da744jauw31fi66h/branch/master?svg=true
   [15]: https://cirrus-ci.com/github/ysoftwareab/yplatform/master
   [16]: https://api.cirrus-ci.com/github/ysoftwareab/yplatform.svg?branch=master
-  [17]: https://builds.sr.ht/~andreineculau/ysoftwareab-yplatform/commits/sourcehut.yml
-  [18]: https://builds.sr.ht/~andreineculau/ysoftwareab-yplatform/commits/sourcehut.yml.svg
+  [17]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml
+  [18]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml.svg
