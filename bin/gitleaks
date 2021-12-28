@@ -8,7 +8,10 @@ VSN=8.2.4
 GITLEAKS_URL=https://github.com/zricethezav/gitleaks/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in
-    darwin-amd64|darwin-arm64)
+    darwin-amd64)
+        BINARY=gitleaks_${VSN}_${OS_SHORT}_x${ARCH_BIT}
+        ;;
+    darwin-arm64)
         BINARY=gitleaks_${VSN}_${OS_SHORT}_${ARCH_NORMALIZED}
         ;;
     linux-386|linux-amd64)
