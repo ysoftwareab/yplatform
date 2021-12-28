@@ -1,0 +1,17 @@
+yplatform v0.3.5 Release Notes
+
+Highlights since v0.3.4:
+
+* None
+
+Breaking commits since v0.3.4:
+
+* None
+
+Commits since v0.3.4:
+
+* 9d1008be 2021-12-28 random-hex: xxd is not readily available, but hexdump is
+* 27788b7d 2021-12-28 skip PWD variable. use GNU_ prefix for logname and pwd
+* f3d6eb81 2021-12-28 fix 'make docker-ci'
+* db8a6d7a 2021-12-28 fixup! refactor ci env. fix #237
+o 8138018f 2021-12-28 0.3.4
