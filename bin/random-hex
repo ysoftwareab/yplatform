@@ -3,5 +3,14 @@ set -euo pipefail
 
 LENGTH=${1:-16}
 
-hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random
-# xxd -l ${LENGTH} -p -c 1000000 /dev/urandom
+if command -v hexdump; then
+    hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random | tr "[:upper:]" "[:lower:]"
+elif command -v xxd; then
+    xxd -l ${LENGTH} -p -c 1000000 /dev/urandom
+else
+    CHARS=1234567890abcdef
+    for ((i=0; i<${LENGTH}; i++)); do
+        echo -n "${CHARS:RANDOM%${#CHARS}:1}"
+    done
+    echo
+fi
