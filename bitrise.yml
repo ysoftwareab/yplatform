@@ -37,6 +37,6 @@ workflows:
                 sudo chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
                 set +x
                 set -euo pipefail
-                cd ${BITRISE_DIR_DIR}
+                cd ${BITRISE_SOURCE_DIR}
                 source ci/pipeline.script.sh
       - deploy-to-bitrise-io@2: {}
