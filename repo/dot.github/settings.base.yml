@@ -51,6 +51,10 @@ labels:
   - name: wontfix
     color: ffffff
     description: This will not be worked on
+  - name: blocked
+    color: ff0000
+  - name: high-effort
+    color: ff0000
 
 # milestones:
 # collaborators:
