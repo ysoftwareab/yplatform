@@ -38,6 +38,7 @@ Import this repository as a `submodule`, and you will gain access to:
   * **a bootstrap process of a CI machine based around GNU and Homebrew**
     * cross-provider. No more worries about the effort to add another CI or to switch to another CI. **Everything works the same everywhere!**
       * `AppVeyor_________` [![AppVeyor Status][14]][13]
+      * `Bitrise__________` [![Bitrise Status][22]][21]
       * `Buddy____________` [![Buddy Status][20]][19]
       * `CircleCI_________` [![CircleCI Status][4]][3]
       * `Cirrus CI________` [![Cirrus CI Status][16]][15]
@@ -170,3 +171,6 @@ TODO
   [18]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml.svg
   [19]: https://app.buddy.works/ysoftwareab/yplatform/pipelines/pipeline/366736
   [20]: https://app.buddy.works/ysoftwareab/yplatform/pipelines/pipeline/366736/badge.svg?token=2b8ae0765b731fa03f1e15d087757cfb81254da1dfdff0c6f80a8a53d7dd90dc
+  [21]: https://app.bitrise.io/app/d4c696b6b4e2be16
+  [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
+  

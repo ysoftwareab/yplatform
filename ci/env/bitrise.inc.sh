@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+set -euo pipefail
+
+function yp_ci_env_bitrise() {
+    [[ "${BITRISE_IO:-}" = "true" ]] || return 0
+
+    export CI=true
+    YP_CI_NAME=Bitrise
+    YP_CI_PLATFORM=bitrise
+    YP_CI_SERVER_HOST=app.bitrise.io
+    YP_CI_REPO_SLUG=${BITRISEIO_GIT_REPOSITORY_SLUG:-}
+    YP_CI_ROOT=${BITRISE_SOURCE_DIR:-}
+
+    YP_CI_IS_CRON=
+    YP_CI_IS_PR=
+    [[ -z "${BITRISE_PULL_REQUEST:-}" ]] || YP_CI_IS_PR=true
+
+    # 1 pipeline -> n jobs
+    YP_CI_JOB_ID=${BITRISE_BUILD_NUMBER:-}
+    YP_CI_PIPELINE_ID=${YP_CI_JOB_ID}
+    YP_CI_JOB_URL=${BITRISE_BUILD_URL:-}
+    YP_CI_PIPELINE_URL=${YP_CI_JOB_URL}
+
+    YP_CI_PR_NUMBER=
+    YP_CI_PR_URL=
+    YP_CI_PR_REPO_SLUG=
+    YP_CI_PR_GIT_HASH=
+    YP_CI_PR_GIT_BRANCH=
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
+        YP_CI_PR_NUMBER=${BITRISE_PULL_REQUEST:-}
+        YP_CI_PR_URL=https://github.com/${YP_CI_REPO_SLUG}/pull/${YP_CI_PR_NUMBER}
+        YP_CI_PR_REPO_SLUG=$(basename $(dirname "${BITRISEIO_PULL_REQUEST_REPOSITORY_URL:-}"))/$(basename "${BITRISEIO_PULL_REQUEST_REPOSITORY_URL:-}") # editorconfig-checker-disable-line
+        YP_CI_PR_GIT_HASH= # TODO
+        YP_CI_PR_GIT_BRANCH=${BITRISEIO_PULL_REQUEST_HEAD_BRANCH:-}
+    }
+
+    YP_CI_GIT_HASH=${BITRISE_GIT_COMMIT:-}
+    YP_CI_GIT_BRANCH=${BITRISE_GIT_BRANCH:-}
+    [[ "${YP_CI_IS_PR}" != "true" ]] || YP_CI_GIT_BRANCH=${BITRISEIO_PULL_REQUEST_MERGE_BRANCH:-}
+    YP_CI_GIT_TAG=${BITRISE_GIT_TAG:-}
+
+    YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
+}
+
+function yp_ci_printvars_bitrise() {
+    printenv_all | sort -u | grep \
+        -e "^CI=" \
+        -e "^BITRISE[=_]" \
+        -e "^GIT_REPOSITORY_URL=" \
+        -e "^PR="
+}
+
+function yp_ci_known_env_bitrise() {
+    # see https://devcenter.bitrise.io/en/references/available-environment-variables.html#available-environment-variables # editorconfig-checker-disable-line
+    cat <<EOF
+BITRISE_TRIGGERED_WORKFLOW_ID
+BITRISE_TRIGGERED_WORKFLOW_TITLE
+BITRISE_BUILD_STATUS
+BITRISE_SOURCE_DIR
+BITRISE_DEPLOY_DIR
+CI
+PR
+BITRISE_BUILD_NUMBER
+BITRISE_APP_TITLE
+BITRISE_APP_URL
+BITRISE_APP_SLUG
+BITRISE_BUILD_URL
+BITRISE_BUILD_SLUG
+BITRISE_BUILD_TRIGGER_TIMESTAMP
+GIT_REPOSITORY_URL
+BITRISE_GIT_BRANCH
+BITRISEIO_GIT_BRANCH_DEST
+BITRISE_GIT_TAG
+BITRISE_GIT_COMMIT
+BITRISE_GIT_MESSAGE
+BITRISEIO_GIT_REPOSITORY_OWNER
+BITRISEIO_GIT_REPOSITORY_SLUG
+BITRISE_PULL_REQUEST
+BITRISEIO_PULL_REQUEST_REPOSITORY_URL
+BITRISEIO_PULL_REQUEST_MERGE_BRANCH
+BITRISEIO_PULL_REQUEST_HEAD_BRANCH
+BITRISE_PROVISION_URL
+BITRISE_CERTIFICATE_URL
+BITRISE_CERTIFICATE_PASSPHRASE
+BITRISE_IO
+EOF
+    # undocumented but observed
+    cat <<EOF
+EOF
+}
