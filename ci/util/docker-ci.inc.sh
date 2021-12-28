@@ -95,8 +95,9 @@ function yp_run_docker_ci_image() {
 
 
 function yp_get_docker_ci_image() {
+    # sync with dockerfiles/util/build line:~93 "NAME=yp-..."
     [[ -n "${YP_DOCKER_CI_IMAGE:-}" ]] || \
-        YP_DOCKER_CI_IMAGE=ysoftwareab/yp-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_CODENAME:-${OS_RELEASE_VERSION_ID}}-minimal # editorconfig-checker-disable-line
+        YP_DOCKER_CI_IMAGE=ysoftwareab/yp-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID}-minimal # editorconfig-checker-disable-line
     # if given a ysoftwareab/yp- image, but without a tag,
     # set the tag to the version of YP
     if [[ ${YP_DOCKER_CI_IMAGE} =~ ^(docker\.io/)?ysoftwareab/yp- ]] && \
