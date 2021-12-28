@@ -3,9 +3,9 @@ set -euo pipefail
 
 LENGTH=${1:-16}
 
-if command -v hexdump; then
+if command -v hexdump >/dev/null; then
     hexdump -n ${LENGTH} -e '4/4 "%08X" 1 "\n"' /dev/random | tr "[:upper:]" "[:lower:]"
-elif command -v xxd; then
+elif command -v xxd >/dev/null; then
     xxd -l ${LENGTH} -p -c 1000000 /dev/urandom
 else
     CHARS=1234567890abcdef
