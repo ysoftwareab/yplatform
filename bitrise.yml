@@ -3,12 +3,12 @@ format_version: "11"
 default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
 project_type: other
 trigger_map:
-- push_branch: master
-  workflow: primary
+# - push_branch: master
+#   workflow: primary
 - push_branch: bitrise*
   workflow: primary
-- pull_request_source_branch: "*"
-  workflow: primary
+# - pull_request_source_branch: "*"
+#   workflow: primary
 meta:
   bitrise.io:
     stack: linux-docker-android-20.04
