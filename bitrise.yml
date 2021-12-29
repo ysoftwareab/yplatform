@@ -17,12 +17,12 @@ meta:
 workflows:
   primary:
     envs:
-      - opts:
+      - YP_CI_BREW_INSTALL: minimal
+        opts:
           is_expand: false
-        YP_CI_BREW_INSTALL: minimal
-      - opts:
+      - YP_LOG_BOOTSTRAP: "true"
+        opts:
           is_expand: false
-        YP_LOG_BOOTSTRAP: "true"
     steps:
       - activate-ssh-key@4:
           run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
@@ -33,6 +33,7 @@ workflows:
           title: Do anything with Script step
           inputs:
             - content: |
+                #!/usr/bin/env bash
                 set -x
                 sudo chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
                 set +x
@@ -40,3 +41,15 @@ workflows:
                 cd ${BITRISE_SOURCE_DIR}
                 source ci/pipeline.script.sh
       - deploy-to-bitrise-io@2: {}
+
+
+# NOTE interesting that each key under 'steps' is actually a "<type>::<url>::<path>"
+# git::git@domain/repo.git::foo/bar@v2
+# git@domain/repo.git::foo/bar@v2 since type=git by default
+# ::foo/bar@v2 if default_step_lib_source is given
+# foo/bar@v2 if default_step_lib_source is given
+# path::./foo/bar
+# path::/foo/bar
+# path::~/foo/bar or path::$HOME/foo/bar
+# https://github.com/bitrise-io/bitrise/blob/f88e7da5bc11283a257cfabb11955cdce325b4f2
+# /_examples/tutorials/steps-and-workflows/bitrise.yml
