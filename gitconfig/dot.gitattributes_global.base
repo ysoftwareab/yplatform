@@ -1,0 +1,22 @@
+# -*- mode: Gitattributes -*-
+
+# NOTE It is best to have one attribute per line.
+# https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L57-L59
+# When more than one pattern matches the path, a later line overrides an earlier line. This overriding is done per attribute.
+
+# A primer on a few git attributes
+# whitespace=blank-at-eof     = do not allow trailing lines at the end of the file (default on)
+# whitespace=blank-at-eol     = do not allow trailing spaces at the end of the line (default on)
+# whitespace=trailing-space   = short for blank-at-eol and blank-at-eof (default on)
+
+# whitespace=space-before-tab = do not allow spaces followed by tabs (default on)
+# whitespace=tab-in-indent    = do not allow indentation by tabs (default on)
+
+# ==============================================================================
+
+# Default behaviour, in case the git client doesn't have core.autocrlf set:
+# commit only LF line endings, but use CRLF locally if needed
+# https://help.github.com/articles/dealing-with-line-endings/
+# http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+
+*              text=auto eol=lf

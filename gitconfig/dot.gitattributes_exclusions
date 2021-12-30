@@ -1,0 +1,11 @@
+# -*- mode: Gitattributes -*-
+
+# 3rd-party exclusions =========================================================
+# e.g. /path -whitespace -text
+
+*.patch           -text
+
+*.lock            -diff
+Brewfile.lock     diff
+*.svg             -diff
+package-lock.json -diff

@@ -1,0 +1,44 @@
+# -*- mode: Gitattributes -*-
+
+# Binaries =====================================================================
+
+*.exe          binary
+
+# *.doc          binary
+# *.dot          binary
+
+*.docm         binary
+*.docx         binary
+*.dotm         binary
+*.dotx         binary
+
+*.gif          binary
+*.jpg          binary
+*.jpeg         binary
+*.png          binary
+
+*.gpg          binary
+
+*.ods          binary
+*.odt          binary
+*.odp          binary
+
+*.pdf          binary
+
+*.bz2          binary
+*.gz           binary
+*.tar          binary
+*.tar.bz2      binary
+*.tar.gz       binary
+*.tar.xz       binary
+*.tgz          binary
+*.zip          binary
+*.xz           binary
+
+*.doc          binary
+*.dot          binary
+*.ico          binary
+*.rtf          binary
+*.tif          binary
+*.tiff         binary
+*.xlsx         binary

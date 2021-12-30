@@ -1,0 +1,10 @@
+# -*- mode: Gitattributes -*-
+
+# Whitespace ===================================================================
+
+*              whitespace=space-before-tab,tab-in-indent,trailing-space
+
+# Whitespace (exclusions) ======================================================
+
+*.mk           whitespace=space-before-tab,-tab-in-indent,trailing-space
+Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space

@@ -1,5 +1,13 @@
 # -*- mode: Gitattributes -*-
 
+# BEGIN gitconfig/dot.gitattributes_global.base
+
+# -*- mode: Gitattributes -*-
+
+# NOTE It is best to have one attribute per line.
+# https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L57-L59
+# When more than one pattern matches the path, a later line overrides an earlier line. This overriding is done per attribute.
+
 # A primer on a few git attributes
 # whitespace=blank-at-eof     = do not allow trailing lines at the end of the file (default on)
 # whitespace=blank-at-eol     = do not allow trailing spaces at the end of the line (default on)
@@ -14,130 +22,273 @@
 # commit only LF line endings, but use CRLF locally if needed
 # https://help.github.com/articles/dealing-with-line-endings/
 # http://adaptivepatchwork.com/2012/03/01/mind-the-end-of-your-line/
+
 *              text=auto eol=lf
 
+# END gitconfig/dot.gitattributes_global.base
+
+# BEGIN gitconfig/dot.gitattributes_whitespace
+
+# -*- mode: Gitattributes -*-
+
 # Whitespace ===================================================================
+
 *              whitespace=space-before-tab,tab-in-indent,trailing-space
 
 # Whitespace (exclusions) ======================================================
+
 *.mk           whitespace=space-before-tab,-tab-in-indent,trailing-space
 Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
+
+# END gitconfig/dot.gitattributes_whitespace
+
+# BEGIN gitconfig/dot.gitattributes_builtin
+
+# -*- mode: Gitattributes -*-
 
 # Text (builtin) ===============================================================
 # https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L803-L850
 # https://github.com/git/git/blob/d486ca60a51c9cb1fe068803c3f540724e95e83a/userdiff.c
-*.ada          text diff=ada
-*.adb          text diff=ada
-*.ads          text diff=ada
 
-*.bash         text diff=bash
-*.sh           text diff=bash
+*.ada          text
+*.adb          text
+*.ads          text
 
-*.bib          text diff=bibtex
-*.bibtex       text diff=bibtex
+*.bash         text
+*.sh           text
 
-*.c            text diff=cpp
-*.c++          text diff=cpp
-*.cc           text diff=cpp
-*.cpp          text diff=cpp
-*.cxx          text diff=cpp
-*.h            text diff=cpp
-*.h++          text diff=cpp
-*.hh           text diff=cpp
-*.hpp          text diff=cpp
+*.bib          text
+*.bibtex       text
 
-*.cs           text diff=csharp
+*.c            text
+*.c++          text
+*.cc           text
+*.cpp          text
+*.cxx          text
+*.h            text
+*.h++          text
+*.hh           text
+*.hpp          text
 
-*.css          text diff=css
+*.cs           text
 
-*.dts          text diff=dts
-*.dtsi         text diff=dts
+*.css          text
 
-*.ex           text diff=elixir
-*.exs          text diff=elixir
+*.dts          text
+*.dtsi         text
 
-*.[Ff]         text diff=fortran
-*.[Ff]or       text diff=fortran
-*.[Ff][0-9][0-9] text diff=fortran
+*.ex           text
+*.exs          text
 
-*.fountain     text diff=fountain
+*.[Ff]         text
+*.[Ff]or       text
+*.[Ff][0-9][0-9] text
 
-*.go           text diff=golang
+*.fountain     text
 
-*.htm          text diff=html
-*.html         text diff=html
+*.go           text
 
-*.java         text diff=java
-*.gradle       text diff=java
-*.gradle.kts   text diff=java
+*.htm          text
+*.html         text
 
-*.markdown     text diff=markdown
-*.md           text diff=markdown
-*.mdwn         text diff=markdown
-*.mdown        text diff=markdown
-*.mkd          text diff=markdown
-*.mkdn         text diff=markdown
+*.java         text
+*.gradle       text
+*.gradle.kts   text
+
+*.markdown     text
+*.md           text
+*.mdwn         text
+*.mdown        text
+*.mkd          text
+*.mkdn         text
 
 # NOTE skipping *.m, because it matches Matlab/ObjectiveC too
-# *.m            text diff=matlab
-*.mu           text diff=matlab
+# *.m            text
+*.mu           text
 
 # NOTE skipping *.m, because it matches Mathematica/Matlab too
-# *.m            text diff=objc
-*.mm           text diff=objc
+# *.m            text
+*.mm           text
 
-*.p            text diff=pascal
-*.pas          text diff=pascal
-*.pp           text diff=pascal
+*.p            text
+*.pas          text
+*.pp           text
 
-*.perl         text diff=perl
-*.pl           text diff=perl
-*.pm           text diff=perl
+*.perl         text
+*.pl           text
+*.pm           text
 
-*.php          text diff=php
-*.inc          text diff=php
+*.php          text
+*.inc          text
 
-*.pxd          text diff=python
-*.py           text diff=python
-*.py3          text diff=python
-*.pyi          text diff=python
-*.pyw          text diff=python
-*.pyx          text diff=python
-*.pyz          text diff=python
+*.pxd          text
+*.py           text
+*.py3          text
+*.pyi          text
+*.pyw          text
+*.pyx          text
+*.pyz          text
 
-*.gemspec      text diff=ruby
-*.rb           text diff=ruby
+*.gemspec      text
+*.rb           text
 
-*.rs           text diff=rust
+*.rs           text
 
 # see https://stackoverflow.com/a/56853906/465684
 # Racket
-*.rkt          text diff=scheme
+*.rkt          text
 # Scheme Scribe
-*.scr          text diff=scheme
+*.scr          text
 # Scribble
-*.scrbl        text diff=scheme
+*.scrbl        text
 # Extensions: Scheme
-*.scm          text diff=scheme
+*.scm          text
 # Extensions: Scheme library definition
-*.sld          text diff=scheme
+*.sld          text
 # Extensions: Scheme library source
-*.sls          text diff=scheme
+*.sls          text
 # Extensions: Scheme program source
-*.sps          text diff=scheme
+*.sps          text
 # Rare: Scheme source # .scm
-*.ss           text diff=scheme
+*.ss           text
 # Rare: Scheme # .scm
-*.sc           text diff=scheme
+*.sc           text
 # Rare: Scheme
-*.sch          text diff=scheme
+*.sch          text
 # Rare: Scheme
-*.sps7         text diff=scheme
+*.sps7         text
 
-*.tex          text diff=tex
+*.tex          text
+
+# END gitconfig/dot.gitattributes_builtin
+
+# BEGIN gitconfig/dot.gitattributes_builtin_diff
+
+# -*- mode: Gitattributes -*-
+
+# Text (builtin) ===============================================================
+# https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L803-L850
+# https://github.com/git/git/blob/d486ca60a51c9cb1fe068803c3f540724e95e83a/userdiff.c
+
+*.ada          diff=ada
+*.adb          diff=ada
+*.ads          diff=ada
+
+*.bash         diff=bash
+*.sh           diff=bash
+
+*.bib          diff=bibtex
+*.bibtex       diff=bibtex
+
+*.c            diff=cpp
+*.c++          diff=cpp
+*.cc           diff=cpp
+*.cpp          diff=cpp
+*.cxx          diff=cpp
+*.h            diff=cpp
+*.h++          diff=cpp
+*.hh           diff=cpp
+*.hpp          diff=cpp
+
+*.cs           diff=csharp
+
+*.css          diff=css
+
+*.dts          diff=dts
+*.dtsi         diff=dts
+
+*.ex           diff=elixir
+*.exs          diff=elixir
+
+*.[Ff]         diff=fortran
+*.[Ff]or       diff=fortran
+*.[Ff][0-9][0-9] diff=fortran
+
+*.fountain     diff=fountain
+
+*.go           diff=golang
+
+*.htm          diff=html
+*.html         diff=html
+
+*.java         diff=java
+*.gradle       diff=java
+*.gradle.kts   diff=java
+
+*.markdown     diff=markdown
+*.md           diff=markdown
+*.mdwn         diff=markdown
+*.mdown        diff=markdown
+*.mkd          diff=markdown
+*.mkdn         diff=markdown
+
+# NOTE skipping *.m, because it matches Matlab/ObjectiveC too
+# *.m            diff=matlab
+*.mu           diff=matlab
+
+# NOTE skipping *.m, because it matches Mathematica/Matlab too
+# *.m            diff=objc
+*.mm           diff=objc
+
+*.p            diff=pascal
+*.pas          diff=pascal
+*.pp           diff=pascal
+
+*.perl         diff=perl
+*.pl           diff=perl
+*.pm           diff=perl
+
+*.php          diff=php
+*.inc          diff=php
+
+*.pxd          diff=python
+*.py           diff=python
+*.py3          diff=python
+*.pyi          diff=python
+*.pyw          diff=python
+*.pyx          diff=python
+*.pyz          diff=python
+
+*.gemspec      diff=ruby
+*.rb           diff=ruby
+
+*.rs           diff=rust
+
+# see https://stackoverflow.com/a/56853906/465684
+# Racket
+*.rkt          diff=scheme
+# Scheme Scribe
+*.scr          diff=scheme
+# Scribble
+*.scrbl        diff=scheme
+# Extensions: Scheme
+*.scm          diff=scheme
+# Extensions: Scheme library definition
+*.sld          diff=scheme
+# Extensions: Scheme library source
+*.sls          diff=scheme
+# Extensions: Scheme program source
+*.sps          diff=scheme
+# Rare: Scheme source # .scm
+*.ss           diff=scheme
+# Rare: Scheme # .scm
+*.sc           diff=scheme
+# Rare: Scheme
+*.sch          diff=scheme
+# Rare: Scheme
+*.sps7         diff=scheme
+
+*.tex          diff=tex
+
+# END gitconfig/dot.gitattributes_builtin_diff
+
+# BEGIN gitconfig/dot.gitattributes_text
+
+# -*- mode: Gitattributes -*-
 
 # Text =========================================================================
-*.plist        text diff=custom-yp-plist filter=custom-yp-plist
+
+*.plist        text
 
 *.bat          text
 *.cmd          text
@@ -163,39 +314,56 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 .npmignore     text
 Makefile*      text
 
+# END gitconfig/dot.gitattributes_text
+
+# BEGIN gitconfig/dot.gitattributes_text_diff
+
+# -*- mode: Gitattributes -*-
+
+# Text =========================================================================
+
+*.plist        diff=custom-yp-plist filter=custom-yp-plist
+
+# END gitconfig/dot.gitattributes_text_diff
+
+# BEGIN gitconfig/dot.gitattributes_binary
+
+# -*- mode: Gitattributes -*-
+
 # Binaries =====================================================================
-*.exe          binary diff=custom-yp-bin
 
-# *.doc          binary diff=custom-yp-doc
-# *.dot          binary diff=custom-yp-doc
+*.exe          binary
 
-*.docm         binary diff=custom-yp-docx
-*.docx         binary diff=custom-yp-docx
-*.dotm         binary diff=custom-yp-docx
-*.dotx         binary diff=custom-yp-docx
+# *.doc          binary
+# *.dot          binary
 
-*.gif          binary diff=custom-yp-exif
-*.jpg          binary diff=custom-yp-exif
-*.jpeg         binary diff=custom-yp-exif
-*.png          binary diff=custom-yp-exif
+*.docm         binary
+*.docx         binary
+*.dotm         binary
+*.dotx         binary
 
-*.gpg          binary diff=custom-yp-gpg
+*.gif          binary
+*.jpg          binary
+*.jpeg         binary
+*.png          binary
 
-*.ods          binary diff=custom-yp-odf
-*.odt          binary diff=custom-yp-odf
-*.odp          binary diff=custom-yp-odf
+*.gpg          binary
 
-*.pdf          binary diff=custom-yp-pdf
+*.ods          binary
+*.odt          binary
+*.odp          binary
 
-*.bz2          binary diff=custom-yp-bz2
-*.gz           binary diff=custom-yp-gz
-*.tar          binary diff=custom-yp-tar
-*.tar.bz2      binary diff=custom-yp-tar-bz2
-*.tar.gz       binary diff=custom-yp-tar-gz
-*.tar.xz       binary diff=custom-yp-tar-xz
-*.tgz          binary diff=custom-yp-tar-gz
-*.zip          binary diff=custom-yp-zip
-*.xz           binary diff=custom-yp-xz
+*.pdf          binary
+
+*.bz2          binary
+*.gz           binary
+*.tar          binary
+*.tar.bz2      binary
+*.tar.gz       binary
+*.tar.xz       binary
+*.tgz          binary
+*.zip          binary
+*.xz           binary
 
 *.doc          binary
 *.dot          binary
@@ -205,22 +373,78 @@ Makefile*      text
 *.tiff         binary
 *.xlsx         binary
 
+# END gitconfig/dot.gitattributes_binary
+
+# BEGIN gitconfig/dot.gitattributes_binary_diff
+
+# -*- mode: Gitattributes -*-
+
+# Binaries =====================================================================
+
+*.exe          diff=custom-yp-bin
+
+# *.doc          diff=custom-yp-doc
+# *.dot          diff=custom-yp-doc
+
+*.docm         diff=custom-yp-docx
+*.docx         diff=custom-yp-docx
+*.dotm         diff=custom-yp-docx
+*.dotx         diff=custom-yp-docx
+
+*.gif          diff=custom-yp-exif
+*.jpg          diff=custom-yp-exif
+*.jpeg         diff=custom-yp-exif
+*.png          diff=custom-yp-exif
+
+*.gpg          diff=custom-yp-gpg
+
+*.ods          diff=custom-yp-odf
+*.odt          diff=custom-yp-odf
+*.odp          diff=custom-yp-odf
+
+*.pdf          diff=custom-yp-pdf
+
+*.bz2          diff=custom-yp-bz2
+*.gz           diff=custom-yp-gz
+*.tar          diff=custom-yp-tar
+*.tar.bz2      diff=custom-yp-tar-bz2
+*.tar.gz       diff=custom-yp-tar-gz
+*.tar.xz       diff=custom-yp-tar-xz
+*.tgz          diff=custom-yp-tar-gz
+*.zip          diff=custom-yp-zip
+*.xz           diff=custom-yp-xz
+
+# END gitconfig/dot.gitattributes_binary_diff
+
+# BEGIN gitconfig/dot.gitattributes_exclusions
+
+# -*- mode: Gitattributes -*-
+
 # 3rd-party exclusions =========================================================
 # e.g. /path -whitespace -text
-*.patch        -text
 
-*.lock         -diff
-Brewfile.lock  diff
-*.svg          -diff
+*.patch           -text
+
+*.lock            -diff
+Brewfile.lock     diff
+*.svg             -diff
 package-lock.json -diff
 
-# Ignore when exporting ========================================================
-# GIT
+# END gitconfig/dot.gitattributes_exclusions
+
+# BEGIN gitconfig/dot.gitattributes_export_ignore
+
+# -*- mode: Gitattributes -*-
+
+# Ignore when exporting (GIT) ==================================================
+
 .gitattributes         export-ignore
 .gitignore             export-ignore
 .gitkeep               export-ignore
 .gitmodules            export-ignore
-# CI
+
+# Ignore when exporting (CI) ===================================================
+
 .github                export-ignore
 .circleci              export-ignore
 .codeship              export-ignore
@@ -232,3 +456,5 @@ bitrise.yml            export-ignore
 buddy.yml              export-ignore
 codeship-services.yml  export-ignore
 codeship-steps.yml     export-ignore
+
+# END gitconfig/dot.gitattributes_export_ignore

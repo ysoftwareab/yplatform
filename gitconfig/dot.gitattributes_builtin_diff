@@ -1,0 +1,115 @@
+# -*- mode: Gitattributes -*-
+
+# Text (builtin) ===============================================================
+# https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L803-L850
+# https://github.com/git/git/blob/d486ca60a51c9cb1fe068803c3f540724e95e83a/userdiff.c
+
+*.ada          diff=ada
+*.adb          diff=ada
+*.ads          diff=ada
+
+*.bash         diff=bash
+*.sh           diff=bash
+
+*.bib          diff=bibtex
+*.bibtex       diff=bibtex
+
+*.c            diff=cpp
+*.c++          diff=cpp
+*.cc           diff=cpp
+*.cpp          diff=cpp
+*.cxx          diff=cpp
+*.h            diff=cpp
+*.h++          diff=cpp
+*.hh           diff=cpp
+*.hpp          diff=cpp
+
+*.cs           diff=csharp
+
+*.css          diff=css
+
+*.dts          diff=dts
+*.dtsi         diff=dts
+
+*.ex           diff=elixir
+*.exs          diff=elixir
+
+*.[Ff]         diff=fortran
+*.[Ff]or       diff=fortran
+*.[Ff][0-9][0-9] diff=fortran
+
+*.fountain     diff=fountain
+
+*.go           diff=golang
+
+*.htm          diff=html
+*.html         diff=html
+
+*.java         diff=java
+*.gradle       diff=java
+*.gradle.kts   diff=java
+
+*.markdown     diff=markdown
+*.md           diff=markdown
+*.mdwn         diff=markdown
+*.mdown        diff=markdown
+*.mkd          diff=markdown
+*.mkdn         diff=markdown
+
+# NOTE skipping *.m, because it matches Matlab/ObjectiveC too
+# *.m            diff=matlab
+*.mu           diff=matlab
+
+# NOTE skipping *.m, because it matches Mathematica/Matlab too
+# *.m            diff=objc
+*.mm           diff=objc
+
+*.p            diff=pascal
+*.pas          diff=pascal
+*.pp           diff=pascal
+
+*.perl         diff=perl
+*.pl           diff=perl
+*.pm           diff=perl
+
+*.php          diff=php
+*.inc          diff=php
+
+*.pxd          diff=python
+*.py           diff=python
+*.py3          diff=python
+*.pyi          diff=python
+*.pyw          diff=python
+*.pyx          diff=python
+*.pyz          diff=python
+
+*.gemspec      diff=ruby
+*.rb           diff=ruby
+
+*.rs           diff=rust
+
+# see https://stackoverflow.com/a/56853906/465684
+# Racket
+*.rkt          diff=scheme
+# Scheme Scribe
+*.scr          diff=scheme
+# Scribble
+*.scrbl        diff=scheme
+# Extensions: Scheme
+*.scm          diff=scheme
+# Extensions: Scheme library definition
+*.sld          diff=scheme
+# Extensions: Scheme library source
+*.sls          diff=scheme
+# Extensions: Scheme program source
+*.sps          diff=scheme
+# Rare: Scheme source # .scm
+*.ss           diff=scheme
+# Rare: Scheme # .scm
+*.sc           diff=scheme
+# Rare: Scheme
+*.sch          diff=scheme
+# Rare: Scheme
+*.sps7         diff=scheme
+
+*.tex          diff=tex

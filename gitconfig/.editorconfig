@@ -1,3 +1,9 @@
 [/dot.gitconfig]
 indent_size = 4
 max_line_length = unset
+
+[/dot.gitattributes_global.tpl]
+indent_size = 4
+
+[/dot.gitignore_global.tpl]
+indent_size = 4

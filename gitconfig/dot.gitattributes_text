@@ -1,0 +1,29 @@
+# -*- mode: Gitattributes -*-
+
+# Text =========================================================================
+
+*.plist        text
+
+*.bat          text
+*.cmd          text
+*.csv          text
+*.ini          text
+*.js           text
+*.json         text
+*.mjs          text
+*.mk           text
+*.ps1          text
+*.sql          text
+*.template     text
+*.ts           text
+*.txt          text
+*.xml          text
+*.yaml         text
+*.yml          text
+.editorconfig  text
+.gitattributes text
+.gitconfig     text
+.gitmodules    text
+.mailmap       text
+.npmignore     text
+Makefile*      text

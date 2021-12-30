@@ -1,0 +1,115 @@
+# -*- mode: Gitattributes -*-
+
+# Text (builtin) ===============================================================
+# https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L803-L850
+# https://github.com/git/git/blob/d486ca60a51c9cb1fe068803c3f540724e95e83a/userdiff.c
+
+*.ada          text
+*.adb          text
+*.ads          text
+
+*.bash         text
+*.sh           text
+
+*.bib          text
+*.bibtex       text
+
+*.c            text
+*.c++          text
+*.cc           text
+*.cpp          text
+*.cxx          text
+*.h            text
+*.h++          text
+*.hh           text
+*.hpp          text
+
+*.cs           text
+
+*.css          text
+
+*.dts          text
+*.dtsi         text
+
+*.ex           text
+*.exs          text
+
+*.[Ff]         text
+*.[Ff]or       text
+*.[Ff][0-9][0-9] text
+
+*.fountain     text
+
+*.go           text
+
+*.htm          text
+*.html         text
+
+*.java         text
+*.gradle       text
+*.gradle.kts   text
+
+*.markdown     text
+*.md           text
+*.mdwn         text
+*.mdown        text
+*.mkd          text
+*.mkdn         text
+
+# NOTE skipping *.m, because it matches Matlab/ObjectiveC too
+# *.m            text
+*.mu           text
+
+# NOTE skipping *.m, because it matches Mathematica/Matlab too
+# *.m            text
+*.mm           text
+
+*.p            text
+*.pas          text
+*.pp           text
+
+*.perl         text
+*.pl           text
+*.pm           text
+
+*.php          text
+*.inc          text
+
+*.pxd          text
+*.py           text
+*.py3          text
+*.pyi          text
+*.pyw          text
+*.pyx          text
+*.pyz          text
+
+*.gemspec      text
+*.rb           text
+
+*.rs           text
+
+# see https://stackoverflow.com/a/56853906/465684
+# Racket
+*.rkt          text
+# Scheme Scribe
+*.scr          text
+# Scribble
+*.scrbl        text
+# Extensions: Scheme
+*.scm          text
+# Extensions: Scheme library definition
+*.sld          text
+# Extensions: Scheme library source
+*.sls          text
+# Extensions: Scheme program source
+*.sps          text
+# Rare: Scheme source # .scm
+*.ss           text
+# Rare: Scheme # .scm
+*.sc           text
+# Rare: Scheme
+*.sch          text
+# Rare: Scheme
+*.sps7         text
+
+*.tex          text

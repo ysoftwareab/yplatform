@@ -1,0 +1,5 @@
+# -*- mode: Gitattributes -*-
+
+# Text =========================================================================
+
+*.plist        diff=custom-yp-plist filter=custom-yp-plist

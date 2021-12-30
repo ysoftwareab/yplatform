@@ -188,6 +188,12 @@ test-repo-mk:
 	$(ECHO_DONE)
 
 
+gitconfig/dot.gitattributes_global: ## Regenerate gitconfig/dot.gitattributes_global.
+gitconfig/dot.gitattributes_global: gitconfig/dot.gitattributes_global.base
+gitconfig/dot.gitattributes_global: gitconfig/dot.gitattributes_global.tpl
+	$(call yp-generate-from-template)
+
+
 gitconfig/dot.gitignore_global: ## Regenerate gitconfig/dot.gitignore_global.
 gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.base
 gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl

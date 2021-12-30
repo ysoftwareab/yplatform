@@ -1,0 +1,36 @@
+# -*- mode: Gitattributes -*-
+
+# Binaries =====================================================================
+
+*.exe          diff=custom-yp-bin
+
+# *.doc          diff=custom-yp-doc
+# *.dot          diff=custom-yp-doc
+
+*.docm         diff=custom-yp-docx
+*.docx         diff=custom-yp-docx
+*.dotm         diff=custom-yp-docx
+*.dotx         diff=custom-yp-docx
+
+*.gif          diff=custom-yp-exif
+*.jpg          diff=custom-yp-exif
+*.jpeg         diff=custom-yp-exif
+*.png          diff=custom-yp-exif
+
+*.gpg          diff=custom-yp-gpg
+
+*.ods          diff=custom-yp-odf
+*.odt          diff=custom-yp-odf
+*.odp          diff=custom-yp-odf
+
+*.pdf          diff=custom-yp-pdf
+
+*.bz2          diff=custom-yp-bz2
+*.gz           diff=custom-yp-gz
+*.tar          diff=custom-yp-tar
+*.tar.bz2      diff=custom-yp-tar-bz2
+*.tar.gz       diff=custom-yp-tar-gz
+*.tar.xz       diff=custom-yp-tar-xz
+*.tgz          diff=custom-yp-tar-gz
+*.zip          diff=custom-yp-zip
+*.xz           diff=custom-yp-xz
