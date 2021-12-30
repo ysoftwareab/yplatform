@@ -208,7 +208,7 @@ umask "${UMASK}"
 touch ${TMP_RUNPARTS}
 
 # NOTE need to modify EXIT_STATUS, so no pipe
-# find -L "${DIR}" -type f | run_parts_sort | run_parts_filter | while IFS= read -r PART; do
+# find "${DIR}" | run_parts_sort | run_parts_filter | while IFS= read -r PART; do
 while IFS= read -r PART; do
     [[ -n "${PART}" ]] || continue
     [[ ! -x "${PART}" ]] || {
