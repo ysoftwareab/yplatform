@@ -2,7 +2,12 @@
 
 `yplatform` supports various cycles of software development, through a canonical set of commands.
 
-This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipro/yplatform).
+`yplatform` aims to diminish **cognitive load** :massage:,
+**time to first build** :stopwatch:
+and **time to first deployment** :rocket: .
+[Why?](#why)
+
+This was conceived within [Tobii Pro's Cloud Services team](https://github.com/tobiipro/support-firecloud) :wave: .
 
 ![GitHub](https://img.shields.io/github/license/ysoftwareab/yplatform)
 ![GitHub contributors](https://img.shields.io/github/contributors-anon/ysoftwareab/yplatform)
@@ -15,74 +20,28 @@ This was conceived within [TobiiPro's Cloud Services](https://github.com/tobiipr
 
 ---
 
-`git clone` this repository and you will gain access to:
-  * **a bootstrap process of a developer machine based around GNU and Homebrew**
-    * <a name="cross-platform"></a> cross-platform. No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (Linux). **Everything works the same everywhere!**
-      * Apple MacOS
-      * Linux (Alpine)
-      * Linux (Archlinux)
-      * Linux (Centos)
-      * Linux (Debian)
-      * Linux (Ubuntu)
-      * Microsoft Windows (WSL)
-      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/yplatform/issues/new/choose)
-    * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked. No more worries about different flags, different behaviour or missing features!
-    * brings [Homebrew](https://brew.sh). No more worries about different versions available in distros' repositositories, or libraries/utilities not being available at all.
-  * **sane per-user configuration** (e.g. git)
-  * **various utility scripts**, most of them written in pure bash making them easy to read through, easy to run
-  * **documentation of common tasks** like bootstrapping, create github repositories, managing secrets, etc
+`git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
+  * a bootstrap process for local-development based on GNU and Homebrew
+    * [cross-platform](#cross-platform].
+      * No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (e.g. Linux).
+    * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked.
+      * No more worries about different flags, different behaviour or missing features!
+    * brings [Homebrew](https://brew.sh).
+      * No more worries about different versions available in distros' repositositories, or libraries/utilities not being available at all.
+  * sane per-user configuration e.g. git
+  * various utility scripts, 99% GNU Bourne Again Shell (Bash)
+  * documentation and best common practices
 
 ---
 
-Import this repository as a `submodule`, and you will gain access to:
-  * **a bootstrap process of a CI machine based around GNU and Homebrew**
-    * cross-provider. No more worries about the effort to add another CI or to switch to another CI. **Everything works the same everywhere!**
-      * `AppVeyor_________` [![AppVeyor Status][14]][13]
-      * `Bitrise__________` [![Bitrise Status][22]][21]
-      * `Buddy____________` [![Buddy Status][20]][19]
-      * `CircleCI_________` [![CircleCI Status][4]][3]
-      * `Cirrus CI________` [![Cirrus CI Status][16]][15]
-      * `Codeship_________` [![Codeship Status][8]][7]
-      * `Github Actions CI` [![Github Actions CI Status][2]][1]
-      * `Gitlab CI________` [![Gitlab CI Status][12]][11]
-      * `Semaphore________` [![Semaphore Status][10]][9]
-      * `Sourcehut________` [![Sourcehut Status][18]][17]
-      * `Travis CI________` [![Travis CI Status][6]][5]
-        * Integration with Travis CI is unstable since it now requires a subscription.
-        * [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
-        * [Travis CI's new pricing plan threw a wrench in my open source works](https://www.jeffgeerling.com/blog/2020/travis-cis-new-pricing-plan-threw-wrench-my-open-source-works)
-        * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
-    * cross-platform. See [above](#cross-platform).
-    * Docker images available for Linux
-      * Alpine 3.11.7
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-alpine-3.11.7-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-alpine-3.11.7-common)
-      * Archlinux
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-arch-0-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-arch-0-common)
-      * Centos 8
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-centos-8-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-centos-8-common)
-      * Debian 9
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-stretch-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-debian-stretch-common)
-      * Debian 10
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-buster-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-debian-buster-common)
-      * Ubuntu 16.04
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-xenial-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-xenial-common)
-      * Ubuntu 18.04
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-bionic-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-bionic-common)
-      * Ubuntu 20.04
-        , [minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-focal-minimal)
-        , [common](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-focal-common)
-      * [potentially more if you request/contribute it](https://github.com/ysoftwareab/yplatform/issues/new/choose)
-  * **a robust yet flexible build system based on GNU Make**
-  * **sane per-repo configuration** (e.g. vscode)
-  * **various utility scripts**
-  * **a robust yet flexible AWS CloudFormation build system based on GNU Make**
+Use `yplatform` in a project and you will gain access to:
+  * a bootstrap process for CI machines based on GNU and Homebrew
+    * [cross-provider](#cross-provider).
+      No more worries about running pipelines with multiple CI providers, or switching to a new CI provider.
+  * a build system based on GNU Make, both robust and flexible
+  * sane per-repo configurations e.g. vscode
+  * various utility scripts, 99% Bourne Again Shell (Bash)
+  * a cloud infrastructure-as-code system based on GNU Make, both robust and flexible
 
 ---
 
@@ -92,21 +51,118 @@ TODO
 
 ---
 
+## Cross-platform
+
+Similarly `yplatform` itself runs across these platforms with very little effort and no duplication. Bootstrapped Docker images are also available.
+
+| Platform                | minimal            | common             | minimal (Docker)                                                                          | common (Docker)                                                                         |
+| ----------------------- | ------------------ | ------------------ | ----------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| Apple MacOS             | :heavy_check_mark: | :heavy_check_mark: |                                                                                           |                                                                                         |
+| Linux (Alpine)          | :heavy_check_mark: | :heavy_check_mark: | [yp-alpine-3.11.7-minimal](https://hub.docker.com/r/ysoftwareab/yp-alpine-3.11.7-minimal) | [yp-alpine-3.11.7-common](https://hub.docker.com/r/ysoftwareab/yp-alpine-3.11.7-common) |
+| Linux (Archlinux)       | :heavy_check_mark: | :heavy_check_mark: | [yp-arch-0-minimal](https://hub.docker.com/r/ysoftwareab/yp-arch-0-minimal)               | [yp-arch-0-common](https://hub.docker.com/r/ysoftwareab/yp-arch-0-common)               |
+| Linux (Centos)          | :heavy_check_mark: | :heavy_check_mark: | [yp-centos-8-minimal](https://hub.docker.com/r/ysoftwareab/yp-centos-8-minimal)           | [yp-centos-8-common](https://hub.docker.com/r/ysoftwareab/yp-centos-8-common)           |
+| Linux (Debian 9)        | :heavy_check_mark: | :heavy_check_mark: | [yp-debian-9-minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-9-minimal)           | [yp-debian-9-common](https://hub.docker.com/r/ysoftwareab/yp-debian-9-common)           |
+| Linux (Debian 10)       | :heavy_check_mark: | :heavy_check_mark: | [yp-debian-10-minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-10-minimal)         | [yp-debian-10-common](https://hub.docker.com/r/ysoftwareab/yp-debian-10-common)         |
+| Linux (Ubuntu 16.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-16.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-16.04-minimal)   | [yp-ubuntu-16.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-16.04-minimal) |
+| Linux (Ubuntu 18.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-18.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-18.04-minimal)   | [yp-ubuntu-18.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-18.04-minimal) |
+| Linux (Ubuntu 20.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-20.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-20.04-minimal)   | [yp-ubuntu-20.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-20.04-minimal) |
+| Microsoft Windows (WSL) | :heavy_check_mark: | :zzz:              |                                                                                           |                                                                                         |
+
+**NOTE** `common` install is paused for `Microsoft Windows (WSL)` because the process takes more than 1 hour on Github Actions CI
+(a combination of machine specs and being restricted to WSL v1), but we expect no problems.
+
+**NOTE** it should even possible to create WSL images. Tracked in [#213](https://github.com/ysoftwareab/yplatform/issues/213).
+
+---
+
+## Cross-provider
+
+`yplatform` itself currently runs across these providers with very little effort and no duplication.
+
+| Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               |
+| ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ |
+| AppVeyor          | [![AppVeyor Status][14]][13]        | :heavy_check_mark: | `appveyor*`        |                    |                    | [config](./appveyor.yml)             |
+| Bitrise           | [![Bitrise Status][22]][21]         | :zzz:              | `bitrise*`         |                    |                    | [config](./bitrise.yml)              |
+| Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                |
+| CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                |
+| Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              |
+| Codeship          | [![Codeship Status][8]][7]          | :heavy_check_mark: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       |
+| Github Actions CI | [![Github Actions CI Status][2]][1] | :heavy_check_mark: | `github*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.github/workflows)        |
+| Gitlab CI         | [![Gitlab CI Status][12]][11]       | :heavy_check_mark: | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           |
+| Semaphore         | [![Semaphore Status][10]][9]        | :heavy_check_mark: | `semaphore*`       |                    | :heavy_check_mark: | [config](./.semaphore/semaphore.yml) |
+| Sourcehut         | [![Sourcehut Status][18]][17]       | :heavy_check_mark: | `sourcehut*`       |                    | :heavy_check_mark: | [config](./.builds/sourcehut.yml)    |
+| Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              |
+
+**NOTE** Bitrise builds for the `master` branch are paused because the freemium includes only 500 credits (so 500 minutes on Linux agents).
+
+**NOTE** Travis CI builds for the `master` branch are paused because one has to constantly ask for more open-source credits.
+
+* Integration with Travis CI is unstable since it now requires a subscription.
+* [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
+* [Travis CI's new pricing plan threw a wrench in my open source works](https://www.jeffgeerling.com/blog/2020/travis-cis-new-pricing-plan-threw-wrench-my-open-source-works)
+* [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
+
+---
+
 ## Structure
 
-* `/bin` has executable scripts, mostly shell
 * `/mk` has common include makefiles e.g. sourced from `/build.mk` makefiles
 * `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
 *
+* `/bin` has executable scripts, 99% GNU Bourne Again Shell (Bash)
 * `/bootstrap` has scripts that help bootstrap a machine
-* `/dev` has scripts that help bootstrap a developer machine
-* `/dockerfiles` has bootstrapped Dockerfiles
-*
 * `/ci` has scripts that help steer the CI pipelines
+* `/dev` has scripts that help bootstrap a developer machine
+* `/dockerfiles` has scripts for the bootstrapped Docker images
 *
 * `/gitconfig` has git configuration
 *
 * `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
+
+---
+
+## Why?
+
+`yplatform` aims to diminish **cognitive load** :massage:,
+**time to first build** :stopwatch:
+and **time to first deployment** :rocket: .
+
+This means **removing out-of-band information about system dependencies**.
+How many times a repository's README mentions "something version x required"?
+How many times it doesn't mention, and you check the CI/Dockerfile?
+
+This means **removing differences in installing system dependencies**.
+How many times did you look up "how to install X on Y?"
+How many times did you discover that you get different system dependencies, depending on the version of your Linux distribution?
+
+This means **removing differences in core utilities**.
+How many times do you get something working on your MacOS development machine (BSD), only to see it fail on a CI machine, say running Ubuntu (GNU)?
+
+This means **removing differences in installing local dependencies**.
+How many times a repository's README mentions `npm install` or `yarn install` or `pip install` or `./configure --prefix=/usr; make`?
+
+This means **removing differences in triggering a build, checks, tests, a deployment, etc** between codebases and their main programming language.
+How many times did you check how to build a codebase, what language it is using, what package manager or test framework it is using, what services need to be up, etc?
+How many times did you realize that checks are impossible to run locally, and that they run only in the CI, or worse - as a service reviewing/commenting your PR?
+How many times did you return years after to an old codebase, of your own above all!, only to realize you have no clue what's needed to build it again?
+
+This means **removing differences between what runs locally and what runs in the CI**.
+How many times did you realize that you're instrumenting the CI ever-so-slightly-different than your local runs?
+Because maybe you duplicated code in the `scripts` section of your `package.json` and your GitHub workflow YAML?
+
+This means **removing differences between CI providers**.
+How many times did you postpone trying out another CI provider?
+How many times did you choose a provider based on previous experience, popularity, how easy it is to integrate,
+rather than based on whether it is the most appropriate for the job at hand?
+
+This means **consolidating best current practices**.
+How many times did you look up how to set up encryption in a `git` repository?
+How many times
+
+This means **trying to make everything work the same everywhere**.
+Emphasis on **trying**. In reality, 100% the same is not possible.
+But it is possible to achieve say 80%.
+And 80% is **much** better than 0% i.e. not trying at all.
 
 ---
 
