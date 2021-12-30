@@ -5,15 +5,15 @@ YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 LOCAL_GITATTRIBUTESS="\
-    gitconfig/dot.gitattributes_whitespace
-    gitconfig/dot.gitattributes_builtin
-    gitconfig/dot.gitattributes_builtin_diff
-    gitconfig/dot.gitattributes_text
-    gitconfig/dot.gitattributes_text_diff
-    gitconfig/dot.gitattributes_binary
-    gitconfig/dot.gitattributes_binary_diff
-    gitconfig/dot.gitattributes_exclusions
-    gitconfig/dot.gitattributes_export_ignore
+    gitconfig/dot.gitattributes_global.base_whitespace
+    gitconfig/dot.gitattributes_global.base_builtin
+    gitconfig/dot.gitattributes_global.base_builtin_diff
+    gitconfig/dot.gitattributes_global.base_text
+    gitconfig/dot.gitattributes_global.base_text_diff
+    gitconfig/dot.gitattributes_global.base_binary
+    gitconfig/dot.gitattributes_global.base_binary_diff
+    gitconfig/dot.gitattributes_global.base_exclusions
+    gitconfig/dot.gitattributes_global.base_export_ignore
 "
 
 echo "# -*- mode: Gitattributes -*-"

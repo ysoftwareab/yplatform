@@ -57,6 +57,8 @@ YP_PATH_FILES_IGNORE += \
 	-e "^generic/dot\.gitattributes_global$$" \
 	-e "^generic/dot\.gitignore_global$$" \
 	-e "^gitconfig/dot\.gitattributes_global$$" \
+	-e "^gitconfig/dot\.gitattributes_global\.base" \
+	-e "^gitconfig/dot\.gitattributes_global\.tpl$$" \
 	-e "^gitconfig/dot\.gitignore_global$$" \
 	-e "^gitconfig/dot\.gitignore_global\.base$$" \
 	-e "^gitconfig/dot\.gitignore_global\.tpl$$" \
@@ -189,7 +191,7 @@ test-repo-mk:
 
 
 gitconfig/dot.gitattributes_global: ## Regenerate gitconfig/dot.gitattributes_global.
-gitconfig/dot.gitattributes_global: gitconfig/dot.gitattributes_global.base
+gitconfig/dot.gitattributes_global: $(wildcard gitconfig/dot.gitattributes_global.base*)
 gitconfig/dot.gitattributes_global: gitconfig/dot.gitattributes_global.tpl
 	$(call yp-generate-from-template)
 

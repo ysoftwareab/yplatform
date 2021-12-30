@@ -27,7 +27,7 @@
 
 # END gitconfig/dot.gitattributes_global.base
 
-# BEGIN gitconfig/dot.gitattributes_whitespace
+# BEGIN gitconfig/dot.gitattributes_global.base_whitespace
 
 # -*- mode: Gitattributes -*-
 
@@ -40,9 +40,9 @@
 *.mk           whitespace=space-before-tab,-tab-in-indent,trailing-space
 Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 
-# END gitconfig/dot.gitattributes_whitespace
+# END gitconfig/dot.gitattributes_global.base_whitespace
 
-# BEGIN gitconfig/dot.gitattributes_builtin
+# BEGIN gitconfig/dot.gitattributes_global.base_builtin
 
 # -*- mode: Gitattributes -*-
 
@@ -160,9 +160,9 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 
 *.tex          text
 
-# END gitconfig/dot.gitattributes_builtin
+# END gitconfig/dot.gitattributes_global.base_builtin
 
-# BEGIN gitconfig/dot.gitattributes_builtin_diff
+# BEGIN gitconfig/dot.gitattributes_global.base_builtin_diff
 
 # -*- mode: Gitattributes -*-
 
@@ -280,9 +280,9 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 
 *.tex          diff=tex
 
-# END gitconfig/dot.gitattributes_builtin_diff
+# END gitconfig/dot.gitattributes_global.base_builtin_diff
 
-# BEGIN gitconfig/dot.gitattributes_text
+# BEGIN gitconfig/dot.gitattributes_global.base_text
 
 # -*- mode: Gitattributes -*-
 
@@ -320,9 +320,9 @@ Makefile*      text
 *.cmd          eol=crlf
 *.ps1          eol=crlf
 
-# END gitconfig/dot.gitattributes_text
+# END gitconfig/dot.gitattributes_global.base_text
 
-# BEGIN gitconfig/dot.gitattributes_text_diff
+# BEGIN gitconfig/dot.gitattributes_global.base_text_diff
 
 # -*- mode: Gitattributes -*-
 
@@ -330,9 +330,9 @@ Makefile*      text
 
 *.plist        diff=custom-yp-plist filter=custom-yp-plist
 
-# END gitconfig/dot.gitattributes_text_diff
+# END gitconfig/dot.gitattributes_global.base_text_diff
 
-# BEGIN gitconfig/dot.gitattributes_binary
+# BEGIN gitconfig/dot.gitattributes_global.base_binary
 
 # -*- mode: Gitattributes -*-
 
@@ -379,9 +379,9 @@ Makefile*      text
 *.tiff         binary
 *.xlsx         binary
 
-# END gitconfig/dot.gitattributes_binary
+# END gitconfig/dot.gitattributes_global.base_binary
 
-# BEGIN gitconfig/dot.gitattributes_binary_diff
+# BEGIN gitconfig/dot.gitattributes_global.base_binary_diff
 
 # -*- mode: Gitattributes -*-
 
@@ -420,9 +420,9 @@ Makefile*      text
 *.zip          diff=custom-yp-zip
 *.xz           diff=custom-yp-xz
 
-# END gitconfig/dot.gitattributes_binary_diff
+# END gitconfig/dot.gitattributes_global.base_binary_diff
 
-# BEGIN gitconfig/dot.gitattributes_exclusions
+# BEGIN gitconfig/dot.gitattributes_global.base_exclusions
 
 # -*- mode: Gitattributes -*-
 
@@ -436,9 +436,9 @@ Brewfile.lock     diff
 *.svg             -diff
 package-lock.json -diff
 
-# END gitconfig/dot.gitattributes_exclusions
+# END gitconfig/dot.gitattributes_global.base_exclusions
 
-# BEGIN gitconfig/dot.gitattributes_export_ignore
+# BEGIN gitconfig/dot.gitattributes_global.base_export_ignore
 
 # -*- mode: Gitattributes -*-
 
@@ -463,4 +463,4 @@ buddy.yml              export-ignore
 codeship-services.yml  export-ignore
 codeship-steps.yml     export-ignore
 
-# END gitconfig/dot.gitattributes_export_ignore
+# END gitconfig/dot.gitattributes_global.base_export_ignore
