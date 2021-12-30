@@ -39,7 +39,7 @@ Chances are in the 99%-realm high that everything will work just fine.
 
 ## Installation
 
-Developer system-wide dependencies can be installed by
+Developer system dependencies can be installed by
 
 1. appending to your `~/.bashrc` (or `~/.bash_profile`), `~/.zshrc`, etc.:
 
@@ -67,7 +67,7 @@ Continue to bootstrap
 
 ## Repository
 
-Repositories might require more system-wide dependencies e.g. `electron` or `erlang` or `go`.
+Repositories might require more system dependencies e.g. `electron` or `erlang` or `go`.
 
 These are defined in a file called `Brewfile.inc.sh` within each repository.
 
