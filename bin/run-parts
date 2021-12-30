@@ -18,7 +18,7 @@ source ${YP_DIR}/sh/common.inc.sh
 ##       --reverse       reverse execution order of scripts.
 ##       --exit-on-error exit as soon as a script returns with a non-zero exit
 ##                       code.
-#       --stdin         multiplex stdin to scripts being run, using temporary file
+##       --stdin         multiplex stdin to scripts being run, using temporary file
 ##       --lsbsysinit    validate filenames based on LSB sysinit specs.
 ##       --new-session   run each script in a separate process session
 ##       --regex PATTERN validate filenames based on POSIX ERE pattern PATTERN.
@@ -27,7 +27,6 @@ source ${YP_DIR}/sh/common.inc.sh
 ##   -V, --version       output version information and exit.
 ##   -h, --help          display this help and exit.
 ##
-## WARN --stdin is not supported as of now.
 ## WARN that = form is not supported for options e.g. "--umask=022" should be "--umask 022".
 ##
 ## NOTE that -v is used as a verbose shorthand, and -V for a version shorthand
@@ -37,8 +36,14 @@ source ${YP_DIR}/sh/common.inc.sh
 # - https://github.com/ikysil/run-parts
 # - https://github.com/wolfbox/run-parts/blob/master/run-parts.sh
 
+TMP_RUNPARTS=$(mktemp -t yplatform.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_RUNPARTS}
+}
+trap on_exit EXIT
+
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(getopt -o vu:a:Vh -l test,list,verbose,report,reverse,exit-on-error,lsbsysinit,new-session,regex:,umask:,arg:,version,help -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o vu:a:Vh -l test,list,verbose,report,reverse,exit-on-error,stdin,lsbsysinit,new-session,regex:,umask:,arg:,version,help -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
@@ -48,7 +53,7 @@ VERBOSE_MODE=false
 REPORT_MODE=false
 REVERSE_MODE=false
 EXIT_ON_ERROR_MODE=false
-# STDIN_MODE=false
+STDIN_MODE=false
 LSBSYSINIT_MODE=false
 NEW_SESSION_MODE=false
 REGEX="^[a-zA-Z0-9_-]\+$"
@@ -86,10 +91,10 @@ while [[ $# -gt 0 ]]; do
             EXIT_ON_ERROR_MODE=true
             shift
             ;;
-        # --stdin)
-        #     STDIN_MODE=true
-        #     shift
-        #     ;;
+        --stdin)
+            STDIN_MODE=true
+            shift
+            ;;
         --lsbsysinit)
             LSBSYSINIT_MODE=true
             shift
@@ -177,14 +182,14 @@ function run_parts_filter() {
 
 function maybe_new_session() {
     [[ "${NEW_SESSION_MODE}" = "true" ]] || {
-        "$@"
+        cat "${TMP_RUNPARTS}" | "$@"
         return
     }
 
-	( "$@" ) &
-	local PID=$!
-	wait "${PID}"
-	return $?
+	  ( cat "${TMP_RUNPARTS}" | "$@" ) &
+	  local PID=$!
+	  wait "${PID}"
+	  return $?
 }
 
 function run_part() {
@@ -196,6 +201,11 @@ function run_part() {
 }
 
 umask "${UMASK}"
+
+[[ "${STDIN_MODE}" != "true" ]] || {
+    cat /dev/stdin >${TMP_RUNPARTS}
+}
+touch ${TMP_RUNPARTS}
 
 # NOTE need to modify EXIT_STATUS, so no pipe
 # find -L "${DIR}" -type f | run_parts_sort | run_parts_filter | while IFS= read -r PART; do
