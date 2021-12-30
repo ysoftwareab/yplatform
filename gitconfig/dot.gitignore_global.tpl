@@ -26,6 +26,7 @@ for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
 done
 
 echo "# -*- mode: Gitignore -*-"
+
 echo
 echo "# BEGIN gitconfig/dot.gitignore_global.base"
 echo
