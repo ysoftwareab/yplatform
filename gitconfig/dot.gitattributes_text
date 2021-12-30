@@ -27,3 +27,7 @@
 .mailmap       text
 .npmignore     text
 Makefile*      text
+
+*.bat          eol=crlf
+*.cmd          eol=crlf
+*.ps1          eol=crlf

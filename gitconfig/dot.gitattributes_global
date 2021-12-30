@@ -314,6 +314,10 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 .npmignore     text
 Makefile*      text
 
+*.bat          eol=crlf
+*.cmd          eol=crlf
+*.ps1          eol=crlf
+
 # END gitconfig/dot.gitattributes_text
 
 # BEGIN gitconfig/dot.gitattributes_text_diff
