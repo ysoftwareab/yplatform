@@ -245,6 +245,6 @@ while IFS= read -r PART; do
         EXIT_STATUS=1
         continue
     }
-done <<<$(find "${DIR}" | run_parts_sort | run_parts_filter)
+done < <(find "${DIR}" | run_parts_sort | run_parts_filter)
 
 exit ${EXIT_STATUS}
