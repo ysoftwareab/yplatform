@@ -301,11 +301,13 @@ Makefile*      whitespace=space-before-tab,-tab-in-indent,trailing-space
 *.ps1          text
 *.sql          text
 *.template     text
+*.toml         text
 *.ts           text
 *.txt          text
 *.xml          text
 *.yaml         text
 *.yml          text
+*.zsh          text
 .editorconfig  text
 .gitattributes text
 .gitconfig     text
