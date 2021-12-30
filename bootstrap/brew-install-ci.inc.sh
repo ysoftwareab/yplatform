@@ -22,7 +22,7 @@ set -euo pipefail
 
 echo_do "brew: Installing CI packages..."
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
-# NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+# NOTE 'findutils' provides 'xargs', because the MacOS version has no 'xargs -r'
 brew_install_one_unless findutils "find --version | head -1" "^find (GNU findutils) 4\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."
 

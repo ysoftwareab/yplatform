@@ -23,7 +23,7 @@ cache:
     # common
     - $HOME/.local
     - $HOME/.npm
-    # darwin
+    # macos
     - $HOME/Library/Caches/Homebrew
     - $HOME/Library/Caches/pip
     # linux

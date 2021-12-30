@@ -3,7 +3,7 @@
 ## Bootstrapping your terminal with `gpg` and `keybase`
 
 ```shell
-# install gnu gpg suite; for example, on OSX you can run
+# install gnu gpg suite; for example, on MacOS you can run
 brew cask install gpg-suite
 ```
 
@@ -22,7 +22,7 @@ Use `Method 2` in `Optional: In case you're prompted to enter the password every
 **NOTE** `keybase` is recommended for its simplicity and convenience but it is really optional.
 
 ```shell
-# download the keybase app; for example, on OSX you can run
+# download the keybase app; for example, on MacOS you can run
 brew cask install keybase
 
 # set up a keybase account, proofs and a gpg key

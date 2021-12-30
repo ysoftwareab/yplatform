@@ -17,7 +17,7 @@ aliases:
         # common
         - ~/.local
         - ~/.npm
-        # darwin
+        # macos
         - ~/.homebrew
         - ~/Library/Caches/Homebrew
         - ~/Library/Caches/pip

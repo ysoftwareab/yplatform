@@ -79,7 +79,7 @@ case "${GNU_CHOWN}-${OS_SHORT}" in
         }
         ;;
     *)
-        echo_err "GNU or Darwin chown file required."
+        echo_err "GNU or MacOS chown file required."
         >&2 debug_exe "chown"
         exit 1
         ;;

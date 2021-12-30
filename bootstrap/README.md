@@ -14,7 +14,7 @@ git clone git://github.com/ysoftwareab/yplatform.git ~/git/yplatform
 
 # Bootstrap your system
 
-We support Darwin (OSX) and Linux (Ubuntu) architectures.
+We support MacOS and Linux (Ubuntu) architectures.
 The former is the main development architecture, while the latter is the main CI/CD architecture.
 
 **We do NOT support Windows Subshell for Linux**,
@@ -24,9 +24,9 @@ If you feel adventurous, read and improve our experimental notes on [working wit
 
 ## GNU
 
-In order to simplify our ~scripts~ lives, we expect GNU binaries, even on Darwin.
+In order to simplify our ~scripts~ lives, we expect GNU binaries, even on MacOS.
 
-We hear you: but wouldn't it be possible to support BSD (Darwin) alternatives?
+We hear you: but wouldn't it be possible to support BSD (MacOS) alternatives?
 More like [unpossible](https://ponderthebits.com/2017/01/know-your-tools-linux-gnu-vs-mac-bsd-command-line-utilities-grep-strings-sed-and-find/)
 because it's not enough to keep yourself to a POSIX common denominator, or to be a great Unix programmer,
 but you really have to know and watch out for cornercases
@@ -34,7 +34,7 @@ driven by differences in implementation between GNU and BSD versions,
 and that means everyone has to be that person.
 
 We hear you again: will that not screw up other software on my computer expecting BSD behavior of `find`, `sed`, `grep`, etc?
-If software depends on BSD behavior on Darwin, then they **SHOULD** use the full path e.g. `/usr/bin/find` instead of `find`.
+If software depends on BSD behavior on MacOS, then they **SHOULD** use the full path e.g. `/usr/bin/find` instead of `find`.
 Chances are in the 99%-realm high that everything will work just fine.
 
 

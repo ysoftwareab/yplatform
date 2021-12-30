@@ -22,7 +22,7 @@ variables:
         # common
         - $HOME/.local
         - $HOME/.npm
-        # darwin
+        # macos
         - $HOME/.homebrew
         - $HOME/Library/Caches/Homebrew
         - $HOME/Library/Caches/pip

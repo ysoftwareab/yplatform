@@ -10,7 +10,7 @@ source ${YP_DIR}/bootstrap/brew-install-${YP_CI_BREW_INSTALL}.inc.sh
     [[ "${YP_CI_BREW_INSTALL}" = "minimal" ]] || { \
         # installing perl for performance reasons,
         # since it takes a very long time to install via homebrew on Linux
-        # NOTE: many formulas are optimized to use system's perl on Darwin, but not Linux
+        # NOTE: many formulas are optimized to use system's perl on MacOS, but not Linux
         [[ "${OS_RELEASE_ID}" != "alpine" ]] || brew_install_one gcc
         brew_install_one perl
     }

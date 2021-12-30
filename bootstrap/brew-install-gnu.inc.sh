@@ -13,7 +13,7 @@ brew_install_one_unless bash "bash --version | head -1" "^GNU bash, version [^12
 brew_install_one_unless coreutils "cat --version | head -1" "^cat (GNU coreutils) [89]\."
 brew_install_one_unless diffutils "diff --version | head -1" "^diff (GNU diffutils) 3\."
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
-# NOTE 'findutils' provides 'xargs', because the OSX version has no 'xargs -r'
+# NOTE 'findutils' provides 'xargs', because the MacOS version has no 'xargs -r'
 brew_install_one_unless findutils "find --version | head -1" "^find (GNU findutils) 4\."
 brew_install_one_unless gawk "awk --version | head -1" "^GNU Awk 5\."
 # NOTE 'gettext' provides 'envsubst'

@@ -157,7 +157,7 @@ and using instead `.travis.yml` file (that only Travis CI can decrypt):
 * Githib Releases provider API key
 
 You'll need to use the official (and Ruby heavy) [Travis CI client](https://github.com/travis-ci/travis.rb) for that.
-On OSX run `brew install travis` to install it.
+On MacOS run `brew install travis` to install it.
 
 ```shell
 travis encrypt --com something_super_secret

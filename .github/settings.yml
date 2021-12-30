@@ -3,5 +3,5 @@ _extends: ysoftwareab/yplatform:repo/dot.github/settings.base.yml
 repository:
   name: yplatform
   description: Software and configuration that supports various cycles of software development.
-  topics: support, git, macos, linux shell, bootstrap, bash, zsh automation, build, ci, \
-          makefile darwin, configuration, gitconfig util, bsd, build-tool, gnu
+  topics: support, git, macos, linux, shell, bootstrap, bash, zsh, automation, build, ci, \
+          makefile, macos, configuration, gitconfig, util, bsd, build-tool, gnu
