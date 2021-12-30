@@ -14,12 +14,11 @@ git clone git://github.com/ysoftwareab/yplatform.git ~/git/yplatform
 
 # Bootstrap your system
 
-We support MacOS and Linux (Ubuntu) architectures.
-The former is the main development architecture, while the latter is the main CI/CD architecture.
+We support MacOS, Linux and Microsoft Windows (WSL) platforms.
+MacOS is the main development platform, while Linux (Ubuntu) is the main CI/CD platform.
 
-**We do NOT support Windows Subshell for Linux**,
-but we do know that it is possible to successfully bootstrap Ubuntu distributions under it.
-If you feel adventurous, read and improve our experimental notes on [working with WSL](README.wsl.md).
+If you find yourself developing on Microsoft Windows,
+[you can setup WSL as your development platform](README.wsl.md).
 
 
 ## GNU
