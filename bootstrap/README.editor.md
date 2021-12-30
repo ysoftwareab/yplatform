@@ -28,7 +28,7 @@ several in the team are using [Visual Studio Code](https://code.visualstudio.com
 
 Therefore we may commit `.vscode` configs in our repositories,
 [to notify people of certain extensions that should be installed](https://github.com/ysoftwareab/yplatform/blob/master/repo/dot.vscode/extensions.json),
-or [to set up more style conventions than what editorconfig handles)(https://github.com/ysoftwareab/yplatform/blob/master/repo/dot.vscode/settings.json)
+or [to set up more style conventions than what editorconfig handles](https://github.com/ysoftwareab/yplatform/blob/master/repo/dot.vscode/settings.json)
 or [to set up tasks/shortcuts for generic commands relevant to each repository)(https://github.com/ysoftwareab/yplatform/blob/master/repo/dot.vscode/tasks.json).
 
 ## eslint, tslint, sasslint, etc
