@@ -228,3 +228,7 @@ package-lock.json -diff
 .cirrus.yml    export-ignore
 .travis.yml    export-ignore
 .gitlab-ci.yml export-ignore
+bitrise.yml           export-ignore
+buddy.yml             export-ignore
+codeship-services.yml export-ignore
+codeship-steps.yml    export-ignore
