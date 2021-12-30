@@ -19,6 +19,9 @@ GITHUB_GLOBAL_GITIGNORES="\
     macOS \
 "
 
+LOCAL_GITIGNORES="\
+"
+
 mkdir -p ${GIT_ROOT}/gitconfig/github-global-gitignore
 for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
     curl -qfsSL -o ${GIT_ROOT}/gitconfig/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore \
@@ -43,4 +46,13 @@ for GITHUB_GLOBAL_GITIGNORE in ${GITHUB_GLOBAL_GITIGNORES}; do
     cat ${GIT_ROOT}/gitconfig/github-global-gitignore/${GITHUB_GLOBAL_GITIGNORE}.gitignore
     echo
     echo "# END ${GITHUB_GLOBAL_GITIGNORE_BASE_URL}/${GITHUB_GLOBAL_GITIGNORE}.gitignore"
+done
+
+for LOCAL_GITIGNORE in ${LOCAL_GITIGNORES}; do
+    echo
+    echo "# BEGIN ${LOCAL_GITIGNORE}"
+    echo
+    cat ${LOCAL_GITIGNORE}
+    echo
+    echo "# END ${LOCAL_GITIGNORE}"
 done
