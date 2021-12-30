@@ -70,7 +70,7 @@ YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(YP_DIR)/build.mk/core.deps.git-info-exclude.mk \
 	$(YP_DIR)/build.mk/core.deps.git-submodules.mk \
 	$(YP_DIR)/build.mk/core.deps.git-reset-mtime.mk \
-	$(YP_DIR)/build.mk/core.deps.git-hook-pre-push.mk \
+	$(YP_DIR)/build.mk/core.deps.git-hooks.mk \
 
 YP_CORE_COMMON_INCLUDES_DEFAULT += \
 	$(YP_DIR)/build.mk/core.node.mk \

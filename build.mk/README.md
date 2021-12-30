@@ -59,7 +59,7 @@ The high-level collections of pieces are as follows:
   * [core.ci.mk](core.ci.mk)
 * [generic.common.mk](generic.common.mk) - for generic repositories
   * [core.common.mk](core.common.mk)
-  * [core.deps.git-hook-pre-push.mk](core.deps.git-hook-pre-push.mk)
+  * [core.deps.git-hooks.mk](core.deps.git-hooks.mk)
   * [core.build.build-version-files.mk](core.build.build-version-files.mk)
   * [core.check.path.mk](core.check.path.mk)
   * [core.check.path-sensitive.mk](core.check.path-sensitive.mk)

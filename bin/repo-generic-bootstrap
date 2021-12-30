@@ -100,6 +100,18 @@ ARTIFACT=.ci.sh
     done
 }
 
+[[ -e .git-hooks ]] || {
+    mkdir -p .git-hooks
+    for ARTIFACT in "${YP_DIR_REL}/repo/dot.git-hooks"/*; do
+        ARTIFACT=.git-hooks/$(basename ${ARTIFACT})
+        [[ -e ${ARTIFACT} ]] || {
+            cp -Rp -r ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
+            echo_info "Created ${ARTIFACT}."
+        }
+    done
+}
+
 ARTIFACT=.shellcheckrc
 [[ -e ${ARTIFACT} ]] || {
     ln -s ${YP_DIR_REL}/repo/dot.shellcheckrc ${ARTIFACT}

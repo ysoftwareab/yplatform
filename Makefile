@@ -50,6 +50,9 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
 	-e "^doc/bak/" \
 
+YP_SYMLINK_FILES_IGNORE += \
+	-e "^repo/dot\.git-hooks/pre-push$$" \
+
 YP_PATH_FILES_IGNORE += \
 	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
