@@ -6,7 +6,8 @@
 
 # NOTE It is best to have one attribute per line.
 # https://github.com/git/git/blob/df6c4f722c94641d5a9ea5496511f7043433abc2/Documentation/gitattributes.txt#L57-L59
-# When more than one pattern matches the path, a later line overrides an earlier line. This overriding is done per attribute.
+# When more than one pattern matches the path, a later line overrides an earlier line.
+# This overriding is done per attribute.
 
 # A primer on a few git attributes
 # whitespace=blank-at-eof     = do not allow trailing lines at the end of the file (default on)
