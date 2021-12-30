@@ -28,25 +28,48 @@
 # ------------------------------------------------------------------------------
 
 # NOTE might be enough with core.common.mk
-ifndef SF_GENERIC_COMMON_INCLUDES_DEFAULT
-$(error Please include generic.common.mk, before including py.common.mk .)
+ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
+$(error Please include generic.common.mk, before including channels.common.mk .)
 endif
 
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/channels.deps.mk
-include $(SUPPORT_FIRECLOUD_DIR)/repo/mk/channels.promote.mk
+include $(YP_DIR)/repo/mk/channels.deps.mk
+include $(YP_DIR)/repo/mk/channels.promote.mk
 
 # ------------------------------------------------------------------------------
 
-SF_CHANNELS_GIT_URL := $(shell \
+YP_PROMOTE_CHANNELS_GIT_URL := $(shell \
 	$(GIT) remote -v 2>/dev/null | \
 	$(GREP) -oP "(?<=\t).+" | \
 	$(GREP) -oP ".+(?= \(fetch\))" | \
 	$(HEAD) -n1 | \
 	$(SED) "s/.git$$/-releases.git/")
 
-SF_CHANNELS_DIR := releases
+YP_PROMOTE_CHANNELS_DIR := releases
 
-SF_PROMOTE_CHANNELS += \
+YP_PROMOTE_CHANNELS += \
+	canary \
 	stable \
 
 # ------------------------------------------------------------------------------
+
+.PHONY: channels
+channels: ## View the status of release channels.
+	$(eval YP_PROMOTE_CHANNELS_REMOTE_REFS := $(patsubst %,refs/heads/$(GIT_REMOTE)/%,$(SF_PROMOTE_CHANNELS)))
+	$(eval OLDEST_CHANNEL := $(shell \
+		$(GIT) fetch 2>/dev/null >&2; \
+		$(GIT) -C $(YP_PROMOTE_CHANNELS_DIR) \
+			for-each-ref --format="%(committerdate:unix) %(refname:short)" $(YP_PROMOTE_CHANNELS_REMOTE_REFS) | \
+		$(SORT) -k1 | \
+		$(HEAD) -n1 | \
+		$(CUT) -d" " -f2))
+	$(ECHO)
+	$(ECHO_INFO) "Commits since oldest channel:"
+	$(ECHO)
+	$(GIT) -C $(YP_PROMOTE_CHANNELS_DIR) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(GIT_REMOTE)/$(OLDEST_CHANNEL).. | \
+		$(GREP) --color -i -E "^|break" || true
