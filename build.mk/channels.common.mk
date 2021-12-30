@@ -32,8 +32,8 @@ ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
 $(error Please include generic.common.mk, before including channels.common.mk .)
 endif
 
-include $(YP_DIR)/repo/mk/channels.deps.mk
-include $(YP_DIR)/repo/mk/channels.promote.mk
+include $(YP_DIR)/build.mk/channels.deps.mk
+include $(YP_DIR)/build.mk/channels.promote.mk
 
 # ------------------------------------------------------------------------------
 
