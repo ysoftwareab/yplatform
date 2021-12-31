@@ -19,10 +19,10 @@ function brew_install_one_patched() {
     local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
     local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
-    local DIR=${GIT_ROOT}/Formula/patch-lib
+    local DIR=${GIT_ROOT}/homebrew/Formula/patch-lib
     mkdir -p ${DIR}
 
-    local PATCH=${GIT_ROOT}/Formula/${NAME}.${OS_SHORT}.patch
+    local PATCH=${DIR}/${NAME}.${OS_SHORT}.patch
     local ORIGINAL=${DIR}/${NAME}.original.rb
     local PATCHED=${DIR}/${NAME}.rb
 
@@ -126,7 +126,7 @@ function brew_install_one() {
     # local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
 
     # if we have a patch file, then use it to install the formula
-    [[ ! -f Formula/${NAME}.${OS_SHORT}.patch ]] || {
+    [[ ! -f homebrew/Formula/${NAME}.${OS_SHORT}.patch ]] || {
         brew_install_one_patched "$@"
         hash -r # see https://github.com/Homebrew/brew/issues/5013
         return 0

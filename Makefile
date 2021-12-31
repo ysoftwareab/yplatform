@@ -28,15 +28,13 @@ CI_PRINTVARS := $(YP_DIR)/bin/ci-printvars
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
-FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
-FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
+FORMULA_PATCH_FILES = $(shell $(GIT_LS) "homebrew/Formula/*.patch")
+FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "homebrew/Formula/patch-src/*.original.rb"))
 
 YP_CLEAN_FILES += \
 	yplatform \
 
-YP_VENDOR_FILES_IGNORE += \
-	-e "^Formula/.*\.patch$$" \
-	-e "^Formula/patch-src/" \
+SF_VENDOR_FILES_IGNORE += \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/retry$$" \
@@ -54,7 +52,6 @@ YP_SYMLINK_FILES_IGNORE += \
 	-e "^repo/dot\.git-hooks/pre-push$$" \
 
 YP_PATH_FILES_IGNORE += \
-	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
 	-e "^dockerfiles/build.FROM_DOCKER_IMAGE_TAG$$" \
 	-e "^generic/dot\.gitattributes_global$$" \
@@ -228,37 +225,38 @@ bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-inst
 	$(DIFF) -u --label $< --label $(word 2,$^) $< $(word 2,$^) > $@ || true
 
 
-.PHONY: Formula/patch-src/%.original.rb
+.PHONY: homebrew/Formula/patch-src/%.original.rb
 ifneq (true,$(CI))
-Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
+homebrew/Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
 endif
-Formula/patch-src/%.original.rb:
-	$(eval HOMEBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
-		$(GREP) "^homebrew/homebrew-core" | $(CUT) -d" " -f2))
+homebrew/Formula/patch-src/%.original.rb:
+	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
+		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
 	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/homebrew-core/$(HOMEBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
-	if [[ -f Formula/$*.linux.patch ]]; then \
-		$(MAKE) Formula/patch-src/$*.rb || { \
-			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
+		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
+	if [[ -f homebrew/Formula/$*.linux.patch ]]; then \
+		$(MAKE) homebrew/Formula/patch-src/$*.rb || { \
+			$(ECHO_ERR) "Failed to apply old patch homebrew/Formula/$*.linux.patch"; \
+			$(ECHO_ERR) "and update patched file Formula/patch-src/$*.rb."; \
 			exit 1; \
 		} \
 	else \
-		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
+		$(CP) homebrew/Formula/patch-src/$*.original.rb homebrew/Formula/patch-src/$*.rb; \
 	fi
 	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) Formula/patch-src/$*.rb; \
+		$(EDITOR) homebrew/Formula/patch-src/$*.rb; \
 	else \
 		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) Formula/patch-src/$*.rb"; \
+		$(ECHO_SKIP) "$(EDITOR) homebrew/Formula/patch-src/$*.rb"; \
 	fi
-	$(MAKE) Formula/$*.linux.patch
+	$(MAKE) homebrew/Formula/$*.linux.patch
 
 
-.PHONY: Formula/%.linux.patch
-Formula/%.linux.patch: Formula/patch-src/%.original.rb
+.PHONY: homebrew/Formula/%.linux.patch
+homebrew/Formula/%.linux.patch: homebrew/Formula/patch-src/%.original.rb
 	$(call yp-generate-from-template-patch,Formula/patch-src/$*.rb)
 
 
-.PHONY: Formula/patch-src/%.rb
-Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
-	$(call yp-generate-from-template-patched,Formula/$*.linux.patch)
+.PHONY: homebrew/Formula/patch-src/%.rb
+homebrew/Formula/patch-src/%.rb: homebrew/Formula/patch-src/%.original.rb
+	$(call yp-generate-from-template-patched,homebrew/Formula/$*.linux.patch)
