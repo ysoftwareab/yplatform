@@ -1,0 +1,49 @@
+# -*- mode: Makefile -*-
+
+# Adds internal targets to update formulas in https://github.com/ysoftwareab/homebrew-y
+# as well as homebrew installer to upstream versions and re-apply local patches.
+
+# ------------------------------------------------------------------------------
+
+FORMULA_PATCH_FILES = $(shell $(GIT_LS) "homebrew/Formula/*.patch")
+FORMULA_PATCHED_FILES = $(patsubst %.patch,%.rb,$(FORMULA_PATCH_FILES))
+FORMULA_ORIGINAL_FILES = $(patsubst %.patch,%.rb.original,$(FORMULA_PATCH_FILES))
+
+# ------------------------------------------------------------------------------
+
+.PHONY: homebrew/Formula/%.rb.original
+homebrew/Formula/%.rb.original: ## Fetch upstream formula and apply local patches to original formula.
+ifneq (true,$(CI))
+homebrew/Formula/%.rb.original: $(BREWFILE_LOCK)
+endif
+homebrew/Formula/%.rb.original:
+	$(eval LINUXBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
+		$(GREP) "^homebrew/linuxbrew-core" | $(CUT) -d" " -f2))
+	$(CURL) -q -fsSL \
+		https://raw.githubusercontent.com/homebrew/linuxbrew-core/$(LINUXBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
+	if [[ -f homebrew/Formula/$*.linux.patch ]]; then \
+		$(MAKE) homebrew/Formula/$*.rb || { \
+			$(ECHO_ERR) "Failed to apply old patch homebrew/Formula/$*.linux.patch"; \
+			$(ECHO_ERR) "and update patched file Formula/$*.rb."; \
+			exit 1; \
+		} \
+	else \
+		$(CP) homebrew/Formula/$*.rb.original homebrew/Formula/$*.rb; \
+	fi
+	if [[ -t 0 ]] && [[ -t 1 ]]; then \
+		$(EDITOR) homebrew/Formula/$*.rb; \
+	else \
+		$(ECHO_INFO) "No tty."; \
+		$(ECHO_SKIP) "$(EDITOR) homebrew/Formula/$*.rb"; \
+	fi
+	$(MAKE) homebrew/Formula/$*.linux.patch
+
+
+.PHONY: homebrew/Formula/%.linux.patch ## Generate formula patch.
+homebrew/Formula/%.linux.patch: homebrew/Formula/%.rb.original
+	$(call sf-generate-from-template-patch,Formula/$*.rb)
+
+
+.PHONY: homebrew/Formula/%.rb ## Apply local patches to original formula.
+homebrew/Formula/%.rb: homebrew/Formula/%.rb.original
+	$(call sf-generate-from-template-patched,homebrew/Formula/$*.linux.patch)
