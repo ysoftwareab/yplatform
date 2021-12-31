@@ -123,10 +123,6 @@ YP_TEST_TARGETS += \
 	$(call yp-generate-from-template)
 
 
-Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
-	$(call yp-generate-from-template)
-
-
 .PHONY: test-secret
 test-secret:
 ifeq ($(YP_IS_TRANSCRYPTED),true)
