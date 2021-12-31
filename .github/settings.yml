@@ -5,3 +5,17 @@ repository:
   description: Software and configuration that supports various cycles of software development.
   topics: support, git, macos, linux, shell, bootstrap, bash, zsh, automation, build, ci, \
           makefile, macos, configuration, gitconfig, util, bsd, build-tool, gnu
+
+labels:
+  - name: component:aws
+    color: ffffff
+  - name: component:bootstrap
+    color: ffffff
+  - name: component:ci
+    color: ffffff
+  - name: component:docker
+    color: ffffff
+  - name: component:make
+    color: ffffff
+  - name: component:sh
+    color: ffffff
