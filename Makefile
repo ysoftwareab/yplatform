@@ -28,15 +28,10 @@ CI_PRINTVARS := $(YP_DIR)/bin/ci-printvars
 COMMON_MKS := $(wildcard build.mk/*.common.mk)
 COMMON_MKS := $(filter-out build.mk/generic.common.mk,$(COMMON_MKS))
 
-FORMULA_PATCH_FILES = $(shell $(GIT_LS) "Formula/*.patch")
-FORMULA_PATCHED_FILES = $(patsubst %.original.rb,%.rb,$(shell $(GIT_LS) "Formula/patch-src/*.original.rb"))
-
 YP_CLEAN_FILES += \
 	yplatform \
 
-YP_VENDOR_FILES_IGNORE += \
-	-e "^Formula/.*\.patch$$" \
-	-e "^Formula/patch-src/" \
+SF_VENDOR_FILES_IGNORE += \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/retry$$" \
@@ -54,7 +49,6 @@ YP_SYMLINK_FILES_IGNORE += \
 	-e "^repo/dot\.git-hooks/pre-push$$" \
 
 YP_PATH_FILES_IGNORE += \
-	-e "^Formula/" \
 	-e "^aws-cfn.mk/tpl\.Makefile$$" \
 	-e "^dockerfiles/build.FROM_DOCKER_IMAGE_TAG$$" \
 	-e "^generic/dot\.gitattributes_global$$" \
@@ -120,10 +114,6 @@ YP_TEST_TARGETS += \
 
 .github/workflows/deploy.yml: bin/github-checkout $(wildcard .github/workflows.src/deploy*)
 .github/workflows/deploy.yml: .github/workflows/deploy.yml.tpl
-	$(call yp-generate-from-template)
-
-
-Formula/editorconfig-checker.rb: Formula/editorconfig-checker.rb.tpl
 	$(call yp-generate-from-template)
 
 
@@ -231,38 +221,4 @@ bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-inst
 bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-install.sh
 	$(DIFF) -u --label $< --label $(word 2,$^) $< $(word 2,$^) > $@ || true
 
-
-.PHONY: Formula/patch-src/%.original.rb
-ifneq (true,$(CI))
-Formula/patch-src/%.original.rb: $(BREWFILE_LOCK)
-endif
-Formula/patch-src/%.original.rb:
-	$(eval HOMEBREW_CORE_GIT_REF := $(shell $(CAT) $(BREWFILE_LOCK) | \
-		$(GREP) "^homebrew/homebrew-core" | $(CUT) -d" " -f2))
-	$(CURL) -q -fsSL \
-		https://raw.githubusercontent.com/homebrew/homebrew-core/$(HOMEBREW_CORE_GIT_REF)/Formula/$*.rb -o $@
-	if [[ -f Formula/$*.linux.patch ]]; then \
-		$(MAKE) Formula/patch-src/$*.rb || { \
-			$(ECHO_ERR) "Failed to apply old patch Formula/$*.linux.patch and update patched file Formula/patch-src/$*.rb."; \
-			exit 1; \
-		} \
-	else \
-		$(CP) Formula/patch-src/$*.original.rb Formula/patch-src/$*.rb; \
-	fi
-	if [[ -t 0 ]] && [[ -t 1 ]]; then \
-		$(EDITOR) Formula/patch-src/$*.rb; \
-	else \
-		$(ECHO_INFO) "No tty."; \
-		$(ECHO_SKIP) "$(EDITOR) Formula/patch-src/$*.rb"; \
-	fi
-	$(MAKE) Formula/$*.linux.patch
-
-
-.PHONY: Formula/%.linux.patch
-Formula/%.linux.patch: Formula/patch-src/%.original.rb
-	$(call yp-generate-from-template-patch,Formula/patch-src/$*.rb)
-
-
-.PHONY: Formula/patch-src/%.rb
-Formula/patch-src/%.rb: Formula/patch-src/%.original.rb
-	$(call yp-generate-from-template-patched,Formula/$*.linux.patch)
+include Makefile.homebrew

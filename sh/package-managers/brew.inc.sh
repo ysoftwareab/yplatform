@@ -12,38 +12,7 @@ function brew_cache_prune() {
     echo_done
 }
 
-function brew_install_one_patched() {
-    local FORMULA="$*"
-
-    local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-    local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
-    local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
-
-    local DIR=${GIT_ROOT}/Formula/patch-lib
-    mkdir -p ${DIR}
-
-    local PATCH=${GIT_ROOT}/Formula/${NAME}.${OS_SHORT}.patch
-    local ORIGINAL=${DIR}/${NAME}.original.rb
-    local PATCHED=${DIR}/${NAME}.rb
-
-    echo_do "brew: Patching ${NAME} with ${PATCH} as ${PATCHED}..."
-    brew cat ${NAME} > ${ORIGINAL}
-    patch ${ORIGINAL} ${PATCH} -o ${PATCHED} || {
-        cat ${PATCHED}.rej
-        echo_info "${ORIGINAL}"
-        cat ${ORIGINAL}
-        echo_info "${PATCH}"
-        cat ${PATCH}
-        exit 1
-    }
-    echo_done
-
-    echo_do "brew: Installing ${NAME} from ${PATCHED}..."
-    brew_install_one_core ${PATCHED} ${OPTIONS}
-    echo_done
-}
-
-function brew_install_one_core() {
+function brew_install_one() {
     local FORMULA="$*"
 
     local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
@@ -116,23 +85,6 @@ function brew_install_one_core() {
     #     grep -q -v "^null$" || \
     #     brew link --force --overwrite ${NAME}
     echo_done
-}
-
-function brew_install_one() {
-    local FORMULA="$*"
-
-    local FULLNAME=$(echo "${FORMULA}" | cut -d " " -f 1)
-    local NAME=$(basename "${FULLNAME}" | sed "s/\.rb\$//")
-    # local OPTIONS=$(echo "${FORMULA} " | cut -d " " -f 2- | xargs -n 1 | sort -u)
-
-    # if we have a patch file, then use it to install the formula
-    [[ ! -f Formula/${NAME}.${OS_SHORT}.patch ]] || {
-        brew_install_one_patched "$@"
-        hash -r # see https://github.com/Homebrew/brew/issues/5013
-        return 0
-    }
-
-    brew_install_one_core "${FORMULA}"
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
 
