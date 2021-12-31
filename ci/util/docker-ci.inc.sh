@@ -52,7 +52,7 @@ function yp_run_docker_ci_image() {
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec -it -u root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
-            $(YP_DIR)/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
+            ${YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
     local GNAME_REAL=$(docker exec -it -u root ${CONTAINER_NAME} \
         getent group ${GID2} | cut -d: -f1)
