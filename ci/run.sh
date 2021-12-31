@@ -19,7 +19,7 @@ source ${YP_DIR}/ci/util/env.inc.sh
     export YP_CI_DEBUG_MODE=true
 
     # export all functions $(e.g. nvm)
-    source <(declare -F | sed "s/^declare /export /g")
+    source <(declare -F | sed "s/^declare \-fx\?/export -f/g")
 
     # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
     PS1="\w\$ " bash
