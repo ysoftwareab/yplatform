@@ -2,18 +2,24 @@
 
 We follow a hard line wrapping at 120 cpl (characters per line), and soft line wrapping at 80 cpl.
 
-What this means is that editors should show two rulers at 80, and respectively 120 cpl,
-and that we try not to reach the first ruler, but that it is fine to go up to the second ruler, if/when needed.
+What this means is that editors should be configured to show two rulers:
+
+* at 80 cpl - a limit we TRY not to surpass
+* at 120 cpl - a limit we CANNOT surpass
 
 In very very rare cases e.g. regular expressions, we need/want to go above 120 cpl, and that's fine.
 Just append a comment to the end of the line to please the editorconfig-checker
 e.g. `# editorconfig-checker-disable-line` or `// editorconfig-checker-disable-line`.
-There are less than 50 instances of such exceptions as of 2021-08-18. Very very few that is.
+
+For reference, there are less than 50 instances in `yplatform` of such exceptions
+as of 2021-08-18. Very very few that is.
 
 
 ## But why?
 
-TL;DR: shorter lines = better comprehension. Reading code is not the same as reading prose, yes.
+TL;DR: shorter lines = better comprehension.
+
+Reading code is not the same as reading prose, yes.
 But that doesn't imply that all reasearch is redundant or that the former becomes a false statement.
 So while typography findings (mostly focused on prose) shouldn't be taken ad-literam (we engineers like strict limits),
 it is important not to ignore them. That's why while the findings point at really really short lines,
@@ -40,3 +46,9 @@ and [here](https://www.semanticscholar.org/paper/Markus-Itkonen-Typography-and-r
 
 Because displays have grown in size and resolution in the last few years.
 [Eyes haven't.](https://stackoverflow.com/a/111009/465684)
+
+If you think 80 is tight, try 36 cpl like Breck Yunit!
+Because "thinner columns leave you with more energy for more editing passes. More editing passes improves quality".
+["To write faster, I need to read faster."](https://breckyunits.com/write-thin-to-write-fast.html)
+
+"The 66-character line (counting both letters and spaces) is widely regarded as ideal." Robert Bringhurst in *The Elements of Typographic Style*
