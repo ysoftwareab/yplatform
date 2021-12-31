@@ -176,13 +176,17 @@ Similarly, we can reproduce this pipeline in CircleCI, Github Actions, etc.
 
 See for yourself. Search `.ci.sh before_install` in
 
-* [.appveyor.yml](../.appveyor.yml)
-* [.circleci/config.yml](../.circleci/config.yml)
-* [.cirrus.yml](../.cirrus.yml)
-* [.codeship-steps.yml](../.codeship-steps.yml)
-* [.github/workflows/main.yml](../.github/workflows/main.yml)
-* [.gitlab-ci.yml](../.gitlab-ci.yml)
-* [.travis.yml](../.travis.yml)
+* AppVeyor's [.appveyor.yml](../.appveyor.yml)
+* Bitrise's [bitrise.yml](../bitrise.yml)
+* Buddy's [buddy.yml](../buddy.yml)
+* CircleCI's [.circleci/config.yml](../.circleci/config.yml)
+* Cirrus CI's [.cirrus.yml](../.cirrus.yml)
+* Codeship's [.codeship-steps.yml](../.codeship-steps.yml)
+* Github Actions CI's [.github/workflows/main.yml](../.github/workflows/main.yml)
+* Gitlab CI's [.gitlab-ci.yml](../.gitlab-ci.yml)
+* Semaphore's [.sempahore/semaphore.yml](../.sempahore/semaphore.yml)
+* Sourcehut's [.builds/sourcehut.yml](../.builds/sourcehut.yml)
+* Travis CI's [.travis.yml](../.travis.yml)
 
 
 ## Patterns
