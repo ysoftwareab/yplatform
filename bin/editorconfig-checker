@@ -4,7 +4,8 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-VSN=2.4.0
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_ECCHECKER_VSN}")
 ECCHECKER_URL=https://github.com/editorconfig-checker/editorconfig-checker/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in

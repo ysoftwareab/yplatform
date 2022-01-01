@@ -4,7 +4,8 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-VSN=8.2.4
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_GITLEAKS_VSN}")
 GITLEAKS_URL=https://github.com/zricethezav/gitleaks/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in

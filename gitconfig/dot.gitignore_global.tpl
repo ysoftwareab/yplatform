@@ -4,7 +4,8 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-GITHUB_GLOBAL_GITIGNORE_COMMITISH=96d68766538413194aabd55e3622734cd501e715
+# shellcheck disable=SC1091
+GITHUB_GLOBAL_GITIGNORE_COMMITISH=$(source ${YP_DIR}/CONST.inc && echo "${YP_GITHUB_GITIGNORE_VSN}")
 GITHUB_GLOBAL_GITIGNORE_BASE_URL="https://raw.githubusercontent.com/github/gitignore/${GITHUB_GLOBAL_GITIGNORE_COMMITISH}/Global" # editorconfig-checker-disable-line
 
 # Removing the Emacs gitignore template because it's overly agressive,

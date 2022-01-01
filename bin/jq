@@ -4,7 +4,8 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
-VSN=1.6
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_JQ_VSN}")
 JQ_URL=https://github.com/stedolan/jq/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in

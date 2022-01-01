@@ -57,7 +57,8 @@ done
 (
     cd $(mktemp -d -t yplatform.XXXXXXXXXX)
     curl -qfsSL -o /etc/apk/keys/sgerrand.rsa.pub https://alpine-pkgs.sgerrand.com/sgerrand.rsa.pub
-    GLIBC_VSN=2.32-r0
+    # shellcheck disable=SC1091
+    GLIBC_VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_ALPINE_PKG_GLIBC_VSN}")
     curl -qfsSL -O \
         https://github.com/sgerrand/alpine-pkg-glibc/releases/download/${GLIBC_VSN}/glibc-${GLIBC_VSN}.apk
     curl -qfsSL -O \
