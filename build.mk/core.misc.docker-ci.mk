@@ -18,7 +18,7 @@ $(foreach VAR,DOCKER,$(call make-lazy,$(VAR)))
 # ------------------------------------------------------------------------------
 
 .PHONY: docker-ci
-docker-ci:
+docker-ci: ## Start a Docker CI container (mount entire project).
 	$(eval CONTAINER_NAME := $(shell $(ECHO) "yp-docker-ci-$$(basename $${PWD})"))
 	source $(YP_DIR)/sh/common.inc.sh && \
 		source $(YP_DIR)/ci/util/docker-ci.inc.sh && \
