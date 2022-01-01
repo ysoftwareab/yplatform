@@ -83,12 +83,21 @@ function yp_run_docker_ci_image() {
     exe docker exec -it --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
 
-    # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
+    # if ${MOUNT_DIR} is under ${HOME}, make sure parents of ${MOUNT_DIR} up to ${HOME} inclusive are writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
-    echo_do "Taking ownership over ${HOME}..."
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        chown ${UID2}:${GID2} ${HOME}
-    echo_done
+    [[ "${MOUNT_DIR#"${HOME}"}" = "${MOUNT_DIR}" ]] || {
+        echo_do "Taking ownership over parents of ${MOUNT_DIR} up to ${HOME}..."
+        CHOWN_PWD="${MOUNT_DIR}"
+        while true; do
+            exe docker exec -it --user root ${CONTAINER_NAME} \
+                bash -c "chown ${UID2}:${GID2} ${CHOWN_PWD}"
+            echo_done
+            [[ "${CHOWN_PWD}" != "${HOME}" ]] || break
+            CHOWN_PWD="$(dirname "${CHOWN_PWD}")"
+        done
+        unset CHOWN_PWD
+        echo_done
+    }
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
