@@ -43,16 +43,6 @@ if echo "${GIT_COMMIT_MSG}" | grep -q "\[env [^=]\+=[^]]\+\]"; then
     unset EXPORT_KV
 fi
 
-# CONST.inc{,.secret} env
-set -a
-# shellcheck disable=SC1091
-[[ ! -f ${GIT_ROOT}/CONST.inc ]] || source ${GIT_ROOT}/CONST.inc
-if git config --local transcrypt.version >/dev/null; then
-    # shellcheck disable=SC1091
-    [[ ! -f ${GIT_ROOT}/CONST.inc.secret ]] || source ${GIT_ROOT}/CONST.inc.secret
-fi
-set +a
-
 # util functions
 source ${YP_DIR}/ci/util/debug.inc.sh
 source ${YP_DIR}/ci/util/docker-ci.inc.sh
