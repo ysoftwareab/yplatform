@@ -48,39 +48,39 @@ function yp_run_docker_ci_image() {
     echo_done
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        touch /yplatform.docker-ci
+    exe docker exec --user root ${CONTAINER_NAME} \
+        bash -c "touch /yplatform.docker-ci"
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
             ${YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
-    local GNAME_REAL=$(docker exec -it --user root ${CONTAINER_NAME} \
-        getent group ${GID2} | cut -d: -f1)
+    local GNAME_REAL=$(docker exec --user root ${CONTAINER_NAME} \
+        bash -c "getent group ${GID2} | cut -d: -f1")
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        ${YP_DIR}/bin/linux-adduser \
+    exe docker exec --user root ${CONTAINER_NAME} \
+        bash -c "${YP_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
         --ingroup ${GNAME_REAL} \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
-        "${UNAME}"
+        \"${UNAME}\""
 
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        ${YP_DIR}/bin/linux-adduser2group \
+    exe docker exec --user root ${CONTAINER_NAME} \
+        bash -c "${YP_DIR}/bin/linux-adduser2group \
         --force-badname \
-        "${UNAME}" \
-        sudo;
+        \"${UNAME}\" \
+        sudo"
 
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
 
     # if ${MOUNT_DIR} is under ${HOME}, make sure parents of ${MOUNT_DIR} up to ${HOME} inclusive are writeable
@@ -89,7 +89,7 @@ function yp_run_docker_ci_image() {
         echo_do "Taking ownership over parents of ${MOUNT_DIR} up to ${HOME}..."
         CHOWN_PWD="${MOUNT_DIR}"
         while true; do
-            exe docker exec -it --user root ${CONTAINER_NAME} \
+            exe docker exec --user root ${CONTAINER_NAME} \
                 bash -c "chown ${UID2}:${GID2} ${CHOWN_PWD}"
             echo_done
             [[ "${CHOWN_PWD}" != "${HOME}" ]] || break
