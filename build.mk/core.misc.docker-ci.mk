@@ -18,8 +18,9 @@ $(foreach VAR,DOCKER,$(call make-lazy,$(VAR)))
 # ------------------------------------------------------------------------------
 
 .PHONY: docker-ci
-docker-ci:
+docker-ci: ## Start a Docker CI container (mount entire project).
 	$(eval CONTAINER_NAME := $(shell $(ECHO) "yp-docker-ci-$$(basename $${PWD})"))
+	$(DOCKER) kill $(CONTAINER_NAME) || true
 	source $(YP_DIR)/sh/common.inc.sh && \
 		source $(YP_DIR)/ci/util/docker-ci.inc.sh && \
 		yp_run_docker_ci_image $(YP_DOCKER_CI_IMAGE) $${PWD} $(CONTAINER_NAME)
@@ -28,5 +29,21 @@ docker-ci:
 		--workdir $${PWD} \
 		--user $$(id -u):$$(id -g) \
 		$(CONTAINER_NAME) \
-		./.ci.sh debug || true
+		/yplatform/bin/ci-debug || true
+	$(DOCKER) kill $(CONTAINER_NAME)
+
+
+.PHONY: docker-ci/git
+docker-ci/git: ## Start a Docker CI container (mount only git-dir).
+	$(eval CONTAINER_NAME := $(shell $(ECHO) "yp-docker-ci-git-$$(basename $${PWD})"))
+	$(DOCKER) kill $(CONTAINER_NAME) || true
+	source $(YP_DIR)/sh/common.inc.sh && \
+		source $(YP_DIR)/ci/util/docker-ci.inc.sh && \
+		yp_run_docker_ci_image $(YP_DOCKER_CI_IMAGE) $${PWD}/.git $(CONTAINER_NAME)
+	$(ECHO) "[WARN] Make sure to export relevant environment variables!"
+	$(DOCKER) exec -it \
+		--workdir $${PWD} \
+		--user $$(id -u):$$(id -g) \
+		$(CONTAINER_NAME) \
+		/yplatform/bin/ci-debug "git checkout . && bash" || true
 	$(DOCKER) kill $(CONTAINER_NAME)
