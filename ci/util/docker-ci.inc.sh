@@ -29,7 +29,9 @@ function yp_run_docker_ci_image() {
     exe docker pull ${YP_DOCKER_CI_IMAGE}
     echo_done
 
-    echo_do "Running the ${CONTAINER_NAME} container, proxying relevant env vars and mounting ${MOUNT_DIR} folder..."
+    echo_do "Running the ${CONTAINER_NAME} container..."
+    echo_info "Proxying relevant env vars."
+    echo_info "Mounting RW ${MOUNT_DIR} folder."
     exe docker run -d -it --rm \
         --platform linux/amd64 \
         --privileged \
@@ -46,19 +48,19 @@ function yp_run_docker_ci_image() {
     echo_done
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         touch /yplatform.docker-ci
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
             ${YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
-    local GNAME_REAL=$(docker exec -it -u root ${CONTAINER_NAME} \
+    local GNAME_REAL=$(docker exec -it --user root ${CONTAINER_NAME} \
         getent group ${GID2} | cut -d: -f1)
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         ${YP_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
@@ -68,23 +70,23 @@ function yp_run_docker_ci_image() {
         --disabled-password \
         "${UNAME}"
 
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         ${YP_DIR}/bin/linux-adduser2group \
         --force-badname \
         "${UNAME}" \
         sudo;
 
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
 
     # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
     echo_do "Taking ownership over ${HOME}..."
-    exe docker exec -it -u root ${CONTAINER_NAME} \
+    exe docker exec -it --user root ${CONTAINER_NAME} \
         chown ${UID2}:${GID2} ${HOME}
     echo_done
 
