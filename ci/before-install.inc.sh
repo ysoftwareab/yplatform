@@ -243,6 +243,9 @@ function yp_os() {
     echo_info "${FUNCNAME[0]}: Running with"
     echo_info "${FUNCNAME[0]}: YP_LOG_BOOTSTRAP=${YP_LOG_BOOTSTRAP:-}"
     echo_info "${FUNCNAME[0]}: YP_PRINTENV_BOOTSTRAP=${YP_PRINTENV_BOOTSTRAP:-}"
+    echo_info "${FUNCNAME[0]}: YP_SKIP_SUDO_BOOTSTRAP=${YP_SKIP_SUDO_BOOTSTRAP:-}"
+    echo_info "${FUNCNAME[0]}: YP_SKIP_BREW_UNINSTALL=${YP_SKIP_BREW_UNINSTALL:-}"
+    echo_info "${FUNCNAME[0]}: YP_SKIP_BREW_BOOTSTRAP=${YP_SKIP_BREW_BOOTSTRAP:-}"
 
     local BOOTSTRAP_SCRIPT="${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap"
 
