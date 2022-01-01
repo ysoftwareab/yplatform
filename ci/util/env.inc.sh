@@ -17,13 +17,8 @@ unset YP_CI_ENV_FUN
 
 [[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(yp_ci_known_env_yp | tr "\n" " ")"
 
-# set git user
-if command -v git >/dev/null 2>&1; then
-    [[ -z "${YP_CI_PLATFORM:-}" ]] || [[ -z "${YP_CI_SERVER_HOST:-}" ]] || \
-        git config --global user.email "${YP_CI_PLATFORM}@${YP_CI_SERVER_HOST}"
-    [[ -z "${YP_CI_NAME:-}" ]] || \
-        git config --global user.name "${YP_CI_NAME}"
-fi
+# set git
+source ${YP_DIR}/ci/util/gitconfig.inc.sh
 
 # common env
 source ${YP_DIR}/sh/common.inc.sh
