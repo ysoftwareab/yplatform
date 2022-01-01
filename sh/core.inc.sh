@@ -7,7 +7,14 @@ function on_error() {
     local EXIT_STATUS=$1
     >&2 echo "The following BASH_COMMAND exited with status ${EXIT_STATUS}."
     >&2 echo "=${BASH_COMMAND}"
+
     >&2 echo "~$(eval echo "${BASH_COMMAND}")"
+
+    # repeat the exact command in case the line above expands to a lot of output
+    # which makes it hard to find the culprit
+    >&2 echo "=${BASH_COMMAND}"
+    >&2 echo "The above BASH_COMMAND exited with status ${EXIT_STATUS}."
+
     case ${EXIT_STATUS} in
         127) # command not found
             # NOTE I'm not sure if this will be the correct PATH though, or just based on the context of 'on_error'
