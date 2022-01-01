@@ -29,6 +29,8 @@ function yp_run_docker_ci_image() {
     exe docker pull ${YP_DOCKER_CI_IMAGE}
     echo_done
 
+    CONTAINER_YP_DIR=/yplatform
+
     echo_do "Running the ${CONTAINER_NAME} container..."
     echo_info "Proxying relevant env vars."
     echo_info "Mounting RW ${MOUNT_DIR} folder."
@@ -41,6 +43,7 @@ function yp_run_docker_ci_image() {
         --network=host \
         --ipc=host \
         --volume "${MOUNT_DIR}:${MOUNT_DIR}:rw" \
+        --volume "${YP_DIR}:${CONTAINER_YP_DIR}:ro" \
         --env CI=true \
         --env USER=${UNAME} \
         --env-file <(${YP_DIR}/bin/travis-get-env-vars) \
@@ -54,14 +57,14 @@ function yp_run_docker_ci_image() {
     # create same group (and gid) that the 'travis' user has, inside the docker container
     exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
-            ${YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
+            ${CONTAINER_YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
     local GNAME_REAL=$(docker exec --user root ${CONTAINER_NAME} \
         bash -c "getent group ${GID2} | cut -d: -f1")
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
     exe docker exec --user root ${CONTAINER_NAME} \
-        bash -c "${YP_DIR}/bin/linux-adduser \
+        bash -c "${CONTAINER_YP_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
         --ingroup ${GNAME_REAL} \
@@ -71,7 +74,7 @@ function yp_run_docker_ci_image() {
         \"${UNAME}\""
 
     exe docker exec --user root ${CONTAINER_NAME} \
-        bash -c "${YP_DIR}/bin/linux-adduser2group \
+        bash -c "${CONTAINER_YP_DIR}/bin/linux-adduser2group \
         --force-badname \
         \"${UNAME}\" \
         sudo"
