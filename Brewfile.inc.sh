@@ -2,6 +2,8 @@
 
 # when not in CI, use dev install
 [[ "${CI:-}" = "true" ]] || YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL:-dev}
+# when in docker-ci, use dev install
+[[ ! -f /yplatform.docker-ci ]] || YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL:-dev}
 
 source ${YP_DIR}/bootstrap/brew-install-${YP_CI_BREW_INSTALL}.inc.sh
 
