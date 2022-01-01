@@ -29,9 +29,12 @@ function yp_run_docker_ci_image() {
     exe docker pull ${YP_DOCKER_CI_IMAGE}
     echo_done
 
+    CONTAINER_YP_DIR=/yplatform
+
     echo_do "Running the ${CONTAINER_NAME} container..."
     echo_info "Proxying relevant env vars."
     echo_info "Mounting RW ${MOUNT_DIR} folder."
+    echo_info "Mounting RO ${YP_DIR}:${CONTAINER_YP_DIR} folder."
     exe docker run -d -it --rm \
         --platform linux/amd64 \
         --privileged \
@@ -41,6 +44,7 @@ function yp_run_docker_ci_image() {
         --network=host \
         --ipc=host \
         --volume "${MOUNT_DIR}:${MOUNT_DIR}:rw" \
+        --volume "${YP_DIR}:${CONTAINER_YP_DIR}:ro" \
         --env CI=true \
         --env USER=${UNAME} \
         --env-file <(${YP_DIR}/bin/travis-get-env-vars) \
@@ -48,47 +52,55 @@ function yp_run_docker_ci_image() {
     echo_done
 
     echo_do "Instrumenting the ${CONTAINER_NAME} container..."
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         touch /yplatform.docker-ci
 
     # create same group (and gid) that the 'travis' user has, inside the docker container
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "cat /etc/group | cut -d\":\" -f3 | grep -q \"^${GID2}$\" || \
-            ${YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
+            ${CONTAINER_YP_DIR}/bin/linux-addgroup --gid ${GID2} \"${GNAME}\""
 
-    local GNAME_REAL=$(docker exec -it --user root ${CONTAINER_NAME} \
-        getent group ${GID2} | cut -d: -f1)
+    local GNAME_REAL=$(docker exec --user root ${CONTAINER_NAME} \
+        bash -c "getent group ${GID2} | cut -d: -f1")
 
     # create same user (and uid) that the 'travis' user has, inside the docker container
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        ${YP_DIR}/bin/linux-adduser \
+    exe docker exec --user root ${CONTAINER_NAME} \
+        bash -c "${CONTAINER_YP_DIR}/bin/linux-adduser \
         --force-badname \
         --uid ${UID2} \
         --ingroup ${GNAME_REAL} \
         --home ${HOME} \
         --shell /bin/sh \
         --disabled-password \
-        "${UNAME}"
+        \"${UNAME}\""
 
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        ${YP_DIR}/bin/linux-adduser2group \
+    exe docker exec --user root ${CONTAINER_NAME} \
+        bash -c "${CONTAINER_YP_DIR}/bin/linux-adduser2group \
         --force-badname \
-        "${UNAME}" \
-        sudo;
+        \"${UNAME}\" \
+        sudo"
 
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"${UNAME} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !env_reset\" >> /etc/sudoers"
-    exe docker exec -it --user root ${CONTAINER_NAME} \
+    exe docker exec --user root ${CONTAINER_NAME} \
         bash -c "echo \"Defaults:${UNAME} !secure_path\" >> /etc/sudoers"
 
-    # if ${MOUNT_DIR} is under ${HOME}, make sure ${HOME} is writeable
+    # if ${MOUNT_DIR} is under ${HOME}, make sure parents of ${MOUNT_DIR} up to ${HOME} inclusive are writeable
     # to allow for special folders/files e.g. ~/.cache to be accessible for writing
-    echo_do "Taking ownership over ${HOME}..."
-    exe docker exec -it --user root ${CONTAINER_NAME} \
-        chown ${UID2}:${GID2} ${HOME}
-    echo_done
+    [[ "${MOUNT_DIR#"${HOME}"}" = "${MOUNT_DIR}" ]] || {
+        echo_do "Taking ownership over parents of ${MOUNT_DIR} up to ${HOME}..."
+        CHOWN_PWD="${MOUNT_DIR}"
+        while true; do
+            exe docker exec --user root ${CONTAINER_NAME} \
+                bash -c "chown ${UID2}:${GID2} ${CHOWN_PWD}"
+            echo_done
+            [[ "${CHOWN_PWD}" != "${HOME}" ]] || break
+            CHOWN_PWD="$(dirname "${CHOWN_PWD}")"
+        done
+        unset CHOWN_PWD
+    }
 
     echo_done # "Instrumenting the ${CONTAINER_NAME} container..."
 
