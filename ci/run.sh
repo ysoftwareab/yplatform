@@ -8,21 +8,8 @@ exec 2>&1
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/ci/util/env.inc.sh
 
-# debug
 [[ "${1:-}" != "debug" ]] || {
-    echo
-    echo "[INFO] You can run specific stages like"
-    echo "       ./.ci.sh before_install"
-    echo "       or you can run them all (before_install, install, before_script, script)"
-    echo "       ./.ci.sh all"
-    echo
-    export YP_CI_DEBUG_MODE=true
-
-    # export all functions $(e.g. nvm)
-    source <(declare -F | sed "s/^declare \-fx\?/export -f/g")
-
-    # PS1="${debian_chroot:+($debian_chroot)}\u\w\$ " bash
-    PS1="\w\$ " bash
+    ${YP_DIR}/bin/ci-debug
     exit 0
 }
 
