@@ -71,7 +71,7 @@ Here's a list of the environment variables that customize the code execution:
   * `YP_LOG_BOOTSTRAP`
     * set to `true` to enable printing the whole bootstrap log which is hidden by default
   * `YP_PRINTENV_BOOTSTRAP`
-    * set to `true` to enables printing all environment variables
+    * set to `true` to enable printing all environment variables
   * `YP_SKIP_BREW_BOOTSTRAP`
     * set to `true` to skip brew bootstrapping `bootstrap/brew-bootstrap.inc.sh`
   * `YP_SKIP_SUDO_BOOTSTRAP`
