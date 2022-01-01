@@ -22,14 +22,17 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
 esac
 ASSET_LOCAL=${YP_DIR}/bin/editorconfig-checker-${VSN}/${BINARY}.tar.gz
 ASSET_REMOTE=${ECCHECKER_URL}/${VSN}/${BINARY}.tar.gz
-
 BINARY_LOCAL_REL=bin/${BINARY}
 BINARY_LOCAL=$(dirname ${ASSET_LOCAL})/${BINARY_LOCAL_REL}
 
-mkdir -p $(dirname ${ASSET_LOCAL})
+[[ -f ${BINARY_LOCAL} ]] || {
+    ASSET_LOCAL=${HOME}/.cache/yplatform/editorconfig-checker-${VSN}/${BINARY}.tar.gz
+    BINARY_LOCAL=$(dirname ${ASSET_LOCAL})/${BINARY_LOCAL_REL}
+}
 
-[[ -f ${ASSET_LOCAL} ]] || {
+[[ -f ${BINARY_LOCAL} ]] || {
     echo_info "Fetching ${ASSET_REMOTE}..."
+    mkdir -p $(dirname ${ASSET_LOCAL})
     curl -qfsSL \
          -o ${ASSET_LOCAL} \
          ${ASSET_REMOTE}
