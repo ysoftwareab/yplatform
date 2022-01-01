@@ -75,15 +75,6 @@ function yp_github_https_insteadof_all() {
 
 
 function yp_github() {
-    # NOTE we need to prepend to .gitconfig, or else settings are ignored
-    # due to url settings in gitconfig/dot.gitconfig
-
-    local GITCONFIG_BAK=$(mktemp -t yplatform.XXXXXXXXXX)
-    [[ ! -e "${HOME}/.gitconfig" ]] || {
-        mv ${HOME}/.gitconfig ${GITCONFIG_BAK}
-        touch ${HOME}/.gitconfig
-    }
-
     # GH_TOKEN is a common way to pass a personal access token to CI jobs
     export YP_GH_TOKEN=${YP_GH_TOKEN:-${GH_TOKEN:-}}
     if [[ "${YP_CI_PLATFORM:-}" = "github" ]]; then
@@ -96,7 +87,7 @@ function yp_github() {
     fi
 
     [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN=${YP_GH_TOKEN}"
-    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env  "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
+    [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
 
     if [[ -n "${YP_GH_TOKEN:-}" ]]; then
         yp_github_https_insteadof_all
@@ -105,18 +96,40 @@ function yp_github() {
         [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || yp_github_https_deploy
     fi
 
+    [[ -f /yplatform.docker-ci ]] || {
+        GIT_HTTPS_URL="https://github.com/actions/runner.git"
+        [[ -z "${YP_GH_TOKEN:-}" ]] || \
+            git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    }
+}
+
+
+function yp_git() {
+    ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
+    ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
+
+    # NOTE we need to prepend to .gitconfig, or else settings are ignored
+    # due to url settings in gitconfig/dot.gitconfig
+
+    local GITCONFIG_BAK=$(mktemp -t yplatform.XXXXXXXXXX)
+    [[ ! -e "${HOME}/.gitconfig" ]] || {
+        mv ${HOME}/.gitconfig ${GITCONFIG_BAK}
+        touch ${HOME}/.gitconfig
+    }
+
+    git config --global --add include.path "${YP_DIR}/gitconfig/dot.gitconfig"
+    # printf '[include]\npath = '"${YP_DIR}"'/gitconfig/dot.gitconfig\n%s\n' "$(cat ~/.gitconfig)" >~/.gitconfig
+
+    yp_github
+
     # shellcheck disable=SC2094
     cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${YP_DIR}/bin/sponge ${HOME}/.gitconfig
 
     echo_do "Printing ${HOME}/.gitconfig ..."
     cat ${HOME}/.gitconfig
     echo_done
-
-    GIT_HTTPS_URL="https://github.com/actions/runner.git"
-    [[ -z "${YP_GH_TOKEN:-}" ]] || \
-        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-    git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-    git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
 }
 
 
@@ -268,7 +281,7 @@ function yp_pyenv_init() {
 
 
 function yp_ci_run_before_install() {
-    yp_github
+    yp_git
     yp_transcrypt
     yp_os
     yp_pyenv_init
