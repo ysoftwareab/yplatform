@@ -57,9 +57,8 @@ function yp_github_https_insteadof_all() {
     # and don't require SSH keys
 
     echo_info "Found YP_GH_TOKEN."
-    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol github.com URLs..."
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol {,api.}github.com URLs..."
     echo -e "machine github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
-    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol api.github.com URLs..."
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
 
     # cover git canonical git url
