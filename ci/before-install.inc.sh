@@ -44,6 +44,8 @@ function yp_github_https_insteadof_git() {
     # but requires SSH keys, though there's no security server-side
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
+    # takes precedence over gitconfig/dot.gitconfig
+    exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
     # cover git canonical git url
     exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover github url
@@ -61,6 +63,8 @@ function yp_github_https_insteadof_all() {
     echo -e "machine github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
 
+    # takes precendence over gitconfig/dot.gitconfig
+    exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
     # cover git canonical git url
     exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover git canonical ssh url
