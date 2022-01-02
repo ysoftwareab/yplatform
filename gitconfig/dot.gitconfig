@@ -159,5 +159,5 @@
 # prefer ssh over git (over ssh) and https
 [url "git@github.com:"]
     insteadOf           = "git://github.com/"
-    insteadOf           = "github:"
+    insteadOf           = "github://"
     insteadOf           = "https://github.com/"
