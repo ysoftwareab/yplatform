@@ -1,0 +1,80 @@
+yplatform v0.3.6 Release Notes
+
+Highlights since v0.3.5:
+
+* None
+
+Breaking commits since v0.3.5:
+
+* b33d1683 2022-01-01 breaking: stop automatically sourcing CONST.inc in CI
+* ef79d707 2021-12-31 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci
+* da6a0cb3 2021-12-30 breaking: introduce run-parts abstraction for git hooks
+
+
+Commits since v0.3.5:
+
+* d0be9370 2022-01-02 gitconfig in CI - order matters
+* 94c9b196 2022-01-02 gitconfig: fix overriding github urls with ssh
+* 1bb99b2b 2022-01-02 verbose git config
+* da211a0b 2022-01-02 fixup! ci and docker: use yp's gitconfig, gitignore and gitattributes
+* 662ffa98 2021-09-07 fixup! bootstrap: stop shallowing git repos via Brewfile.lock
+* 34b76517 2022-01-01 ci-debug: allow other commands
+* e52af718 2022-01-01 split to bin/ci-debug
+* 72208fbd 2022-01-02 use user-based caching or else './.ci.sh before_install' may run with another user than the owner and hit permission denied
+* ec9e322f 2022-01-01 more verbose bootstrap about all flags
+* 317e46f1 2022-01-01 default to YP_CI_BREW_INSTALL inside docker-ci
+* 23ca2d11 2022-01-01 sh: better context on_error
+* 60040ea7 2022-01-01 document YP_SKIP_BREW_UNINSTALL
+* f241b47b 2022-01-01 typo
+* 9245a20b 2022-01-02 fixup! move editorconfig-checker from brew formula to bin proxy
+* 2bdb40d6 2022-01-01 ci and docker: use yp's gitconfig, gitignore and gitattributes
+* 2b7d223d 2022-01-01 Revert "ci and docker: use yp's gitconfig, gitignore and gitattributes"
+* b33d1683 2022-01-01 breaking: stop automatically sourcing CONST.inc in CI
+* fe8d6025 2022-01-01 document CONST.inc
+* 4fdf6a5b 2022-01-01 CONST.inc as lock file
+* 1b06251d 2022-01-01 style
+* 171d82a4 2022-01-01 ci and docker: use yp's gitconfig, gitignore and gitattributes
+* 53a39065 2021-12-31 fixup! add cross-platform user/group helpers
+* 0c5d6a5c 2021-12-31 handle declare -x
+* 436792b3 2021-12-31 add labels for components
+* a1bbc6c6 2021-12-31 add missing CIs
+* ef79d707 2021-12-31 fixup! breaking: move ci -> bootstrap, and repo/ci.sh -> ci
+* 18b7693b 2021-12-31 reference write-thin-to-write-fast. fix #247
+* df2a7628 2021-12-30 run-parts: skip first dir
+* 19a09f95 2021-12-30 sync
+* 18cfcbb3 2021-12-30 style
+* da6a0cb3 2021-12-30 breaking: introduce run-parts abstraction for git hooks
+* 1faa25d6 2021-12-30 run-parts: implement --stdin
+* 6c1f4958 2021-12-30 lint
+* 78355676 2021-12-30 sync with dot.gitattributes_global.tpl
+* 0f6464ea 2021-12-30 better naming
+* ff7ed5dd 2021-12-30 always treat toml and zsh as text
+* f636696b 2021-12-30 some files need crlf endings
+* 170e52c7 2021-12-30 split gitattributes
+* 5c65c49c 2021-12-30 whitespace
+* 00900fac 2021-12-30 whitespace
+* 27d4e887 2021-12-30 ignore more CI files from git export
+*   0ad9c1ee 2021-12-30 Merge branch 'channels'
+|\
+| * bcf28c64 2021-12-30 add 'envs' target, in sync with 'channels'
+| * cd112ec0 2021-12-30 fixup! implement 'channels'. related pr: https://github.com/tobiipro/support-firecloud/pull/173
+| * 27009f4b 2021-12-30 implement 'channels'. related pr: https://github.com/tobiipro/support-firecloud/pull/173
+* | d0b0a39d 2021-12-30 typo
+* | e19c5567 2021-12-30 system-wide -> system
+* | 61a9a91c 2021-12-30 correction: we do support Microsoft Windows, via WSL
+* | 54bfe05a 2021-12-30 OSX/Darwin -> MacOS
+* | 067d0fdd 2021-12-30 updated README.md
+* | cd4bccc9 2021-12-29 pause bitrise or else we run out of credits
+|/
+* a0e7e959 2021-12-29 bitrise: align with standards
+* 7602f769 2021-12-29 bitrise:log undocumented but observed default env vars
+* c7f467d7 2021-12-29 node-env-ci: ignore YP_CI_REPO_SLUG because it's wrong
+* 28d2ba5e 2021-12-29 fixup! add bitrise.yml
+* 7ead735b 2021-12-29 fixup! add buddy.yml
+* d4d64269 2021-12-28 updated bitrise.yml
+* 6eb87d89 2021-12-28 updated bitrise.yml
+* dfba6216 2021-12-28 add bitrise.yml
+* 7f9833b3 2021-12-28 add buddy.yml
+* 0ce69343 2021-12-28 fixup! random-hex: even more cross-platform
+* b107fc0a 2021-12-28 random-hex: even more cross-platform
+o 79375df0 2021-12-28 0.3.5
