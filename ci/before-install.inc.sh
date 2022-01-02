@@ -88,18 +88,23 @@ function yp_github() {
     [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN=${YP_GH_TOKEN}"
     [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
 
+    GIT_HTTPS_URL="https://github.com/actions/runner.git"
+
     if [[ -n "${YP_GH_TOKEN:-}" ]]; then
         yp_github_https_insteadof_all
+
+        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url https://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
     else
         yp_github_https_insteadof_git
         [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || yp_github_https_deploy
-    fi
 
-    GIT_HTTPS_URL="https://github.com/actions/runner.git"
-    [[ -z "${YP_GH_TOKEN:-}" ]] || \
-        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-    git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-    git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url https://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    fi
 }
 
 
