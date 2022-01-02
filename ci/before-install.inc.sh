@@ -96,13 +96,11 @@ function yp_github() {
         [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || yp_github_https_deploy
     fi
 
-    [[ -f /yplatform.docker-ci ]] || {
-        GIT_HTTPS_URL="https://github.com/actions/runner.git"
-        [[ -z "${YP_GH_TOKEN:-}" ]] || \
-            git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-        git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-    }
+    GIT_HTTPS_URL="https://github.com/actions/runner.git"
+    [[ -z "${YP_GH_TOKEN:-}" ]] || \
+        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+    git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
 }
 
 
