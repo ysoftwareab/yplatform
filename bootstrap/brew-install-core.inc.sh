@@ -4,7 +4,7 @@ set -euo pipefail
 echo_do "brew: Installing core packages..."
 
 # download binaries
-${YP_DIR}/bin/editorconfig-checker -h >/dev/null
+${YP_DIR}/bin/editorconfig-checker -version >/dev/null
 ${YP_DIR}/bin/gitleaks -h >/dev/null
 ${YP_DIR}/bin/jq -h >/dev/null
 
