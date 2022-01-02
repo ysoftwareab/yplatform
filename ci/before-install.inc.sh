@@ -117,10 +117,11 @@ function yp_git() {
         touch ${HOME}/.gitconfig
     }
 
+    # NOTE order matters - set up urls for CI before including gitconfig/dot.gitconfig
+    yp_github
+
     exe git config --global --add include.path "${YP_DIR}/gitconfig/dot.gitconfig"
     # printf '[include]\npath = '"${YP_DIR}"'/gitconfig/dot.gitconfig\n%s\n' "$(cat ~/.gitconfig)" >~/.gitconfig
-
-    yp_github
 
     # shellcheck disable=SC2094
     cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${YP_DIR}/bin/sponge ${HOME}/.gitconfig
