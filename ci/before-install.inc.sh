@@ -45,9 +45,9 @@ function yp_github_https_insteadof_git() {
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
     # cover git canonical git url
-    git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+    exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover github url
-    git config --global --add url."https://github.com/".insteadOf "github://"
+    exe git config --global --add url."https://github.com/".insteadOf "github://"
     echo_done
 }
 
@@ -63,13 +63,13 @@ function yp_github_https_insteadof_all() {
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
 
     # cover git canonical git url
-    git config --global --add url."https://github.com/".insteadOf "git://github.com/"
+    exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover git canonical ssh url
-    git config --global --add url."https://github.com/".insteadOf "git@github.com:"
+    exe git config --global --add url."https://github.com/".insteadOf "git@github.com:"
     # cover github url
-    git config --global --add url."https://github.com/".insteadOf "github://"
+    exe git config --global --add url."https://github.com/".insteadOf "github://"
     # cover npm package.json's canonical git+ssh url
-    git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+    exe git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
     echo_done
 }
 
@@ -117,7 +117,7 @@ function yp_git() {
         touch ${HOME}/.gitconfig
     }
 
-    git config --global --add include.path "${YP_DIR}/gitconfig/dot.gitconfig"
+    exe git config --global --add include.path "${YP_DIR}/gitconfig/dot.gitconfig"
     # printf '[include]\npath = '"${YP_DIR}"'/gitconfig/dot.gitconfig\n%s\n' "$(cat ~/.gitconfig)" >~/.gitconfig
 
     yp_github
