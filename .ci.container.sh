@@ -70,7 +70,7 @@ function ci_run_deploy_docker_image() {
     # }
 
     ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
-        --platforms linux/amd64 \
+        --platforms linux/arm64 \
         --name "${DOCKER_IMAGE_NAME}" \
         --tags $(IFS=,; echo "${TAGS[*]}") \
         $([[ -z "${ARG_FROM}" ]] || echo "--from" "${ARG_FROM}") \
