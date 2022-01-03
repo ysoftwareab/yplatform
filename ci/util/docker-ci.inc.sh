@@ -34,6 +34,11 @@ function yp_run_docker_ci_image() {
     echo_do "Running the ${CONTAINER_NAME} container..."
     echo_info "Proxying relevant env vars."
     echo_info "Mounting RW ${MOUNT_DIR} folder."
+    [[ "${ARCH_NORMALIZED}" = "amd64" ]] || {
+        echo_warn "We only run on amd64 architecture. You have ${ARCH_NORMALIZED} (${ARCH})."
+        echo_warn "Emulation will be activated, thus you will experience lower CPU/memory performance."
+        echo_warn "Certain situations might require you to bump memory to 8+ GB."
+    }
     exe docker run -d -it --rm \
         --platform linux/amd64 \
         --privileged \
