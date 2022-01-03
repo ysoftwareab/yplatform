@@ -1,0 +1,17 @@
+yplatform v0.3.7 Release Notes
+
+Highlights since v0.3.6:
+
+* None
+
+Breaking commits since v0.3.6:
+
+* None
+
+Commits since v0.3.6:
+
+* 7893f8fb 2022-01-03 make sure git@github.com: cannot be rewritten
+* cb2aff7e 2022-01-03 make sure https stays the same, rather than going to ssh
+* 4fab57e3 2022-01-03 clarify
+* 591a32c0 2022-01-03 fix extra echo_do
+o c706902a 2022-01-02 0.3.6
