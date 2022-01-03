@@ -66,21 +66,7 @@ either write a `ci_run_<phase>` function in `.ci.sh` as mentioned above, or set 
 Here's a list of the environment variables that customize the code execution:
 
 * **BOOTSTRAP**
-  * `YP_CI_ECHO_BENCHMARK`
-    * set to a file that will collect `bin/ci-echo` DO-DONE durations for benchmarking
-  * `YP_LOG_BOOTSTRAP`
-    * set to `true` to enable printing the whole bootstrap log which is hidden by default
-  * `YP_PRINTENV_BOOTSTRAP`
-    * set to `true` to enable printing all environment variables
-  * `YP_SKIP_BREW_UNINSTALL`
-    * set tot `true` to skip uninstalling Homebrew
-  * `YP_SKIP_BREW_BOOTSTRAP`
-    * set to `true` to skip brew bootstrapping `bootstrap/brew-bootstrap.inc.sh`
-  * `YP_SKIP_SUDO_BOOTSTRAP`
-    * set to `true` to skip sudo bootstrapping `bootstrap/<OS_SHORT>/bootstrap-sudo`
-  * `YP_SUDO`
-    * set to `yp_nosudo` to bootstrap without sudo
-    * set to a custom `sudo` executable path
+  * [See a list in bootstrap/README.md](../bootstrap/README.md#customization-via-environment-variables)
 
 * **GITHUB**
   * `YP_GH_TOKEN`
@@ -110,7 +96,9 @@ Here's a list of the environment variables that customize the code execution:
   * `YP_DOCKER_CI_SERVER`
     * customizes the identity server for `docker login`
 
-* **DEBUG**
+* **MISC**
+  * `YP_CI_ECHO_BENCHMARK`
+    * set to a file that will collect `bin/ci-echo` DO-DONE durations for benchmarking
   * `YP_TMATE_AUTH`
     * a path to a `~/.ssh/authorized_keys` file (i.e. one public key per line)
     * restricts who can access the tmate session triggered by a `[debug ci]` commit
