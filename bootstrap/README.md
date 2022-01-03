@@ -64,6 +64,25 @@ Continue to bootstrap
 * [AWS (console and CLI)](README.aws.md) (optional)
 * [your `gpg` signature](README.gpg.md) (optional)
 
+        
+## Customization via environment variables
+
+Here's a list of the environment variables that customize the code execution:
+
+* `YP_LOG_BOOTSTRAP`
+  * set to `true` to enable printing the whole bootstrap log which is hidden by default
+* `YP_PRINTENV_BOOTSTRAP`
+  * set to `true` to enable printing all environment variables
+* `YP_SKIP_BREW_UNINSTALL`
+  * set tot `true` to skip uninstalling Homebrew
+* `YP_SKIP_BREW_BOOTSTRAP`
+  * set to `true` to skip brew bootstrapping `bootstrap/brew-bootstrap.inc.sh`
+* `YP_SKIP_SUDO_BOOTSTRAP`
+  * set to `true` to skip sudo bootstrapping `bootstrap/<OS_SHORT>/bootstrap-sudo`
+* `YP_SUDO`
+  * set to `yp_nosudo` to bootstrap without sudo
+  * set to a custom `sudo` executable path
+
 
 ## Repository
 

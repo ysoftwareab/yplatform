@@ -16,7 +16,7 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
         BINARY=ec-${OS_SHORT}-${ARCH_NORMALIZED}
         ;;
     *)
-        echo_err "editorconfig-checker: ${OS_SHORT} is an unsupported OS-ARCH."
+        echo_err "editorconfig-checker: ${OS_SHORT}-${ARCH_NORMALIZED} is an unsupported OS-ARCH."
         exit 1
         ;;
 esac

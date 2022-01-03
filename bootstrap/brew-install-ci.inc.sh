@@ -31,6 +31,11 @@ brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 [[ -f "${YP_DIR}/bin/.jq/jq" ]]
 if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq
 
+brew_install_one_unless yq "yq --version | head -1" " version 4\."
+# install if we're falling back to our yq proxy
+[[ -f "${YP_DIR}/bin/.yq/yq" ]]
+if_exe_and_grep_q "which yq" "^${YP_DIR}/bin/\.yq/yq$" brew_install_one yq
+
 brew_install_one_unless screenfetch "screenfetch --version | head -1" "^.*screenFetch.* - Version 3\."
 brew_install_one_unless tmate "tmate -V | head -1" "^tmate 2\."
 

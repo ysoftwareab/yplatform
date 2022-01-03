@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_YQ_VSN}")
+YQ_URL=https://github.com/mikefarah/yq/releases/download
+
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
+    darwin-amd64|darwin-arm64)
+        BINARY=yq_${OS_SHORT}_${ARCH_NORMALIZED}
+        ;;
+    linux-386|linux-amd64|linux-arm64)
+        BINARY=yq_${OS_SHORT}_${ARCH_NORMALIZED}
+        ;;
+    *)
+        echo_err "yq: ${OS_SHORT}-${ARCH_NORMALIZED} is an unsupported OS-ARCH."
+        exit 1
+        ;;
+esac
+ASSET_LOCAL=${YP_DIR}/bin/yq-${VSN}/${BINARY}
+ASSET_REMOTE=${YQ_URL}/v${VSN}/${BINARY}
+BINARY_LOCAL=${ASSET_LOCAL}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    ASSET_LOCAL=${HOME}/.cache/yplatform/yq-${VSN}/${BINARY}
+    BINARY_LOCAL=${ASSET_LOCAL}
+}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
+    mkdir -p $(dirname ${ASSET_LOCAL})
+    curl -qfsSL \
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
+    chmod +x ${BINARY_LOCAL}
+}
+
+echo_info "Proxying to 'yq' as ${BINARY_LOCAL}."
+${BINARY_LOCAL} "$@"

@@ -12,3 +12,6 @@ YP_GITHUB_GITIGNORE_VSN=96d68766538413194aabd55e3622734cd501e715
 
 # https://github.com/sgerrand/alpine-pkg-glibc
 YP_ALPINE_PKG_GLIBC_VSN=2.32-r0
+
+# https://github.com/mikefarah/yq
+YP_YQ_VSN=4.16.2
