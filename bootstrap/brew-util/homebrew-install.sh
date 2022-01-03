@@ -525,19 +525,10 @@ then
     abort "Homebrew is only supported on Intel and ARM processors!"
   fi
 else
-  # On Linux, support only 64-bit Intel
-  if [[ "${UNAME_MACHINE}" == "arm64" ]]
+  # On Linux, support 64-bit Intel and ARM
+  if [[ "${UNAME_MACHINE}" != "aarch64" ]] && [[ "${UNAME_MACHINE}" != "arm64" ]] && [[ "${UNAME_MACHINE}" != "x86_64" ]]
   then
-    abort "$(
-      cat <<EOABORT
-Homebrew on Linux is not supported on ARM processors.
-You can try an alternate installation method instead:
-  ${tty_underline}https://docs.brew.sh/Homebrew-on-Linux#arm${tty_reset}
-EOABORT
-    )"
-  elif [[ "${UNAME_MACHINE}" != "x86_64" ]]
-  then
-    abort "Homebrew on Linux is only supported on Intel processors!"
+    abort "Homebrew is only supported on Intel and ARM processors!"
   fi
 fi
 
@@ -873,6 +864,15 @@ ohai "Downloading and installing Homebrew..."
   execute "git" "fetch" "--force" "--tags" "origin"
 
   execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF:-origin/master}"
+
+  if [[ "${CI:-}" = "true" ]] && [[ -n "${HOMEBREW_ON_LINUX-}" ]] && [[ "${UNAME_MACHINE}" == "aarch64" ]]
+  then
+    export ruby_AARCH64_FILENAME="portable-ruby--2.6.8.aarch64_linux.bottle.1.tar.gz"
+    export ruby_AARCH64_SHA="32944de2b7638229a3e2bc8f78cc08c4eaeaa3fc43e022bbc7233f6fe8db983f"
+    DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    export ruby_AARCH64_URL="file://${DIR}/${ruby_AARCH64_FILENAME}"
+    cat "${DIR}/vendor-install.sh.patch" | patch Library/Homebrew/cmd/vendor-install.sh
+  fi
 
   if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
   then
