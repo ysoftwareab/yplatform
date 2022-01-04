@@ -9,26 +9,39 @@ with a few exceptions:
 * `=` as equality comparison instead of their `==`.
 * variable names - use all caps, just like for constants/environment variables. Easier to spot.
 * filenames - we use a hyphen `-` as the word separator, not an underscore `_`.
-* we use "bash strict mode", and thus don't use `$?` to check exit code
+* we use ["strict mode"](#strict-mode), and thus don't use `$?` to check exit code
 
 Other notable mentions:
 
-* we haven't used constants, via `readonly` or `declare -r`, but it would be ok to
-* we haven't used the concept of a `main` function, but it would be a nice addition
+* we haven't used constants, via `readonly` or `declare -r`, but it would be ok to.
+* we haven't used widely the concept of a `main` function, but it would be a nice addition.
+  Then scripts can call `[[ "$0" != "${BASH_SOURCE[0]}" ]] || main "$@"` at the bottom.
+* although the keyword `function` is deprecated, we use it because you it enhances the search for function definitions.
+  From Google's Shell Style Guide:
+  "The function keyword is extraneous when () is present after the function name, but enhances quick identification of functions."
 
+We aim to write robust/defensive shell scripts.
 
-## BASH
+## GNU Bash
 
 All shell scripts use `bash`, thus the shebang `#!/usr/bin/env bash`.
 
 Why not just `#!/bin/bash`? In order to allow the user to define which `bash` executable to run.
 This also allows the user to use a newer bash than the version built into their OS.
 
+Why `bash`? Because it is ["the JavaScript of systems programming"](https://github.com/progrium/bashstyle/blob/master/README.md):
+it's everywhere, it's neutral, it's made to be glue.
+
+Glue what? [All sorts of command line goodies.](https://github.com/jlevy/the-art-of-command-line/blob/master/README.md)
+
+Interested in pure-bash alternatives to common scenarios?
+Check the [Pure Bash Bible](https://github.com/dylanaraps/pure-bash-bible/blob/master/README.md).
+
 
 ## Strict mode
 
 All shell scripts use `set -euo pipefail`.
-Why? Read [the unnoficial bash strict mode](https://github.com/ysoftwareab/sass-lint-config-firecloud).
+Why? Read [the unofficial bash strict mode](http://redsymbol.net/articles/unofficial-bash-strict-mode/).
 
 Did you read it? Now read it again.
 
@@ -92,3 +105,20 @@ From https://www.tldp.org/LDP/abs/html/testconstructs.html#DBLBRACKETS :
 
 * the `&&`, `||`, `<`, and `>` operators work within a `[[ ]]` test,
 despite giving an error within a `[ ]` construct.
+
+
+## References
+
+* https://google.github.io/styleguide/shellguide.html
+* http://redsymbol.net/articles/unofficial-bash-strict-mode/
+* https://arslan.io/2019/07/03/how-to-write-idempotent-bash-scripts/
+* https://github.com/dylanaraps/pure-bash-bible/blob/master/README.md
+* https://github.com/progrium/bashstyle/blob/master/README.md
+* https://www.davidpashley.com/articles/writing-robust-shell-scripts/
+* https://github.com/jlevy/the-art-of-command-line/blob/master/README.md
+*
+* Additional that might go astray from our own style:
+* https://kfirlavi.herokuapp.com/blog/2012/11/14/defensive-bash-programming/
+* http://www.pixelbeat.org/programming/shell_script_mistakes.html
+* Wiki https://wiki.bash-hackers.org/start
+* Wiki http://mywiki.wooledge.org/BashPitfalls
