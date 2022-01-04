@@ -12,7 +12,7 @@ CI_PREFIX += \
 	appveyor \
 	bitrish \
 	buddy \
-	circleci \
+	circle \
 	cirrus \
 	codeship \
 	github \
@@ -34,7 +34,7 @@ DEBUG_CI_TARGETS += \
 ci/appveyor-%:
 ci/bitrise-%:
 ci/buddy-%:
-ci/circleci-%:
+ci/circle-%:
 ci/cirrus-%:
 ci/codeship-%:
 ci/github-%:
@@ -52,7 +52,7 @@ ci/%: ## Force push to a CI branch.
 debug-ci/appveyor-%:
 debug-ci/bitrise:
 debug-ci/buddy:
-debug-ci/circleci-%:
+debug-ci/circle-%:
 debug-ci/cirrus-%:
 debug-ci/codeship-%:
 debug-ci/github-%:
