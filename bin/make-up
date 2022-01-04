@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# like 'make' except it search for the first 'Makefile' from $PWD up
+# * -C arg is not supported
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+FIRST_MAKEFILE="$(${YP_DIR}/bin/find-up -name Makefile | head -n1)"
+[[ -z "${FIRST_MAKEFILE}" ]] || {
+    >&2 echo "[INFO]" "Found Makefile at ${FIRST_MAKEFILE}."
+    cd "$(dirname "${FIRST_MAKEFILE}")"
+}
+
+make "$@"

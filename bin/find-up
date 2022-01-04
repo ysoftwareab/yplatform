@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# like 'find' except it searches from $PWD up
+# * starting points are not supported (only $PWD)
+# * -maxdepth and -mindepth args are not supported
+
+# based on https://unix.stackexchange.com/a/35265/61053
+
+FIND_PATH="${PWD}"
+
+while true; do
+    find "${FIND_PATH}" -maxdepth 1 -mindepth 1 "$@"
+
+    # Note: if you want to ignore symlinks, use "$(realpath -s "$path"/..)"
+    # path="$(readlink -f "$path"/..)"
+    [[ "${FIND_PATH}" != "/" ]] || break
+    FIND_PATH="$(dirname "${FIND_PATH}")"
+done
