@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
 set -euo pipefail
+# https://saveriomiroddi.github.io/Additional-shell-options-for-non-trivial-bash-shell-scripts/
+shopt -s inherit_errexit 2>/dev/null || true
 
 # see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
