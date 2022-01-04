@@ -10,12 +10,15 @@
 
 CI_PREFIX += \
 	appveyor \
+	bitrish \
+	buddy \
 	circleci \
 	cirrus \
 	codeship \
 	github \
 	gitlab \
 	semaphore \
+	sourcehut \
 	travis \
 
 CI_TARGETS += \
@@ -29,12 +32,15 @@ DEBUG_CI_TARGETS += \
 .PHONY: $(CI_TARGETS)
 # NOTE: below is a workaround for 'make help-all' to work
 ci/appveyor-%:
+ci/bitrise-%:
+ci/buddy-%:
 ci/circleci-%:
 ci/cirrus-%:
 ci/codeship-%:
 ci/github-%:
 ci/gitlab-%:
 ci/semaphore-%:
+ci/sourcehut-%:
 ci/travis-%:
 $(CI_TARGETS):
 ci/%: ## Force push to a CI branch.
@@ -44,12 +50,15 @@ ci/%: ## Force push to a CI branch.
 .PHONY: $(DEBUG_CI_TARGETS)
 # NOTE: below is a workaround for 'make help-all' to work
 debug-ci/appveyor-%:
+debug-ci/bitrise:
+debug-ci/buddy:
 debug-ci/circleci-%:
 debug-ci/cirrus-%:
 debug-ci/codeship-%:
 debug-ci/github-%:
 debug-ci/gitlab-%:
 debug-ci/semaphore-%:
+debug-ci/sourcehut-%:
 debug-ci/travis-%:
 $(DEBUG_CI_TARGETS):
 debug-ci/%: ## Force push to a CI branch and debug (tmate session).
