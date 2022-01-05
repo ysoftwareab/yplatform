@@ -18,6 +18,8 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/ysoftwareab/yplatform)
 ![GitHub repo size](https://img.shields.io/github/repo-size/ysoftwareab/yplatform)
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/ysoftwareab/yplatform)
+
 ---
 
 `git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
