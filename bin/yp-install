@@ -2,12 +2,13 @@
 set -euo pipefail
 
 YP_DIR=yplatform
+YP_GIT_URL=git://github.com/ysoftwareab/yplatform.git
 
-git submodule add --force -b master git://github.com/ysoftwareab/yplatform.git ${YP_DIR}
+git submodule add --force -b master ${YP_GIT_URL} ${YP_DIR}
 git submodule sync --recursive
 git submodule update --init --recursive
-(
-    cd ${YP_DIR}
-    # checkout latest version
-    git checkout $(git tag --list --sort=version:refname "v*" | tail -n1)
-)
+
+YP_VSN=$(git -C ${YP_DIR} tag --list --sort=version:refname "v*" | tail -n1)
+# checkout latest version
+git -C ${YP_DIR} checkout ${YP_VSN}
+git commit --allow-empty -m "updated ${YP_DIR} to ${YP_VSN}"
