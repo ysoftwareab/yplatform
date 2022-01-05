@@ -77,7 +77,7 @@ fi
 
 ARTIFACT=.gitignore
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/dot.gitignore.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -85,7 +85,7 @@ ARTIFACT=.gitignore
 
 ARTIFACT=.eslintrc.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/dot.eslintrc.js ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/dot.eslintrc.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -100,7 +100,7 @@ ARTIFACT=.npmrc
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/Makefile.node ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/Makefile.node ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -108,7 +108,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=jest.config.js
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/jest.config.js ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/jest.config.js ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }

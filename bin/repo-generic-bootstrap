@@ -93,7 +93,7 @@ ARTIFACT=.ci.sh
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ "${ARTIFACT}" != ".github/settings.base.yml" ]] || continue
         [[ -e ${ARTIFACT} ]] || {
-            cp -r ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            cp -Rp -r ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Created ${ARTIFACT}."
         }
@@ -133,14 +133,14 @@ ARTIFACT=.shellcheckrc
 
 ARTIFACT=LICENSE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/LICENSE ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/LICENSE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
 }
 
 ARTIFACT=NOTICE
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/NOTICE ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/NOTICE ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -148,7 +148,7 @@ ARTIFACT=NOTICE
 
 ARTIFACT=AUTHORS
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/AUTHORS ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/AUTHORS ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -156,7 +156,7 @@ ARTIFACT=AUTHORS
 
 ARTIFACT=Brewfile.inc.sh
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/Brewfile.inc.sh ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -171,7 +171,7 @@ ARTIFACT=Brewfile.lock
 
 ARTIFACT=Makefile
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/Makefile.generic ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -179,7 +179,7 @@ ARTIFACT=Makefile
 
 ARTIFACT=README.md
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/README.md ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/README.md ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
@@ -187,7 +187,7 @@ ARTIFACT=README.md
 
 ARTIFACT=package.json
 [[ -e ${ARTIFACT} ]] || {
-    cp ${YP_DIR_REL}/repo/package.json ${ARTIFACT}
+    cp -Rp ${YP_DIR_REL}/repo/package.json ${ARTIFACT}
     ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
     echo_info "Created ${ARTIFACT}."
     echo_info "Make sure to edit ${ARTIFACT} in order to supply the required info."
