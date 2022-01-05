@@ -1,0 +1,41 @@
+yplatform v0.3.8 Release Notes
+
+Highlights since v0.3.7:
+
+* None
+
+Breaking commits since v0.3.7:
+
+* 1b337548 2022-01-05 breaking: rename bin/run-parts -> bin/linux-run-parts
+| * 8d71d8e2 2022-01-01 "docker exec -it" only when needed, or else CRLF linebreaks
+
+
+Commits since v0.3.7:
+
+* 55fa60be 2022-01-05 pre-push: filenames with . are ignored by run-parts
+* d21de836 2022-01-05 integrate with gitpod
+* 5262f56c 2022-01-05 sake 2.0 will reuse make-up
+* a5f51e5c 2022-01-05 productify make-up
+* 4a5e17a3 2022-01-05 productify find-up
+* 1b337548 2022-01-05 breaking: rename bin/run-parts -> bin/linux-run-parts
+* a7e69be1 2022-01-04 add skeletons for find-up and make-up
+* 24c260dd 2022-01-04 correct prefix for circleci in ci target
+* 8462a19f 2022-01-04 fixup! add missing CIs
+* 8de734e0 2022-01-04 more on sh style. fix #165
+* 366ce4d0 2022-01-04 sh: enable inherit_errexit
+*   f40cdfb5 2022-01-03 Merge pull request #249 from ysoftwareab/better-docker-ci
+|\
+| * 80926ce6 2022-01-03 'make docker-ci' prints env for awareness
+| * 0624f6aa 2022-01-03 add notice about docker emulation
+| * fc6f9966 2022-01-01 don't uninstall homebrew inside 'make docker-ci'
+| * 91f6a3e2 2022-01-01 add 'make docker-ci/git'
+| * 5296fd57 2022-01-01 docker-ci: mount yplatform because MOUNT_DIR might not contain yplatform
+| * 8d71d8e2 2022-01-01 "docker exec -it" only when needed, or else CRLF linebreaks
+| * 655804fa 2022-01-01 chown parents of MOUNT_DIR, not just HOME
+| * 9d4cf2fc 2022-01-01 kill docker-ci container if already running
+| * b7575e39 2022-01-01 document 'make docker-ci' target
+|/
+* 51cdbd3a 2022-01-03 move bootstrap vars to bootstrap README
+* 813b3e1e 2022-01-03 add yq
+* a19b78ac 2022-01-03 error message was hiding arch
+o 3d089dc4 2022-01-03 0.3.7
