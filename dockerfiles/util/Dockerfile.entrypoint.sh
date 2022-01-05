@@ -5,7 +5,7 @@
 # see https://github.com/camptocamp/docker-git/blob/master/docker-entrypoint.sh
 
 if [[ -d "/Dockerfile.entrypoint.d" ]] && [[ -n "$(ls -A /Dockerfile.entrypoint.d)" ]]; then
-    /yplatform/bin/run-parts --verbose --regex "\.sh$" "/Dockerfile.entrypoint.d"
+    /yplatform/bin/linux-run-parts --verbose --regex "\.sh$" "/Dockerfile.entrypoint.d"
 fi
 
 exec "$@"

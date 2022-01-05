@@ -31,7 +31,7 @@ source ${YP_DIR}/sh/common.inc.sh
     }
 }
 
-${YP_DIR}/bin/run-parts \
+${YP_DIR}/bin/linux-run-parts \
     --verbose \
     --stdin \
     $(for ARG in "$@"; do echo "--arg" "${ARG}"; done) \
