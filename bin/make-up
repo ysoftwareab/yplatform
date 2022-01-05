@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# like 'make' except it search for the first 'Makefile' from $PWD up
-# * -C arg is not supported
-
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
-FIRST_MAKEFILE="$(${YP_DIR}/bin/find-up -name Makefile | head -n1)"
+#- make-up 1.0
+## Usage: make-up [OPTION] [TARGET]
+## Like GNU 'make' but it searches in the parent hierarchy
+## for the first GNUmakefile, makefile or Makefile.
+
+MAKE="${MAKE:-make}"
+
+FIRST_MAKEFILE="$(${YP_DIR}/bin/find-up -name GNUMakefile -o -name makefile -o -name Makefile 2>/dev/null | head -n1)"
 [[ -z "${FIRST_MAKEFILE}" ]] || {
-    >&2 echo "[INFO]" "Found Makefile at ${FIRST_MAKEFILE}."
+    echo_info "Found ${FIRST_MAKEFILE}."
     cd "$(dirname "${FIRST_MAKEFILE}")"
 }
 
-make "$@"
+${MAKE} "$@"
