@@ -1,19 +1,75 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# like 'find' except it searches from $PWD up
-# * starting points are not supported (only $PWD)
-# * -maxdepth and -mindepth args are not supported
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
 
-# based on https://unix.stackexchange.com/a/35265/61053
+#- find-up 1.0
+## Usage: find-up [FIND_OPTIONS] [PATHS..] [FIND_EXPRESSIONS]
+## Like GNU 'find' but it searches in the parent hierarchy.
+## -mindepth and -maxdepth expressions are ignored.
 
-FIND_PATH="${PWD}"
+FIND="${FIND:-find}"
 
-while true; do
-    find "${FIND_PATH}" -maxdepth 1 -mindepth 1 "$@"
+FIND_OPTIONS=()
+FIND_PATHS=()
+FIND_EXPRESSIONS=()
 
-    # Note: if you want to ignore symlinks, use "$(realpath -s "$path"/..)"
-    # path="$(readlink -f "$path"/..)"
-    [[ "${FIND_PATH}" != "/" ]] || break
-    FIND_PATH="$(dirname "${FIND_PATH}")"
+# FIND_OPTIONS
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -H|-L|-P)
+            FIND_OPTIONS+=("$1")
+            shift
+            ;;
+        -O|-D)
+            FIND_OPTIONS+=("$1" "$2")
+            shift 2
+            ;;
+        *)
+            break
+            ;;
+    esac
 done
+
+# FIND_PATHS
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -*)
+            break
+            ;;
+        *)
+            FIND_PATHS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+# FIND_EXPRESSIONS
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -mindepth|-maxdepth)
+            echo_warn "Ignoring $1 $2."
+            shift 2
+            ;;
+        *)
+            FIND_EXPRESSIONS+=("$1")
+            shift
+            ;;
+    esac
+done
+
+[[ ${#FIND_PATHS[@]} -gt 0 ]] || FIND_PATHS+=("${PWD}")
+
+FIND_PARENT_PATHS=()
+while [[ ${#FIND_PATHS[@]} -gt 0 ]]; do
+    FIND_PATH="${FIND_PATHS[0]}"
+    while true; do
+        FIND_PARENT_PATHS+=("${FIND_PATH}")
+        [[ "${FIND_PATH}" != "/" ]] || break
+        FIND_PATH="$(dirname "${FIND_PATH}")"
+    done
+    FIND_PATHS=("${FIND_PATHS[@]:1}")
+done
+
+exe "${FIND}" "${FIND_OPTIONS[@]}" "${FIND_PARENT_PATHS[@]}" -mindepth 1 -maxdepth 1 "${FIND_EXPRESSIONS[@]}"
