@@ -6,6 +6,7 @@
 mkdir new-repo
 cd new-repo
 git init
+git commit --allow-empty -m "[empty] initial commit"
 ```
 
 Set up `yplatform` as a `git` submodule via
@@ -30,7 +31,7 @@ In order to wrap up and complete the initial commit, run
 
 ```shell
 git add .
-git commit -m "initial commit"
+git commit -m "bootstrapped with yplatform"
 ```
 
 ## Creating a new repository on Github
