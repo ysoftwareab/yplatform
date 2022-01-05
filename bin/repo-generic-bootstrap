@@ -93,7 +93,7 @@ ARTIFACT=.ci.sh
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ "${ARTIFACT}" != ".github/settings.base.yml" ]] || continue
         [[ -e ${ARTIFACT} ]] || {
-            cp ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
+            cp -r ${YP_DIR_REL}/repo/dot${ARTIFACT} ${ARTIFACT}
             ARTIFACTS="${ARTIFACTS}\\n${ARTIFACT}"
             echo_info "Created ${ARTIFACT}."
         }
