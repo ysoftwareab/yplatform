@@ -17,12 +17,8 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # NOTE ideally we would unset all current variables,
     # but we need to detect and retain those set in the CI configuration
     # e.g. not only GITHUB_*, but also any given in "env:" as part of a workflow
-    # so instead we only update current variables
-    # NOTE this doesn't update exported functions
-    # NOTE this doesn't support multiline values
-    eval "$(env -i HOME="${HOME}" bash -l -i -c "printenv" | \
-        sed "s/'/\\\\'/g" | \
-        sed "s/^\([^=]\+\)=\(.*\)$/export \1='\2'/g")"
+    # so instead we only overwrite current variables
+    eval "$(env -i HOME="${HOME}" bash -l -i -c "export -p; export -pf")"
 
     >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
     >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
