@@ -1,63 +1,63 @@
---- bootstrap/brew-util/homebrew-install.sh
-+++ bootstrap/brew-util/homebrew-install.sh.original
-@@ -47,7 +47,6 @@
+--- homebrew-install.sh.original	2022-01-06 17:07:52.549735194 +0100
++++ homebrew-install.sh	2022-01-06 17:08:02.942052581 +0100
+@@ -47,6 +47,7 @@
    fi
    HOMEBREW_CACHE="${HOME}/Library/Caches/Homebrew"
  
--  STAT="/usr/bin/stat"
++  STAT="/usr/bin/stat"
    STAT_FLAG="-f"
    PERMISSION_FORMAT="%A"
    CHOWN="/usr/sbin/chown"
-@@ -62,7 +61,6 @@
+@@ -61,6 +62,7 @@
    HOMEBREW_PREFIX_DEFAULT="/home/linuxbrew/.linuxbrew"
    HOMEBREW_CACHE="${HOME}/.cache/Homebrew"
  
--  STAT="/bin/stat"
++  STAT="/bin/stat"
    STAT_FLAG="--printf"
    PERMISSION_FORMAT="%a"
    CHOWN="/bin/chown"
-@@ -266,7 +264,7 @@
+@@ -264,7 +266,7 @@
  }
  
  get_permission() {
--  "${STAT}" "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
-+  stat "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
+-  stat "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
++  "${STAT}" "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
  }
  
  user_only_chmod() {
-@@ -278,7 +276,7 @@
+@@ -276,7 +278,7 @@
  }
  
  get_owner() {
--  "${STAT}" "${STAT_FLAG}" "%u" "$1"
-+  stat "${STAT_FLAG}" "%u" "$1"
+-  stat "${STAT_FLAG}" "%u" "$1"
++  "${STAT}" "${STAT_FLAG}" "%u" "$1"
  }
  
  file_not_owned() {
-@@ -286,7 +284,7 @@
+@@ -284,7 +286,7 @@
  }
  
  get_group() {
--  "${STAT}" "${STAT_FLAG}" "%g" "$1"
-+  stat "${STAT_FLAG}" "%g" "$1"
+-  stat "${STAT_FLAG}" "%g" "$1"
++  "${STAT}" "${STAT_FLAG}" "%g" "$1"
  }
  
  file_not_grpowned() {
-@@ -872,7 +870,7 @@
+@@ -870,7 +872,7 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
--  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF:-origin/master}"
-+  execute "git" "reset" "--hard" "origin/master"
+-  execute "git" "reset" "--hard" "origin/master"
++  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF:-origin/master}"
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -897,7 +895,7 @@
+@@ -895,7 +897,7 @@
        execute "git" "config" "core.autocrlf" "false"
        execute "git" "fetch" "--force" "origin" "refs/heads/master:refs/remotes/origin/master"
        execute "git" "remote" "set-head" "origin" "--auto" >/dev/null
--      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF:-origin/master}"
-+      execute "git" "reset" "--hard" "origin/master"
+-      execute "git" "reset" "--hard" "origin/master"
++      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF:-origin/master}"
  
        cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
      ) || exit 1
