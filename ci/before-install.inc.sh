@@ -236,7 +236,6 @@ function yp_os() {
                 echo_info "${FUNCNAME[0]}: Running with YP_SKIP_SUDO_BOOTSTRAP=true."
                 export YP_SKIP_BREW_BOOTSTRAP=true
                 export YP_SKIP_SUDO_BOOTSTRAP=true
-                export YP_LOG_BOOTSTRAP=true
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
             fi
