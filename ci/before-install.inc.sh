@@ -232,14 +232,11 @@ function yp_os() {
             echo_info "${FUNCNAME[0]}: ${YP_DIR} references ${YP_GIT_HASH}."
             if [[ "${YP_GIT_HASH}" = "${YP_GIT_HASH_BOOTSTRAPPED}" ]]; then
                 echo_info "${FUNCNAME[0]}: Match found. Bootstrapping without brew bootstrap."
-                echo_info "${FUNCNAME[0]}: Running with YP_SKIP_BREW_BOOTSTRAP=true."
-                echo_info "${FUNCNAME[0]}: Running with YP_SKIP_SUDO_BOOTSTRAP=true."
                 export YP_SKIP_BREW_BOOTSTRAP=true
                 export YP_SKIP_SUDO_BOOTSTRAP=true
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
             fi
-            echo_info "${FUNCNAME[0]}: Running with YP_SKIP_BREW_UNINSTALL=true."
             unset YP_GIT_HASH_BOOTSTRAPPED
         }
         unset YP_GIT_HASH
