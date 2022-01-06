@@ -240,6 +240,7 @@ function yp_os() {
             else
                 echo_info "${FUNCNAME[0]}: Match not found. Bootstrapping from scratch."
             fi
+            echo_info "${FUNCNAME[0]}: Running with YP_SKIP_BREW_UNINSTALL=true."
             unset YP_GIT_HASH_BOOTSTRAPPED
         }
         unset YP_GIT_HASH
