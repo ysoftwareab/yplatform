@@ -1,0 +1,25 @@
+yplatform v0.3.11 Release Notes
+
+Highlights since v0.3.10:
+
+* None
+
+Breaking commits since v0.3.10:
+
+* 980cc9f5 2022-01-06 breaking: require homebrew v3, released 2021-02-05. Completely missed this.
+* 89ceef4a 2022-01-06 fixup! breaking: skip uninstalling homebrew if /yplatform.bootstrapped exists
+* abb8d3cd 2022-01-06 breaking: skip uninstalling homebrew if /yplatform.bootstrapped exists
+
+
+Commits since v0.3.10:
+
+* cc0a19f0 2022-01-06 git-shallow: fix tracking branch. or else -- fatal: couldn't find remote ref refs/heads/x
+* 8b2afaec 2022-01-06 style
+* cfecc044 2022-01-06 typo
+* 5178f675 2022-01-06 more verbose
+* 980cc9f5 2022-01-06 breaking: require homebrew v3, released 2021-02-05. Completely missed this.
+* 3966eb5a 2022-01-06 ci: remove YP_LOG_BOOTSTRAP=true when /yplatform.bootstrapped exists
+* 89ceef4a 2022-01-06 fixup! breaking: skip uninstalling homebrew if /yplatform.bootstrapped exists
+* c48f3e2e 2022-01-06 updated bootstrap/brew-util/homebrew-install.sh.patch
+* abb8d3cd 2022-01-06 breaking: skip uninstalling homebrew if /yplatform.bootstrapped exists
+o 64164fc6 2022-01-06 0.3.10
