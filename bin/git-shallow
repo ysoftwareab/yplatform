@@ -15,13 +15,13 @@ GIT_TAG=
 }
 [[ -n "${GIT_BRANCH#HEAD}" ]] || {
     # attach temporarily
-    echo >&2 "[INFO] Creating temporary branch yp-git-shallow."
+    >&2 echo "[INFO] Creating temporary branch yp-git-shallow."
     git -C $1 checkout -B yp-git-shallow
     GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
     [[ "${GIT_BRANCH}" = "yp-git-shallow" ]]
 }
 
-echo >&2 "[INFO] Shallow-cloning branch/tag ${GIT_BRANCH}."
+>&2 echo "[INFO] Shallow-cloning branch/tag ${GIT_BRANCH}."
 # file:/// or else no shallow clone. see https://stackoverflow.com/a/40383231/465684
 git clone \
     --depth 1 \
@@ -46,7 +46,7 @@ if [[ "${GIT_BRANCH}" != "yp-git-shallow" ]]; then
 else
     git -C $1 config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     # detach again
-    echo >&2 "[INFO] Detach from yp-git-shallow."
+    >&2 echo "[INFO] Detach from yp-git-shallow."
     GIT_BRANCH=yp-git-shallow
     git -C $1 checkout $(git -C $1 rev-parse HEAD)
     git -C $1 branch -D ${GIT_BRANCH}
