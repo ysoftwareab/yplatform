@@ -8,7 +8,7 @@ set -euo pipefail
 function repo-reset-mtime() {
     (
         cd $1
-	      [[ "$(git rev-parse --is-shallow-repository)" = "false" ]] || {
+	      [[ "$(git rev-parse --is-shallow-repository)" != "true" ]] || {
             >&2 echo "[ERR ] Cannot call git-reset-mtime inside a shallow clone."
             exit 1
         }
