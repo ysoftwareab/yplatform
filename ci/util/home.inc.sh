@@ -10,7 +10,18 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     >&2 echo "$(date +"%H:%M:%S") [DO  ] Resetting \$HOME to ${HOME_REAL}..."
 
     TMP_ENV=$(mktemp -t yplatform.XXXXXXXXXX)
-    printenv >${TMP_ENV}
+    TMP_ENV2=$(mktemp -t yplatform.XXXXXXXXXX)
+    TMP_ENV_DIFF=$(mktemp -t yplatform.XXXXXXXXXX)
+    SED_RANDOM="$$.${RANDOM}.$$"
+
+    # store exported vars as singleline vars (easier to diff)
+    {
+        export -p | grep "^declare" | sed "s/^declare \-x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
+            echo -n "${VAR}="
+            echo "${!VAR:-}" | \
+                sed -e ":a" -e "N" -e "\$!ba" -e "s/\r/{{CRLF${RANDOM}CRLF}}/g" -e "s/\n/{{LF${RANDOM}LF}}/g"
+        done
+    } >>${TMP_ENV}
 
     export HOME="${HOME_REAL}"
 
@@ -20,17 +31,47 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # so instead we only overwrite current variables
     eval "$(env -i HOME="${HOME}" bash -l -i -c "export -p; export -pf")"
 
-    >&2 echo "$(date +"%H:%M:%S") [INFO] Setting the following environment variables:"
-    >&2 grep -Fx -v -f ${TMP_ENV} <(printenv | sort) || true
-    # NOTE can't use YP_CI_PLATFORM because this script is sourced before
-    # [[ "${YP_CI_PLATFORM:-}" != "github" ]] || {
-    [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
-        >&2 echo "$(date +"%H:%M:%S") [INFO] Updating \$GITHUB_ENV..."
-        grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | tee -a ${GITHUB_ENV} || \
-            grep -Fx -v -f ${TMP_ENV} <(printenv | sort) | ${YP_SUDO:-sudo} tee -a ${GITHUB_ENV}
+    # store exported vars as singleline vars (easier to diff)
+    {
+        export -p | grep "^declare" | sed "s/^declare \-x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
+            echo -n "${VAR}="
+            echo "${!VAR:-}" | \
+                sed -e ":a" -e "N" -e "\$!ba" -e "s/\r/{{CRLF${RANDOM}CRLF}}/g" -e "s/\n/{{LF${RANDOM}LF}}/g"
+        done
+    } >>${TMP_ENV2}
+
+    diff --unified=0 ${TMP_ENV} ${TMP_ENV2} >${TMP_ENV_DIFF} || true
+
+    [[ ! -s "${TMP_ENV_DIFF}" ]] || {
+        >&2 echo "$(date +"%H:%M:%S") [INFO] Following environment variables have changed after resetting \$HOME:"
+        cat "${TMP_ENV_DIFF}" | >&2 tail -n+4
+
+        # NOTE can't use YP_CI_PLATFORM because this script is sourced before
+        # [[ "${YP_CI_PLATFORM:-}" != "github" ]] || {
+        [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+            >&2 echo "$(date +"%H:%M:%S") [INFO] Updating \$GITHUB_ENV with the new environment variables..."
+            touch ${GITHUB_ENV} || ${YP_SUDO:-sudo} touch ${GITHUB_ENV}
+            {
+                cat "${TMP_ENV_DIFF}" | tail -n+4 | grep "^+" | sed "s/^+//g" | sed "s/=.*//g" | while read -r VAR; do
+                    echo -n "${VAR}"
+                    case "${!VAR:-}" in
+                        *$'\r'*|*$'\n'*)
+                            echo "<<EOF"
+                            echo "${!VAR:-}"
+                            echo "EOF"
+                            ;;
+                        *)
+                            echo "=${!VAR:-}"
+                            ;;
+                    esac
+                done
+            } | exe ${YP_SUDO:-sudo} tee -a ${GITHUB_ENV}
+        }
     }
 
     rm -f ${TMP_ENV}
+    rm -f ${TMP_ENV2}
+    rm -f ${TMP_ENV_DIFF}
 
     >&2 echo "$(date +"%H:%M:%S") [DONE]"
 }
