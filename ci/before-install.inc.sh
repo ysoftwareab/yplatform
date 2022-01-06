@@ -225,6 +225,7 @@ function yp_os() {
     [[ "${YP_FORCE_BOOTSTRAP:-}" = "true" ]] || {
         local YP_GIT_HASH=$(git -C ${YP_DIR} rev-parse HEAD)
         [[ ! -f /yplatform.bootstrapped ]] || {
+            export YP_SKIP_BREW_UNINSTALL=true
             local YP_GIT_HASH_BOOTSTRAPPED=$(cat /yplatform.bootstrapped)
             echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped exists."
             echo_info "${FUNCNAME[0]}: /yplatform.bootstrapped references ${YP_GIT_HASH_BOOTSTRAPPED}."
