@@ -1,0 +1,19 @@
+yplatform v0.3.9 Release Notes
+
+Highlights since v0.3.8:
+
+* None
+
+Breaking commits since v0.3.8:
+
+* None
+
+Commits since v0.3.8:
+
+* b4e7137b 2022-01-06 better fix for github action overriding $HOME
+* b5cb4c6b 2022-01-05 docs: promote creating an empty initial commit
+* 0d3eb02f 2022-01-05 generic bootstrap: add .gitignore
+* 0e71cf8c 2022-01-05 repo bootstrap: use cp -Rp
+* d0eb8487 2022-01-05 fix repo-generic-bootstrap failing to copy repo/dot.github/workflows
+* 68e61c65 2022-01-05 yp-install: commit after installing/updating
+o 3a421d32 2022-01-05 0.3.8
