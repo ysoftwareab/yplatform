@@ -44,7 +44,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 
     [[ ! -s "${TMP_ENV_DIFF}" ]] || {
         >&2 echo "$(date +"%H:%M:%S") [INFO] Following environment variables have changed after resetting \$HOME:"
-        cat "${TMP_ENV_DIFF}" | >&2 tail -n+4
+        cat "${TMP_ENV_DIFF}" | tail -n+3 | grep "^[+-]" >&2
 
         # NOTE can't use YP_CI_PLATFORM because this script is sourced before
         # [[ "${YP_CI_PLATFORM:-}" != "github" ]] || {
