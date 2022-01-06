@@ -6,6 +6,7 @@ function bootstrap_has_brew() {
         # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
         # exe_and_grep_q "brew --version | head -1" "^Homebrew 3." || return 1
         exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 3\." || return 1
+        echo_info "brew: Executable brew v3 found."
     else
         echo_info "brew: Executable brew v3 not found."
         return 1
@@ -71,6 +72,7 @@ function bootstrap_brew() {
 
     case ${HAS_BREW}-${OS_SHORT}-${YP_SUDO:-false} in
         true-darwin-*|true-linux-*)
+            echo_skip "brew: Installing homebrew..."
             ;;
         false-linux-false|false-linux-yp_nosudo|false-linux-yp_nosudo_fallback)
             HOMEBREW_PREFIX=${HOME}/.linuxbrew
