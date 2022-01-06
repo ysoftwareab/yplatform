@@ -4,10 +4,10 @@ set -euo pipefail
 function bootstrap_has_brew() {
     if command -v brew >/dev/null 2>&1; then
         # using tail or else broken pipe. see https://github.com/Homebrew/homebrew-cask/issues/36218
-        # exe_and_grep_q "brew --version | head -1" "^Homebrew 2." || return 1
-        exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 2\." || return 1
+        # exe_and_grep_q "brew --version | head -1" "^Homebrew 3." || return 1
+        exe_and_grep_q "brew --version | tail -n+1 | head -1" "^Homebrew 3\." || return 1
     else
-        echo_info "brew: Executable brew not found."
+        echo_info "brew: Executable brew v3 not found."
         return 1
     fi
 }
@@ -66,10 +66,10 @@ function bootstrap_brew() {
         fi
     }
 
-    local HAS_BREW_2=true
-    bootstrap_has_brew || HAS_BREW_2=false
+    local HAS_BREW=true
+    bootstrap_has_brew || HAS_BREW=false
 
-    case ${HAS_BREW_2}-${OS_SHORT}-${YP_SUDO:-false} in
+    case ${HAS_BREW}-${OS_SHORT}-${YP_SUDO:-false} in
         true-darwin-*|true-linux-*)
             ;;
         false-linux-false|false-linux-yp_nosudo|false-linux-yp_nosudo_fallback)
@@ -96,7 +96,7 @@ function bootstrap_brew() {
             source ${YP_DIR}/sh/env.inc.sh
             ;;
         *)
-            echo_err "brew: Cannot handle HAS_BREW_2=${HAS_BREW_2} OS_SHORT=${OS_SHORT} YP_SUDO=${YP_SUDO}."
+            echo_err "brew: Cannot handle HAS_BREW=${HAS_BREW} OS_SHORT=${OS_SHORT} YP_SUDO=${YP_SUDO}."
             return 1
             ;;
     esac
