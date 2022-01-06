@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+set -x
 
 TMP_GIT_SHALLOW=$(mktemp -d -t yplatform.XXXXXXXXXX)
 function on_exit() {
@@ -8,11 +9,14 @@ function on_exit() {
 trap on_exit EXIT
 
 GIT_BRANCH=$(git -C $1 rev-parse --abbrev-ref HEAD)
+GIT_BRANCH_TRACKING_REF=
 GIT_TAG=
-[[ -n "${GIT_BRANCH#HEAD}" ]] || {
+if [[ -n "${GIT_BRANCH#HEAD}" ]]; then
+    GIT_BRANCH_TRACKING_REF=$(git -C $1 for-each-ref --format="%(upstream)" "$(git -C $1 symbolic-ref -q HEAD)")
+else
     GIT_TAG=$(git -C $1 tag --points-at HEAD | head -1)
     GIT_BRANCH="${GIT_TAG}"
-}
+fi
 [[ -n "${GIT_BRANCH#HEAD}" ]] || {
     # attach temporarily
     >&2 echo "[INFO] Creating temporary branch yp-git-shallow."
@@ -30,6 +34,8 @@ git clone \
     --shallow-submodules \
     file:///$1 ${TMP_GIT_SHALLOW}
 
+git -C ${TMP_GIT_SHALLOW} branch --unset-upstream
+git -C ${TMP_GIT_SHALLOW} config --unset remote.origin.fetch
 git -C ${TMP_GIT_SHALLOW} remote set-url origin "$(git -C $1 remote get-url origin)"
 git -C ${TMP_GIT_SHALLOW} pack-refs
 rm -rf ${TMP_GIT_SHALLOW}/.git/refs/remotes
@@ -39,11 +45,18 @@ mv ${TMP_GIT_SHALLOW}/.git ${1}/
 
 if [[ "${GIT_BRANCH}" != "yp-git-shallow" ]]; then
     if [[ -n "${GIT_TAG}" ]]; then
+        >&2 echo "[INFO] Set up fetching tag ${GIT_TAG}."
         git -C $1 config remote.origin.fetch "+refs/tags/${GIT_TAG}:refs/tags/${GIT_TAG}"
-    else
-        git -C $1 config remote.origin.fetch "+refs/heads/${GIT_BRANCH}:refs/remotes/origin/${GIT_BRANCH}"
+    elif [[ -n "${GIT_BRANCH_TRACKING_REF}" ]]; then
+        if [[ "${GIT_BRANCH_TRACKING_REF#refs/remotes/origin/}" = "${GIT_BRANCH_TRACKING_REF}" ]]; then
+            >&2 echo "[SKIP] Set up fetching branch ${GIT_BRANCH} to ${GIT_BRANCH_TRACKING_REF}."
+        else
+            >&2 echo "[INFO] Set up fetching branch ${GIT_BRANCH} to ${GIT_BRANCH_TRACKING_REF}."
+            git -C $1 config remote.origin.fetch "+refs/heads/${GIT_BRANCH}:${GIT_BRANCH_TRACKING_REF}"
+        fi
     fi
 else
+    >&2 echo "[INFO] Set up fetching all branches."
     git -C $1 config remote.origin.fetch "+refs/heads/*:refs/remotes/origin/*"
     # detach again
     >&2 echo "[INFO] Detach from yp-git-shallow."
