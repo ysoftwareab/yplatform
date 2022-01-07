@@ -44,12 +44,14 @@ function yp_github_https_insteadof_git() {
     # but requires SSH keys, though there's no security server-side
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
+
     # takes precedence over gitconfig/dot.gitconfig
     exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
     # cover git canonical git url
     exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
     # cover github url
     exe git config --global --add url."https://github.com/".insteadOf "github://"
+
     echo_done
 }
 
@@ -67,12 +69,14 @@ function yp_github_https_insteadof_all() {
     exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
     # cover git canonical git url
     exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-    # cover git canonical ssh url
-    exe git config --global --add url."https://github.com/".insteadOf "git@github.com:"
     # cover github url
     exe git config --global --add url."https://github.com/".insteadOf "github://"
+
+    # cover git canonical ssh url
+    exe git config --global --add url."https://github.com/".insteadOf "git@github.com:"
     # cover npm package.json's canonical git+ssh url
     exe git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
     echo_done
 }
 
