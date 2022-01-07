@@ -45,12 +45,10 @@ function yp_github_https_insteadof_git() {
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
 
-    # takes precedence over gitconfig/dot.gitconfig
-    exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-    # cover git canonical git url
-    exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-    # cover github url
-    exe git config --global --add url."https://github.com/".insteadOf "github://"
+    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-https" || \
+        printf '%s\n%s\n' \
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github-https")" \
+            "$(cat ~/.gitconfig)" >~/.gitconfig
 
     echo_done
 }
@@ -65,17 +63,10 @@ function yp_github_https_insteadof_all() {
     echo -e "machine github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
 
-    # takes precendence over gitconfig/dot.gitconfig
-    exe git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-    # cover git canonical git url
-    exe git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-    # cover github url
-    exe git config --global --add url."https://github.com/".insteadOf "github://"
-
-    # cover git canonical ssh url
-    exe git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-    # cover npm package.json's canonical git+ssh url
-    exe git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-ssh" || \
+        printf '%s\n%s\n' \
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github-ssh")" \
+            "$(cat ~/.gitconfig)" >~/.gitconfig
 
     echo_done
 }
@@ -129,11 +120,7 @@ function yp_git() {
         touch ${HOME}/.gitconfig
     }
 
-    # NOTE order matters - set up urls for CI before including gitconfig/dot.gitconfig
     yp_github
-
-    exe git config --global --add include.path "${YP_DIR}/gitconfig/dot.gitconfig"
-    # printf '[include]\npath = '"${YP_DIR}"'/gitconfig/dot.gitconfig\n%s\n' "$(cat ~/.gitconfig)" >~/.gitconfig
 
     # shellcheck disable=SC2094
     cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${YP_DIR}/bin/sponge ${HOME}/.gitconfig

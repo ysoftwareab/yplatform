@@ -8,8 +8,8 @@ chown -R root:root .
 git reset --hard HEAD
 git clean -xdf .
 
-git config --replace-all url."https://github.com/".insteadOf "git@github.com:"
-git config --add url."https://github.com/".insteadOf "git://github.com/"
+# git config --replace-all url."https://github.com/".insteadOf "git@github.com:"
+# git config --add url."https://github.com/".insteadOf "git://github.com/"
 
 chown -R ${UNAME}:${GNAME} .
 export YP_DOCKER=true

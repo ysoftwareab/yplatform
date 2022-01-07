@@ -34,11 +34,12 @@ git config --global core.eol lf
 git config --global advice.detachedHead false
 
 # use https instead of everything else
-git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-git config --global --add url."https://github.com/".insteadOf "github://"
-git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+# sync with gitconfig/dot.gitconfig.github-https
+git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+git config --global --add url."https://github.com/".insteadOf "github://" # github url
+git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's canonical git+ssh url # editorconfig-checker-disable-line
 
 # use github token transparently
 [[ -z "${GITHUB_TOKEN:-}" ]] || {

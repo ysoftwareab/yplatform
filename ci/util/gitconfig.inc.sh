@@ -7,7 +7,10 @@ if command -v git >/dev/null 2>&1; then
     # NOTE we want to prepend, and let the original .gitconfig override YP configuration
     # git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
     touch ~/.gitconfig
-    printf '[include]\npath = '"${YP_DIR}"'/gitconfig/dot.gitconfig\n%s\n' "$(cat ~/.gitconfig)" >~/.gitconfig
+    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig" || \
+        printf '%s\n%s\n' \
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
+            "$(cat ~/.gitconfig)" >~/.gitconfig
 
     >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitignore_global ."
     ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ~/.gitignore_global
