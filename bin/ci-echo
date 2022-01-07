@@ -103,6 +103,9 @@ function fallback_echo() {
             >&2 echo -e "                in ${GROUP_DURATION} seconds"
             >&2 echo
             ;;
+        ""|"      ")
+            [[ -z "${GROUP}" ]] || >&2 echo "$(timestamp | sed "s/./ /g") $1 ${GROUP}"
+            ;;
         *)
             >&2 echo "$(timestamp) $1 ${GROUP}"
             ;;
@@ -142,6 +145,9 @@ function travis_echo() {
             >&2 echo "$(timestamp)        in ${GROUP_DURATION} seconds"
             >&2 echo
             ;;
+        ""|"      ")
+            [[ -z "${GROUP}" ]] || >&2 echo "$(timestamp | sed "s/./ /g") $1 ${GROUP}"
+            ;;
         *)
             >&2 echo "$(timestamp) $1 ${GROUP}"
             ;;
@@ -177,6 +183,9 @@ function github_actions_echo() {
         #     >&2 echo "$(timestamp) $1 ${GROUP}"
         #     echo "::error::${GROUP}"
         #     ;;
+        ""|"      ")
+            [[ -z "${GROUP}" ]] || >&2 echo "$(timestamp | sed "s/./ /g") $1 ${GROUP}"
+            ;;
         *)
             >&2 echo "$(timestamp) $1 ${GROUP}"
             ;;
@@ -243,7 +252,7 @@ function teamcity_echo() {
 
 GROUP="${*:2}"
 
-case "$1" in
+case "${1:-}" in
     "[DO  ]")
         GROUP_START=$(date +%s)
         REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
@@ -286,11 +295,11 @@ case "$1" in
 esac
 
 if [[ "${TRAVIS:-}" = "true" ]]; then
-    travis_echo "$1" "${GROUP}"
+    travis_echo "${1:-}" "${GROUP}"
 elif [[ -n "${GITHUB_ACTIONS:-}" ]]; then
-    github_actions_echo "$1" "${GROUP}"
+    github_actions_echo "${1:-}" "${GROUP}"
 elif [[ -n "${TEAMCITY_VERSION:-}" ]]; then
-    teamcity_echo "$1" "${GROUP}"
+    teamcity_echo "${1:-}" "${GROUP}"
 else
-    fallback_echo "$1" "${GROUP}"
+    fallback_echo "${1:-}" "${GROUP}"
 fi

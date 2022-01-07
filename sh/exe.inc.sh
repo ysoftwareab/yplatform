@@ -6,10 +6,6 @@ set -euo pipefail
 YP_CI_ECHO_BENCHMARK=${YP_CI_ECHO_BENCHMARK:-/dev/null}
 export YP_CI_ECHO="${YP_DIR}/bin/ci-echo --benchmark ${YP_CI_ECHO_BENCHMARK}"
 
-function echo_next() {
-    ${YP_CI_ECHO} -- "[NEXT]" "$@"
-}
-
 function echo_do() {
     ${YP_CI_ECHO} -- "[DO  ]" "$@"
 }
@@ -19,20 +15,34 @@ function echo_done() {
     ${YP_CI_ECHO} -- "[DONE]" "$@"
 }
 
-function echo_info() {
-    ${YP_CI_ECHO} -- "[INFO]" "$@"
+function echo_indent() {
+    ${YP_CI_ECHO} -- "      " "$@"
+}
+
+function echo_next() {
+    ${YP_CI_ECHO} -- "[NEXT]" "$@"
+}
+
+function echo_q() {
+    ${YP_CI_ECHO} -- "[Q   ]" "$@"
 }
 
 function echo_skip() {
     ${YP_CI_ECHO} -- "[SKIP]" "$@"
 }
 
-function echo_warn() {
-    ${YP_CI_ECHO} -- "[WARN]" "$@"
-}
+# ECHO -------------------------------------------------------------------------
 
 function echo_err() {
     ${YP_CI_ECHO} -- "[ERR ]" "$@"
+}
+
+function echo_info() {
+    ${YP_CI_ECHO} -- "[INFO]" "$@"
+}
+
+function echo_warn() {
+    ${YP_CI_ECHO} -- "[WARN]" "$@"
 }
 
 # SHELL ------------------------------------------------------------------------
