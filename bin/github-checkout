@@ -11,6 +11,16 @@ set -euo pipefail
     exit 1
 }
 
+# run with a clean .gitconfig, but restore on exit
+TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+touch ${HOME}/.gitconfig
+mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
+function on_exit() {
+    mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
+}
+trap on_exit EXIT
+
 # basic git config
 git config --global core.autocrlf false
 git config --global core.eol lf
