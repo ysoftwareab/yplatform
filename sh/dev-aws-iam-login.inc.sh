@@ -2,14 +2,14 @@
 
 function aws-iam-login() {
     [[ $# -eq 1 ]] || {
-        echo >&2 "Usage: aws-iam-login <profilename>"
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Usage: aws-iam-login <profilename>"
         return 1
     }
 
     AWS_PROFILE=$1
 
     aws configure get aws_access_key_id --profile ${AWS_PROFILE} >/dev/null || {
-        echo >&2 "${AWS_PROFILE} profile is not configured."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] ${AWS_PROFILE} profile is not configured."
         return 1
     }
 
@@ -26,7 +26,7 @@ function aws-iam-login() {
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
 
-    echo "${AWS_PROFILE} AWS profile is now in use."
+    >&2 echo "$(date +"%H:%M:%S")" "[INFO] ${AWS_PROFILE} AWS profile is now in use."
     aws configure list # login and obtain a session token
 
     CREDENTIALS_TEMP=$(mktemp -t yplatform.XXXXXXXXXX)
@@ -37,24 +37,24 @@ function aws-iam-login() {
     rm -f ${CREDENTIALS_TEMP}
 
     [[ -n "${AWS_ACCESS_KEY_ID}" ]] || {
-        echo >&2 "No AWS_ACCESS_KEY_ID in the environment. Something went wrong."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] No AWS_ACCESS_KEY_ID in the environment. Something went wrong."
         return 1
     }
 
     [[ -n "${AWS_SECRET_ACCESS_KEY}" ]] || {
-        echo >&2 "No AWS_SECRET_ACCESS_KEY in the environment. Something went wrong."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] No AWS_SECRET_ACCESS_KEY in the environment. Something went wrong."
         return 1
     }
 
     [[ -n "${AWS_SESSION_TOKEN}" ]] || {
-        echo >&2 "No AWS_SESSION_TOKEN in the environment. Something went wrong."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] No AWS_SESSION_TOKEN in the environment. Something went wrong."
         return 1
     }
 }
 
 aws-iam-login-ns() {
     [[ $# -eq 2 ]] || {
-        echo >&2 "Usage: aws-iam-login-ns <profilename> <namespace>"
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Usage: aws-iam-login-ns <profilename> <namespace>"
         return 1
     }
 
@@ -71,12 +71,14 @@ aws-iam-login-ns() {
     if [[ -n "${LOCAL_AWS_PROFILE:-}" ]]; then
         aws-iam-login ${LOCAL_AWS_PROFILE}
     else
-        echo >&2
-        echo >&2 "[WARN] You are logged in as ${NS_AWS_PROFILE} in your CURRENT environment as well."
+        >&2 echo
+        >&2 echo "$(date +"%H:%M:%S")" \
+            "[WARN] You are logged in as ${NS_AWS_PROFILE} in your CURRENT environment as well."
     fi
 
-    echo >&2
-    echo >&2 "[INFO] Credentials for ${NS_AWS_PROFILE} are now stored in ${NS}_ environment variables."
+    >&2 echo
+    >&2 echo "$(date +"%H:%M:%S")" \
+        "[INFO] Credentials for ${NS_AWS_PROFILE} are now stored in ${NS}_ environment variables."
 }
 
 _aws-iam-login_completer() {

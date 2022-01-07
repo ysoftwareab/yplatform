@@ -286,7 +286,7 @@ case "${1:-}" in
         }
 
         [[ -n "${PWD_GROUP:-}" ]] || {
-            >&2 echo "[ERR ] Looks like you've called 'ci-echo [DONE]' without calling 'ci-echo [DO  ]' first."
+            >&2 echo "$(timestamp)" "[ERR ] Looks like you've called 'ci-echo [DONE]' without calling 'ci-echo [DO  ]' first."
             exit 1
         }
         ;;

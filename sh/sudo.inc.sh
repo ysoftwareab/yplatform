@@ -3,8 +3,8 @@
 set -euo pipefail
 
 function yp_nosudo() {
-    echo "[ERR ] sudo required, but not available for running the following command:"
-    echo "       $*"
+    >&2 echo "$(date +"%H:%M:%S")" "[ERR ] sudo required, but not available for running the following command:"
+    >&2 echo "                $*"
     prompt_q_to_continue "Run the command yourself as root, then continue."
 }
 export -f yp_nosudo

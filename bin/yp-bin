@@ -7,14 +7,14 @@
         # shellcheck disable=SC2296
         MYSELF=${(%):-%x}
     else
-        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
     fi
 
     # assume this is a symlink to yp-bin. it is intended to be used like that
     MYSELF_RESOLVED=$(readlink "${MYSELF}")
     [[ "${MYSELF_RESOLVED}" =~ .+/bin/yp-bin ]] || {
-        >&2 echo "[INFO] ${MYSELF} points to ${MYSELF_RESOLVED}."
-        >&2 echo "[ERR ] Expected ${MYSELF} to symlink to bin/yp-bin instead."
+        >&2 echo "$(date +"%H:%M:%S")" "[INFO] ${MYSELF} points to ${MYSELF_RESOLVED}."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Expected ${MYSELF} to symlink to bin/yp-bin instead."
         exit 1
     }
     [[ "${MYSELF_RESOLVED:0:1}" = "/" ]] || MYSELF_RESOLVED=$(dirname ${MYSELF})/${MYSELF_RESOLVED}
@@ -27,7 +27,7 @@
 if [[ -n "${ZSH_VERSION:-}" ]]; then
     autoload -U compaudit compinit bashcompinit
     bashcompinit || {
-        echo >&2 "Initialization of zsh completion features has failed."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Initialization of zsh completion features has failed."
     }
 fi
 

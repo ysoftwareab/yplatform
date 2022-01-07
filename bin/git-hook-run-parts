@@ -6,11 +6,11 @@ function on_exit() {
     # shellcheck disable=SC2181
     [[ "$?" != "0" ]] || return 0
 
-    echo "[ERR ] ${HOOK_NAME} hook failed."
+    echo_err "${HOOK_NAME} hook failed."
 
     [[ "${HOOK_NAME}" != "pre-push" ]] || {
-        echo
-        echo "[INFO] If you want ignore the hook and push anyway, use 'git push --no-verify ...'."
+        echo_indent
+        echo_info "If you want ignore the hook and push anyway, use 'git push --no-verify ...'."
     }
 }
 
@@ -23,11 +23,11 @@ source ${YP_DIR}/sh/common.inc.sh
 [[ "${HOOK_NAME}" != "pre-push" ]] || {
     GIT_MODIFIED_FILES="$(git diff --name-only)"
     [[ -z "${GIT_MODIFIED_FILES}" ]] || {
-        echo
+        echo_indent
         echo_warn "The files/submodules below are modified and unstaged,"
         echo_warn "so the push might fail because of unstaged changes, not related to actual commits."
-        echo "${GIT_MODIFIED_FILES}"
-        echo
+        echo_indent "${GIT_MODIFIED_FILES}"
+        echo_indent
     }
 }
 

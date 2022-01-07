@@ -3,12 +3,12 @@
 [[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
         YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-        # echo >&2 YP_DIR=$YP_DIR
+        # >&2 echo YP_DIR=$YP_DIR
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
         # shellcheck disable=SC2296
         YP_DIR="$(cd "$(dirname ${(%):-%x})/.." && pwd)"
     else
-        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
         exit 1
     fi
 }
@@ -59,8 +59,8 @@ function make() {
     esac
     if [[ -z "${YP_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
         [[ -f make.sh.successful ]] || {
-            echo >&2 "[INFO] Running    ${PWD}/make.sh $*"
-            echo >&2 "       instead of ${MAKE_COMMAND} $*"
+            >&2 echo "$(date +"%H:%M:%S")" "[INFO] Running    ${PWD}/make.sh $*"
+            >&2 echo "                instead of ${MAKE_COMMAND} $*"
         }
         YP_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
         local EXIT_CODE=$?

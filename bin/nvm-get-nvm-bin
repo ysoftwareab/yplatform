@@ -46,7 +46,7 @@ command -v nvm >/dev/null 2>&1 || {
     [[ ! -f ${BREW_NVM_DIR}/nvm.sh ]] || NVM_SH=${BREW_NVM_DIR}/nvm.sh
 
     [[ -n ${NVM_SH} ]] || {
-        echo >&2 "[WARN] Couldn't find nvm in any of the known locations."
+        >&2 echo "$(date +"%H:%M:%S")" "[WARN] Couldn't find nvm in any of the known locations."
         exit 0
     }
     NOUNSET_STATE="$(set +o | grep nounset)"

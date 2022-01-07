@@ -9,13 +9,14 @@ uname | grep -q -i "linux" || exit 1
 
 # https://stackoverflow.com/a/57836260/465684
 [[ -z "${IS_WSL:-}" ]] || {
-    >&2 echo "[INFO] Assuming we're running inside WSL because IS_WSL=${IS_WSL}."
+    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Assuming we're running inside WSL because IS_WSL=${IS_WSL}."
     exit 0
 }
 
 # https://patrickwu.space/wslconf/
 [[ ! -e /proc/sys/fs/binfmt_misc/WSLInterop ]] || {
-    >&2 echo "[INFO] Assuming we're running inside WSL because /proc/sys/fs/binfmt_misc/WSLInterop was found."
+    >&2 echo "$(date +"%H:%M:%S")" \
+        "[INFO] Assuming we're running inside WSL because /proc/sys/fs/binfmt_misc/WSLInterop was found."
     exit 0
 }
 
@@ -23,7 +24,8 @@ uname | grep -q -i "linux" || exit 1
 if [[ -e /proc/version ]]; then
     ! cat /proc/version | grep -q -i "Microsoft\|WSL" || {
         >&2 cat /proc/version | grep -i "Microsoft\|WSL"
-        >&2 echo "[INFO] Assuming we're running inside WSL because /proc/version matches Microsoft or WSL."
+        >&2 echo "$(date +"%H:%M:%S")" \
+            "[INFO] Assuming we're running inside WSL because /proc/version matches Microsoft or WSL."
         exit 0
     }
 fi
@@ -32,15 +34,16 @@ fi
 if [[ -e /proc/sys/kernel/osrelease ]]; then
     ! cat /proc/sys/kernel/osrelease | grep -q -i "Microsoft\|WSL" || {
         >&2 cat /proc/sys/kernel/osrelease | grep -i "Microsoft\|WSL"
-        >&2 echo "[INFO] Assuming we're running inside WSL because /proc/sys/kernel/osrelease matches Microsoft or WSL."
+        >&2 echo "$(date +"%H:%M:%S")" \
+            "[INFO] Assuming we're running inside WSL because /proc/sys/kernel/osrelease matches Microsoft or WSL."
         exit 0
     }
 fi
 
 ! command -v explorer.exe 2>/dev/null >&2 || {
-    >&2 echo "[INFO] Assuming we're running inside WSL because explorer.exe command was found."
+    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Assuming we're running inside WSL because explorer.exe command was found."
     exit 0
 }
 
->&2 echo "[INFO] Assuming we're not running inside WSL."
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Assuming we're not running inside WSL."
 exit 1

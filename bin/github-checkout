@@ -2,12 +2,12 @@
 set -euo pipefail
 
 [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
-    >&2 echo "[ERR ] GITHUB_REPOSITORY is undefined."
+    >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
     exit 1
 }
 
 [[ -n "${GITHUB_REF:-}" ]] || {
-    >&2 echo "[ERR ] GITHUB_REF is undefined."
+    >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
     exit 1
 }
 

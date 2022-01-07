@@ -9,7 +9,7 @@ function repo-reset-mtime() {
     (
         cd $1
 	      [[ "$(git rev-parse --is-shallow-repository)" != "true" ]] || {
-            >&2 echo "[ERR ] Cannot call git-reset-mtime inside a shallow clone."
+            >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Cannot call git-reset-mtime inside a shallow clone."
             exit 1
         }
 
@@ -28,7 +28,7 @@ function repo-reset-mtime() {
 }
 
 git rev-parse --git-dir >/dev/null 2>&1 || {
-    echo >&2 "[ERR ] git-reset-mtime only works inside a git repo."
+    >&2 echo "$(date +"%H:%M:%S")" "[ERR ] git-reset-mtime only works inside a git repo."
     exit 1
 }
 
