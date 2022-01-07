@@ -38,51 +38,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -92,28 +119,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -121,9 +162,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -135,8 +179,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_install
@@ -197,51 +244,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -251,28 +325,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -280,9 +368,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -294,8 +385,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_install
@@ -357,51 +451,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -411,28 +532,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -440,9 +575,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -454,8 +592,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - shell: bash
         run: ./.ci.sh before_install
@@ -520,51 +661,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -574,28 +742,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -603,9 +785,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -617,8 +802,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up WSLENV
         shell: bash
@@ -709,51 +897,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -763,28 +978,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -792,9 +1021,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -806,8 +1038,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -861,51 +1096,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -915,28 +1177,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -944,9 +1220,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -958,8 +1237,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1013,51 +1295,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1067,28 +1376,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1096,9 +1419,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1110,8 +1436,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1165,51 +1494,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1219,28 +1575,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1248,9 +1618,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1262,8 +1635,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1318,51 +1694,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1372,28 +1775,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1401,9 +1818,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1415,8 +1835,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1471,51 +1894,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1525,28 +1975,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1554,9 +2018,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1568,8 +2035,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1620,51 +2090,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1674,28 +2171,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1703,9 +2214,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1717,8 +2231,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1769,51 +2286,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1823,28 +2367,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -1852,9 +2410,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -1866,8 +2427,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -1918,51 +2482,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -1972,28 +2563,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -2001,9 +2606,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -2015,8 +2623,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -2067,51 +2678,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -2121,28 +2759,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -2150,9 +2802,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -2164,8 +2819,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -2217,51 +2875,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -2271,28 +2956,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -2300,9 +2999,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -2314,8 +3016,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
@@ -2367,51 +3072,78 @@ jobs:
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
-        run: |
+        run: >
           set -x
+
           #!/usr/bin/env bash
+
           set -euo pipefail
 
+
           HOME_REAL=$(eval echo "~$(id -u -n)")
+
           [[ "${HOME}" = "${HOME_REAL}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
               >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
               export HOME=${HOME_REAL}
           }
 
+
           [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
               exit 1
           }
+
 
           [[ -n "${GITHUB_REF:-}" ]] || {
               >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
               exit 1
           }
 
+
           # run with a clean .gitconfig, but restore on exit
+
           TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
           touch ${HOME}/.gitconfig
+
           mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
 
           function on_exit() {
               mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
           }
+
           trap on_exit EXIT
 
+
           # basic git config
+
           git config --global core.autocrlf false
+
           git config --global core.eol lf
+
           git config --global advice.detachedHead false
 
+
           # use https instead of everything else
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/"
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:"
-          git config --global --add url."https://github.com/".insteadOf "github://"
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/"
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
 
           # use github token transparently
+
           [[ -z "${GITHUB_TOKEN:-}" ]] || {
               BASE64="base64 --wrap 0"
               echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
@@ -2421,28 +3153,42 @@ jobs:
               git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
           }
 
+
           # use git protocol version 2 if available
+
           GIT_DEPTH_ARG=
+
           # NOTE may fail if git-man is not installed
+
           # ! git config --help | grep -q "wire protocol version 2" || {
+
           ! grep -q "protocol version 2" $(command -v git) || {
               git config --global --add protocol.version 2
               GIT_DEPTH_ARG="--depth=1"
           }
 
+
           # ------------------------------------------------------------------------------
 
+
           # clone/fetch
+
           GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
           GIT_BRANCH_ARG=
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
               GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
           fi
+
           [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
           git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
           # shellcheck disable=SC2193
+
           if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
               git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
               GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
@@ -2450,9 +3196,12 @@ jobs:
               GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
           fi
 
+
           # ------------------------------------------------------------------------------
 
+
           # checkout
+
           if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
               git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
           elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
@@ -2464,8 +3213,11 @@ jobs:
               exit 1
           fi
 
+
           # submodules
+
           git submodule sync --recursive
+
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
