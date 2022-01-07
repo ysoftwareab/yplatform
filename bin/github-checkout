@@ -17,6 +17,7 @@ git config --global core.eol lf
 git config --global advice.detachedHead false
 
 # use https instead of everything else
+git config --global --add url."https://github.com/".insteadOf "https://github.com/"
 git config --global --add url."https://github.com/".insteadOf "git://github.com/"
 git config --global --add url."https://github.com/".insteadOf "git@github.com:"
 git config --global --add url."https://github.com/".insteadOf "github://"
