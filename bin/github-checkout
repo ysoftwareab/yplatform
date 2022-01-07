@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+HOME_REAL=$(eval echo "~$(id -u -n)")
+[[ "${HOME}" = "${HOME_REAL}" ]] || {
+    >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
+    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
+    export HOME=${HOME_REAL}
+}
+
 [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
     >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
     exit 1
