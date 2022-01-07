@@ -200,9 +200,9 @@ function exit_allow_sigpipe() {
 function prompt_q_to_continue() {
     local Q="${1:-Are you sure you want to continue?}"
     local CANCEL_KEY="${2:-Ctrl-C}"
-    echo "[Q   ] ${Q}"
-    echo "       Press ENTER to Continue."
-    echo "       Press ${CANCEL_KEY} to Cancel."
+    echo_q "${Q}"
+    echo_indent "Press ENTER to Continue."
+    echo_indent "Press ${CANCEL_KEY} to Cancel."
     if [[ "${CI:-}" = "true" ]]; then
         echo_info "CI pressed ENTER."
         return 0

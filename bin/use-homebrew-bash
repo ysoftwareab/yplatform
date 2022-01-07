@@ -15,11 +15,13 @@ if [[ "${SHELL_IS_BASH}" = "true" ]] && [[ "${BASH_IS_NEW}" = "true" ]]; then
 fi
 
 HOMEBREW_BASH=$(brew --prefix)/bin/bash
-[[ "${SHELL_IS_BASH}" = "true" ]] || echo "       Your current shell ${SHELL} is not bash."
-[[ "${BASH_IS_NEW}" = "true" ]] || echo "       Your bash shell is not version 4+."
-echo "[Q   ] Do you want to switch to homebrew's bash version 4+ at ${HOMEBREW_BASH} ?"
-echo "       Press ENTER to Continue."
-echo "       Press s to Skip."
+[[ "${SHELL_IS_BASH}" = "true" ]] || \
+    echo_info "Your current shell ${SHELL} is not bash."
+[[ "${BASH_IS_NEW}" = "true" ]] || \
+    echo_info "Your bash shell is not version 4+."
+echo_q "Do you want to switch to homebrew's bash version 4+ at ${HOMEBREW_BASH} ?"
+echo_indent "Press ENTER to Continue."
+echo_indent "Press s to Skip."
 read -r -p "" -n1
 
 if [[ "${REPLY}" = "s" ]]; then
