@@ -17,6 +17,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     apk_install_one git
     apk_install_one openssl
     apk_install_one openssh-client
+    apk_install_one procps
     apk_install_one sudo
 
     [[ "${YP_SUDO}" = "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
