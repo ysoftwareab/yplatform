@@ -6,10 +6,12 @@
 #
 # ------------------------------------------------------------------------------
 
-ifeq (linux,$(OS_SHORT))
-YP_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh && yp_get_docker_ci_image 2>/dev/null)
-else
-YP_DOCKER_CI_IMAGE ?= ysoftwareab/yp-ubuntu-20.04-minimal
+YP_DOCKER_CI_IMAGE ?= $(shell source $(GIT_ROOT)/.ci.sh 2>/dev/null && yp_get_docker_ci_image)
+YP_DOCKER_CI_IMAGE_DEFAULT ?= ysoftwareab/yp-ubuntu-20.04-minimal:$(YP_VSN)
+
+ifeq (,$(patsubst ysoftwareab/yp-macos-%,,$(YP_DOCKER_CI_IMAGE)))
+$(warn [WARN] Using default docker-ci image $(YP_DOCKER_CI_IMAGE_DEFAULT).)
+YP_DOCKER_CI_IMAGE = $(YP_DOCKER_CI_IMAGE_DEFAULT)
 endif
 
 DOCKER = $(call which,DOCKER,docker)
