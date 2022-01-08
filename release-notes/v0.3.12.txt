@@ -1,0 +1,32 @@
+yplatform v0.3.12 Release Notes
+
+Highlights since v0.3.11:
+
+* None
+
+Breaking commits since v0.3.11:
+
+* 20743a6b 2022-01-07 breaking: refactor insteadof in gitconfig
+
+
+Commits since v0.3.11:
+
+* 7e01bcad 2022-01-07 updated .github/workflows/deploy.yml .github/workflows/main.yml
+* 20743a6b 2022-01-07 breaking: refactor insteadof in gitconfig
+* d3925753 2022-01-07 remove mention of firecloud
+* 8afa9287 2022-01-07 ci and docker: use yp's gitconfig, gitignore and gitattributes
+* b205bf2a 2022-01-07 updated .github/workflows/deploy.yml .github/workflows/main.yml
+* bd2eaf39 2022-01-07 github-checkout: set real $HOME
+* 18db3413 2022-01-07 github-checkout: run with a clean .gitconfig
+* 027c74c8 2022-01-07 sync with ci/before-install.inc.sh
+* dd538175 2022-01-07 use ci-echo utils where possible
+* 46708178 2022-01-07 emulate ci-echo timestamp as well
+* ce65bd40 2022-01-07 whitespace
+* 7a758e12 2022-01-07 ci-echo: clean up, add q and indent
+* e9acce98 2022-01-07 alpine: need procps to support 'ps -p' which homebrew calls
+* 9bf5e411 2022-01-07 git rev-parse --is-shallow-repository might respond with empty or false. check only for true for consistency
+* 5e74312e 2022-01-07 don't set PATH in GITHUB_ENV
+* 7bd4e0ea 2022-01-06 redundant
+* 2cb83527 2022-01-06 don't set SHLVL in GITHUB_ENV
+* d83ba249 2022-01-06 better output for changed env vars
+o d26624e7 2022-01-06 0.3.11
