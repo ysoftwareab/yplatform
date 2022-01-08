@@ -155,10 +155,3 @@
     command             = bzip2 -c
 [tar "tar.xz"]
     command             = xz -c
-
-# prefer ssh over git (over ssh) and https
-[url "git@github.com:"]
-    insteadOf           = "git://github.com/"
-    insteadOf           = "git@github.com:" # takes precedence if case of url.anotherUrl.insteadOf.git@github.com:
-    insteadOf           = "github://"
-    insteadOf           = "https://github.com/"
