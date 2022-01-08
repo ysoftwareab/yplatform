@@ -31,7 +31,7 @@ docker-ci: ## Start a Docker CI container (mount entire project).
 		--workdir $${PWD} \
 		--user $$(id -u):$$(id -g) \
 		$(CONTAINER_NAME) \
-		/yplatform/bin/ci-debug "printenv && bash" || true
+		/yplatform/bin/ci-debug || true
 	$(DOCKER) kill $(CONTAINER_NAME)
 
 
@@ -49,5 +49,5 @@ docker-ci/git: ## Start a Docker CI container (mount only git-dir).
 		--workdir $${PWD} \
 		--user $$(id -u):$$(id -g) \
 		$(CONTAINER_NAME) \
-		/yplatform/bin/ci-debug "git checkout . && printenv && bash" || true
+		/yplatform/bin/ci-debug "git checkout . && bash" || true
 	$(DOCKER) kill $(CONTAINER_NAME)

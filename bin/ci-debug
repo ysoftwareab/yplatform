@@ -10,6 +10,8 @@ source ${YP_DIR}/ci/util/env.inc.sh
 
 CMD="${1:-bash}"
 
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Environment variables:"
+>&2 export -p | sed "s/^declare -x //g"
 >&2 echo
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] You can run specific stages like"
 >&2 echo "                ./.ci.sh before_install"
