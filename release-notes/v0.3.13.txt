@@ -1,0 +1,16 @@
+yplatform v0.3.13 Release Notes
+
+Highlights since v0.3.12:
+
+* None
+
+Breaking commits since v0.3.12:
+
+* None
+
+Commits since v0.3.12:
+
+* 7609c834 2022-01-08 make docker-ci: better image detection on macos
+* 2187ac73 2022-01-08 stop CI hack to pipe stderr to stdout. it sometimes takes precedence over running cmd 2>/dev/null e.g. in makefile shell
+* 68e820cb 2022-01-08 make docker-ci: move printenv to ci-debug
+o 793bd774 2022-01-08 0.3.12
