@@ -28,7 +28,8 @@ Host *
 Host *
     ControlMaster auto
     ControlPath /tmp/%r@%h:%p
-    ControlPersist 60s # yes
+    # ControlPersist yes
+    ControlPersist 60s
     ForwardAgent no
     ForwardX11 no
     LogLevel INFO
