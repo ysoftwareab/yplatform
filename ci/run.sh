@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# CIs have issues keeping stdout and stderr in sync because they parse the streams
-# e.g. to mask secret values
-exec 2>&1
-
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/ci/util/env.inc.sh
 
