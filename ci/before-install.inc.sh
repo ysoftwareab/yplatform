@@ -45,10 +45,10 @@ function yp_github_https_insteadof_git() {
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
 
-    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-https" || \
+    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-https$" || \
         printf '%s\n%s\n' \
             "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github-https")" \
-            "$(cat ~/.gitconfig)" >~/.gitconfig
+            "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     echo_done
 }
@@ -63,10 +63,10 @@ function yp_github_https_insteadof_all() {
     echo -e "machine github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
 
-    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-ssh" || \
+    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-ssh$" || \
         printf '%s\n%s\n' \
             "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github-ssh")" \
-            "$(cat ~/.gitconfig)" >~/.gitconfig
+            "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     echo_done
 }
@@ -111,19 +111,12 @@ function yp_git() {
     ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
     ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
 
-    # NOTE we need to prepend to .gitconfig, or else settings are ignored
-    # due to url settings in gitconfig/dot.gitconfig
-
-    local GITCONFIG_BAK=$(mktemp -t yplatform.XXXXXXXXXX)
-    [[ ! -e "${HOME}/.gitconfig" ]] || {
-        mv ${HOME}/.gitconfig ${GITCONFIG_BAK}
-        touch ${HOME}/.gitconfig
-    }
+    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig$" || \
+        printf '%s\n%s\n' \
+               "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
+               "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     yp_github
-
-    # shellcheck disable=SC2094
-    cat ${HOME}/.gitconfig ${GITCONFIG_BAK} | ${YP_DIR}/bin/sponge ${HOME}/.gitconfig
 
     echo_do "Printing ${HOME}/.gitconfig ..."
     cat ${HOME}/.gitconfig
