@@ -102,7 +102,9 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
     TAGS=ysoftwareab/${NAME}:$(cat ${YP_DIR}/package.json | jq -r ".version")-local
 }
 
-echo_do "Building ${TAGS//,/ }..."
+IFS="," read -r -a TAGS_ARRAY <<< "${TAGS}"
+
+echo_do "Building ${TAGS_ARRAY[*]}..."
 
 GIT_DIR="$(git rev-parse --git-dir)"
 [[ "${GIT_DIR}" = ".git" ]] || [[ "${GIT_DIR}" = "${GIT_ROOT}/.git" ]] || {
@@ -116,7 +118,7 @@ BUILDX_PLATFORM_ARG=
 BUILDX_PUSH_ARG=
 [[ "${PUSH}" != "true" ]] || BUILDX_PUSH_ARG="--push"
 BUILDX_TAG_ARG=
-for TAG in ${TAGS//,/ }; do
+for TAG in "${TAGS_ARRAY[@]}"; do
     BUILDX_TAG_ARG+=" --tag ${TAG}"
 done
 exe docker buildx build ${YP_DIR} \
@@ -129,4 +131,8 @@ exe docker buildx build ${YP_DIR} \
     --build-arg YP_DOCKER_CI_IMAGE_NAME=${NAME} \
     --build-arg YP_DOCKER_CI_IMAGE_TAG=${TAG} \
     --build-arg YP_OS_RELEASE_DIR=${OS_RELEASE_DIR#"${YP_DIR}"/}
+echo_done
+
+echo_do "Testing ${TAGS_ARRAY[0]}..."
+exe docker run --rm "${TAGS_ARRAY[0]}" "/Dockerfile.test.sh"
 echo_done

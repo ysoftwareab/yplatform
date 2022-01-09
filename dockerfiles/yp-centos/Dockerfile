@@ -11,6 +11,7 @@ SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
 
 COPY . /yplatform
 
+RUN cp -Rp -L /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.test.sh /Dockerfile.test.sh
 # see https://www.camptocamp.com/en/news-events/flexible-docker-entrypoints-scripts
 # see https://github.com/camptocamp/docker-git/blob/master/docker-entrypoint.sh
 RUN cp -Rp -L /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.entrypoint.sh /Dockerfile.entrypoint.sh
