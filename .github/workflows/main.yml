@@ -1,17 +1,17 @@
-name: CI
+name: 'CI'
 'on':
   push:
     branches:
-      - github*
-      - master
+      - 'github*'
+      - 'master'
   pull_request:
     branches:
       - '**'
   schedule:
-    - cron: 0 0 * * *
+    - cron: '0 0 * * *'
   workflow_dispatch: null
 concurrency:
-  group: main-${{ github.ref }}
+  group: 'main-${{ github.ref }}'
   cancel-in-progress: true
 jobs:
   main-ubuntu:
@@ -21,644 +21,171 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-18.04
-          - ubuntu-20.04
+          - 'ubuntu-18.04'
+          - 'ubuntu-20.04'
         yp_ci_brew_install:
-          - minimal
-          - dev
-    name: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+          - 'minimal'
+          - 'dev'
+    name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
-      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
-      V: ${{ secrets.V }}
-      GITHUB_JOB_NAME: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-      YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
     steps:
-      - name: yplatform/bin/github-checkout
-        shell: bash
-        run: >
-          set -x
-
-          #!/usr/bin/env bash
-
-          set -euo pipefail
-
-
-          HOME_REAL=$(eval echo "~$(id -u -n)")
-
-          [[ "${HOME}" = "${HOME_REAL}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
-              >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
-              export HOME=${HOME_REAL}
-          }
-
-
-          [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
-              exit 1
-          }
-
-
-          [[ -n "${GITHUB_REF:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
-              exit 1
-          }
-
-
-          # run with a clean .gitconfig, but restore on exit
-
-          TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
-
-          touch ${HOME}/.gitconfig
-
-          mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
-
-
-          function on_exit() {
-              mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
-          }
-
-          trap on_exit EXIT
-
-
-          # basic git config
-
-          git config --global core.autocrlf false
-
-          git config --global core.eol lf
-
-          git config --global advice.detachedHead false
-
-
-          # use https instead of everything else
-
-          # sync with gitconfig/dot.gitconfig.github-https
-
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
-
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
-
-          git config --global --add url."https://github.com/".insteadOf "github://" # github url
-
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
-
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
-          canonical git+ssh url # editorconfig-checker-disable-line
-
-
-          # use github token transparently
-
-          [[ -z "${GITHUB_TOKEN:-}" ]] || {
-              BASE64="base64 --wrap 0"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
-              echo "" | ${BASE64} >/dev/null 2>&1
-              GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
-              git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
-          }
-
-
-          # use git protocol version 2 if available
-
-          GIT_DEPTH_ARG=
-
-          # NOTE may fail if git-man is not installed
-
-          # ! git config --help | grep -q "wire protocol version 2" || {
-
-          ! grep -q "protocol version 2" $(command -v git) || {
-              git config --global --add protocol.version 2
-              GIT_DEPTH_ARG="--depth=1"
-          }
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # clone/fetch
-
-          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-
-          GIT_BRANCH_ARG=
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-          fi
-
-          [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
-
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
-
-          # shellcheck disable=SC2193
-
-          if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
-              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-              GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
-              GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
-          fi
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # checkout
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              git checkout ${GITHUB_REF}
-          else
-              set -x
-              printenv
-              cat ${GITHUB_EVENT_PATH:-/dev/null}
-              exit 1
-          fi
-
-
-          # submodules
-
-          git submodule sync --recursive
-
-          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
-      - shell: bash
-        run: ./.ci.sh before_install
-      - shell: bash
-        run: ./.ci.sh install
-      - shell: bash
-        run: ./.ci.sh before_script
-      - shell: bash
-        run: ./.ci.sh script
-      - if: failure()
-        shell: bash
-        run: ./.ci.sh after_failure || true
-      - shell: bash
-        run: ./.ci.sh after_success || true
-      - if: always()
-        shell: bash
-        run: ./.ci.sh after_script || true
-      - if: always()
-        shell: bash
+      - name: 'yplatform/bin/github-checkout'
+        shell: 'bash'
+        run: "set -x\n#!/usr/bin/env bash\nset -euo pipefail\n\nHOME_REAL=$(eval echo \"~$(id -u -n)\")\n[[ \"${HOME}\" = \"${HOME_REAL}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[WARN] \\$HOME is overriden to ${HOME}.\"\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[INFO] Resetting \\$HOME to ${HOME_REAL}...\"\n    export HOME=${HOME_REAL}\n}\n\n[[ -n \"${GITHUB_REPOSITORY:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REPOSITORY is undefined.\"\n    exit 1\n}\n\n[[ -n \"${GITHUB_REF:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REF is undefined.\"\n    exit 1\n}\n\n# run with a clean .gitconfig, but restore on exit\nTMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)\ntouch ${HOME}/.gitconfig\nmv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}\n\nfunction on_exit() {\n    mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig\n}\ntrap on_exit EXIT\n\n# basic git config\ngit config --global core.autocrlf false\ngit config --global core.eol lf\ngit config --global advice.detachedHead false\n\n# use https instead of everything else\n# sync with gitconfig/dot.gitconfig.github-https\ngit config --global --add url.\"https://github.com/\".insteadOf \"https://github.com/\" # git canonical https url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git://github.com/\" # git canonical git url\ngit config --global --add url.\"https://github.com/\".insteadOf \"github://\" # github url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git@github.com:\" # git canonical ssh url\ngit config --global --add url.\"https://github.com/\".insteadOf \"ssh://git@github.com/\" # npm package.json's canonical git+ssh url # editorconfig-checker-disable-line\n\n# use github token transparently\n[[ -z \"${GITHUB_TOKEN:-}\" ]] || {\n    BASE64=\"base64 --wrap 0\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"base64\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"openssl base64 -A\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1\n    GIT_HTTP_EXTRAHEADER=\"AUTHORIZATION: basic $(echo -n \"x-access-token:${GITHUB_TOKEN}\" | ${BASE64})\"\n    git config --global --add http.\"https://github.com/\".extraheader \"${GIT_HTTP_EXTRAHEADER}\"\n}\n\n# use git protocol version 2 if available\nGIT_DEPTH_ARG=\n# NOTE may fail if git-man is not installed\n# ! git config --help | grep -q \"wire protocol version 2\" || {\n! grep -q \"protocol version 2\" $(command -v git) || {\n    git config --global --add protocol.version 2\n    GIT_DEPTH_ARG=\"--depth=1\"\n}\n\n# ------------------------------------------------------------------------------\n\n# clone/fetch\nGIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git\nGIT_BRANCH_ARG=\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/heads\\/}\"\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/tags\\/}\"\nfi\n[[ -z \"${GITHUB_WORKSPACE:-}\" ]] || cd ${GITHUB_WORKSPACE}\ngit clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)\n# shellcheck disable=SC2193\nif [[ \"${GITHUB_EVENT_NAME:-}\" = \"pull_request\" ]]; then\n    git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\\/pull\\/}\n    GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\\/pull\\/})\n    GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed \"s,^ref: refs/heads/,,\" | sed \"s,\\s\\+HEAD,,\")\n    GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}\nfi\n\n# ------------------------------------------------------------------------------\n\n# checkout\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    git checkout -B ${GITHUB_REF#refs\\/heads\\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\\/heads\\/}}\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    git checkout ${GITHUB_REF}\nelse\n    set -x\n    printenv\n    cat ${GITHUB_EVENT_PATH:-/dev/null}\n    exit 1\nfi\n\n# submodules\ngit submodule sync --recursive\ngit submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}\n"
+      - shell: 'bash'
+        run: './.ci.sh before_install'
+      - shell: 'bash'
+        run: './.ci.sh install'
+      - shell: 'bash'
+        run: './.ci.sh before_script'
+      - shell: 'bash'
+        run: './.ci.sh script'
+      - if: 'failure()'
+        shell: 'bash'
+        run: './.ci.sh after_failure || true'
+      - shell: 'bash'
+        run: './.ci.sh after_success || true'
+      - if: 'always()'
+        shell: 'bash'
+        run: './.ci.sh after_script || true'
+      - if: 'always()'
+        shell: 'bash'
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: cloud-ci
-          YP_CI_STATUS: ${{ job.status }}
-        run: ./.ci.sh notifications || true
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_CHANNEL: 'cloud-ci'
+          YP_CI_STATUS: '${{ job.status }}'
+        run: './.ci.sh notifications || true'
+      - name: 'Upload Artifacts'
+        uses: 'actions/upload-artifact@v2'
         with:
-          name: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-          path: |-
-            yp-ci-echo-benchmark
-            some-job-artifact.md
-            log.sh-session
+          name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+          path: "yp-ci-echo-benchmark\nsome-job-artifact.md\nlog.sh-session"
           retention-days: 7
   main-macos:
     needs:
-      - main-ubuntu
+      - 'main-ubuntu'
     timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         os:
-          - macos-10.15
-          - macos-11
+          - 'macos-10.15'
+          - 'macos-11'
         yp_ci_brew_install:
-          - minimal
-          - dev
-    name: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+          - 'minimal'
+          - 'dev'
+    name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
-      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
-      V: ${{ secrets.V }}
-      GITHUB_JOB_NAME: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-      YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
     steps:
-      - name: yplatform/bin/github-checkout
-        shell: bash
-        run: >
-          set -x
-
-          #!/usr/bin/env bash
-
-          set -euo pipefail
-
-
-          HOME_REAL=$(eval echo "~$(id -u -n)")
-
-          [[ "${HOME}" = "${HOME_REAL}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
-              >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
-              export HOME=${HOME_REAL}
-          }
-
-
-          [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
-              exit 1
-          }
-
-
-          [[ -n "${GITHUB_REF:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
-              exit 1
-          }
-
-
-          # run with a clean .gitconfig, but restore on exit
-
-          TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
-
-          touch ${HOME}/.gitconfig
-
-          mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
-
-
-          function on_exit() {
-              mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
-          }
-
-          trap on_exit EXIT
-
-
-          # basic git config
-
-          git config --global core.autocrlf false
-
-          git config --global core.eol lf
-
-          git config --global advice.detachedHead false
-
-
-          # use https instead of everything else
-
-          # sync with gitconfig/dot.gitconfig.github-https
-
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
-
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
-
-          git config --global --add url."https://github.com/".insteadOf "github://" # github url
-
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
-
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
-          canonical git+ssh url # editorconfig-checker-disable-line
-
-
-          # use github token transparently
-
-          [[ -z "${GITHUB_TOKEN:-}" ]] || {
-              BASE64="base64 --wrap 0"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
-              echo "" | ${BASE64} >/dev/null 2>&1
-              GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
-              git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
-          }
-
-
-          # use git protocol version 2 if available
-
-          GIT_DEPTH_ARG=
-
-          # NOTE may fail if git-man is not installed
-
-          # ! git config --help | grep -q "wire protocol version 2" || {
-
-          ! grep -q "protocol version 2" $(command -v git) || {
-              git config --global --add protocol.version 2
-              GIT_DEPTH_ARG="--depth=1"
-          }
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # clone/fetch
-
-          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-
-          GIT_BRANCH_ARG=
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-          fi
-
-          [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
-
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
-
-          # shellcheck disable=SC2193
-
-          if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
-              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-              GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
-              GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
-          fi
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # checkout
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              git checkout ${GITHUB_REF}
-          else
-              set -x
-              printenv
-              cat ${GITHUB_EVENT_PATH:-/dev/null}
-              exit 1
-          fi
-
-
-          # submodules
-
-          git submodule sync --recursive
-
-          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
-      - shell: bash
-        run: ./.ci.sh before_install
-      - shell: bash
-        run: ./.ci.sh install
-      - shell: bash
-        run: ./.ci.sh before_script
-      - shell: bash
-        run: ./.ci.sh script
-      - if: failure()
-        shell: bash
-        run: ./.ci.sh after_failure || true
-      - shell: bash
-        run: ./.ci.sh after_success || true
-      - if: always()
-        shell: bash
-        run: ./.ci.sh after_script || true
-      - if: always()
-        shell: bash
+      - name: 'yplatform/bin/github-checkout'
+        shell: 'bash'
+        run: "set -x\n#!/usr/bin/env bash\nset -euo pipefail\n\nHOME_REAL=$(eval echo \"~$(id -u -n)\")\n[[ \"${HOME}\" = \"${HOME_REAL}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[WARN] \\$HOME is overriden to ${HOME}.\"\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[INFO] Resetting \\$HOME to ${HOME_REAL}...\"\n    export HOME=${HOME_REAL}\n}\n\n[[ -n \"${GITHUB_REPOSITORY:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REPOSITORY is undefined.\"\n    exit 1\n}\n\n[[ -n \"${GITHUB_REF:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REF is undefined.\"\n    exit 1\n}\n\n# run with a clean .gitconfig, but restore on exit\nTMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)\ntouch ${HOME}/.gitconfig\nmv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}\n\nfunction on_exit() {\n    mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig\n}\ntrap on_exit EXIT\n\n# basic git config\ngit config --global core.autocrlf false\ngit config --global core.eol lf\ngit config --global advice.detachedHead false\n\n# use https instead of everything else\n# sync with gitconfig/dot.gitconfig.github-https\ngit config --global --add url.\"https://github.com/\".insteadOf \"https://github.com/\" # git canonical https url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git://github.com/\" # git canonical git url\ngit config --global --add url.\"https://github.com/\".insteadOf \"github://\" # github url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git@github.com:\" # git canonical ssh url\ngit config --global --add url.\"https://github.com/\".insteadOf \"ssh://git@github.com/\" # npm package.json's canonical git+ssh url # editorconfig-checker-disable-line\n\n# use github token transparently\n[[ -z \"${GITHUB_TOKEN:-}\" ]] || {\n    BASE64=\"base64 --wrap 0\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"base64\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"openssl base64 -A\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1\n    GIT_HTTP_EXTRAHEADER=\"AUTHORIZATION: basic $(echo -n \"x-access-token:${GITHUB_TOKEN}\" | ${BASE64})\"\n    git config --global --add http.\"https://github.com/\".extraheader \"${GIT_HTTP_EXTRAHEADER}\"\n}\n\n# use git protocol version 2 if available\nGIT_DEPTH_ARG=\n# NOTE may fail if git-man is not installed\n# ! git config --help | grep -q \"wire protocol version 2\" || {\n! grep -q \"protocol version 2\" $(command -v git) || {\n    git config --global --add protocol.version 2\n    GIT_DEPTH_ARG=\"--depth=1\"\n}\n\n# ------------------------------------------------------------------------------\n\n# clone/fetch\nGIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git\nGIT_BRANCH_ARG=\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/heads\\/}\"\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/tags\\/}\"\nfi\n[[ -z \"${GITHUB_WORKSPACE:-}\" ]] || cd ${GITHUB_WORKSPACE}\ngit clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)\n# shellcheck disable=SC2193\nif [[ \"${GITHUB_EVENT_NAME:-}\" = \"pull_request\" ]]; then\n    git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\\/pull\\/}\n    GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\\/pull\\/})\n    GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed \"s,^ref: refs/heads/,,\" | sed \"s,\\s\\+HEAD,,\")\n    GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}\nfi\n\n# ------------------------------------------------------------------------------\n\n# checkout\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    git checkout -B ${GITHUB_REF#refs\\/heads\\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\\/heads\\/}}\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    git checkout ${GITHUB_REF}\nelse\n    set -x\n    printenv\n    cat ${GITHUB_EVENT_PATH:-/dev/null}\n    exit 1\nfi\n\n# submodules\ngit submodule sync --recursive\ngit submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}\n"
+      - shell: 'bash'
+        run: './.ci.sh before_install'
+      - shell: 'bash'
+        run: './.ci.sh install'
+      - shell: 'bash'
+        run: './.ci.sh before_script'
+      - shell: 'bash'
+        run: './.ci.sh script'
+      - if: 'failure()'
+        shell: 'bash'
+        run: './.ci.sh after_failure || true'
+      - shell: 'bash'
+        run: './.ci.sh after_success || true'
+      - if: 'always()'
+        shell: 'bash'
+        run: './.ci.sh after_script || true'
+      - if: 'always()'
+        shell: 'bash'
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: cloud-ci
-          YP_CI_STATUS: ${{ job.status }}
-        run: ./.ci.sh notifications || true
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_CHANNEL: 'cloud-ci'
+          YP_CI_STATUS: '${{ job.status }}'
+        run: './.ci.sh notifications || true'
+      - name: 'Upload Artifacts'
+        uses: 'actions/upload-artifact@v2'
         with:
-          name: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-          path: |-
-            yp-ci-echo-benchmark
-            some-job-artifact.md
-            log.sh-session
+          name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+          path: "yp-ci-echo-benchmark\nsome-job-artifact.md\nlog.sh-session"
           retention-days: 7
   main-windows:
     needs:
-      - main-ubuntu
-      - main-macos
+      - 'main-ubuntu'
+      - 'main-macos'
     timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
         os:
-          - windows-2019
-          - windows-2022
+          - 'windows-2019'
+          - 'windows-2022'
         yp_ci_brew_install:
-          - minimal
-    name: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+          - 'minimal'
+    name: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+    runs-on: '${{ matrix.os }}'
     env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
-      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
-      V: ${{ secrets.V }}
-      GITHUB_JOB_NAME: main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}
-      YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
-      WSLENV: >-
-        CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:YP_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS
-      WSLUSER: github
-      WSLGROUP: github
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      GITHUB_JOB_NAME: 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      WSLENV: 'CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:YP_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS'
+      WSLUSER: 'github'
+      WSLGROUP: 'github'
     steps:
-      - name: yplatform/bin/github-checkout
-        shell: bash
-        run: >
-          set -x
-
-          #!/usr/bin/env bash
-
-          set -euo pipefail
-
-
-          HOME_REAL=$(eval echo "~$(id -u -n)")
-
-          [[ "${HOME}" = "${HOME_REAL}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
-              >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
-              export HOME=${HOME_REAL}
-          }
-
-
-          [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
-              exit 1
-          }
-
-
-          [[ -n "${GITHUB_REF:-}" ]] || {
-              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
-              exit 1
-          }
-
-
-          # run with a clean .gitconfig, but restore on exit
-
-          TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
-
-          touch ${HOME}/.gitconfig
-
-          mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
-
-
-          function on_exit() {
-              mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
-          }
-
-          trap on_exit EXIT
-
-
-          # basic git config
-
-          git config --global core.autocrlf false
-
-          git config --global core.eol lf
-
-          git config --global advice.detachedHead false
-
-
-          # use https instead of everything else
-
-          # sync with gitconfig/dot.gitconfig.github-https
-
-          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
-
-          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
-
-          git config --global --add url."https://github.com/".insteadOf "github://" # github url
-
-          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
-
-          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
-          canonical git+ssh url # editorconfig-checker-disable-line
-
-
-          # use github token transparently
-
-          [[ -z "${GITHUB_TOKEN:-}" ]] || {
-              BASE64="base64 --wrap 0"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
-              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
-              echo "" | ${BASE64} >/dev/null 2>&1
-              GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
-              git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
-          }
-
-
-          # use git protocol version 2 if available
-
-          GIT_DEPTH_ARG=
-
-          # NOTE may fail if git-man is not installed
-
-          # ! git config --help | grep -q "wire protocol version 2" || {
-
-          ! grep -q "protocol version 2" $(command -v git) || {
-              git config --global --add protocol.version 2
-              GIT_DEPTH_ARG="--depth=1"
-          }
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # clone/fetch
-
-          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
-
-          GIT_BRANCH_ARG=
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
-          fi
-
-          [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
-
-          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
-
-          # shellcheck disable=SC2193
-
-          if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
-              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
-              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
-              GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
-              GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
-          fi
-
-
-          # ------------------------------------------------------------------------------
-
-
-          # checkout
-
-          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
-              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
-          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
-              git checkout ${GITHUB_REF}
-          else
-              set -x
-              printenv
-              cat ${GITHUB_EVENT_PATH:-/dev/null}
-              exit 1
-          fi
-
-
-          # submodules
-
-          git submodule sync --recursive
-
-          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
-      - name: Set up WSLENV
-        shell: bash
-        run: |-
-          set -x
-          GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | \
-          sed "s|^GITHUB_ENV\$|GITHUB_ENV/p|" | \
-          sed "s|^GITHUB_EVENT_PATH\$|GITHUB_EVENT_PATH/p|" | \
-          sed "s|^GITHUB_PATH\$|GITHUB_PATH/p|" | \
-          sed "s|^GITHUB_WORKSPACE\$|GITHUB_WORKSPACE/p|" | \
-          tr "\n" ":")"
-          echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
-      - name: Install WSL Distribution
-        uses: Vampire/setup-wsl@v1
+      - name: 'yplatform/bin/github-checkout'
+        shell: 'bash'
+        run: "set -x\n#!/usr/bin/env bash\nset -euo pipefail\n\nHOME_REAL=$(eval echo \"~$(id -u -n)\")\n[[ \"${HOME}\" = \"${HOME_REAL}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[WARN] \\$HOME is overriden to ${HOME}.\"\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[INFO] Resetting \\$HOME to ${HOME_REAL}...\"\n    export HOME=${HOME_REAL}\n}\n\n[[ -n \"${GITHUB_REPOSITORY:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REPOSITORY is undefined.\"\n    exit 1\n}\n\n[[ -n \"${GITHUB_REF:-}\" ]] || {\n    >&2 echo \"$(date +\"%H:%M:%S\")\" \"[ERR ] GITHUB_REF is undefined.\"\n    exit 1\n}\n\n# run with a clean .gitconfig, but restore on exit\nTMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)\ntouch ${HOME}/.gitconfig\nmv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}\n\nfunction on_exit() {\n    mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig\n}\ntrap on_exit EXIT\n\n# basic git config\ngit config --global core.autocrlf false\ngit config --global core.eol lf\ngit config --global advice.detachedHead false\n\n# use https instead of everything else\n# sync with gitconfig/dot.gitconfig.github-https\ngit config --global --add url.\"https://github.com/\".insteadOf \"https://github.com/\" # git canonical https url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git://github.com/\" # git canonical git url\ngit config --global --add url.\"https://github.com/\".insteadOf \"github://\" # github url\ngit config --global --add url.\"https://github.com/\".insteadOf \"git@github.com:\" # git canonical ssh url\ngit config --global --add url.\"https://github.com/\".insteadOf \"ssh://git@github.com/\" # npm package.json's canonical git+ssh url # editorconfig-checker-disable-line\n\n# use github token transparently\n[[ -z \"${GITHUB_TOKEN:-}\" ]] || {\n    BASE64=\"base64 --wrap 0\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"base64\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1 || BASE64=\"openssl base64 -A\"\n    echo \"\" | ${BASE64} >/dev/null 2>&1\n    GIT_HTTP_EXTRAHEADER=\"AUTHORIZATION: basic $(echo -n \"x-access-token:${GITHUB_TOKEN}\" | ${BASE64})\"\n    git config --global --add http.\"https://github.com/\".extraheader \"${GIT_HTTP_EXTRAHEADER}\"\n}\n\n# use git protocol version 2 if available\nGIT_DEPTH_ARG=\n# NOTE may fail if git-man is not installed\n# ! git config --help | grep -q \"wire protocol version 2\" || {\n! grep -q \"protocol version 2\" $(command -v git) || {\n    git config --global --add protocol.version 2\n    GIT_DEPTH_ARG=\"--depth=1\"\n}\n\n# ------------------------------------------------------------------------------\n\n# clone/fetch\nGIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git\nGIT_BRANCH_ARG=\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/heads\\/}\"\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    GIT_BRANCH_ARG=\"--branch ${GITHUB_REF#refs\\/tags\\/}\"\nfi\n[[ -z \"${GITHUB_WORKSPACE:-}\" ]] || cd ${GITHUB_WORKSPACE}\ngit clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)\n# shellcheck disable=SC2193\nif [[ \"${GITHUB_EVENT_NAME:-}\" = \"pull_request\" ]]; then\n    git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\\/pull\\/}\n    GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\\/pull\\/})\n    GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed \"s,^ref: refs/heads/,,\" | sed \"s,\\s\\+HEAD,,\")\n    GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}\nfi\n\n# ------------------------------------------------------------------------------\n\n# checkout\nif [[ \"${GITHUB_REF}\" =~ ^refs/heads/ ]]; then\n    git checkout -B ${GITHUB_REF#refs\\/heads\\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\\/heads\\/}}\nelif [[ \"${GITHUB_REF}\" =~ ^refs/tags/ ]]; then\n    git checkout ${GITHUB_REF}\nelse\n    set -x\n    printenv\n    cat ${GITHUB_EVENT_PATH:-/dev/null}\n    exit 1\nfi\n\n# submodules\ngit submodule sync --recursive\ngit submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}\n"
+      - name: 'Set up WSLENV'
+        shell: 'bash'
+        run: "set -x\nGITHUB_WSLENV=\"$(printenv | grep \"^GITHUB\" | cut -d\"=\" -f1 | sort | \\\nsed \"s|^GITHUB_ENV\\$|GITHUB_ENV/p|\" | \\\nsed \"s|^GITHUB_EVENT_PATH\\$|GITHUB_EVENT_PATH/p|\" | \\\nsed \"s|^GITHUB_PATH\\$|GITHUB_PATH/p|\" | \\\nsed \"s|^GITHUB_WORKSPACE\\$|GITHUB_WORKSPACE/p|\" | \\\ntr \"\\n\" \":\")\"\necho \"WSLENV=${WSLENV:-}:${GITHUB_WSLENV}\" >> ${GITHUB_ENV}"
+      - name: 'Install WSL Distribution'
+        uses: 'Vampire/setup-wsl@v1'
         with:
-          distribution: Ubuntu-20.04
+          distribution: 'Ubuntu-20.04'
           update: 'false'
-      - name: Set up WSL Distribution
-        shell: bash
-        run: >-
-          set -x
-
-          wsl bash -c "cat /etc/os-release"
-
-          wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
-
-          wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash
-          --disabled-password --gecos \"Linux user\" ${WSLUSER}"
-
-          wsl bash -c "sudo adduser ${WSLUSER} sudo"
-
-          wsl bash -c "sudo echo \"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
-
-          # Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted
-
-          # See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
-
-          wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"
-
-          wsl --shutdown || true
-      - shell: bash
-        run: bin/wsl-bash -c "./.ci.sh before_install"
-      - shell: bash
-        run: bin/wsl-bash -c "./.ci.sh install"
-      - shell: bash
-        run: bin/wsl-bash -c "./.ci.sh before_script"
-      - shell: bash
-        run: bin/wsl-bash -c "./.ci.sh script"
-      - if: failure()
-        shell: bash
-        run: bin/wsl-bash -c "./.ci.sh after_failure || true"
-      - shell: bash
-        run: bin/wsl-bash -c "./.ci.sh after_success || true"
-      - if: always()
-        shell: bash
-        run: bin/wsl-bash -c "./.ci.sh after_script || true"
-      - if: always()
-        shell: bash
+      - name: 'Set up WSL Distribution'
+        shell: 'bash'
+        run: "set -x\nwsl bash -c \"cat /etc/os-release\"\nwsl bash -c \"sudo addgroup --gid 2000 ${WSLGROUP}\"\nwsl bash -c \"sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash --disabled-password --gecos \\\"Linux user\\\" ${WSLUSER}\"\nwsl bash -c \"sudo adduser ${WSLUSER} sudo\"\nwsl bash -c \"sudo echo \\\"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\\\" >> /etc/sudoers\"\n# Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted\n# See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0\nwsl bash -c \"sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf\"\nwsl --shutdown || true"
+      - shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh before_install"'
+      - shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh install"'
+      - shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh before_script"'
+      - shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh script"'
+      - if: 'failure()'
+        shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh after_failure || true"'
+      - shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh after_success || true"'
+      - if: 'always()'
+        shell: 'bash'
+        run: 'bin/wsl-bash -c "./.ci.sh after_script || true"'
+      - if: 'always()'
+        shell: 'bash'
         env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: cloud-ci
-          YP_CI_STATUS: ${{ job.status }}
-        run: bin/wsl-bash -c "./.ci.sh notifications || true"
+          SLACK_WEBHOOK: '${{ secrets.SLACK_WEBHOOK }}'
+          SLACK_CHANNEL: 'cloud-ci'
+          YP_CI_STATUS: '${{ job.status }}'
+        run: 'bin/wsl-bash -c "./.ci.sh notifications || true"'
