@@ -33,3 +33,4 @@ git rev-parse --git-dir >/dev/null 2>&1 || {
 }
 
 repo-reset-mtime $(git rev-parse --show-toplevel)
+[[ "${CI:-}" != "true" ]] || >&2 ls -la $(git ls-files)
