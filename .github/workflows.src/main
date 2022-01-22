@@ -29,7 +29,7 @@ let workflow = {
     workflow_dispatch: null
   },
   concurrency: {
-    group: '${{ github.ref }}',
+    group: 'main-${{ github.ref }}',
     'cancel-in-progress': true
   },
   jobs: {

@@ -3,9 +3,6 @@
 let _ = require('lodash-firecloud');
 
 let matrixContainer = {
-  smoke: [
-    'yp-ubuntu-20.04'
-  ],
   arch: [
     'yp-arch-0'
   ],

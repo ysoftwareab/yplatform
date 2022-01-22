@@ -26,10 +26,22 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
+  let needs = [];
+  switch (nameSuffix) {
+  case 'ubuntu':
+    break;
+  default:
+    needs = [
+      'mainc-minimal-ubuntu',
+      'mainc-common-ubuntu'
+    ];
+    break;
+  }
+
   // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
   let name = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`mainc-minimal-${nameSuffix}`] = {
-    needs: [],
+    needs,
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

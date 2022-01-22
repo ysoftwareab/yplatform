@@ -19,7 +19,7 @@ let workflow = {
     }
   },
   concurrency: {
-    group: 'deploy-${{ github.ref }}'
+    group: 'deployc-${{ github.ref }}'
     // 'cancel-in-progress': false
   },
   jobs: {
