@@ -1,0 +1,109 @@
+#!/usr/bin/env node
+
+let _ = require('lodash-firecloud');
+// eslint-disable-next-line import/no-extraneous-dependencies
+let yaml = require('js-yaml');
+
+let {
+  stdin
+} = process;
+let chunks = [];
+
+let workflow2graph = function(workflow) {
+  let graph = {
+    name: workflow.name || '',
+    type: 'digraph',
+    rank: 'same',
+    shape: 'box',
+    style: 'filled',
+    nodes: [],
+    edges: []
+  };
+
+  _.forEach(workflow.jobs, function(job, name) {
+    graph.nodes.push({name, type: 'job'});
+    if (!_.isEmpty(job.needs)) {
+      job.needs = _.isArray(job.needs) ? job.needs : [
+        job.needs
+      ];
+      _.forEach(job.needs, function(needJobName) {
+        graph.edges.push({from: name, to: needJobName});
+      });
+    }
+
+    if (!_.isEmpty(_.get(job, 'strategy.matrix'))) {
+      let names = new Set();
+      names.add(job.name);
+      _.forEach(job.strategy.matrix, function(values, varName) {
+        _.forEach(values, function(varValue) {
+          let newNames = new Set(names);
+          // eslint-disable-next-line lodash/prefer-lodash-method
+          names.forEach(function(name) {
+            let newName = _.replace(name, new RegExp(`\\\${{\\s*matrix.${varName}\\s*}}`), varValue);
+            newNames.add(newName);
+          });
+          names = newNames;
+        });
+      });
+      let newNames = new Set();
+      // eslint-disable-next-line no-template-curly-in-string, no-useless-escape
+      let hasMatrixPlaceholders = new RegExp('\\\${{\\s*matrix.[^\\s}]+\\s*}}');
+      // eslint-disable-next-line lodash/prefer-lodash-method
+      names.forEach(function(name) {
+        if (hasMatrixPlaceholders.test(name)) {
+          return;
+        }
+        newNames.add(name);
+      });
+      names = newNames;
+
+      // eslint-disable-next-line lodash/prefer-lodash-method
+      names.forEach(function(matrixName) {
+        graph.nodes.push({name: matrixName, type: 'matrix job'});
+        graph.edges.push({from: matrixName, to: name});
+      });
+    }
+  });
+
+  return graph;
+};
+
+let render = function(graph) {
+  let shape = graph.shape ? `node [shape="${graph.shape}"];` : '';
+  let style = graph.style ? `node [style="${graph.style}"];` : '';
+
+  console.log(`
+${graph.type} "${graph.name}" {
+rank=${graph.rank};
+labeljust=l;
+${shape}
+${style}
+`);
+
+  _.forEach(graph.nodes, function({name, type}) {
+    console.log(`"${name}" [label="${name}\n${type}"]`);
+  });
+
+  _.forEach(graph.edges, function({from, to}) {
+    // console.log(`"${to}" -> "${from}";`);
+    console.log(`"${from}" -> "${to}";`);
+  });
+
+  console.log('}');
+};
+
+let read = function() {
+  stdin.resume();
+  stdin.setEncoding('utf-8');
+
+  stdin.on('data', function(chunk) {
+    chunks.push(chunk);
+  });
+  stdin.on('end', function() {
+    let workflow = yaml.load(chunks.join(''), 'utf-8');
+    let graph = workflow2graph(workflow);
+    render(graph);
+  });
+};
+
+read();
