@@ -11,7 +11,7 @@ YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
-YP_NPX_ARGS="${YP_NPX_ARGS} --package js-yaml"
+YP_NPX_ARGS="${YP_NPX_ARGS} --package js-yaml@3.14.1"
 
 function main() {
     # expand
