@@ -4,12 +4,13 @@
 
 let _ = require('lodash-firecloud');
 
-let jobs = require('./main-jobs');
+let maincJobsMinimal = require('./mainc-jobs-minimal');
+let maincsJobsCommon = require('./mainc-jobs-common');
 
 // -----------------------------------------------------------------------------
 
 let workflow = {
-  name: 'CI',
+  name: 'CI container',
   on: {
     push: {
       branches: [
@@ -33,7 +34,8 @@ let workflow = {
     'cancel-in-progress': true
   },
   jobs: {
-    ...jobs
+    ...maincJobsMinimal,
+    ...maincsJobsCommon
   }
 };
 

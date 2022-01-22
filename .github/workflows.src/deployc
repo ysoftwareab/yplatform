@@ -4,13 +4,13 @@
 
 let _ = require('lodash-firecloud');
 
-let deploycMinimalJobs = require('./deploy-deployc-minimal-jobs');
-let deploycCommonJobs = require('./deploy-deployc-common-jobs');
+let deploycJobsMinimal = require('./deployc-jobs-minimal');
+let deploycJobsCommon = require('./deployc-jobs-common');
 
 // -----------------------------------------------------------------------------
 
 let workflow = {
-  name: 'CD',
+  name: 'CD container',
   on: {
     push: {
       tags: [
@@ -23,8 +23,8 @@ let workflow = {
     // 'cancel-in-progress': false
   },
   jobs: {
-    ...deploycMinimalJobs,
-    ...deploycCommonJobs
+    ...deploycJobsMinimal,
+    ...deploycJobsCommon
   }
 };
 

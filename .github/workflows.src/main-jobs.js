@@ -2,19 +2,15 @@
 
 let _ = require('lodash-firecloud');
 
+let {artifactsStep} = require('./common-step-artifacts');
+let {checkoutStep} = require('./common-step-checkout');
+let {ciShSteps} = require('./common-steps');
+let {env: commonEnv} = require('./common-env');
+let {matrixOs} = require('./common-matrix-os');
 let {
   WSLENV,
-  artifactsStep,
-  checkoutStep,
-  ciShSteps,
-  env: commonEnv,
   wslSteps
-} = require('./main-common');
-
-let {
-  jobRefs,
-  matrixOs
-} = require('./main-matrix');
+} = require('./common-wsl');
 
 let env = {
   ...commonEnv
@@ -27,7 +23,10 @@ let jobs = {};
 let makeJobsWindows = function(matrixOs, nameSuffix) {
   let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
-    needs: jobRefs.smokeMain,
+    needs: [
+      'main-ubuntu',
+      'main-macos'
+    ],
     'timeout-minutes': 60,
     strategy: {
       'fail-fast': false,
@@ -79,9 +78,20 @@ let makeJobs = function(matrixOs, nameSuffix) {
     return;
   }
 
+  let needs = [];
+  switch (nameSuffix) {
+  case 'macos':
+    needs = [
+      'main-ubuntu'
+    ];
+    break;
+  default:
+    break;
+  }
+
   let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
-    needs: _.includes(jobRefs.smokeMain, `main-${nameSuffix}`) ? [] : jobRefs.smokeMain,
+    needs,
     // some macos agents simply have lower I/O rates and take longer
     // see https://github.com/actions/virtual-environments/issues/3885
     // see https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343

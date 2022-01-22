@@ -1,0 +1,1 @@
+../../repo/dot.github/workflows/main.yml.tpl

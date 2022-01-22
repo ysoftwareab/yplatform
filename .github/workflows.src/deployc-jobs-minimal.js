@@ -2,18 +2,12 @@
 
 let _ = require('lodash-firecloud');
 
-let {
-  artifactsStep,
-  checkoutStep,
-  ciShStepsDeploy,
-  dockerBuildxSteps,
-  env: commonEnv
-} = require('./main-common');
-
-let {
-  jobRefs,
-  matrixContainer
-} = require('./main-matrix');
+let {artifactsStep} = require('./common-step-artifacts');
+let {checkoutStep} = require('./common-step-checkout');
+let {ciShStepsDeploy} = require('./common-steps');
+let {dockerBuildxSteps} = require('./common-step-dockerbuildx');
+let {env: commonEnv} = require('./common-env');
+let {matrixContainer} = require('./common-matrix-container');
 
 let env = {
   ...commonEnv,
@@ -35,10 +29,7 @@ let makeJobs = function(matrixContainer, nameSuffix) {
   // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
   let name = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`deployc-minimal-${nameSuffix}`] = {
-    needs: _.isEmpty(_.intersection(jobRefs.smokeDeploycMinimal, [
-      `deployc-minimal-${nameSuffix}`,
-      `deployc-common-${nameSuffix}`
-    ])) ? jobRefs.smokeDeploycMinimal : [],
+    needs: [],
     'timeout-minutes': 30,
     strategy: {
       'fail-fast': false,

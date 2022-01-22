@@ -1,10 +1,10 @@
-name: CD
+name: CD container
 'on':
   push:
     tags:
       - v*
 concurrency:
-  group: 'deploy-${{ github.ref }}'
+  group: deploy-${{ github.ref }}
 jobs:
   deployc-minimal-smoke:
     needs: []
@@ -16,19 +16,19 @@ jobs:
           - yp-ubuntu-20.04
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -195,15 +195,14 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-minimal-arch:
-    needs:
-      - deployc-common-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -212,19 +211,19 @@ jobs:
           - yp-arch-0
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -391,15 +390,14 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-minimal-alpine:
-    needs:
-      - deployc-common-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -408,19 +406,19 @@ jobs:
           - yp-alpine-3.11.7
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -587,15 +585,14 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-minimal-centos:
-    needs:
-      - deployc-common-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -604,19 +601,19 @@ jobs:
           - yp-centos-8
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -783,15 +780,14 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-minimal-debian:
-    needs:
-      - deployc-common-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -801,19 +797,19 @@ jobs:
           - yp-debian-10
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -980,15 +976,14 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-minimal-ubuntu:
-    needs:
-      - deployc-common-smoke
+    needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -996,21 +991,22 @@ jobs:
         container:
           - yp-ubuntu-16.04
           - yp-ubuntu-18.04
+          - yp-ubuntu-20.04
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1177,14 +1173,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-smoke:
-    needs: deployc-minimal-smoke
+    needs:
+      - deployc-minimal-smoke
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1193,19 +1190,19 @@ jobs:
           - yp-ubuntu-20.04
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1372,14 +1369,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-arch:
-    needs: deployc-minimal-arch
+    needs:
+      - deployc-minimal-arch
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1388,19 +1386,19 @@ jobs:
           - yp-arch-0
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1567,14 +1565,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-alpine:
-    needs: deployc-minimal-alpine
+    needs:
+      - deployc-minimal-alpine
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1583,19 +1582,19 @@ jobs:
           - yp-alpine-3.11.7
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1762,14 +1761,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-centos:
-    needs: deployc-minimal-centos
+    needs:
+      - deployc-minimal-centos
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1778,19 +1778,19 @@ jobs:
           - yp-centos-8
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1957,14 +1957,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-debian:
-    needs: deployc-minimal-debian
+    needs:
+      - deployc-minimal-debian
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -1974,19 +1975,19 @@ jobs:
           - yp-debian-10
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -2153,14 +2154,15 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
   deployc-common-ubuntu:
-    needs: deployc-minimal-ubuntu
+    needs:
+      - deployc-minimal-ubuntu
     timeout-minutes: 30
     strategy:
       fail-fast: false
@@ -2168,21 +2170,22 @@ jobs:
         container:
           - yp-ubuntu-16.04
           - yp-ubuntu-18.04
+          - yp-ubuntu-20.04
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     runs-on: ubuntu-latest
     env:
-      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       YP_LOG_BOOTSTRAP: true
-      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
-      V: '${{ secrets.V }}'
-      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
-      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
-      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
-      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+      YP_TRANSCRYPT_PASSWORD: ${{ secrets.YP_TRANSCRYPT_PASSWORD }}
+      V: ${{ secrets.V }}
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+      GITHUB_MATRIX_CONTAINER: ${{ matrix.container }}
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: ${{ matrix.yp_ci_brew_install }}
+      GITHUB_JOB_NAME: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -2349,7 +2352,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: ${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md

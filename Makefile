@@ -74,8 +74,9 @@ YP_PATH_FILES_IGNORE += \
 	-e "^sshconfig/known_hosts\." \
 
 YP_ECLINT_FILES_IGNORE += \
-	-e "^\.github/workflows/deploy\.yml$$" \
+	-e "^\.github/workflows/deployc\.yml$$" \
 	-e "^\.github/workflows/main\.yml$$" \
+	-e "^\.github/workflows/mainc\.yml$$" \
 	-e "^\.travis\.yml\.bak$$" \
 	-e "^bin/" \
 	-e "^gitconfig/dot.gitignore_global$$" \
@@ -92,7 +93,8 @@ YP_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \
 	$(FORMULA_PATCH_FILES) \
 	.github/workflows/main.yml \
-	.github/workflows/deploy.yml \
+	.github/workflows/mainc.yml \
+	.github/workflows/deployc.yml \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
@@ -101,7 +103,8 @@ endif
 
 YP_DEPS_TARGETS += \
 	.github/workflows/main.yml \
-	.github/workflows/deploy.yml \
+	.github/workflows/mainc.yml \
+	.github/workflows/deployc.yml \
 
 YP_TEST_TARGETS += \
 	test-secret \
@@ -113,13 +116,24 @@ YP_TEST_TARGETS += \
 
 # ------------------------------------------------------------------------------
 
-.github/workflows/main.yml: bin/github-checkout $(wildcard .github/workflows.src/main*)
+.github/workflows/main.yml: bin/github-checkout
+.github/workflows/main.yml: $(wildcard .github/workflows.src/common*)
+.github/workflows/main.yml: $(wildcard .github/workflows.src/main*)
 .github/workflows/main.yml: .github/workflows/main.yml.tpl
 	$(call yp-generate-from-template)
 
 
-.github/workflows/deploy.yml: bin/github-checkout $(wildcard .github/workflows.src/deploy*)
-.github/workflows/deploy.yml: .github/workflows/deploy.yml.tpl
+.github/workflows/mainc.yml: bin/github-checkout
+.github/workflows/mainc.yml: $(wildcard .github/workflows.src/common*)
+.github/workflows/mainc.yml: $(wildcard .github/workflows.src/mainc*)
+.github/workflows/mainc.yml: .github/workflows/mainc.yml.tpl
+	$(call yp-generate-from-template)
+
+
+.github/workflows/deployc.yml: bin/github-checkout
+.github/workflows/deployc.yml: $(wildcard .github/workflows.src/common*)
+.github/workflows/deployc.yml: $(wildcard .github/workflows.src/deployc*)
+.github/workflows/deployc.yml: .github/workflows/deployc.yml.tpl
 	$(call yp-generate-from-template)
 
 
