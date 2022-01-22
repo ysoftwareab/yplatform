@@ -7,7 +7,7 @@ YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
-YP_NPX_ARGS="${YP_NPX_ARGS} --package js-yaml@3.14.1"
+YP_NPX_ARGS="${YP_NPX_ARGS} --package js-yaml@4.1.0"
 
 function main() {
     # expand
@@ -20,6 +20,7 @@ data = yml.load(yml.dump(data, {
 }));
 delete data.aliases;
 let expandedData = yml.dump(data, {
+  forceQuotes: true,
   lineWidth: 120
 });
 console.log(expandedData.replace(/\n+$/, ''));
