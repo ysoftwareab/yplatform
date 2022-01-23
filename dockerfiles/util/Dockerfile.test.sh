@@ -11,7 +11,9 @@ YP_DIR=/yplatform
     UNAME=$(source ${YP_DIR}/dockerfiles/util/env.inc.sh && echo "${UNAME}")
     BASH=$(command -v bash)
 
+    # test root user
     sudo ${BASH} -l -i -c "${BASH_SOURCE[0]} root"
+    # test default user
     sudo --user ${UNAME} ${BASH} -l -i -c "${BASH_SOURCE[0]} ${UNAME}"
     exit 0
 }
