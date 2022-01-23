@@ -1,26 +1,26 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# NOTE sync with dockerfiles/util/gitconfig.inc.sh
-if command -v git >/dev/null 2>&1; then
-    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitconfig ."
-    # NOTE we want to prepend, and let the original .gitconfig override YP configuration
-    # git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
-    touch ~/.gitconfig
-    cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig" || \
-        printf '%s\n%s\n' \
-            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
-            "$(cat ~/.gitconfig)" >~/.gitconfig
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitignore_global ."
+[[ ! -e "${HOME}/.gitignore_global" ]] || \
+    >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${HOME}/.gitignore_global ."
+ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
 
-    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitignore_global ."
-    ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ~/.gitignore_global
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitattributes_global ."
+[[ ! -e "${HOME}/.gitattributes_global" ]] || \
+    >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${HOME}/.gitattributes_global ."
+ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
 
-    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitattributes_global ."
-    ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ~/.gitattributes_global
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitconfig ."
+# NOTE we want to prepend, and let the original .gitconfig override YP configuration
+# git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
+touch ${HOME}/.gitconfig
+git config --file ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig" || \
+    printf '%s\n%s\n%s\n' \
+        "[include]" \
+        "path = ${YP_DIR}/gitconfig/dot.gitconfig" \
+        "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
-    >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup git user."
-    [[ -z "${YP_CI_PLATFORM:-}" ]] || [[ -z "${YP_CI_SERVER_HOST:-}" ]] || \
-        git config --global user.email "${YP_CI_PLATFORM}@${YP_CI_SERVER_HOST}"
-    [[ -z "${YP_CI_NAME:-}" ]] || \
-        git config --global user.name "${YP_CI_NAME}"
-fi
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup git user '${GIT_USER_NAME}' '${GIT_USER_EMAIL}'."
+git config --global user.email "${GIT_USER_EMAIL}"
+git config --global user.name "${GIT_USER_NAME}"

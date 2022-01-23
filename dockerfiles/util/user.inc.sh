@@ -58,3 +58,11 @@ chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh/config
 
 touch ${UHOME}/.sudo_as_admin_successful
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.sudo_as_admin_successful
+
+# NOTE prefer to have dockerfiles/util/gitconfig.inc.sh look like ci/util/gitconfig.inc.sh
+HOME_BAK="${HOME}"
+HOME="${UHOME}"
+source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh
+HOME="${HOME_BAK}"
+unset HOME_BAK
+chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/{.gitattributes_global,.gitconfig,.gitignore_global}
