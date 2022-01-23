@@ -4,7 +4,6 @@ FROM ${YP_DOCKER_CI_FROM}
 
 ARG YP_CI_BREW_INSTALL
 ARG YP_DOCKER_CI_IMAGE_NAME
-ARG YP_DOCKER_CI_IMAGE_TAG
 ARG YP_OS_RELEASE_DIR
 
 SHELL ["/bin/bash", "-euo", "pipefail", "-c"]
@@ -21,7 +20,6 @@ RUN cp -Rp -L /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.entrypoint.d /Dockerfil
 ENTRYPOINT ["/Dockerfile.entrypoint.sh"]
 
 RUN YP_DOCKER_CI_IMAGE_NAME=${YP_DOCKER_CI_IMAGE_NAME} \
-  YP_DOCKER_CI_IMAGE_TAG=${YP_DOCKER_CI_IMAGE_TAG} \
   YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL} \
   /yplatform/dockerfiles/$(source /etc/os-release && echo "yp-${ID}-${VERSION_ID:-0}")/Dockerfile.build.sh
 
