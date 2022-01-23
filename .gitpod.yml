@@ -31,8 +31,7 @@ vscode:
 # TODO should also modify the shell's rc file to source dev/inc.sh
 
 tasks:
-  - openMode: split-right
-    # init: |
+  - # init: |
     #   source dev/inc.sh
     #   make bootstrap
     command: |
