@@ -1,6 +1,4 @@
-# image: ubuntu:20.04
-image: ysoftwareab/yp-ubuntu-20.04-common:latest
-
+image: 'ysoftwareab/yp-ubuntu-20.04-common:latest'
 github:
   prebuilds:
     master: true
@@ -10,10 +8,8 @@ github:
     addCheck: false
     addComment: false
     addBadge: true
-
 vscode:
   extensions:
-    # sync with .vscode/extensions:recommended
     - cardinal90.multi-cursor-case-preserve
     - dbaeumer.vscode-eslint
     - eamodio.gitlens
@@ -24,18 +20,10 @@ vscode:
     - ms-vscode.vscode-typescript-tslint-plugin
     - orta.vscode-jest
     - timonwong.shellcheck
-
-# NOTE 'make bootstrap' would be nice because
-# the branch's bootstrap might be out of sync with ysoftwareab/yp-ubuntu-20.04-common:latest
-# NOTE 'gp env PATH=$PATH' in order for vscode to find brew executable e.g. shellcheck
-# TODO should also modify the shell's rc file to source dev/inc.sh
-
 tasks:
-  - # init: |
-    #   source dev/inc.sh
-    #   make bootstrap
-    command: |
+  - command: |-
       source dev/inc.sh
       gp env PATH=$PATH
       gp open README.md
       make help
+

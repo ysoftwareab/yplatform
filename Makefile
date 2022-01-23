@@ -95,6 +95,7 @@ YP_CHECK_TPL_FILES += \
 	.github/workflows/main.yml \
 	.github/workflows/mainc.yml \
 	.github/workflows/deployc.yml \
+	.gitpod.yml \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
@@ -105,6 +106,7 @@ YP_DEPS_TARGETS += \
 	.github/workflows/main.yml \
 	.github/workflows/mainc.yml \
 	.github/workflows/deployc.yml \
+	.gitpod.yml \
 
 YP_TEST_TARGETS += \
 	test-secret \
@@ -134,6 +136,11 @@ YP_TEST_TARGETS += \
 .github/workflows/deployc.yml: $(wildcard .github/workflows.src/common*)
 .github/workflows/deployc.yml: $(wildcard .github/workflows.src/deployc*)
 .github/workflows/deployc.yml: .github/workflows/deployc.yml.tpl
+	$(call yp-generate-from-template)
+
+
+.gitpod.yml: .vscode/extensions.json
+.gitpod.yml: .gitpod.yml.tpl
 	$(call yp-generate-from-template)
 
 
