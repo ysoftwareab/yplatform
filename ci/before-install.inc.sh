@@ -113,8 +113,8 @@ function yp_git() {
 
     cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig$" || \
         printf '%s\n%s\n' \
-               "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
-               "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
+            "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     yp_github
 
