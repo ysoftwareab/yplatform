@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 
-HOOK_NAME=$(basename $0)
+export YP_GIT_HOOK=true
+export YP_GIT_HOOK_NAME=$(basename $0)
 
 function on_exit() {
     # shellcheck disable=SC2181
     [[ "$?" != "0" ]] || return 0
 
-    echo_err "${HOOK_NAME} hook failed."
+    echo_err "${YP_GIT_HOOK_NAME} hook failed."
 
-    [[ "${HOOK_NAME}" != "pre-push" ]] || {
+    [[ "${YP_GIT_HOOK_NAME}" != "pre-push" ]] || {
         echo_indent
         echo_info "If you want ignore the hook and push anyway, use 'git push --no-verify ...'."
     }
@@ -20,7 +21,7 @@ GIT_ROOT=$(git rev-parse --show-toplevel)
 YP_DIR="${GIT_ROOT}/yplatform"
 source ${YP_DIR}/sh/common.inc.sh
 
-[[ "${HOOK_NAME}" != "pre-push" ]] || {
+[[ "${YP_GIT_HOOK_NAME}" != "pre-push" ]] || {
     GIT_MODIFIED_FILES="$(git diff --name-only)"
     [[ -z "${GIT_MODIFIED_FILES}" ]] || {
         echo_indent

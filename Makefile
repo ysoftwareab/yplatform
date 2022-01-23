@@ -108,6 +108,11 @@ YP_DEPS_TARGETS += \
 	.github/workflows/deployc.yml \
 	.gitpod.yml \
 
+# NOTE check-shellcheck is slow, and skip it during 'git push' hook
+ifeq (true,$(YP_GIT_HOOK))
+YP_CHECK_TARGETS := $(filter-out check-shellcheck,$(YP_CHECK_TARGETS))
+endif
+
 YP_TEST_TARGETS += \
 	test-secret \
 	test-upload-job-artifacts \
