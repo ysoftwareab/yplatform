@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-function aws-iam-login() {
+function yp::aws-iam-login() {
     [[ $# -eq 1 ]] || {
-        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Usage: aws-iam-login <profilename>"
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Usage: yp::aws-iam-login <profilename>"
         return 1
     }
 
@@ -52,7 +52,7 @@ function aws-iam-login() {
     }
 }
 
-aws-iam-login-ns() {
+function yp::aws-iam-login-ns() {
     [[ $# -eq 2 ]] || {
         >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Usage: aws-iam-login-ns <profilename> <namespace>"
         return 1
@@ -62,14 +62,14 @@ aws-iam-login-ns() {
     local NS_AWS_PROFILE=$1
     local NS=$2
 
-    aws-iam-login ${NS_AWS_PROFILE}
+    yp::aws-iam-login ${NS_AWS_PROFILE}
 
     declare -x ${NS}_AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
     declare -x ${NS}_AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
     declare -x ${NS}_AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
 
     if [[ -n "${LOCAL_AWS_PROFILE:-}" ]]; then
-        aws-iam-login ${LOCAL_AWS_PROFILE}
+        yp::aws-iam-login ${LOCAL_AWS_PROFILE}
     else
         >&2 echo
         >&2 echo "$(date +"%H:%M:%S")" \
@@ -81,7 +81,7 @@ aws-iam-login-ns() {
         "[INFO] Credentials for ${NS_AWS_PROFILE} are now stored in ${NS}_ environment variables."
 }
 
-_aws-iam-login_completer() {
+function yp::_aws-iam-login_completer() {
     local WORD=${COMP_WORDS[COMP_CWORD]}
     local AWS_SHARED_CREDENTIALS_FILE=${AWS_SHARED_CREDENTIALS_FILE:-${HOME}/.aws/credentials}
     local AWS_PROFILES="$(grep "^\[" ${AWS_SHARED_CREDENTIALS_FILE} | sed "s/\(^\[\|\]$\)//g")"
@@ -89,5 +89,5 @@ _aws-iam-login_completer() {
     COMPREPLY=($(compgen -W "${AWS_PROFILES}" -- "${WORD}"))
 }
 
-complete -F _aws-iam-login_completer aws-iam-login
-complete -F _aws-iam-login_completer aws-iam-login-ns
+complete -F yp::_aws-iam-login_completer yp::aws-iam-login
+complete -F yp::_aws-iam-login_completer yp::aws-iam-login-ns

@@ -5,11 +5,11 @@
 From a user perspective, if you were [onboarded by an admin/ops](aws-iam.md),
 you may want to setup your AWS console and maybe even your shell via [aws-cli](https://github.com/aws/aws-cli/).
 This would allow you to select a role in AWS console,
-or to run `aws-iam-login <profile-name>` in your terminal
+or to run `yp::aws-iam-login <profile-name>` in your terminal
 in order to assume the credentials for a certain AWS role.
 
 To set this up run the following from within
-a repository that supports `aws-iam-bootstrap` e.g. `aws*-dev-prod`:
+a repository that supports `yp::aws-iam-bootstrap` e.g. `aws*-dev-prod`:
 
 ```
 ~/git/yplatform/bin/aws-iam-boostrap \
