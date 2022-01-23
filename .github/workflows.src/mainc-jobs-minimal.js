@@ -19,6 +19,17 @@ let env = {
 
 // -----------------------------------------------------------------------------
 
+let matrixContainerWithSmoke = _.clone(matrixContainer);
+matrixContainerWithSmoke.smoke = [
+  'yp-ubuntu-20.04'
+];
+_.forEach(matrixContainerWithSmoke, function(_os, group) {
+  if (group === 'smoke') {
+    return;
+  }
+  matrixContainerWithSmoke[group] = _.without(matrixContainerWithSmoke[group], ...matrixContainerWithSmoke.smoke);
+});
+
 let jobs = {};
 
 let makeJobs = function(matrixContainer, nameSuffix) {
@@ -28,12 +39,12 @@ let makeJobs = function(matrixContainer, nameSuffix) {
 
   let needs = [];
   switch (nameSuffix) {
-  case 'ubuntu':
+  case 'smoke':
     break;
   default:
     needs = [
-      'mainc-minimal-ubuntu',
-      'mainc-common-ubuntu'
+      'mainc-minimal-smoke',
+      'mainc-common-smoke'
     ];
     break;
   }
@@ -72,6 +83,6 @@ let makeJobs = function(matrixContainer, nameSuffix) {
   };
 };
 
-_.forEach(matrixContainer, makeJobs);
+_.forEach(matrixContainerWithSmoke, makeJobs);
 
 module.exports = jobs;

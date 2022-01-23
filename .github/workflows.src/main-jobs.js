@@ -18,16 +18,29 @@ let env = {
 
 // -----------------------------------------------------------------------------
 
+let matrixOsWithSmoke = _.clone(matrixOs);
+matrixOsWithSmoke.smoke = [
+  'ubuntu-20.04',
+  'macos-11'
+];
+_.forEach(matrixOsWithSmoke, function(_os, group) {
+  if (group === 'smoke') {
+    return;
+  }
+  matrixOsWithSmoke[group] = _.without(matrixOsWithSmoke[group], ...matrixOsWithSmoke.smoke);
+});
+
 let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
   let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
   jobs[`main-${nameSuffix}`] = {
     needs: [
+      'main-smoke',
       'main-ubuntu',
       'main-macos'
     ],
-    'timeout-minutes': 60,
+    'timeout-minutes': 90,
     strategy: {
       'fail-fast': false,
       matrix: {
@@ -80,9 +93,10 @@ let makeJobs = function(matrixOs, nameSuffix) {
 
   let needs = [];
   switch (nameSuffix) {
+  case 'ubuntu':
   case 'macos':
     needs = [
-      'main-ubuntu'
+      'main-smoke'
     ];
     break;
   default:
@@ -125,6 +139,6 @@ let makeJobs = function(matrixOs, nameSuffix) {
   };
 };
 
-_.forEach(matrixOs, makeJobs);
+_.forEach(matrixOsWithSmoke, makeJobs);
 
 module.exports = jobs;
