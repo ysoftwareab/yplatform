@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+set -x
+set +e
+
 YP_DIR=/yplatform
 
 [[ $# -gt 0 ]] || {
