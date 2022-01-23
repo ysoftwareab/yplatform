@@ -109,7 +109,10 @@ let makeJobs = function(matrixOs, nameSuffix) {
     // some macos agents simply have lower I/O rates and take longer
     // see https://github.com/actions/virtual-environments/issues/3885
     // see https://github.com/actions/virtual-environments/issues/2707#issuecomment-896569343
-    'timeout-minutes': nameSuffix === 'macos' ? 60 : 30,
+    'timeout-minutes': _.includes([
+      'smoke',
+      'macos'
+    ], nameSuffix) ? 60 : 30,
     strategy: {
       'fail-fast': false,
       matrix: {
