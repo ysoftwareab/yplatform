@@ -20,8 +20,8 @@
     source ${GLOBAL_YP_DIR}/sh/env.inc.sh
     source ${GLOBAL_YP_DIR}/sh/dev-aws-iam-login.inc.sh
 
-    yp_path_prepend ${GLOBAL_YP_DIR}/dev/bin
-    yp_path_append ./node_modules/.bin
+    yp::path_prepend ${GLOBAL_YP_DIR}/dev/bin
+    yp::path_append ./node_modules/.bin
 
     export YP_DEV_INC_SH=true
     unset YP_DIR

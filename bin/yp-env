@@ -26,30 +26,30 @@ fi
     fi
 }
 
-function yp_path_prepend() {
+function yp::path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_prepend_after() {
+function yp::path_prepend_after() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
         export PATH=$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")
     else
-        yp_path_prepend "$1"
+        yp::path_prepend "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_append() {
+function yp::path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_append_before() {
+function yp::path_append_before() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
       export PATH=$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")
     else
-        yp_path_append "$1"
+        yp::path_append "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
@@ -88,16 +88,16 @@ fi
 
 # jq becomes always available
 # NOTE if needed to bypass system's jq, call yp-jq
-yp_path_append ${YP_DIR}/bin/.jq
+yp::path_append ${YP_DIR}/bin/.jq
 
 # yq becomes always available
 # NOTE if needed to bypass system's yq, call yp-yq
-yp_path_append ${YP_DIR}/bin/.yq
+yp::path_append ${YP_DIR}/bin/.yq
 
-yp_path_prepend /usr/local/sbin
-yp_path_prepend /usr/local/bin
-yp_path_prepend ${HOME}/.local/sbin
-yp_path_prepend ${HOME}/.local/bin
+yp::path_prepend /usr/local/sbin
+yp::path_prepend /usr/local/bin
+yp::path_prepend ${HOME}/.local/sbin
+yp::path_prepend ${HOME}/.local/bin
 
 [[ -n "${NVM_DIR:-}" ]] || export NVM_DIR=${HOME}/.nvm
 
@@ -108,8 +108,8 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
         -e "^export MANPATH=" \
         -e "^export INFOPATH=")"
 
-    yp_path_prepend ${HOMEBREW_PREFIX}/sbin
-    yp_path_prepend ${HOMEBREW_PREFIX}/bin
+    yp::path_prepend ${HOMEBREW_PREFIX}/sbin
+    yp::path_prepend ${HOMEBREW_PREFIX}/bin
 
     # yp_manpath_prepend ${HOMEBREW_PREFIX}/share/man
     HOMEBREW_MANPATH=${HOMEBREW_PREFIX}/share/man
@@ -122,10 +122,10 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
     export INFOPATH=$(echo "${INFOPATH}" | sed "s|^:||" | sed "s|:$||")
 
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
-        yp_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
+        yp::path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
     done
     for f in curl gettext gnu-getopt openssl@1.1 unzip zip; do
-        yp_path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
+        yp::path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
 
     type nvm >/dev/null 2>&1 || {

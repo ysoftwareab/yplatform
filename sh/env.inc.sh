@@ -13,30 +13,30 @@
     fi
 }
 
-function yp_path_prepend() {
+function yp::path_prepend() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_prepend_after() {
+function yp::path_prepend_after() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
         export PATH=$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")
     else
-        yp_path_prepend "$1"
+        yp::path_prepend "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_append() {
+function yp::path_append() {
     echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-function yp_path_append_before() {
+function yp::path_append_before() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
         export PATH=$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")
     else
-        yp_path_append "$1"
+        yp::path_append "$1"
     fi
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
