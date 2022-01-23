@@ -81,19 +81,19 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 
 `yplatform` itself currently runs across these providers with very little effort and no duplication.
 
-| Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               |
-| ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ |
-| AppVeyor          | [![AppVeyor Status][14]][13]        | :heavy_check_mark: | `appveyor*`        |                    |                    | [config](./appveyor.yml)             |
-| Bitrise           | [![Bitrise Status][22]][21]         | :zzz:              | `bitrise*`         |                    |                    | [config](./bitrise.yml)              |
-| Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                |
-| CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                |
-| Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              |
-| Codeship          | [![Codeship Status][8]][7]          | :heavy_check_mark: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       |
-| Github Actions CI | [![Github Actions CI Status][2]][1] | :heavy_check_mark: | `github*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.github/workflows)        |
-| Gitlab CI         | [![Gitlab CI Status][12]][11]       | :heavy_check_mark: | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           |
-| Semaphore         | [![Semaphore Status][10]][9]        | :heavy_check_mark: | `semaphore*`       |                    | :heavy_check_mark: | [config](./.semaphore/semaphore.yml) |
-| Sourcehut         | [![Sourcehut Status][18]][17]       | :heavy_check_mark: | `sourcehut*`       |                    | :heavy_check_mark: | [config](./.builds/sourcehut.yml)    |
-| Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              |
+| Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               | env                              |
+| ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
+| AppVeyor          | [![AppVeyor Status][14]][13]        | :heavy_check_mark: | `appveyor*`        |                    |                    | [config](./appveyor.yml)             | [env](./ci/env/appveyor.inc.sh)  |
+| Bitrise           | [![Bitrise Status][22]][21]         | :zzz:              | `bitrise*`         |                    |                    | [config](./bitrise.yml)              | [env](./ci/env/bitrise.inc.sh)   |
+| Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                | [env](./ci/env/buddy.inc.sh)     |
+| CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                | [env](./ci/env/circle.inc.sh)    |
+| Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              | [env](./ci/env/cirrus.inc.sh)    |
+| Codeship          | [![Codeship Status][8]][7]          | :heavy_check_mark: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       | [env](./ci/env/codeship.inc.sh)  |
+| Github Actions CI | [![Github Actions CI Status][2]][1] | :heavy_check_mark: | `github*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.github/workflows)        | [env](./ci/env/github.inc.sh)    |
+| Gitlab CI         | [![Gitlab CI Status][12]][11]       | :heavy_check_mark: | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           | [env](./ci/env/gitlab.inc.sh)    |
+| Semaphore         | [![Semaphore Status][10]][9]        | :heavy_check_mark: | `semaphore*`       |                    | :heavy_check_mark: | [config](./.semaphore/semaphore.yml) | [env](./ci/env/semaphore.inc.sh) |
+| Sourcehut         | [![Sourcehut Status][18]][17]       | :heavy_check_mark: | `sourcehut*`       |                    | :heavy_check_mark: | [config](./.builds/sourcehut.yml)    | [env](./ci/env/sourcehut.inc.sh) |
+| Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              | [env](./ci/env/travis.inc.sh)    |
 
 **NOTE** Bitrise builds for the `master` branch are paused because the freemium includes only 500 credits (so 500 minutes on Linux agents).
 
@@ -231,4 +231,3 @@ And 80% is **much** better than 0% i.e. not trying at all.
   [20]: https://app.buddy.works/ysoftwareab/yplatform/pipelines/pipeline/366736/badge.svg?token=2b8ae0765b731fa03f1e15d087757cfb81254da1dfdff0c6f80a8a53d7dd90dc
   [21]: https://app.bitrise.io/app/d4c696b6b4e2be16
   [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
-  
