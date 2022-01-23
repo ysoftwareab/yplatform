@@ -73,7 +73,7 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 **NOTE** `common` install is paused for `Microsoft Windows (WSL)` because the process takes more than 1 hour on Github Actions CI
 (a combination of machine specs and being restricted to WSL v1), but we expect no problems.
 
-**NOTE** it should even possible to create WSL images. Tracked in [#213](https://github.com/ysoftwareab/yplatform/issues/213).
+**NOTE** it should even possible to create WSL images, and even OCI/podman images. Tracked in [#213](https://github.com/ysoftwareab/yplatform/issues/213).
 
 ---
 
