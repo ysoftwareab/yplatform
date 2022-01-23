@@ -31,3 +31,5 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
 
 source ${YP_DIR}/dockerfiles/util/bootstrap.inc.sh
 source ${YP_DIR}/dockerfiles/util/clean.inc.sh
+
+/Dockerfile.test.sh
