@@ -24,4 +24,5 @@
     yp_path_append ./node_modules/.bin
 
     export YP_DEV_INC_SH=true
+    unset YP_DIR
 }
