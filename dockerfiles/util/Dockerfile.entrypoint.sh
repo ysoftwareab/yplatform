@@ -8,4 +8,5 @@ if [[ -d "/Dockerfile.entrypoint.d" ]] && [[ -n "$(ls -A /Dockerfile.entrypoint.
     /yplatform/bin/linux-run-parts --verbose --regex "\.sh$" "/Dockerfile.entrypoint.d"
 fi
 
+>&2 echo "$(date +"%H:%M:%S")" "[INFO]" "${BASH_SOURCE[0]}:" "$@"
 exec "$@"
