@@ -99,7 +99,7 @@ YP_CHECK_TPL_FILES += \
 	gitconfig/dot.gitignore_global \
 
 ifeq (true,$(CI))
-.PHONY: $(yp_CHECK_TPL_FILES)
+.PHONY: $(YP_CHECK_TPL_FILES)
 endif
 
 YP_DEPS_TARGETS += \
