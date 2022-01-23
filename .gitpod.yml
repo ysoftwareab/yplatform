@@ -38,3 +38,4 @@ tasks:
       source dev/inc.sh
       gp env PATH=$PATH
       gp open README.md
+      make help
