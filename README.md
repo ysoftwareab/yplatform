@@ -22,6 +22,8 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 ---
 
+## Install standalone
+
 `git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
   * a bootstrap process for local-development based on GNU and Homebrew
     * [cross-platform](#cross-platform].
@@ -35,6 +37,8 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
   * documentation and best common practices
 
 ---
+
+## Install in a project
 
 Use `yplatform` in a project and you will gain access to:
   * a bootstrap process for CI machines based on GNU and Homebrew
