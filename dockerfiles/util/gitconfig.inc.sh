@@ -6,8 +6,8 @@ set -euo pipefail
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitconfig ."
 # NOTE we want to prepend, and let the original .gitconfig override YP configuration
 # git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
-touch ~/.gitconfig
-cat ~/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig" || \
+touch ${HOME}/.gitconfig
+cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig" || \
     printf '%s\n%s\n' \
         "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig")" \
         "$(cat ~/.gitconfig)" >~/.gitconfig
