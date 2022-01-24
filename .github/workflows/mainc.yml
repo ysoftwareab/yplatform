@@ -3,7 +3,6 @@ name: CI container
   push:
     branches:
       - github*
-      - master
   pull_request:
     branches:
       - '**'

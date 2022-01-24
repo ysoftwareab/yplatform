@@ -14,8 +14,8 @@ let workflow = {
   on: {
     push: {
       branches: [
-        'github*',
-        'master'
+        'github*'
+        // 'master'
       ]
     },
     pull_request: {
@@ -50,5 +50,9 @@ workflow.jobs = _.mapValues(_.pick(workflow.jobs, [
 });
 */
 
-// eslint-disable-next-line no-console, no-null/no-null
-console.log(JSON.stringify(workflow, null, 2));
+if (require.main === module) {
+  // eslint-disable-next-line no-console, no-null/no-null
+  console.log(JSON.stringify(workflow, null, 2));
+} else {
+  module.exports = workflow;
+}

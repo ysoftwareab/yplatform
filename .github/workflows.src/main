@@ -5,8 +5,14 @@
 let _ = require('lodash-firecloud');
 
 let jobs = require('./main-jobs');
+// eslint-disable-next-line import/extensions
+let mainc = require('./mainc');
 
 // -----------------------------------------------------------------------------
+
+let maincSmokeJobs = _.pickBy(mainc.jobs, function(_job, name) {
+  return _.includes(name, '-smoke');
+});
 
 let workflow = {
   name: 'CI',
@@ -33,7 +39,8 @@ let workflow = {
     'cancel-in-progress': true
   },
   jobs: {
-    ...jobs
+    ...jobs,
+    ...maincSmokeJobs
   }
 };
 
@@ -48,5 +55,9 @@ workflow.jobs = _.mapValues(_.pick(workflow.jobs, [
 });
 */
 
-// eslint-disable-next-line no-console, no-null/no-null
-console.log(JSON.stringify(workflow, null, 2));
+if (require.main === module) {
+  // eslint-disable-next-line no-console, no-null/no-null
+  console.log(JSON.stringify(workflow, null, 2));
+} else {
+  module.exports = workflow;
+}

@@ -28,5 +28,9 @@ let workflow = {
   }
 };
 
-// eslint-disable-next-line no-console, no-null/no-null
-console.log(JSON.stringify(workflow, null, 2));
+if (require.main === module) {
+  // eslint-disable-next-line no-console, no-null/no-null
+  console.log(JSON.stringify(workflow, null, 2));
+} else {
+  module.exports = workflow;
+}
