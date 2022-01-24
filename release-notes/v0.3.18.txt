@@ -1,0 +1,20 @@
+yplatform v0.3.18 Release Notes
+
+Highlights since v0.3.17:
+
+* None
+
+Breaking commits since v0.3.17:
+
+* None
+
+Commits since v0.3.17:
+
+* 37197325 2022-01-24 silence dockerfile.test.sh that fail on arch and alpine
+* 1900180b 2022-01-24 fixup! arch and alpine have no /root/.{,bash_}profile sourcing .bashrc
+* 5957671d 2022-01-24 normalize job names
+* 3d1faf91 2022-01-24 handle UNAME set in CI e.g. codeship's Dockerfile.build.sh
+* 78b3aa2f 2022-01-24 fix and update codeship docker config
+* 41f059d6 2022-01-24 typo return -> exit
+* 9be8f390 2022-01-24 missing hostname on arch linux
+o a40bfff4 2022-01-24 0.3.17
