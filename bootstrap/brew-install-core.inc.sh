@@ -33,19 +33,19 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
     linux-alpine)
         apk_install_one libplist
-        ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
+        [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;
     linux-arch)
         pacman_install_one libplist
-        ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
+        [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;
     linux-centos)
         yum_install_one libplist
-        ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
+        [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;
     linux-debian|linux-ubuntu)
         apt_install_one libplist-utils
-        ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
+        [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing plistutil."
