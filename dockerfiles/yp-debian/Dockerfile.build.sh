@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# -*- mode: sh -*-
 set -euo pipefail
 
 YP_DIR=/yplatform

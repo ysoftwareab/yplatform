@@ -11,6 +11,7 @@ github:
 vscode:
   extensions:
     - cardinal90.multi-cursor-case-preserve
+    - chrislajoie.vscode-modelines
     - dbaeumer.vscode-eslint
     - eamodio.gitlens
     - EditorConfig.editorconfig
