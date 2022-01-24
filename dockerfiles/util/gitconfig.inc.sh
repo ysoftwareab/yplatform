@@ -19,7 +19,7 @@ chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.gitattributes_global
 # NOTE we want to prepend, and let the original .gitconfig override YP configuration
 # git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
 touch ${UHOME}/.gitconfig
-git config --file ${UHOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig" || \
+git config -f ${UHOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig" || \
     printf '%s\n%s\n%s\n' \
         "[include]" \
         "path = ${YP_DIR}/gitconfig/dot.gitconfig" \

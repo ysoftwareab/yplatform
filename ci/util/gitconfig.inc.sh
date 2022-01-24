@@ -17,7 +17,7 @@ ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_globa
 # NOTE we want to prepend, and let the original .gitconfig override YP configuration
 # git config --global --add include.path ${YP_DIR}/gitconfig/dot.gitconfig
 touch ${HOME}/.gitconfig
-git config --file ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig" || \
+git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig" || \
     printf '%s\n%s\n%s\n' \
         "[include]" \
         "path = ${YP_DIR}/gitconfig/dot.gitconfig" \
