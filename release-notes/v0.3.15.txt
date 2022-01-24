@@ -1,3 +1,4 @@
+
 yplatform v0.3.15 Release Notes
 
 Highlights since v0.3.14:
@@ -14,6 +15,10 @@ Breaking commits since v0.3.14:
 
 Commits since v0.3.14:
 
+* 09d8d26c 2022-01-24 silence dockerfile.test.sh that fail on arch and alpine
+* 77a5ccc6 2022-01-24 no need for starting a new bash process. fails in arch and alpine
+* 269d7659 2022-01-24 add mainc smoke jobs to main
+* 7d4e35c9 2022-01-24 0.3.15 release notes
 * 80ab9ca8 2022-01-24 verbose about user
 * 92a4e561 2022-01-24 dockerfile.test.sh preserve env
 * b94e4f3a 2022-01-24 better log grouping for Dockerfile.test.sh
