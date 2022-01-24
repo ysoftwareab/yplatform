@@ -1,0 +1,14 @@
+yplatform v0.3.20 Release Notes
+
+Highlights since v0.3.19:
+
+* None
+
+Breaking commits since v0.3.19:
+
+* None
+
+Commits since v0.3.19:
+
+* eac0195f 2022-01-25 fixup! fixup! arch and alpine have no /root/.{,bash_}profile sourcing .bashrc
+o 6ff3bda6 2022-01-24 0.3.19
