@@ -15,7 +15,11 @@ else
 fi
 touch ${PROFILE_FILE}
 cat ${PROFILE_FILE} | grep -q "/\.bashrc" || cat <<EOF >> ${PROFILE_FILE}
-[[ -z "${BASH:-}" ]] || [[ ! -f ~/.bashrc ]] || . ~/.bashrc
+if [ "\$BASH" ]; then
+    if [ -f ~/.bashrc ]; then
+        . ~/.bashrc
+    fi
+fi
 EOF
 cat ${PROFILE_FILE} | grep -q "/\.bashrc"
 chown ${UID_INDEX}:${GID_INDEX} ${PROFILE_FILE}
@@ -27,7 +31,9 @@ EOF
 cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases" || cat <<EOF >> ${UHOME}/.bashrc
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
-[[ ! -f ~/.bash_aliases ]] || . ~/.bash_aliases
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
 EOF
 cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases"
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.bashrc
