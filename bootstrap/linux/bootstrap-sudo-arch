@@ -35,6 +35,7 @@ echo_done
 echo_do "pacman: Installing basic packages..."
 pacman_install_one base-devel # as per homebrew-install
 pacman_install_one coreutils
+pacman_install_one inetutils
 pacman_install_one util-linux
 
 pacman_install_one python3
