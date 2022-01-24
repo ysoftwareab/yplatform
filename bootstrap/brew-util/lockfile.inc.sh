@@ -45,7 +45,7 @@ function brew_lockfile() {
                     continue
                     ;;
                 *)
-                    echo_err "OS_SHORT=${OS_SHORT} TAP=${TAP}"
+                    echo_info "OS_SHORT=${OS_SHORT} TAP=${TAP}"
                     ;;
             esac
 
