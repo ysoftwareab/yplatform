@@ -20,7 +20,7 @@ set -x
 
 # BASH
 
-test -f ${HOME}/.bash_aliases
+ls -la ${HOME}/.bash_aliases
 cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/bootstrap/brew-util/env.inc.sh"
 cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/sh/dev.inc.sh"
 # shellcheck disable=SC2016
@@ -29,23 +29,26 @@ env -i HOME=${HOME} bash -l -i -c 'command -v brew'
 
 # GIT
 
-test -f ${HOME}/.gitattributes_global
+ls -la ${HOME}/.gitattributes_global
 [[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${YP_DIR}/gitconfig/dot.gitattributes_global" ]]
 
-test -f ${HOME}/.gitignore_global
+ls -la ${HOME}/.gitignore_global
 [[ "$(readlink -f ${HOME}/.gitignore_global)" = "${YP_DIR}/gitconfig/dot.gitignore_global" ]]
 
-test -f ${HOME}/.gitconfig
-git config -f ${HOME}/.gitconfig --get user.name | ${YP_DIR}/bin/ifne -f -p
-git config -f ${HOME}/.gitconfig --get user.email | ${YP_DIR}/bin/ifne -f -p
-git config -f ${HOME}/.gitconfig --get-all include.path | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitignore"
+ls -la ${HOME}/.gitconfig
+git config -f ${HOME}/.gitconfig --get "user.name" || true
+git config -f ${HOME}/.gitconfig --get "user.name" | ${YP_DIR}/bin/ifne -f -p
+git config -f ${HOME}/.gitconfig --get "user.email" || true
+git config -f ${HOME}/.gitconfig --get "user.email" | ${YP_DIR}/bin/ifne -f -p
+git config -f ${HOME}/.gitconfig --get-all "include.path" || true
+git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitignore"
 
 # SSH
 
-test -f ${HOME}/.ssh/config
+ls -la ${HOME}/.ssh/config
 cat ${HOME}/.ssh/config | grep -q -Fx "Include ~/.ssh/yplatform/config"
 
-test -f ${HOME}/.ssh/yplatform
+ls -la ${HOME}/.ssh/yplatform
 [[ "$(readlink -f ${HOME}/.ssh/yplatform)" = "${YP_DIR}/sshconfig" ]]
 
 # MISC
