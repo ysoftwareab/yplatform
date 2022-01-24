@@ -2,20 +2,23 @@
 set -euo pipefail
 
 PROFILE_FILE=
-if test -e ${UHOME}/.bash_profile; then
+if [[ -e ${UHOME}/.bash_profile ]]; then
     PROFILE_FILE=${UHOME}/.bash_profile
-elif test -e ${UHOME}/.profile; then
+elif [[ -e ${UHOME}/.profile ]]; then
     PROFILE_FILE=${UHOME}/.profile
-elif test -e /etc/skel/.bash_profile; then
+elif [[ -e /etc/skel/.bash_profile ]]; then
     PROFILE_FILE=${UHOME}/.bash_profile
-elif test -e /etc/skel/.profile; then
+elif [[ -e /etc/skel/.profile ]]; then
     PROFILE_FILE=${UHOME}/.profile
 else
     PROFILE_FILE=${UHOME}/.bash_profile
 fi
+touch ${PROFILE_FILE}
 cat ${PROFILE_FILE} | grep -q "/\.bashrc" || cat <<EOF >> ${PROFILE_FILE}
 [[ -z "${BASH:-}" ]] || [[ ! -f ~/.bashrc ]] || . ~/.bashrc
 EOF
+cat ${PROFILE_FILE} | grep -q "/\.bashrc"
+chown ${UID_INDEX}:${GID_INDEX} ${PROFILE_FILE}
 
 [[ -e ${UHOME}/.bashrc ]] || cat <<EOF >> ${UHOME}/.bashrc
 # If not running interactively, don't do anything
@@ -26,6 +29,7 @@ cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases" || cat <<EOF >> ${UHOME}/.bashr
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 [[ ! -f ~/.bash_aliases ]] || . ~/.bash_aliases
 EOF
+cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases"
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.bashrc
 
 cat <<EOF >> ${UHOME}/.bash_aliases
