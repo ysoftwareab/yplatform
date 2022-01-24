@@ -1,0 +1,68 @@
+yplatform v0.3.15 Release Notes
+
+Highlights since v0.3.14:
+
+* None
+
+Breaking commits since v0.3.14:
+
+* 8da30873 2022-01-23 fixup! fixup! fixup! breaking: refactor insteadof in gitconfig
+* a897eda2 2022-01-08 fixup! fixup! breaking: refactor insteadof in gitconfig
+* eda873b9 2022-01-23 breaking: namespace yp aws-iam-login functions
+* 73380601 2022-01-23 breaking: namespace yp path functions e.g. yp_path_append -> yp::path_append
+
+
+Commits since v0.3.14:
+
+* 80ab9ca8 2022-01-24 verbose about user
+* 92a4e561 2022-01-24 dockerfile.test.sh preserve env
+* b94e4f3a 2022-01-24 better log grouping for Dockerfile.test.sh
+* 1ee8ea53 2022-01-24 use UHOME, be specific when setting git user name and email
+* 8edb5fcd 2022-01-24 typo in Dockerfile.test.sh
+* 62cec718 2022-01-24 increase verbosity, useful for debugging
+* be34530e 2022-01-24 use short arg, obvious
+* c8ae5fc8 2022-01-24 fix mode for greedy Dockerfile associations
+* 05a36e54 2022-01-24 wrong log level
+* 2d5637e9 2022-01-24 fixup! refactor user&root bash/git/ssh config. fixes root user config
+* 7b1f654d 2022-01-24 fixup! fixup! gitconfig sets up git ignore, attributes, user and yp config
+* 74b4f8a0 2022-01-24 install libplist as a plutil equivalent on linux
+* fb8d38a9 2022-01-24 fixup! gitconfig sets up git ignore, attributes, user and yp config
+* 5f7dc5e5 2022-01-24 Revert "Dockerfile.test.sh is optional for now"
+* 2a750918 2022-01-24 refactor user&root bash/git/ssh config. fixes root user config
+* c252a6e2 2022-01-23 gitconfig sets up git ignore, attributes, user and yp config
+* e7407018 2022-01-23 use $HOME, not ~
+* adc2b87f 2022-01-23 clarify tests
+* 69f26a58 2022-01-23 fix git user/email in docker
+* 0be0d730 2022-01-23 dockerfile.test from dockerfile.build
+* 8da30873 2022-01-23 fixup! fixup! fixup! breaking: refactor insteadof in gitconfig
+* 87e92787 2022-01-23 verbose docker entrypoint
+* 0cfd88af 2022-01-23 Dockerfile.test.sh is optional for now
+* 3c7cd2f1 2022-01-09 add Dockerfile.test.sh as a convention for testing docker images
+* c2db139a 2022-01-08 use UHOME
+* a897eda2 2022-01-08 fixup! fixup! breaking: refactor insteadof in gitconfig
+* c5306d6c 2022-01-23 add markers for git hooks. skip 'make check-shellcheck' for 'git push' in this repo because it's too slow
+* 8867af30 2022-01-23 fix always check tpl files in CI
+* 79321286 2022-01-23 add gitpod template
+* 09c8bc58 2022-01-23 gitpod: run 'make help' as demo step
+* eda873b9 2022-01-23 breaking: namespace yp aws-iam-login functions
+* 73380601 2022-01-23 breaking: namespace yp path functions e.g. yp_path_append -> yp::path_append
+* 25c5c009 2022-01-23 don't set YP_DIR in dev environments, only GLOBAL_YP_DIR
+* fa7ff0a4 2022-01-23 gitpod: no split
+* 4d0a9372 2022-01-23 add headers
+* dc3b0474 2022-01-23 mention OCI/podman
+* 4e39cf00 2022-01-23 link to ci envs
+* 440fc481 2022-01-23 smoke contains macos, thus needs a higher timeout
+* cd63afd3 2022-01-23 semaphore added SEMAPHORE_AGENT_LOG_LEVEL
+* 7884cde9 2022-01-23 add back a smoke phase for main/c github workflow
+* 1996f85c 2022-01-22 fixup! js-yaml: pin to 3.14.1 or else quotes are introduced willy-nilly. weirdly only locally, not on CI
+* f9e01af0 2022-01-22 Revert "bump js-yaml to 4.1.0 and force quotes, in order to stabilize quote issues between local&CI"
+* ce4c8cd1 2022-01-22 Revert "debug git-reset-mtime in CI"
+* 138a7d5d 2022-01-22 debug git-reset-mtime in CI
+* 8a7f3eac 2022-01-22 refresh after js-yaml bump
+* 2da7a186 2022-01-22 bump js-yaml to 4.1.0 and force quotes, in order to stabilize quote issues between local&CI
+* 4985be80 2022-01-22 fixup! refactor github workflows. run containers separately
+* 1b9591c4 2022-01-22 fixup! refactor github workflows. run containers separately
+* 1d815556 2022-01-22 refactor github workflows. run containers separately
+* b470ec81 2022-01-22 document HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK
+* 982cf197 2022-01-22 add bin/github-workflow2dot to convert github workflows to graphviz dot
+o b35be9fc 2022-01-08 0.3.14
