@@ -1,0 +1,18 @@
+yplatform v0.3.16 Release Notes
+
+Highlights since v0.3.15:
+
+* None
+
+Breaking commits since v0.3.15:
+
+* None
+
+Commits since v0.3.15:
+
+* f0179e17 2022-01-24 auto eslint workingDirectories
+* 6faa265a 2022-01-24 remove tslint vscode extension
+* 5a072a5a 2022-01-24 remove deprecated vscode settings
+* 5329abf7 2022-01-24 fixup! install libplist as a plutil equivalent on linux
+* 6a0fd481 2022-01-24 fixup! silence dockerfile.test.sh that fail on arch and alpine
+o 643d282e 2022-01-24 0.3.15
