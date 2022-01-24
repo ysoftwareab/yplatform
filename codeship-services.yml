@@ -3,6 +3,9 @@ ypu2004m:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:
+      YP_CI_BREW_INSTALL: minimal
+      YP_DOCKER_CI_IMAGE_NAME: yp-ubuntu-20.04-minimal
+      YP_OS_RELEASE_DIR: dockerfiles/yp-ubuntu-20.04
   environment:
     YP_CI_BREW_INSTALL: minimal
     YP_LOG_BOOTSTRAP: true
@@ -13,6 +16,9 @@ ypu2004d:
   build:
     dockerfile: .codeship/ubuntu-20.04/Dockerfile
     args:
+      YP_CI_BREW_INSTALL: dev
+      YP_DOCKER_CI_IMAGE_NAME: yp-ubuntu-20.04-dev
+      YP_OS_RELEASE_DIR: dockerfiles/yp-ubuntu-20.04
   environment:
     YP_CI_BREW_INSTALL: dev
     YP_LOG_BOOTSTRAP: true
