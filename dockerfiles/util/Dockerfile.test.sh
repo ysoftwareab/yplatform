@@ -11,11 +11,11 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     BASH=$(command -v bash)
 
     echo_do "Test root user config..."
-    sudo ${BASH} -l -i -c "${BASH_SOURCE[0]} root"
+    sudo --preserve-env --set-home --user root ${BASH} -l -i -c "${BASH_SOURCE[0]} root"
     echo_done
 
     echo_do "Test ${UNAME} user config..."
-    sudo --user ${UNAME} ${BASH} -l -i -c "${BASH_SOURCE[0]} ${UNAME}"
+    sudo --preserve-env --set-home --user ${UNAME} ${BASH} -l -i -c "${BASH_SOURCE[0]} ${UNAME}"
     echo_done
 
     exit 0
