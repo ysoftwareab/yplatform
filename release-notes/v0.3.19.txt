@@ -1,0 +1,14 @@
+yplatform v0.3.19 Release Notes
+
+Highlights since v0.3.18:
+
+* None
+
+Breaking commits since v0.3.18:
+
+* None
+
+Commits since v0.3.18:
+
+* 54189108 2022-01-24 fixup! silence dockerfile.test.sh that fail on arch and alpine
+o 47809075 2022-01-24 0.3.18
