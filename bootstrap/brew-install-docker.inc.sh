@@ -87,7 +87,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing Docker."
-        return 1
+        exit 1
         ;;
 esac
 

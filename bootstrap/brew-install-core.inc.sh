@@ -49,7 +49,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
     *)
         echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing plistutil."
-        return 1
+        exit 1
         ;;
 esac
 
