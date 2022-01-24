@@ -65,12 +65,6 @@
 
   "terminal.integrated.inheritEnv": false,
 
-  "tslint.enable": true,
-  "tslint.jsEnable": false,
-  "tslint.alwaysShowStatus": true,
-  "tslint.run": "onSave",
-  "tslint.autoFixOnSave": true,
-
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.disableAutomaticTypeAcquisition": true,
   "typescript.format.enable": false,

@@ -8,7 +8,6 @@
     "glen-84.sass-lint",
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
-    "ms-vscode.vscode-typescript-tslint-plugin",
     "orta.vscode-jest",
     "timonwong.shellcheck"
   ],
