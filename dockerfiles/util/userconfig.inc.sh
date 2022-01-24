@@ -5,7 +5,7 @@ set -euo pipefail
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return
 EOF
-cat ${UHOME}/.bashrc | grep -q "\.bash_aliases" || cat <<EOF >> ${UHOME}/.bashrc
+cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases" || cat <<EOF >> ${UHOME}/.bashrc
 # ~/.bash_aliases, instead of adding them here directly.
 # See /usr/share/doc/bash-doc/examples in the bash-doc package.
 [[ ! -f ~/.bash_aliases ]] || . ~/.bash_aliases
