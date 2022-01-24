@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# NOTE sync with dockerfiles/util/gitconfig.inc.sh
+
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitignore_global ."
 [[ ! -e "${HOME}/.gitignore_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${HOME}/.gitignore_global ."
@@ -20,7 +22,6 @@ git config --file ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${Y
         "[include]" \
         "path = ${YP_DIR}/gitconfig/dot.gitconfig" \
         "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
-
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup git user '${GIT_USER_NAME}' '${GIT_USER_EMAIL}'."
 git config --global user.email "${GIT_USER_EMAIL}"
 git config --global user.name "${GIT_USER_NAME}"
