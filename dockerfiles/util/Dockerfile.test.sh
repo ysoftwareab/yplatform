@@ -41,7 +41,7 @@ git config -f ${HOME}/.gitconfig --get "user.name" | ${YP_DIR}/bin/ifne -f -p
 git config -f ${HOME}/.gitconfig --get "user.email" || true
 git config -f ${HOME}/.gitconfig --get "user.email" | ${YP_DIR}/bin/ifne -f -p
 git config -f ${HOME}/.gitconfig --get-all "include.path" || true
-git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitignore"
+git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig"
 
 # SSH
 
