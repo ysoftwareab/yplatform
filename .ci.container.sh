@@ -21,9 +21,9 @@ function ci_run_deploy_docker_image() {
     ARG_FROM=
 
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
+    local DOCKER_OS_RELEASE_ID="$(source ${YP_DIR}/dockerfiles/yp-${GITHUB_MATRIX_CONTAINER}/os-release && echo ${ID})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
-    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
+    local DOCKER_OS_RELEASE_VERSION_ID="$(source ${YP_DIR}/dockerfiles/yp-${GITHUB_MATRIX_CONTAINER}/os-release && echo ${VERSION_ID:-0})" # editorconfig-checker-disable-line
     # shellcheck disable=SC1091
     local DOCKER_IMAGE_NAME=yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${GITHUB_MATRIX_YP_CI_BREW_INSTALL} # editorconfig-checker-disable-line
     local DOCKER_IMAGE_TAG=$(cat package.json | jq -r ".version")
@@ -69,7 +69,7 @@ function ci_run_deploy_docker_image() {
     #     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ghcr.io
     # }
 
-    ${YP_DIR}/dockerfiles/${GITHUB_MATRIX_CONTAINER}/build \
+    ${YP_DIR}/dockerfiles/yp-${GITHUB_MATRIX_CONTAINER}/build \
         --platforms linux/amd64 \
         --name "${DOCKER_IMAGE_NAME}" \
         --tags $(IFS=,; echo "${TAGS[*]}") \

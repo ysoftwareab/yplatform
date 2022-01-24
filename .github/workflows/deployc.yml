@@ -6,17 +6,17 @@ name: CD container
 concurrency:
   group: 'deployc-${{ github.ref }}'
 jobs:
-  deployc-minimal-arch:
+  deployc-arch-minimal:
     needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-arch-0
+          - arch-0
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -28,7 +28,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -195,23 +195,23 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-minimal-alpine:
+  deployc-alpine-minimal:
     needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-alpine-3.11.7
+          - alpine-3.11.7
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -223,7 +223,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -390,23 +390,23 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-minimal-centos:
+  deployc-centos-minimal:
     needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-centos-8
+          - centos-8
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -418,7 +418,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -585,24 +585,24 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-minimal-debian:
+  deployc-debian-minimal:
     needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-debian-9
-          - yp-debian-10
+          - debian-9
+          - debian-10
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -614,7 +614,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -781,25 +781,25 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-minimal-ubuntu:
+  deployc-ubuntu-minimal:
     needs: []
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-ubuntu-16.04
-          - yp-ubuntu-18.04
-          - yp-ubuntu-20.04
+          - ubuntu-16.04
+          - ubuntu-18.04
+          - ubuntu-20.04
         yp_ci_brew_install:
           - minimal
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -811,7 +811,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -978,24 +978,24 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-common-arch:
+  deployc-arch-common:
     needs:
-      - deployc-minimal-arch
+      - deployc-arch-minimal
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-arch-0
+          - arch-0
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1007,7 +1007,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1174,24 +1174,24 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-common-alpine:
+  deployc-alpine-common:
     needs:
-      - deployc-minimal-alpine
+      - deployc-alpine-minimal
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-alpine-3.11.7
+          - alpine-3.11.7
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1203,7 +1203,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1370,24 +1370,24 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-common-centos:
+  deployc-centos-common:
     needs:
-      - deployc-minimal-centos
+      - deployc-centos-minimal
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-centos-8
+          - centos-8
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1399,7 +1399,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1566,25 +1566,25 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-common-debian:
+  deployc-debian-common:
     needs:
-      - deployc-minimal-debian
+      - deployc-debian-minimal
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-debian-9
-          - yp-debian-10
+          - debian-9
+          - debian-10
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1596,7 +1596,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1763,26 +1763,26 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md
             log.sh-session
           retention-days: 7
-  deployc-common-ubuntu:
+  deployc-ubuntu-common:
     needs:
-      - deployc-minimal-ubuntu
+      - deployc-ubuntu-minimal
     timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
         container:
-          - yp-ubuntu-16.04
-          - yp-ubuntu-18.04
-          - yp-ubuntu-20.04
+          - ubuntu-16.04
+          - ubuntu-18.04
+          - ubuntu-20.04
         yp_ci_brew_install:
           - common
-    name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -1794,7 +1794,7 @@ jobs:
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
-      GITHUB_JOB_NAME: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1961,7 +1961,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
             yp-ci-echo-benchmark
             some-job-artifact.md

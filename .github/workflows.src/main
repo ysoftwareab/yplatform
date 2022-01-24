@@ -11,7 +11,7 @@ let mainc = require('./mainc');
 // -----------------------------------------------------------------------------
 
 let maincSmokeJobs = _.pickBy(mainc.jobs, function(_job, name) {
-  return _.includes(name, '-smoke');
+  return _.split(name, '-')[1] === 'smoke';
 });
 
 let workflow = {

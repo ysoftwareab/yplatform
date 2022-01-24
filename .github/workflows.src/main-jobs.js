@@ -33,7 +33,7 @@ _.forEach(matrixOsWithSmoke, function(_os, group) {
 let jobs = {};
 
 let makeJobsWindows = function(matrixOs, nameSuffix) {
-  let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
+  let name = 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
     needs: [
       'main-smoke',
@@ -103,7 +103,7 @@ let makeJobs = function(matrixOs, nameSuffix) {
     break;
   }
 
-  let name = 'main-${{ matrix.yp_ci_brew_install }}-${{ matrix.os }}';
+  let name = 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`main-${nameSuffix}`] = {
     needs,
     // some macos agents simply have lower I/O rates and take longer

@@ -26,9 +26,8 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
-  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
-  let name = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
-  jobs[`deployc-minimal-${nameSuffix}`] = {
+  let name = 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
+  jobs[`deployc-${nameSuffix}-minimal`] = {
     needs: [],
     'timeout-minutes': 30,
     strategy: {

@@ -21,7 +21,7 @@ let env = {
 
 let matrixContainerWithSmoke = _.clone(matrixContainer);
 matrixContainerWithSmoke.smoke = [
-  'yp-ubuntu-20.04'
+  'ubuntu-20.04'
 ];
 _.forEach(matrixContainerWithSmoke, function(_os, group) {
   if (group === 'smoke') {
@@ -43,14 +43,13 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     break;
   default:
     needs = [
-      `mainc-minimal-${nameSuffix}`
+      `mainc-${nameSuffix}-minimal`
     ];
     break;
   }
 
-  // name should be the exact docker image name as defined in dockerfiles/util/build:DOCKER_IMAGE_NAME
-  let name = '${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
-  jobs[`mainc-common-${nameSuffix}`] = {
+  let name = 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
+  jobs[`mainc-${nameSuffix}-common`] = {
     needs,
     'timeout-minutes': 30,
     strategy: {
