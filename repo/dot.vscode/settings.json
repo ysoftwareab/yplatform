@@ -48,12 +48,8 @@
 
   "json.format.enable": true,
 
+  "prettier.enable": false,
   "prettier.requireConfig": true,
-  "prettier.disableLanguages": [
-    "json",
-    "markdown",
-    "yaml"
-  ],
 
   "sasslint.enable": true,
   "sasslint.run": "onSave",
