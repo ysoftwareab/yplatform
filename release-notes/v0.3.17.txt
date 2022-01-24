@@ -1,0 +1,17 @@
+yplatform v0.3.17 Release Notes
+
+Highlights since v0.3.16:
+
+* None
+
+Breaking commits since v0.3.16:
+
+* None
+
+Commits since v0.3.16:
+
+* 39418243 2022-01-24 arch and alpine have no /root/.{,bash_}profile sourcing .bashrc
+* c9532ea9 2022-01-24 better check for sourcing .bash_aliases in .bashrc
+* 23fb7e89 2022-01-24 Revert "silence dockerfile.test.sh that fail on arch and alpine"
+* 4e4d4d88 2022-01-24 fixup! remove deprecated vscode settings
+o 2732cd4a 2022-01-24 0.3.16
