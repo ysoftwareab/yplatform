@@ -41,7 +41,7 @@
 
   "javascript.format.enable": false,
 
-  "jest.runAllTestsFirst": false,
+  "jest.autoRun": {},
 
   "json.format.enable": true,
 
@@ -61,7 +61,7 @@
   "shellcheck.enable": true,
   "shellcheck.run": "onSave",
 
-  "telemetry.enableTelemetry": false,
+  "telemetry.telemetryLevel": "off",
 
   "terminal.integrated.inheritEnv": false,
 
