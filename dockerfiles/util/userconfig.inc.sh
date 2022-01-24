@@ -1,6 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+PROFILE_FILE=
+if test -e ${UHOME}/.bash_profile; then
+    PROFILE_FILE=${UHOME}/.bash_profile
+elif test -e ${UHOME}/.profile; then
+    PROFILE_FILE=${UHOME}/.profile
+elif test -e /etc/skel/.bash_profile; then
+    PROFILE_FILE=${UHOME}/.bash_profile
+elif test -e /etc/skel/.profile; then
+    PROFILE_FILE=${UHOME}/.profile
+else
+    PROFILE_FILE=${UHOME}/.bash_profile
+fi
+cat ${PROFILE_FILE} | grep -q "/\.bashrc" || cat <<EOF >> ${PROFILE_FILE}
+[[ -z "${BASH:-}" ]] || [[ ! -f ~/.bashrc ]] || . ~/.bashrc
+EOF
+
 [[ -e ${UHOME}/.bashrc ]] || cat <<EOF >> ${UHOME}/.bashrc
 # If not running interactively, don't do anything
 [[ $- = *i* ]] || return
