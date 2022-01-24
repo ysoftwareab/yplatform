@@ -23,7 +23,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
 
 # BASH
 
-echo_do "Test bash env..."
+echo_do "Test ${USER} bash env..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -41,7 +41,7 @@ echo_done
 
 # GIT
 
-echo_do "Test git config..."
+echo_do "Test ${USER} git config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -65,7 +65,7 @@ echo_done
 
 # SSH
 
-echo_do "Test ssh config..."
+echo_do "Test ${USER} ssh config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -81,7 +81,7 @@ echo_done
 
 # MISC
 
-echo_do "Test misc config..."
+echo_do "Test ${USER} misc config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
