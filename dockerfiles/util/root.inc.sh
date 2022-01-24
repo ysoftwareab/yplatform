@@ -3,19 +3,25 @@ set -euo pipefail
 
 # create same vars as in user.inc.sh
 
-# shellcheck disable=SC2034
+UID_INDEX_BAK=${UID_INDEX:-}
+GID_INDEX_BAK=${GID_INDEX:-}
+GNAME_REAL_BAK=${GNAME_REAL:-}
+UHOME_BAK=${UHOME:-}
+
 UID_INDEX=0
-# shellcheck disable=SC2034
 GID_INDEX=0
-# shellcheck disable=SC2034
 GNAME_REAL=root
-# shellcheck disable=SC2034
-UHOME=${HOME}
+UHOME=$(eval echo "~root")
 
 source ${YP_DIR}/dockerfiles/util/userconfig.inc.sh
 source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh
 
-unset GID_INDEX
-unset GNAME_REAL
-unset UHOME
-unset UID_INDEX
+UID_INDEX=${UID_INDEX_BAK:-}
+GID_INDEX=${GID_INDEX_BAK:-}
+GNAME_REAL=${GNAME_REAL_BAK:-}
+UHOME=${UHOME_BAK:-}
+
+unset GID_INDEX_BAK
+unset GNAME_REAL_BAK
+unset UHOME_BAK
+unset UID_INDEX_BAK

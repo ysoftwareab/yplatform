@@ -24,8 +24,3 @@ echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 # POST-BOOTSTRAP
 source ${YP_DIR}/dockerfiles/util/userconfig.inc.sh
 source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh
-
-unset GID_INDEX
-unset GNAME_REAL
-unset UHOME
-unset UID_INDEX
