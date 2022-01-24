@@ -25,6 +25,6 @@ git config -f ${UHOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_D
         "path = ${YP_DIR}/gitconfig/dot.gitconfig" \
         "$(cat ${UHOME}/.gitconfig)" >${UHOME}/.gitconfig
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup git user '${GIT_USER_NAME:-}' and email '${GIT_USER_EMAIL:-}'."
-[[ -z "${GIT_USER_NAME:-}" ]] || git config --global user.name "${GIT_USER_NAME}"
-[[ -z "${GIT_USER_EMAIL:-}" ]] || git config --global user.email "${GIT_USER_EMAIL}"
+[[ -z "${GIT_USER_NAME:-}" ]] || git config -f ${UHOME}/.gitconfig user.name "${GIT_USER_NAME}"
+[[ -z "${GIT_USER_EMAIL:-}" ]] || git config -f ${UHOME}/.gitconfig user.email "${GIT_USER_EMAIL}"
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.gitconfig
