@@ -32,8 +32,8 @@ cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/bootstrap/brew-util/en
 cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/sh/dev.inc.sh"
 
 # shellcheck disable=SC2016
-env -i HOME=${HOME} bash -l -i -c '[[ "${YP_DEV_INC_SH}" = true ]]'
-env -i HOME=${HOME} bash -l -i -c 'command -v brew'
+[[ "${YP_DEV_INC_SH}" = "true" ]]
+command -v brew
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
 unset XTRACE_STATE_DOCKERFILE_TEST_SH
