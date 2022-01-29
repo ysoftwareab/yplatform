@@ -12,7 +12,6 @@ export -f yp_nosudo
 if printenv | grep -q "^YP_SUDO="; then
     # Don't change if already set and exported.
     # NOTE 'test -v YP_SUDO' is only available in bash 4.2, but this script may run in bash 3+
-    # NOTE 'test -v YP_SUDO' is only available in bash 4.2, but this script may run in bash 3+
     true
 else
     YP_SUDO="$(command -v sudo 2>/dev/null || true)"
