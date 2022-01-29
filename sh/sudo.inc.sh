@@ -28,5 +28,4 @@ else
             export -f yp_nosudo_fallback
         fi
     fi
-    export YP_SUDO
 fi
