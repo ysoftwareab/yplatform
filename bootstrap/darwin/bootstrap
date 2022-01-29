@@ -4,6 +4,11 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
+[[ "${EUID}" != "0" ]] || {
+    echo_err "Cannot bootstrap as root, primarily because homebrew cannot be running as root."
+    exit 1
+}
+
 [[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
     ${YP_DIR}/bootstrap/darwin/bootstrap-sudo
 
