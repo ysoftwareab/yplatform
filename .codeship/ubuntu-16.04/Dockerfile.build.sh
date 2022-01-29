@@ -43,4 +43,6 @@ GIT_USER_NAME="Codeship"
 source ${YP_DIR}/dockerfiles/util/bootstrap.inc.sh
 source ${YP_DIR}/dockerfiles/util/clean.inc.sh
 
-UNAME=${UNAME} /Dockerfile.test.sh
+# /Dockerfile.test.sh
+/Dockerfile.test.sh root
+/Dockerfile.test.sh ${UNAME}

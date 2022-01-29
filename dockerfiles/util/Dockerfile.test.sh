@@ -5,11 +5,7 @@ set -euo pipefail
 YP_DIR=/yplatform
 source ${YP_DIR}/dockerfiles/util/common.inc.sh
 
-[[ $# -gt 0 ]] || {
-    # shellcheck disable=SC1091
-    [[ -n "${UNAME:-}" ]] || UNAME=$(source ${YP_DIR}/dockerfiles/util/env.inc.sh && echo "${UNAME}")
-    BASH=$(command -v bash)
-
+if [[ $# -eq 0 ]]; then
     echo_do "Test root user config..."
     sudo --preserve-env --set-home --user root ${BASH} -l -i -c "${BASH_SOURCE[0]} root"
     echo_done
@@ -19,7 +15,14 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     echo_done
 
     exit 0
-}
+elif [[ "$1" != "$(id -u -n)" ]]; then
+    # if given another user than the current user
+    echo_do "Test ${1} user config..."
+    sudo --preserve-env --set-home --user ${1} ${BASH} -l -i -c "${BASH_SOURCE[0]} ${1}"
+    echo_done
+
+    exit 0
+fi
 
 # BASH
 
