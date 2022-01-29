@@ -18,6 +18,7 @@ if [[ "${EUID}" != "0" ]]; then
 fi
 
 export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # keep in sync with dockerfiles/yp-debian/Dockerfile.build.sh
 echo_do "Setup aptitude..."
