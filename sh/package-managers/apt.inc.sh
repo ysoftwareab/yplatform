@@ -54,7 +54,8 @@ function apt_install_one() {
     }
 
     echo_do "aptitude: Installing ${PKG}..."
-    ${YP_SUDO:-} apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+    ${YP_SUDO:-} DEBIAN_FRONTEND=${DEBIAN_FRONTEND:-} DEBCONF_NONINTERACTIVE_SEEN=${DEBCONF_NONINTERACTIVE_SEEN:-} \
+        apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
 }
