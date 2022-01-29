@@ -26,7 +26,7 @@ chown ${UID_INDEX}:${GID_INDEX} ${PROFILE_FILE}
 
 [[ -e ${UHOME}/.bashrc ]] || cat <<EOF >> ${UHOME}/.bashrc
 # If not running interactively, don't do anything
-[[ $- = *i* ]] || return
+[[ \$- = *i* ]] || return
 EOF
 cat ${UHOME}/.bashrc | grep -q "/\.bash_aliases" || cat <<EOF >> ${UHOME}/.bashrc
 # ~/.bash_aliases, instead of adding them here directly.
