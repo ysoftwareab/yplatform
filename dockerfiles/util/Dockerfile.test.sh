@@ -26,7 +26,7 @@ fi
 
 # BASH
 
-echo_do "Test ${USER} bash env..."
+echo_do "Test ${1} bash env..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -44,7 +44,7 @@ echo_done
 
 # GIT
 
-echo_do "Test ${USER} git config..."
+echo_do "Test ${1} git config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -68,7 +68,7 @@ echo_done
 
 # SSH
 
-echo_do "Test ${USER} ssh config..."
+echo_do "Test ${1} ssh config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
@@ -84,11 +84,11 @@ echo_done
 
 # MISC
 
-echo_do "Test ${USER} misc config..."
+echo_do "Test ${1} misc config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
-[[ "${USER}" = "root" ]] || test -f ${HOME}/.sudo_as_admin_successful
+[[ "${1}" = "root" ]] || test -f ${HOME}/.sudo_as_admin_successful
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
 unset XTRACE_STATE_DOCKERFILE_TEST_SH
