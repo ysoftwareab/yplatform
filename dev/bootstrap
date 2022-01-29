@@ -13,18 +13,20 @@ source ${YP_DIR}/sh/common.inc.sh
 
 cd ${YP_DIR}
 
-YP_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
-if [[ "${YP_GIT_BRANCH}" = "master" ]]; then
-    echo_warn "Pulling and resetting your local 'master' branch of yplatform"
-    echo_warn "to the latest commit on 'origin/master'..."
-    echo_info "Switch to another local branch to skip this behaviour."
-    git reset
-    git stash --all
-    git checkout master
-    git fetch
-    git reset --hard origin/master
-    git clean -xdf .
-fi
+! command -v git >/dev/null || {
+    YP_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    if [[ "${YP_GIT_BRANCH}" = "master" ]]; then
+        echo_warn "Pulling and resetting your local 'master' branch of yplatform"
+        echo_warn "to the latest commit on 'origin/master'..."
+        echo_info "Switch to another local branch to skip this behaviour."
+        git reset
+        git stash --all
+        git checkout master
+        git fetch
+        git reset --hard origin/master
+        git clean -xdf .
+    fi
+}
 
 # Check sudo permissions if using sudo.
 echo_info "Bootstrapping with YP_SUDO=${YP_SUDO}..."
