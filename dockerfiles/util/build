@@ -66,6 +66,15 @@ OS_RELEASE_FILE=$(dirname ${MYSELF})/os-release
 
 DOCKER_OS_RELEASE_ID="$(source ${OS_RELEASE_FILE} && echo ${ID})"
 DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID:-0})"
+case ${DOCKER_OS_RELEASE_ID} in
+    alpine)
+        # track minor for alpine, not patch
+        DOCKER_OS_RELEASE_VERSION_ID_ARR=( ${DOCKER_OS_RELEASE_VERSION_ID//./ } )
+        DOCKER_OS_RELEASE_VERSION_ID=${DOCKER_OS_RELEASE_VERSION_ID_ARR[0]}.${DOCKER_OS_RELEASE_VERSION_ID_ARR[1]}
+        ;;
+    *)
+        ;;
+esac
 
 OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}"
 [[ "${OS_RELEASE_DIR}" = "${OS_RELEASE_DIR2}" ]] || {

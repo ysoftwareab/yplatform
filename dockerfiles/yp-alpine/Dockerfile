@@ -24,6 +24,6 @@ ENTRYPOINT ["/Dockerfile.entrypoint.sh"]
 
 RUN YP_DOCKER_CI_IMAGE_NAME=${YP_DOCKER_CI_IMAGE_NAME} \
   YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL} \
-  /yplatform/dockerfiles/$(source /etc/os-release && echo "yp-${ID}-${VERSION_ID}")/Dockerfile.build.sh
+  /yplatform/${YP_OS_RELEASE_DIR}/Dockerfile.build.sh
 
 CMD ["bash"]
