@@ -81,6 +81,9 @@ function bootstrap_brew() {
             curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
                 tar xz --strip 1 -C ${HOMEBREW_PREFIX}
             echo_done
+            # see https://github.com/Homebrew/brew/issues/5013
+            hash -r
+            source ${YP_DIR}/sh/env.inc.sh
             ;;
         false-darwin-*|false-linux-*)
             echo_do "brew: Installing homebrew..."
