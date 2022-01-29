@@ -135,7 +135,7 @@ and **time to first deployment** :rocket: .
 
 This means **removing out-of-band information about system dependencies**.
 How many times a repository's README mentions "something version x required"?
-How many times it doesn't mention, and you check the CI/Dockerfile?
+How many times it doesn't mention anything, and you end up looking for a CI/Docker configuration?
 
 This means **removing differences in installing system dependencies**.
 How many times did you look up "how to install X on Y?"
@@ -145,11 +145,11 @@ This means **removing differences in core utilities**.
 How many times do you get something working on your MacOS development machine (BSD), only to see it fail on a CI machine, say running Ubuntu (GNU)?
 
 This means **removing differences in installing local dependencies**.
-How many times a repository's README mentions `npm install` or `yarn install` or `pip install` or `./configure --prefix=/usr; make`?
+How many times a repository's README mentions `npm install` or `yarn install` or `pip install` or `./configure --prefix=/usr; make`? Why should you care if this is a node/python/erlang/etc codebase, or what package manager it uses?
 
 This means **removing differences in triggering a build, checks, tests, a deployment, etc** between codebases and their main programming language.
 How many times did you check how to build a codebase, what language it is using, what package manager or test framework it is using, what services need to be up, etc?
-How many times did you realize that checks are impossible to run locally, and that they run only in the CI, or worse - as a service reviewing/commenting your PR?
+How many times did you realize that checks are impossible to run locally, and that they run only in the CI, or worse - as a service reviewing/commenting your PR making it impossible to get early local feedback instead of feedback/noise in a Github pull request?
 How many times did you return years after to an old codebase, of your own above all!, only to realize you have no clue what's needed to build it again?
 
 This means **removing differences between what runs locally and what runs in the CI**.
@@ -159,11 +159,12 @@ Because maybe you duplicated code in the `scripts` section of your `package.json
 This means **removing differences between CI providers**.
 How many times did you postpone trying out another CI provider?
 How many times did you choose a provider based on previous experience, popularity, how easy it is to integrate,
-rather than based on whether it is the most appropriate for the job at hand?
+rather than based on whether it is the most performant or the most appropriate for the job at hand?
 
 This means **consolidating best current practices**.
 How many times did you look up how to set up encryption in a `git` repository?
-How many times
+How many times did you reconfigure git with sane defaults or bump into CRLF/LF issues between system/developers?
+How many times did you configure or postpone altogether configuring a gitops flow? Env branches, tags, changelog creation, etc?
 
 This means **trying to make everything work the same everywhere**.
 Emphasis on **trying**. In reality, 100% the same is not possible.
