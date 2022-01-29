@@ -23,9 +23,9 @@ make VERSION
 
 git rev-parse HEAD > /yplatform.bootstrapped
 
-# if git was installed via homebrew, and if /usr/local/bin/git doesn't exist
+# if /usr/local/bin/git doesn't exist and if git was installed via homebrew
 # enable homebrew's newer git in github actions by actions/checkout,
 # or else no history/submodules/etc with REST API checkouts
-[[ ! -e /home/linuxbrew/.linuxbrew/bin/git ]] || \
-    [[ -e /usr/local/bin/git ]] || \
+[[ -e /usr/local/bin/git ]] || \
+    [[ ! -e /home/linuxbrew/.linuxbrew/bin/git ]] || \
     ln -sf /home/linuxbrew/.linuxbrew/bin/git /usr/local/bin/git
