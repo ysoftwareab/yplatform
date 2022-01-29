@@ -1,1 +1,0 @@
-../yp-alpine/Dockerfile.test.sh

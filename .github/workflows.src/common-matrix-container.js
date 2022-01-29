@@ -7,7 +7,6 @@ let matrixContainer = {
     'arch-0'
   ],
   alpine: [
-    'alpine-3.11.7',
     'alpine-3.15'
   ],
   centos: [
