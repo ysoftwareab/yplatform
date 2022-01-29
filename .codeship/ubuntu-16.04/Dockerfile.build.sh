@@ -32,7 +32,7 @@ GIT_USER_NAME="Codeship"
     apt_install_one ssh-client
     apt_install_one sudo
 
-    [[ "${YP_SUDO}" = "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
+    [[ "${YP_SUDO}" != "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
 
     source ${YP_DIR}/dockerfiles/util/root.inc.sh
     source ${YP_DIR}/dockerfiles/util/user.inc.sh

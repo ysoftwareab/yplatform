@@ -21,7 +21,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     yum_install_one sudo
     yum_install_one which
 
-    [[ "${YP_SUDO}" = "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
+    [[ "${YP_SUDO}" != "yp_nosudo_fallback" ]] || export YP_SUDO=sudo
 
     source ${YP_DIR}/dockerfiles/util/root.inc.sh
     source ${YP_DIR}/dockerfiles/util/user.inc.sh
