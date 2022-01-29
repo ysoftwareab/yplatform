@@ -10,6 +10,22 @@ if [[ "${EUID}" != "0" ]]; then
     exit 0
 fi
 
+# command line tools
+# see https://github.com/Homebrew/install/blob/e393a17/install.sh#L293
+[[ -e "/Library/Developer/CommandLineTools/usr/bin/git" ]] || {
+    # see https://github.com/Homebrew/install/blob/e393a17/install.sh#L846
+    touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    CLT_LABEL=$(/usr/sbin/softwareupdate -l | grep -B 1 -E "Command Line Tools" | awk -F"*" "/^ *\\*/ {print \$2}" | sed -e "s/^ *Label: //" -e "s/^ *//" | sort -V | tail -n1) # editorconfig-checker-disable-line
+    [[ -z "${CLT_LABEL}" ]] || {
+        >&2 echo "$(date +"%H:%M:%S")" "[DO  ] Installing Command Line Tools..."
+        softwareupdate -i "${CLT_LABEL}" --verbose
+        /usr/bin/xcode-select --switch /Library/Developer/CommandLineTools
+        >&2 echo "$(date +"%H:%M:%S")" "[DONE]"
+    }
+    rm /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    unset CLT_LABEL
+}
+
 if [[ "${CI:-}" != "true" ]]; then
     echo_skip "Setup NTP to improve date-time sync..."
 else
