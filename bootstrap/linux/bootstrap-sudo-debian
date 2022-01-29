@@ -77,9 +77,7 @@ locale-gen en_US en_US.UTF-8
 dpkg-reconfigure locales
 echo_done
 
-if [[ "${CI:-}" != "true" ]]; then
-    echo_skip "Setup NTP to improve date-time sync..."
-else
+if [[ "${CI:-}" = "true" ]]; then
     echo_do "Setup NTP to improve date-time sync..."
     (
         # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
@@ -95,6 +93,8 @@ else
         ntpq -p
     ) || true
     echo_done
+else
+    echo_skip "Setup NTP to improve date-time sync..."
 fi
 
 # Basic
