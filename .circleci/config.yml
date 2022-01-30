@@ -26,20 +26,20 @@ aliases:
         - ~/.cache/pip
         - ~/.linuxbrew
 
-  - job-main-linux-focal-minimal: &job-main-linux-focal-minimal
+  - job-main-u2004-minimal: &job-main-u2004-minimal
       p_ci_is_cron: "" # false
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:focal
-      p_cache_name: linux-focal-minimal
+      p_cache_name: u2004-minimal
       p_install: minimal
 
-  - job-main-linux-focal-dev: &job-main-linux-focal-dev
+  - job-main-u2004-dev: &job-main-u2004-dev
       p_ci_is_cron: "" # false
       p_executor:
         name: docker
         p_image: circleci/buildpack-deps:focal
-      p_cache_name: linux-focal-dev
+      p_cache_name: u2004-dev
       p_install: dev
 
   - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
@@ -142,13 +142,13 @@ jobs:
           p_cache_name: << parameters.p_cache_name >>
           p_install: << parameters.p_install >>
 
-  main-linux-focal-minimal:
+  main-u2004-minimal:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
       - *job-main-steps
 
-  main-linux-focal-dev:
+  main-u2004-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
@@ -166,12 +166,12 @@ workflows:
 
   main:
     jobs:
-      - main-linux-focal-minimal:
+      - main-u2004-minimal:
           <<: *filter-main
-          <<: *job-main-linux-focal-minimal
-      - main-linux-focal-dev:
+          <<: *job-main-u2004-minimal
+      - main-u2004-dev:
           <<: *filter-main
-          <<: *job-main-linux-focal-dev
+          <<: *job-main-u2004-dev
       # - main-macos-xcode101-dev:
       #     <<: *filter-main
       #     <<: *job-main-macos-xcode101-dev
@@ -184,11 +184,11 @@ workflows:
   #             only: /master/
   #         cron: "0 0 * * *"
   #   jobs:
-  #     - main-linux-focal-minimal:
-  #         <<: *job-main-linux-focal-minimal
+  #     - main-u2004-minimal:
+  #         <<: *job-main-u2004-minimal
   #         p_ci_is_cron: "true"
-  #     - main-linux-focal-dev:
-  #         <<: *job-main-linux-focal-dev
+  #     - main-u2004-dev:
+  #         <<: *job-main-u2004-dev
   #         p_ci_is_cron: "true"
   #     # - main-macos-xcode101-dev:
   #     #     <<: *job-main-macos-xcode101-dev
