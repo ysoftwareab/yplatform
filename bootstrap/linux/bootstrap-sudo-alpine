@@ -47,14 +47,9 @@ apk_install_one python3
 for f in bash coreutils curl file g++ grep git make sudo; do
     apk_install_one ${f}
 done
-# NOTE added ruby-io-console
 # NOTE homebrew needs ruby 2.6, which last existed in alpine 3.11
-# see https://stackoverflow.com/a/63976418/465684
-for f in ruby ruby-bigdecimal ruby-etc ruby-fiddle ruby-io-console ruby-irb ruby-json ruby-test-unit; do
-    # apk_install_one ${f}
-    ${YP_SUDO:-} apk add --no-cache ${f}=2.6.8-r0 \
-        --repository=http://dl-cdn.alpinelinux.org/alpine/v3.11/main
-done
+# NOTE expecting ruby 2.6 preinstalled e.g. from https://hub.docker.com/_/ruby
+exe_and_grep_q "ruby --version | head -1" "^ruby 2\.6\."
 
 # NOTE install glibc as required by homebrew, it also sets up locales
 # NOTE using glibc on alpine is not recommended!

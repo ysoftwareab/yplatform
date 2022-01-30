@@ -77,6 +77,9 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
 
 [[ -n "${ARG_FROM}" ]] || {
     case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
+        alpine-*)
+            ARG_FROM=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
+            ;;
         arch-0)
             ARG_FROM=archlinux:latest
             ;;
