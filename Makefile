@@ -108,9 +108,11 @@ YP_DEPS_TARGETS += \
 	.github/workflows/deployc.yml \
 	.gitpod.yml \
 
-# NOTE check-shellcheck is slow, and skip it during 'git push' hook
+# NOTE check-shellcheck is slow, and skip it during 'git push' hook, unless on master branch
 ifeq (true,$(YP_GIT_HOOK))
+ifneq (master,$(GIT_BRANCH))
 YP_CHECK_TARGETS := $(filter-out check-shellcheck,$(YP_CHECK_TARGETS))
+endif
 endif
 
 YP_TEST_TARGETS += \
