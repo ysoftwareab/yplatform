@@ -7,7 +7,7 @@ set -euo pipefail
 # - source npx.inc.sh
 # - main will be called with the same positional args as the caller
 #
-# examples: bin/ndoe-esm bin/yaml-expand
+# examples: bin/node-esm bin/yaml-expand
 
 MYSELF_CMD=$0
 [[ "${MYSELF_CMD:0:1}" = "/" ]] || MYSELF_CMD="$(cd $(dirname "${PWD}/${MYSELF_CMD}") && pwd)/$(basename ${MYSELF_CMD})"
