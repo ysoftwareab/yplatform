@@ -44,7 +44,9 @@ ${YP_DIR}/bin/use-homebrew-bash
 
 # User feedback
 echo
-echo "Append 'source ~/${YP_DIR#"${HOME}"/}/sh/dev.inc.sh'"
-echo "to your '~/.bashrc' or '~/.zshrc' or similar."
-echo
-echo "Restart your shell, and you're good to go."
+echo "==> Next steps:"
+echo "- Append the following to your '~/.bashrc' or '~/.zshrc' or similar:"
+echo "    source ~/${YP_DIR#"${HOME}"/}/sh/dev.inc.sh"
+echo "- Configure your git. See https://github.com/ysoftwareab/yplatform/tree/master/gitconfig#readme"
+echo "- Configure your ssh. See https://github.com/ysoftwareab/yplatform/tree/master/sshconfig#readme"
+echo "- Restart your shell, and you're good to go."
