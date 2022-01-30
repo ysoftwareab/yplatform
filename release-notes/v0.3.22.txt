@@ -1,0 +1,36 @@
+yplatform v0.3.22 Release Notes
+
+Highlights since v0.3.21:
+
+* None
+
+Breaking commits since v0.3.21:
+
+* None
+
+Commits since v0.3.21:
+
+* 659f7c94 2022-01-30 docker tests should now run fine on arch and alpine
+* 877ca5e2 2022-01-30 fixup! track minor, not patch in alpine
+* 0f4c3d7a 2022-01-30 sort github workflows
+* 0d25b2ea 2022-01-30 fixup! pass DEBIAN_* vars to sudo apt-get
+* 4e2ea0e4 2022-01-29 remove alpine 3.11.7
+* 137a3502 2022-01-29 track minor, not patch in alpine
+* 65906ac5 2022-01-30 use official ruby 2.6 docker images as base for alpine
+* 127a5860 2022-01-29 add alpine 3.15
+* d4a15153 2022-01-29 pass DEBIAN_* vars to sudo apt-get
+* aae872f8 2022-01-29 more readable
+* d9330933 2022-01-29 export DEBCONF_NONINTERACTIVE_SEEN=true
+* c4cc7f5a 2022-01-29 macos: install command line tools automatically just like homebrew
+* 06c4f0ad 2022-01-29 handle '/home/linuxbrew/.linuxbrew/bin/sed (GNU sed) 4.8'
+* fd3dfe01 2022-01-29 USER may not be defined
+* f7372c2a 2022-01-29 better instructions for no sudo
+* b649d602 2022-01-29 fixup! handle UNAME set in CI e.g. codeship's Dockerfile.build.sh
+* 2623b6da 2022-01-29 don't export YP_SUDO, since it may be set based on the user. so root may export empty YP_SUDO to a non-root user via 'sudo --preserve-env...'
+* 3feabed8 2022-01-29 typo
+* a917cb50 2022-01-29 exit early if bootstrapping as root, since it will fail later when installing homebrew
+* 5f0cc4f7 2022-01-29 allow dev/bootstrap even on systems without git
+* 3dfa4a5b 2022-01-29 fix PATH after installing linuxbrew without sudo
+* b88d7b11 2022-01-29 more readable
+* df82b57a 2022-01-29 if we fell back to nosudo, because we didn't detect sudo, activate sudo because we've just installed it
+o e8424f72 2022-01-29 0.3.21
