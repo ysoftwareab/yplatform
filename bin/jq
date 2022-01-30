@@ -12,6 +12,9 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
     darwin-amd64|darwin-arm64)
         # local arm64; not available in a github release
         BINARY=jq-osx-${ARCH_NORMALIZED}
+        # local arm64 hardlinks to /opt/homebrew/opt/oniguruma
+        brew list "oniguruma" >/dev/null 2>&1 || \
+            HOMEBREW_NO_AUTO_UPDATE=1 brew install oniguruma
         ;;
     linux-386|linux-amd64)
         BINARY=jq-${OS_SHORT}${ARCH_BIT}
