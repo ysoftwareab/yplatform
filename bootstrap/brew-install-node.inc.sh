@@ -6,7 +6,7 @@ echo_do "brew: Installing NodeJS packages..."
 # - "npm i -g" executables are not available in PATH
 # - "npm i -g" is missing the right permissions
 # therefore we always install it via homebrew
-# unless_exe_and_grep_q "node --version | head -1" "^v" brew_install_one node
+# brew_install_one_unless node "node --version | head -1" "^v"
 brew_install_one node
 exe_and_grep_q "node --version | head -1" "^v"
 
