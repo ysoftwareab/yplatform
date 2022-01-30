@@ -56,6 +56,12 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
                     # write only HOME variable in github env, fearing we do more harm otherwise
                     [[ "${VAR}" = "HOME" ]] || continue
 
+                    # skip PATH because it is user based
+                    # [[ "${VAR}" != "PATH" ]] || continue
+
+                    # skip NVM_DIR because it is user based
+                    # [[ "${VAR}" != "NVM_DIR" ]] || continue
+
                     # skip YP_DEV_INC_SH or else sh/dev.inc.sh will not be sourced on login shells
                     # [[ "${VAR}" != "YP_DEV_INC_SH" ]] || continue
 
