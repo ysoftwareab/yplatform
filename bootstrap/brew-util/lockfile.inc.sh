@@ -51,7 +51,11 @@ function brew_lockfile() {
 
             [[ -d ${TAP} ]] || {
                 echo_do "Installing Homebrew tap ${TAP}..."
-                brew tap "${TAP}"
+                # NOTE calling 'brew tap' may surface incompatibility issues between our locked-version of brew
+                # and the tap-expected-version of brew
+                # brew tap "${TAP}"
+                mkdir -p "${TAP}"
+                git clone "git://github.com/${TAP}.git" "${TAP}"
                 echo_done
             }
 
@@ -64,6 +68,9 @@ function brew_lockfile() {
             echo_info "from $(git -C "${TAP}" log -1 --format="%cd" "${TAP_FROM}") ${TAP_FROM}"
             echo_info "to   $(git -C "${TAP}" log -1 --format="%cd" "${TAP_TO}") ${TAP_TO}"
             echo_done
+
+            # in case we manually git-cloned the tap
+            brew tap "${TAP}"
         done
     )
 }
