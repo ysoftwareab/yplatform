@@ -29,7 +29,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
     # but we need to detect and retain those set in the CI configuration
     # e.g. not only GITHUB_*, but also any given in "env:" as part of a workflow
     # so instead we only overwrite current variables
-    eval "$(env -i HOME="${HOME}" bash -l -i -c "export -p; export -pf" | grep -v "^declare -x \(PATH\|SHLVL\)")"
+    eval "$(env -i HOME="${HOME}" bash -l -i -c "export -p; export -pf" | grep -v "^declare -x \(SHLVL\)")"
 
     # store exported vars as singleline vars (easier to diff)
     {
