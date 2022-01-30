@@ -34,8 +34,7 @@ ls -la ${HOME}/.bash_aliases
 cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/bootstrap/brew-util/env.inc.sh"
 cat ${HOME}/.bash_aliases | grep -q -Fx "source ${YP_DIR}/sh/dev.inc.sh"
 
-# shellcheck disable=SC2016
-[[ "${YP_DEV_INC_SH:-}" = "true" ]] || true
+[[ "${YP_DEV_INC_SH:-}" = "true" ]]
 command -v brew || true
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
