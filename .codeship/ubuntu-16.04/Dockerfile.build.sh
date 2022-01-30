@@ -44,5 +44,5 @@ source ${YP_DIR}/dockerfiles/util/bootstrap.inc.sh
 source ${YP_DIR}/dockerfiles/util/clean.inc.sh
 
 # /Dockerfile.test.sh
-/Dockerfile.test.sh root
-/Dockerfile.test.sh ${UNAME}
+sudo --preserve-env --set-home --user root ${BASH} -l -i -c "/Dockerfile.test.sh root"
+sudo --preserve-env --set-home --user ${UNAME} ${BASH} -l -i -c "/Dockerfile.test.sh ${UNAME}"
