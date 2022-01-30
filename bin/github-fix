@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# intended to be called as first thing in a github workflow, before bin/github-checkout
+
+# GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
+echo "Is GITHUB_WORKSPACE=${GITHUB_WORKSPACE} owned by 1001:116 ?"
+ls -la -d ${GITHUB_WORKSPACE}
+echo "Change ownership to $(id -u -n):$(id -g -n)."
+sudo chown $(id -u -n):$(id -g -n) ${GITHUB_WORKSPACE}
+
+# HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+HOME_REAL=$(eval echo "~$(id -u -n)")
+echo "Is HOME=${HOME} set to /github/home?"
+echo "${HOME}"
+ls -la "${HOME}"
+echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
+ls -la "${HOME_REAL}"
+echo "HOME=${HOME_REAL}" >> ${GITHUB_ENV}
