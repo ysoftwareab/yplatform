@@ -16,4 +16,7 @@ echo "${HOME}"
 ls -la "${HOME}"
 echo "Change HOME to ${HOME_REAL} for $(id -u -n):$(id -g -n)."
 ls -la "${HOME_REAL}"
-echo "HOME=${HOME_REAL}" >> ${GITHUB_ENV}
+echo "By adding to ${GITHUB_ENV}."
+touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+ls -la ${GITHUB_ENV}
+echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
