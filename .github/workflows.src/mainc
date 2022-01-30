@@ -10,7 +10,7 @@ let maincsJobsCommon = require('./mainc-jobs-common');
 // -----------------------------------------------------------------------------
 
 let workflow = {
-  name: 'CI container',
+  name: '11. CI container',
   on: {
     push: {
       branches: [

@@ -10,7 +10,7 @@ let deploycJobsCommon = require('./deployc-jobs-common');
 // -----------------------------------------------------------------------------
 
 let workflow = {
-  name: 'CD container',
+  name: '20. CD container',
   on: {
     push: {
       tags: [

@@ -1,4 +1,4 @@
-name: CI
+name: 10. CI
 'on':
   push:
     branches:

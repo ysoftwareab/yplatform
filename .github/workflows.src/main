@@ -15,7 +15,7 @@ let maincSmokeJobs = _.pickBy(mainc.jobs, function(_job, name) {
 });
 
 let workflow = {
-  name: 'CI',
+  name: '10. CI',
   on: {
     push: {
       branches: [

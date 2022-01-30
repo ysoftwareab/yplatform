@@ -1,4 +1,4 @@
-name: CI container
+name: 11. CI container
 'on':
   push:
     branches:
