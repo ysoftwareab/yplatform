@@ -1,0 +1,29 @@
+
+yplatform v0.3.23 Release Notes
+
+Highlights since v0.3.22:
+
+* None
+
+Breaking commits since v0.3.22:
+
+* None
+
+Commits since v0.3.22:
+
+* e9a885fd 2022-01-30 fix container usage on github actions
+* 2483e87b 2022-01-30 fixup! fixup! track minor, not patch in alpine
+* 43f223d7 2022-01-30 typo
+* a23fdaaf 2022-01-30 add sh/pnpm-dlx.inc.sh as an alternative to sh/npx.inc.sh
+* dcc245ea 2022-01-30 add yarn to bootstrap
+* f94dad3e 2022-01-30 Revert "trying out deno for yaml2json"
+* d54eaedb 2022-01-30 trying out deno for yaml2json
+* 8a5e9406 2022-01-30 add deno to bootstrap
+* 51ee3b80 2022-01-30 use new functions even in comments
+* d4c9b0df 2022-01-30 run make-shellcheck for master branch on git push
+* 4ccb083c 2022-01-30 basename removes extensions. shell basename equivalent in make is notdir
+* 5bc73867 2022-01-30 fixup! fixup! handle UNAME set in CI e.g. codeship's Dockerfile.build.sh
+* 2491be8d 2022-01-30 circleci: use macos 11.6.2 and xcode 13.2.1
+* c09295d8 2022-01-30 sync circleci with codeship
+* 353f90b9 2022-01-30 link to new alpine 3.15 docker images
+o 634aeb22 2022-01-30 0.3.22
