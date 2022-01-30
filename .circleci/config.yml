@@ -42,12 +42,12 @@ aliases:
       p_cache_name: u2004-dev
       p_install: dev
 
-  - job-main-macos-xcode101-dev: &job-main-macos-xcode101-dev
+  - job-main-xcode132-dev: &job-main-xcode132-dev
       p_ci_is_cron: "" # false
       p_executor:
         name: macos
-        p_xcode: "10.1.0"
-      p_cache_name: macos-xcode10.1-dev
+        p_xcode: "13.2.1"
+      p_cache_name: xcode13.2-dev
       p_install: dev
 
   - filter-main: &filter-main
@@ -154,7 +154,7 @@ jobs:
     steps:
       - *job-main-steps
 
-  main-macos-xcode101-dev:
+  main-xcode132-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
@@ -172,9 +172,9 @@ workflows:
       - main-u2004-dev:
           <<: *filter-main
           <<: *job-main-u2004-dev
-      # - main-macos-xcode101-dev:
+      # - main-xcode132-dev:
       #     <<: *filter-main
-      #     <<: *job-main-macos-xcode101-dev
+      #     <<: *job-main-xcode132-dev
 
   # nightly:
   #   triggers:
@@ -190,6 +190,6 @@ workflows:
   #     - main-u2004-dev:
   #         <<: *job-main-u2004-dev
   #         p_ci_is_cron: "true"
-  #     # - main-macos-xcode101-dev:
-  #     #     <<: *job-main-macos-xcode101-dev
+  #     # - main-xcode132-dev:
+  #     #     <<: *job-main-xcode132-dev
   #     #     p_ci_is_cron: "true"
