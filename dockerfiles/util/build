@@ -69,6 +69,7 @@ DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID:-
 case ${DOCKER_OS_RELEASE_ID} in
     alpine)
         # track minor for alpine, not patch
+        # shellcheck disable=SC2206
         DOCKER_OS_RELEASE_VERSION_ID_ARR=( ${DOCKER_OS_RELEASE_VERSION_ID//./ } )
         DOCKER_OS_RELEASE_VERSION_ID=${DOCKER_OS_RELEASE_VERSION_ID_ARR[0]}.${DOCKER_OS_RELEASE_VERSION_ID_ARR[1]}
         ;;
