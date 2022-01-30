@@ -53,8 +53,12 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
             touch ${GITHUB_ENV} || ${YP_SUDO:-sudo} touch ${GITHUB_ENV}
             {
                 cat "${TMP_ENV_DIFF}" | tail -n+4 | grep "^+" | sed "s/^+//g" | sed "s/=.*//g" | while read -r VAR; do
+                    # write only HOME variable in github env, fearing we do more harm otherwise
+                    [[ "${VAR}" = "HOME" ]] || continue
+
                     # skip YP_DEV_INC_SH or else sh/dev.inc.sh will not be sourced on login shells
-                    [[ "${VAR}" != "YP_DEV_INC_SH" ]] || continue
+                    # [[ "${VAR}" != "YP_DEV_INC_SH" ]] || continue
+
                     echo -n "${VAR}"
                     case "${!VAR:-}" in
                         *$'\r'*|*$'\n'*)
