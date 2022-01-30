@@ -1,33 +1,20 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/usr/bin/env -S deno run
 
-# Convert YAML to JSON
+// Convert YAML to JSON
 
-# alternative:
-# python3 -c 'import sys, yaml, json;
-# print(json.dumps(yaml.load(sys.stdin.read(),Loader=yaml.FullLoader), sort_keys=False, indent=2))'
+// alternative:
+// python3 -c 'import sys, yaml, json;
+// print(json.dumps(yaml.load(sys.stdin.read(),Loader=yaml.FullLoader), sort_keys=False, indent=2))'
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+import yml from 'https://cdn.skypack.dev/js-yaml@3.14.1';
 
-YP_NPX_ARGS=
-YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
-YP_NPX_ARGS="${YP_NPX_ARGS} --package js-yaml@3.14.1"
-
-function main() {
-    # expand
-    SCRIPT="$(cat <<EOF
-let fs = require('fs');
-let yml = require('js-yaml');
-let data = yml.load(fs.readFileSync('/dev/stdin'));
-data = yml.load(yml.dump(data, {
+let buf = new Uint8Array(1024);
+let n = await Deno.stdin.read(buf);
+let data = new TextDecoder().decode(buf.subarray(0, n)).trim();
+let ymlData = yml.load(data);
+let jsonData = yml.load(yml.dump(ymlData, {
   noRefs: true
 }));
-let jsonData = JSON.stringify(data, null, 2);
-console.log(jsonData);
-EOF
-)"
-
-    node -e "${SCRIPT}"
-}
-
-source ${YP_DIR}/sh/npx.inc.sh
+let jsonStringData = JSON.stringify(jsonData, null, 2);
+let text= new TextEncoder().encode(jsonStringData);
+await Deno.stdout.write(text);
