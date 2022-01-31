@@ -27,10 +27,12 @@ echo_info "GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-}"
 # works if job has no 'name' property, and defaults to the key in 'jobs'
 GITHUB_JOB_NAME=${GITHUB_JOB_NAME:-${GITHUB_JOB}}
 
+# we support workflows with maximum 100 jobs
+# see https://docs.github.com/en/rest/reference/actions#list-jobs-for-a-workflow-run--parameters
 exe curl -qfsSL \
     -H "accept: application/vnd.github.v3+json" \
     -H "authorization: token ${YP_GH_TOKEN}" \
-    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
+    https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs?per_page=100 | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
     while read -r NO_XARGS_R; do
         [[ -n "${NO_XARGS_R}" ]] || continue;
