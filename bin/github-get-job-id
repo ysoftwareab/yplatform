@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# use whatever GITHUB_JOB_ID set in github env
+# in order to reduce API calls, and not experience rate limiting
+[[ "${GITHUB_ACTIONS:-}" != "true" ]] || [[ ! -e "${GITHUB_ENV}" ]] || {
+    GITHUB_JOB_ID2=$(source "${GITHUB_ENV}" && echo "${GITHUB_JOB_ID:-}")
+    [[ -z "${GITHUB_JOB_ID2}" ]] || {
+        echo "${GITHUB_JOB_ID2}"
+        exit 0
+    }
+}
+
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
@@ -22,4 +32,16 @@ exe curl -qfsSL \
     -H "authorization: token ${YP_GH_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
-    while read -r NO_XARGS_R; do [[ -n "${NO_XARGS_R}" ]] || continue; basename "${NO_XARGS_R}"; done
+    while read -r NO_XARGS_R; do
+        [[ -n "${NO_XARGS_R}" ]] || continue;
+        GITHUB_JOB_ID=$(basename "${NO_XARGS_R}";)
+
+        # write GITHUB_JOB_ID to github env
+        # in order to reduce API calls, and not experience rate limiting
+        [[ "${GITHUB_ACTIONS:-}" != "true" ]] || {
+            [[ -e "${GITHUB_ENV}" ]] || sudo touch ${GITHUB_ENV}
+            echo "GITHUB_JOB_ID=${GITHUB_JOB_ID}" | sudo tee -a ${GITHUB_ENV} >/dev/null
+        }
+
+        echo ${GITHUB_JOB_ID}
+    done
