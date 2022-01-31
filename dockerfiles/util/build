@@ -93,6 +93,9 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
         arch-0)
             ARG_FROM=archlinux:latest
             ;;
+        centos-*)
+            ARG_FROM=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
+            ;;
         *)
             ARG_FROM=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
             ;;
