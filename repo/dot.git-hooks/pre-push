@@ -1,1 +1,5 @@
-../yplatform/bin/git-hook-run-parts
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../yplatform" && pwd)"
+${YP_DIR}/bin/git-hook-run-parts "$@"
