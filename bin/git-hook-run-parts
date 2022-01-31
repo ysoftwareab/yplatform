@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 
 export YP_GIT_HOOK=true
-export YP_GIT_HOOK_NAME=$(basename $0)
+export YP_GIT_HOOK_PATH=$1
+export YP_GIT_HOOK_NAME=$(basename ${YP_GIT_HOOK_PATH})
+shift
 
 function on_exit() {
     # shellcheck disable=SC2181
@@ -36,4 +38,4 @@ ${YP_DIR}/bin/linux-run-parts \
     --verbose \
     --stdin \
     $(for ARG in "$@"; do echo "--arg" "${ARG}"; done) \
-    $0.d
+    "${YP_GIT_HOOK_PATH}.d"

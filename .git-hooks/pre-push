@@ -1,1 +1,1 @@
-../bin/git-hook-run-parts
+../repo/dot.git-hooks/pre-push
