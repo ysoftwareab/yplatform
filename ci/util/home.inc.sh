@@ -77,7 +77,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
                             ;;
                     esac
                 done
-            } | exe ${YP_SUDO:-sudo} tee -a ${GITHUB_ENV}
+            } | ${YP_SUDO:-sudo} tee -a ${GITHUB_ENV}
         }
     }
 
