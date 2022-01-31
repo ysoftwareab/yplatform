@@ -1,0 +1,24 @@
+yplatform v0.3.24 Release Notes
+
+Highlights since v0.3.23:
+
+* None
+
+Breaking commits since v0.3.23:
+
+* None
+
+Commits since v0.3.23:
+
+* e947a9b1 2022-01-30 make sure oniguruma is installed for jq on m1 macs
+* c1f29264 2022-01-30 avoid incompat between brew and tap
+* 5d9903e0 2022-01-30 fixup! add github-fix script for fixing github workflows
+* fdcedc4a 2022-01-30 fixup! don't set PATH in GITHUB_ENV
+* e8707cbb 2022-01-30 Revert "don't set PATH in GITHUB_ENV"
+* d583424d 2022-01-30 add github-fix script for fixing github workflows
+* 73417b11 2022-01-30 focus on the config, then on potentially needing to generate ssh keys
+* 5acfb898 2022-01-30 more readable
+* 9ba3535b 2022-01-30 better dev/bootstrap instructions
+* aabe0643 2022-01-30 is there a need to reference the yplatform symlink?
+* 85590778 2022-01-30 write only HOME variable in github env, fearing we do more harm otherwise
+o b8ee0ebe 2022-01-30 0.3.23
