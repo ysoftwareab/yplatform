@@ -2,7 +2,10 @@
 
 let _ = require('lodash-firecloud');
 
-let {artifactsStep} = require('./common-step-artifacts');
+let {
+  getArtifacts,
+  artifactsStep
+} = require('./common-step-artifacts');
 let {checkoutStep} = require('./common-step-checkout');
 let {ciShSteps} = require('./common-steps');
 let {env: commonEnv} = require('./common-env');
@@ -135,7 +138,8 @@ let makeJobs = function(matrixOs, nameSuffix) {
       ...ciShSteps,
       _.merge({}, artifactsStep, {
         with: {
-          name
+          name,
+          path: getArtifacts(`${__dirname}/../../.artifacts`)
         }
       })
     ]

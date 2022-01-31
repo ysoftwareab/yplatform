@@ -3,10 +3,10 @@
 let fs = require('fs');
 let _ = require('lodash-firecloud');
 
-let artifacts = (function() {
+let getArtifacts = function(artifactsPath) {
   // convert from https://git-scm.com/docs/gitignore format
   // to https://github.com/actions/toolkit/tree/main/packages/glob format
-  let artifacts = fs.readFileSync(`${__dirname}/../../.artifacts`, 'utf8');
+  let artifacts = fs.readFileSync(artifactsPath, 'utf8');
   artifacts = _.split(artifacts, '\n');
   artifacts = _.reduce(artifacts, function(artifacts, artifact) {
     if (/^#/.test(artifact)) {
@@ -37,18 +37,19 @@ let artifacts = (function() {
   artifacts.push('log.sh-session');
   artifacts = _.join(artifacts, '\n');
   return artifacts;
-})();
+};
 
 let artifactsStep = {
   name: 'Upload Artifacts',
   uses: 'actions/upload-artifact@v2',
   with: {
     name: undefined, // need to overwrite
-    path: artifacts,
+    path: undefined, // need to overwrite
     'retention-days': 7
   }
 };
 
 module.exports = {
+  getArtifacts,
   artifactsStep
 };
