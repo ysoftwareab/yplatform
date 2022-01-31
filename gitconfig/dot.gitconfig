@@ -136,7 +136,7 @@
     rebase              = true
 [pull]
     default             = current
-    rebase              = preserve # rebase and preserve merge commits
+    rebase              = merges # rebase and preserve merge commits
     ff                  = only
 [push]
     default             = current
