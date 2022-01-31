@@ -10,7 +10,7 @@ let {checkoutStep} = require('./common-step-checkout');
 let {ciShStepsDeploy} = require('./common-steps');
 let {dockerBuildxSteps} = require('./common-step-dockerbuildx');
 let {env: commonEnv} = require('./common-env');
-let {matrixContainer} = require('./common-matrix-container');
+let {matrixContainerWithSmoke} = require('./common-matrix-container');
 
 let env = {
   ...commonEnv,
@@ -21,17 +21,6 @@ let env = {
 };
 
 // -----------------------------------------------------------------------------
-
-let matrixContainerWithSmoke = _.clone(matrixContainer);
-matrixContainerWithSmoke.smoke = [
-  'ubuntu-20.04'
-];
-_.forEach(matrixContainerWithSmoke, function(_os, group) {
-  if (group === 'smoke') {
-    return;
-  }
-  matrixContainerWithSmoke[group] = _.without(matrixContainerWithSmoke[group], ...matrixContainerWithSmoke.smoke);
-});
 
 let jobs = {};
 

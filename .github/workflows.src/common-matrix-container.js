@@ -23,6 +23,18 @@ let matrixContainer = {
   ]
 };
 
+let matrixContainerWithSmoke = _.clone(matrixContainer);
+matrixContainerWithSmoke.smoke = [
+  'ubuntu-20.04'
+];
+_.forEach(matrixContainerWithSmoke, function(_os, group) {
+  if (group === 'smoke') {
+    return;
+  }
+  matrixContainerWithSmoke[group] = _.without(matrixContainerWithSmoke[group], ...matrixContainerWithSmoke.smoke);
+});
+
 module.exports = {
-  matrixContainer
+  matrixContainer,
+  matrixContainerWithSmoke
 };
