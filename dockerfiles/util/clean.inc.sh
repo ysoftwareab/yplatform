@@ -55,6 +55,8 @@ brew_cache_prune
 magic_cache_prune
 dir_clean ${HOME}/.cache/* # misc cache for root
 dir_clean /home/${UNAME}/.cache/* # misc cache for yp user
+dir_clean /tmp/*
+dir_clean /var/log/*
 
 for DIR in $(brew --repository) $(brew --repository)/Library/Taps/*/*; do
     git_dir_shallow ${DIR}
