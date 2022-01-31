@@ -29,6 +29,10 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
+  if (_.isEmpty(matrixContainer)) {
+    return;
+  }
+
   let name = 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}';
   jobs[`deployc-${nameSuffix}-common`] = {
     needs: [

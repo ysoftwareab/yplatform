@@ -89,6 +89,10 @@ let makeJobs = function(matrixOs, nameSuffix) {
     matrixOs
   ];
 
+  if (_.isEmpty(matrixOs)) {
+    return;
+  }
+
   if (nameSuffix === 'windows') {
     makeJobsWindows(matrixOs, nameSuffix);
     return;

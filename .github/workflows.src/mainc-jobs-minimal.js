@@ -29,6 +29,10 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     matrixContainer
   ];
 
+  if (_.isEmpty(matrixContainer)) {
+    return;
+  }
+
   let needs = [];
   switch (nameSuffix) {
   case 'smoke':
