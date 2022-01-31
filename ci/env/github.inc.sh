@@ -113,4 +113,8 @@ EOF
     cat <<EOF
 GITHUB_EVENT_JSON
 EOF
+    # see bin/github-get-job-id
+    cat <<EOF
+GITHUB_JOB_ID
+EOF
 }
