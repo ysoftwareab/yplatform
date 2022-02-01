@@ -57,6 +57,53 @@ TODO
 
 ---
 
+## Uniform interface
+
+Starting fresh with a new project or switching between projects doesn't mean you need to switch development context,
+and instead you can focus on the business-logic context.
+
+This mindset is useful for junior and senior developers alike. It makes onboarding new people as frictionless as possible.
+
+The entrypoint to all projects that use `yplatform` is
+
+> Just type `make` !
+
+`make` will fetch local dependencies, build the project and check that everything looks alright.
+That's all you need to have a fully functional development environment.
+Sometimes if your project has specific system dependencies, you may need to run `make bootstrap`.
+
+"Then what?" you might ask.
+
+> Just type `make help` !
+
+And you get a nice list of self-documented targets.
+
+Want to see all targets? Type `make help-all`.
+
+Want to fetch dependencies alone? Type `make deps`.
+
+Want to build and skip dependencies and checks? Type `make build`.
+
+What to run checks alone (i.e. linters)? Type `make check`.
+
+Want to run tests? Type `make test`.
+
+Want to release a new version as a git tag with automatic release notes based on git commits? Type `make release`.
+
+Want to see commits since last release? Type `make unreleased`.
+
+Want to promote a version to an environment branch?
+A branch that is coupled to a CI that deploys your software to a staging environment for example?
+Type `make promote-env/staging/v1.2.3` for example.
+
+Do you have secrets checked in and want to decrypt them transparently via git clean/smudge filters? Type `make decrypt`.
+
+Do you want to reset your local git repository as if it was freshly cloned? Type `make nuke`.
+
+And the list goes on and on and on. Fully extensible. Preloaded with minimal best current practices.
+
+---
+
 ## Cross-platform
 
 Similarly `yplatform` itself runs across these platforms with very little effort and no duplication. Bootstrapped Docker images are also available.
