@@ -245,7 +245,7 @@ and starting to play around without actually having to know anything about it.
 
 ---
 
-## Repository tructure
+## Repository structure
 
 * [`/bin`](./bin) has executable scripts, 99% GNU Bourne Again Shell (Bash)
 * [`/build.mk`](./build.mk) has build-system makefiles
