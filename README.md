@@ -27,11 +27,11 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 * [Install standalone](#install-standalone)
 * [Install in a project](#install-in-a-project)
 * [Show me!](#show-me)
+* [Why?](#why)
 * [Uniform interface](#uniform-interface)
 * [Cross-platform](#cross-platform)
 * [Cross-provider](#cross-provider)
 * [Structure](#structure)
-* [Why?](#why)
 * [Documentation](#documentation)
 
 ---
@@ -93,6 +93,52 @@ All done in 10 minutes. Set for life.
 
 This is me cloning a project on a fresh macOS developer machine,
 and starting to build and run tests without actually having to know anything about it. TODO
+
+---
+
+## Why?
+
+`yplatform` aims to diminish **cognitive load** :massage:,
+**time to first build** :stopwatch:
+and **time to first deployment** :rocket: .
+
+This means **removing out-of-band information about system dependencies**.
+How many times a repository's README mentions "something version x required"?
+How many times it doesn't mention anything, and you end up looking for a CI/Docker configuration?
+
+This means **removing differences in installing system dependencies**.
+How many times did you look up "how to install X on Y?"
+How many times did you discover that you get different system dependencies, depending on the version of your Linux distribution?
+
+This means **removing differences in core utilities**.
+How many times do you get something working on your MacOS development machine (BSD), only to see it fail on a CI machine, say running Ubuntu (GNU)?
+
+This means **removing differences in installing local dependencies**.
+How many times a repository's README mentions `npm install` or `yarn install` or `pip install` or `./configure --prefix=/usr; make`? Why should you care if this is a node/python/erlang/etc codebase, or what package manager it uses?
+
+This means **removing differences in triggering a build, checks, tests, a deployment, etc** between codebases and their main programming language.
+How many times did you check how to build a codebase, what language it is using, what package manager or test framework it is using, what services need to be up, etc?
+How many times did you realize that checks are impossible to run locally, and that they run only in the CI, or worse - as a service reviewing/commenting your PR making it impossible to get early local feedback instead of feedback/noise in a Github pull request?
+How many times did you return years after to an old codebase, of your own above all!, only to realize you have no clue what's needed to build it again?
+
+This means **removing differences between what runs locally and what runs in the CI**.
+How many times did you realize that you're instrumenting the CI ever-so-slightly-different than your local runs?
+Because maybe you duplicated code in the `scripts` section of your `package.json` and your GitHub workflow YAML?
+
+This means **removing differences between CI providers**.
+How many times did you postpone trying out another CI provider?
+How many times did you choose a provider based on previous experience, popularity, how easy it is to integrate,
+rather than based on whether it is the most performant or the most appropriate for the job at hand?
+
+This means **consolidating best current practices**.
+How many times did you look up how to set up encryption in a `git` repository?
+How many times did you reconfigure git with sane defaults or bump into CRLF/LF issues between system/developers?
+How many times did you configure or postpone altogether configuring a gitops flow? Env branches, tags, changelog creation, etc?
+
+This means **trying to make everything work the same everywhere**.
+Emphasis on **trying**. In reality, 100% the same is not possible.
+But it is possible to achieve say 80%.
+And 80% is **much** better than 0% i.e. not trying at all.
 
 ---
 
@@ -210,52 +256,6 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 * `/gitconfig` has git configuration
 *
 * `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
-
----
-
-## Why?
-
-`yplatform` aims to diminish **cognitive load** :massage:,
-**time to first build** :stopwatch:
-and **time to first deployment** :rocket: .
-
-This means **removing out-of-band information about system dependencies**.
-How many times a repository's README mentions "something version x required"?
-How many times it doesn't mention anything, and you end up looking for a CI/Docker configuration?
-
-This means **removing differences in installing system dependencies**.
-How many times did you look up "how to install X on Y?"
-How many times did you discover that you get different system dependencies, depending on the version of your Linux distribution?
-
-This means **removing differences in core utilities**.
-How many times do you get something working on your MacOS development machine (BSD), only to see it fail on a CI machine, say running Ubuntu (GNU)?
-
-This means **removing differences in installing local dependencies**.
-How many times a repository's README mentions `npm install` or `yarn install` or `pip install` or `./configure --prefix=/usr; make`? Why should you care if this is a node/python/erlang/etc codebase, or what package manager it uses?
-
-This means **removing differences in triggering a build, checks, tests, a deployment, etc** between codebases and their main programming language.
-How many times did you check how to build a codebase, what language it is using, what package manager or test framework it is using, what services need to be up, etc?
-How many times did you realize that checks are impossible to run locally, and that they run only in the CI, or worse - as a service reviewing/commenting your PR making it impossible to get early local feedback instead of feedback/noise in a Github pull request?
-How many times did you return years after to an old codebase, of your own above all!, only to realize you have no clue what's needed to build it again?
-
-This means **removing differences between what runs locally and what runs in the CI**.
-How many times did you realize that you're instrumenting the CI ever-so-slightly-different than your local runs?
-Because maybe you duplicated code in the `scripts` section of your `package.json` and your GitHub workflow YAML?
-
-This means **removing differences between CI providers**.
-How many times did you postpone trying out another CI provider?
-How many times did you choose a provider based on previous experience, popularity, how easy it is to integrate,
-rather than based on whether it is the most performant or the most appropriate for the job at hand?
-
-This means **consolidating best current practices**.
-How many times did you look up how to set up encryption in a `git` repository?
-How many times did you reconfigure git with sane defaults or bump into CRLF/LF issues between system/developers?
-How many times did you configure or postpone altogether configuring a gitops flow? Env branches, tags, changelog creation, etc?
-
-This means **trying to make everything work the same everywhere**.
-Emphasis on **trying**. In reality, 100% the same is not possible.
-But it is possible to achieve say 80%.
-And 80% is **much** better than 0% i.e. not trying at all.
 
 ---
 
