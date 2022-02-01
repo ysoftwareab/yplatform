@@ -256,6 +256,8 @@ and starting to build and run tests without actually having to know anything abo
 * [`/gitconfig`](./gitconfig) has git configuration
 *
 * [`/repo`](./repo) has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
+*
+* [`/sshconfig`](./sshconfig) has ssh configuration
 
 ---
 
