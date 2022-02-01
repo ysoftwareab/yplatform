@@ -26,11 +26,11 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 * [Install standalone](#install-standalone)
 * [Install in a project](#install-in-a-project)
-* [Show me!](#show-me)
 * [Why?](#why)
 * [Uniform interface](#uniform-interface)
 * [Cross-platform](#cross-platform)
 * [Cross-provider](#cross-provider)
+* [Show me!](#show-me)
 * [Structure](#structure)
 * [Documentation](#documentation)
 
@@ -62,37 +62,6 @@ Use `yplatform` in a project and you will gain access to:
   * sane per-repo configurations e.g. vscode
   * various utility scripts, 99% Bourne Again Shell (Bash)
   * a cloud infrastructure-as-code system based on GNU Make, both robust and flexible
-
----
-
-## Show me!
-
-### Show me macOS bootstrapping
-
-[This is me bootstrapping a fresh macOS developer machine.](https://asciinema.org/a/465585)
-
-Had to input my password (e.g. to install [Homebrew](https://brew.sh)) and
-decide post-installation if I optionally want to switch my shell from zsh to bash,
-something that is useful for those that are not techies.
-All done in 10 minutes. Set for life.
-[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465587)
-
-[![asciicast](https://asciinema.org/a/465585.svg)](https://asciinema.org/a/465585)
-
-### Show me Ubuntu 20.04 bootstrapping
-
-[This is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
-Had to input my password (e.g. to install some aptitude packages and [Homebrew](https://brew.sh)) and
-input my timezone.
-All done in 10 minutes. Set for life.
-[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465524)
-
-[![asciicast](https://asciinema.org/a/465523.svg)](https://asciinema.org/a/465523)
-
-### Show me ways-of-working with a project with `yplatform`
-
-This is me cloning a project on a fresh macOS developer machine,
-and starting to build and run tests without actually having to know anything about it. TODO
 
 ---
 
@@ -239,6 +208,37 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 * [The new pricing model for travis-ci.com](https://blog.travis-ci.com/2020-11-02-travis-ci-new-billing)
 * [Travis CI's new pricing plan threw a wrench in my open source works](https://www.jeffgeerling.com/blog/2020/travis-cis-new-pricing-plan-threw-wrench-my-open-source-works)
 * [Travis CI is no longer providing CI minutes for open source projects](https://news.ycombinator.com/item?id=25338983)
+
+---
+
+## Show me!
+
+### Show me macOS bootstrapping
+
+[This is me bootstrapping a fresh macOS developer machine.](https://asciinema.org/a/465585)
+
+Had to input my password (e.g. to install [Homebrew](https://brew.sh)) and
+decide post-installation if I optionally want to switch my shell from zsh to bash,
+something that is useful for those that are not techies.
+All done in 10 minutes. Set for life.
+[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465587)
+
+[![asciicast](https://asciinema.org/a/465585.svg)](https://asciinema.org/a/465585)
+
+### Show me Ubuntu 20.04 bootstrapping
+
+[This is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
+Had to input my password (e.g. to install some aptitude packages and [Homebrew](https://brew.sh)) and
+input my timezone.
+All done in 10 minutes. Set for life.
+[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465524)
+
+[![asciicast](https://asciinema.org/a/465523.svg)](https://asciinema.org/a/465523)
+
+### Show me ways-of-working with a project with `yplatform`
+
+This is me cloning a project on a fresh macOS developer machine,
+and starting to build and run tests without actually having to know anything about it. TODO
 
 ---
 
