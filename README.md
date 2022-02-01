@@ -259,8 +259,6 @@ and starting to play around without actually having to know anything about it.
 *
 * [`/repo`](./repo) has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
 *
-* ---
-*
 * [`/mk`](./mk) has common include makefiles e.g. sourced from `/build.mk` makefiles
 * [`/sh`](./sh) has common include shell scripts e.g. sourced from `/bin` shell scripts
 
