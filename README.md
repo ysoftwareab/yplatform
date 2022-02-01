@@ -237,8 +237,15 @@ All done in 10 minutes. Set for life.
 
 ### Show me ways-of-working with a project with `yplatform`
 
-This is me cloning a project on a fresh macOS developer machine,
-and starting to build and run tests without actually having to know anything about it. TODO
+This is me cloning a project on a macOS developer machine,
+and installing project-specific system dependencies.
+
+[![asciicast](https://asciinema.org/a/465932.svg)](https://asciinema.org/a/465932)
+
+This is me opening the same project on a macOS developer machine,
+and starting to play around without actually having to know anything about it.
+
+[![asciicast](https://asciinema.org/a/465933.svg)](https://asciinema.org/a/465933)
 
 ---
 
