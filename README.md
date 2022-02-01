@@ -244,20 +244,22 @@ and starting to build and run tests without actually having to know anything abo
 
 ## Repository tructure
 
-* [`/mk`](./mk) has common include makefiles e.g. sourced from `/build.mk` makefiles
-* [`/sh`](./sh) has common include shell scripts e.g. sourced from `/bin` shell scripts
-*
 * [`/bin`](./bin) has executable scripts, 99% GNU Bourne Again Shell (Bash)
+* [`/build.mk`](./build.mk) has build-system makefiles
 * [`/bootstrap`](./bootstrap) has scripts that help bootstrap a machine
 * [`/ci`](./ci) has scripts that help steer the CI pipelines
 * [`/dev`](./dev) has scripts that help bootstrap a developer machine
 * [`/dockerfiles`](./dockerfiles) has scripts for the bootstrapped Docker images
 *
 * [`/gitconfig`](./gitconfig) has git configuration
+* [`/sshconfig`](./sshconfig) has ssh configuration
 *
 * [`/repo`](./repo) has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
 *
-* [`/sshconfig`](./sshconfig) has ssh configuration
+* ---
+*
+* [`/mk`](./mk) has common include makefiles e.g. sourced from `/build.mk` makefiles
+* [`/sh`](./sh) has common include shell scripts e.g. sourced from `/bin` shell scripts
 
 ---
 
