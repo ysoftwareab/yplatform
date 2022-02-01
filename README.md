@@ -213,7 +213,7 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 
 ## Show me!
 
-### Show me macOS bootstrapping
+### Show me macOS and Ubuntu 20.04 bootstrapping
 
 [This is me bootstrapping a fresh macOS developer machine.](https://asciinema.org/a/465585)
 
@@ -221,31 +221,27 @@ Had to input my password (e.g. to install [Homebrew](https://brew.sh)) and
 decide post-installation if I optionally want to switch my shell from zsh to bash,
 something that is useful for those that are not techies.
 All done in 10 minutes. Set for life.
-[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465587)
+[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465587) :sunglasses:
 
-[![asciicast](https://asciinema.org/a/465585.svg)](https://asciinema.org/a/465585)
-
-### Show me Ubuntu 20.04 bootstrapping
-
-[This is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
+[Second video is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
 Had to input my password (e.g. to install some aptitude packages and [Homebrew](https://brew.sh)) and
 input my timezone.
 All done in 10 minutes. Set for life.
-[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465524)
+[Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465524) :sunglasses:
 
-[![asciicast](https://asciinema.org/a/465523.svg)](https://asciinema.org/a/465523)
+<a href="https://asciinema.org/a/465585" target="_blank"><img src="https://asciinema.org/a/465585.svg" width="45%" /></a>
+<a href="https://asciinema.org/a/465523" target="_blank"><img src="https://asciinema.org/a/465523.svg" width="45%" /></a>
 
 ### Show me ways-of-working with a project with `yplatform`
 
 This is me cloning a project on a macOS developer machine,
 and installing project-specific system dependencies.
 
-[![asciicast](https://asciinema.org/a/465932.svg)](https://asciinema.org/a/465932)
-
-This is me opening the same project on a macOS developer machine,
+Second video is me opening the same project,
 and starting to play around without actually having to know anything about it.
 
-[![asciicast](https://asciinema.org/a/465933.svg)](https://asciinema.org/a/465933)
+<a href="https://asciinema.org/a/465932" target="_blank"><img src="https://asciinema.org/a/465932.svg" width="45%" /></a>
+<a href="https://asciinema.org/a/465933" target="_blank"><img src="https://asciinema.org/a/465933.svg" width="45%" /></a>
 
 ---
 
