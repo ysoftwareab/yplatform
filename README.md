@@ -31,7 +31,7 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 * [Cross-platform](#cross-platform)
 * [Cross-provider](#cross-provider)
 * [Show me!](#show-me)
-* [Structure](#structure)
+* [Repository structure](#repository-structure)
 * [Documentation](#documentation)
 
 ---
@@ -242,20 +242,20 @@ and starting to build and run tests without actually having to know anything abo
 
 ---
 
-## Structure
+## Repository tructure
 
-* `/mk` has common include makefiles e.g. sourced from `/build.mk` makefiles
-* `/sh` has common include shell scripts e.g. sourced from `/bin` shell scripts
+* [`/mk`](./mk) has common include makefiles e.g. sourced from `/build.mk` makefiles
+* [`/sh`](./sh) has common include shell scripts e.g. sourced from `/bin` shell scripts
 *
-* `/bin` has executable scripts, 99% GNU Bourne Again Shell (Bash)
-* `/bootstrap` has scripts that help bootstrap a machine
-* `/ci` has scripts that help steer the CI pipelines
-* `/dev` has scripts that help bootstrap a developer machine
-* `/dockerfiles` has scripts for the bootstrapped Docker images
+* [`/bin`](./bin) has executable scripts, 99% GNU Bourne Again Shell (Bash)
+* [`/bootstrap`](./bootstrap) has scripts that help bootstrap a machine
+* [`/ci`](./ci) has scripts that help steer the CI pipelines
+* [`/dev`](./dev) has scripts that help bootstrap a developer machine
+* [`/dockerfiles`](./dockerfiles) has scripts for the bootstrapped Docker images
 *
-* `/gitconfig` has git configuration
+* [`/gitconfig`](./gitconfig) has git configuration
 *
-* `/repo` has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
+* [`/repo`](./repo) has configuration that is repo-specific, for those repositories bootstrapped with `yplatform`
 
 ---
 
