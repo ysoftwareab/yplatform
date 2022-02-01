@@ -53,7 +53,30 @@ Use `yplatform` in a project and you will gain access to:
 
 ## Show me!
 
-TODO
+### Show me macOS bootstrapping
+
+[This is me bootstrapping a fresh macOS developer machine.](https://asciinema.org/a/465585) [10x](https://asciinema.org/a/465587)
+
+Had to input my password (e.g. to install [Homebrew](https://brew.sh)) and
+decide post-installation if I optionally want to switch my shell from zsh to bash,
+something that is useful for those that are not techies.
+All done in 10 minutes. Set for life.
+
+[![asciicast](https://asciinema.org/a/465585.svg)](https://asciinema.org/a/465585)
+
+### Show me Ubuntu 20.04 bootstrapping
+
+[This is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523) [10x](https://asciinema.org/a/465524)
+Had to input my password (e.g. to install some aptitude packages and [Homebrew](https://brew.sh)) and
+input my timezone.
+All done in 10 minutes. Set for life.
+
+[![asciicast](https://asciinema.org/a/465523.svg)](https://asciinema.org/a/465523)
+
+### Show me ways-of-working with a project with `yplatform`
+
+This is me cloning a project on a fresh macOS developer machine,
+and starting to build and run tests without actually having to know anything about it. TODO
 
 ---
 
