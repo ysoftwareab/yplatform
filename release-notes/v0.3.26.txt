@@ -1,0 +1,17 @@
+yplatform v0.3.26 Release Notes
+
+Highlights since v0.3.25:
+
+* None
+
+Breaking commits since v0.3.25:
+
+* None
+
+Commits since v0.3.25:
+
+* 22bdc335 2022-02-01 convert centos 8 to centos stream 8. see #255
+* c71e502e 2022-02-01 handle empty list
+* abbc19c8 2022-02-01 dockerfiles: clean /tmp and /var/log
+* c788f40f 2022-01-31 refactor
+o 0bd3c5c9 2022-01-31 0.3.25
