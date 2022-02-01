@@ -40,7 +40,7 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 `git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
   * a bootstrap process for local-development based on GNU and Homebrew
-    * [cross-platform](#cross-platform].
+    * [cross-platform](#cross-platform).
       * No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (e.g. Linux).
     * brings common GNU utilities (bash, make, grep, sed, find, etc), version locked.
       * No more worries about different flags, different behaviour or missing features!
