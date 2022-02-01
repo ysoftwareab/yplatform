@@ -22,6 +22,20 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 ---
 
+## Table of Contents
+
+* [Install standalone](#install-standalone)
+* [Install in a project](#install-in-a-project)
+* [Show me!](#show-me)
+* [Uniform interface](#uniform-interface)
+* [Cross-platform](#cross-platform)
+* [Cross-provider](#cross-provider)
+* [Structure](#structure)
+* [Why?](#why)
+* [Documentation](#documentation)
+
+---
+
 ## Install standalone
 
 `git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
