@@ -67,4 +67,5 @@ yplatform/update/v%: _yplatform/update ## Update 'yplatform' to a specific versi
 	$(GIT) commit -m "updated $(YP_SUBMODULE_PATH) to v$(YP_UPDATE_VSN)"
 	$(GIT) submodule update --init --recursive $(YP_SUBMODULE_PATH)
 	$(ECHO_DONE)
+	$(RM) Makefile.lazy
 	$(MAKE) deps
