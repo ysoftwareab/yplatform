@@ -5,6 +5,13 @@ set -euo pipefail
 
 UID_COLON_GID="$(id -u -n):$(id -g -n)"
 
+# GITHUB_WORKSPACE might not exist
+[[ -d "${GITHUB_WORKSPACE}" ]] || {
+    echo "Creating GITHUB_WORKSPACE=${GITHUB_WORKSPACE}."
+    sudo mkdir -p ${GITHUB_WORKSPACE}
+    ls -la ${GITHUB_WORKSPACE}
+}
+
 # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
 # NOTE try GNU format, then BSD, then fail
 GITHUB_WORKSPACE_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_WORKSPACE}) || \
@@ -13,19 +20,41 @@ GITHUB_WORKSPACE_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_WORKSPACE}) || \
     echo "Changing ownership of GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
     echo "owned by ${GITHUB_WORKSPACE_UID_COLON_GID} to ${UID_COLON_GID}."
     sudo chown ${UID_COLON_GID} ${GITHUB_WORKSPACE}
+    ls -la ${GITHUB_WORKSPACE}
+}
+
+# GITHUB_ENV file isn't created,
+# and thus it is possible that 'echo FOO=BAR >> ${GITHUB_ENV}' fails with 'No such file or directory'
+# see https://github.com/actions/runner/issues/1445
+[[ -e "${GITHUB_ENV}" ]] || {
+    echo "Creating GITHUB_ENV=${GITHUB_ENV}."
+    touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
+    sudo chown ${UID_COLON_GID} ${GITHUB_ENV}
+    ls -la ${GITHUB_ENV}
+}
+
+# GITHUB_ENV owned by 1001:116, makes it impossible to write to it
+# unless one uses sudo i.e. 'echo FOO=BAR | sudo tee -a ${GITHUB_ENV}'
+# NOTE stil recommended to use 'sudo tee'
+GITHUB_ENV_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_ENV}) || \
+    GITHUB_ENV_UID_COLON_GID=$(stat -f "%Su:%Sg" ${GITHUB_ENV})
+[[ "${GITHUB_ENV_UID_COLON_GID}" = "${UID_COLON_GID}" ]] || {
+    echo "Changing ownership of GITHUB_ENV=${GITHUB_ENV}"
+    echo "owned by ${GITHUB_ENV_UID_COLON_GID} to ${UID_COLON_GID}."
+    sudo chown ${UID_COLON_GID} ${GITHUB_ENV}
+    ls -la ${GITHUB_ENV}
 }
 
 # HOME set to /github/home, turns off sourcing ~/.profile, ~/.bash_profile, ~/.bashrc etc
+# see https://github.com/actions/runner/issues/863
+# see https://github.com/actions/runner/issues/1525
+# see https://github.com/actions/runner/issues/1146
 HOME_REAL=$(eval echo "~$(id -u -n)")
 [[ "${HOME}" = "${HOME_REAL}" ]] || {
     echo "Changing HOME=${HOME}"
     echo "to ${HOME_REAL} for ${UID_COLON_GID}."
-    echo "${HOME}"
     ls -la "${HOME}"
-    echo "${HOME_REAL}"
     ls -la "${HOME_REAL}"
     echo "By adding to ${GITHUB_ENV}."
-    touch ${GITHUB_ENV} || sudo touch ${GITHUB_ENV}
-    ls -la ${GITHUB_ENV}
     echo "HOME=${HOME_REAL}" | sudo tee -a ${GITHUB_ENV}
 }
