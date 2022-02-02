@@ -171,11 +171,13 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 | Linux (Centos Stream 8) | :heavy_check_mark: | :heavy_check_mark: | [yp-centos-8-minimal](https://hub.docker.com/r/ysoftwareab/yp-centos-8-minimal)           | [yp-centos-8-common](https://hub.docker.com/r/ysoftwareab/yp-centos-8-common)           |
 | Linux (Debian 9)        | :heavy_check_mark: | :heavy_check_mark: | [yp-debian-9-minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-9-minimal)           | [yp-debian-9-common](https://hub.docker.com/r/ysoftwareab/yp-debian-9-common)           |
 | Linux (Debian 10)       | :heavy_check_mark: | :heavy_check_mark: | [yp-debian-10-minimal](https://hub.docker.com/r/ysoftwareab/yp-debian-10-minimal)         | [yp-debian-10-common](https://hub.docker.com/r/ysoftwareab/yp-debian-10-common)         |
-| Linux (RHEL 8.5)        | :heavy_check_mark: | :heavy_check_mark: | [yp-rhel-8.5-minimal](https://hub.docker.com/r/ysoftwareab/yp-rhel-8.5-minimal)           | [yp-rhel-8.5-common](https://hub.docker.com/r/ysoftwareab/yp-rhel-8.5-common)           |
+| Linux (RHEL 8.5)        |                    |                    | yp-rhel-8.5-minimal                                                                       | yp-rhel-8.5-common                                                                      |
 | Linux (Ubuntu 16.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-16.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-16.04-minimal)   | [yp-ubuntu-16.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-16.04-minimal) |
 | Linux (Ubuntu 18.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-18.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-18.04-minimal)   | [yp-ubuntu-18.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-18.04-minimal) |
 | Linux (Ubuntu 20.04)    | :heavy_check_mark: | :heavy_check_mark: | [yp-ubuntu-20.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-20.04-minimal)   | [yp-ubuntu-20.04-minimal](https://hub.docker.com/r/ysoftwareab/yp-ubuntu-20.04-minimal) |
 | Microsoft Windows (WSL) | :heavy_check_mark: | :zzz:              |                                                                                           |                                                                                         |
+
+**NOTE** RHEL needs entitlement certificates in the CI.
 
 **NOTE** `common` install is paused for `Microsoft Windows (WSL)` because the process takes more than 1 hour on Github Actions CI
 (a combination of machine specs and being restricted to WSL v1), but we expect no problems.
