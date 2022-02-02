@@ -10,9 +10,16 @@ let mainc = require('./mainc');
 
 // -----------------------------------------------------------------------------
 
-let maincSmokeJobs = _.pickBy(mainc.jobs, function(_job, name) {
-  return _.split(name, '-')[1] === 'smoke';
-});
+let maincSmokeJobs = _.reduce(mainc.jobs, function(jobs, job, name) {
+  let containerGroup = _.split(name, '-')[1];
+  if (containerGroup !== 'smoke') {
+    return jobs;
+  }
+  jobs[name] = _.mergeWithoutArrays({}, job, {
+    needs: []
+  });
+  return jobs;
+}, {});
 
 let workflow = {
   name: '10. CI',
