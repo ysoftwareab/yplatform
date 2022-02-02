@@ -1004,6 +1004,204 @@ jobs:
             some-job-artifact.md
             log.sh-session
           retention-days: 7
+  mainc-rhel-minimal:
+    needs:
+      - mainc-smoke-minimal
+      - mainc-smoke-common
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - rhel-8.5
+        yp_ci_brew_install:
+          - minimal
+    name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_DEPLOY_DRYRUN: true
+    steps:
+      - name: yplatform/bin/github-checkout
+        shell: bash
+        run: >
+          set -x
+
+          #!/usr/bin/env bash
+
+          set -euo pipefail
+
+
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+
+          [[ "${HOME}" = "${HOME_REAL}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
+              >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
+              export HOME=${HOME_REAL}
+          }
+
+
+          [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
+              exit 1
+          }
+
+
+          [[ -n "${GITHUB_REF:-}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
+              exit 1
+          }
+
+
+          # run with a clean .gitconfig, but restore on exit
+
+          TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
+          touch ${HOME}/.gitconfig
+
+          mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
+
+          function on_exit() {
+              mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
+          }
+
+          trap on_exit EXIT
+
+
+          # basic git config
+
+          git config --global core.autocrlf false
+
+          git config --global core.eol lf
+
+          git config --global advice.detachedHead false
+
+
+          # use https instead of everything else
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
+
+          # use github token transparently
+
+          [[ -z "${GITHUB_TOKEN:-}" ]] || {
+              BASE64="base64 --wrap 0"
+              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+              echo "" | ${BASE64} >/dev/null 2>&1
+              GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+              git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+          }
+
+
+          # use git protocol version 2 if available
+
+          GIT_DEPTH_ARG=
+
+          # NOTE may fail if git-man is not installed
+
+          # ! git config --help | grep -q "wire protocol version 2" || {
+
+          ! grep -q "protocol version 2" $(command -v git) || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+
+          # ------------------------------------------------------------------------------
+
+
+          # clone/fetch
+
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
+          GIT_BRANCH_ARG=
+
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+
+          [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
+          # shellcheck disable=SC2193
+
+          if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
+          fi
+
+
+          # ------------------------------------------------------------------------------
+
+
+          # checkout
+
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH:-/dev/null}
+              exit 1
+          fi
+
+
+          # submodules
+
+          git submodule sync --recursive
+
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          buildkitd-flags: '--debug'
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          path: |-
+            yp-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
   mainc-ubuntu-minimal:
     needs:
       - mainc-smoke-minimal
@@ -2197,6 +2395,203 @@ jobs:
         container:
           - debian-9
           - debian-10
+        yp_ci_brew_install:
+          - common
+    name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      YP_LOG_BOOTSTRAP: true
+      YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
+      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      V: '${{ secrets.V }}'
+      DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
+      DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
+      GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
+      GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      GITHUB_JOB_NAME: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_DEPLOY_DRYRUN: true
+    steps:
+      - name: yplatform/bin/github-checkout
+        shell: bash
+        run: >
+          set -x
+
+          #!/usr/bin/env bash
+
+          set -euo pipefail
+
+
+          HOME_REAL=$(eval echo "~$(id -u -n)")
+
+          [[ "${HOME}" = "${HOME_REAL}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[WARN] \$HOME is overriden to ${HOME}."
+              >&2 echo "$(date +"%H:%M:%S")" "[INFO] Resetting \$HOME to ${HOME_REAL}..."
+              export HOME=${HOME_REAL}
+          }
+
+
+          [[ -n "${GITHUB_REPOSITORY:-}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REPOSITORY is undefined."
+              exit 1
+          }
+
+
+          [[ -n "${GITHUB_REF:-}" ]] || {
+              >&2 echo "$(date +"%H:%M:%S")" "[ERR ] GITHUB_REF is undefined."
+              exit 1
+          }
+
+
+          # run with a clean .gitconfig, but restore on exit
+
+          TMP_GITHUB_CHECKOUT=$(mktemp -t yplatform.XXXXXXXXXX)
+
+          touch ${HOME}/.gitconfig
+
+          mv ${HOME}/.gitconfig ${TMP_GITHUB_CHECKOUT}
+
+
+          function on_exit() {
+              mv ${TMP_GITHUB_CHECKOUT} ${HOME}/.gitconfig
+          }
+
+          trap on_exit EXIT
+
+
+          # basic git config
+
+          git config --global core.autocrlf false
+
+          git config --global core.eol lf
+
+          git config --global advice.detachedHead false
+
+
+          # use https instead of everything else
+
+          # sync with gitconfig/dot.gitconfig.github-https
+
+          git config --global --add url."https://github.com/".insteadOf "https://github.com/" # git canonical https url
+
+          git config --global --add url."https://github.com/".insteadOf "git://github.com/" # git canonical git url
+
+          git config --global --add url."https://github.com/".insteadOf "github://" # github url
+
+          git config --global --add url."https://github.com/".insteadOf "git@github.com:" # git canonical ssh url
+
+          git config --global --add url."https://github.com/".insteadOf "ssh://git@github.com/" # npm package.json's
+          canonical git+ssh url # editorconfig-checker-disable-line
+
+
+          # use github token transparently
+
+          [[ -z "${GITHUB_TOKEN:-}" ]] || {
+              BASE64="base64 --wrap 0"
+              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="base64"
+              echo "" | ${BASE64} >/dev/null 2>&1 || BASE64="openssl base64 -A"
+              echo "" | ${BASE64} >/dev/null 2>&1
+              GIT_HTTP_EXTRAHEADER="AUTHORIZATION: basic $(echo -n "x-access-token:${GITHUB_TOKEN}" | ${BASE64})"
+              git config --global --add http."https://github.com/".extraheader "${GIT_HTTP_EXTRAHEADER}"
+          }
+
+
+          # use git protocol version 2 if available
+
+          GIT_DEPTH_ARG=
+
+          # NOTE may fail if git-man is not installed
+
+          # ! git config --help | grep -q "wire protocol version 2" || {
+
+          ! grep -q "protocol version 2" $(command -v git) || {
+              git config --global --add protocol.version 2
+              GIT_DEPTH_ARG="--depth=1"
+          }
+
+
+          # ------------------------------------------------------------------------------
+
+
+          # clone/fetch
+
+          GIT_URL=${GITHUB_SERVER_URL:-${GITHUB_URL:-https://github.com}}/${GITHUB_REPOSITORY}.git
+
+          GIT_BRANCH_ARG=
+
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/heads\/}"
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              GIT_BRANCH_ARG="--branch ${GITHUB_REF#refs\/tags\/}"
+          fi
+
+          [[ -z "${GITHUB_WORKSPACE:-}" ]] || cd ${GITHUB_WORKSPACE}
+
+          git clone ${GIT_DEPTH_ARG:-} ${GIT_BRANCH_ARG} ${GIT_URL} $(pwd)
+
+          # shellcheck disable=SC2193
+
+          if [[ "${GITHUB_EVENT_NAME:-}" = "pull_request" ]]; then
+              git fetch ${GIT_DEPTH_ARG:-} origin ${GITHUB_REF}:refs/remotes/pull/${GITHUB_REF#refs\/pull\/}
+              GITHUB_SHA=$(git rev-parse pull/${GITHUB_REF#refs\/pull\/})
+              GIT_BRANCH_DEFAULT=$(git ls-remote --symref ${GIT_URL} HEAD | head -1 | sed "s,^ref: refs/heads/,," | sed "s,\s\+HEAD,,")
+              GITHUB_REF=refs/heads/${GITHUB_BASE_REF:-${GIT_BRANCH_DEFAULT}}
+          fi
+
+
+          # ------------------------------------------------------------------------------
+
+
+          # checkout
+
+          if [[ "${GITHUB_REF}" =~ ^refs/heads/ ]]; then
+              git checkout -B ${GITHUB_REF#refs\/heads\/} ${GITHUB_SHA:-origin/${GITHUB_REF#refs\/heads\/}}
+          elif [[ "${GITHUB_REF}" =~ ^refs/tags/ ]]; then
+              git checkout ${GITHUB_REF}
+          else
+              set -x
+              printenv
+              cat ${GITHUB_EVENT_PATH:-/dev/null}
+              exit 1
+          fi
+
+
+          # submodules
+
+          git submodule sync --recursive
+
+          git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+        with:
+          buildkitd-flags: '--debug'
+      - shell: bash
+        run: ./.ci.sh before_deploy
+      - shell: bash
+        run: ./.ci.sh deploy
+      - shell: bash
+        run: ./.ci.sh after_deploy || true
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+          path: |-
+            yp-ci-echo-benchmark
+            some-job-artifact.md
+            log.sh-session
+          retention-days: 7
+  mainc-rhel-common:
+    needs:
+      - mainc-rhel-minimal
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        container:
+          - rhel-8.5
         yp_ci_brew_install:
           - common
     name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'

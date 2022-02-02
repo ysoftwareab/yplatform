@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+source ${YP_DIR}/sh/package-managers/yum.inc.sh
+
+if [[ "${EUID}" != "0" ]]; then
+    echo_info "EUID=${EUID}"
+    [[ -n "${YP_SUDO}" ]] || {
+        echo_info "YP_SUDO=${YP_SUDO}"
+        echo_err "Restarting this shell script as root is impossible."
+        exit 1
+    }
+    echo_warn "Restarting this shell script as root."
+    exe ${YP_SUDO} --preserve-env --set-home ${BASH_SOURCE[0]}
+    exit 0
+fi
+
+# keep in sync with dockerfiles/yp-rhel/Dockerfile.build.sh
+echo_do "Setup yum..."
+yum_update
+
+yum_install_one ca-certificates
+yum_install_one gnupg
+
+yum_install_one git
+yum_install_one openssl
+yum_install_one passwd
+yum_install_one sudo
+yum_install_one which
+echo_done
+
+# Basic
+echo_do "yum: Installing basic packages..."
+yum -y groupinstall "Development Tools"  # as per homebrew-install
+# yum_install_one coreutils
+yum_install_one coreutils-single
+yum_install_one findutils
+yum_install_one util-linux
+
+yum_install_one python3
+
+# scripts tend to call /usr/bin/pyhon to intend calling python2 or python3, whichever is available
+[[ -e /usr/bin/python ]] || ln -s /usr/bin/python3 /usr/bin/python
+echo_done
+
+yum_list_installed

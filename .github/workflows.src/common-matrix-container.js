@@ -19,6 +19,9 @@ let matrixContainer = {
     'debian-9',
     'debian-10'
   ],
+  rhel: [
+    'rhel-8.5'
+  ],
   ubuntu: [
     'ubuntu-16.04',
     'ubuntu-18.04',
