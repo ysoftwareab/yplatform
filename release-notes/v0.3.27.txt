@@ -1,0 +1,41 @@
+yplatform v0.3.27 Release Notes
+
+Highlights since v0.3.26:
+
+* None
+
+Breaking commits since v0.3.26:
+
+* None
+
+Commits since v0.3.26:
+
+* 9ebff038 2022-02-02 less personal
+* e3a16202 2022-02-02 Revert "basename removes extensions. shell basename equivalent in make is notdir"
+* 5a7685a0 2022-02-02 less symlinks, more symlinks
+* bd3c08bf 2022-02-02 docker: reuse rhel scripts since amzn and centos are based on rhel, same as ubuntu on debian
+* adc231b8 2022-02-02 docker: disable rhel for now because it needs entitlement certificates. see #255
+* 85d0ab82 2022-02-02 docker: add rhel 8.5
+* e5eadf45 2022-02-02 whitespace
+* 078ce02c 2022-02-02 remove needs, in case debugging a container group that depends on 'smoke'
+* 352a56c3 2022-02-02 docker: add amazonlinux 2. fix #256
+* fd190f7c 2022-02-02 consistency. coreutils-single is not available on other distros (amzn), and only saves 9MB
+* bfd5bfd3 2022-02-02 missing centos version
+* 0592e602 2022-02-02 enable pkgProblemResolver for investigating apt-get issues
+* 57bfc931 2022-02-02 fixup! add more github fixes, add issue links
+* c620c80d 2022-02-02 add more github fixes, add issue links
+* da434377 2022-02-01 typo
+* bbc32c75 2022-02-01 editorial
+* 071a00ec 2022-02-01 better display of asciinema recordings on github.com
+* 2db7d4cb 2022-02-01 add more asciinema recordings. see #181
+* 61ba389d 2022-02-01 refresh strucutre
+* 53267915 2022-02-01 link to sshconfig
+* b0c5fc6b 2022-02-01 add links in structure
+* 4f9460fe 2022-02-01 fix link
+* d295bec1 2022-02-01 move show-me lower down
+* e42fc376 2022-02-01 move why higher up
+* dd6165df 2022-02-01 add toc
+* 2cde3f2f 2022-02-01 editorial
+* 6db24ba7 2022-02-01 add asciinema recordings. see #181
+* 5f000925 2022-02-01 add section about uniform interface
+o 4113570b 2022-02-01 0.3.26
