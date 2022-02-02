@@ -9,6 +9,9 @@ let matrixContainer = {
   alpine: [
     'alpine-3.15'
   ],
+  amzn: [
+    'amzn-2'
+  ],
   centos: [
     'centos-8'
   ],

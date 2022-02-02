@@ -39,7 +39,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         pacman_install_one libplist
         [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;
-    linux-centos)
+    linux-amzn|linux-centos)
         yum_install_one libplist
         [[ -e /usr/bin/plutil ]] || ${YP_SUDO:-} ln -s $(command -v plistutil) /usr/bin/plutil
         ;;

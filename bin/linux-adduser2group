@@ -78,7 +78,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         ARGS+=("${GROUP}")
         exe ${YP_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
         ;;
-    linux-arch-*|linux-centos-*)
+    linux-arch-*|linux-amzn-*|linux-centos-*)
         ARGS=()
         [[ "${FORCE_BADNAME}" != "true" ]] || ARGS+=("--badnames")
         ARGS+=("-a")

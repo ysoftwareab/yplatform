@@ -1,0 +1,1 @@
+../yp-amzn/Dockerfile.entrypoint.d

@@ -79,7 +79,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID}-${OS_RELEASE_VERSION_ID} in
         ARGS+=("${GROUP}")
         exe ${YP_SUDO:-} /usr/sbin/addgroup "${ARGS[@]}"
         ;;
-    linux-arch-*|linux-centos-*)
+    linux-arch-*|linux-amzn-*|linux-centos-*)
         ARGS=()
         [[ "${SYSTEM}" != "true" ]] || ARGS+=("--system")
         [[ -z "${GROUP_ID}" ]] || ARGS+=("--gid" "${GROUP_ID}")
