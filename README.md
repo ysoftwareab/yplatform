@@ -219,7 +219,7 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 
 ### Show me macOS and Ubuntu 20.04 bootstrapping
 
-[This is me bootstrapping a fresh macOS developer machine.](https://asciinema.org/a/465585)
+[This is a bootstrapping of a fresh macOS developer machine.](https://asciinema.org/a/465585)
 
 Had to input my password (e.g. to install [Homebrew](https://brew.sh)) and
 decide post-installation if I optionally want to switch my shell from zsh to bash,
@@ -227,7 +227,7 @@ something that is useful for those that are not techies.
 All done in 10 minutes. Set for life.
 [Watch it at 10x, then it's only 1 minute.](https://asciinema.org/a/465587) :sunglasses:
 
-[Second video is me bootstrapping a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
+[Second video is a bootstrapping of a fresh Ubuntu 20.04 developer machine.](https://asciinema.org/a/465523)
 Had to input my password (e.g. to install some aptitude packages and [Homebrew](https://brew.sh)) and
 input my timezone.
 All done in 10 minutes. Set for life.
@@ -238,11 +238,11 @@ All done in 10 minutes. Set for life.
 
 ### Show me ways-of-working with a project with `yplatform`
 
-This is me cloning a project on a macOS developer machine,
+This is a cloning of a project on a macOS developer machine,
 and installing project-specific system dependencies.
 
-Second video is me opening the same project,
-and starting to play around without actually having to know anything about it.
+Second video shows opening the same project,
+and playing around without actually having to know anything about it.
 
 <a href="https://asciinema.org/a/465932" target="_blank"><img src="https://asciinema.org/a/465932.svg" width="45%" /></a>
 <a href="https://asciinema.org/a/465933" target="_blank"><img src="https://asciinema.org/a/465933.svg" width="45%" /></a>
