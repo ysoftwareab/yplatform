@@ -39,9 +39,9 @@ APT_DPKG=()
     export DEBCONF_NONINTERACTIVE_SEEN=true
     apt-get install -y "${APT_GET_FORCE_YES[@]}" --dry-run apt >/dev/null 2>&1 || \
         APT_GET_FORCE_YES=("--force-yes")
-    [[ -n "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] && cat /etc/apt/apt.conf.d/* | grep -q "force-confdef" || \
+    [[ -z "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] || cat /etc/apt/apt.conf.d/* | grep -q "force-confdef" || \
         APT_DPKG+=("-o" "Dpkg::Options::=--force-confdef")
-    [[ -n "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] && cat /etc/apt/apt.conf.d/* | grep -q "force-confold" || \
+    [[ -z "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] || cat /etc/apt/apt.conf.d/* | grep -q "force-confold" || \
         APT_DPKG+=("-o" "Dpkg::Options::=--force-confold")
 }
 function apt_install_one() {
@@ -55,10 +55,25 @@ function apt_install_one() {
 
     echo_do "aptitude: Installing ${PKG}..."
     if [[ -n "${YP_SUDO:-}" ]]; then
-        ${YP_SUDO:-} --preserve-env --set-home \
-            apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+        ${YP_SUDO:-} --preserve-env --set-home apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG} || {
+            echo_err "apt-get install failed. Running with -o Debug::pkgProblemResolver=true for more info."
+            [[ -z "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] || \
+                cat /etc/apt/apt.conf.d/* | grep -q "pkgProblemResolver" || {
+                    APT_DPKG+=("-o" "Debug::pkgProblemResolver=true")
+                    ${YP_SUDO:-} --preserve-env --set-home \
+                        apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+                }
+        }
+
     else
-        apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+        apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG} ||  {
+            echo_err "apt-get install failed. Running with -o Debug::pkgProblemResolver=true for more info."
+            [[ -z "$(ls -A "/etc/apt/apt.conf.d" 2>/dev/null)" ]] || \
+                cat /etc/apt/apt.conf.d/* | grep -q "pkgProblemResolver" || {
+                    APT_DPKG+=("-o" "Debug::pkgProblemResolver=true")
+                    apt-get -y "${APT_GET_FORCE_YES[@]}" "${APT_DPKG[@]}" install ${PKG}
+                }
+        }
     fi
     echo_done
     hash -r # see https://github.com/Homebrew/brew/issues/5013
