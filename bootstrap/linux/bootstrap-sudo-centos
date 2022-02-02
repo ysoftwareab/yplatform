@@ -34,8 +34,7 @@ echo_done
 # Basic
 echo_do "yum: Installing basic packages..."
 yum -y groupinstall "Development Tools"  # as per homebrew-install
-# yum_install_one coreutils
-yum_install_one coreutils-single
+yum_install_one coreutils
 yum_install_one findutils
 yum_install_one util-linux
 
