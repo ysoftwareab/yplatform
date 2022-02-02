@@ -13,5 +13,5 @@ promote-env/%: _promote-env-setup/% ## promote-env/<env>/<tag> Promote tag to en
 		YP_PROMOTE_BRANCH="$(YP_PROMOTE_BRANCH)" \
 		YP_PROMOTE_CHANNEL="$(YP_PROMOTE_CHANNEL)" \
 		YP_PROMOTE_CHANNELS="$(YP_PROMOTE_CHANNELS)" \
-		YP_PROMOTE_TAG="$$(notdir "$*")" \
+		YP_PROMOTE_TAG="$$(basename "$*")" \
 		$(MAKE) _promote
