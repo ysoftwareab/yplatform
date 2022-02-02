@@ -9,18 +9,19 @@ UID_COLON_GID="$(id -u -n):$(id -g -n)"
 [[ -d "${GITHUB_WORKSPACE}" ]] || {
     echo "Creating GITHUB_WORKSPACE=${GITHUB_WORKSPACE}."
     sudo mkdir -p ${GITHUB_WORKSPACE}
-    ls -la ${GITHUB_WORKSPACE}
+    ls -lad ${GITHUB_WORKSPACE}
 }
 
 # GITHUB_WORKSPACE owned by 1001:116, makes it impossible to write in the folder
 # NOTE try GNU format, then BSD, then fail
-GITHUB_WORKSPACE_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_WORKSPACE}) || \
+GITHUB_WORKSPACE_UID_COLON_GID=$(stat -c "%u:%g" ${GITHUB_WORKSPACE}) || \
     GITHUB_WORKSPACE_UID_COLON_GID=$(stat -f "%Su:%Sg" ${GITHUB_WORKSPACE})
+ls -lad ${GITHUB_WORKSPACE}
 [[ "${GITHUB_WORKSPACE_UID_COLON_GID}" = "${UID_COLON_GID}" ]] || {
     echo "Changing ownership of GITHUB_WORKSPACE=${GITHUB_WORKSPACE}"
     echo "owned by ${GITHUB_WORKSPACE_UID_COLON_GID} to ${UID_COLON_GID}."
     sudo chown ${UID_COLON_GID} ${GITHUB_WORKSPACE}
-    ls -la ${GITHUB_WORKSPACE}
+    ls -lad ${GITHUB_WORKSPACE}
 }
 
 # GITHUB_ENV file isn't created,
@@ -36,8 +37,9 @@ GITHUB_WORKSPACE_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_WORKSPACE}) || \
 # GITHUB_ENV owned by 1001:116, makes it impossible to write to it
 # unless one uses sudo i.e. 'echo FOO=BAR | sudo tee -a ${GITHUB_ENV}'
 # NOTE stil recommended to use 'sudo tee'
-GITHUB_ENV_UID_COLON_GID=$(stat -c "%U:%G" ${GITHUB_ENV}) || \
+GITHUB_ENV_UID_COLON_GID=$(stat -c "%u:%g" ${GITHUB_ENV}) || \
     GITHUB_ENV_UID_COLON_GID=$(stat -f "%Su:%Sg" ${GITHUB_ENV})
+ls -la ${GITHUB_ENV}
 [[ "${GITHUB_ENV_UID_COLON_GID}" = "${UID_COLON_GID}" ]] || {
     echo "Changing ownership of GITHUB_ENV=${GITHUB_ENV}"
     echo "owned by ${GITHUB_ENV_UID_COLON_GID} to ${UID_COLON_GID}."
