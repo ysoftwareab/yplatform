@@ -22,7 +22,8 @@ echo_done
 exe_and_grep_q "nvm --version | head -1" "^0\."
 
 [[ ! -f .nvmrc ]] || {
-    nvm install
+    echo_do "Activating node $(cat .nvmrc) via NVM (as per .nvmrc)..."
+    nvm install # and use
 
     if nvm list --no-colors | grep -q system; then
         nvm reinstall-packages system
@@ -34,8 +35,7 @@ exe_and_grep_q "nvm --version | head -1" "^0\."
         cd -
     fi
 
-    echo_info "Activating node $(cat .nvmrc) via NVM (as per .nvmrc)..."
-    nvm use
+    echo_done
 }
 
 echo_done
