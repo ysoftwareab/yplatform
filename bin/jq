@@ -9,7 +9,11 @@ VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_JQ_VSN}")
 JQ_URL=https://github.com/stedolan/jq/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in
-    darwin-amd64|darwin-arm64)
+    darwin-amd64)
+        # local arm64; not available in a github release
+        BINARY=jq-osx-${ARCH_NORMALIZED}
+        ;;
+    darwin-arm64)
         # local arm64; not available in a github release
         BINARY=jq-osx-${ARCH_NORMALIZED}
         # local arm64 hardlinks to /opt/homebrew/opt/oniguruma
