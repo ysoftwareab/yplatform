@@ -10,11 +10,9 @@ JD_URL=https://github.com/josephburnett/jd/releases/download
 
 case ${OS_SHORT}-${ARCH_NORMALIZED} in
     darwin-amd64|darwin-arm64)
-        # local arm64; not available in a github release
         BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
         ;;
     linux-linux-amd64|linux-arm64)
-        # local arm64; not available in a github release
         BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
         ;;
     *)
