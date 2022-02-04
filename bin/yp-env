@@ -90,6 +90,10 @@ fi
 # NOTE if needed to bypass system's jq, call yp-jq
 yp::path_append ${YP_DIR}/bin/.jq
 
+# jd becomes always available
+# NOTE if needed to bypass system's jd, call yp-jd
+yp::path_append ${YP_DIR}/bin/.jd
+
 # yq becomes always available
 # NOTE if needed to bypass system's yq, call yp-yq
 yp::path_append ${YP_DIR}/bin/.yq

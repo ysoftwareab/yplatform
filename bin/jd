@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_JD_VSN}")
+JD_URL=https://github.com/josephburnett/jd/releases/download
+
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
+    darwin-amd64|darwin-arm64)
+        # local arm64; not available in a github release
+        BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
+        ;;
+    linux-linux-amd64|linux-arm64)
+        # local arm64; not available in a github release
+        BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
+        ;;
+    *)
+        echo_err "jd: ${OS_SHORT}-${ARCH_NORMALIZED} is an unsupported OS-ARCH."
+        exit 1
+        ;;
+esac
+ASSET_LOCAL=${YP_DIR}/bin/jd-${VSN}/${BINARY}
+ASSET_REMOTE=${JD_URL}/v${VSN}/${BINARY}
+BINARY_LOCAL=${ASSET_LOCAL}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    ASSET_LOCAL=${HOME}/.cache/yplatform/jd-${VSN}/${BINARY}
+    BINARY_LOCAL=${ASSET_LOCAL}
+}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
+    mkdir -p $(dirname ${ASSET_LOCAL})
+    curl -qfsSL \
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
+    chmod +x ${BINARY_LOCAL}
+}
+
+echo_info "Proxying to 'jd' as ${BINARY_LOCAL}."
+${BINARY_LOCAL} "$@"

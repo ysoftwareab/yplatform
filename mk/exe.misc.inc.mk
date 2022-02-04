@@ -9,8 +9,9 @@ $(foreach VAR,CP_NOSYM EDITOR FIND_Q FIND_Q_NOSYM GREP_FILENAME LS_ALL,$(call ma
 $(foreach VAR,DIFF_SS,$(call make-lazy-once,$(VAR)))
 
 CURL = $(call which,CURL,curl) -qfsSL
+JD = $(call which,JD,jd)
 JQ = $(call which,JQ,jq)
-$(foreach VAR,CURL JQ,$(call make-lazy,$(VAR)))
+$(foreach VAR,CURL JD JQ,$(call make-lazy,$(VAR)))
 
 GIT = $(call which,GIT,git)
 GIT_LS = $(GIT) ls-files

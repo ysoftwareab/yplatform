@@ -31,6 +31,11 @@ brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 [[ -f "${YP_DIR}/bin/.jq/jq" ]]
 if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq
 
+brew_install_one_unless jd "jd --version | head -1" "^jd version 1\."
+# install if we're falling back to our jd proxy
+[[ -f "${YP_DIR}/bin/.jd/jd" ]]
+if_exe_and_grep_q "which jd" "^${YP_DIR}/bin/\.jd/jd$" brew_install_one jd
+
 brew_install_one_unless yq "yq --version | head -1" " version 4\."
 # install if we're falling back to our yq proxy
 [[ -f "${YP_DIR}/bin/.yq/yq" ]]
