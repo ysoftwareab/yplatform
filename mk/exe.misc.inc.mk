@@ -11,7 +11,8 @@ $(foreach VAR,DIFF_SS,$(call make-lazy-once,$(VAR)))
 CURL = $(call which,CURL,curl) -qfsSL
 JD = $(call which,JD,jd)
 JQ = $(call which,JQ,jq)
-$(foreach VAR,CURL JD JQ,$(call make-lazy,$(VAR)))
+YQ = $(call which,YQ,yq)
+$(foreach VAR,CURL JD JQ YQ,$(call make-lazy,$(VAR)))
 
 GIT = $(call which,GIT,git)
 GIT_LS = $(GIT) ls-files
