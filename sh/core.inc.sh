@@ -4,6 +4,9 @@ set -euo pipefail
 # https://saveriomiroddi.github.io/Additional-shell-options-for-non-trivial-bash-shell-scripts/
 shopt -s inherit_errexit 2>/dev/null || true
 
+# stop 'cd' from printing absolute path
+unset CDPATH
+
 # see https://www.shell-tips.com/bash/debug-script/
 function on_error() {
     local EXIT_STATUS=$1
