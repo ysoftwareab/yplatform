@@ -27,8 +27,8 @@ function brew_system() {
 }
 
 # brew_ namespace chosen for consistency, even if less relevant for printenv
-function brew_printenv() {
-    echo_do "Printenv..."
+function brew_env() {
+    echo_do "brew: Printenv..."
     if [[ "${YP_PRINTENV_BOOTSTRAP:-}" = "true" ]]; then
         printenv_all
     else
@@ -96,4 +96,13 @@ function brew_list() {
     echo_do "brew: Listing dependency tree..."
     brew deps --installed --tree
     echo_done
+}
+
+function brew_print() {
+    brew_system
+    brew_env
+    if command -v brew >/dev/null 2>&1; then
+        brew_config
+        brew_list
+    fi
 }

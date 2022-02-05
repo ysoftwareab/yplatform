@@ -15,8 +15,7 @@ source ${YP_DIR}/sh/common.inc.sh
 source ${YP_DIR}/bootstrap/brew-util.inc.sh
 
 echo_do "Print state info pre-homebrew..."
-brew_system
-brew_printenv
+brew_print
 echo_done
 
 [[ "${YP_SKIP_BREW_BOOTSTRAP:-}" = "true" ]] || \
@@ -24,8 +23,7 @@ echo_done
 
 [[ "${CI:-}" != "true" ]] || {
     echo_do "Print state info pre-bootstrap..."
-    brew_system
-    brew_printenv
+    brew_print
     echo_done
 
     source ${YP_DIR}/bootstrap/brew-install-ci.inc.sh
@@ -36,10 +34,7 @@ echo_done
 source ${YP_DIR}/bootstrap/brew-bootstrap-brewfile.inc.sh
 
 echo_do "Print state info post-bootstrap..."
-brew_system
-brew_printenv
-brew_config
-brew_list
+brew_print
 echo_done
 
 # see https://github.com/Homebrew/brew/issues/5013
