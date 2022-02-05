@@ -12,7 +12,7 @@ case ${OS_SHORT}-${ARCH_NORMALIZED} in
     darwin-amd64|darwin-arm64)
         BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
         ;;
-    linux-linux-amd64|linux-arm64)
+    linux-amd64|linux-arm64)
         BINARY=jd-${ARCH_NORMALIZED}-${OS_SHORT}
         ;;
     *)
