@@ -88,6 +88,8 @@ deps-yarn:
 	$(YARN) $(YARN_CI_OR_INSTALL)
 ifeq (true,$(CI))
 	$(MAKE) deps-yarn-unmet-peer
+else
+	$(ECHO_SKIP) "deps-yarn-unmet-peer"
 endif
 
 
@@ -101,4 +103,6 @@ deps-yarn-prod:
 	$(YARN)  $(YARN_CI_OR_INSTALL) --production
 ifeq (true,$(CI))
 	$(MAKE) deps-yarn-unmet-peer
+else
+	$(ECHO_SKIP) "deps-yarn-unmet-peer"
 endif
