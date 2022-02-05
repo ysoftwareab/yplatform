@@ -260,12 +260,12 @@ function yp_os() {
         return 1
     }
     hash -r
-    (
-        source ${YP_DIR}/sh/common.inc.sh
-        source ${YP_DIR}/bootstrap/brew-util/print.inc.sh
-        brew_print
-    )
     echo
+
+    # NOTE it's not harmful to source, but should really run in a subshell, but then shellcheck goes bananas
+    source ${YP_DIR}/bootstrap/brew-util/print.inc.sh
+    brew_print
+
     kill ${WHILE_LOOP_PID} && trap " " EXIT
 }
 
