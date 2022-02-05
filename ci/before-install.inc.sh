@@ -263,6 +263,7 @@ function yp_os() {
     echo
 
     # NOTE it's not harmful to source, but should really run in a subshell, but then shellcheck goes bananas
+    source ${YP_DIR}/sh/package-managers/brew.inc.sh
     source ${YP_DIR}/bootstrap/brew-util/print.inc.sh
     brew_print
 
