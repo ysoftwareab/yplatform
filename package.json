@@ -4,6 +4,10 @@
   "description": "Software and configuration that supports various cycles of software development.",
   "version": "0.3.27",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=12",
+    "npm": ">=6"
+  },
   "devDependencies": {
     "@babel/core": "^7.13.0",
     "@babel/eslint-parser": "^7.13.0",

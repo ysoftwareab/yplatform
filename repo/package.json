@@ -4,6 +4,10 @@
   "description": "",
   "version": "0.0.0",
   "license": "Apache-2.0",
+  "engines": {
+    "node": ">=12",
+    "npm": ">=6"
+  },
   "files": [
   ],
   "exports": {
