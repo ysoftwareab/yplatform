@@ -8,12 +8,15 @@
     "node": ">=12",
     "npm": ">=6"
   },
+  "exports": {
+    ".": {
+      "require": "./index.js",
+      "import": "lib/index.js"
+    },
+    "./*": "./*"
+  },
   "files": [
   ],
-  "exports": {
-    ".": "./index.js",
-    "./": "./"
-  },
   "peerDependencies": {
   },
   "dependencies": {
