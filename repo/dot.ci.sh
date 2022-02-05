@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 true
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" >/dev/null && pwd)"
 [[ -e ${YP_DIR}/Makefile ]] || \
     git submodule update --init --recursive ${YP_DIR}
 source ${YP_DIR}/sh/common.inc.sh

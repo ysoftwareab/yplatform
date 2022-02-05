@@ -15,7 +15,7 @@ A normal `.ci.sh` file would follow the template in [repo/dot.ci.sh](../repo/dot
 ```shell
 #!/usr/bin/env bash
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 ## to override an existing phase implementation

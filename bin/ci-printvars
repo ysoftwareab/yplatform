@@ -2,7 +2,7 @@
 # shellcheck disable=SC2034
 set -euo pipefail
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 #- ci-printvars 1.0

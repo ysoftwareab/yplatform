@@ -7,7 +7,7 @@ set -euo pipefail
 # python3 -c 'import sys, yaml, json;
 # print(yaml.dump(json.loads(sys.stdin.read()), default_flow_style=False, sort_keys=False))'
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"

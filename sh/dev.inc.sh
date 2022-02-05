@@ -3,11 +3,11 @@
 [[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
         GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
-        GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" && pwd)"
+        GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" >/dev/null && pwd)"
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
         # shellcheck disable=SC2296
         GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${(%):-%x})/..}"
-        GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" && pwd)"
+        GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" >/dev/null && pwd)"
         autoload -U compaudit compinit bashcompinit
         bashcompinit || {
             echo >&2 "Initialization of zsh completion features has failed in"

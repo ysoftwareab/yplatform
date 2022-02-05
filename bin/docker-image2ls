@@ -3,7 +3,7 @@ set -euo pipefail
 
 # inspired by https://github.com/moul/docker-diff
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 #- docker-image2ls 1.0

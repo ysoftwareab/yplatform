@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 export YP_SINGLE_FILE_VSN=v0.3.26

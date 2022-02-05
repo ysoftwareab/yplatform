@@ -13,7 +13,7 @@ MYSELF_CMD=$0
 [[ "${MYSELF_CMD:0:1}" = "/" ]] || MYSELF_CMD="$(cd $(dirname "${PWD}/${MYSELF_CMD}") && pwd)/$(basename ${MYSELF_CMD})"
 
 MYSELF_CMD_BASENAME="$(basename ${MYSELF_CMD})"
-MYSELF_CMD_DIR="$(cd "$(dirname "${MYSELF_CMD}")" && pwd)"
+MYSELF_CMD_DIR="$(cd "$(dirname "${MYSELF_CMD}")" >/dev/null && pwd)"
 VAR_PREFIX="$(echo "${MYSELF_CMD_BASENAME}" | tr "[:lower:]" "[:upper:]" | sed "s/[^A-Z0-9]\{1,\}/_/g" | sed "s/^_//" | sed "s/_$//")" # editorconfig-checker-disable-line
 VAR_PASS="${VAR_PREFIX}_PASS"
 VAR_ARGS_FD="${VAR_PREFIX}_ARGS_FD"

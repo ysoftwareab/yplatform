@@ -3,5 +3,5 @@ set -euo pipefail
 
 # can't symlink to ../jd or else YP_DIR detection in ../jd fails
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
 ${YP_DIR}/bin/jd "$@"

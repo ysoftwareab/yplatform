@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 DOCKER_OS_RELEASE_ID=
@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
 done
 
 MYSELF=${BASH_SOURCE[0]}
-OS_RELEASE_DIR="$(cd "$(dirname ${MYSELF})" && pwd)"
+OS_RELEASE_DIR="$(cd "$(dirname ${MYSELF})" >/dev/null && pwd)"
 OS_RELEASE_FILE=$(dirname ${MYSELF})/os-release
 
 DOCKER_OS_RELEASE_ID="$(source ${OS_RELEASE_FILE} && echo ${ID})"

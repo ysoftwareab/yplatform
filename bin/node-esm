@@ -5,7 +5,7 @@ set -euo pipefail
 # e.g. instead of `node some/script.js` use `node-esm some/script.js`
 # See https://github.com/standard-things/esm
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"

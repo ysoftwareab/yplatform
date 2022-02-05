@@ -9,5 +9,5 @@ set -euo pipefail
 
 # can't symlink to ../gitleaks or else YP_DIR detection in ../gitleaks fails
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
 ${YP_DIR}/bin/gitleaks "$@"

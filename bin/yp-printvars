@@ -5,7 +5,7 @@ set -euo pipefail
 # OLD_VARS=$(printenv_all_names | sort -u)
 OLD_VARS=$(compgen -A variable | sort -u)
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 #- yp-printvars 1.0

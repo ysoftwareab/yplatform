@@ -4,7 +4,7 @@ set -euo pipefail
 # Print env-ci's output as CI environment variables.
 # See https://github.com/pvdlg/env-ci
 
-YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 
 YP_NPX_ARGS=
 YP_NPX_ARGS="${YP_NPX_ARGS} --quiet"
