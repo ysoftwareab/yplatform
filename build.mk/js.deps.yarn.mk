@@ -80,8 +80,8 @@ deps-yarn-unmet-peer:
 
 .PHONY: deps-yarn
 deps-yarn:
-	$(ECHO_INFO) "NODE=$(NODE) $$(shell $(NODE) --version)"
-	$(ECHO_INFO) "YARN=$(YARN) $$(shell $(YARN) --version)"
+	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
+	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
 	$(ECHO_INFO) "Running 'yarn $(YARN_CI_OR_INSTALL)'."
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
@@ -95,8 +95,8 @@ endif
 
 .PHONY: deps-yarn-prod
 deps-yarn-prod:
-	$(ECHO_INFO) "NODE=$(NODE) $$(shell $(NODE) --version)"
-	$(ECHO_INFO) "YARN=$(YARN) $$(shell $(YARN) --version)"
+	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
+	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
 	$(ECHO_INFO) "Running 'yarn $(YARN_CI_OR_INSTALL)'."
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
