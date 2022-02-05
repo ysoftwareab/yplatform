@@ -82,6 +82,7 @@ deps-yarn-unmet-peer:
 deps-yarn:
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
+	$(YARN) config list
 	$(ECHO_INFO) "Running 'yarn $(YARN_CI_OR_INSTALL)'."
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/
@@ -97,6 +98,7 @@ endif
 deps-yarn-prod:
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
+	$(YARN) config list
 	$(ECHO_INFO) "Running 'yarn $(YARN_CI_OR_INSTALL)'."
 #	'yarn install' will also remove extraneous dependencies
 #	See https://classic.yarnpkg.com/en/docs/cli/prune/

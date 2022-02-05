@@ -142,6 +142,7 @@ deps-npm-install:
 deps-npm:
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "NPM=$(NPM) $(shell $(NPM) --version)"
+	$(NPM) config list
 	$(ECHO_INFO) "Running 'npm $(NPM_CI_OR_INSTALL)'."
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(MAKE) deps-npm-$(NPM_CI_OR_INSTALL)
@@ -180,6 +181,7 @@ deps-npm-install-prod:
 deps-npm-prod:
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "NPM=$(NPM) $(shell $(NPM) --version)"
+	$(NPM) config list
 	$(ECHO_INFO) "Running 'npm $(NPM_CI_OR_INSTALL)'."
 #	'npm ci' should be more stable and faster if there's a 'package-lock.json'
 	$(MAKE) deps-npm-$(NPM_CI_OR_INSTALL)-prod
