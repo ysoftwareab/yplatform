@@ -10,7 +10,8 @@ set -euo pipefail
 # examples: bin/node-esm bin/yaml-expand
 
 MYSELF_CMD=$0
-[[ "${MYSELF_CMD:0:1}" = "/" ]] || MYSELF_CMD="$(cd $(dirname "${PWD}/${MYSELF_CMD}") && pwd)/$(basename ${MYSELF_CMD})"
+[[ "${MYSELF_CMD:0:1}" = "/" ]] || \
+    MYSELF_CMD="$(cd $(dirname "${PWD}/${MYSELF_CMD}") >/dev/null && pwd)/$(basename ${MYSELF_CMD})"
 
 MYSELF_CMD_BASENAME="$(basename ${MYSELF_CMD})"
 MYSELF_CMD_DIR="$(cd "$(dirname "${MYSELF_CMD}")" >/dev/null && pwd)"

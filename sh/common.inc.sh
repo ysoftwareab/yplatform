@@ -2,7 +2,7 @@
 set -euo pipefail
 
 [[ -n "${YP_DIR:-}" ]] || \
-    export YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+    export YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 
 # shellcheck disable=SC2128
 if [[ -z "${BASH_VERSINFO}" ]] || [[ -z "${BASH_VERSINFO[0]}" ]] || [[ ${BASH_VERSINFO[0]} -lt 4 ]]; then

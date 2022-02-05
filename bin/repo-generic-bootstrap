@@ -52,7 +52,7 @@ git rev-parse --show-toplevel >/dev/null || {
     echo_err "yplatform is not in a git repository"
     exit 1
 }
-[[ "$(cd $(git rev-parse --show-toplevel) && pwd -P)" = "$(pwd -P)" ]] || {
+[[ "$(cd $(git rev-parse --show-toplevel) >/dev/null && pwd -P)" = "$(pwd -P)" ]] || {
     echo_err "yplatform is not in the root of a git repository"
     exit 1
 }

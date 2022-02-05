@@ -57,10 +57,10 @@ realpath() {
 	# canonicalize path
 	local dirname=
 	if [[ -d $abspath ]]; then
-		dirname=$(cd "$abspath" && pwd -P)
+		dirname=$(cd "$abspath" >/dev/null && pwd -P)
 		abspath=$dirname
 	elif [[ -e $abspath ]]; then
-		dirname=$(cd "${abspath%/*}/" 2>/dev/null && pwd -P)
+		dirname=$(cd "${abspath%/*}/" >/dev/null 2>/dev/null && pwd -P)
 		abspath=$dirname/${abspath##*/}
 	fi
 
