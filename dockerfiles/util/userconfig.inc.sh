@@ -52,6 +52,8 @@ chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.bash_aliases
 
 # GIT
 
+GIT_YP_DIR=${UHOME}/git/yplatform
+
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/git/yplatform ."
 mkdir -p ${UHOME}/git
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/git
