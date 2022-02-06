@@ -10,6 +10,7 @@ let vscodeExtensions = fs.readFileSync(`${__dirname}/.vscode/extensions.json`);
 vscodeExtensions = JSON.parse(vscodeExtensions);
 
 let config = {
+  // image: process.env.YP_DOCKER_CI_IMAGE
   // image: 'ubuntu:20.04',
   image: 'ysoftwareab/yp-ubuntu-20.04-common:latest',
 

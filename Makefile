@@ -146,8 +146,10 @@ YP_TEST_TARGETS += \
 	$(call yp-generate-from-template)
 
 
+.gitpod.yml: yplatform/package.json
 .gitpod.yml: .vscode/extensions.json
 .gitpod.yml: .gitpod.yml.tpl
+	$(eval export YP_DOCKER_CI_IMAGE)
 	$(call yp-generate-from-template)
 
 
