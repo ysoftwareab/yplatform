@@ -1,10 +1,5 @@
 # ------------------------------------------------------------------------------
 
-ifneq (,$(wildcard .nvmrc))
-NVM_BIN := $(shell $(YP_DIR)/bin/nvm-get-nvm-bin)
-export PATH := $(NVM_BIN):$(PATH)
-endif
-
 # makefile-folder node_modules exebutables
 PATH_NPM := $(MAKE_PATH)/node_modules/.bin
 # repository node_modules executables

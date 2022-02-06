@@ -27,3 +27,27 @@ ZIP_NOSYM = $(call which,ZIP_NOSYM,zip) -r
 ZIP = $(ZIP_NOSYM) -y
 ZIPINFO = $(call which,ZIPINFO,zipinfo)
 $(foreach VAR,PATCH_STDOUT UNZIP VISUAL ZIP_NOSYM ZIP ZIPINFO,$(call make-lazy,$(VAR)))
+
+ifneq (,$(wildcard .tool-version))
+ifndef ASDF_BIN
+ASDF_BIN := $(shell $(YP_DIR)/bin/asdf-get-asdf-bin)
+endif
+ifneq (,$(ASDF_BIN))
+ifeq (,$(findstring :$(ASDF_BIN):,:$(PATH):))
+export ASDF_BIN
+export PATH := $(ASDF_BIN):$(PATH)
+endif
+endif
+endif
+
+ifneq (,$(wildcard .nvmrc))
+ifndef NVM_BIN
+NVM_BIN := $(shell $(YP_DIR)/bin/nvm-get-nvm-bin)
+endif
+ifneq (,$(NVM_BIN))
+ifeq (,$(findstring :$(NVM_BIN):,:$(PATH):))
+export NVM_BIN
+export PATH := $(NVM_BIN):$(PATH)
+endif
+endif
+endif
