@@ -18,7 +18,22 @@ brew_install_one_unless yarn "yarn --version | head -1" "^1\."
 unless_exe_and_grep_q "npm --version | head -1" "^6\." \
     npm install --global --force npm@6 || ${YP_DIR}/bin/is-wsl
 
-brew_install_one_unless ysoftwareab/tap/vscode-dev-container-cli "devcontainer --help | head -1" "^devcontainer "
+case ${OS_SHORT}-${OS_RELEASE_ID} in
+    linux-alpine)
+        # see https://github.com/ysoftwareab/yplatform/runs/5084770376?check_suite_focus=true
+        # glibc related failure
+        echo_skip "brew: Installing ysoftwareab/tap/vscode-dev-container-cli..."
+        ;;
+    darwin-*|linux-amzn|linux-arch|linux-centos|linux-rhel|linux-debian|linux-ubuntu)
+        brew_install_one_unless ysoftwareab/tap/vscode-dev-container-cli \
+            "devcontainer --help | head -1" "^devcontainer "
+        ;;
+    *)
+        echo_err "${OS_SHORT}-${OS_RELEASE_ID} is an unsupported OS for installing Docker."
+        exit 1
+        ;;
+esac
+
 
 brew_install_one_unless ysoftwareab/tap/json "json --version | head -1" "^json 9\."
 
