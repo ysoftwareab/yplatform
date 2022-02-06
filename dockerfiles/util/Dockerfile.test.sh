@@ -51,10 +51,12 @@ GIT_YP_DIR=${HOME}/git/yplatform
 ls -la ${GIT_YP_DIR}
 
 ls -la ${HOME}/.gitattributes_global
-[[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitattributes_global" ]]
+[[ "$(readlink ${HOME}/.gitattributes_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitattributes_global" ]]
+[[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${YP_DIR}/gitconfig/dot.gitattributes_global" ]]
 
 ls -la ${HOME}/.gitignore_global
-[[ "$(readlink -f ${HOME}/.gitignore_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitignore_global" ]]
+[[ "$(readlink ${HOME}/.gitignore_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitignore_global" ]]
+[[ "$(readlink -f ${HOME}/.gitignore_global)" = "${YP_DIR}/gitconfig/dot.gitignore_global" ]]
 
 ls -la ${HOME}/.gitconfig
 git config -f ${HOME}/.gitconfig --get "user.name" || true
@@ -78,7 +80,8 @@ ls -la ${HOME}/.ssh/config
 cat ${HOME}/.ssh/config | grep -q -Fx "Include ~/.ssh/yplatform/config"
 
 ls -la ${HOME}/.ssh/yplatform
-[[ "$(readlink -f ${HOME}/.ssh/yplatform)" = "${GIT_YP_DIR}/sshconfig" ]]
+[[ "$(readlink ${HOME}/.ssh/yplatform)" = "${GIT_YP_DIR}/sshconfig" ]]
+[[ "$(readlink -f ${HOME}/.ssh/yplatform)" = "${YP_DIR}/sshconfig" ]]
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
 unset XTRACE_STATE_DOCKERFILE_TEST_SH
