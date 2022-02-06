@@ -18,13 +18,10 @@ brew_install_one_unless yarn "yarn --version | head -1" "^1\."
 unless_exe_and_grep_q "npm --version | head -1" "^6\." \
     npm install --global --force npm@6 || ${YP_DIR}/bin/is-wsl
 
-unless_exe_and_grep_q "devcontainer --help | head -1" "^devcontainer " \
-    npm install --global @vscode/dev-container-cli^0
+brew_install_one_unless ysoftwareab/tap/vscode-dev-container-cli "devcontainer --help | head -1" "^devcontainer "
 
-unless_exe_and_grep_q "json --version | head -1" "^json 9\." \
-    npm install --global json@9
+brew_install_one_unless ysoftwareab/tap/json "json --version | head -1" "^json 9\."
 
-unless_exe_and_grep_q "semver --help | head -1" "^SemVer 7\." \
-    npm install --global semver@7
+brew_install_one_unless ysoftwareab/tap/semver "semver --help | head -1" "^SemVer 7\."
 
 echo_done
