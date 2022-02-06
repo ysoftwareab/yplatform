@@ -49,13 +49,12 @@ set -x
 
 GIT_YP_DIR=${HOME}/git/yplatform
 ls -la ${GIT_YP_DIR}
+[[ "$(readlink ${GIT_YP_DIR})" = "${YP_DIR}" ]]
 
 ls -la ${HOME}/.gitattributes_global
-[[ "$(readlink ${HOME}/.gitattributes_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitattributes_global" ]]
 [[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${YP_DIR}/gitconfig/dot.gitattributes_global" ]]
 
 ls -la ${HOME}/.gitignore_global
-[[ "$(readlink ${HOME}/.gitignore_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitignore_global" ]]
 [[ "$(readlink -f ${HOME}/.gitignore_global)" = "${YP_DIR}/gitconfig/dot.gitignore_global" ]]
 
 ls -la ${HOME}/.gitconfig
