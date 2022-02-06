@@ -1,0 +1,56 @@
+yplatform v0.3.28 Release Notes
+
+Highlights since v0.3.27:
+
+* None
+
+Breaking commits since v0.3.27:
+
+* None
+
+Commits since v0.3.27:
+
+* d8646628 2022-02-06 fixup! bootstrap: add vscode devcontainer
+* cbc440b9 2022-02-06 updated .mailmap
+* ed554f7a 2022-02-06 updated NOTICE
+* 19640e8e 2022-02-06 vscode devcontainer configuration
+* 94b7662e 2022-02-06 gitpod could use YP_DOCKER_CI_IMAGE, in the future
+* 0b7b27f6 2022-02-06 learned a new thing today: ln -sf will dereference by default, use -n to stay safe
+* d9e907c1 2022-02-06 fixup! fixup! docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* 6bcfdb2d 2022-02-06 fixup! docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* bd9e7906 2022-02-06 need sudo to read root's HOME
+* e61eeb58 2022-02-06 list root's HOME and / for debugging purposes
+* 2412e708 2022-02-06 bootstrap: add homebrew/homebrew-command-not-found tap
+* b4e99298 2022-02-06 bootstrap: use ysoftwareab/tap tap for npm packages
+* 1fc3d7e2 2022-02-06 bootstrap: add vscode devcontainer
+* 9bb8ede7 2022-02-06 consistent use of null for JSON.stringify
+* 5abf92de 2022-02-06 fixup! docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* 54571c53 2022-02-06 fixup! docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* 34c01234 2022-02-06 fixup! docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* e0c0129f 2022-02-06 package.json: order, default require/import and disable encapsulation as per https://nodejs.org/api/packages.html#package-entry-points
+* 7548c299 2022-02-06 be specific about node and npm versions in package.json
+* a1dc90fa 2022-02-05 docker: create ~/git/yplatform as indicated for local/newcomers, symlinking to /yplatform
+* 60231a70 2022-02-05 show npm/yarn config
+* 61517f76 2022-02-05 fixup! verbose about node/npm/yarn versions
+* ba4eab53 2022-02-05 brew_list called brew_list_installed
+* d6ab95ee 2022-02-05 fixup! print system info after a successful hidden bootstrap
+* ea8b34d9 2022-02-05 verbose about skipping unmet-peer outside of CI
+* 1710e9e1 2022-02-05 verbose about node/npm/yarn versions
+* 55029745 2022-02-05 (cont, manual changes) if CDPATH is set, then cd will print the path. redirect to /dev/null to be safe
+* 4c570ede 2022-02-05 if CDPATH is set, then cd will print the path. redirect to /dev/null to be safe
+* f252515c 2022-02-05 unset CDPATH for consistent cd behavior i.e. print folder only on 'cd -'
+* e218b3d6 2022-02-05 print system info after a successful hidden bootstrap
+* 385fd929 2022-02-05 add brew_print
+* d28992ed 2022-02-05 fixup! add jd, great for json/yaml diffs
+* 86dda023 2022-02-05 bootstrap: add jo. unfortunately there are no platform binaries published as github releases
+* 66bd5c8f 2022-02-05 sort
+* 0bc8c659 2022-02-05 node: export all files by default
+* ec9349ac 2022-02-04 add noop/% and skip/% util targets
+* 044293da 2022-02-04 fixup! add jd, great for json/yaml diffs
+* d54a61f9 2022-02-04 jd now has binaries for arm64 https://github.com/josephburnett/jd/issues/40#issuecomment-1029900564
+* 803a0a40 2022-02-04 add YQ to makefiles
+* 631f57fa 2022-02-04 clarify we only need oniguruma for darwin-arm64
+* 65e0114d 2022-02-04 add jd, great for json/yaml diffs
+* 8befc517 2022-02-03 nvm install will also 'use'
+* dd464677 2022-02-03 force regeneration of Makefile.lazy after updating yplatform
+o f9de3724 2022-02-02 0.3.27
