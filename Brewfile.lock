@@ -3,3 +3,4 @@ homebrew/install cc7fe00
 homebrew/homebrew-core 125fa1050f2
 homebrew/homebrew-cask fc1413d855
 ysoftwareab/homebrew-tap refs/remotes/origin/master
+homebrew/homebrew-command-not-found refs/remotes/origin/master

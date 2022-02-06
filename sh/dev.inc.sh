@@ -20,6 +20,12 @@
     source ${GLOBAL_YP_DIR}/sh/env.inc.sh
     source ${GLOBAL_YP_DIR}/sh/dev-aws-iam-login.inc.sh
 
+    # https://github.com/Homebrew/homebrew-command-not-found
+    if [[ -n "${BASH_VERSION:-}" ]] || [[ -n "${ZSH_VERSION:-}" ]]; then
+        HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+        [[ ! -f "${HB_CNF_HANDLER}" ]] || source "${HB_CNF_HANDLER}"
+    fi
+
     yp::path_prepend ${GLOBAL_YP_DIR}/dev/bin
     yp::path_append ./node_modules/.bin
 
