@@ -85,7 +85,7 @@ EOF
 
     echo_do "Listing ~root directory..."
     echo ~root
-    ls -la ~root
+    ls -la ~root || ${YP_SUDO} ls -la ~root
     echo_done
 
     echo_do "Listing / directory..."
