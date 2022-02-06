@@ -6,13 +6,13 @@ set -euo pipefail
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/.gitignore_global ."
 [[ ! -e "${UHOME}/.gitignore_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${UHOME}/.gitignore_global ."
-ln -sf ${GIT_YP_DIR}/gitconfig/dot.gitignore_global ${UHOME}/.gitignore_global
+ln -sfn ${GIT_YP_DIR}/gitconfig/dot.gitignore_global ${UHOME}/.gitignore_global
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.gitignore_global
 
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/.gitattributes_global ."
 [[ ! -e "${UHOME}/.gitattributes_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${UHOME}/.gitattributes_global ."
-ln -sf ${GIT_YP_DIR}/gitconfig/dot.gitattributes_global ${UHOME}/.gitattributes_global
+ln -sfn ${GIT_YP_DIR}/gitconfig/dot.gitattributes_global ${UHOME}/.gitattributes_global
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.gitattributes_global
 
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/.gitconfig ."

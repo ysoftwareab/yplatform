@@ -20,7 +20,7 @@ mkdir -p ${HOME}/.ssh
 chmod 700 ${HOME}/.ssh
 
 # Create a symlink ~/.ssh/yplatform to this README's folder e.g. path/to/yplatform/sshconfig
-ln -sf path/to/yplatform/sshconfig ~/.ssh/yplatform
+ln -sfn path/to/yplatform/sshconfig ~/.ssh/yplatform
 
 # NOTE as per ssh_config manual: "the first obtained value for each parameter is used".
 # Append these lines to ~/.ssh/config and they will act as default values:

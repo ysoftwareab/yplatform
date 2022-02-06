@@ -81,7 +81,7 @@ if [[ "${CI:-}" = "true" ]]; then
     echo_do "Setup NTP to improve date-time sync..."
     (
         # see https://bugs.launchpad.net/ubuntu/+source/tzdata/+bug/1773687
-        ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+        ln -sfn /usr/share/zoneinfo/UTC /etc/localtime
         apt_install_one tzdata
         dpkg-reconfigure tzdata
 

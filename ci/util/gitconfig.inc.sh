@@ -6,12 +6,12 @@ set -euo pipefail
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitignore_global ."
 [[ ! -e "${HOME}/.gitignore_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${HOME}/.gitignore_global ."
-ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
+ln -sfn ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
 
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitattributes_global ."
 [[ ! -e "${HOME}/.gitattributes_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${HOME}/.gitattributes_global ."
-ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
+ln -sfn ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
 
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${HOME}/.gitconfig ."
 # NOTE we want to prepend, and let the original .gitconfig override YP configuration

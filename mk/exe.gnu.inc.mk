@@ -110,7 +110,7 @@ YES = $(call which,YES,gyes yes)
 # coreutils: custom
 
 CP = $(call which,CP,gcp cp) -Rp
-LN = $(call which,LN,gln ln) -f
+LN = $(call which,LN,gln ln) -fn
 MKDIR = $(call which,MKDIR,gmkdir mkdir) -p
 MKTEMP = $(call which,MKTEMP,gmktemp mktemp) -t yplatform.XXXXXXXXXX
 MV = $(call which,MV,gmv mv) -f

@@ -28,4 +28,4 @@ git rev-parse HEAD > /yplatform.bootstrapped
 # or else no history/submodules/etc with REST API checkouts
 [[ -e /usr/local/bin/git ]] || \
     [[ ! -e /home/linuxbrew/.linuxbrew/bin/git ]] || \
-    ln -sf /home/linuxbrew/.linuxbrew/bin/git /usr/local/bin/git
+    ln -sfn /home/linuxbrew/.linuxbrew/bin/git /usr/local/bin/git

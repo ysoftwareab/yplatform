@@ -53,7 +53,7 @@ ln -s source target
 But this will fail if you call it again on the same target. To make it idempotent, pass the `-f`flag:
 
 ```
-ln -sf source target
+ln -sfn source target
 
 ```
 
@@ -63,14 +63,14 @@ When linking a directory, you need to pass `-n` too. Otherwise calling it agai
 
 ```
 mkdir a
-ln -sf a b
-ln -sf a b
+ln -sfn a b
+ln -sfn a b
 ls a
 a
 
 ```
 
-So to be safe, always use `ln -sfn source target`.
+So to be safe, always use `ln -sfnn source target`.
 
 ### Removing a file
 

@@ -30,7 +30,7 @@ exe_and_grep_q "pyenv --version | head -1" "^pyenv " >/dev/null || brew_install_
 eval "$(pyenv init -)"
 mkdir -p ${HOME}/.pyenv/versions
 for PYTHON_VSN in "$(brew --cellar python)"/*; do
-    ln -sf ${PYTHON_VSN} ${HOME}/.pyenv/versions/
+    ln -sfn ${PYTHON_VSN} ${HOME}/.pyenv/versions/
 done
 unset PYTHON_VSN
 exe_and_grep_q "pyenv --version | head -1" "^pyenv "

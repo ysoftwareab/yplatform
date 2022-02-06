@@ -108,8 +108,8 @@ function yp_github() {
 
 
 function yp_git() {
-    ln -sf ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
-    ln -sf ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
+    ln -sfn ${YP_DIR}/gitconfig/dot.gitignore_global ${HOME}/.gitignore_global
+    ln -sfn ${YP_DIR}/gitconfig/dot.gitattributes_global ${HOME}/.gitattributes_global
 
     cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig$" || \
         printf '%s\n%s\n' \

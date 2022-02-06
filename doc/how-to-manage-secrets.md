@@ -43,7 +43,7 @@ and install `transcrypt`.
 ```shell
 cd path/to/repo
 git add .gitattributes
-ln -sf yplatform/bin/transcrypt ./
+ln -sfn yplatform/bin/transcrypt ./
 git add transcrypt
 git commit -m "add transcrypt"
 ```

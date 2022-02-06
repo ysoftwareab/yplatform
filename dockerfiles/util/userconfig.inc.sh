@@ -66,7 +66,7 @@ mkdir -p ${UHOME}/.ssh
 chmod 700 ${UHOME}/.ssh
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh
 
-ln -sf ${GIT_YP_DIR}/sshconfig ${UHOME}/.ssh/yplatform
+ln -sfn ${GIT_YP_DIR}/sshconfig ${UHOME}/.ssh/yplatform
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh/yplatform
 
 cat <<EOF > ${UHOME}/.ssh/config

@@ -520,10 +520,10 @@ Commits since 00256e02d19597749fe57c63d7417a253e87252b:
 * fdf02ca 2019-08-22 describe why no squash/rebase merge
 * 15480b5 2019-08-22 editorial
 * 4edfb6a 2019-08-22 no npm/angular specifics in wsl, cleanup markdown
-* 8bb06e8 2019-08-21 fixup! ln -sf fails in /usr/local for ubuntu 18.04. change method for sf-bins
+* 8bb06e8 2019-08-21 fixup! ln -sfn fails in /usr/local for ubuntu 18.04. change method for sf-bins
 * 882a333 2019-08-21 Added instructions on how to work with firecloud under WSL
 * fb1d7b9 2019-08-21 try to remove old node-esm symlink
-* 6ec2921 2019-08-21 ln -sf fails in /usr/local for ubuntu 18.04. change method for sf-bins
+* 6ec2921 2019-08-21 ln -sfn fails in /usr/local for ubuntu 18.04. change method for sf-bins
 * 0a1e346 2019-08-19 fix teardown needing deps
 * 402cd14 2019-08-19 correct links to github's ssh key instructions
 * db946eb 2019-08-19 normalize teardown marker with [ci skip] generic marker
