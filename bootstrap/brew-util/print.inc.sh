@@ -82,6 +82,16 @@ EOF
     echo ${HOME}
     ls -la ${HOME}
     echo_done
+
+    echo_do "Listing ~root directory..."
+    echo ~root
+    ls -la ~root
+    echo_done
+
+    echo_do "Listing / directory..."
+    echo /
+    ls -la /
+    echo_done
 }
 
 function brew_config() {
