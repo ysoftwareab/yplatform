@@ -6,7 +6,7 @@ set -euo pipefail
 GIT_YP_DIR=${UHOME}/git/yplatform
 
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/git/yplatform ."
-mkdir -git ${UHOME}/git
+mkdir -p ${UHOME}/git
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/git
 ln -s ${YP_DIR} ${UHOME}/git
 chown ${UID_INDEX}:${GID_INDEX} ${GIT_YP_DIR}
