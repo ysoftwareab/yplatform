@@ -132,7 +132,8 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
         yp::path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
 
-    type nvm >/dev/null 2>&1 || {
+    # command is defined and is a function (no path)
+    [[ "$(command -v nvm 2>&1)" = "nvm" ]] || {
         # using a less exact call because 'brew --prefix nvm' is very very slow
         # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
         NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
@@ -141,14 +142,13 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
         unset NVM_INSTALLATION_DIR
     }
 
-    if command -v asdf >/dev/null 2>&1; then
-        [[ -n "${ASDF_DIR:-}" ]] || {
-            # using a less exact call because 'brew --prefix asdf' is very very slow
-            # source $(brew --prefix asdf)/asdf.sh
-            # shellcheck disable=SC1091
-            source ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
-        }
-    fi
+    # command is defined and is a function (no path)
+    [[ "$(command -v asdf 2>&1)" = "asdf" ]] || [[ -n "${ASDF_DIR:-}" ]] || {
+        # using a less exact call because 'brew --prefix asdf' is very very slow
+        # source $(brew --prefix asdf)/asdf.sh
+        # shellcheck disable=SC1091
+        source ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
+    }
 fi
 
 if command -v docker >/dev/null 2>&1; then
