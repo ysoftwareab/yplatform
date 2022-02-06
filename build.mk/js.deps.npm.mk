@@ -14,7 +14,7 @@
 # ------------------------------------------------------------------------------
 
 NPM = $(call which,NPM,npm)
-$(foreach VAR,NPM,$(call make-lazy,$(VAR)))
+$(foreach VAR,NPM,$(call make-lazy-once,$(VAR)))
 
 NPM_CI_OR_INSTALL := install
 ifeq ($(CI),true)

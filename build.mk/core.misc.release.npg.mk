@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 NPM_PUBLISH_GIT = $(call npm-which,NPM_PUBLISH_GIT,npm-publish-git)
-$(foreach VAR,NPM_PUBLISH_GIT,$(call make-lazy,$(VAR)))
+$(foreach VAR,NPM_PUBLISH_GIT,$(call make-lazy-once,$(VAR)))
 
 # ------------------------------------------------------------------------------
 

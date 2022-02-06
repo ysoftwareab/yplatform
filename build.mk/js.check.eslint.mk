@@ -19,7 +19,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 ESLINT = $(call npm-which,ESLINT,eslint)
-$(foreach VAR,ESLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,ESLINT,$(call make-lazy-once,$(VAR)))
 
 ESLINT_ARGS += \
 	--ignore-pattern '!*' \

@@ -20,7 +20,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^transcrypt$$" \
 
 KEYBASE = $(call which,KEYBASE,keybase)
-$(foreach VAR,KEYBASE,$(call make-lazy,$(VAR)))
+$(foreach VAR,KEYBASE,$(call make-lazy-once,$(VAR)))
 
 # ------------------------------------------------------------------------------
 

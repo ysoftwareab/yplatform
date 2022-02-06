@@ -19,7 +19,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 SHELLCHECK = $(call npm-which,SHELLCHECK,shellcheck)
-$(foreach VAR,SHELLCHECK,$(call make-lazy,$(VAR)))
+$(foreach VAR,SHELLCHECK,$(call make-lazy-once,$(VAR)))
 
 SHELLCHECK_ARGS += \
 

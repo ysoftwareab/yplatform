@@ -18,7 +18,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 # ECCHECKER = $(call which,ECCHECKER,editorconfig-checker) --ignore-defaults
-# $(foreach VAR,ECCHECKER,$(call make-lazy,$(VAR)))
+# $(foreach VAR,ECCHECKER,$(call make-lazy-once,$(VAR)))
 ECCHECKER = $(YP_DIR)/bin/editorconfig-checker
 
 ECCHECKER_ARGS += \

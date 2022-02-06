@@ -7,10 +7,10 @@
 
 #	TODO Uncertain if tmate works without a pre-existing ~/.ssh/id_rsa
 # SSH_KEYGEN = $(call which,SSH_KEYGEN,ssh-keygen)
-# $(foreach VAR,SSH_KEYGEN,$(call make-lazy,$(VAR)))
+# $(foreach VAR,SSH_KEYGEN,$(call make-lazy-once,$(VAR)))
 
 TMATE = $(call which,TMATE,tmate)
-$(foreach VAR,TMATE,$(call make-lazy,$(VAR)))
+$(foreach VAR,TMATE,$(call make-lazy-once,$(VAR)))
 
 TMATE_SOCKET := $(shell $(MKTEMP))
 

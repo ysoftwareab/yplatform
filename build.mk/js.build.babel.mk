@@ -1,6 +1,6 @@
 BABEL = $(call npm-which,BABEL,babel)
 BABEL_NODE = $(call npm-which,BABEL_NODE,babel-node)
-$(foreach VAR,BABEL BABEL_NODE,$(call make-lazy,$(VAR)))
+$(foreach VAR,BABEL BABEL_NODE,$(call make-lazy-once,$(VAR)))
 
 BABELRC := $(shell $(FIND_Q_NOSYM) . -mindepth 0 -maxdepth 1 -name ".babelrc*" -print)
 

@@ -11,7 +11,7 @@
 # ------------------------------------------------------------------------------
 
 JEST = $(call npm-which,JEST,jest)
-$(foreach VAR,JEST,$(call make-lazy,$(VAR)))
+$(foreach VAR,JEST,$(call make-lazy-once,$(VAR)))
 
 JEST_ARGS += \
 

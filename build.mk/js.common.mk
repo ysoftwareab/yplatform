@@ -17,7 +17,7 @@ include $(YP_JS_COMMON_INCLUDES)
 # ------------------------------------------------------------------------------
 
 TSC = $(call npm-which,TSC,tsc)
-$(foreach VAR,TSC,$(call make-lazy,$(VAR)))
+$(foreach VAR,TSC,$(call make-lazy-once,$(VAR)))
 
 SRC_JS_FILES := $(shell $(FIND_Q_NOSYM) src -type f -name "*.js" -print)
 

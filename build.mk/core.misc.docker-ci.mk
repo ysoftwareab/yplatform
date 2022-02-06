@@ -15,7 +15,7 @@ YP_DOCKER_CI_IMAGE = $(YP_DOCKER_CI_IMAGE_DEFAULT)
 endif
 
 DOCKER = $(call which,DOCKER,docker)
-$(foreach VAR,DOCKER,$(call make-lazy,$(VAR)))
+$(foreach VAR,DOCKER,$(call make-lazy-once,$(VAR)))
 
 # ------------------------------------------------------------------------------
 

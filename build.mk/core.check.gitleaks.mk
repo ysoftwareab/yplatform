@@ -18,7 +18,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 # GITLEAKS = $(call which,GITLEAKS,gitleaks)
-# $(foreach VAR,GITLEAKS,$(call make-lazy,$(VAR)))
+# $(foreach VAR,GITLEAKS,$(call make-lazy-once,$(VAR)))
 
 # using our hardcoded gitleaks because gitleaks seems too volatile for now, and we want to lock its version
 GITLEAKS = $(YP_DIR)/bin/gitleaks

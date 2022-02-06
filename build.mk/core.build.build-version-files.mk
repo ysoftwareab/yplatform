@@ -30,7 +30,7 @@ BUILD_TIME ?= $(MAKE_TIME)
 
 BUILD_HOSTNAME ?= $(shell hostname)
 BUILD_USER ?= $(shell whoami)
-$(foreach VAR,BUILD_HOSTNAME BUILD_USER,$(call make-lazy,$(VAR)))
+$(foreach VAR,BUILD_HOSTNAME BUILD_USER,$(call make-lazy-once,$(VAR)))
 
 BUILD_GIT_BRANCH ?= $(GIT_BRANCH_SHORT)
 BUILD_GIT_DESCRIBE ?= $(GIT_DESCRIBE)

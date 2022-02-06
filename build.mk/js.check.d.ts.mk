@@ -18,7 +18,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 TSC_D_TS = $(call npm-which,TSC,tsc)
-$(foreach VAR,TSC_D_TS,$(call make-lazy,$(VAR)))
+$(foreach VAR,TSC_D_TS,$(call make-lazy-once,$(VAR)))
 
 TSC_D_TS_ARGS += \
 	--esModuleInterop \

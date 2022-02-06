@@ -12,7 +12,7 @@
 # ------------------------------------------------------------------------------
 
 YARN = $(call which,YARN,yarn)
-$(foreach VAR,YARN,$(call make-lazy,$(VAR)))
+$(foreach VAR,YARN,$(call make-lazy-once,$(VAR)))
 
 # see https://github.com/yarnpkg/yarn/issues/5869
 YARN_CI_OR_INSTALL := install \

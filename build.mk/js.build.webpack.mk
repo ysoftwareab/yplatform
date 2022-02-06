@@ -1,5 +1,5 @@
 WEBPACK := $(call npm-which,WEBPACK,webpack)
-$(foreach VAR,WEBPACK,$(call make-lazy,$(VAR)))
+$(foreach VAR,WEBPACK,$(call make-lazy-once,$(VAR)))
 
 YP_BUILD_TARGETS += \
 	build-webpack \

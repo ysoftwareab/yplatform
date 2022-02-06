@@ -18,7 +18,7 @@
 YP_IS_TRANSCRYPTED ?= false
 
 SASSLINT = $(call npm-which,SASSLINT,sass-lint)
-$(foreach VAR,SASSLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,SASSLINT,$(call make-lazy-once,$(VAR)))
 
 SASSLINT_ARGS += \
 	--no-exit \

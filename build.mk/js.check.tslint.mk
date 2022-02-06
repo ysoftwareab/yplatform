@@ -8,7 +8,7 @@
 
 
 TSLINT = $(call npm-which,TSLINT,tslint)
-$(foreach VAR,TSLINT,$(call make-lazy,$(VAR)))
+$(foreach VAR,TSLINT,$(call make-lazy-once,$(VAR)))
 
 TSLINT_ARGS += \
 	--format verbose \

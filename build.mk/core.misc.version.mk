@@ -26,7 +26,7 @@ VERSION_TARGETS += \
 	$(patsubst %,version/%,$(VERSION_LEVELS)) \
 
 # SEMVER = $(call npm-which,SEMVER,semver)
-# $(foreach VAR,SEMVER,$(call make-lazy,$(VAR)))
+# $(foreach VAR,SEMVER,$(call make-lazy-once,$(VAR)))
 # NOTE using npx in case semver is not global as per bootstrap/brew-install-node.inc.sh
 SEMVER ?= $(NPX) -y semver@7
 

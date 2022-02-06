@@ -4,7 +4,7 @@
 # ------------------------------------------------------------------------------
 
 PIPENV = $(call which,PIPENV,pipenv)
-$(foreach VAR,PIPENV,$(call make-lazy,$(VAR)))
+$(foreach VAR,PIPENV,$(call make-lazy-once,$(VAR)))
 
 YP_CLEAN_FILES += \
 	.venv \
