@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# BASH
+
 PROFILE_FILE=
 if [[ -e ${UHOME}/.bash_profile ]]; then
     PROFILE_FILE=${UHOME}/.bash_profile
@@ -48,11 +50,21 @@ eval "\${OPTS_STATE}"; unset OPTS_STATE
 EOF
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.bash_aliases
 
+# GIT
+
+>&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/git/yplatform ."
+mkdir -p ${UHOME}/git
+chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/git
+ln -s ${YP_DIR} ${UHOME}/git
+chown ${UID_INDEX}:${GID_INDEX} ${GIT_YP_DIR}
+
+# SSH
+
 mkdir -p ${UHOME}/.ssh
 chmod 700 ${UHOME}/.ssh
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh
 
-ln -sf /yplatform/sshconfig ${UHOME}/.ssh/yplatform
+ln -sf ${GIT_YP_DIR}/sshconfig ${UHOME}/.ssh/yplatform
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh/yplatform
 
 cat <<EOF > ${UHOME}/.ssh/config
@@ -60,6 +72,8 @@ Include ~/.ssh/yplatform/config
 EOF
 chmod 600 ${UHOME}/.ssh/config
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh/config
+
+# SUDO
 
 touch ${UHOME}/.sudo_as_admin_successful
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.sudo_as_admin_successful

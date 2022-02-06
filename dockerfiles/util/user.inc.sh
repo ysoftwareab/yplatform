@@ -22,5 +22,7 @@ echo "Defaults:${UNAME} !env_reset" >> /etc/sudoers
 echo "Defaults:${UNAME} !secure_path" >> /etc/sudoers
 
 # POST-BOOTSTRAP
+# shellcheck disable=SC2034
+GIT_YP_DIR=${UHOME}/git/yplatform
 source ${YP_DIR}/dockerfiles/util/userconfig.inc.sh
 source ${YP_DIR}/dockerfiles/util/gitconfig.inc.sh

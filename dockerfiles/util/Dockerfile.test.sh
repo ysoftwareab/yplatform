@@ -47,11 +47,14 @@ echo_do "Test ${1} git config..."
 XTRACE_STATE_DOCKERFILE_TEST_SH="$(set +o | grep xtrace)"
 set -x
 
+GIT_YP_DIR=${HOME}/git/yplatform
+ls -la ${GIT_YP_DIR}
+
 ls -la ${HOME}/.gitattributes_global
-[[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${YP_DIR}/gitconfig/dot.gitattributes_global" ]]
+[[ "$(readlink -f ${HOME}/.gitattributes_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitattributes_global" ]]
 
 ls -la ${HOME}/.gitignore_global
-[[ "$(readlink -f ${HOME}/.gitignore_global)" = "${YP_DIR}/gitconfig/dot.gitignore_global" ]]
+[[ "$(readlink -f ${HOME}/.gitignore_global)" = "${GIT_YP_DIR}/gitconfig/dot.gitignore_global" ]]
 
 ls -la ${HOME}/.gitconfig
 git config -f ${HOME}/.gitconfig --get "user.name" || true
@@ -59,7 +62,7 @@ git config -f ${HOME}/.gitconfig --get "user.name" | ${YP_DIR}/bin/ifne -f -p
 git config -f ${HOME}/.gitconfig --get "user.email" || true
 git config -f ${HOME}/.gitconfig --get "user.email" | ${YP_DIR}/bin/ifne -f -p
 git config -f ${HOME}/.gitconfig --get-all "include.path" || true
-git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${YP_DIR}/gitconfig/dot.gitconfig"
+git config -f ${HOME}/.gitconfig --get-all "include.path" | grep -q -Fx "${GIT_YP_DIR}/gitconfig/dot.gitconfig"
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
 unset XTRACE_STATE_DOCKERFILE_TEST_SH
@@ -75,7 +78,7 @@ ls -la ${HOME}/.ssh/config
 cat ${HOME}/.ssh/config | grep -q -Fx "Include ~/.ssh/yplatform/config"
 
 ls -la ${HOME}/.ssh/yplatform
-[[ "$(readlink -f ${HOME}/.ssh/yplatform)" = "${YP_DIR}/sshconfig" ]]
+[[ "$(readlink -f ${HOME}/.ssh/yplatform)" = "${GIT_YP_DIR}/sshconfig" ]]
 
 eval "${XTRACE_STATE_DOCKERFILE_TEST_SH}"
 unset XTRACE_STATE_DOCKERFILE_TEST_SH

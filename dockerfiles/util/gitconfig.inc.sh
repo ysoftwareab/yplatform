@@ -3,14 +3,6 @@ set -euo pipefail
 
 # NOTE sync with ci/util/gitconfig.inc.sh
 
-GIT_YP_DIR=${UHOME}/git/yplatform
-
->&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/git/yplatform ."
-mkdir -p ${UHOME}/git
-chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/git
-ln -s ${YP_DIR} ${UHOME}/git
-chown ${UID_INDEX}:${GID_INDEX} ${GIT_YP_DIR}
-
 >&2 echo "$(date +"%H:%M:%S")" "[INFO] Setup ${UHOME}/.gitignore_global ."
 [[ ! -e "${UHOME}/.gitignore_global" ]] || \
     >&2 echo "$(date +"%H:%M:%S")" "[WARN] Overwriting ${UHOME}/.gitignore_global ."
