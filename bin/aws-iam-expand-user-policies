@@ -101,5 +101,6 @@ let iam = new aws.IAM();
     return user;
   }));
 
-  console.log(JSON.stringify(result, undefined, 2));
+  // eslint-disable-next-line no-null/no-null
+  console.log(JSON.stringify(result, null, 2));
 })();

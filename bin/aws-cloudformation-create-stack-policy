@@ -56,5 +56,6 @@ module.exports = main;
     cfnTemplate
   });
 
-  console.log(JSON.stringify(policy, undefined, 2));
+  // eslint-disable-next-line no-null/no-null
+  console.log(JSON.stringify(policy, null, 2));
 })();

@@ -20,7 +20,7 @@ module.exports = main;
   if (!module.parent) {
     let env = _.safeProxy(process.env);
 
-    // eslint-disable-next-line no-console
-    console.log(JSON.stringify(await main({env}), undefined, 2));
+    // eslint-disable-next-line no-console, no-null/no-null
+    console.log(JSON.stringify(await main({env}), null, 2));
   }
 })();
