@@ -1,0 +1,24 @@
+{
+  "name": "yplatform",
+  "image": "ysoftwareab/yp-ubuntu-20.04-common:latest",
+  "extensions": [
+    "cardinal90.multi-cursor-case-preserve",
+    "chrislajoie.vscode-modelines",
+    "dbaeumer.vscode-eslint",
+    "eamodio.gitlens",
+    "EditorConfig.editorconfig",
+    "glen-84.sass-lint",
+    "ms-azuretools.vscode-docker",
+    "ms-vscode-remote.remote-containers",
+    "orta.vscode-jest",
+    "timonwong.shellcheck"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/usr/bin/bash"
+  },
+  "postCreateCommand": [
+    "make bootstrap"
+  ],
+  "containerUser": "yp",
+  "features": {}
+}

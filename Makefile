@@ -92,6 +92,7 @@ YP_SHELLCHECK_FILES_IGNORE += \
 YP_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \
 	$(FORMULA_PATCH_FILES) \
+	.devcontainer/devcontainer.json \
 	.github/workflows/main.yml \
 	.github/workflows/mainc.yml \
 	.github/workflows/deployc.yml \
@@ -103,6 +104,7 @@ ifeq (true,$(CI))
 endif
 
 YP_DEPS_TARGETS += \
+	.devcontainer/devcontainer.json \
 	.github/workflows/main.yml \
 	.github/workflows/mainc.yml \
 	.github/workflows/deployc.yml \
@@ -124,6 +126,13 @@ YP_TEST_TARGETS += \
 	test-env-ci-unknown \
 
 # ------------------------------------------------------------------------------
+
+.devcontainer/devcontainer.json: yplatform/package.json
+.devcontainer/devcontainer.json: .vscode/extensions.json
+.devcontainer/devcontainer.json: .devcontainer/devcontainer.json.tpl
+	$(eval export YP_DOCKER_CI_IMAGE)
+	$(call yp-generate-from-template)
+
 
 .github/workflows/main.yml: bin/github-checkout
 .github/workflows/main.yml: $(wildcard .github/workflows.src/common*)
