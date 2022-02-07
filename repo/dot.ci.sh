@@ -8,12 +8,14 @@ YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
 ## see ci/README.md
+# export YP_CI_ECHO_BENCHMARK=${GIT_ROOT}/yp-ci-echo-benchmark
 
 ## see bootstrap/README.md
 # export YP_LOG_BOOTSTRAP=true
 # export YP_PRINTENV_BOOTSTRAP=true
 # export YP_SKIP_SUDO_BOOTSTRAP=true
 # export YP_SKIP_BREW_BOOTSTRAP=true
+# export V=1
 
 ## to override an existing phase implementation
 # function ci_run_<phase>() {
