@@ -34,6 +34,7 @@ ASDF_BIN := $(shell $(YP_DIR)/bin/asdf-get-asdf-bin)
 endif
 ifneq (,$(ASDF_BIN))
 ifeq (,$(findstring :$(ASDF_BIN):,:$(PATH):))
+$(warning Prepending ASDF_BIN=$(ASDF_BIN) to PATH=$(PATH).)
 export ASDF_BIN
 export PATH := $(ASDF_BIN):$(PATH)
 endif
@@ -46,6 +47,7 @@ NVM_BIN := $(shell $(YP_DIR)/bin/nvm-get-nvm-bin)
 endif
 ifneq (,$(NVM_BIN))
 ifeq (,$(findstring :$(NVM_BIN):,:$(PATH):))
+$(warning Prepending NVM_BIN=$(NVM_BIN) to PATH=$(PATH).)
 export NVM_BIN
 export PATH := $(NVM_BIN):$(PATH)
 endif
