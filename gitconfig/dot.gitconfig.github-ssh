@@ -1,9 +1,9 @@
 # -*- mode: GitConfig -*-
 
 [url "git@github.com:"]
-    insteadOf = "https://github.com/" # git canonical https url
     insteadOf = "git://github.com/" # git canonical git url
-    insteadOf = "github://" # github url
     # NOTE not redundant, it takes precedence if case of url.anotherUrl.insteadOf.git@github.com:
     insteadOf = "git@github.com:" # git canonical ssh url
+    insteadOf = "github://" # github url
+    insteadOf = "https://github.com/" # git canonical https url
     insteadOf = "ssh://git@github.com/" # npm package.json's canonical git+ssh url
