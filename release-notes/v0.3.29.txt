@@ -1,0 +1,28 @@
+yplatform v0.3.29 Release Notes
+
+Highlights since v0.3.28:
+
+* None
+
+Breaking commits since v0.3.28:
+
+* None
+
+Commits since v0.3.28:
+
+* 075171fe 2022-02-07 rename
+* 91189f37 2022-02-07 introduce YP_ENV, refactor asdf/nvm/yp-env, less differences with CI
+* 2bb0de5c 2022-02-07 updated bin/asdf-get-asdf-user-shims
+* 16610e64 2022-02-07 redundant
+* a6964cad 2022-02-07 verbose about modifying path
+* fc64a59e 2022-02-07 verbose about repo changes on yp update
+* daf21462 2022-02-07 exe now shows if running as root
+* 773dc1c6 2022-02-07 document ci readme in ci.sh template
+* 7093de99 2022-02-07 best effort when evaluating failing BASH_COMMAND
+* ce5c37db 2022-02-07 verbose about nvm bootstrap
+* d609c2b6 2022-02-07 document bootstrap flags in ci.sh template
+* f63bfb63 2022-02-07 only make-lazy-once in build.mk
+* acc6edfe 2022-02-06 align with mk/exe.misc.inc.mk
+* e9614400 2022-02-06 handle asdf in make. improve and align nvm usage as well
+* 9afcc2f9 2022-02-06 add bin/asdf-get-asdf-bin
+o d76ea3e4 2022-02-06 0.3.28
