@@ -7,6 +7,8 @@ YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/yplatform" >/dev/null && pwd)"
     git submodule update --init --recursive ${YP_DIR}
 source ${YP_DIR}/sh/common.inc.sh
 
+## see ci/README.md
+
 ## see bootstrap/README.md
 # export YP_LOG_BOOTSTRAP=true
 # export YP_PRINTENV_BOOTSTRAP=true
