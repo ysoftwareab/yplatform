@@ -9,9 +9,48 @@ else
     set -euo pipefail
 fi
 
-# NOTE exported variables need to be in sync with
-# sh/env.inc.sh:11
-# build.mk/core.common.mk:9
+# document exports
+# NOTE exported variables need to be in sync with build.mk/core.common.mk:9
+
+YP_ENV_EXPORTS=(
+    HOMEBREW_PREFIX
+    INFOPATH
+    MANPATH
+    NVM_DIR
+    PATH
+    YP_ENV
+)
+
+if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
+       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
+    # sourced
+    true
+else
+    # executed (from build.mk/core.common.mk)
+    MAIN=true
+fi
+
+main() {
+    [[ "${MAIN:-}" = "true" ]] || return 0
+
+    if [[ $# -eq 1 ]]; then
+        eval "echo \${$1}"
+    elif [[ $# -gt 1 ]]; then
+        while [[ $# -gt 0 ]]; do
+            eval "echo $1=\${$1}"
+            shift
+        done
+    else
+        for VAR in "${YP_ENV_EXPORTS[@]}"; do
+            eval "echo ${VAR}=\${${VAR}}"
+        done
+    fi
+}
+
+[[ "${YP_ENV:-}" != "true" ]] || {
+    main "$@"
+    exit 0
+}
 
 [[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
@@ -134,34 +173,46 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
 
     # command is defined and is a function (no path)
     [[ "$(command -v nvm 2>&1)" = "nvm" ]] || {
+        NOUNSET_STATE="$(set +o | grep nounset)"
+        set +u
         # using a less exact call because 'brew --prefix nvm' is very very slow
         # NVM_INSTALLATION_DIR=$(brew --prefix nvm 2>/dev/null || true)
         NVM_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/nvm
         # shellcheck disable=SC1091
         [[ ! -r ${NVM_INSTALLATION_DIR}/nvm.sh ]] || source ${NVM_INSTALLATION_DIR}/nvm.sh --no-use
         unset NVM_INSTALLATION_DIR
+        eval "${NOUNSET_STATE}"
+        unset NOUNSET_STATE
     }
 
     # command is defined and is a function (no path)
     [[ "$(command -v asdf 2>&1)" = "asdf" ]] || [[ -n "${ASDF_DIR:-}" ]] || {
+        NOUNSET_STATE="$(set +o | grep nounset)"
+        set +u
         # using a less exact call because 'brew --prefix asdf' is very very slow
         # source $(brew --prefix asdf)/asdf.sh
         # shellcheck disable=SC1091
         source ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
+        eval "${NOUNSET_STATE}"
+        unset NOUNSET_STATE
     }
 fi
 
-if command -v docker >/dev/null 2>&1; then
-    # disable buildkit which is not ready for primetime, but enabled by default on macos
-    # see https://github.com/moby/buildkit/issues/1472
-    export DOCKER_BUILDKIT=0
-fi
+[[ -z "${ASDF_DIR:-}" ]] || {
+    # user a hardcoded value for performance
+    # yp::path_prepend "$(${YP_DIR}/bin/asdf-get-asdf-bin)"
+    # yp::path_prepend "$(${YP_DIR}/bin/asdf-get-asdf-user-shims)"
+    yp::path_prepend "${ASDF_DIR}/bin"
+    yp::path_prepend "${ASDF_DATA_DIR:-${HOME}/.asdf}/shims"
+}
 
-if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
-       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
-    # sourced
-    true
-else
-    # executed (from build.mk/core.common.mk)
-    eval "echo \${$1}"
-fi
+[[ -z "${NVM_BIN:-}" ]] || {
+    # user a hardcoded value for performance
+    # yp::path_prepend "$(${YP_DIR}/bin/nvm-get-nvm-bin)"
+    yp::path_prepend "${NVM_BIN}"
+}
+
+export YP_ENV=true
+export "${YP_ENV_EXPORTS[@]}"
+
+main "$@"

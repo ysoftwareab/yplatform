@@ -44,5 +44,7 @@ yarn-error.log*
 # ------------------------------------------------------------------------------
 
 # Misc
+.env.mk
+.yp-env.mk
 Makefile.lazy
 /archive.*

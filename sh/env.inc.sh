@@ -41,9 +41,7 @@ function yp::path_append_before() {
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
-[[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
-    source ${YP_DIR}/bin/yp-env
-}
+[[ "${YP_ENV:-}" = "true" ]] || source ${YP_DIR}/bin/yp-env
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {

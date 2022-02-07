@@ -190,6 +190,7 @@ function printenv_all() {
         echo "${VAR}=${!VAR}"
     done
     eval "${NOUNSET_STATE}"
+    unset NOUNSET_STATE
 }
 
 # MISC -------------------------------------------------------------------------
