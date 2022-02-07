@@ -1,5 +1,18 @@
 #!/usr/bin/env bash
 
+[[ -n "${YP_DIR:-}" ]] || {
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+        # echo >&2 YP_DIR=$YP_DIR
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2296
+        YP_DIR="$(cd "$(dirname ${(%):-%x})/.." >/dev/null && pwd)"
+    else
+        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+        exit 1
+    fi
+}
+
 if [[ -n "${ZSH_EVAL_CONTEXT:-}" && "${ZSH_EVAL_CONTEXT:-}" =~ :file$ ]] || \
        [[ -n "${BASH_VERSION:-}" ]] && (return 0 2>/dev/null); then
     # sourced
@@ -22,51 +35,7 @@ YP_ENV_EXPORTS=(
     YP_ENV
 )
 
-function main() {
-    [[ "${MAIN:-}" = "true" ]] || {
-        unset YP_ENV_EXPORTS
-        return 0
-    }
-
-    if [[ $# -eq 1 ]]; then
-        eval "echo \${$1}"
-    elif [[ $# -gt 1 ]]; then
-        while [[ $# -gt 0 ]]; do
-            eval "echo $1=\${$1}"
-            shift
-        done
-    else
-        for VAR in "${YP_ENV_EXPORTS[@]}"; do
-            eval "echo ${VAR}=\${${VAR}}"
-        done
-    fi
-}
-
-[[ "${YP_ENV:-}" != "true" ]] || {
-    main "$@"
-    if [[ "${MAIN:-}" = "true" ]]; then
-        exit 0
-    else
-        return 0
-    fi
-}
-
-# ------------
-
-hash -r # see https://github.com/Homebrew/brew/issues/5013
-
-[[ -n "${YP_DIR:-}" ]] || {
-    if [[ -n "${BASH_VERSION:-}" ]]; then
-        YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
-        # echo >&2 YP_DIR=$YP_DIR
-    elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        # shellcheck disable=SC2296
-        YP_DIR="$(cd "$(dirname ${(%):-%x})/.." >/dev/null && pwd)"
-    else
-        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
-        exit 1
-    fi
-}
+# LOCAL ------------------------------------------------------------------------
 
 function yp::path() {
     export PATH="$1"
@@ -139,6 +108,37 @@ function make.bak() {
     local MAKE_COMMAND=$(type -a -p make | head -1)
     ${MAKE_COMMAND} "$@"
 }
+
+function main() {
+    [[ "${MAIN:-}" = "true" ]] || {
+        unset -f main
+        unset YP_ENV_EXPORTS
+        return 0
+    }
+
+    if [[ $# -eq 1 ]]; then
+        eval "echo \${$1}"
+    elif [[ $# -gt 1 ]]; then
+        while [[ $# -gt 0 ]]; do
+            eval "echo $1=\${$1}"
+            shift
+        done
+    else
+        for VAR in "${YP_ENV_EXPORTS[@]}"; do
+            eval "echo ${VAR}=\${${VAR}}"
+        done
+    fi
+    exit 0
+}
+
+[[ "${YP_ENV:-}" != "true" ]] || {
+    main "$@"
+    return 0
+}
+
+# EXPORT -----------------------------------------------------------------------
+
+hash -r
 
 [[ -z "${HOMEBREW_PREFIX:-}" ]] || [[ -f "${HOMEBREW_PREFIX:-}/bin/brew" ]] || {
     unset HOMEBREW_PREFIX
