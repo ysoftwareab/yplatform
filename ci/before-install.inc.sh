@@ -236,7 +236,7 @@ function yp_os() {
     echo_info "${FUNCNAME[0]}: YP_SKIP_BREW_UNINSTALL=${YP_SKIP_BREW_UNINSTALL:-}"
     echo_info "${FUNCNAME[0]}: YP_SKIP_BREW_BOOTSTRAP=${YP_SKIP_BREW_BOOTSTRAP:-}"
 
-    local BOOTSTRAP_SCRIPT="${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap"
+    local BOOTSTRAP_SCRIPT="${YP_DIR}/bootstrap/bootstrap"
 
     if [[ "${YP_LOG_BOOTSTRAP:-}" = "true" ]]; then
         yp_os_bootstrap_with_script ${BOOTSTRAP_SCRIPT}
