@@ -4,7 +4,6 @@ set -euo pipefail
 #- asdf-get-asdf-bin 1.0
 ## Usage: asdf-get-asdf-bin
 ## Print the ASDF_BIN environment variables as it would be set after enabling 'asdf'.
-## NOTE: requires the presence of a '.tool-versions' file.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

@@ -4,7 +4,6 @@ set -euo pipefail
 #- nvm-get-nvm-bin 1.0
 ## Usage: nvm-get-nvm-bin
 ## Print the NVM_BIN environment variables as it would be set after enabling 'nvm'.
-## NOTE: requires the presence of a '.nvmrc' file.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit

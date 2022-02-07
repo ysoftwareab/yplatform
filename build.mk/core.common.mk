@@ -6,12 +6,13 @@ YP_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/..)
 
 # ------------------------------------------------------------------------------
 
-ifndef YP_DEV_INC_SH
-ifeq (0,$(MAKELEVEL))
-NVM_DIR := $(shell $(YP_DIR)/bin/yp-env NVM_DIR)
+YP_ENV ?=
+ifneq (true,$(YP_ENV))
+$(warning Setting env vars based on bin/yp-env.)
+$(shell $(YP_DIR)/bin/yp-env export)
 PATH := $(shell $(YP_DIR)/bin/yp-env PATH)
-export NVM_DIR PATH
-endif
+include .bin-yp-env.mk
+export $(shell $(SED) 's/=.\{0,\}//' .bin-yp-env.mk)
 endif
 
 YP_CI_ECHO_BENCHMARK ?= /dev/null
@@ -34,6 +35,7 @@ $(foreach VAR,YP_COMMIT YP_VSN YP_VSN_DESCRIBE YP_VSN_TAG,$(call make-lazy-once,
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
+$(warning Setting env vars based on .env .)
 $(shell $(TEST) .env.mk -nt .env || $(CAT) .env | $(SED) "s/\\$$/\\$$\\$$/g" >.env.mk)
 include .env.mk
 export $(shell $(SED) 's/=.\{0,\}//' .env.mk)
@@ -41,6 +43,7 @@ endif
 
 # get Makefile-specific environment variables
 ifneq (,$(wildcard .makerc))
+$(warning Setting env vars based on .makerc .)
 include .makerc
 endif
 
