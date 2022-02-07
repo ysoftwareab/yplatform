@@ -71,7 +71,7 @@ function yp::env() {
     source ${YP_DIR}/bin/yp-env
 }
 
-function yp::env-force() {
+function yp::env_force() {
     unset YP_ENV
     yp::env
 }

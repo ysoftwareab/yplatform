@@ -14,6 +14,7 @@ source ${YP_DIR}/sh/common.inc.sh
     [[ -f "${BOOSTRAP_SUDO_SCRIPT}" ]] || \
         BOOSTRAP_SUDO_SCRIPT=${YP_DIR}/bootstrap/bootstrap-sudo-${OS_SHORT}
     ${BOOSTRAP_SUDO_SCRIPT}
+    yp::env_force
 }
 
 source ${YP_DIR}/bootstrap/brew-util.inc.sh

@@ -81,7 +81,7 @@ function bootstrap_brew() {
             curl -qfsSL https://github.com/Homebrew/brew/tarball/${BREW_GIT_REF} | \
                 tar xz --strip 1 -C ${HOMEBREW_PREFIX}
             echo_done
-            yp::env-force
+            yp::env_force
             ;;
         false-darwin-*|false-linux-*)
             echo_do "brew: Installing homebrew..."
@@ -94,7 +94,7 @@ function bootstrap_brew() {
                 </dev/null /bin/bash -c "$(cat ${YP_DIR}/bootstrap/brew-util/homebrew-install.sh)"
             )
             echo_done
-            yp::env-force
+            yp::env_force
             ;;
         *)
             echo_err "brew: Cannot handle HAS_BREW=${HAS_BREW} OS_SHORT=${OS_SHORT} YP_SUDO=${YP_SUDO}."
