@@ -16,6 +16,8 @@ source ${YP_DIR}/sh/common.inc.sh
 CURRENT_VARS=$(printenv_all_names | grep -v "^OLD_VARS$" | sort -u)
 
 echo "${CURRENT_VARS}" | grep -Fxvf <(echo "${OLD_VARS}") | while read -r NO_XARGS_R; do
+    [[ "${NO_XARGS_R}" != "FUNCNAME" ]] || continue;
+    [[ "${NO_XARGS_R}" != "NO_XARGS_R" ]] || continue;
     [[ -n "${NO_XARGS_R}" ]] || continue;
     echo "${NO_XARGS_R}=${!NO_XARGS_R}"
 done
