@@ -62,8 +62,11 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
                     # skip NVM_DIR because it is user based
                     # [[ "${VAR}" != "NVM_DIR" ]] || continue
 
-                    # skip YP_DEV_INC_SH or else sh/dev.inc.sh will not be sourced on login shells
+                    # skip YP_DEV_INC_SH or else sh/dev.inc.sh will be skipped, and thus not be sourced on login shells
                     # [[ "${VAR}" != "YP_DEV_INC_SH" ]] || continue
+
+                    # skip YP_ENV or else bin/yp-env will be skipped
+                    # [[ "${VAR}" != "YP_ENV" ]] || continue
 
                     echo -n "${VAR}"
                     case "${!VAR:-}" in

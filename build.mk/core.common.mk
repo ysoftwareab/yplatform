@@ -6,15 +6,6 @@ YP_DIR := $(abspath $(shell dirname $(lastword $(MAKEFILE_LIST)))/..)
 
 # ------------------------------------------------------------------------------
 
-YP_ENV ?=
-ifneq (true,$(YP_ENV))
-$(warning Setting env vars based on bin/yp-env.)
-$(shell $(YP_DIR)/bin/yp-env export)
-PATH := $(shell $(YP_DIR)/bin/yp-env PATH)
-include .bin-yp-env.mk
-export $(shell $(SED) 's/=.\{0,\}//' .bin-yp-env.mk)
-endif
-
 YP_CI_ECHO_BENCHMARK ?= /dev/null
 YP_CI_ECHO ?= $(YP_DIR)/bin/ci-echo --benchmark $(YP_CI_ECHO_BENCHMARK)
 include $(YP_DIR)/mk/common.inc.mk
@@ -32,6 +23,15 @@ YP_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(YP_DIR) \
 	tag --points-at HEAD | $(GREP) "s/^v//" 2>/dev/null | $(HEAD) -1)
 endif
 $(foreach VAR,YP_COMMIT YP_VSN YP_VSN_DESCRIBE YP_VSN_TAG,$(call make-lazy-once,$(VAR)))
+
+# get yp-env environment variables
+YP_ENV ?=
+ifneq (true,$(YP_ENV))
+$(warning Setting env vars based on .yp-env.mk generated from bin/yp-env .)
+$(shell $(YP_DIR)/bin/yp-env >.yp-env.mk)
+include .yp-env.mk
+export $(shell $(SED) 's/=.\{0,\}//' .yp-env.mk)
+endif
 
 # get generic environment variables
 ifneq (,$(wildcard .env))
