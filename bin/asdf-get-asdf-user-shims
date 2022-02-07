@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+#- asdf-get-asdf-user-shims 1.0
+## Usage: asdf-get-asdf-user-shims
+## Print the ASDF_USER_SHIMS environment variables as it would be set after enabling 'asdf'.
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+[[ $# -eq 0 ]] || sh_script_usage
+
+# command is defined and is a function (no path)
+[[ "$(command -v asdf 2>&1)" = "asdf" ]] || {
+    # using a less exact call because 'brew --prefix asdf' is very very slow
+    # BREW_ASDF_DIR=$(brew --prefix asdf 2>/dev/null || true)
+    BREW_ASDF_DIR=$(brew --prefix)/opt/asdf
+    ASDF_SH=
+    [[ ! -f /opt/.asdf/asdf.sh ]] || ASDF_SH=/opt/.asdf/asdf.sh
+    [[ ! -f ${HOME}/.asdf/asdf.sh ]] || ASDF_SH=${HOME}/.asdf/asdf.sh
+    [[ ! -f ${XDG_CONFIG_HOME:-}/asdf/asdf.sh ]] || ASDF_SH=${XDG_CONFIG_HOME}/asdf/asdf.sh
+    [[ ! -f ${BREW_ASDF_DIR}/asdf.sh ]] || ASDF_SH=${BREW_ASDF_DIR}/asdf.sh
+
+    [[ -n ${ASDF_SH} ]] || {
+        >&2 echo "$(date +"%H:%M:%S")" "[WARN] Couldn't find asdf in any of the known locations."
+        exit 0
+    }
+    NOUNSET_STATE="$(set +o | grep nounset)"
+    set +u
+    source ${ASDF_SH}
+    eval "${NOUNSET_STATE}"
+    unset NOUNSET_STATE
+}
+
+[[ -z "${ASDF_DIR:-}" ]] || echo ${ASDF_DATA_DIR:-${HOME}/.asdf}/shims
