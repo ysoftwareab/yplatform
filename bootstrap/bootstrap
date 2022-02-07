@@ -9,8 +9,12 @@ source ${YP_DIR}/sh/common.inc.sh
     exit 1
 }
 
-[[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || \
-    ${YP_DIR}/bootstrap/linux/bootstrap-sudo-${OS_RELEASE_ID}
+[[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || {
+    BOOSTRAP_SUDO_SCRIPT=${YP_DIR}/bootstrap/linux/bootstrap-sudo-${OS_SHORT}-${OS_RELEASE_ID}
+    [[ -f "${BOOSTRAP_SUDO_SCRIPT}" ]] || \
+        BOOSTRAP_SUDO_SCRIPT=${YP_DIR}/bootstrap/linux/bootstrap-sudo-${OS_SHORT}
+    ${BOOSTRAP_SUDO_SCRIPT}
+}
 
 source ${YP_DIR}/bootstrap/brew-util.inc.sh
 
