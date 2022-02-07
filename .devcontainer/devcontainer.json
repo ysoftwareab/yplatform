@@ -9,12 +9,22 @@
     "--add-host yp-docker-vscode-yplatform:127.0.0.1",
     "--network=host",
     "--ipc=host",
-    "--env USER=${containerUser}",
+    "--env USER=yp",
     "--env YP_SKIP_SUDO_BOOTSTRAP=true",
     "--env YP_SKIP_BREW_BOOTSTRAP=true"
   ],
   "workspaceMount": "source=/Users/andrei/git/ysoftwareab/yplatform,target=/Users/andrei/git/ysoftwareab/yplatform,type=bind",
   "workspaceFolder": "/Users/andrei/git/ysoftwareab/yplatform",
+  "postCreateCommand": [
+    "make bootstrap"
+  ],
+  "containerUser": "yp",
+  "mounts": [
+    "source=profile,target=/root,type=volume",
+    "target=/root/.vscode-server,type=volume",
+    "source=unique-vol-name-here,target=/root/.vscode-server/extensions,type=volume",
+    "source=unique-vol-name-here-insiders,target=/root/.vscode-server-insiders/extensions,type=volume"
+  ],
   "extensions": [
     "cardinal90.multi-cursor-case-preserve",
     "chrislajoie.vscode-modelines",
@@ -31,15 +41,5 @@
   "settings": {
     "terminal.integrated.shell.linux": "/usr/bin/bash"
   },
-  "postCreateCommand": [
-    "make bootstrap"
-  ],
-  "containerUser": "yp",
-  "mounts": [
-    "source=profile,target=/root,type=volume",
-    "target=/root/.vscode-server,type=volume",
-    "source=unique-vol-name-here,target=/root/.vscode-server/extensions,type=volume",
-    "source=unique-vol-name-here-insiders,target=/root/.vscode-server-insiders/extensions,type=volume"
-  ],
   "features": {}
 }
