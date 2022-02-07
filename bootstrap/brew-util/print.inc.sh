@@ -66,6 +66,9 @@ function brew_env() {
 ^VERBOSE=
 EOF
             )
+
+        echo_info "Printing CI excerpts of printenv."
+        ${YP_DIR}/bin/ci-printvars
     fi
     echo_done
 
