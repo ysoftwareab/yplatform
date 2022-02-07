@@ -190,9 +190,10 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
         NOUNSET_STATE="$(set +o | grep nounset)"
         set +u
         # using a less exact call because 'brew --prefix asdf' is very very slow
-        # source $(brew --prefix asdf)/asdf.sh
+        # ASDF_INSTALLATION_DIR=$(brew --prefix asdf 2>/dev/null || true)
+        ASDF_INSTALLATION_DIR=${HOMEBREW_PREFIX}/opt/asdf
         # shellcheck disable=SC1091
-        source ${HOMEBREW_PREFIX}/opt/asdf/asdf.sh
+        [[ ! -r ${ASDF_INSTALLATION_DIR}/asdf.sh ]] || source ${ASDF_INSTALLATION_DIR}/asdf.sh
         eval "${NOUNSET_STATE}"
         unset NOUNSET_STATE
     }
