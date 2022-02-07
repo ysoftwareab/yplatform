@@ -38,7 +38,6 @@ function brew_env() {
 # core
 ^EDITOR=
 ^HOME=
-^HOMEBREW_NO_
 ^INFOPATH=
 ^LANG=
 ^LANGUAGE=
@@ -57,10 +56,14 @@ function brew_env() {
 ^CONTINUOUS_INTEGRATION=
 
 # yp
+^ASDF_
 ^GIT_
-^YP_LOG_BOOTSTRAP=
-^YP_PRINTENV_BOOTSTRAP=
-^YP_SUDO=
+^HOMEBREW_
+^NVM_
+^OS_
+^YP_
+^V=
+^VERBOSE=
 EOF
             )
     fi
