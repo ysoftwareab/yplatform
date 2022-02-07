@@ -79,3 +79,11 @@ chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.ssh/config
 
 touch ${UHOME}/.sudo_as_admin_successful
 chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.sudo_as_admin_successful
+
+# VSCODE
+
+# https://code.visualstudio.com/remote/advancedcontainers/avoid-extension-reinstalls
+mkdir -p ${UHOME}/.vscode-server/extensions
+mkdir -p ${UHOME}/.vscode-server-insiders/extensions
+chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.vscode-server
+chown ${UID_INDEX}:${GID_INDEX} ${UHOME}/.vscode-server-insiders
