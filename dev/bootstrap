@@ -37,7 +37,7 @@ else
 fi
 
 # Execute the OS specific boostrap process.
-${YP_DIR}/bootstrap/${OS_SHORT}/bootstrap
+${YP_DIR}/bootstrap/bootstrap
 
 # Offer to upgrade users login shell to homebrew's bash.
 ${YP_DIR}/bin/use-homebrew-bash

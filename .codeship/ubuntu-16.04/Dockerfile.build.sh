@@ -16,7 +16,7 @@ GIT_USER_EMAIL="bot@codeship.com"
 GIT_USER_NAME="Codeship"
 
 # DEPS
-# keep in sync with bootstrap/linux/bootstrap-sudo-debian
+# keep in sync with bootstrap/bootstrap-sudo-debian
 [[ -f /yplatform.bootstrapped ]] || {
     XTRACE_STATE_DOCKERFILE_BUILD_SH="$(set +o | grep xtrace)"
     set -x

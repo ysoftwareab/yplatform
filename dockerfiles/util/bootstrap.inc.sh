@@ -13,7 +13,7 @@ git clean -xdf .
 
 chown -R ${UNAME}:${GNAME} .
 export YP_DOCKER=true
-sudo --preserve-env -H -u ${UNAME} ./bootstrap/linux/bootstrap
+sudo --preserve-env -H -u ${UNAME} ./bootstrap/bootstrap
 unset YP_DOCKER
 chown -R root:root .
 

@@ -6,7 +6,7 @@ YP_DIR=/yplatform
 source ${YP_DIR}/dockerfiles/util/common.inc.sh
 
 # DEPS
-# keep in sync with bootstrap/linux/bootstrap-sudo-debian
+# keep in sync with bootstrap/bootstrap-sudo-debian
 [[ -f /yplatform.bootstrapped ]] || {
     XTRACE_STATE_DOCKERFILE_BUILD_SH="$(set +o | grep xtrace)"
     set -x

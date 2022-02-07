@@ -111,7 +111,7 @@ bootstrap_brew
 brew_config
 
 [[ "${OS_RELEASE_ID}" != "alpine" ]] || apk list --installed | grep -q glibc || {
-    apk_install_one libc6-compat # skipped in bootstrap/linux/bootstrap-sudo-alpine
+    apk_install_one libc6-compat # skipped in bootstrap/bootstrap-sudo-alpine
     # NOTE as per https://github.com/Linuxbrew/docker/blob/2c7ecfe/alpine/Dockerfile
     brew install -s patchelf
     brew install --ignore-dependencies binutils gmp isl@0.18 libmpc linux-headers mpfr zlib
