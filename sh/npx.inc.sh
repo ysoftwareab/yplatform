@@ -36,6 +36,7 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # while 'PATH=/absolute/path/to/:$PATH npx executable' means run 'executable'
     # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
+    hash -r
     YP_NPX_CMD_ARGS=("$@")
     eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p YP_NPX_CMD_ARGS) \
         npx ${YP_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
@@ -55,6 +56,7 @@ NPX_PATH=$(echo ${PATH} | tr ":" "\n" | grep "\.npm/_npx" | head -n1 || true)
     # NOTE for security reasons, system executables should NOT be overriden
     # export PATH=${NPX_PATH}/.bin:${PATH:-}
     export PATH=${PATH:-}:${NPX_PATH}/.bin
+    hash -r
 }
 
 main "${YP_NPX_CMD_ARGS[@]}"

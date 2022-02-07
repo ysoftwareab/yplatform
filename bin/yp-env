@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 
-if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
-       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
+if [[ -n "${ZSH_EVAL_CONTEXT:-}" && "${ZSH_EVAL_CONTEXT:-}" =~ :file$ ]] || \
+       [[ -n "${BASH_VERSION:-}" ]] && (return 0 2>/dev/null); then
     # sourced
     true
 else
-    # executed
+    # executed (e.g. from build.mk/core.common.mk)
     set -euo pipefail
+    MAIN=true
 fi
 
 # document exports
@@ -21,17 +22,11 @@ YP_ENV_EXPORTS=(
     YP_ENV
 )
 
-if [[ -n ${ZSH_EVAL_CONTEXT:-} && ${ZSH_EVAL_CONTEXT:-} =~ :file$ ]] || \
-       [[ -n ${BASH_VERSION:-} ]] && (return 0 2>/dev/null); then
-    # sourced
-    true
-else
-    # executed (from build.mk/core.common.mk)
-    MAIN=true
-fi
-
-main() {
-    [[ "${MAIN:-}" = "true" ]] || return 0
+function main() {
+    [[ "${MAIN:-}" = "true" ]] || {
+        unset YP_ENV_EXPORTS
+        return 0
+    }
 
     if [[ $# -eq 1 ]]; then
         eval "echo \${$1}"
@@ -52,6 +47,10 @@ main() {
     exit 0
 }
 
+# ------------
+
+hash -r # see https://github.com/Homebrew/brew/issues/5013
+
 [[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
         YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
@@ -65,32 +64,76 @@ main() {
     fi
 }
 
-function yp::path_prepend() {
-    echo ":${PATH}:" | grep -q ":$1:" || export PATH=$1:${PATH}
+function yp::path() {
+    export PATH="$1"
     export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+    hash -r
+}
+
+function yp::path_prepend() {
+    echo ":${PATH}:" | grep -q ":$1:" || yp::path "$1:${PATH}"
 }
 
 function yp::path_prepend_after() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
-        export PATH=$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")
+        yp::path "$(echo "${PATH}" | sed "s/:$2:/:$2:$1:/")"
     else
         yp::path_prepend "$1"
     fi
-    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
 }
 
 function yp::path_append() {
-    echo ":${PATH}:" | grep -q ":$1:" || export PATH=${PATH}:$1
-    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+    echo ":${PATH}:" | grep -q ":$1:" || yp::path "${PATH}:$1"
 }
 
 function yp::path_append_before() {
     if echo ":${PATH}:" | grep -q ":$2:"; then
-      export PATH=$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")
+        yp::path "$(echo "${PATH}" | sed "s/:$2:/:$1:$2:/")"
     else
         yp::path_append "$1"
     fi
-    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+}
+
+function yp::env() {
+    source ${YP_DIR}/bin/yp-env
+}
+
+function yp::env_force() {
+    unset YP_ENV
+    yp::env
+}
+
+# NOTE caveat: it doesn't work properly if 'make' is already an alias|function
+function make() {
+    # NOTE zsh would output "make is /path/to/make"
+    local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
+    case "$1" in
+        --help|--version)
+            ${MAKE_COMMAND} "$@"
+            return $?
+            ;;
+        *)
+            ;;
+    esac
+    if [[ -z "${YP_MAKE_COMMAND:-}" ]] && [[ -x make.sh ]]; then
+        [[ -f make.sh.successful ]] || {
+            >&2 echo "$(date +"%H:%M:%S")" "[INFO] Running    ${PWD}/make.sh $*"
+            >&2 echo "                instead of ${MAKE_COMMAND} $*"
+        }
+        YP_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
+        local EXIT_CODE=$?
+        # á la Ubuntu's ~/.sudo_as_admin_successful
+        [[ ${EXIT_CODE} -ne 0 ]] || touch make.sh.successful
+        return ${EXIT_CODE}
+    fi
+    ${MAKE_COMMAND} "$@"
+}
+
+# for when you want to skip ./make.sh
+# NOTE caveat: it doesn't work properly if 'make' is already an alias|function
+function make.bak() {
+    local MAKE_COMMAND=$(type -a -p make | head -1)
+    ${MAKE_COMMAND} "$@"
 }
 
 [[ -z "${HOMEBREW_PREFIX:-}" ]] || [[ -f "${HOMEBREW_PREFIX:-}/bin/brew" ]] || {
@@ -122,7 +165,7 @@ fi
 [[ "${GITHUB_ACTIONS:-}" != "true" ]] || [[ "${RUNNER_OS:-}" != "Linux" ]] || {
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/bin:|:|" | sed "s|::|:|")
     export PATH=$(echo ":${PATH}:" | sed "s|:/home/linuxbrew/.linuxbrew/sbin:|:|" | sed "s|::|:|")
-    export PATH=$(echo "${PATH}" | sed "s|^:||" | sed "s|:$||")
+    yp::path "${PATH}"
 }
 
 # jq becomes always available

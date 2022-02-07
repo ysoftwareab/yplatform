@@ -78,7 +78,7 @@ function magic_install_one() {
         eval "${PACKAGE_MANAGER}_install_one '${PKG}'"
     fi
     echo_done
-    hash -r # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 function magic_install_one_unless() {

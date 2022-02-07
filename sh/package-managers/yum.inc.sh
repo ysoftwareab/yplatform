@@ -38,7 +38,7 @@ function yum_install_one() {
     echo_do "yum: Installing ${PKG}..."
     ${YP_SUDO:-} yum -y install ${PKG}
     echo_done
-    hash -r # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 function yum_install_one_unless() {

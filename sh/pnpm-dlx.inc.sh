@@ -36,6 +36,7 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     # while 'PATH=/absolute/path/to/:$PATH pnpm dlx executable' means run 'executable'
     # so that's why we mangle $PATH...
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
+    hash -r
     YP_DLX_CMD_ARGS=("$@")
     eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p YP_DLX_CMD_ARGS) \
         pnpm ${YP_DLX_ARGS} dlx ${MYSELF_CMD_BASENAME}"
@@ -52,5 +53,6 @@ export NODE_PATH=${DLX_PATH}:${NODE_PATH:-}
 # NOTE for security reasons, system executables should NOT be overriden
 # export PATH=${DLX_PATH}/.bin:${PATH:-}
 # export PATH=${PATH:-}:${DLX_PATH}/.bin
+# hash -r
 
 main "${YP_DLX_CMD_ARGS[@]}"

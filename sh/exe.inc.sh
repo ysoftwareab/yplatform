@@ -128,7 +128,7 @@ function if_exe_and_grep_q() {
 
     if exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"; then
         "$@"
-        hash -r # see https://github.com/Homebrew/brew/issues/5013
+        hash -r
         >&2 debug_exe "${EXECUTABLE}"
         if exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"; then
             return 1
@@ -150,7 +150,7 @@ function unless_exe_and_grep_q() {
         >&2 echo_skip "$@"
     else
         "$@"
-        hash -r # see https://github.com/Homebrew/brew/issues/5013
+        hash -r
         >&2 debug_exe "${EXECUTABLE}"
         exe_and_grep_q "${CMD}" "${EXPECTED_STDOUT}"
     fi

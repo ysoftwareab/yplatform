@@ -128,7 +128,7 @@ function brew_install_one() {
     # if we have a patch file, then use it to install the formula
     [[ ! -f Formula/${NAME}.${OS_SHORT}.patch ]] || {
         brew_install_one_patched "$@"
-        hash -r # see https://github.com/Homebrew/brew/issues/5013
+        hash -r
         return 0
     }
 

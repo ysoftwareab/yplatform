@@ -76,7 +76,7 @@ function apt_install_one() {
         }
     fi
     echo_done
-    hash -r # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 function apt_install_one_unless() {

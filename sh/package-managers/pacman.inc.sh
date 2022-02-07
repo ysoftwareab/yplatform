@@ -35,7 +35,7 @@ function pacman_install_one() {
     echo_do "pacman: Installing ${PKG}..."
     ${YP_SUDO:-} pacman -S --noconfirm ${PKG}
     echo_done
-    hash -r # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 function pacman_install_one_unless() {

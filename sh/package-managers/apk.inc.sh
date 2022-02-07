@@ -31,7 +31,7 @@ function apk_install_one() {
     echo_do "apk: Installing ${PKG}..."
     ${YP_SUDO:-} apk add --no-cache ${PKG}
     echo_done
-    hash -r # see https://github.com/Homebrew/brew/issues/5013
+    hash -r
 }
 
 function apk_install_one_unless() {

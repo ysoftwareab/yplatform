@@ -71,7 +71,7 @@ YP_NPX_ARGS="${YP_NPX_ARGS} --package https://github.com/gildas-lormeau/SingleFi
 
 function main() {
     # add chrome, chromium, etc to $PATH for better MacOS comppatibility of single-file
-    export PATH="${PATH}:${YP_DIR}/bin/browsers"
+    yp::path "${PATH}:${YP_DIR}/bin/browsers"
     single-file "$@"
 }
 
