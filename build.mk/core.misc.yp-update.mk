@@ -44,6 +44,17 @@ yplatform/update/v%: _yplatform/update ## Update 'yplatform' to a specific versi
 		$(YP_UPDATE_COMMIT_RANGE) | \
 		$(GREP) --color -i -E "^|break" || true
 	$(ECHO)
+	$(ECHO_INFO) "Repo-structure changes in $(YP_SUBMODULE_PATH)@$(YP_UPDATE_VSN) since $(YP_VSN) $(YP_COMMIT):"
+	$(ECHO)
+	$(GIT) -C $(YP_SUBMODULE_PATH) --no-pager log \
+		--color \
+		--graph \
+		--date=short \
+		--pretty=format:"%h %ad %s" \
+		--no-decorate \
+		$(YP_UPDATE_COMMIT_RANGE) -- repo | \
+		$(GREP) --color -i -E "^|break" || true
+	$(ECHO)
 	$(ECHO_INFO) "Breaking changes in $(YP_SUBMODULE_PATH)@$(YP_UPDATE_VSN) since $(YP_VSN) $(YP_COMMIT):"
 	$(ECHO)
 	$(GIT) -C $(YP_SUBMODULE_PATH) --no-pager log \
