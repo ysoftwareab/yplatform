@@ -28,8 +28,8 @@ docker-ci: ## Start a Docker CI container (mount entire project).
 		yp_run_docker_ci_image $(YP_DOCKER_CI_IMAGE) $${PWD} $(CONTAINER_NAME)
 	$(ECHO) "[WARN] Make sure to export relevant environment variables!"
 	$(DOCKER) exec -it \
-		--env YP_SKIP_BREW_BOOTSTRAP=true \
 		--env YP_SKIP_SUDO_BOOTSTRAP=true \
+		--env YP_SKIP_BREW_BOOTSTRAP=true \
 		--workdir $${PWD} \
 		--user $$(id -u):$$(id -g) \
 		$(CONTAINER_NAME) \
