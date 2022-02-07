@@ -24,18 +24,18 @@ YP_VSN_TAG = $(shell 2>/dev/null $(GIT) -C $(YP_DIR) \
 endif
 $(foreach VAR,YP_COMMIT YP_VSN YP_VSN_DESCRIBE YP_VSN_TAG,$(call make-lazy-once,$(VAR)))
 
-# get yp-env environment variables
+# get yp environment variables from bin/yp-env
 YP_ENV ?=
 ifneq (true,$(YP_ENV))
-$(warning Setting env vars based on .yp-env.mk generated from bin/yp-env .)
-$(shell $(YP_DIR)/bin/yp-env >.yp-env.mk)
-include .yp-env.mk
-export $(shell $(SED) 's/=.\{0,\}//' .yp-env.mk)
+$(warning Setting env vars based on .env.yp-env.mk generated from bin/yp-env .)
+$(shell $(YP_DIR)/bin/yp-env >.env.yp-env.mk)
+include .env.yp-env.mk
+export $(shell $(SED) 's/=.\{0,\}//' .env.yp-env.mk)
 endif
 
-# get generic environment variables
+# get generic environment variables from .env
 ifneq (,$(wildcard .env))
-$(warning Setting env vars based on .env .)
+$(warning Setting env vars based on .env.mk (generated from .env) .)
 $(shell $(TEST) .env.mk -nt .env || $(CAT) .env | $(SED) "s/\\$$/\\$$\\$$/g" >.env.mk)
 include .env.mk
 export $(shell $(SED) 's/=.\{0,\}//' .env.mk)
