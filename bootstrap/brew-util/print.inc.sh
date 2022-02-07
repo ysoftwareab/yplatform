@@ -56,10 +56,13 @@ function brew_env() {
 ^CONTINUOUS_INTEGRATION=
 
 # yp
+^ARCH=
+^ARCH_
 ^ASDF_
 ^GIT_
 ^HOMEBREW_
 ^NVM_
+^OS=
 ^OS_
 ^YP_
 ^V=
