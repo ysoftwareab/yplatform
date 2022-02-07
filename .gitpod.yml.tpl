@@ -1,13 +1,11 @@
 #!/usr/bin/env node
 
 let _ = require('lodash-firecloud');
-let fs = require('fs');
 let yaml = require('js-yaml');
 
-// see https://www.gitpod.io/docs/config-gitpod-file
+let vscodeExtensions = require('./.vscode/extensions.json');
 
-let vscodeExtensions = fs.readFileSync(`${__dirname}/.vscode/extensions.json`);
-vscodeExtensions = JSON.parse(vscodeExtensions);
+// see https://www.gitpod.io/docs/config-gitpod-file
 
 let config = {
   // image: process.env.YP_DOCKER_CI_IMAGE
@@ -49,6 +47,10 @@ let config = {
   }]
 };
 
-let ymlConfig = yaml.dump(config);
-// eslint-disable-next-line no-console
-console.log(ymlConfig);
+if (require.main === module) {
+  let ymlConfig = yaml.dump(config);
+  // eslint-disable-next-line no-console
+  console.log(ymlConfig);
+} else {
+  module.exports = config;
+}
