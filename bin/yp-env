@@ -23,21 +23,22 @@ YP_ENV_EXPORTS=(
 )
 
 function main() {
-    if [[ "${MAIN:-}" = "true" ]]; then
-        if [[ $# -eq 1 ]]; then
-            eval "echo \${$1}"
-        elif [[ $# -gt 1 ]]; then
-            while [[ $# -gt 0 ]]; do
-                eval "echo $1=\${$1}"
-                shift
-            done
-        else
-            for VAR in "${YP_ENV_EXPORTS[@]}"; do
-                eval "echo ${VAR}=\${${VAR}}"
-            done
-        fi
-    else
+    [[ "${MAIN:-}" = "true" ]] || {
         unset YP_ENV_EXPORTS
+        return 0
+    }
+
+    if [[ $# -eq 1 ]]; then
+        eval "echo \${$1}"
+    elif [[ $# -gt 1 ]]; then
+        while [[ $# -gt 0 ]]; do
+            eval "echo $1=\${$1}"
+            shift
+        done
+    else
+        for VAR in "${YP_ENV_EXPORTS[@]}"; do
+            eval "echo ${VAR}=\${${VAR}}"
+        done
     fi
 }
 
