@@ -85,7 +85,9 @@ function sh_shellopts_restore() {
 # EXE --------------------------------------------------------------------------
 
 function exe() {
-    >&2 echo "$(pwd)\$ $*"
+    local PS_MARKER="\$"
+    [[ "${EUID}" != "0" ]] || PS_MARKER="#"
+    >&2 echo "$(pwd)${PS_MARKER} $*"
     "$@"
 }
 
