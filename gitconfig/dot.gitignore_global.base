@@ -44,7 +44,9 @@ yarn-error.log*
 # ------------------------------------------------------------------------------
 
 # Misc
+# .env.mk based on .env
 .env.mk
-.yp-env.mk
+# .env.yp-env.mk based on bin/yp-env
+.env.yp-env.mk
 Makefile.lazy
 /archive.*
