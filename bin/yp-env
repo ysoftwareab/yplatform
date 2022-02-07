@@ -44,7 +44,11 @@ function main() {
 
 [[ "${YP_ENV:-}" != "true" ]] || {
     main "$@"
-    exit 0
+    if [[ "${MAIN:-}" = "true" ]]; then
+        exit 0
+    else
+        return 0
+    fi
 }
 
 # ------------
