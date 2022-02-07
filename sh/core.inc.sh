@@ -13,7 +13,8 @@ function on_error() {
     >&2 echo "The following BASH_COMMAND exited with status ${EXIT_STATUS}."
     >&2 echo "=${BASH_COMMAND}"
 
-    >&2 echo "~$(eval echo "${BASH_COMMAND}")"
+    # best effort
+    >&2 echo "~$(eval echo "${BASH_COMMAND}")" || true
 
     # repeat the exact command in case the line above expands to a lot of output
     # which makes it hard to find the culprit
