@@ -7,7 +7,8 @@ let path = require('path');
 
 let name = `yp-docker-vscode-${path.basename(path.dirname(__dirname))}`;
 let containerUser = 'yp';
-let workspaceFolder = path.resolve(`${__dirname}/..`);
+// eslint-disable-next-line no-template-curly-in-string
+let workspaceFolder = '${localWorkspaceFolder}';
 
 let vscodeExtensions = require('../.vscode/extensions.json');
 

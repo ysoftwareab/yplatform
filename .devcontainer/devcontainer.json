@@ -13,8 +13,8 @@
     "--env YP_SKIP_SUDO_BOOTSTRAP=true",
     "--env YP_SKIP_BREW_BOOTSTRAP=true"
   ],
-  "workspaceMount": "source=/Users/andrei/git/ysoftwareab/yplatform,target=/Users/andrei/git/ysoftwareab/yplatform,type=bind",
-  "workspaceFolder": "/Users/andrei/git/ysoftwareab/yplatform",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
+  "workspaceFolder": "${localWorkspaceFolder}",
   "postCreateCommand": [
     "make bootstrap"
   ],
