@@ -48,6 +48,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bootstrap/brew-util/homebrew-install\.sh$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.original$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
+	-e "^\.devcontainer/devcontainer\.json$$ \
 	-e "^doc/bak/" \
 
 YP_SYMLINK_FILES_IGNORE += \
