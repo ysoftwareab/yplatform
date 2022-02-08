@@ -10,11 +10,11 @@
         GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" >/dev/null && pwd)"
         autoload -U compaudit compinit bashcompinit
         bashcompinit || {
-            echo >&2 "Initialization of zsh completion features has failed in"
-            echo >&2 "${GLOBAL_YP_DIR}/sh/dev.inc.sh."
+            >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Initialization of zsh completion features has failed in"
+            >&2 echo "$(date +"%H:%M:%S")" "       ${GLOBAL_YP_DIR}/sh/dev.inc.sh."
         }
     else
-        echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
     fi
 
     unset YP_ENV

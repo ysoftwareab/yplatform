@@ -155,12 +155,12 @@ fi
 
 if [[ -n ${CREATE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 "Stack does not exist, thus change-sets are not applicable."
+        echo_err "Stack does not exist, thus change-sets are not applicable."
         exit 1
     fi
-    echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    echo_info "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} "$@" | jq -r ".Id")
-    echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
+    echo_info "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
     CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
     TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
     aws cloudformation wait change-set-create-complete ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} || true
@@ -170,7 +170,7 @@ if [[ -n ${CREATE_CHANGE_SET} ]]; then
 
 elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
     if [[ ${CU} = create ]]; then
-        echo >&2 "Stack does not exist, thus change-sets are not applicable."
+        echo_err "Stack does not exist, thus change-sets are not applicable."
         exit 1
     fi
     if [[ -n ${CHANGE_SET_FILE} ]]; then
@@ -178,33 +178,33 @@ elif [[ -n ${EXECUTE_CHANGE_SET} ]]; then
         CHANGE_SET_ID=$(cat ${CHANGE_SET_FILE} | jq -r ".ChangeSetId")
         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
     fi
-    echo "Executing ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+    echo_info "Executing ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
     trap cancel_update_stack INT
     aws cloudformation execute-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG}
 
 else
     if [[ ${CU} = create ]]; then
-        # echo "Creating ${STACK_NAME} stack..."
+        # echo_info "Creating ${STACK_NAME} stack..."
         trap cancel_create_stack INT
         STACK_ID=$(aws cloudformation ${CU}-stack ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${TIMEOUT_ARG} ${CAPABILITIES_ARG} ${ON_FAILURE_ARG} "$@" | jq -r ".StackId")
         STACK_NAME_ARG="--stack-name ${STACK_ID}"
     else
-        # echo "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
+        # echo_info "Updating ${STACK_ID} aka ${STACK_NAME} stack..."
         # aws cloudformation ${CU}-stack ${STACK_NAME_ARG} "$@"
 
-        echo "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
+        echo_info "Creating change-set for ${STACK_ID} aka ${STACK_NAME} stack..."
         CHANGE_SET_ID=$(aws cloudformation create-change-set ${STACK_NAME_ARG} ${TEMPLATE_BODY_ARG} ${CAPABILITIES_ARG} ${CHANGE_SET_NAME_ARG} "$@" | jq -r ".Id")
-        echo "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
+        echo_info "Change-set URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/changeset/detail?changeSetId=${CHANGE_SET_ID}"
         CHANGE_SET_NAME_ARG="--change-set-name ${CHANGE_SET_ID}"
         TMP_CHANGE_SET_FILE=$(mktemp -t aws-cloudformation-cu-stack.XXXXXXXXXX)
         aws cloudformation wait change-set-create-complete ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} || true
         aws cloudformation describe-change-set ${STACK_NAME_ARG} ${CHANGE_SET_NAME_ARG} | tee ${TMP_CHANGE_SET_FILE}
         cp ${TMP_CHANGE_SET_FILE} ${CHANGE_SET_FILE}
 
-        echo "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
+        echo_info "Executing change-set ${CHANGE_SET_ID} aka ${CHANGE_SET_NAME} for ${STACK_ID} aka ${STACK_NAME} stack..."
         STATUS_REASON=$(cat ${TMP_CHANGE_SET_FILE} | jq -r ".StatusReason")
         if [[ ${STATUS_REASON} = "The submitted information didn't contain changes. Submit different information to create a change set." ]]; then
-            echo ${STATUS_REASON}
+            echo_info ${STATUS_REASON}
             exit 0
         fi
         trap cancel_update_stack INT
@@ -212,11 +212,11 @@ else
     fi
 fi
 
-echo "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
+echo_info "Progress URL: https://${AWS_REGION}.console.aws.amazon.com/cloudformation/home?region=${AWS_REGION}#/stack/detail?stackId=${STACK_ID}"
 
 [[ -n ${WAIT_FOR_STACK} ]] || exit 0
 
-echo "Waiting for stack-${CU}-complete..."
+echo_info "Waiting for stack-${CU}-complete..."
 aws cloudformation wait stack-${CU}-complete ${STACK_NAME_ARG} || {
     aws cloudformation describe-stack-events ${STACK_NAME_ARG} | \
         jq ".StackEvents" | \
