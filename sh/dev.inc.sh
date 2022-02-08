@@ -17,6 +17,7 @@
         echo >&2 "Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
     fi
 
+    unset YP_ENV
     source ${GLOBAL_YP_DIR}/sh/env.inc.sh
     source ${GLOBAL_YP_DIR}/sh/dev-aws-iam-login.inc.sh
 
