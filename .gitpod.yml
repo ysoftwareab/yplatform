@@ -22,7 +22,7 @@ vscode:
     - timonwong.shellcheck
 tasks:
   - command: |-
-      source dev/inc.sh
+      source sh/dev.inc.sh
       gp env PATH=$PATH
       gp open README.md
       make help

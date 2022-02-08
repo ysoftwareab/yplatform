@@ -31,15 +31,15 @@ let config = {
   // NOTE 'make bootstrap' would be nice because
   // the branch's bootstrap might be out of sync with ysoftwareab/yp-ubuntu-20.04-common:latest
   // NOTE 'gp env PATH=$PATH' in order for vscode to find brew executable e.g. shellcheck
-  // TODO should also modify the shell's rc file to source dev/inc.sh
+  // TODO should also modify the shell's rc file to source sh/dev.inc.sh
 
   tasks: [{
     // init: _.join([
-    //   'source dev/inc.sh',
+    //   'source sh/dev.inc.sh',
     //   'make bootstrap'
     // ], '\n'),
     command: _.join([
-      'source dev/inc.sh',
+      'source sh/dev.inc.sh',
       'gp env PATH=$PATH',
       'gp open README.md',
       'make help'
