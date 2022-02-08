@@ -76,6 +76,40 @@ function yp::env_force() {
     yp::env
 }
 
+# nvm install --reinstall-packages-from=current, including npm
+function yp::nvm_install() {
+    local NODE=$(command -v node 2>/dev/null) || true
+    local NODE_VSN="$(${NODE:-true} --version)"
+    local NPM=$(command -v npm 2>/dev/null) || true
+    local NPM_VSN="$(${NPM:-npm} --version)"
+
+    [[ "$(nvm which current)" = "${NODE}" ]] || {
+        # defensive, because I can't see a simple way to assign the above variables via 'nvm exec'
+        >&2 echo "Expected NODE=${NODE} to be the same as 'nvm which current' $(nvm which current) ."
+        return 1
+    }
+
+    local NODE_VSN_NVM="$(nvm version current)"
+
+    [[ -n "${NODE}" ]] || {
+        >&2 echo "No current node detected. Falling back to vanilla 'nvm install'."
+        nvm install "$@"
+        return 0
+    }
+    >&2 echo "Current NODE=${NODE} NODE_VSN=${NODE_VSN} NODE_VSN_NVM=${NODE_VSN_NVM} ."
+    >&2 echo "Current NPM=${NPM} NPM_VSN=${NPM_VSN} ."
+    nvm install "$@" --reinstall-package-from=${NODE_VSN_NVM}
+    hash -r
+    >&2 echo "Post-nvm NODE=$(command -v node 2>/dev/null) NODE_VSN=$(node --version) ."
+    >&2 echo "Post-nvm NPM=$(command -v npm 2>/dev/null) NPM_VSN=$(npm --version) ."
+
+    [[ "$(npm --version)" = "${NPM_VSN}" ]] || {
+        npm install --silent -g npm@${NPM_VSN}
+        hash -r
+        >&2 echo "Post-npm NPM=$(command -v npm 2>/dev/null) NPM_VSN=$(npm --version) ."
+    }
+}
+
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 function make() {
     # NOTE zsh would output "make is /path/to/make"
@@ -108,6 +142,8 @@ function make.bak() {
     local MAKE_COMMAND=$(type -a -p make | head -1)
     ${MAKE_COMMAND} "$@"
 }
+
+# MAIN ------------------------------------------------------------------------
 
 function main() {
     [[ "${MAIN:-}" = "true" ]] || {
