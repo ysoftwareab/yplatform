@@ -27,7 +27,9 @@ $(foreach VAR,YP_COMMIT YP_VSN YP_VSN_DESCRIBE YP_VSN_TAG,$(call make-lazy-once,
 # get yp environment variables from bin/yp-env
 YP_ENV ?=
 ifneq (true,$(YP_ENV))
+ifeq (0,$(MAKELEVEL))
 $(warning Setting env vars based on .env.yp-env.mk generated from bin/yp-env .)
+endif
 $(shell $(YP_DIR)/bin/yp-env >.env.yp-env.mk)
 include .env.yp-env.mk
 export $(shell $(SED) 's/=.\{0,\}//' .env.yp-env.mk)
@@ -35,7 +37,9 @@ endif
 
 # get generic environment variables from .env
 ifneq (,$(wildcard .env))
+ifeq (0,$(MAKELEVEL))
 $(warning Setting env vars based on .env.mk (generated from .env) .)
+endif
 $(shell $(TEST) .env.mk -nt .env || $(CAT) .env | $(SED) "s/\\$$/\\$$\\$$/g" >.env.mk)
 include .env.mk
 export $(shell $(SED) 's/=.\{0,\}//' .env.mk)
@@ -43,7 +47,9 @@ endif
 
 # get Makefile-specific environment variables
 ifneq (,$(wildcard .makerc))
+ifeq (0,$(MAKELEVEL))
 $(warning Setting env vars based on .makerc .)
+endif
 include .makerc
 endif
 
