@@ -1,3 +1,5 @@
+# DEPRECATED. Use ysoftware/yplatform/.github/actions/<x> instead.
+
 # Composite Github Action to make 'yplatform' scripts available, and run sub-actions.
 # Default sub-action is 'run'.
 # NOTE 'debug' action is just an example. Could have been implemented just fine via 'run'.
@@ -57,6 +59,8 @@ runs:
         # FIXME https://github.com/actions/runner/issues/665
         INPUT_XTRACE: ${{ inputs.xtrace }}
       run: |
+        >&2 echo "DEPRECATED. Use ysoftware/yplatform/.github/actions/${{ inputs.action }} instead."
+
         [[ "${{ inputs.action }}" == "debug" ]] || exit 0
         [[ "${INPUT_XTRACE}" != "true" ]] || set -x
 
@@ -82,6 +86,8 @@ runs:
         INPUT_SHELL: ${{ inputs.shell }}
         INPUT_XTRACE: ${{ inputs.xtrace }}
       run: |
+        >&2 echo "DEPRECATED. Use ysoftware/yplatform/.github/actions/${{ inputs.action }} instead."
+
         [[ "${{ inputs.action }}" == "run" ]] || exit 0
         [[ "${INPUT_XTRACE}" != "true" ]] || set -x
 
