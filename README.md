@@ -54,7 +54,8 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 ## Install in a project
 
-Use `yplatform` in a project and you will gain access to:
+`bash -c "$(curl -qfsSL https://raw.githubusercontent.com/ysoftwareab/yplatform/master/bin/yp-install)"`
+to install the latest `yplatform` (as a git submodule) to your project and you will gain access to:
   * a bootstrap process for CI machines based on GNU and Homebrew
     * [cross-provider](#cross-provider).
       No more worries about running pipelines with multiple CI providers, or switching to a new CI provider.
