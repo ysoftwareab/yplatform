@@ -14,7 +14,7 @@ printenv
 echo ::endgroup::
 
 # FIXME https://github.com/actions/runner/issues/863
-echo ::group::\$HOME
+echo ::group::${HOME}
 source "${GITHUB_ACTION_PATH}/ci/util/home.inc.sh"
 echo ::endgroup::
 
