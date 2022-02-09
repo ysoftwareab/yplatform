@@ -23,6 +23,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
         done
     } >>${TMP_ENV}
 
+    export YP_BAK_HOME="${HOME}"
     export HOME="${HOME_REAL}"
 
     # NOTE ideally we would unset all current variables,
