@@ -1,42 +1,97 @@
 #!/usr/bin/env bash
 #!/usr/bin/env zsh
 
-[[ -n "${YP_DIR:-}" ]] || {
+if [[ -n "${BASH_VERSION:-}" ]]; then
+    true
+elif [[ -n "${ZSH_VERSION:-}" ]]; then
+    true
+else
+    >&2 echo "yp-env has been loaded in an unsupported shell ${SHELL:-} ."
+    return 1
+fi
+
+function yp::stacktrace_file() {
+    # see https://unix.stackexchange.com/a/453170/61053
     if [[ -n "${BASH_VERSION:-}" ]]; then
-        YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
-        # >&2 echo YP_DIR=$YP_DIR
+        echo "${BASH_SOURCE[1]}"
     elif [[ -n "${ZSH_VERSION:-}" ]]; then
-        # shellcheck disable=SC2296
-        YP_DIR="$(cd "$(dirname ${(%):-%x})/.." >/dev/null && pwd)"
+        # shellcheck disable=SC2154
+        echo "${funcfiletrace[1]%:*}"
     else
-        >&2 echo "$(date +"%H:%M:%S")" "[ERR ] Unsupported shell or \$BASH_VERSION and \$ZSH_VERSION are undefined."
+        echo "?file?"
+    fi
+}
+
+function yp::stacktrace_line() {
+    # see https://unix.stackexchange.com/a/453170/61053
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        echo "${FUNCNAME[1]}"
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        echo "${funcfiletrace[1]##*:}"
+    else
+        echo "?line?"
+    fi
+}
+
+function yp::stacktrace_func() {
+    # see https://unix.stackexchange.com/a/453170/61053
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        echo "${FUNCNAME[1]}"
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2154
+        echo "${funcstack[2]}"
+    else
+        echo "?func?"
+    fi
+}
+
+function yp::stacktrace() {
+    echo "$(yp::stacktrace_file):$(yp::stacktrace_line) $(yp::stacktrace_func)"
+}
+
+function yp::executed() {
+    if [[ -n "${BASH_VERSION:-}" ]]; then
+        for f in "${FUNCNAME[@]}"; do
+            case "${f}" in
+                main)
+                    return 0
+                    ;;
+                source)
+                    return 1
+                    ;;
+                *)
+                    ;;
+            esac
+        done
+    elif [[ -n "${ZSH_VERSION:-}" ]]; then
+        # shellcheck disable=SC2154
+        for f in "${funcstack[@]}"; do
+            if [[ "${f}" =~ / ]]; then
+                return 1
+            fi
+        done
+        return 0
+    else
         exit 1
     fi
 }
 
-if [[ -n "${ZSH_EVAL_CONTEXT:-}" && "${ZSH_EVAL_CONTEXT:-}" =~ :file$ ]] || \
-       [[ -n "${BASH_VERSION:-}" ]] && (return 0 2>/dev/null); then
-    # sourced
-    true
-else
-    # executed (e.g. from build.mk/core.common.mk)
-    set -euo pipefail
-    MAIN=true
-fi
+function yp::sourced() {
+    yp::executed || return 0
+    return 1
+}
 
-# document exports
-# NOTE exported variables need to be in sync with build.mk/core.common.mk:9
+function yp::env() {
+    # source ${YP_ENV_DIR}/bin/yp-env "$@"
+    source ${YP_ENV} "$@"
+}
 
-YP_ENV_EXPORTS=(
-    HOMEBREW_PREFIX
-    INFOPATH
-    MANPATH
-    NVM_DIR
-    PATH
-    YP_ENV
-)
+function yp::env_force() {
+    # source ${YP_ENV_DIR}/bin/yp-env --force "$@"
+    source ${YP_ENV} --force "$@"
+}
 
-# LOCAL ------------------------------------------------------------------------
+# PATH FUNCTIONS ---------------------------------------------------------------
 
 function yp::path() {
     export PATH="$1"
@@ -113,7 +168,7 @@ function yp::nvm_install() {
 }
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
-function make() {
+typeset -f make >/dev/null || function make() {
     # NOTE zsh would output "make is /path/to/make"
     local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
     case "$1" in
@@ -140,16 +195,34 @@ function make() {
 
 # for when you want to skip ./make.sh
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
-function make.bak() {
-    local MAKE_COMMAND=$(type -a -p make | head -1)
+typeset -f make.bak >/dev/null || function make.bak() {
+    # NOTE zsh would output "make is /path/to/make"
+    local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
     ${MAKE_COMMAND} "$@"
 }
 
-# MAIN ------------------------------------------------------------------------
+# MAIN -------------------------------------------------------------------------
 
-function main() {
-    [[ "${MAIN:-}" = "true" ]] || {
-        unset -f main
+yp::sourced || set -euo pipefail
+
+YP_ENV_DIR="$(cd "$(dirname "$(yp::stacktrace_file)")/.." >/dev/null && pwd)"
+
+# document exports
+# NOTE exported variables need to be in sync with build.mk/core.common.mk:9
+YP_ENV_EXPORTS=(
+    HOMEBREW_PREFIX
+    INFOPATH
+    MANPATH
+    NVM_DIR
+    PATH
+    YP_ENV
+)
+
+function report() {
+    yp::executed || {
+        export "${YP_ENV_EXPORTS[@]}"
+        unset -f report
+        unset YP_ENV_DIR
         unset YP_ENV_EXPORTS
         return 0
     }
@@ -166,17 +239,25 @@ function main() {
             eval "echo ${VAR}=\${${VAR}}"
         done
     fi
-    exit 0
 }
 
-[[ "${YP_ENV:-}" != "true" ]] || {
-    main "$@"
-    return 0
+[[ "${1:-}" != "--force" ]] || {
+    unset YP_ENV
+    shift
 }
 
-# EXPORT -----------------------------------------------------------------------
+[[ "${YP_ENV:-}" != "${YP_ENV_DIR/bin/yp-env}" ]] || {
+    if yp::sourced; then
+        report "$@" || return 1
+        return 0
+    else
+        report "$@"
+        echo exit 0
+    fi
+}
 
-hash -r
+hash -r # see https://github.com/Homebrew/brew/issues/5013
+export YP_ENV=${YP_ENV_DIR}/bin/yp-env
 
 [[ -z "${HOMEBREW_PREFIX:-}" ]] || [[ -f "${HOMEBREW_PREFIX:-}/bin/brew" ]] || {
     unset HOMEBREW_PREFIX
@@ -212,15 +293,15 @@ fi
 
 # jq becomes always available
 # NOTE if needed to bypass system's jq, call yp-jq
-yp::path_append ${YP_DIR}/bin/.jq
+yp::path_append ${YP_ENV_DIR}/bin/.jq
 
 # jd becomes always available
 # NOTE if needed to bypass system's jd, call yp-jd
-yp::path_append ${YP_DIR}/bin/.jd
+yp::path_append ${YP_ENV_DIR}/bin/.jd
 
 # yq becomes always available
 # NOTE if needed to bypass system's yq, call yp-yq
-yp::path_append ${YP_DIR}/bin/.yq
+yp::path_append ${YP_ENV_DIR}/bin/.yq
 
 yp::path_prepend /usr/local/sbin
 yp::path_prepend /usr/local/bin
@@ -287,19 +368,16 @@ fi
 
 [[ -z "${ASDF_DIR:-}" ]] || {
     # user a hardcoded value for performance
-    # yp::path_prepend "$(${YP_DIR}/bin/asdf-get-asdf-bin)"
-    # yp::path_prepend "$(${YP_DIR}/bin/asdf-get-asdf-user-shims)"
+    # yp::path_prepend "$(${YP_ENV_DIR}/bin/asdf-get-asdf-bin)"
+    # yp::path_prepend "$(${YP_ENV_DIR}/bin/asdf-get-asdf-user-shims)"
     yp::path_prepend "${ASDF_DIR}/bin"
     yp::path_prepend "${ASDF_DATA_DIR:-${HOME}/.asdf}/shims"
 }
 
 [[ -z "${NVM_BIN:-}" ]] || {
     # user a hardcoded value for performance
-    # yp::path_prepend "$(${YP_DIR}/bin/nvm-get-nvm-bin)"
+    # yp::path_prepend "$(${YP_ENV_DIR}/bin/nvm-get-nvm-bin)"
     yp::path_prepend "${NVM_BIN}"
 }
 
-export YP_ENV=true
-export "${YP_ENV_EXPORTS[@]}"
-
-main "$@"
+report "$@"

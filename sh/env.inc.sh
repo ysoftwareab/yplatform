@@ -14,4 +14,4 @@
     fi
 }
 
-source ${YP_DIR}/bin/yp-env
+source ${YP_DIR}/bin/yp-env "$@"
