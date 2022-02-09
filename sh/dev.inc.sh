@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-[[ "${YP_DEV_INC_SH:-}" = "true" ]] || {
+[[ "${YP_DEV:-}" = "true" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then
         GLOBAL_YP_DIR="${GLOBAL_YP_DIR:-$(dirname ${BASH_SOURCE[0]})/..}"
         GLOBAL_YP_DIR="$(cd "${GLOBAL_YP_DIR}" >/dev/null && pwd)"
@@ -30,6 +30,6 @@
     yp::path_prepend ${GLOBAL_YP_DIR}/dev/bin
     yp::path_append ./node_modules/.bin
 
-    export YP_DEV_INC_SH=true
+    export YP_DEV=true
     unset YP_DIR
 }
