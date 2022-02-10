@@ -6,5 +6,5 @@
 .PHONY: bootstrap
 bootstrap: ## Bootstrap your system.
 	$(ECHO_DO) "Bootstrapping..."
-	$(YP_DIR)/bootstrap/$(OS_SHORT)/bootstrap
+	$(YP_DIR)/bootstrap/bootstrap
 	$(ECHO_DONE)
