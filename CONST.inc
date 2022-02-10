@@ -5,7 +5,7 @@ YP_ECCHECKER_VSN=2.4.0
 YP_JQ_VSN=1.6
 
 # https://github.com/josephburnett/jd
-YP_JD_VSN=1.5.1
+YP_JD_VSN=1.5.0
 
 # https://github.com/zricethezav/gitleaks
 YP_GITLEAKS_VSN=8.2.4
