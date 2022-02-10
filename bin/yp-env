@@ -68,11 +68,12 @@ function yp::path_append_before() {
 }
 
 function yp::env() {
-    source ${YP_DIR}/bin/yp-env
+    # source ${YP_DIR}/bin/yp-env
+    source ${YP_ENV}
 }
 
 function yp::env_force() {
-    unset YP_ENV
+    unset YP_ENV # force bin/yp-env
     yp::env
 }
 

@@ -2,8 +2,8 @@
 set -euo pipefail
 
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
-unset YP_ENV
-source ${YP_DIR}/sh/common.inc.sh
+# shellcheck disable=SC1091
+source "${YP_DIR}/sh/common.inc.sh"
 
 #- yp-printvar 1.0
 ## Usage: yp-printvar -- VARIABLE
