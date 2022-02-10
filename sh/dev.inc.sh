@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 [[ "${YP_DEV:-}" != "true" ]] || return 0
 

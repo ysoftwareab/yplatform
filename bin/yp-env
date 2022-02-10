@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 [[ -n "${YP_DIR:-}" ]] || {
     if [[ -n "${BASH_VERSION:-}" ]]; then

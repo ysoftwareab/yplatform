@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#!/usr/bin/env zsh
 
 function yp::aws-iam-login() {
     [[ $# -eq 1 ]] || {
