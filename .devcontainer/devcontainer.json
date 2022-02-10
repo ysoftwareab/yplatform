@@ -2,23 +2,18 @@
   "name": "yp-docker-vscode-yplatform",
   "image": "ysoftwareab/yp-ubuntu-20.04-common:latest",
   "runArgs": [
-    "--platform linux/amd64",
-    "--privileged",
-    "--name yp-docker-vscode-yplatform",
-    "--hostname yp-docker-vscode-yplatform",
-    "--add-host yp-docker-vscode-yplatform:127.0.0.1",
-    "--network=host",
-    "--ipc=host",
-    "--env USER=yp",
-    "--env YP_SKIP_SUDO_BOOTSTRAP=true",
-    "--env YP_SKIP_BREW_BOOTSTRAP=true"
+    "--privileged"
   ],
   "workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
   "workspaceFolder": "${localWorkspaceFolder}",
-  "postCreateCommand": [
-    "make bootstrap"
-  ],
+  "postCreateCommand": "/usr/bin/bash -l -i -c \"rm -f Makefile.lazy; make bootstrap\"",
+  "postStartCommand": "/usr/bin/bash -l -i -c \"rm -f Makefile.lazy\"",
   "containerUser": "yp",
+  "containerEnv": {
+    "USER": "yp",
+    "YP_SKIP_SUDO_BOOTSTRAP": "true",
+    "YP_SKIP_BREW_BOOTSTRAP": "true"
+  },
   "mounts": [
     "source=profile,target=/root,type=volume",
     "target=/root/.vscode-server,type=volume",

@@ -24,31 +24,38 @@ let config = {
 
   runArgs: [
     // sync with ci/util/docker-ci.inc.sh
-    '--platform linux/amd64',
+    // '--platform linux/amd64',
     '--privileged',
-    `--name ${name}`,
-    `--hostname ${name}`,
-    `--add-host ${name}:127.0.0.1`,
-    '--network=host',
-    '--ipc=host',
+    // `--name ${name}`,
+    // `--hostname ${name}`,
+    // `--add-host ${name}:127.0.0.1`,
+    // '--network=host',
+    // '--ipc=host',
     // '--volume "${MOUNT_DIR}:${MOUNT_DIR}:rw"',
     // '--env CI=true',
-    `--env USER=${containerUser}`,
+    // `--env USER=${containerUser}`,
 
     // sync with yplatform/build.mk/core.misc.docker-ci.mk
-    '--env YP_SKIP_SUDO_BOOTSTRAP=true',
-    '--env YP_SKIP_BREW_BOOTSTRAP=true'
+    // '--env YP_SKIP_SUDO_BOOTSTRAP=true',
+    // '--env YP_SKIP_BREW_BOOTSTRAP=true'
   ],
 
   // https://code.visualstudio.com/remote/advancedcontainers/change-default-source-mount
   workspaceMount: `source=${workspaceFolder},target=${workspaceFolder},type=bind`,
   workspaceFolder,
 
-  postCreateCommand: [
-    'make bootstrap'
-  ],
+  postCreateCommand: '/usr/bin/bash -l -i -c "rm -f Makefile.lazy; make bootstrap"',
+  postStartCommand: '/usr/bin/bash -l -i -c "rm -f Makefile.lazy"',
 
   containerUser,
+
+  containerEnv: {
+    // sync with ci/util/docker-ci.inc.sh
+    USER: containerUser,
+    // sync with yplatform/build.mk/core.misc.docker-ci.mk
+    YP_SKIP_SUDO_BOOTSTRAP: 'true',
+    YP_SKIP_BREW_BOOTSTRAP: 'true'
+  },
 
   mounts: [
     // see https://code.visualstudio.com/docs/remote/troubleshooting#_persisting-user-profile
