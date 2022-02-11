@@ -25,7 +25,7 @@ let config = {
   runArgs: [
     // sync with ci/util/docker-ci.inc.sh
     // '--platform linux/amd64',
-    '--privileged',
+    '--privileged'
     // `--name ${name}`,
     // `--hostname ${name}`,
     // `--add-host ${name}:127.0.0.1`,

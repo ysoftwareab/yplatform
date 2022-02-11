@@ -82,11 +82,11 @@ function yp::sourced() {
 }
 
 function yp::env() {
-    source ${YP_ENV:-${YP_DIR}/bin/yp-env} "$@"
+    source ${YP_ENV:-${YP_DIR}/bin/yp-env}
 }
 
 function yp::env_force() {
-    source ${YP_ENV:-${YP_DIR}/bin/yp-env} --force "$@"
+    source ${YP_ENV:-${YP_DIR}/bin/yp-env} --force
 }
 
 # PATH FUNCTIONS ---------------------------------------------------------------
@@ -160,6 +160,7 @@ function yp::nvm_install() {
 # SMART MAKE -------------------------------------------------------------------
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
+# shellcheck disable=SC2034
 typeset -f make >/dev/null || function make() {
     # NOTE zsh would output "make is /path/to/make"
     local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
@@ -187,6 +188,7 @@ typeset -f make >/dev/null || function make() {
 
 # for when you want to skip ./make.sh
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
+# shellcheck disable=SC2034
 typeset -f make.bak >/dev/null || function make.bak() {
     # NOTE zsh would output "make is /path/to/make"
     local MAKE_COMMAND=$(type -a -p make | head -1 | sed "s|^make is ||")
