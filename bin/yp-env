@@ -82,13 +82,11 @@ function yp::sourced() {
 }
 
 function yp::env() {
-    # source ${YP_ENV_DIR}/bin/yp-env "$@"
-    source ${YP_ENV} "$@"
+    source ${YP_ENV:-${YP_DIR}/bin/yp-env} "$@"
 }
 
 function yp::env_force() {
-    # source ${YP_ENV_DIR}/bin/yp-env --force "$@"
-    source ${YP_ENV} --force "$@"
+    source ${YP_ENV:-${YP_DIR}/bin/yp-env} --force "$@"
 }
 
 # PATH FUNCTIONS ---------------------------------------------------------------
@@ -123,15 +121,7 @@ function yp::path_append_before() {
     fi
 }
 
-function yp::env() {
-    # source ${YP_DIR}/bin/yp-env
-    source ${YP_ENV}
-}
-
-function yp::env_force() {
-    unset YP_ENV # force bin/yp-env
-    yp::env
-}
+# SMART NVM INSTALL ------------------------------------------------------------
 
 # nvm install --reinstall-packages-from=current, including npm
 function yp::nvm_install() {
@@ -166,6 +156,8 @@ function yp::nvm_install() {
         >&2 echo "Post-npm NPM=$(command -v npm 2>/dev/null) NPM_VSN=$(npm --version) ."
     }
 }
+
+# SMART MAKE -------------------------------------------------------------------
 
 # NOTE caveat: it doesn't work properly if 'make' is already an alias|function
 typeset -f make >/dev/null || function make() {
