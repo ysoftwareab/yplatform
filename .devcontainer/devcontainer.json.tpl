@@ -58,6 +58,7 @@ let config = {
   },
 
   mounts: [
+    'source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind',
     // see https://code.visualstudio.com/docs/remote/troubleshooting#_persisting-user-profile
     // persist user profile
     'source=profile,target=/root,type=volume',

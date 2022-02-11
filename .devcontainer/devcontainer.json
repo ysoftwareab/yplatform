@@ -15,6 +15,7 @@
     "YP_SKIP_BREW_BOOTSTRAP": "true"
   },
   "mounts": [
+    "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
     "source=profile,target=/root,type=volume",
     "target=/root/.vscode-server,type=volume",
     "source=unique-vol-name-here,target=/root/.vscode-server/extensions,type=volume",
