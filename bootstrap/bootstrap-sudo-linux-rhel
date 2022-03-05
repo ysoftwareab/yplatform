@@ -48,6 +48,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ;;
 esac
 yum_install_one findutils
+yum_install_one hostname
 yum_install_one util-linux
 
 yum_install_one python3
