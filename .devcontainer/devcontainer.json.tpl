@@ -5,7 +5,7 @@
 let _ = require('lodash-firecloud');
 let path = require('path');
 
-let name = `yp-docker-vscode-${path.basename(path.dirname(__dirname))}`;
+let name = require(`${__dirname}/../package.json`).name;
 let containerUser = 'yp';
 // eslint-disable-next-line no-template-curly-in-string
 let workspaceFolder = '${localWorkspaceFolder}';
