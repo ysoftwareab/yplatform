@@ -3,7 +3,6 @@
 // TODO prebuild https://code.visualstudio.com/docs/remote/devcontainer-cli#_building-a-dev-container-image
 
 let _ = require('lodash-firecloud');
-let path = require('path');
 
 let project = require(`${__dirname}/../package.json`).name;
 let name = `yp-docker-vscode-${project}`;
