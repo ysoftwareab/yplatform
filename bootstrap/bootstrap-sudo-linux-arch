@@ -36,6 +36,8 @@ echo_do "pacman: Installing basic packages..."
 pacman_install_one base-devel # as per homebrew-install
 pacman_install_one coreutils
 pacman_install_one inetutils
+# see https://github.com/Homebrew/homebrew-portable-ruby/issues/147
+pacman_install_one libxcrypt-compat
 pacman_install_one util-linux
 
 pacman_install_one python3
