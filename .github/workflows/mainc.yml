@@ -1013,7 +1013,6 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - ubuntu-16.04
           - ubuntu-18.04
         yp_ci_brew_install:
           - minimal
@@ -2393,7 +2392,6 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - ubuntu-16.04
           - ubuntu-18.04
         yp_ci_brew_install:
           - common

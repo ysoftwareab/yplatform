@@ -23,7 +23,6 @@ let matrixContainer = {
   //   'rhel-8.5'
   // ],
   ubuntu: [
-    'ubuntu-16.04',
     'ubuntu-18.04',
     'ubuntu-20.04'
   ]

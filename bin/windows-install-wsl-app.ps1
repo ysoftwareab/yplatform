@@ -24,12 +24,6 @@ $Distros = @(
     },
 
     @{
-        id="Ubuntu-16.04",
-        url="https://aka.ms/wsl-ubuntu-1604",
-        installer="ubuntu1604.exe"
-    },
-
-    @{
         id="Debian",
         url="https://aka.ms/wsl-debian-gnulinux",
         installer="debian.exe"

@@ -989,7 +989,6 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - ubuntu-16.04
           - ubuntu-18.04
           - ubuntu-20.04
         yp_ci_brew_install:
@@ -2168,7 +2167,6 @@ jobs:
       fail-fast: false
       matrix:
         container:
-          - ubuntu-16.04
           - ubuntu-18.04
           - ubuntu-20.04
         yp_ci_brew_install:
