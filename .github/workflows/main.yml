@@ -613,7 +613,7 @@ jobs:
           tr "\n" ":")"
           echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
       - name: Install WSL Distribution
-        uses: Vampire/setup-wsl@v1.2
+        uses: Vampire/setup-wsl@v1.2.0
         with:
           distribution: Ubuntu-20.04
           update: 'false'
