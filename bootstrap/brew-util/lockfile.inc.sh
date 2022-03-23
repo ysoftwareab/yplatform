@@ -55,7 +55,7 @@ function brew_lockfile() {
                 # and the tap-expected-version of brew
                 # brew tap "${TAP}"
                 mkdir -p "${TAP}"
-                git clone "git://github.com/${TAP}.git" "${TAP}"
+                git clone "https://github.com/${TAP}.git" "${TAP}"
                 echo_done
             }
 

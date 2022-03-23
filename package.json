@@ -21,14 +21,14 @@
     "eslint-import-resolver-node": "^0.3.3",
     "eslint-plugin-async-await": "^0.0.0",
     "eslint-plugin-eslint-comments": "^3.1.2",
-    "eslint-plugin-firecloud": "git://github.com/ysoftwareab/eslint-plugin-firecloud.git#semver:~0.13.1",
+    "eslint-plugin-firecloud": "git+https://github.com/ysoftwareab/eslint-plugin-firecloud.git#semver:~0.13.1",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsdoc": "^31.4.0",
     "eslint-plugin-lodash": "^7.1.0",
     "eslint-plugin-no-null": "^1.0.2",
     "js-yaml": "^3.14.1",
-    "lodash-firecloud": "git://github.com/ysoftwareab/lodash-firecloud.git#semver:~0.5.28",
+    "lodash-firecloud": "git+https://github.com/ysoftwareab/lodash-firecloud.git#semver:~0.5.28",
     "typescript": "^3.7.2"
   }
 }

@@ -8,7 +8,7 @@ symlinking `~/git/yplatform` to the folder of your choice, so copy-pasting would
 
 ```shell
 cd # make sure that you are at home dir (~)
-git clone git://github.com/ysoftwareab/yplatform.git ~/git/yplatform
+git clone https://github.com/ysoftwareab/yplatform.git ~/git/yplatform
 ```
 
 
@@ -64,7 +64,7 @@ Continue to bootstrap
 * [AWS (console and CLI)](README.aws.md) (optional)
 * [your `gpg` signature](README.gpg.md) (optional)
 
-        
+
 ## Customization via environment variables
 
 Here's a list of the environment variables that customize the code execution:

@@ -38,7 +38,7 @@ This was conceived within [Tobii Pro's Cloud Services team](https://github.com/t
 
 ## Install standalone
 
-`git clone git://github.com/ysoftwareab/yplatform.git` and you will gain access to:
+`git clone https://github.com/ysoftwareab/yplatform.git` and you will gain access to:
   * a bootstrap process for local-development based on GNU and Homebrew
     * [cross-platform](#cross-platform).
       * No more worries about this is how it works on a developer machine (e.g. MacOS/Windows) and this is how it works in the CI (e.g. Linux).

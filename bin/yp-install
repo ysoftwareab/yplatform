@@ -2,7 +2,7 @@
 set -euo pipefail
 
 YP_DIR=yplatform
-YP_GIT_URL=git://github.com/ysoftwareab/yplatform.git
+YP_GIT_URL=https://github.com/ysoftwareab/yplatform.git
 
 git submodule add --force -b master ${YP_GIT_URL} ${YP_DIR}
 git submodule sync --recursive
