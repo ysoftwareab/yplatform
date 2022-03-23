@@ -12,33 +12,39 @@ $DistroIdArg = args[0]
 
 $Distros = @(
     @{
-        id="Ubuntu-20.04",
+        id="ubuntu2004",
         url="https://aka.ms/wslubuntu2004",
         installer="ubuntu2004.exe"
     },
 
     @{
-        id="Ubuntu-18.04",
+        id="ubuntu1804",
         url="https://aka.ms/wsl-ubuntu-1804",
         installer="ubuntu1804.exe"
     },
 
     @{
-        id="Debian",
+        id="debian",
         url="https://aka.ms/wsl-debian-gnulinux",
         installer="debian.exe"
     },
 
     @{
-        id="kali-linux",
+        id="kali",
         url="https://aka.ms/wsl-kali-linux-new",
         installer="kali.exe"
     },
 
     @{
-        id="openSUSE-Leap-42",
+        id="opensuse-42",
         url="https://aka.ms/wsl-opensuse-42",
         installer="opensuse-42.exe"
+    },
+
+    @{
+        id="SLES-12",
+        url="https://aka.ms/wsl-sles-12",
+        installer="SLES-12.exe"
     }
 )
 
