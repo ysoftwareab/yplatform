@@ -1,6 +1,9 @@
 /* eslint-disable no-template-curly-in-string */
 
+let fs = require('fs');
 let _ = require('lodash-firecloud');
+
+let wslConf = fs.readFileSync(`${__dirname}/../../priv/wsl.conf`, 'utf8');
 
 // ci
 let WSLENV = 'CI:V';
@@ -34,10 +37,13 @@ wslSteps.push({
 
 wslSteps.push({
   name: 'Install WSL Distribution',
-  uses: 'Vampire/setup-wsl@v1',
+  uses: 'Vampire/setup-wsl@v1.2',
   with: {
     distribution: 'Ubuntu-20.04',
-    update: 'false'
+    update: 'false',
+    // Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted
+    // See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
+    'wsl-conf': wslConf
   }
 });
 
@@ -51,13 +57,7 @@ wslSteps.push({
     'wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER}' +
     ' --shell /bin/bash --disabled-password --gecos \\"Linux user\\" ${WSLUSER}"',
     'wsl bash -c "sudo adduser ${WSLUSER} sudo"',
-    'wsl bash -c "sudo echo \\"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\\" >> /etc/sudoers"',
-    '# Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted',
-    '# See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0',
-    'wsl bash -c "sudo cp priv/wsl.conf /etc/wsl.conf && sudo chmod 0644 /etc/wsl.conf"',
-    // Need to shutdown wsl, in order to apply the wsl.conf config
-    // https://github.com/MicrosoftDocs/WSL/blob/master/WSL/wsl-config.md
-    'wsl --shutdown || true'
+    'wsl bash -c "sudo echo \\"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\\" >> /etc/sudoers"'
   ], '\n')
 });
 
