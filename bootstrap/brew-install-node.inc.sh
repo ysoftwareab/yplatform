@@ -35,7 +35,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
 esac
 
 
-brew_install_one_unless ysoftwareab/tap/json "json --version | head -1" "^json 9\."
+brew_install_one_unless ysoftwareab/tap/json "json --version | head -1" "^json 11\."
 
 brew_install_one_unless ysoftwareab/tap/semver "semver --help | head -1" "^SemVer 7\."
 
