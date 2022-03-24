@@ -217,15 +217,16 @@ function teamcity_echo() {
             return 0
             ;;
         "[DO  ]")
-            echo -n "${PWD_MESSAGE}" > /tmp/ci_echo_teamcity_block_${RANDOM}
+            BLOCK_MARKER=/tmp/ci_echo_teamcity_block_${RANDOM}
+            echo -n "${PWD_MESSAGE}" > ${BLOCK_MARKER}
             basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
             ;;
         "[DONE]")
             [[ -n "${MESSAGE}" ]] || {
                 # shellcheck disable=SC2012
-                BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* | head -n1 2>/dev/null)
-                [[ ! -f ${BLOCK_MARKER} ]] || {
+                BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* 2>/dev/null | head -n1 || true)
+                [[ ! -f "${BLOCK_MARKER}" ]] || {
                     PWD_MESSAGE="$(cat ${BLOCK_MARKER})"
                     rm -f ${BLOCK_MARKER}
                 }
@@ -274,7 +275,7 @@ case "${1:-}" in
             # shellcheck disable=SC2012
             # GROUP_MARKER=$(ls -t /tmp/ci-echo-group-${PWD_GROUP_PREFIX}-* 2>/dev/null | head -n1 || true)
             GROUP_MARKER=$(ls -t /tmp/ci-echo-group-* 2>/dev/null | head -n1 || true)
-            [[ ! -f ${GROUP_MARKER} ]] || {
+            [[ ! -f "${GROUP_MARKER}" ]] || {
                 GROUP_START=$(cat ${GROUP_MARKER} | sed -n "1,1 p")
                 GROUP=$(cat ${GROUP_MARKER} | sed -n "2,2 p")
                 PWD_GROUP=$(cat ${GROUP_MARKER} | sed -n "3,3 p")
