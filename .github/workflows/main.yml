@@ -637,7 +637,7 @@ jobs:
             [automount]
             # see https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/
             # using 2000:2000 because of consistency (UID:GID that TravisCI uses)
-            options = "metadata,uid=2000,gid=2000,umask=22,fmask=11"
+            options = "metadata,case=dir,uid=2000,gid=2000,umask=22,fmask=11"
       - name: Set up WSL Distribution
         shell: bash
         run: >-
