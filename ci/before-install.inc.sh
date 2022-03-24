@@ -31,6 +31,7 @@ function yp_github_https_deploy() {
     echo_info "Found YP_GH_TOKEN_DEPLOY."
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol api.github.com URLs..."
     echo -e "machine api.github.com\n  login ${YP_GH_TOKEN_DEPLOY}" >> ${HOME}/.netrc
+    echo_done
 
     echo_do "Setting up authenticated HTTPS-protocol for current repo's origin..."
     exe git remote -v show
