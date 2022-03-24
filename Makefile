@@ -136,6 +136,7 @@ YP_TEST_TARGETS += \
 
 
 .github/workflows/main.yml: bin/github-checkout
+.github/workflows/main.yml: $(wildcard priv/wsl.conf)
 .github/workflows/main.yml: $(wildcard .github/workflows.src/common*)
 .github/workflows/main.yml: $(wildcard .github/workflows.src/main*)
 .github/workflows/main.yml: .github/workflows/main.yml.tpl
