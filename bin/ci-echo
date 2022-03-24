@@ -159,18 +159,35 @@ function github_actions_echo() {
         "[DO  ]")
             >&2 echo
             >&2 echo -e "$(timestamp) $1 ${GROUP}"
-            # FIXME nesting doesn't work properly
+
+            # NOTE nesting doesn't work properly
             # see https://github.com/actions/runner/issues/802
-            # echo "::group::${PWD_GROUP}"
+            # shellcheck disable=SC2012
+            GITHUB_GROUP_MARKER=/tmp/ci_echo_github_group
+            [[ -f "${GITHUB_GROUP_MARKER}" ]] || {
+                echo -n "${PWD_GROUP}" > ${GITHUB_GROUP_MARKER}
+                echo "::group::${PWD_GROUP}"
+            }
+
             >&2 echo -e "              > ${PWD_GROUP}"
             >&2 echo
             ;;
         "[DONE]")
             >&2 echo
             >&2 echo -e "              < ${PWD_GROUP}"
-            # FIXME nesting doesn't work properly
+
+            # NOTE nesting doesn't work properly
             # see https://github.com/actions/runner/issues/802
-            # echo "::endgroup::"
+            # shellcheck disable=SC2012
+            GITHUB_GROUP_MARKER=/tmp/ci_echo_github_group
+            [[ ! -f "${GITHUB_GROUP_MARKER}" ]] || {
+                PWD_GROUP2="$(cat "${GITHUB_GROUP_MARKER}")"
+                [[ "${PWD_GROUP2}" != "${PWD_GROUP}" ]] || {
+                    rm -f "${GITHUB_GROUP_MARKER}"
+                    echo "::endgroup::"
+                }
+            }
+
             >&2 echo -e "$(timestamp) $1 ${GROUP}"
             >&2 echo -e "                in ${GROUP_DURATION} seconds"
             >&2 echo
@@ -217,18 +234,18 @@ function teamcity_echo() {
             return 0
             ;;
         "[DO  ]")
-            BLOCK_MARKER=/tmp/ci_echo_teamcity_block_${RANDOM}
-            echo -n "${PWD_MESSAGE}" > ${BLOCK_MARKER}
+            TEAMCITY_BLOCK_MARKER=/tmp/ci_echo_teamcity_block_${RANDOM}
+            echo -n "${PWD_MESSAGE}" > ${TEAMCITY_BLOCK_MARKER}
             basic_teamcity_echo "blockOpened name='${PWD_MESSAGE}'"
             return 0
             ;;
         "[DONE]")
             [[ -n "${MESSAGE}" ]] || {
                 # shellcheck disable=SC2012
-                BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* 2>/dev/null | head -n1 || true)
-                [[ ! -f "${BLOCK_MARKER}" ]] || {
-                    PWD_MESSAGE="$(cat ${BLOCK_MARKER})"
-                    rm -f ${BLOCK_MARKER}
+                TEAMCITY_BLOCK_MARKER=$(ls -t /tmp/ci_echo_teamcity_block_* 2>/dev/null | head -n1 || true)
+                [[ ! -f "${TEAMCITY_BLOCK_MARKER}" ]] || {
+                    PWD_MESSAGE="$(cat ${TEAMCITY_BLOCK_MARKER})"
+                    rm -f ${TEAMCITY_BLOCK_MARKER}
                 }
             }
             basic_teamcity_echo "blockClosed name='${PWD_MESSAGE}'"
