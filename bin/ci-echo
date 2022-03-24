@@ -166,7 +166,7 @@ function github_actions_echo() {
             GITHUB_GROUP_MARKER=/tmp/ci_echo_github_group
             [[ -f "${GITHUB_GROUP_MARKER}" ]] || {
                 echo -n "${PWD_GROUP}" > ${GITHUB_GROUP_MARKER}
-                echo "::group::${PWD_GROUP}"
+                >&2 echo "::group::${PWD_GROUP}"
             }
 
             >&2 echo -e "              > ${PWD_GROUP}"
@@ -184,7 +184,7 @@ function github_actions_echo() {
                 PWD_GROUP2="$(cat "${GITHUB_GROUP_MARKER}")"
                 [[ "${PWD_GROUP2}" != "${PWD_GROUP}" ]] || {
                     rm -f "${GITHUB_GROUP_MARKER}"
-                    echo "::endgroup::"
+                    >&2 echo "::endgroup::"
                 }
             }
 
