@@ -119,6 +119,10 @@ and instead you can focus on the business-logic context.
 
 This mindset is useful for junior and senior developers alike. It makes onboarding new people as frictionless as possible.
 
+Others have also been writing about this
+as early as [2016](https://blog.capitaines.fr/2016/09/30/standardizing-interfaces-across-projects-with-makefiles/)
+and as late as [2021](https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/).
+
 The entrypoint to all projects that use `yplatform` is
 
 > Just type `make` !
@@ -274,7 +278,7 @@ and playing around without actually having to know anything about it.
   * [bootstrap](bootstrap/README.md)
 * daily work
   * [`git` (and Github) Pull Requests](doc/working-with-git-pr.md)
-  * [working with `make`](doc/working-with-make.md)
+  * [working with `make`](build.mk/README.md)
   * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
   * [how to release](doc/how-to-release.md)
   * style
