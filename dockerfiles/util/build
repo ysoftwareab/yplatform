@@ -62,7 +62,7 @@ done
 
 MYSELF=${BASH_SOURCE[0]}
 OS_RELEASE_DIR="$(cd "$(dirname ${MYSELF})" >/dev/null && pwd)"
-OS_RELEASE_FILE=$(dirname ${MYSELF})/os-release
+OS_RELEASE_FILE=${OS_RELEASE_DIR}/os-release
 
 DOCKER_OS_RELEASE_ID="$(source ${OS_RELEASE_FILE} && echo ${ID})"
 DOCKER_OS_RELEASE_VERSION_ID="$(source ${OS_RELEASE_FILE} && echo ${VERSION_ID:-0})"
