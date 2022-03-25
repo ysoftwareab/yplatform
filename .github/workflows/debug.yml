@@ -23,6 +23,4 @@ jobs:
     name: '${{ matrix.runs-on }}'
     runs-on: '${{ matrix.runs-on }}'
     steps:
-      - uses: ysoftwareab/yplatform@master
-        with:
-          action: debug
+      - uses: ysoftwareab/yplatform/.github/actions/debug@master
