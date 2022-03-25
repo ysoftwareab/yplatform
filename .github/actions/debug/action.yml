@@ -42,4 +42,4 @@ runs:
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
         }
 
-        "${GITHUB_ACTION_PATH}/../../bin/github-action-debug" 2>&1 | tee "${INPUT_FILE}"
+        "${GITHUB_ACTION_PATH}/../../../bin/github-action-debug" 2>&1 | tee "${INPUT_FILE}"
