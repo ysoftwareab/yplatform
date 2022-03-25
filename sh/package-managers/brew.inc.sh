@@ -158,3 +158,24 @@ function brew_update() {
     brew outdated
     echo_done
 }
+
+function brew_uninstall_brew() {
+    local BREW_INSTALL_URL="$1"
+    local FOLDERS=""
+    # linux with sudo
+    FOLDERS="${FOLDERS} /home/linuxbrew/.linuxbrew"
+    # linux without sudo
+    FOLDERS="${FOLDERS} ${HOME}/.linuxbrew"
+    # macos m1
+    FOLDERS="${FOLDERS} /opt/homebrew"
+    # macos
+    FOLDERS="${FOLDERS} ${HOME}/Library/Caches/Homebrew ${HOME}/Library/Logs/Homebrew"
+    FOLDERS="${FOLDERS} /usr/local/Caskroom /usr/local/Cellar /usr/local/Homebrew"
+
+    echo_do "brew: Uninstalling homebrew..."
+    exe sudo ls -la -d ${FOLDERS} || true
+    </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/uninstall.sh)"
+    exe sudo rm -rf ${FOLDERS} || true
+    echo_done
+    hash -r
+}

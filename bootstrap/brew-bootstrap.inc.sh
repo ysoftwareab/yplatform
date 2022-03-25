@@ -59,10 +59,7 @@ function bootstrap_brew() {
             if [[ "${YP_SKIP_BREW_UNINSTALL:-}" = "true" ]]; then
                 echo_skip "brew: Uninstalling homebrew..."
             else
-                echo_do "brew: Uninstalling homebrew..."
-                </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/uninstall.sh)"
-                echo_done
-                hash -r
+                brew_uninstall_brew "${BREW_INSTALL_URL}"
             fi
         fi
     }
