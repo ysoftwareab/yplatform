@@ -159,6 +159,19 @@ function brew_update() {
     echo_done
 }
 
+function brew_link_all() {
+    echo_do "brew: Link all homebrew packages..."
+    exe brew link $(brew list --formula) || true
+    echo_done
+}
+
+function brew_uninstall_all() {
+    echo_do "brew: Uninstalling homebrew..."
+    exe brew uninstall --force --ignore-dependencies $(brew list --formula)
+    exe brew uninstall --cask --force --ignore-dependencies $(brew list --formula)
+    echo_done
+}
+
 function brew_uninstall_brew() {
     local BREW_INSTALL_URL="$1"
     local FOLDERS=""
