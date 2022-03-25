@@ -34,6 +34,7 @@ exe curl -qfsSL \
     -H "authorization: token ${YP_GH_TOKEN}" \
     https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/jobs?per_page=100 | \
     jq -r ".jobs[] | select(.name == \"${GITHUB_JOB_NAME}\") | .html_url" | \
+    sed "s/\?.*//g" | \
     while read -r NO_XARGS_R; do
         [[ -n "${NO_XARGS_R}" ]] || continue;
         GITHUB_JOB_ID=$(basename "${NO_XARGS_R}";)
