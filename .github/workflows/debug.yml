@@ -34,9 +34,9 @@ jobs:
         with:
           path: |
             debug.txt
-          key: ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}
+          key: ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v0
           'restore-keys': |
-            ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}
+            ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v0
       - if: steps.cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
