@@ -40,7 +40,7 @@ jobs:
       - if: steps.cache.outputs.cache-hit == 'true'
         shell: bash
         run: |
-          diff --unified=1000000 debug.txt debug.new.txt
+          diff --unified=1000000 debug.txt debug.new.txt || true
       - shell: bash
         run: |
           mv debug.new.txt debug.txt
