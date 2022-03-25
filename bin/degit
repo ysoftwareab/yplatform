@@ -11,7 +11,7 @@ source ${YP_DIR}/sh/common.inc.sh
 ##
 ## A bash subset version of https://github.com/Rich-Harris/degit.
 ## - no optimizations that include reading/writing access.json and map.json,
-##   thus only offline if given a git hash, not a git ref
+##   thus only offline if given a git branch/tag/hash
 ## - no '--mode', no git mode, just tar mode
 ##
 ##   -h, --help     Display this help and exit
