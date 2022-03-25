@@ -5,11 +5,15 @@
 #     steps:
 #       - uses: ysoftwareab/yplatform/.github/actions/debug@master
 #         with:
+#           file: path/to/file.txt # optional
 #           xtrace: true/false # optional
 
 name: 'ysoftwareab/yplatform:debug'
 description: 'Debug GitHub environment'
 inputs:
+  file:
+    description: Enable output to file
+    default: /dev/null
   xtrace:
     description: Enable bash xtrace
     default: false
@@ -27,6 +31,7 @@ runs:
         GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
         # FIXME https://github.com/actions/runner/issues/665
+        INPUT_FILE: ${{ inputs.file }}
         INPUT_XTRACE: ${{ inputs.xtrace }}
       run: |
         [[ "${INPUT_XTRACE}" != "true" ]] || set -x
@@ -37,4 +42,4 @@ runs:
           GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
         }
 
-        "${GITHUB_ACTION_PATH}/bin/github-action-debug"
+        "${GITHUB_ACTION_PATH}/bin/github-action-debug" 2>&1 | tee "${INPUT_FILE}"

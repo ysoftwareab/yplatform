@@ -24,3 +24,23 @@ jobs:
     runs-on: '${{ matrix.runs-on }}'
     steps:
       - uses: ysoftwareab/yplatform/.github/actions/debug@master
+        with:
+          file: debug.new.txt
+      - id: cache-keys
+        shell: bash
+        run: echo ::set-output name=yyyymm::$(/bin/date -u "+%Y%m")
+      - id: cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            debug.txt
+          key: ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}
+          'restore-keys': |
+            ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}
+      - if: ${{ steps.cache.outputs.cache-hit = 'true' }}
+        shell: bash
+        run: |
+          diff --unified=1000000 debug.txt debug.new.txt
+      - shell: bash
+        run: |
+          mv debug.new.txt debug.txt
