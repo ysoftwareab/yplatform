@@ -25,7 +25,7 @@ pwd
 ls -la
 echo ::endgroup::
 
-echo ::group::action ${GITHUB_ACTION_PATH}
+echo ::group::${GITHUB_ACTION_PATH}
 (
     cd "${GITHUB_ACTION_PATH}"
     pwd
@@ -33,7 +33,7 @@ echo ::group::action ${GITHUB_ACTION_PATH}
 )
 echo ::endgroup::
 
-echo ::group::action ${YP_DIR}
+echo ::group::${YP_DIR}
 (
     cd "${YP_DIR}"
     pwd
