@@ -2,5 +2,5 @@ homebrew/brew refs/tags/3.4.0
 homebrew/install e8114640740938c20cc41ffdbf07816b428afc49
 homebrew/homebrew-core e8b65b3b4f1da46b0a890681cf659a7c915352f1
 homebrew/homebrew-cask a00efcd04da7ca60300a7554ddcd47398dfc7339
-ysoftwareab/homebrew-tap refs/remotes/origin/master
-homebrew/homebrew-command-not-found refs/remotes/origin/master
+ysoftwareab/homebrew-tap refs/heads/master
+homebrew/homebrew-command-not-found refs/heads/master
