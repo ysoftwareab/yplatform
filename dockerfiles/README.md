@@ -18,6 +18,25 @@ The images have
 * linuxbrew installed, along with a collection of minimal/common packages
 
 
+## `dockerfiles/yp-<id>-<version-id>/run`
+
+A `run` utility will make it easy to run ephemeral (`--rm`) instances of these images.
+It takes a FLAVOUR argument as following:
+
+* `./run vanilla` will run the vanilla image that our image is based on e.g. `ubuntu-20.04:latest`
+* `./run yp-minimal` or `./run yp-common` will run the image associated with the current `yplatform` version
+* `./run yp-minimal:<tag>` or `./run yp-common:<tag>` will run the image with the given tag
+
+**NOTE** No `--help` argument exists yet. Check the sourcecode for available arguments.
+
+
+## `dockerfiles/yp-<id>-<version-id>/build`
+
+A `build` utility will make it easy to build a local image based on the `Dockerfile`.
+
+**NOTE** No `--help` argument exists yet. Check the sourcecode for available arguments.
+
+
 ## `make docker-ci`
 
 Same images can be used locally to run `make docker-ci`
