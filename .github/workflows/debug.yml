@@ -39,6 +39,7 @@ jobs:
             ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
       - if: steps.cache.outputs.cache-hit == 'true'
         shell: bash
+        # TODO nice if one can ignore values that are ever changing, and report only relevant diffs
         run: |
           diff --unified=1000000 debug.txt debug.new.txt || true
       - shell: bash
