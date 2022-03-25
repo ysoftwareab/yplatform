@@ -10,7 +10,6 @@ echo_do "brew: Installing NodeJS packages..."
 brew_install_one node
 exe_and_grep_q "node --version | head -1" "^v"
 
-brew_install_one_unless deno "deno --version | head -1" "^deno 1\."
 brew_install_one_unless pnpm "pnpm --version | head -1" "^6\."
 brew_install_one_unless yarn "yarn --version | head -1" "^1\."
 
