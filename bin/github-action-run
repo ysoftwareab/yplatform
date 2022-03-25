@@ -3,9 +3,11 @@ set -euo pipefail
 
 [[ "${INPUT_XTRACE}" != "true" ]] || set -x
 
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+
 # FIXME https://github.com/actions/runner/issues/863
 echo ::group::${HOME}
-source "${GITHUB_ACTION_PATH}/ci/util/home.inc.sh"
+source "${YP_DIR}/ci/util/home.inc.sh"
 echo ::endgroup::
 
 # FIXME https://github.com/actions/runner/issues/716
@@ -19,8 +21,8 @@ chmod +x ${TMP_SCRIPT}
 echo "#!/usr/bin/env ${INPUT_SHELL}" >> ${TMP_SCRIPT}
 echo "${INPUT_RUN}" >> ${TMP_SCRIPT}
 
->&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${GITHUB_ACTION_PATH}..."
-cd "${GITHUB_ACTION_PATH}"
+>&2 echo "$(date +"%H:%M:%S") [INFO] Running within ${YP_DIR}..."
+cd "${YP_DIR}"
 
 >&2 echo "$(date +"%H:%M:%S") [INFO] Running script ${TMP_SCRIPT} below..."
 >&2 cat ${TMP_SCRIPT}

@@ -3,6 +3,8 @@ set -euo pipefail
 
 [[ "${INPUT_XTRACE}" != "true" ]] || set -x
 
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+
 >&2 echo "$(date +"%H:%M:%S") [INFO] Printing debug info..."
 echo ::group::github event
 cat "${GITHUB_EVENT_PATH}"
@@ -15,7 +17,7 @@ echo ::endgroup::
 
 # FIXME https://github.com/actions/runner/issues/863
 echo ::group::${HOME}
-source "${GITHUB_ACTION_PATH}/ci/util/home.inc.sh"
+source "${YP_DIR}/ci/util/home.inc.sh"
 echo ::endgroup::
 
 echo ::group::pwd
@@ -23,9 +25,17 @@ pwd
 ls -la
 echo ::endgroup::
 
-echo ::group::action pwd
+echo ::group::action ${GITHUB_ACTION_PATH}
 (
     cd "${GITHUB_ACTION_PATH}"
+    pwd
+    ls -la
+)
+echo ::endgroup::
+
+echo ::group::action ${YP_DIR}
+(
+    cd "${YP_DIR}"
     pwd
     ls -la
 )
