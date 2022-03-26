@@ -859,6 +859,7 @@ ohai "Downloading and installing Homebrew..."
 (
   cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
 
+  HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
   # we do it in four steps to avoid merge errors when reinstalling
   execute "git" "init" "-q"
 
@@ -872,7 +873,7 @@ ohai "Downloading and installing Homebrew..."
   execute "git" "fetch" "--force" "origin"
   execute "git" "fetch" "--force" "--tags" "origin"
 
-  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF:-origin/master}"
+  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF}"
 
   if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
   then
@@ -891,13 +892,14 @@ ohai "Downloading and installing Homebrew..."
       execute "/bin/mkdir" "-p" "${HOMEBREW_CORE}"
       cd "${HOMEBREW_CORE}" >/dev/null || return
 
+      HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
       execute "git" "init" "-q"
       execute "git" "config" "remote.origin.url" "${HOMEBREW_CORE_GIT_REMOTE}"
       execute "git" "config" "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"
       execute "git" "config" "core.autocrlf" "false"
       execute "git" "fetch" "--force" "origin" "refs/heads/master:refs/remotes/origin/master"
       execute "git" "remote" "set-head" "origin" "--auto" >/dev/null
-      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF:-origin/master}"
+      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF}"
 
       cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
     ) || exit 1
