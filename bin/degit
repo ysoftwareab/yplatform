@@ -89,7 +89,7 @@ REPO_NAME="$(echo "${URI_RPATH}" | tr "/" "\n" | head -n2 | tail -n1 | sed "s/\.
 REPO_DIR="/$(echo "${URI_RPATH}" | tr "/" "\n" | tail -n +3 | tr "\n" "/")/"
 REPO_DIR="$(echo "${REPO_DIR}" | tr -s "/")"
 REPO_REF=${URI_FRAGMENT:-HEAD}
-REPO_URL=${URI_SCHEME:-ssh}://${URI_USER}${URI_USER:+@}${URI_HOST}/${REPO_ORG}/${REPO_NAME}
+REPO_URL=${URI_SCHEME}://${URI_USER}${URI_USER:+@}${URI_HOST}/${REPO_ORG}/${REPO_NAME}
 
 if echo "${REPO_REF}" | grep -q "^[0-9a-f]\+$"; then
     REPO_HASH="${REPO_REF}"
