@@ -77,6 +77,7 @@ URI="$1"
             exit 1
     esac
 }
+exe ${YP_DIR}/bin/parse-uri "${URI}"
 source <(${YP_DIR}/bin/parse-uri "${URI}")
 
 REPO_SERVICE=${URI_HOST}
@@ -135,14 +136,24 @@ TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 
 exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
 
+function maybe_verbose_tar() {
+    [[ -n "${VERBOSE}" ]] || {
+        cat >/dev/null
+        return 0
+    }
+
+    cat \
+        grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$" | \
+        sed "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
+}
+
 echo_do "Extracting ${TAR_FILE}${REPO_DIR}..."
 tar -xvf "${TAR_FILE}" \
     --skip-old-files \
     --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$") \
     --verbatim-files-from \
     --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},," | \
-    grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$" | \
-    sed "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
+    maybe_verbose_tar
 echo_done
 
 exe git reset --soft ${REPO_HASH}
