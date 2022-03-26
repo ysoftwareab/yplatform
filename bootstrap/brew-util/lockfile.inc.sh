@@ -55,7 +55,14 @@ function brew_lockfile() {
                 # and the tap-expected-version of brew
                 # brew tap "${TAP}"
                 mkdir -p "${TAP}"
-                git clone "https://github.com/${TAP}.git" "${TAP}"
+                if [[ "${CI:-}" = "true" ]]; then
+                    (
+                        cd "${TAP}"
+                        ${YP_DIR}/bin/degit "https://github.com/${TAP}.git#${TAP_TO/refs\/remotes\/origin/refs\/heads}"
+                    )
+                else
+                    git clone "https://github.com/${TAP}.git" "${TAP}"
+                fi
                 echo_done
             }
 

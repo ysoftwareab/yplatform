@@ -1,63 +1,97 @@
---- homebrew-install.sh.original	2022-01-06 17:07:52.549735194 +0100
-+++ homebrew-install.sh	2022-01-06 17:08:02.942052581 +0100
-@@ -47,6 +47,7 @@
+--- bootstrap/brew-util/homebrew-install.sh
++++ bootstrap/brew-util/homebrew-install.sh.original
+@@ -47,7 +47,6 @@
    fi
    HOMEBREW_CACHE="${HOME}/Library/Caches/Homebrew"
  
-+  STAT="/usr/bin/stat"
+-  STAT="/usr/bin/stat"
    STAT_FLAG="-f"
    PERMISSION_FORMAT="%A"
    CHOWN="/usr/sbin/chown"
-@@ -61,6 +62,7 @@
+@@ -62,7 +61,6 @@
    HOMEBREW_PREFIX_DEFAULT="/home/linuxbrew/.linuxbrew"
    HOMEBREW_CACHE="${HOME}/.cache/Homebrew"
  
-+  STAT="/bin/stat"
+-  STAT="/bin/stat"
    STAT_FLAG="--printf"
    PERMISSION_FORMAT="%a"
    CHOWN="/bin/chown"
-@@ -264,7 +266,7 @@
+@@ -266,7 +264,7 @@
  }
  
  get_permission() {
--  stat "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
-+  "${STAT}" "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
+-  "${STAT}" "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
++  stat "${STAT_FLAG}" "${PERMISSION_FORMAT}" "$1"
  }
  
  user_only_chmod() {
-@@ -276,7 +278,7 @@
+@@ -278,7 +276,7 @@
  }
  
  get_owner() {
--  stat "${STAT_FLAG}" "%u" "$1"
-+  "${STAT}" "${STAT_FLAG}" "%u" "$1"
+-  "${STAT}" "${STAT_FLAG}" "%u" "$1"
++  stat "${STAT_FLAG}" "%u" "$1"
  }
  
  file_not_owned() {
-@@ -284,7 +286,7 @@
+@@ -286,7 +284,7 @@
  }
  
  get_group() {
--  stat "${STAT_FLAG}" "%g" "$1"
-+  "${STAT}" "${STAT_FLAG}" "%g" "$1"
+-  "${STAT}" "${STAT_FLAG}" "%g" "$1"
++  stat "${STAT_FLAG}" "%g" "$1"
  }
  
  file_not_grpowned() {
-@@ -870,7 +872,7 @@
+@@ -859,10 +857,6 @@
+ (
+   cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
+ 
+-  HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
+-  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
+-    execute "${HOMEBREW_DEGIT}" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
+-  else
+   # we do it in four steps to avoid merge errors when reinstalling
+   execute "git" "init" "-q"
+ 
+@@ -876,8 +870,7 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
--  execute "git" "reset" "--hard" "origin/master"
-+  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF:-origin/master}"
+-  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF}"
+-  fi
++  execute "git" "reset" "--hard" "origin/master"
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -895,7 +897,7 @@
+@@ -896,29 +889,19 @@
+       execute "/bin/mkdir" "-p" "${HOMEBREW_CORE}"
+       cd "${HOMEBREW_CORE}" >/dev/null || return
+ 
+-      HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
+-      if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
+-        execute "${HOMEBREW_DEGIT}" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
+-      else
+-
+       execute "git" "init" "-q"
+       execute "git" "config" "remote.origin.url" "${HOMEBREW_CORE_GIT_REMOTE}"
+       execute "git" "config" "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"
        execute "git" "config" "core.autocrlf" "false"
        execute "git" "fetch" "--force" "origin" "refs/heads/master:refs/remotes/origin/master"
        execute "git" "remote" "set-head" "origin" "--auto" >/dev/null
--      execute "git" "reset" "--hard" "origin/master"
-+      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF:-origin/master}"
+-      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF}"
+-      fi
++      execute "git" "reset" "--hard" "origin/master"
  
        cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
      ) || exit 1
+   fi
+ 
+-  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
+-  warn "Skipping 'brew update --force --quiet' when using degit."
+-  else
+   execute "${HOMEBREW_PREFIX}/bin/brew" "update" "--force" "--quiet"
+-  fi
+ ) || exit 1
+ 
+ if [[ ":${PATH}:" != *":${HOMEBREW_PREFIX}/bin:"* ]]

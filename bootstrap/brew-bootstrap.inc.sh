@@ -88,6 +88,9 @@ function bootstrap_brew() {
                 # shellcheck disable=SC2030,SC2031
                 export HOMEBREW_NO_AUTO_UPDATE=
                 # </dev/null /bin/bash -c "$(curl -qfsSL ${BREW_INSTALL_URL}/install.sh)"
+                if [[ "${CI:-}" = "true" ]]; then
+                    export HOMEBREW_DEGIT=${YP_DIR}/bin/degit
+                fi
                 </dev/null /bin/bash -c "$(cat ${YP_DIR}/bootstrap/brew-util/homebrew-install.sh)"
             )
             echo_done
