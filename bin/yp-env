@@ -125,9 +125,9 @@ function yp::path_append_before() {
 
 # nvm install --reinstall-packages-from=current, including npm
 function yp::nvm_install() {
-    local NODE=$(command -v node 2>/dev/null) || true
+    local NODE=$(command -v node 2>/dev/null || true)
     local NODE_VSN="$(${NODE:-true} --version)"
-    local NPM=$(command -v npm 2>/dev/null) || true
+    local NPM=$(command -v npm 2>/dev/null || true)
     local NPM_VSN="$(${NPM:-npm} --version)"
 
     [[ "$(nvm which current)" = "${NODE}" ]] || {
@@ -147,13 +147,13 @@ function yp::nvm_install() {
     >&2 echo "Current NPM=${NPM} NPM_VSN=${NPM_VSN} ."
     nvm install "$@" --reinstall-package-from=${NODE_VSN_NVM}
     hash -r
-    >&2 echo "Post-nvm NODE=$(command -v node 2>/dev/null) NODE_VSN=$(node --version) ."
-    >&2 echo "Post-nvm NPM=$(command -v npm 2>/dev/null) NPM_VSN=$(npm --version) ."
+    >&2 echo "Post-nvm NODE=$(command -v node 2>/dev/null || true) NODE_VSN=$(node --version) ."
+    >&2 echo "Post-nvm NPM=$(command -v npm 2>/dev/null || true) NPM_VSN=$(npm --version) ."
 
     [[ "$(npm --version)" = "${NPM_VSN}" ]] || {
         npm install --silent -g npm@${NPM_VSN}
         hash -r
-        >&2 echo "Post-npm NPM=$(command -v npm 2>/dev/null) NPM_VSN=$(npm --version) ."
+        >&2 echo "Post-npm NPM=$(command -v npm 2>/dev/null || true) NPM_VSN=$(npm --version) ."
     }
 }
 
@@ -333,7 +333,7 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
     unset f
 
     # command is defined and is a function (no path)
-    [[ "$(command -v nvm 2>&1)" = "nvm" ]] || {
+    [[ "$(command -v nvm 2>&1 || true)" = "nvm" ]] || {
         NOUNSET_STATE="$(set +o | grep nounset)"
         set +u
         # using a less exact call because 'brew --prefix nvm' is very very slow
@@ -347,7 +347,7 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
     }
 
     # command is defined and is a function (no path)
-    [[ "$(command -v asdf 2>&1)" = "asdf" ]] || [[ -n "${ASDF_DIR:-}" ]] || {
+    [[ "$(command -v asdf 2>&1 || true)" = "asdf" ]] || [[ -n "${ASDF_DIR:-}" ]] || {
         NOUNSET_STATE="$(set +o | grep nounset)"
         set +u
         # using a less exact call because 'brew --prefix asdf' is very very slow
