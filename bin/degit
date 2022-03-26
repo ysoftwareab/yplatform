@@ -132,6 +132,8 @@ fi
 # wrapping directory is sometimes not stable (${REPO_ORG}-)?${REPO_NAME}-(${REPO_HASH}|${REPO_HASH_SHORT})
 TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
 
+exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
+
 echo_do "Extracting ${TAR_FILE}${REPO_DIR}..."
 tar -xvf "${TAR_FILE}" \
     --skip-old-files \
@@ -141,3 +143,8 @@ tar -xvf "${TAR_FILE}" \
     grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$" | \
     sed "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
 echo_done
+
+exe git reset --soft ${REPO_HASH}
+exe git add .
+# unsure why some files are still staged
+exe git reset -q
