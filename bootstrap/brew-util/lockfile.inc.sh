@@ -67,14 +67,18 @@ function brew_lockfile() {
             }
 
             TAP_FROM=$(git -C "${TAP}" rev-list -1 HEAD)
-            echo_do "Resetting Homebrew tap ${TAP}..."
-            echo_info "Resetting Homebrew tap ${TAP} from ${TAP_FROM} to ${TAP_TO}."
-            git -C "${TAP}" fetch
-            git -C "${TAP}" reset --hard "${TAP_TO}"
-            echo_info "Reset Homebrew tap ${TAP}"
-            echo_info "from $(git -C "${TAP}" log -1 --format="%cd" "${TAP_FROM}") ${TAP_FROM}"
-            echo_info "to   $(git -C "${TAP}" log -1 --format="%cd" "${TAP_TO}") ${TAP_TO}"
-            echo_done
+            if [[ "${TAP_FROM}" != "${TAP_TO}" ]]; then
+                echo_do "Resetting Homebrew tap ${TAP}..."
+                echo_info "Resetting Homebrew tap ${TAP} from ${TAP_FROM} to ${TAP_TO}."
+                git -C "${TAP}" fetch
+                git -C "${TAP}" reset --hard "${TAP_TO}"
+                echo_info "Reset Homebrew tap ${TAP}"
+                echo_info "from $(git -C "${TAP}" log -1 --format="%cd" "${TAP_FROM}") ${TAP_FROM}"
+                echo_info "to   $(git -C "${TAP}" log -1 --format="%cd" "${TAP_TO}") ${TAP_TO}"
+                echo_done
+            else
+                echo_skip "Resetting Homebrew tap ${TAP} from ${TAP_FROM} to ${TAP_TO}."
+            fi
 
             # in case we manually git-cloned the tap
             brew tap "${TAP}"
