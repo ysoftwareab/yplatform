@@ -136,26 +136,30 @@ fi
 # TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
 TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 
-exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
-
-function maybe_verbose_tar() {
-    [[ -n "${VERBOSE}" ]] || {
-        cat >/dev/null
-        return 0
+if tar --version | head -n1 | grep -q "^tar (GNU tar)"; then
+    echo_do "Extracting ${TAR_FILE}${REPO_DIR} with GNU tar..."
+    exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
+    tar -xf "${TAR_FILE}" \
+        --skip-old-files \
+        --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$") \
+        --verbatim-files-from \
+        --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
+else
+    echo_do "Extracting ${TAR_FILE}${REPO_DIR} with non-GNU tar..."
+    [[ -n "$(find . -maxdepth 0 -empty)" ]] || {
+        echo_err "Extracting with non-GNU tar requires an empty folder."
+        exit 1
     }
-
-    cat \
-        grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$" | \
-        sed "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
-}
-
-echo_do "Extracting ${TAR_FILE}${REPO_DIR}..."
-tar -xvf "${TAR_FILE}" \
-    --skip-old-files \
-    --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$") \
-    --verbatim-files-from \
-    --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},," | \
-    maybe_verbose_tar
+    exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
+    tar -xf "${TAR_FILE}" \
+        --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$")
+    (
+        cd "${TAR_COMPONENT_1}"
+        find . -mindepth 1 -maxdepth 1 -print0 | xargs -0 -I{} mv "{}" ../
+        cd -
+        rm -r "${TAR_COMPONENT_1}"
+    )
+fi
 echo_done
 
 exe git reset --soft ${REPO_HASH}
