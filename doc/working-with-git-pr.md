@@ -75,7 +75,7 @@ Take the opportunity of a PR to discuss and interact!
 If anyone wants to address a stylistic issue, it should be done separately
 by changing the automatism of the relevant style checker:
 open a new PR to add/change a rule's configuration, in the current repository or globally in
-e.g. `eslint-config-firecloud`, `yplatform:build.mk/*.check.*.inc.mk` and similar.
+e.g. `eslint-plugin-y`, `yplatform:build.mk/*.check.*.inc.mk` and similar.
 
 A pull request may address an already existing issue.
 In such a case, **make sure to reference the existing issue**, either in the commit message,
