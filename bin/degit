@@ -78,7 +78,9 @@ URI="$1"
     esac
 }
 exe ${YP_DIR}/bin/parse-uri "${URI}"
-source <(${YP_DIR}/bin/parse-uri "${URI}")
+# TODO sourcing in Bash 3 (macos) gives: parse-uri: line 47: echo: write error: Broken pipe
+# source <(${YP_DIR}/bin/parse-uri "${URI}")
+eval "$(${YP_DIR}/bin/parse-uri "${URI}")"
 
 REPO_SERVICE=${URI_HOST}
 REPO_SERVICE=${REPO_SERVICE/%.com/}
