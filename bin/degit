@@ -130,7 +130,8 @@ else
 fi
 
 # wrapping directory is sometimes not stable (${REPO_ORG}-)?${REPO_NAME}-(${REPO_HASH}|${REPO_HASH_SHORT})
-TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
+# TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
+TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 
 exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
 
