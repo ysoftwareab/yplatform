@@ -96,7 +96,7 @@ REPO_URL=${URI_SCHEME}://${URI_USER}${URI_USER:+@}${URI_HOST}/${REPO_ORG}/${REPO
 if echo "${REPO_REF}" | grep -q "^[0-9a-f]\+$"; then
     REPO_HASH="${REPO_REF}"
 else
-    REPO_HASH=$(git ls-remote ${REPO_URL} | grep $'\t'"\(refs/\(heads\|tags\)/\)\?${REPO_REF}$" | head -n1 | sed "s/\t.\+//")
+    REPO_HASH=$(git ls-remote ${REPO_URL} | grep $'\t'"\(refs/\(heads\|tags\)/\)\?${REPO_REF}$" | head -n1 | cut -d$'\t' -f1)
     [[ -n "${REPO_HASH}" ]] || {
         echo_err "Git ref ${REPO_REF} could not be found."
         exit 1
