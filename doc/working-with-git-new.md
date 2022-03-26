@@ -50,9 +50,8 @@ Please name the repository appropriately, where appropriately stands for, but no
   * a real name: [minlog](https://github.com/ysoftwareab/minlog)
   * an accronym: [KATT](https://github.com/for-GET/katt)
 * if not unique then prefixed or suffixed with team name and mentioning software ecosystem
-  * prefixed: ysoftwareab-dashboard
-  * suffixed: [yplatform](https://github.com/ysoftwareab/yplatform)
-  * mentioning software ecosystem: [eslint-plugin-y](https://github.com/ysoftwareab/eslint-plugin-y)
+  * prefixed: [yplatform](https://github.com/ysoftwareab/yplatform)
+  * suffixed after software ecosystem: [eslint-plugin-y](https://github.com/ysoftwareab/eslint-plugin-y)
 
 A description is optional by Github standards, but we require it.
 
