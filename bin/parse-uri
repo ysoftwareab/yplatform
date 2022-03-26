@@ -17,26 +17,39 @@ readonly URI_REGEX='^(([^:/?#]+):)?(//((([^:/?#]+)@)?([^:/?#]+)(:([0-9]+))?))?((
 
 readonly SSH_REGEX='^(()()((([^:/?#]+)@)?([^:/?#]+)(:([0-9]+))?))?((:|$)([^?#]*))(\?([^#]*))?(#(.*))?'
 
-[[ "$*" =~ ${URI_REGEX} ]] || {
-    if [[ "$*" =~ ${SSH_REGEX} ]]; then
-        # normalize to ssh: URI
-        BASH_REMATCH[1]="ssh:"
-        BASH_REMATCH[2]="ssh"
-        BASH_REMATCH[3]="//${BASH_REMATCH[4]}"
-        BASH_REMATCH[10]="${BASH_REMATCH[10]/#:/\/}"
-        BASH_REMATCH[11]="/"
-    fi
-}
+URI_MATCH=false
+SSH_MATCH=false
+if [[ "$*" =~ ${URI_REGEX} ]]; then
+    # shellcheck disable=SC2034
+    URI_MATCH=true
+elif [[ "$*" =~ ${SSH_REGEX} ]]; then
+    SSH_MATCH=true
+else
+    >&2 echo "[ERR ] $* doesn't match our URI/SSH regex."
+    exit 1
+fi
+
+# create a shadow variable, or else you may get 'BASH_REMATCH: readonly variable'
+MATCH=()
 for i in {1..16}; do
-    BASH_REMATCH[${i}]="${BASH_REMATCH[${i}]:-}"
+    MATCH[${i}]="${BASH_REMATCH[${i}]:-}"
 done
 
-echo "URI_SCHEME=${BASH_REMATCH[2]}"
-echo "URI_AUTHORITY=${BASH_REMATCH[4]}"
-echo "URI_USER=${BASH_REMATCH[6]}"
-echo "URI_HOST=${BASH_REMATCH[7]}"
-echo "URI_PORT=${BASH_REMATCH[9]}"
-echo "URI_PATH=${BASH_REMATCH[10]}"
-echo "URI_RPATH=${BASH_REMATCH[12]}"
-echo "URI_QUERY=${BASH_REMATCH[14]}"
-echo "URI_FRAGMENT=${BASH_REMATCH[16]}"
+[[ "${SSH_MATCH}" != "true" ]] || {
+    # normalize to ssh: URI
+    MATCH[1]="ssh:"
+    MATCH[2]="ssh"
+    MATCH[3]="//${MATCH[4]}"
+    MATCH[10]="${MATCH[10]/#:/\/}"
+    MATCH[11]="/"
+}
+
+echo "URI_SCHEME=${MATCH[2]}"
+echo "URI_AUTHORITY=${MATCH[4]}"
+echo "URI_USER=${MATCH[6]}"
+echo "URI_HOST=${MATCH[7]}"
+echo "URI_PORT=${MATCH[9]}"
+echo "URI_PATH=${MATCH[10]}"
+echo "URI_RPATH=${MATCH[12]}"
+echo "URI_QUERY=${MATCH[14]}"
+echo "URI_FRAGMENT=${MATCH[16]}"
