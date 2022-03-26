@@ -10,6 +10,12 @@ echo_do "brew: Installing NodeJS packages..."
 brew_install_one node
 exe_and_grep_q "node --version | head -1" "^v"
 
+if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
+    # it just hangs
+    echo_skip "brew: Installing deno..."
+else
+    brew_install_one_unless deno "deno --version | head -1" "^deno 1\."
+fi
 brew_install_one_unless pnpm "pnpm --version | head -1" "^6\."
 brew_install_one_unless yarn "yarn --version | head -1" "^1\."
 
