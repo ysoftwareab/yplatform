@@ -22,6 +22,27 @@ Other notable mentions:
 
 We aim to write robust/defensive shell scripts.
 
+
+## Include `yplatform`
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../path/to/yplatform" && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+```
+
+This will mean that
+
+* a bunch of sane defaults will be set and utility functions will become available.
+  * See [sh](../sh)
+* a bunch of exe/os/git variables will become available.
+  * See [sh/exe.inc.sh](../sh/exe.inc.sh)
+  * See [sh/os.inc.sh](../sh/os.inc.sh)
+  * See [sh/git.inc.sh](../sh/git.inc.sh)
+
+
 ## GNU Bash
 
 All shell scripts use `bash`, thus the shebang `#!/usr/bin/env bash`.
