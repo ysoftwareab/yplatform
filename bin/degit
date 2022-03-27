@@ -13,17 +13,29 @@ source ${YP_DIR}/sh/common.inc.sh
 ## - no optimizations that include reading/writing access.json and map.json,
 ##   thus only offline if given a git branch/tag/hash
 ## - no '--mode', no git mode, just tar mode
+## - add '--history' to clone git history (but not the blobs)
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
+TMP_DEGIT=$(mktemp -d -t yplatform.XXXXXXXXXX)
+function on_exit() {
+    rm -rf ${TMP_DEGIT}
+}
+trap on_exit EXIT
+
+HISTORY=false
+
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(getopt -o hv -l help,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o hv -l help,history,version -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
+        --history)
+            HISTORY=true
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -142,7 +154,6 @@ TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 # --transform introduced in 1.15.91 2006-06-16
 if tar --version | head -n1 | grep -q "^tar (GNU tar) \(1\.29\|1\.[3-9][0-9]\+\)"; then
     echo_do "Extracting ${TAR_FILE}${REPO_DIR} with GNU tar..."
-    exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
     tar -xf "${TAR_FILE}" \
         --skip-old-files \
         --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$") \
@@ -154,7 +165,6 @@ else
         echo_err "Extracting with old-GNU/non-GNU tar requires an empty folder."
         exit 1
     }
-    exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
     tar -xf "${TAR_FILE}" \
         --files-from <(tar -tf "${TAR_FILE}" | grep "^${TAR_COMPONENT_1}${REPO_DIR}.\+[^/]$")
     (
@@ -166,7 +176,11 @@ else
 fi
 echo_done
 
-exe git reset --soft ${REPO_HASH}
-exe git add .
-# unsure why some files are still staged
-exe git reset -q
+[[ "${HISTORY}" != "true" ]] || {
+    exe git clone --filter=blob:none --no-checkout ${REPO_URL} ${TMP_DEGIT}
+    exe mv ${TMP_DEGIT}/.git .
+    exe git reset --soft ${REPO_HASH}
+    exe git add .
+    # unsure why some files are still staged
+    exe git reset -q
+}

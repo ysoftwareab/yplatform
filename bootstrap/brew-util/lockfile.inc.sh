@@ -58,7 +58,9 @@ function brew_lockfile() {
                 if [[ "${CI:-}" = "true" ]]; then
                     (
                         cd "${TAP}"
-                        ${YP_DIR}/bin/degit "https://github.com/${TAP}.git#${TAP_TO/refs\/remotes\/origin/refs\/heads}"
+                        ${YP_DIR}/bin/degit \
+                            --history \
+                            "https://github.com/${TAP}.git#${TAP_TO/refs\/remotes\/origin/refs\/heads}"
                     )
                 else
                     git clone "https://github.com/${TAP}.git" "${TAP}"
