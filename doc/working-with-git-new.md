@@ -56,7 +56,12 @@ Please name the repository appropriately, where appropriately stands for, but no
 A description is optional by Github standards, but we require it.
 
 No need to initialize a repository with a `README.md`, nor add a `.gitignore` or a `LICENSE`.
-Just push these files from your local copy.
+Just push these files from your local copy as per Github's `...or push an existing repository from the command line` instructions.
+
+```shell
+git remote add origin git@github.com:<org>/<repo>.git
+git push -u origin master
+```
 
 Once you've created the Github repository, remember to apply the settings below.
 
@@ -65,34 +70,25 @@ the Probot Settings app](https://probot.github.io/apps/settings/),
 and editing`.github/settings.yml` with the `name` and `description`.
 
 
-### Add teams and collaborators
+### Settings -> General -> Features
 
-Go to `Settings` tab -> `Manage access`.
+Disable not-applicable features by
+going to `Settings` tab -> `General` -> `Features`.
 
-* add entire teams, not individual team members
-* if adding your team (who owns the repo), give it admin access
-* remove yourself from collaborators (if you were added automatically by Github)
-
-
-### Security Alerts
-
-Allow Github to perform analysis of the dependency graph and provide security alerts by
-going to `Settings` tab -> `Security & Analysis`.
-
-* enable `Dependency graph`
-* enable `Dependabot alerts`
-* enable `Dependabot security updates`
+* **optionally** disable `Wikis`
+* **optionally** disable `Issues`
+* **optionally** disable `Projects`
 
 
-### Merge button and protected master branch
+### Settings -> General -> Pull Request
 
 Restrict merging strategies to always require a merge commit by
-going to `Settings` tab -> `Options` -> `Merge button`.
+going to `Settings` tab -> `General` -> `Pull request`.
 
-* deselect `Allow squash merging`
-* deselect `Allow rebase merging`
+* disable `Allow squash merging`
+* disable `Allow rebase merging`
 
-Under the same section, select `Automatically delete head branches` in order to keep the repository clean
+Under the same section, enable `Automatically delete head branches` in order to keep the repository clean
 from stale merged branches.
 
 > **NOTE** If you're wondering why we restrict the merging strategies as they are currently implemented,
@@ -103,27 +99,51 @@ the issues with them include but are not limited to:
 >  - squashing a PR doesn't eliminate noise e.g. "lint", "moar fixes", and other silly commit messages, it simply blurs them and all the other useful commit messages into an opaque "Implement feature x" commit message. That type of noise can only be reduced/eliminated by an interactive rebase (e.g. `git rebase -i origin/master`) and the author cleaning up their PR branch
 >  - simplicity in deciding which strategy to use. See [nodejs](https://github.com/nodejs/node/blob/913c365db66c7a0d40e72a463da4a2f3147f0c26/COLLABORATOR_GUIDE.md#landing-pull-requests) requirements for using the squash merge
 
+
+### Settings -> Code and automation -> Branches
+
 Protect master branch against push-force, outdated PRs and optionally PRs without CI reviews by
-going to `Settings` tab -> `Branches` -> `Add rule`.
+going to `Settings` tab -> `Code and automation` -> `Branches` -> `Add rule`.
 
 * type `master`
-* **optionally** select `Require pull request reviews before merging`
-* select `Require status checks to pass before merging`
+* **optionally** enable `Require pull request reviews before merging`
+  * enable `Require approvals`
+  * enable `Dismiss stale pull request approvals when new commits are pushed`
+* enable `Require status checks to pass before merging`
+  * do NOT enable `Require branches to be up to date before merging`
+    * rather than rebasing your PR branch on top of the destination branch,
+      it will actually merge the destination (e.g. master) into your PR branch,
+      creating a spaghetti commit history, which might even have really negative consequences.
+      See [this comment](https://github.com/isaacs/github/issues/1113) for more
   * select the relevant CI checks
     * if not available, configure the CI first, create a PR and come back here
-* **optionally** select `Require signed commits`
+* **optionally** enable `Require signed commits`
+  * This will make it impossible to commit from Github UI.
 * click `Create`
 
-**NOTE** Do not enable `Require branches to be up to date before merging`,
-because rather than rebasing your PR branch on top of the destination branch,
-it will actually merge the destination (e.g. master) into your PR branch,
-creating a spaghetti commit history, which might even have really negative consequences.
-See [this comment](https://github.com/isaacs/github/issues/1113) for more.
+
+### Settings -> Access -> Collaborators and teams
+
+Go to `Settings` tab -> `Access` -> `Collaborators and teams`.
+
+* add entire teams, not individual team members
+* if adding your team (who owns the repo), give it admin access
+* remove yourself from collaborators (if you were added automatically by Github)
 
 
-### Add topics
+### Settings -> Security -> Code security and analysis
 
-Go to `Code` tab.
+Allow Github to perform analysis of the dependency graph and provide security alerts by
+going to `Settings` tab -> `Security` -> `Code security and analysis`.
+
+* enable `Dependency graph`
+* enable `Dependabot alerts`
+* enable `Dependabot security updates`
+
+
+### Code -> Edit repository metadata -> Topics
+
+Go to `Code` tab -> `Edit repository metadata` (gear icon) -> `Topics`.
 
 Topics will make it easier to filter our repositories, both public, internal and private ones.
 
@@ -133,12 +153,3 @@ Topics will make it easier to filter our repositories, both public, internal and
 * purpose e.g, `eslint-config` or `eslint-plugin`
 * related software e.g. `eslint`
 * etc
-
-
-### Push your local repository
-
-```shell
-cd path/to/repo
-git remote add origin git@github.com:some-org-name/example.git
-git push -u
-```
