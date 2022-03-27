@@ -290,7 +290,7 @@ and playing around without actually having to know anything about it.
     * [JavaScript/TypeScript](https://github.com/ysoftwareab/eslint-config-firecloud)
     * [SASS](https://github.com/ysoftwareab/sass-lint-config-firecloud)
 * set up a new `git` repository
-  * [new `git` (and Github) repositories](doc/working-with-git-new.md)
+  * [new `git` (Github) repositories](doc/creating-new-github-repo.md)
   * [how to license](doc/how-to-license.md)
   * [integrate Travis CI](doc/integrate-travis-ci.md)
   * [.ci.sh](ci/README.md)
