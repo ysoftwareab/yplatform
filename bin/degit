@@ -136,7 +136,11 @@ fi
 # TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
 TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 
-if tar --version | head -n1 | grep -q "^tar (GNU tar)"; then
+# see https://www.gnu.org/software/tar/
+# --verbatim-files-from introduced in 1.29 2016-05-16
+# --skip-old-files introduced in 1.27 2013-10-05
+# --transform introduced in 1.15.91 2006-06-16
+if tar --version | head -n1 | grep -q "^tar (GNU tar) \(1\.29\|1\.[3-9][0-9]\+\)"; then
     echo_do "Extracting ${TAR_FILE}${REPO_DIR} with GNU tar..."
     exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
     tar -xf "${TAR_FILE}" \
@@ -145,9 +149,9 @@ if tar --version | head -n1 | grep -q "^tar (GNU tar)"; then
         --verbatim-files-from \
         --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
 else
-    echo_do "Extracting ${TAR_FILE}${REPO_DIR} with non-GNU tar..."
+    echo_do "Extracting ${TAR_FILE}${REPO_DIR} with old-GNU/non-GNU tar..."
     [[ -n "$(find . -maxdepth 0 -empty)" ]] || {
-        echo_err "Extracting with non-GNU tar requires an empty folder."
+        echo_err "Extracting with old-GNU/non-GNU tar requires an empty folder."
         exit 1
     }
     exe git clone --filter=blob:none --no-checkout ${REPO_URL} .
