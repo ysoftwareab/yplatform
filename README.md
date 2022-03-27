@@ -277,7 +277,8 @@ and playing around without actually having to know anything about it.
 * newcomer
   * [bootstrap](bootstrap/README.md)
 * daily work
-  * [contributing via `git` (and Github)](repo/dot.github/CONTRIBUTING.md)
+  * [code of conduct](https://github.com/ysoftwareab/.github/.github/CODE_OF_CONDUCT.md)
+  * [contributing via `git` (and Github Pull Requests)](https://github.com/ysoftwareab/.github/.github/CONTRIBUTING.md)
   * [working with `make`](build.mk/README.md)
   * [working with a local `npm` dependency](doc/working-with-a-local-npm-dep.md)
   * [how to release](doc/how-to-release.md)
