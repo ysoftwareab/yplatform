@@ -37,9 +37,9 @@ brew_install_one_unless awscli "aws --version 2>&1 | head -1" "^aws-cli/2\." || 
     # Workaround: bypass homebrew, run official install
     # see https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2-linux.html
 
-    EXIT_CODE=$?
+    EXIT_STATUS=$?
     # for convenience, we only support Linux for now
-    [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_CODE}
+    [[ "${OS_SHORT}" = "linux" ]] || exit ${EXIT_STATUS}
     echo_warn "Falling back to installing AWS CLI outside Homebrew..."
 
     # AWSCLI_VSN="$(brew info --json=v1 awscli | jq -r ".[0].versions.stable")"

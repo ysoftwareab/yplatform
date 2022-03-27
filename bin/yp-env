@@ -178,10 +178,10 @@ typeset -f make >/dev/null || function make() {
             >&2 echo "                instead of ${MAKE_COMMAND} $*"
         }
         YP_MAKE_COMMAND=${MAKE_COMMAND} ./make.sh "$@"
-        local EXIT_CODE=$?
+        local EXIT_STATUS=$?
         # á la Ubuntu's ~/.sudo_as_admin_successful
-        [[ ${EXIT_CODE} -ne 0 ]] || touch make.sh.successful
-        return ${EXIT_CODE}
+        [[ ${EXIT_STATUS} -ne 0 ]] || touch make.sh.successful
+        return ${EXIT_STATUS}
     fi
     ${MAKE_COMMAND} "$@"
 }
