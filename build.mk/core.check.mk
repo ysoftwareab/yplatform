@@ -14,6 +14,6 @@ YP_CHECK_TARGETS += \
 check: ## Check.
 	[[ "$(words $(YP_CHECK_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Checking..."; \
-		$(MAKE) $(YP_CHECK_TARGETS); \
+		$(MAKE) --no-print-directory $(YP_CHECK_TARGETS); \
 		$(ECHO_DONE); \
 	}

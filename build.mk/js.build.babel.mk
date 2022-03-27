@@ -44,5 +44,5 @@ $(LIB_JS_FROM_TS_FILES): lib/%.js: src/%.ts $(SRC_JS_FILES) $(BABELRC)
 build-babel:
 	YP_BABEL_FILES_TMP=($(LIB_JS_FROM_JS_FILES) $(LIB_JS_FROM_TS_FILES)); \
 	[[ "$${#YP_BABEL_FILES_TMP[@]}" = "0" ]] || { \
-		$(MAKE) $${YP_BABEL_FILES_TMP[@]}; \
+		$(MAKE) --no-print-directory $${YP_BABEL_FILES_TMP[@]}; \
 	}

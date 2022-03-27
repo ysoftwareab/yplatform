@@ -25,7 +25,7 @@ YP_DIST_TARGETS += \
 build: ## Build.
 	[[ "$(words $(YP_BUILD_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Building..."; \
-		$(MAKE) $(YP_BUILD_TARGETS); \
+		$(MAKE) --no-print-directory $(YP_BUILD_TARGETS); \
 		$(ECHO_DONE); \
 	}
 
@@ -34,6 +34,6 @@ build: ## Build.
 dist:
 	[[ "$(words $(YP_DIST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Packaging a distribution..."; \
-		$(MAKE) $(YP_DIST_TARGETS); \
+		$(MAKE) --no-print-directory $(YP_DIST_TARGETS); \
 		$(ECHO_DONE); \
 	}

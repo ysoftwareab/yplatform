@@ -12,6 +12,6 @@
 deps: ## Fetch dependencies.
 	[[ "$(words $(YP_DEPS_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Fetching dependencies..."; \
-		$(MAKE) $(YP_DEPS_TARGETS); \
+		$(MAKE) --no-print-directory $(YP_DEPS_TARGETS); \
 		$(ECHO_DONE); \
 	}

@@ -54,7 +54,7 @@ YP_CHECK_TARGETS += \
 check-tpl-files:
 	YP_CHECK_TPL_FILES_TMP=($(YP_CHECK_TPL_FILES)); \
 	[[ "$${#YP_CHECK_TPL_FILES_TMP[@]}" = "0" ]] || { \
-		$(MAKE) $${YP_CHECK_TPL_FILES_TMP[@]}; \
+		$(MAKE) --no-print-directory $${YP_CHECK_TPL_FILES_TMP[@]}; \
 		$(GIT) diff --exit-code $${YP_CHECK_TPL_FILES_TMP[@]} || { \
 			$(ECHO_ERR) "Some template-generated files have uncommitted changes."; \
 			exit 1; \

@@ -35,16 +35,32 @@ VERBOSE := true
 export PS4:=+ $$(date +"%Y-%m-%d %H:%M:%S") +$${SECONDS}s $${BASH_SOURCE[0]:-}:$${LINENO} +$(\n)
 endif
 
-ifneq (true,$(VERBOSE))
-MAKEFLAGS += -s
-ifeq (true,$(CI))
-MAKEFLAGS += --no-print-directory
-else
-MAKEFLAGS += --print-directory
+CI_TF := $(shell [[ "$(CI)" = "true" ]] && echo true || echo false)
+VERBOSE_TF := $(shell [[ "$(VERBOSE)" = "true" ]] && echo true || echo false)
+
+MAKEFLAG_MAYBE_PRINT_DIRECTORY := --print-directory
+ifneq (,$(findstring --no-print-directory,$(MAKEFLAGS)))
+	MAKEFLAG_MAYBE_PRINT_DIRECTORY :=
 endif
-else
+
+MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY := --no-print-directory
+ifneq (,$(findstring -w,$(MAKEFLAGS))$(findstring --print-directory,$(MAKEFLAGS)))
+	MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY :=
+endif
+
+ifeq (false-true,$(VERBOSE_TF)-$(CI_TF))
+MAKEFLAGS += -s $(MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY)
+else ifeq (false-false,$(VERBOSE_TF)-$(CI_TF))
+MAKEFLAGS += -s $(MAKEFLAG_MAYBE_PRINT_DIRECTORY)
+else ifeq (true,$(VERBOSE_TF))
 .SHELLFLAGS := -x $(.SHELLFLAGS)
-MAKEFLAGS += --print-directory
+MAKEFLAGS += $(MAKEFLAG_MAYBE_PRINT_DIRECTORY)
+endif
+
+ifneq (,$(filter undefine,$(.FEATURES)))
+undefine CI_TF
+undefine MAKEFLAGS_HAS_NO_PRINT_DIRECTORY_TF
+undefine VERBOSE_TF
 endif
 
 # ------------------------------------------------------------------------------

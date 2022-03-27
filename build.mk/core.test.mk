@@ -14,6 +14,6 @@ YP_TEST_TARGETS += \
 test: ## Test.
 	[[ "$(words $(YP_TEST_TARGETS))" = "0" ]] || { \
 		$(ECHO_DO) "Testing..."; \
-		$(MAKE) $(YP_TEST_TARGETS); \
+		$(MAKE) --no-print-directory $(YP_TEST_TARGETS); \
 		$(ECHO_DONE); \
 	}
