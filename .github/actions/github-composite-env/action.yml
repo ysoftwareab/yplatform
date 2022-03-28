@@ -148,6 +148,7 @@ runs:
           console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
 
     - name: check
+      if: always()
       env:
         # GITHUB_ACTION_PATH: ${{ github.action_path }}
         # GITHUB_EVENT_NAME: ${{ github.event_name }}

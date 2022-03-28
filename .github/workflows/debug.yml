@@ -16,6 +16,7 @@ jobs:
         with:
           step: 2
       - name: check
+        if: always()
         shell: bash
         run: |
           set -x
@@ -53,6 +54,7 @@ jobs:
         with:
           step: 2
       - name: check
+        if: always()
         shell: bash
         run: |
           set -x
