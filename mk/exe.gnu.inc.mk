@@ -135,6 +135,12 @@ $(foreach VAR,GNU_LOGNAME GNU_PWD,$(call make-lazy,$(VAR))) # editorconfig-check
 
 # ------------------------------------------------------------------------------
 
+# bash
+BASH = $(call which,BASH,bash)
+$(foreach VAR,BASH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
+
+# ------------------------------------------------------------------------------
+
 # diffutils
 CMP = $(call which,CMP,gcmp cmp)
 DIFF = $(call which,DIFF,gdiff diff)
