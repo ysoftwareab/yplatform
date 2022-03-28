@@ -14,13 +14,13 @@ jobs:
       - name: step2
         uses: ysoftwareab/yplatform/.github/actions/github-composite-env@debug-github-action-compose-env
         env:
-          STEP_COMPOSITE: ''
-          STEP_1: ''
-          STEP_2: ''
-          STEP_3: ''
-          STEP_4: ''
-          STEP_5: ''
-          STEP_6: ''
+          STEP_COMPOSITE: null
+          STEP_1: null
+          STEP_2: null
+          STEP_3: null
+          STEP_4: null
+          STEP_5: null
+          STEP_6: null
         with:
           step: 2
       - name: check
