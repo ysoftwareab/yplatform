@@ -22,6 +22,7 @@ runs:
         echo "STEP_${STEP}_COMPOSITE_1=true" >> $GITHUB_ENV
         echo "STEP_${STEP}_COMPOSITE=1" >> $GITHUB_ENV
         echo "STEP_COMPOSITE=${STEP}1" >> $GITHUB_ENV
+        echo "STEP_1=${STEP}" >> $GITHUB_ENV
         cat $GITHUB_ENV
 
     - name: composite2-inline
@@ -39,6 +40,7 @@ runs:
         echo "STEP_${STEP}_COMPOSITE_2=true" >> $GITHUB_ENV
         echo "STEP_${STEP}_COMPOSITE=2" >> $GITHUB_ENV
         echo "STEP_COMPOSITE=${STEP}2" >> $GITHUB_ENV
+        echo "STEP_2=${STEP}" >> $GITHUB_ENV
         cat $GITHUB_ENV
 
     - name: composite3-actioncomposite
@@ -58,6 +60,7 @@ runs:
           echo "STEP_${STEP}_COMPOSITE_3=true" >> $GITHUB_ENV
           echo "STEP_${STEP}_COMPOSITE=3" >> $GITHUB_ENV
           echo "STEP_COMPOSITE=${STEP}3" >> $GITHUB_ENV
+          echo "STEP_3=${STEP}" >> $GITHUB_ENV
           cat $GITHUB_ENV
 
     - name: composite4-actioncomposite
@@ -77,6 +80,7 @@ runs:
           echo "STEP_${STEP}_COMPOSITE_4=true" >> $GITHUB_ENV
           echo "STEP_${STEP}_COMPOSITE=4" >> $GITHUB_ENV
           echo "STEP_COMPOSITE=${STEP}4" >> $GITHUB_ENV
+          echo "STEP_4=${STEP}" >> $GITHUB_ENV
           cat $GITHUB_ENV
 
     - name: check
@@ -94,18 +98,28 @@ runs:
         cat $GITHUB_ENV
 
         set -x
+
+        RESULT=0
         VAR="STEP_${STEP}_COMPOSITE_1"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_2"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_3"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_4"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "4"
+        test "${!VAR}" = "4" || RESULT=1
+
         VAR="STEP_COMPOSITE"
-        test "${!VAR}" = "${STEP}4"
+        test "${!VAR}" = "${STEP}4" || RESULT=1
+
+        test "${STEP_1}" = "${STEP}" || RESULT=1
+        test "${STEP_2}" = "${STEP}" || RESULT=1
+        test "${STEP_3}" = "${STEP}" || RESULT=1
+        test "${STEP_4}" = "${STEP}" || RESULT=1
+
+        exit $RESULT
 
     - name: composite5-actionnode
       env:
@@ -163,19 +177,32 @@ runs:
         cat $GITHUB_ENV
 
         set -x
+
+        RESULT=0
         VAR="STEP_${STEP}_COMPOSITE_1"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_2"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_3"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_4"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_5"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
         VAR="STEP_${STEP}_COMPOSITE_6"
-        test "${!VAR}" = "true"
+        test "${!VAR}" = "true" || RESULT=1
+
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "6"
+        test "${!VAR}" = "6" || RESULT=1
+
+        test "${STEP_1}" = "${STEP}" || RESULT=1
+        test "${STEP_2}" = "${STEP}" || RESULT=1
+        test "${STEP_3}" = "${STEP}" || RESULT=1
+        test "${STEP_4}" = "${STEP}" || RESULT=1
+        test "${STEP_5}" = "${STEP}" || RESULT=1
+        test "${STEP_6}" = "${STEP}" || RESULT=1
+
         VAR="STEP_COMPOSITE"
-        test "${!VAR}" = "${STEP}6"
+        test "${!VAR}" = "${STEP}6" || RESULT=1
+
+        exit $RESULT
