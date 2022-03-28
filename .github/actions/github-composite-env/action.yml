@@ -86,7 +86,7 @@ runs:
         script: |
           console.log("--- CURRENT --- process.env");
           let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
-          stepKeys.forEach( (key) => console.log(`${key}=${process.env[$key]}`) );
+          stepKeys.forEach( (key) => console.log(`${key}=${process.env[key]}`) );
 
           console.log("--- NEXT --- process.env.GITHUB_ENV");
           let fs = require('fs');
@@ -105,7 +105,7 @@ runs:
         script: |
           console.log("--- CURRENT --- process.env");
           let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
-          stepKeys.forEach( (key) => console.log(`${key}=${process.env[$key]}`) );
+          stepKeys.forEach( (key) => console.log(`${key}=${process.env[key]}`) );
 
           console.log("--- NEXT --- process.env.GITHUB_ENV");
           let fs = require('fs');
