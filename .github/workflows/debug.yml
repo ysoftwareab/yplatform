@@ -1,47 +1,63 @@
 name: debug
 'on':
-  schedule:
-    - cron: 0 */6 * * *
   workflow_dispatch: null
-concurrency:
-  group: 'main'
-  cancel-in-progress: true
 jobs:
-  main:
+  gitref:
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        'runs-on':
-          - ubuntu-18.04
-          - ubuntu-20.04
-          - macos-10.15
-          - macos-11
-          - macos-12
-          - windows-2019
-          - windows-2022
-    name: '${{ matrix.runs-on }}'
-    runs-on: '${{ matrix.runs-on }}'
+    name: gitref
+    runs-on: ubuntu-20.04
     steps:
-      - uses: ysoftwareab/yplatform/.github/actions/debug@master
+      - name: step1
+        uses: ysoftwareab/yplatform/.github/actions/github-composite-env@debug-github-action-compose-env
         with:
-          file: debug.new.txt
-      - id: cache-keys
-        shell: bash
-        run: echo ::set-output name=yyyymm::$(/bin/date -u "+%Y%m")
-      - id: cache
-        uses: actions/cache@v3
+          step: 1
+      - name: step2
+        uses: ysoftwareab/yplatform/.github/actions/github-composite-env@debug-github-action-compose-env
         with:
-          path: |
-            debug.txt
-          key: ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
-          'restore-keys': |
-            ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
-      - if: steps.cache.outputs.cache-hit == 'true'
+          step: 2
+      - name: check
         shell: bash
-        # TODO nice if one can ignore values that are ever changing, and report only relevant diffs
         run: |
-          diff --unified=1000000 debug.txt debug.new.txt || true
-      - shell: bash
+          set -x
+          STEP=1
+          VAR="STEP_${STEP}_COMPOSITE_1"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_2"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_3"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_4"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE"
+          test "${!VAR}" = "4"
+
+  local:
+    timeout-minutes: 30
+    name: local
+    runs-on: ubuntu-20.04
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: step1
+        uses: ./.github/actions/github-composite-env
+        with:
+          step: 1
+      - name: step2
+        uses: ./.github/actions/github-composite-env
+        with:
+          step: 2
+      - name: check
+        shell: bash
         run: |
-          mv debug.new.txt debug.txt
+          set -x
+          STEP=2
+          VAR="STEP_${STEP}_COMPOSITE_1"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_2"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_3"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE_4"
+          test "${!VAR}" = "true"
+          VAR="STEP_${STEP}_COMPOSITE"
+          test "${!VAR}" = "4"

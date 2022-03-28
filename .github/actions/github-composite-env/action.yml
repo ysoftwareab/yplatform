@@ -1,0 +1,138 @@
+name: 'ysoftwareab/yplatform:github-composite-env'
+description: 'Debug'
+inputs:
+  step:
+    description: Step
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: composite1-inline
+      shell: bash
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      run: |
+        echo "--- CURRENT --- printenv"
+        printenv | grep "^STEP" | sort || true
+
+        echo "--- NEXT --- $GITHUB_ENV"
+        echo "STEP_${STEP}_COMPOSITE_1=true" >> $GITHUB_ENV
+        echo "STEP_${STEP}_COMPOSITE=1" >> $GITHUB_ENV
+        cat $GITHUB_ENV
+
+    - name: composite2-inline
+      shell: bash
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      run: |
+        echo "--- CURRENT --- printenv"
+        printenv | grep "^STEP" | sort || true
+
+        echo "--- NEXT --- $GITHUB_ENV"
+        echo "STEP_${STEP}_COMPOSITE_2=true" >> $GITHUB_ENV
+        echo "STEP_${STEP}_COMPOSITE=2" >> $GITHUB_ENV
+        cat $GITHUB_ENV
+
+    - name: composite3-actioncomposite
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      uses: ysoftwareab/yplatform/.github/actions/run@master
+      with:
+        shell: bash
+        run: |
+          echo "--- CURRENT --- printenv"
+          printenv | grep "^STEP" | sort || true
+
+          echo "--- NEXT --- $GITHUB_ENV"
+          echo "STEP_${STEP}_COMPOSITE_3=true" >> $GITHUB_ENV
+          echo "STEP_${STEP}_COMPOSITE=3" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
+    - name: composite4-actioncomposite
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      uses: ysoftwareab/yplatform/.github/actions/run@master
+      with:
+        shell: bash
+        run: |
+          echo "--- CURRENT --- printenv"
+          printenv | grep "^STEP" | sort || true
+
+          echo "--- NEXT --- $GITHUB_ENV"
+          echo "STEP_${STEP}_COMPOSITE_4=true" >> $GITHUB_ENV
+          echo "STEP_${STEP}_COMPOSITE=4" >> $GITHUB_ENV
+          cat $GITHUB_ENV
+
+    - name: composite5-actionnode
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          console.log("--- CURRENT --- process.env");
+          let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
+          stepKeys.forEach( (key) => console.log(`${key}=${process.env[$key]}`) );
+
+          console.log("--- NEXT --- process.env.GITHUB_ENV");
+          let fs = require('fs');
+          fs.appendFilesync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_5=true`);
+          fs.appendFilesync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=5`);
+          console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
+
+    - name: composite6-actionnode
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      uses: actions/github-script@v6
+      with:
+        script: |
+          console.log("--- CURRENT --- process.env");
+          let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
+          stepKeys.forEach( (key) => console.log(`${key}=${process.env[$key]}`) );
+
+          console.log("--- NEXT --- process.env.GITHUB_ENV");
+          let fs = require('fs');
+          fs.appendFilesync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_6=true`);
+          fs.appendFilesync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=6`);
+          console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
+
+    - name: check
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      shell: bash
+      run: |
+        set -x
+        VAR="STEP_${STEP}_COMPOSITE_1"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_2"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_3"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_4"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_5"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_6"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE"
+        test "${!VAR}" = "4"
