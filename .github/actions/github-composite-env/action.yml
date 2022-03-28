@@ -121,6 +121,12 @@ runs:
         STEP: ${{ inputs.step }}
       shell: bash
       run: |
+        echo "--- CURRENT --- printenv"
+        printenv | grep "^STEP" | sort || true
+
+        echo "--- CURRENT --- $GITHUB_ENV"
+        cat $GITHUB_ENV
+
         set -x
         VAR="STEP_${STEP}_COMPOSITE_1"
         test "${!VAR}" = "true"
