@@ -90,8 +90,8 @@ runs:
 
           console.log("--- NEXT --- process.env.GITHUB_ENV");
           let fs = require('fs');
-          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_5=true`);
-          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=5`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_5=true\n`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=5\n`);
           console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
 
     - name: composite6-actionnode
@@ -109,8 +109,8 @@ runs:
 
           console.log("--- NEXT --- process.env.GITHUB_ENV");
           let fs = require('fs');
-          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_6=true`);
-          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=6`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_6=true\n`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=6\n`);
           console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
 
     - name: check
