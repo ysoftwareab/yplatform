@@ -15,6 +15,7 @@ runs:
         # FIXME https://github.com/actions/runner/issues/665
         STEP: ${{ inputs.step }}
       run: |
+        echo composite1-inline
         echo "--- CURRENT --- printenv"
         printenv | grep "^STEP" | sort || true
 
@@ -33,6 +34,7 @@ runs:
         # FIXME https://github.com/actions/runner/issues/665
         STEP: ${{ inputs.step }}
       run: |
+        echo composite2-inline
         echo "--- CURRENT --- printenv"
         printenv | grep "^STEP" | sort || true
 
@@ -53,6 +55,7 @@ runs:
       with:
         shell: bash
         run: |
+          echo composite3-actioncomposite
           echo "--- CURRENT --- printenv"
           printenv | grep "^STEP" | sort || true
 
@@ -73,6 +76,7 @@ runs:
       with:
         shell: bash
         run: |
+          echo composite4-actioncomposite
           echo "--- CURRENT --- printenv"
           printenv | grep "^STEP" | sort || true
 
@@ -83,7 +87,7 @@ runs:
           echo "STEP_4=${STEP}" >> $GITHUB_ENV
           cat $GITHUB_ENV
 
-    - name: check
+    - name: check_partial
       env:
         # GITHUB_ACTION_PATH: ${{ github.action_path }}
         # GITHUB_EVENT_NAME: ${{ github.event_name }}
@@ -91,6 +95,7 @@ runs:
         STEP: ${{ inputs.step }}
       shell: bash
       run: |
+        echo check_partial
         echo "--- CURRENT --- printenv"
         printenv | grep "^STEP" | sort || true
 
@@ -131,6 +136,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
+          console.log("composite5-actionnode");
           console.log("--- CURRENT --- process.env");
           let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
           stepKeys.forEach( (key) => console.log(`${key}=${process.env[key]}`) );
@@ -140,6 +146,7 @@ runs:
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_5=true\n`);
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=5\n`);
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_COMPOSITE=${process.env.STEP}5\n`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_5=${process.env.STEP}\n`);
           console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
 
     - name: composite6-actionnode
@@ -151,6 +158,7 @@ runs:
       uses: actions/github-script@v6
       with:
         script: |
+          console.log("composite6-actionnode");
           console.log("--- CURRENT --- process.env");
           let stepKeys = Object.keys(process.env).filter( (key) => /^STEP/.test(key) );
           stepKeys.forEach( (key) => console.log(`${key}=${process.env[key]}`) );
@@ -160,6 +168,7 @@ runs:
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE_6=true\n`);
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_${process.env.STEP}_COMPOSITE=6\n`);
           fs.appendFileSync(process.env.GITHUB_ENV, `STEP_COMPOSITE=${process.env.STEP}6\n`);
+          fs.appendFileSync(process.env.GITHUB_ENV, `STEP_6=${process.env.STEP}\n`);
           console.log(fs.readFileSync(process.env.GITHUB_ENV, 'utf8'));
 
     - name: check
@@ -171,6 +180,7 @@ runs:
         STEP: ${{ inputs.step }}
       shell: bash
       run: |
+        echo check
         echo "--- CURRENT --- printenv"
         printenv | grep "^STEP" | sort || true
 
