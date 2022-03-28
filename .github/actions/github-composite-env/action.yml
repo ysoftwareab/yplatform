@@ -101,23 +101,23 @@ runs:
 
         RESULT=0
         VAR="STEP_${STEP}_COMPOSITE_1"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_2"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_3"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_4"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "4" || RESULT=1
+        test "${!VAR}" = "4" || RESULT=$((RESULT+1))
 
         VAR="STEP_COMPOSITE"
-        test "${!VAR}" = "${STEP}4" || RESULT=1
+        test "${!VAR}" = "${STEP}4" || RESULT=$((RESULT+1))
 
-        test "${STEP_1}" = "${STEP}" || RESULT=1
-        test "${STEP_2}" = "${STEP}" || RESULT=1
-        test "${STEP_3}" = "${STEP}" || RESULT=1
-        test "${STEP_4}" = "${STEP}" || RESULT=1
+        test "${STEP_1}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_2}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_3}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_4}" = "${STEP}" || RESULT=$((RESULT+1))
 
         exit $RESULT
 
@@ -180,29 +180,29 @@ runs:
 
         RESULT=0
         VAR="STEP_${STEP}_COMPOSITE_1"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_2"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_3"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_4"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_5"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE_6"
-        test "${!VAR}" = "true" || RESULT=1
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
 
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "6" || RESULT=1
+        test "${!VAR}" = "6" || RESULT=$((RESULT+1))
 
-        test "${STEP_1}" = "${STEP}" || RESULT=1
-        test "${STEP_2}" = "${STEP}" || RESULT=1
-        test "${STEP_3}" = "${STEP}" || RESULT=1
-        test "${STEP_4}" = "${STEP}" || RESULT=1
-        test "${STEP_5}" = "${STEP}" || RESULT=1
-        test "${STEP_6}" = "${STEP}" || RESULT=1
+        test "${STEP_1}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_2}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_3}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_4}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_5}" = "${STEP}" || RESULT=$((RESULT+1))
+        test "${STEP_6}" = "${STEP}" || RESULT=$((RESULT+1))
 
         VAR="STEP_COMPOSITE"
-        test "${!VAR}" = "${STEP}6" || RESULT=1
+        test "${!VAR}" = "${STEP}6" || RESULT=$((RESULT+1))
 
         exit $RESULT
