@@ -97,6 +97,7 @@ runs:
         echo "--- CURRENT --- $GITHUB_ENV"
         cat $GITHUB_ENV
 
+        exec 2>&1
         set -x
 
         RESULT=0
@@ -176,6 +177,7 @@ runs:
         echo "--- CURRENT --- $GITHUB_ENV"
         cat $GITHUB_ENV
 
+        exec 2>&1
         set -x
 
         RESULT=0

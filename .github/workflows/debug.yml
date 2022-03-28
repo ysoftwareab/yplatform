@@ -19,6 +19,7 @@ jobs:
         if: always()
         shell: bash
         run: |
+          exec 2>&1
           set -x
           STEP=1
           RESULT=0
@@ -69,6 +70,7 @@ jobs:
         if: always()
         shell: bash
         run: |
+          exec 2>&1
           set -x
           STEP=2
           RESULT=0
