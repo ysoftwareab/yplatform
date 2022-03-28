@@ -45,6 +45,42 @@ runs:
         echo "STEP_2=${STEP}" >> $GITHUB_ENV
         cat $GITHUB_ENV
 
+    - name: check_partial_inline
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      shell: bash
+      run: |
+        echo check_partial_inline
+        echo "--- CURRENT --- printenv"
+        printenv | grep "^STEP" | sort || true
+
+        echo "--- CURRENT --- $GITHUB_ENV"
+        cat $GITHUB_ENV
+
+        exec 2>&1
+        set -x
+
+        RESULT=0
+        VAR="STEP_${STEP}_COMPOSITE_1"
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
+        VAR="STEP_${STEP}_COMPOSITE_2"
+        test "${!VAR}" = "true" || RESULT=$((RESULT+1))
+        VAR="STEP_${STEP}_COMPOSITE"
+        test "${!VAR}" = "4" || RESULT=$((RESULT+1))
+
+        VAR="STEP_COMPOSITE"
+        test "${!VAR}" = "${STEP}2" || RESULT=$((RESULT+1))
+
+        VAR="STEP_1"
+        test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+        VAR="STEP_2"
+        test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+
+        exit $RESULT
+
     - name: composite3-actioncomposite
       env:
         # GITHUB_ACTION_PATH: ${{ github.action_path }}
@@ -87,7 +123,7 @@ runs:
           echo "STEP_4=${STEP}" >> $GITHUB_ENV
           cat $GITHUB_ENV
 
-    - name: check_partial
+    - name: check_partial_actioncomposite
       env:
         # GITHUB_ACTION_PATH: ${{ github.action_path }}
         # GITHUB_EVENT_NAME: ${{ github.event_name }}
@@ -95,7 +131,7 @@ runs:
         STEP: ${{ inputs.step }}
       shell: bash
       run: |
-        echo check_partial
+        echo check_partial_actioncomposite
         echo "--- CURRENT --- printenv"
         printenv | grep "^STEP" | sort || true
 
