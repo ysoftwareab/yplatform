@@ -39,12 +39,18 @@ jobs:
           VAR="STEP_${STEP}_COMPOSITE"
           test "${!VAR}" = "6" || RESULT=$((RESULT+1))
 
-          test "${STEP_1}" = "${STEP}" || RESULT=$((RESULT+1))
-          test "${STEP_2}" = "${STEP}" || RESULT=$((RESULT+1))
-          test "${STEP_3}" = "${STEP}" || RESULT=$((RESULT+1))
-          test "${STEP_4}" = "${STEP}" || RESULT=$((RESULT+1))
-          test "${STEP_5}" = "${STEP}" || RESULT=$((RESULT+1))
-          test "${STEP_6}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_1"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_2"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_3"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_4"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_5"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
+          VAR="STEP_6"
+          test "${!VAR}" = "${STEP}" || RESULT=$((RESULT+1))
 
           VAR="STEP_COMPOSITE"
           test "${!VAR}" = "${STEP}6" || RESULT=$((RESULT+1))

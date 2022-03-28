@@ -69,7 +69,7 @@ runs:
         VAR="STEP_${STEP}_COMPOSITE_2"
         test "${!VAR}" = "true" || RESULT=$((RESULT+1))
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "4" || RESULT=$((RESULT+1))
+        test "${!VAR}" = "2" || RESULT=$((RESULT+1))
 
         VAR="STEP_COMPOSITE"
         test "${!VAR}" = "${STEP}2" || RESULT=$((RESULT+1))
