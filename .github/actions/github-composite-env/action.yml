@@ -75,6 +75,32 @@ runs:
           echo "STEP_${STEP}_COMPOSITE=4" >> $GITHUB_ENV
           cat $GITHUB_ENV
 
+    - name: check
+      env:
+        # GITHUB_ACTION_PATH: ${{ github.action_path }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        STEP: ${{ inputs.step }}
+      shell: bash
+      run: |
+        echo "--- CURRENT --- printenv"
+        printenv | grep "^STEP" | sort || true
+
+        echo "--- CURRENT --- $GITHUB_ENV"
+        cat $GITHUB_ENV
+
+        set -x
+        VAR="STEP_${STEP}_COMPOSITE_1"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_2"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_3"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE_4"
+        test "${!VAR}" = "true"
+        VAR="STEP_${STEP}_COMPOSITE"
+        test "${!VAR}" = "4"
+
     - name: composite5-actionnode
       env:
         # GITHUB_ACTION_PATH: ${{ github.action_path }}
@@ -141,4 +167,4 @@ runs:
         VAR="STEP_${STEP}_COMPOSITE_6"
         test "${!VAR}" = "true"
         VAR="STEP_${STEP}_COMPOSITE"
-        test "${!VAR}" = "4"
+        test "${!VAR}" = "6"
