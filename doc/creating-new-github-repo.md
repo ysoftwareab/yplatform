@@ -92,12 +92,7 @@ Under the same section, enable `Automatically delete head branches` in order to 
 from stale merged branches.
 
 > **NOTE** If you're wondering why we restrict the merging strategies as they are currently implemented,
-the issues with them include but are not limited to:
-
->  - fast-forward merge i.e. no merge commit referencing the PR number, the PR branch nor which commit the PR branched off from. In addition, the squashed/rebased commits have no comments, nor CI metadata attached
->  - committer will change for all squashed/rebased commits to `GitHub <noreply@github.com>` so no way of knowing who clicked the Merged button
->  - squashing a PR doesn't eliminate noise e.g. "lint", "moar fixes", and other silly commit messages, it simply blurs them and all the other useful commit messages into an opaque "Implement feature x" commit message. That type of noise can only be reduced/eliminated by an interactive rebase (e.g. `git rebase -i origin/master`) and the author cleaning up their PR branch
->  - simplicity in deciding which strategy to use. See [nodejs](https://github.com/nodejs/node/blob/913c365db66c7a0d40e72a463da4a2f3147f0c26/COLLABORATOR_GUIDE.md#landing-pull-requests) requirements for using the squash merge
+check out https://github.com/ysoftwareab/github-merge-methods to understand their behaviour.
 
 
 ### Settings -> Code and automation -> Branches
