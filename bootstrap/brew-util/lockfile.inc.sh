@@ -55,7 +55,7 @@ function brew_lockfile() {
                 # and the tap-expected-version of brew
                 # brew tap "${TAP}"
                 mkdir -p "${TAP}"
-                if [[ "${CI:-}" = "true" ]]; then
+                if [[ "${CI:-}" = "true" ]] && git clone -h | grep -q "\-\-filter"; then
                     (
                         cd "${TAP}"
                         ${YP_DIR}/bin/degit \

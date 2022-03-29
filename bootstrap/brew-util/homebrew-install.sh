@@ -860,7 +860,7 @@ ohai "Downloading and installing Homebrew..."
   cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
 
   HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
-  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
+  if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git clone -h | grep -q "\-\-filter"; then
     execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
   else
   # we do it in four steps to avoid merge errors when reinstalling
@@ -897,7 +897,7 @@ ohai "Downloading and installing Homebrew..."
       cd "${HOMEBREW_CORE}" >/dev/null || return
 
       HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
-      if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
+      if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git clone -h | grep -q "\-\-filter"; then
         execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
       else
 
