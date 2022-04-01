@@ -19,6 +19,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
 
     apt_install_one git
     apt_install_one openssl
+    apt_install_one procps
     apt_install_one ssh-client
     apt_install_one sudo
 
