@@ -18,6 +18,7 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     yum_install_one git
     yum_install_one openssl
     yum_install_one passwd
+    yum_install_one procps
     yum_install_one sudo
     yum_install_one which
 
