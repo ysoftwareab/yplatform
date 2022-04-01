@@ -21,6 +21,28 @@ case ${DOCKER_OS_RELEASE_ID} in
         ;;
 esac
 
+VANILLA=
+case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
+  alpine-*)
+    VANILLA=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
+    ;;
+  amzn-*)
+    VANILLA=amazonlinux:latest
+    ;;
+  arch-0)
+    VANILLA=archlinux:latest
+    ;;
+  centos-*)
+    VANILLA=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
+    ;;
+  rhel-*)
+    VANILLA=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
+    ;;
+  *)
+    VANILLA=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
+    ;;
+esac
+
 # vanilla
 # yp-minimal or yp-minimal:<tag>
 # yp-common or yp-common:<tag>
@@ -30,7 +52,7 @@ shift
 
 case "${FLAVOUR}" in
     vanilla)
-        NAME="${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}"
+        NAME="${VANILLA}"
         ;;
     yp-minimal|yp-minimal:*|yp-common|yp-common:*)
         YP_CI_BREW_INSTALL=${FLAVOUR:3}

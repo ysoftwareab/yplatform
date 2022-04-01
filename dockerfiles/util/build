@@ -77,6 +77,27 @@ case ${DOCKER_OS_RELEASE_ID} in
         ;;
 esac
 
+case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
+    alpine-*)
+        VANILLA=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
+        ;;
+    amzn-*)
+        VANILLA=amazonlinux:latest
+        ;;
+    arch-0)
+        VANILLA=archlinux:latest
+        ;;
+    centos-*)
+        VANILLA=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
+        ;;
+    rhel-*)
+        VANILLA=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
+        ;;
+    *)
+        VANILLA=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
+        ;;
+esac
+
 OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}"
 [[ "${OS_RELEASE_DIR}" = "${OS_RELEASE_DIR2}" ]] || {
     echo_info "OS_RELEASE_DIR=${OS_RELEASE_DIR}"
@@ -85,31 +106,10 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
     exit 1
 }
 
-[[ -n "${ARG_FROM}" ]] || {
-    case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
-        alpine-*)
-            ARG_FROM=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
-            ;;
-        amzn-*)
-            ARG_FROM=amazonlinux:latest
-            ;;
-        arch-0)
-            ARG_FROM=archlinux:latest
-            ;;
-        centos-*)
-            ARG_FROM=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
-            ;;
-        rhel-*)
-            ARG_FROM=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
-            ;;
-        *)
-            ARG_FROM=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
-            ;;
-    esac
-}
-
 [[ -n "${DOCKERFILE}" ]] || \
     DOCKERFILE=$(readlink -f ${OS_RELEASE_DIR}/Dockerfile)
+
+ARG_FROM="${ARG_FROM:-${VANILLA}}"
 
 [[ -n "${NAME}" ]] || {
     # sync with ci/util/docker-ci.inc.sh line:~100 "yp_get_docker_ci_image"
