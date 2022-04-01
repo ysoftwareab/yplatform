@@ -17,6 +17,9 @@ source ${YP_DIR}/dockerfiles/util/common.inc.sh
     apt_install_one software-properties-common
     apt_install_one gnupg-agent
 
+    ${YP_SUDO:-} add-apt-repository ppa:git-core/ppa -y
+    apt_update
+
     apt_install_one git
     apt_install_one openssl
     apt_install_one procps
