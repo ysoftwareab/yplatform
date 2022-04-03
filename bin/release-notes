@@ -103,6 +103,7 @@ else
 fi
 echo
 echo "* None"
+echo
 
 echo
 
