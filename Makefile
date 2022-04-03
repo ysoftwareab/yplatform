@@ -38,6 +38,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^Formula/.*\.patch$$" \
 	-e "^Formula/patch-src/" \
 	-e "^bin/aws-cfviz$$" \
+	-e "^bin/esh$$" \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/retry$$" \
 	-e "^bin/transcrypt$$" \
