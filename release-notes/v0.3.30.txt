@@ -1,0 +1,153 @@
+yplatform v0.3.30 Release Notes
+
+Highlights since v0.3.29:
+
+* None
+
+Breaking commits since v0.3.29:
+
+* 5a9d0239 2022-03-25 breaking: remove action.yml . use .github/actions/<action>/action.yml instead
+* f2b369c9 2022-02-09 breaking: rename YP_DEV_INC_SH to YP_DEV
+* 70fd22ab 2022-02-09 breaking: split github action, to create possibility for future actions
+* 76275ed6 2022-02-08 breaking: remove deprecated dev/inc.sh
+
+
+Commits since v0.3.29:
+
+* 13091fdd 2022-04-03 add esh@b969a36d55d81ebae05ba084a0d6e31067dad2c9 from https://github.com/ysoftwareab/esh
+* d4e9206a 2022-04-01 newer git on debian/ubuntu via ppa:git-core/ppa
+* d3072ed5 2022-04-01 fix 'run' for our vanilla alpine image, which is based on ruby image - ruby REPL as default shell
+* fbebbacc 2022-04-01 --filter was implemented before --filter=blob:none. better check for support when installing homebrew
+* d60c4555 2022-04-01 fixup! debian: /bin/ps is needed by homebrew's shellenv.sh
+* 5e40339c 2022-04-01 run also needs fixes to image name. sync with build
+* c556d47b 2022-04-01 debian: /bin/ps is needed by homebrew's shellenv.sh
+* 8f37153d 2022-03-29 update info for no squash/rebase mode on github
+* a8bbe99f 2022-03-29 degit requires git >= 1.27 (--filter)
+* 8effa466 2022-03-28 add BASH
+* 81d8c964 2022-03-27 less noise for sub targets
+* 18c0044a 2022-03-27 rename for consistency EXIT_CODE -> EXIT_STATUS
+* 0488985e 2022-03-27 fixup! degit: hide git history functionality behind --history flag
+* 5acfeb1b 2022-03-27 rename
+* 12a47b25 2022-03-27 moved out files to .github repo
+* cc8d9206 2022-03-27 typo
+* 043e1047 2022-03-27 update docs in accordance with latest github ui
+* 08a53b55 2022-03-27 document how to include yplatform in shell scripts
+* 9b1060da 2022-03-27 degit: hide git history functionality behind --history flag
+* bcc80f53 2022-03-27 degit: explicit about which gnu-tar version is required
+* 70b935f1 2022-03-27 first version of CONTRIBUTING.md
+* c6a2dcc3 2022-03-27 adjust after renames
+* 5914cdac 2022-03-27 old name
+* 0805489c 2022-03-27 backup https://blog.scottnonnenberg.com/top-ten-pull-request-review-mistakes/
+* 222512c9 2022-03-27 backup https://dev.to/codemouse92/10-principles-of-a-good-code-review-2eg
+* 19e31778 2022-03-27 backup https://dev.to/samjarman/giving-and-receiving-great-code-reviews
+* 91d517c4 2022-03-27 backup https://www.atlassian.com/blog/git/written-unwritten-guide-pull-requests
+* 843ff0b4 2022-03-27 backup https://fagnerbrack.com/one-pull-request-one-concern-e84a27dfe9f1
+* 2c37f4c6 2022-03-26 add undocumented semaphore ci env: SEMAPHORE_AGENT_LOG_FILE_PATH
+* 4c0a294a 2022-03-26 skip resetting if same hash
+* 66b73ab8 2022-03-26 use degit for cloning homebrew and taps (faster). fix #235
+* be68ffe3 2022-03-26 degit: handle non-gnu tar. need to remove verbose-mode because macos bsd tar outputs file list to stderr
+* 5d424ece 2022-03-26 macos sed doesn't support tab notation
+* 48675da7 2022-03-26 degit: handle bash 3
+* 28db9e49 2022-03-26 redundant default. URI_SCHEME is set for SSH matches
+* 8b6a618d 2022-03-26 degit: fix extra @ , which should be harmless but homebrew will complain about it
+* ecc555af 2022-03-26 degit: less noise
+* 912b919d 2022-03-26 less errors printout on bash 3 (macos)
+* 63b014e1 2022-03-26 degit: handle sigpipe
+* 0f8954ea 2022-03-26 fix 'BASH_REMATCH: readonly variable'
+* da0fc84d 2022-03-26 run debug every 6 hours
+* 0ecd6a09 2022-03-26 add deno to bootstrap, but skip it if CI && WSL
+* 2cc59c7c 2022-03-26 normalize git ref
+* 1debfbdc 2022-03-26 degit learned how to recreate git history
+* 9e66ed1f 2022-03-26 lockfile will translate refs/heads to refs/remotes/origin automatically
+* 78586b36 2022-03-26 docs: degit supports branches and tags
+* a9ecf739 2022-03-25 html_url may contain querystrings like ?check_suite_focus=true
+* 6b52086b 2022-03-25 fixup! allow diffs for now
+* 060e11d0 2022-03-25 allow diffs for now
+* 25d94866 2022-03-25 bump debug cache
+* 5abd0416 2022-03-25 typo
+* 7123b76d 2022-03-25 github: always version cache keys
+* 9942a9c2 2022-03-25 fixup! fixup! debug workflow with diff support
+* 8dac2906 2022-03-25 fixup! fixup! fix action path
+* 53327c46 2022-03-25 fixup! fix action path
+* 64415b4c 2022-03-25 fix action path
+* 428116fd 2022-03-25 fixup! debug workflow with diff support
+* ad04d6b5 2022-03-25 debug workflow with diff support
+* 5a9d0239 2022-03-25 breaking: remove action.yml . use .github/actions/<action>/action.yml instead
+* 40a48320 2022-03-25 call debug action directly
+* 338f3c0c 2022-03-25 brew: add brew_uninstall_all and brew_link_all
+* a072c3e0 2022-03-25 github: add debug workflow
+* 7fc974de 2022-03-25 document run and build utilities
+* c959ac44 2022-03-25 add run util for all docker images
+* 52f240ef 2022-03-25 move brew-uninstall to brew.inc.sh and force remove known folders
+* edb1e61e 2022-03-25 Revert "add deno to bootstrap"
+* 173d6f49 2022-03-24 missing echo_done
+* 1870bf1c 2022-03-24 github: stdout and stderr are out of sync. try grouping on stderr
+* 39244211 2022-03-24 github: add grouping for ci-echo
+* f0f113f0 2022-03-24 style
+* fe494345 2022-03-24 restructure make docs. fix #260
+* 89d79576 2022-03-24 wsl: don't append windows executables to PATH
+* 317dd82a 2022-03-24 wsl: case sensitivity
+* 1b0cf910 2022-03-24 fixup! fixup! github: cannot shutdown entire wsl in windows-2022. use Vampire/setup-wsl's feature to setup wsl.conf
+* 96346ff5 2022-03-23 fixup! github: cannot shutdown entire wsl in windows-2022. use Vampire/setup-wsl's feature to setup wsl.conf
+* a6ccd9e8 2022-03-23 wsl: cleanup ids, add sles-12 distro
+* 226e0c23 2022-03-23 remove ubuntu-16.04
+* facd24f2 2022-03-23 upgraded json from 9 to 11. fix #259
+* 6a7ef624 2022-03-23 github: cannot shutdown entire wsl in windows-2022. use Vampire/setup-wsl's feature to setup wsl.conf
+* 534696a3 2022-03-23 github removed git protocol
+* 8cd1a6d8 2022-03-23 github: add macos-12
+* 29482882 2022-03-06 fixup! fixup! don't assume that everyone/CIs will clone the project in a folder with the project's name
+* 05c260c9 2022-03-05 fixup! don't assume that everyone/CIs will clone the project in a folder with the project's name
+* 2ff8002f 2022-03-05 don't assume that everyone/CIs will clone the project in a folder with the project's name
+* 838894d6 2022-03-05 add portable-ruby dependency
+* 975e83c4 2022-03-05 need hostname on rhel
+* 1e1dae9b 2022-03-05 updated Brewfile.lock
+* 1001168f 2022-03-05 acknowledge undocument github env var GITHUB_STEP_SUMMARY
+* e74e20fa 2022-02-11 lint
+* 849db053 2022-02-11 fixup! refactor yp-env
+* f99efee8 2022-02-10 fixup! refactor bootstrap
+* ada75dc5 2022-02-09 refactor yp-env
+* 15b576f4 2022-02-10 mark shell scripts that should work in zsh too
+* 3ef3d615 2022-02-11 docker-in-docker for vscode devcontainer
+* 0f02b072 2022-02-10 fixup! fixup! sync devcontainer with our docker-ci
+* 17c2d212 2022-02-10 les verbose
+* f5738b50 2022-02-08 sort
+* 3f776792 2022-02-10 jd 1.5.1 vanished. downgrading to 1.5.0
+* 312dd679 2022-02-10 refactor sh/dev.inc.sh
+* 151c6708 2022-02-10 minor fixes for YP_ENV
+* 431ceb14 2022-02-09 add install instructions
+* f2b369c9 2022-02-09 breaking: rename YP_DEV_INC_SH to YP_DEV
+* 267320ae 2022-02-09 backup vars before changing them
+* 70fd22ab 2022-02-09 breaking: split github action, to create possibility for future actions
+* 34b6c5f4 2022-02-09 style
+* ad1d11f9 2022-02-08 add yp::nvm_install
+* a5a27c03 2022-02-08 style
+* 76275ed6 2022-02-08 breaking: remove deprecated dev/inc.sh
+* 501bcd1d 2022-02-08 stop using outdated file
+* 60e30809 2022-02-08 force yp-env for dev
+* 5e958982 2022-02-08 rename
+* 60f0c1df 2022-02-08 fixup! document ci readme in ci.sh template
+* b5a9836e 2022-02-08 sourcing yp-env should always set functions i.e. non-export content even if YP_ENV=true
+* 09c31023 2022-02-08 fixup! include more in brew printenv
+* 0112f0a1 2022-02-08 print CI vars, if available
+* 8216cb63 2022-02-08 remove noise
+* 54f1873c 2022-02-08 ignore problematic vars
+* 860b5a52 2022-02-08 force rehash before printing vars
+* 817f1f66 2022-02-08 sort
+* 02d669f6 2022-02-07 include more in brew printenv
+* 84fc94a2 2022-02-07 force rehash after homebrew installation
+* 770b13f3 2022-02-07 fixup! refactor bin/yp-env and sh/env.inc.sh, add yp::path to safely change PATH
+* c7dd8af9 2022-02-07 Revert "can't use return in a sourced script"
+* 660f429e 2022-02-07 can't use return in a sourced script
+* 2753ee02 2022-02-07 refactor bin/yp-env and sh/env.inc.sh, add yp::path to safely change PATH
+* 92fc1870 2022-02-07 fixup! vscode devcontainer configuration
+* 0321fd13 2022-02-07 fixup! fixup! fixup! refactor bootstrap
+* df3fed3e 2022-02-07 fixup! fixup! refactor bootstrap
+* 526fe7cb 2022-02-07 fixup! sync devcontainer with our docker-ci
+* 70e1f5c2 2022-02-07 fixup! refactor bootstrap
+* dd81fb0d 2022-02-07 sync devcontainer with our docker-ci
+* a8d6bb34 2022-02-07 style
+* 0f89f6ed 2022-02-07 preps for vscode devcontainer's persisted extensions
+* a855e37a 2022-02-07 order
+* 15093ff2 2022-02-07 don't assume asdf always exists
+* 47b26385 2022-02-07 refactor bootstrap
+o dd7d1ee7 2022-02-07 0.3.29
