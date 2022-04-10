@@ -11,6 +11,7 @@ ${YP_DIR}/bin/jd -h >/dev/null
 ${YP_DIR}/bin/yq -h >/dev/null
 
 brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
+brew_install_one_unless dateutils "datetest --version | head -1" "^datetest 0\.4\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."
 
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
