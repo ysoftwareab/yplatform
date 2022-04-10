@@ -13,15 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         'runs-on':
-          - ubuntu-18.04
-          - ubuntu-20.04
-          - macos-10.15
-          - macos-11
-          - macos-12
-          - windows-2019
-          - windows-2022
-    name: '${{ matrix.runs-on }}'
-    runs-on: '${{ matrix.runs-on }}'
+          - x64
+          - ARM64
+    name: self-hosted-'${{ matrix.runs-on }}'
+    runs-on: [self-hosted, '${{ matrix.runs-on }}']
     steps:
       - uses: ysoftwareab/yplatform/.github/actions/debug@master
         with:
@@ -34,9 +29,9 @@ jobs:
         with:
           path: |
             debug.txt
-          key: ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
+          key: self-hosted-${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
           'restore-keys': |
-            ${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
+            self-hosted-${{ matrix.runs-on }}-output-${{ steps.cache-keys.output.yyyymm }}-v1
       - if: steps.cache.outputs.cache-hit == 'true'
         shell: bash
         # TODO nice if one can ignore values that are ever changing, and report only relevant diffs
