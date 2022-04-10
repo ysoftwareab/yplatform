@@ -1,6 +1,14 @@
-# syntax=docker/dockerfile:1
 ARG YP_DOCKER_CI_FROM
 FROM ${YP_DOCKER_CI_FROM}
+
+LABEL maintainer="mejla@software.se"
+LABEL vendor="Y Software AB"
+LABEL url="https://github.com/ysoftwareab/yplatform"
+LABEL vcs-url="https://github.com/ysoftwareab/yplatform"
+ARG YP_LABEL_VCS_REF="0"
+LABEL vcs-ref=${YP_LABEL_VCS_REF}
+ARG YP_LABEL_BUILD_DATE="1970-01-01T00:00:00Z"
+LABEL build-date=${YP_LABEL_BUILD_DATE}
 
 ARG YP_CI_BREW_INSTALL
 ARG YP_DOCKER_CI_IMAGE_NAME

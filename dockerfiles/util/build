@@ -148,6 +148,8 @@ exe docker buildx build ${YP_DIR} \
     ${BUILDX_PUSH_ARG} \
     ${BUILDX_TAG_ARG} \
     --file ${DOCKERFILE} \
+    --build-arg YP_LABEL_VCS_REF=${GIT_HASH} \
+    --build-arg YP_LABEL_BUILD_DATE=$(date -u +"%Y-%m-%dT%H:%M:%SZ") \
     --build-arg YP_CI_BREW_INSTALL=${ARG_YP_CI_BREW_INSTALL} \
     --build-arg YP_DOCKER_CI_FROM=${ARG_FROM} \
     --build-arg YP_DOCKER_CI_IMAGE_NAME=${NAME} \
