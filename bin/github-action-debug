@@ -5,6 +5,17 @@ set -euo pipefail
 
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
 
+# FIXME https://github.com/actions/runner/issues/863
+echo ::group::${HOME}
+source "${YP_DIR}/ci/util/home.inc.sh"
+echo ::endgroup::
+
+# FIXME https://github.com/actions/runner/issues/716
+[[ -d "${GITHUB_ACTION_PATH}" ]] || \
+    GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
+
+# ------------------------------------------------------------------------------
+
 >&2 echo "$(date +"%H:%M:%S") [INFO] Printing debug info..."
 echo ::group::github event
 cat "${GITHUB_EVENT_PATH}"
@@ -13,11 +24,6 @@ echo ::endgroup::
 
 echo ::group::printenv
 printenv
-echo ::endgroup::
-
-# FIXME https://github.com/actions/runner/issues/863
-echo ::group::${HOME}
-source "${YP_DIR}/ci/util/home.inc.sh"
 echo ::endgroup::
 
 echo ::group::pwd

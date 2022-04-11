@@ -14,6 +14,8 @@ echo ::endgroup::
 [[ -d "${GITHUB_ACTION_PATH}" ]] || \
     GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
 
+# ------------------------------------------------------------------------------
+
 TMP_SCRIPT=$(mktemp -t yplatform.XXXXXXXXXX)
 >&2 echo "$(date +"%H:%M:%S") [INFO] Generating script ${TMP_SCRIPT}..."
 touch ${TMP_SCRIPT}

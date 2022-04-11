@@ -30,6 +30,7 @@ runs:
         GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
         GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
         GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
         # FIXME https://github.com/actions/runner/issues/665
         INPUT_FILE: ${{ inputs.file }}
         INPUT_XTRACE: ${{ inputs.xtrace }}
