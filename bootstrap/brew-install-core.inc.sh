@@ -25,6 +25,7 @@ brew_install_one_unless jd "jd --version | head -1" "^jd version 1\."
 if_exe_and_grep_q "which jd" "^${YP_DIR}/bin/\.jd/jd$" brew_install_one jd
 
 brew_install_one_unless jo "jo -v | head -1" "^jo 1\."
+brew_install_one_unless openssh "ssh -V | head -1" "^OpenSSH_8\."
 brew_install_one_unless shellcheck "shellcheck --version | head -2 | tail -1" "^version: 0\.[78]\."
 brew_install_one_unless unzip "unzip --version 2>&1 | head -2 | tail -1" "^UnZip 6\."
 brew_install_one_unless unzip "unzip --version 2>&1 | head -2 | tail -1" ", by Debian\."
