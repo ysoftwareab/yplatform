@@ -11,4 +11,5 @@ git submodule update --init --recursive
 YP_VSN=$(git -C ${YP_DIR} tag --list --sort=version:refname "v*" | tail -n1)
 # checkout latest version
 git -C ${YP_DIR} checkout ${YP_VSN}
+git diff-index --quiet HEAD -- ${YP_DIR} || git add ${YP_DIR}
 git commit --allow-empty -m "updated ${YP_DIR} to ${YP_VSN}"
