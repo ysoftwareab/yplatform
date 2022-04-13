@@ -2,7 +2,7 @@
 
 /* eslint-disable no-template-curly-in-string */
 
-let _ = require('lodash-firecloud');
+let _ = require('lodash-y');
 
 let jobs = require('./main-jobs');
 // eslint-disable-next-line import/extensions

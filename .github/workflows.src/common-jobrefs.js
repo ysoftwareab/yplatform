@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 
-let _ = require('lodash-firecloud');
+let _ = require('lodash-y');
 
 let {matrixContainer} = require('./common-matrix-container');
 let {matrixOs} = require('./common-matrix-os');

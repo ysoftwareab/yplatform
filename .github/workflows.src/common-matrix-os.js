@@ -1,6 +1,6 @@
 /* eslint-disable no-template-curly-in-string */
 
-let _ = require('lodash-firecloud');
+let _ = require('lodash-y');
 
 let matrixOs = {
   ubuntu: [

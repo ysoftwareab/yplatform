@@ -2,14 +2,14 @@
 # The 'deps-npm' target is automatically included in the 'deps' target via YP_DEPS_TARGETS.
 #
 # In addition to 'npm install' functionality, we also:
-# * install babel-preset-firecloud and eslint-plugin-firecloud peer dependencies
+# * install babel-preset-y and eslint-plugin-y peer dependencies
 # * 'npm update' also the git dependencies (to the latest compatible version)
 # * check (and fail) for unmet peer dependencies.
 #
 # The check for unmet peer dependencies can be silenced on a case-by-case basis
 # by commiting a package.json.unmet-peer file that contains the 'peer dep missing' lines
 # produced by 'npm list' that you want to ignore e.g.:
-# npm ERR! peer dep missing: tslint@^5.16.0, required by tslint-config-firecloud
+# npm ERR! peer dep missing: tslint@^5.16.0, required by tslint-config-y
 #
 # ------------------------------------------------------------------------------
 
@@ -96,14 +96,14 @@ deps-npm-install:
 		}; \
 	}
 	$(NPM) install
-#	convenience. install peer dependencies from babel/eslint firecloud packages
-	[[ ! -f node_modules/babel-preset-firecloud/package.json ]] || \
-		$(YP_DIR)/bin/npm-install-peer-deps node_modules/babel-preset-firecloud/package.json
-	[[ ! -f node_modules/eslint-plugin-firecloud/package.json ]] || \
-		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-plugin-firecloud/package.json
+#	convenience. install peer dependencies from babel/eslint y packages
+	[[ ! -f node_modules/babel-preset-y/package.json ]] || \
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/babel-preset-y/package.json
+	[[ ! -f node_modules/eslint-plugin-y/package.json ]] || \
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-plugin-y/package.json
 #	deprecated
-	[[ ! -f node_modules/eslint-config-firecloud/package.json ]] || \
-		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-config-firecloud/package.json
+	[[ ! -f node_modules/eslint-config-y/package.json ]] || \
+		$(YP_DIR)/bin/npm-install-peer-deps node_modules/eslint-config-y/package.json
 #	sort dependencies in package.json
 	$(CAT) package.json | \
 		$(JQ) ". \

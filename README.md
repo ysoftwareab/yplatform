@@ -287,8 +287,8 @@ and playing around without actually having to know anything about it.
     * [Less than 120 cpl, preferably less than 80](doc/style-maxlen.md)
     * [shell](doc/style-sh.md)
     * [Makefile](doc/style-mk.md)
-    * [JavaScript/TypeScript](https://github.com/ysoftwareab/eslint-config-firecloud)
-    * [SASS](https://github.com/ysoftwareab/sass-lint-config-firecloud)
+    * [JavaScript/TypeScript](https://github.com/ysoftwareab/eslint-config-y)
+    * [SASS](https://github.com/ysoftwareab/sass-lint-config-y)
 * set up a new `git` repository
   * [new `git` (Github) repositories](doc/creating-new-github-repo.md)
   * [how to license](doc/how-to-license.md)

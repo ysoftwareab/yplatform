@@ -12,7 +12,7 @@ YP_NPX_ARGS="${YP_NPX_ARGS} --package env-ci@5"
 
 function main() {
     SCRIPT="$(cat <<EOF
-let _ = require('lodash-firecloud');
+let _ = require('lodash-y');
 let envCi = require('env-ci');
 let data = envCi();
 
