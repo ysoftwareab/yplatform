@@ -4,7 +4,7 @@
 
 # NOTE might be enough with core.common.mk
 ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
-$(error Please include generic.common.mk, before including py.common.mk .)
+$(error Please include generic.common.mk, before including py.common.mk)
 endif
 
 YP_PY_COMMON_INCLUDES_DEFAULT += \

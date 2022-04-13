@@ -11,7 +11,7 @@
 
 # NOTE might be enough with core.common.mk
 ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
-$(error Please include generic.common.mk, before including env.common.mk .)
+$(error Please include generic.common.mk, before including env.common.mk)
 endif
 
 include $(YP_DIR)/build.mk/env.promote.mk

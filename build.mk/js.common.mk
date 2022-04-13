@@ -4,7 +4,7 @@
 
 # NOTE might be enough with core.common.mk
 ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
-$(error Please include generic.common.mk, before including js.common.mk .)
+$(error Please include generic.common.mk, before including js.common.mk)
 endif
 
 YP_JS_COMMON_INCLUDES_DEFAULT += \

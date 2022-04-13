@@ -29,7 +29,7 @@
 
 # NOTE might be enough with core.common.mk
 ifndef YP_GENERIC_COMMON_INCLUDES_DEFAULT
-$(error Please include generic.common.mk, before including channels.common.mk .)
+$(error Please include generic.common.mk, before including channels.common.mk)
 endif
 
 include $(YP_DIR)/build.mk/channels.deps.mk
