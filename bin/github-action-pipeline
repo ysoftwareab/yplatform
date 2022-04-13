@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+[[ "${INPUT_XTRACE}" != "true" ]] || set -x
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+
+# FIXME https://github.com/actions/runner/issues/863
+echo ::group::${HOME}
+source "${YP_DIR}/ci/util/home.inc.sh"
+echo ::endgroup::
+
+# FIXME https://github.com/actions/runner/issues/716
+[[ -d "${GITHUB_ACTION_PATH}" ]] || \
+    GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
+
+# ------------------------------------------------------------------------------
+
+cd ${GITHUB_WORKSPACE}
+${YP_DIR}/ci/pipeline.${INPUT_TYPE:-script}.sh

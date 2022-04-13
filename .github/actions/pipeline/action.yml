@@ -1,0 +1,45 @@
+# Composite Github Action to run 'yplatform' pipeline.
+#
+# jobs:
+#   main:
+#     steps:
+#       - uses: ysoftwareab/yplatform/.github/actions/pipeline@master
+#         with:
+#           xtrace: true/false # optional
+
+name: 'ysoftwareab/yplatform:pipeline'
+description: 'Run yplatform pipeline'
+inputs:
+  type:
+    description: Pipeline type script/deploy
+    default: script
+  xtrace:
+    description: Enable bash xtrace
+    default: false
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        GITHUB_ACTION_PATH: ${{ github.action_path }}
+        GITHUB_CONTEXT: ${{ toJson(github) }}
+        GITHUB_CONTEXT_INPUTS: ${{ toJSON(inputs) }}
+        GITHUB_CONTEXT_JOB: ${{ toJSON(job) }}
+        GITHUB_CONTEXT_STEPS: ${{ toJSON(steps) }}
+        GITHUB_CONTEXT_RUNNER: ${{ toJSON(runner) }}
+        GITHUB_CONTEXT_STRATEGY: ${{ toJSON(strategy) }}
+        GITHUB_CONTEXT_MATRIX: ${{ toJSON(matrix) }}
+        # GITHUB_EVENT_NAME: ${{ github.event_name }}
+        # FIXME https://github.com/actions/runner/issues/665
+        INPUT_TYPE: ${{ inputs.type }}
+        INPUT_XTRACE: ${{ inputs.xtrace }}
+      run: |
+        [[ "${INPUT_XTRACE}" != "true" ]] || set -x
+
+        # FIXME https://github.com/actions/runner/issues/716
+        [[ -d "${GITHUB_ACTION_PATH}" ]] || {
+          YP_BAK_GITHUB_ACTION_PATH=${GITHUB_ACTION_PATH}
+          GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
+        }
+
+        "${GITHUB_ACTION_PATH}/../../../bin/github-action-pipeline"
