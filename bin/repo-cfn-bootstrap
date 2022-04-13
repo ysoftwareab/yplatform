@@ -59,7 +59,7 @@ done
 )
 
 CFN_DIR=${1:-$(git rev-parse --show-toplevel)/cfn}
-YP_DIR_REL="$(python -c "import os.path; print('%s' % os.path.relpath('${YP_DIR}', '$(pwd)'))")"
+YP_DIR_REL="$(${YP_DIR}/bin/relpath "${YP_DIR}" "$(pwd)")"
 ARTIFACTS=
 
 mkdir -p ${CFN_DIR}

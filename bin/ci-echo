@@ -51,12 +51,6 @@ while [[ $# -gt 0 ]]; do
 done
 # [[ $# -eq 0 ]] || sh_script_usage
 
-ANY_PYTHON=
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python3 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
-
 STOPWATCH_TIMESTAMP=$(cat ${BENCHMARK} | head -n1 | cut -d" " -f1 || true)
 
 DATE_REF="--date=@"
@@ -273,7 +267,7 @@ GROUP="${*:2}"
 case "${1:-}" in
     "[DO  ]")
         GROUP_START=$(date +%s)
-        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
+        REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
         PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr "[:upper:]" "[:lower:]" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         # GROUP_MARKER=/tmp/ci-echo-group-${PWD_GROUP}-${GROUP_START}_${RANDOM}
@@ -281,7 +275,7 @@ case "${1:-}" in
         echo -en "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
         ;;
     "[DONE]")
-        REL_PWD=$(${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$(pwd)', '${HOME}'))" 2>/dev/null || pwd)
+        REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
         # PWD_GROUP_PREFIX="$(echo "${REL_PWD}" | tr "A-Z" "a-z" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
         GROUP_FINISH=$(date +%s)
