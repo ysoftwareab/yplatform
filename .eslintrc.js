@@ -2,6 +2,6 @@ module.exports = {
   root: true,
 
   extends: [
-    'plugin:y/node'
+    'plugin:y/recommended-node'
   ]
 };
