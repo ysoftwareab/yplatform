@@ -35,11 +35,4 @@ runs:
         INPUT_XTRACE: ${{ inputs.xtrace }}
       run: |
         [[ "${INPUT_XTRACE}" != "true" ]] || set -x
-
-        # FIXME https://github.com/actions/runner/issues/716
-        [[ -d "${GITHUB_ACTION_PATH}" ]] || {
-          YP_BAK_GITHUB_ACTION_PATH=${GITHUB_ACTION_PATH}
-          GITHUB_ACTION_PATH=/__w/_actions/${GITHUB_ACTION_PATH#/home/runner/work/_actions/}
-        }
-
         "${GITHUB_ACTION_PATH}/../../../bin/github-action-pipeline"
