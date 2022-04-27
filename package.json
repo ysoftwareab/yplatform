@@ -28,7 +28,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-y": "git+https://github.com/ysoftwareab/eslint-plugin-y.git#semver:~0.14.0-rc.7",
     "js-yaml": "^3.14.1",
-    "lodash-y": "git+https://github.com/ysoftwareab/lodash-y.git#semver:~0.5.28",
+    "lodash-y": "git+https://github.com/ysoftwareab/lodash-y.git#semver:~0.6.0-rc.0",
     "typescript": "^3.7.2"
   }
 }
