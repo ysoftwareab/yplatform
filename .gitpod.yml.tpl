@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-let _ = require('lodash-y');
+let _ = require('lodash-firecloud');
 let yaml = require('js-yaml');
 
 let vscodeExtensions = require('./.vscode/extensions.json');

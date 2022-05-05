@@ -4,7 +4,7 @@
 /* eslint-disable */
 
 import JDBC from 'jdbc';
-import _ from 'lodash-y';
+import _ from 'lodash-firecloud';
 import aws from 'aws-sdk';
 import fs from 'fs';
 import jinst from 'jdbc/lib/jinst';

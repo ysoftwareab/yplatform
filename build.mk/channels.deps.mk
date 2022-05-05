@@ -28,8 +28,8 @@ deps-channels: guard-env-YP_PROMOTE_CHANNELS_GIT_URL guard-env-YP_PROMOTE_CHANNE
 		fi
 		$(GIT) check-ignore Makefile || $(ECHO) "/Makefile" >> .gitignore; \
 		$(RM) Makefile; \
-		$(ECHO) "include yplatform/repo/mk/core.common.mk" >> Makefile; \
-		$(ECHO) "include yplatform/repo/mk/channels.common.mk" >> Makefile; \
+		$(ECHO) "include support-firecloud/repo/mk/core.common.mk" >> Makefile; \
+		$(ECHO) "include support-firecloud/repo/mk/channels.common.mk" >> Makefile; \
 		$(ECHO) "YP_PROMOTE_CHANNELS := $(YP_PROMOTE_CHANNELS)" >> Makefile; \
 	}
 	$(ECHO_DONE)

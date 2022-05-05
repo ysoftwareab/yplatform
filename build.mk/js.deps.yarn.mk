@@ -7,7 +7,7 @@
 # The check for unmet peer dependencies can be silenced on a case-by-case basis
 # by commiting a yarn.lock.unmet-peer file that contains the 'peer dep missing' lines
 # produced by 'yarn install' that you want to ignore e.g.:
-# warning " > lodash-y@0.5.25" has unmet peer dependency "@types/node@>=10"
+# warning " > lodash-firecloud@0.5.25" has unmet peer dependency "@types/node@>=10"
 #
 # ------------------------------------------------------------------------------
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-template-curly-in-string */
 
 let fs = require('fs');
-let _ = require('lodash-y');
+let _ = require('lodash-firecloud');
 
 let githubCheckout = fs.readFileSync(`${__dirname}/../../bin/github-checkout`, 'utf8');
 

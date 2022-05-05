@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 // eslint-disable-next-line import/no-unassigned-import
-require('aws-util-y/lib/bootstrap');
+require('aws-util-firecloud/lib/bootstrap');
 
-let _ = require('lodash-y');
-let build = require('aws-util-y/lib/cfn/build');
+let _ = require('lodash-firecloud');
+let build = require('aws-util-firecloud/lib/cfn/build');
 
 let main = async function({env}) {
   let tpl = await build({
