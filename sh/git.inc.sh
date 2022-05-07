@@ -7,7 +7,7 @@ set -euo pipefail
 GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)
 GIT_BRANCH_SHORT=$(basename "${GIT_BRANCH}" 2>/dev/null || true)
 GIT_COMMIT_MSG=$(git log -1 --format="%B" 2>/dev/null || true)
-GIT_DESCRIBE=$(git describe --first-parent --always --dirty 2>/dev/null || true)
+GIT_DESCRIBE=$(git describe --tags --first-parent --always --dirty 2>/dev/null || true)
 GIT_HASH=$(git rev-parse HEAD 2>/dev/null || true)
 GIT_HASH_SHORT=$(git rev-parse --short HEAD 2>/dev/null || true)
 GIT_TAGS=$(git tag --points-at HEAD 2>/dev/null || true)
