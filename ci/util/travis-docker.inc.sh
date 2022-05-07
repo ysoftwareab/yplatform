@@ -2,6 +2,8 @@
 set -euo pipefail
 
 function yp_run_docker_ci_in_travis() {
+    [[ "${YP_CI_PLATFROM:-}" = "travis" ]] || return 1
+
     (
         source ${YP_DIR}/bootstrap/brew-util.inc.sh
         apt_update

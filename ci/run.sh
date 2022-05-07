@@ -39,7 +39,7 @@ function yp_ci_run() {
         return 0
     fi
 
-    [[ "${TRAVIS:-}" != "true" ]] || {
+    [[ "${YP_CI_PLATFROM:-}" != "travis" ]] || {
         if [[ -f /yplatform.docker-ci ]]; then
             echo_info "Running inside the yp-docker-ci container."
         elif [[ "${OS_SHORT:-}" != "linux" ]]; then

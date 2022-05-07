@@ -2,7 +2,7 @@
 set -euo pipefail
 
 function yp_enable_travis_swap() {
-    [[ "${TRAVIS:-}" = "true" ]] || return 0
+    [[ "${YP_CI_PLATFROM:-}" = "travis" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
     ! ${YP_DIR}/bin/is-wsl || return 0
     [[ ! -f /yplatform.docker-ci ]] || return 0
@@ -22,7 +22,7 @@ function yp_enable_travis_swap() {
 
 
 function yp_disable_travis_swap() {
-    [[ "${TRAVIS:-}" = "true" ]] || return 0
+    [[ "${YP_CI_PLATFROM:-}" = "travis" ]] || return 0
     [[ "${OS_SHORT:-}" = "linux" ]] || return 0
     ! ${YP_DIR}/bin/is-wsl || return 0
     [[ ! -f /yplatform.docker-ci ]] || return 0

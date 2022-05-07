@@ -54,5 +54,7 @@ fi
 # util functions
 source ${YP_DIR}/ci/util/debug.inc.sh
 source ${YP_DIR}/ci/util/docker-ci.inc.sh
-source ${YP_DIR}/ci/util/travis-docker.inc.sh
-source ${YP_DIR}/ci/util/travis-swap.inc.sh
+[[ "${YP_CI_PLATFROM:-}" != "travis" ]] || {
+    source ${YP_DIR}/ci/util/travis-docker.inc.sh
+    source ${YP_DIR}/ci/util/travis-swap.inc.sh
+}
