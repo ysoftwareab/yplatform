@@ -17,16 +17,19 @@ unset YP_CI_ENV_FUN
 
 [[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(yp_ci_known_env_yp | tr "\n" " ")"
 
-# set git
-[[ -z "${YP_CI_NAME:-}" ]] || {
-    # shellcheck disable=SC2034
-    GIT_USER_NAME="${YP_CI_NAME}"
+# NOTE do not alter gitconfig on dev machines
+[[ "${YP_DEV:-}" = "true" ]] || {
+    # set git
+    [[ -z "${YP_CI_NAME:-}" ]] || {
+        # shellcheck disable=SC2034
+        GIT_USER_NAME="${YP_CI_NAME}"
+    }
+    [[ -z "${YP_CI_PLATFORM:-}" ]] || [[ -z "${YP_CI_SERVER_HOST:-}" ]] || {
+        # shellcheck disable=SC2034
+        GIT_USER_EMAIL="${YP_CI_PLATFORM}@${YP_CI_SERVER_HOST}"
+    }
+    source ${YP_DIR}/ci/util/gitconfig.inc.sh
 }
-[[ -z "${YP_CI_PLATFORM:-}" ]] || [[ -z "${YP_CI_SERVER_HOST:-}" ]] || {
-    # shellcheck disable=SC2034
-    GIT_USER_EMAIL="${YP_CI_PLATFORM}@${YP_CI_SERVER_HOST}"
-}
-source ${YP_DIR}/ci/util/gitconfig.inc.sh
 
 # common env
 source ${YP_DIR}/sh/common.inc.sh
