@@ -1,0 +1,34 @@
+yplatform v0.3.32 Release Notes
+
+Highlights since v0.3.31:
+
+* None
+
+
+Breaking commits since v0.3.31:
+
+* None
+
+Commits since v0.3.31:
+
+* d437c8a6 2022-05-07 don't alter git config on developer machines
+* 593b6ac8 2022-05-07 use YP_CI_PLATFORM instead of TRAVIS
+* 16684b3c 2022-05-05 Revert "lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc"
+* ed24629d 2022-05-05 Revert "fixup! lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc"
+* d07be8d7 2022-05-05 Revert "fixup! lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc"
+* a3356541 2022-05-05 Revert "upgrade lodash-y"
+* 6d725b7d 2022-04-27 upgrade lodash-y
+* 14c76071 2022-04-26 remove fix for GITHUB_ACTION_PATH for container actions. https://github.com/actions/runner/issues/716 is closed
+* 06d3ee1d 2022-04-14 fixup! lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc
+* 52002302 2022-04-14 fixup! lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc
+* bc9cf3ae 2022-04-13 make: 'error' will add a trailing dot on its own
+* 0ec322dd 2022-04-13 lodash-firecloud -> lodash-y, esling-plugin-firecloud -> eslint-plugin-y, etc
+* 0fb00ce6 2022-04-13 yp-install: stage yplatform submodule after updating to latest version
+* 053f490b 2022-04-13 consolidate relpath calls to a script that autodetects python
+* 0eb96087 2022-04-13 fixup! bootstrap: install openssh
+* 5bb76de8 2022-04-13 refactor pipeline script and add pipeline action
+* f5b8aa28 2022-04-11 bootstrap: install openssh
+* df15d9e7 2022-04-11 sync with other actions
+* bc66e636 2022-04-10 bootstrap: add dateutils
+* 24742734 2022-04-10 docker: add labels
+o fd3e21f8 2022-04-03 0.3.31
