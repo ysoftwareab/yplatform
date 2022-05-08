@@ -17,23 +17,23 @@ FLAVOUR=$1
 shift
 
 case "${FLAVOUR}" in
-  vanilla)
-    exe docker scan --accept-license --dependency-tree --severity=medium \
-      ${OS_RELEASE_BASE}
-    exit 0
-    ;;
-  yp-minimal|yp-minimal:*|yp-common|yp-common:*)
-    YP_CI_BREW_INSTALL=${FLAVOUR:3}
-    TAG=${YP_CI_BREW_INSTALL##*:}
-    YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL%%:*}
-    [[ "${YP_CI_BREW_INSTALL}" != "${TAG}" ]] || TAG=$(cat ${YP_DIR}/package.json | jq -r ".version")
-    NAME="ysoftwareab/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}:${TAG}"
-    ;;
-  *)
-    echo_err "Unknown FLAVOUR=${FLAVOUR}."
-    exit 1
-    ;;
+    vanilla)
+        exe docker scan --accept-license --dependency-tree --severity=medium \
+            ${OS_RELEASE_BASE}
+        exit 0
+        ;;
+    yp-minimal|yp-minimal:*|yp-common|yp-common:*)
+        YP_CI_BREW_INSTALL=${FLAVOUR:3}
+        TAG=${YP_CI_BREW_INSTALL##*:}
+        YP_CI_BREW_INSTALL=${YP_CI_BREW_INSTALL%%:*}
+        [[ "${YP_CI_BREW_INSTALL}" != "${TAG}" ]] || TAG=$(cat ${YP_DIR}/package.json | jq -r ".version")
+        NAME="ysoftwareab/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID}-${YP_CI_BREW_INSTALL}:${TAG}"
+        ;;
+    *)
+        echo_err "Unknown FLAVOUR=${FLAVOUR}."
+        exit 1
+        ;;
 esac
 
 exe docker scan --accept-license --dependency-tree --severity=medium \
-  --file ${OS_RELEASE_DIR}/Dockerfile --exclude-base ${NAME}
+    --file ${OS_RELEASE_DIR}/Dockerfile --exclude-base ${NAME}

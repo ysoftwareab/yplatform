@@ -1,2 +1,11 @@
+[*.sh]
+indent_size = 4
+
 [build]
+indent_size = 4
+
+[run]
+indent_size = 4
+
+[scan]
 indent_size = 4
