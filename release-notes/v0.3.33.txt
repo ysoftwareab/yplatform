@@ -1,0 +1,22 @@
+yplatform v0.3.33 Release Notes
+
+Highlights since v0.3.32:
+
+* None
+
+
+Breaking commits since v0.3.32:
+
+* None
+
+Commits since v0.3.32:
+
+* 140fa4d7 2022-05-08 fix indent
+* 742d271c 2022-05-08 improve docker scan
+* 12ee8abd 2022-05-08 fixup! refactor. dedupe in os-release.inc.sh
+* 429bf9f9 2022-05-08 better names
+* 107c2a60 2022-05-08 refactor. dedupe in os-release.inc.sh
+* 967bbdea 2022-05-08 add scan util for docker files
+* 3969f922 2022-05-08 sync
+* f3ad1b5f 2022-05-07 allow lightweight tags for GIT_DESCRIBE
+o 9f859b14 2022-05-07 0.3.32
