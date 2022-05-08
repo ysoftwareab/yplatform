@@ -18,7 +18,8 @@ shift
 
 case "${FLAVOUR}" in
   vanilla)
-    exe docker scan ${OS_RELEASE_BASE}
+    exe docker scan --accept-license --dependency-tree --severity=medium \
+      ${OS_RELEASE_BASE}
     exit 0
     ;;
   yp-minimal|yp-minimal:*|yp-common|yp-common:*)
@@ -34,4 +35,5 @@ case "${FLAVOUR}" in
     ;;
 esac
 
-exe docker scan --file ${OS_RELEASE_DIR}/Dockerfile --exclude-base ${NAME}
+exe docker scan --accept-license --dependency-tree --severity=medium \
+  --file ${OS_RELEASE_DIR}/Dockerfile --exclude-base ${NAME}
