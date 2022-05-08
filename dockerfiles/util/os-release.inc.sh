@@ -16,27 +16,27 @@ case ${DOCKER_OS_RELEASE_ID} in
         ;;
 esac
 
-VANILLA=
-COMMAND=
+OS_RELEASE_BASE=
+OS_RELEASE_COMMAND=
 case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
     alpine-*)
-        VANILLA=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
+        OS_RELEASE_BASE=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
         # shellcheck disable=SC2209
-        COMMAND=sh
+        OS_RELEASE_COMMAND=sh
         ;;
     amzn-*)
-        VANILLA=amazonlinux:latest
+        OS_RELEASE_BASE=amazonlinux:latest
         ;;
     arch-0)
-        VANILLA=archlinux:latest
+        OS_RELEASE_BASE=archlinux:latest
         ;;
     centos-*)
-        VANILLA=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
+        OS_RELEASE_BASE=quay.io/centos/centos:stream${DOCKER_OS_RELEASE_VERSION_ID}
         ;;
     rhel-*)
-        VANILLA=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
+        OS_RELEASE_BASE=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
         ;;
     *)
-        VANILLA=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
+        OS_RELEASE_BASE=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
         ;;
 esac

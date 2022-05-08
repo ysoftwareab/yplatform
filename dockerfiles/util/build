@@ -76,7 +76,7 @@ OS_RELEASE_DIR2="${YP_DIR}/dockerfiles/yp-${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RE
 [[ -n "${DOCKERFILE}" ]] || \
     DOCKERFILE=$(readlink -f ${OS_RELEASE_DIR}/Dockerfile)
 
-ARG_FROM="${ARG_FROM:-${VANILLA}}"
+ARG_FROM="${ARG_FROM:-${OS_RELEASE_BASE}}"
 
 [[ -n "${NAME}" ]] || {
     # sync with ci/util/docker-ci.inc.sh line:~100 "yp_get_docker_ci_image"

@@ -18,7 +18,7 @@ shift
 
 case "${FLAVOUR}" in
   vanilla)
-    exe docker scan ${VANILLA}
+    exe docker scan ${OS_RELEASE_BASE}
     exit 0
     ;;
   yp-minimal|yp-minimal:*|yp-common|yp-common:*)

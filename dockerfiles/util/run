@@ -18,7 +18,7 @@ shift
 
 case "${FLAVOUR}" in
     vanilla)
-        NAME="${VANILLA}"
+        NAME="${OS_RELEASE_BASE}"
         ;;
     yp-minimal|yp-minimal:*|yp-common|yp-common:*)
         YP_CI_BREW_INSTALL=${FLAVOUR:3}
@@ -39,4 +39,4 @@ exe docker run \
     -it \
     "$@" \
     ${NAME} \
-    ${COMMAND}
+    ${OS_RELEASE_COMMAND}
