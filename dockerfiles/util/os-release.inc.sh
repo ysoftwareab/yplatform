@@ -21,7 +21,7 @@ OS_RELEASE_COMMAND=
 case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
     alpine-*)
         OS_RELEASE_BASE=ruby:2.6-alpine${DOCKER_OS_RELEASE_VERSION_ID}
-        # shellcheck disable=SC2209
+        # shellcheck disable=SC2209,SC2034
         OS_RELEASE_COMMAND=sh
         ;;
     amzn-*)
@@ -37,6 +37,7 @@ case ${DOCKER_OS_RELEASE_ID}-${DOCKER_OS_RELEASE_VERSION_ID} in
         OS_RELEASE_BASE=redhat/ubi8:${DOCKER_OS_RELEASE_VERSION_ID}
         ;;
     *)
+        # shellcheck disable=SC2034
         OS_RELEASE_BASE=${DOCKER_OS_RELEASE_ID}:${DOCKER_OS_RELEASE_VERSION_ID}
         ;;
 esac
