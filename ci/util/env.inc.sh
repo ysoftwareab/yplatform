@@ -5,17 +5,7 @@ set -euo pipefail
 source ${YP_DIR}/ci/util/home.inc.sh
 
 # detect CI platform
-for YP_CI_ENV in ${YP_DIR}/ci/env/*.inc.sh; do
-    source ${YP_CI_ENV}
-done
-unset YP_CI_ENV
-for YP_CI_ENV_FUN in $(declare -F | grep --only-matching "\byp_ci_env_.*"); do
-    "${YP_CI_ENV_FUN}"
-    [[ -z "${YP_CI_PLATFORM:-}" ]] || break
-done
-unset YP_CI_ENV_FUN
-
-[[ -z "${YP_CI_PLATFORM:-}" ]] || eval "export $(yp_ci_known_env_yp | tr "\n" " ")"
+source ${YP_DIR}/ci/util/ci-env.inc.sh
 
 # NOTE do not alter gitconfig on dev machines
 [[ "${YP_DEV:-}" = "true" ]] || {
