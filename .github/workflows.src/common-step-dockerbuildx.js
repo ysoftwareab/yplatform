@@ -39,7 +39,7 @@ dockerBuildxSteps.push({
   run: [
     'set -x',
     // fingerprint server
-    'ssh-keyscan -v -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
+    'ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
     // test ssh connection
     'ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0',
     // create context based on local amd64 + remote arm64
