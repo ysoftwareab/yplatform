@@ -79,8 +79,23 @@ function ci_run_deploy_docker_image() {
     #     echo "${GH_TOKEN}" | exe docker login -u ${GH_USERNAME} --password-stdin ghcr.io
     # }
 
+    PLATFORMS_ARM64="--platforms linux/arm64"
+    # [[ "${YP_DEPLOY_DRYRUN:-}" != "true" ]] || PLATFORMS_ARM64=
+    # .github/workflows/{main,deploy}c.yml would change the current builder to 'localamd64-remotearm64'
+    # if there's a remote arm64 server up and running
+    docker buildx inspect | head -n1 | grep -q -Fx "Name: localamd64-remotearm64" || PLATFORMS_ARM64=
+    case ${GITHUB_MATRIX_CONTAINER} in
+        ubuntu-20.04)
+            true
+            ;;
+        *)
+            PLATFORMS_ARM64=
+            ;;
+    esac
+
     ${YP_DIR}/dockerfiles/yp-${GITHUB_MATRIX_CONTAINER}/build \
         --platforms linux/amd64 \
+        ${PLATFORMS_ARM64} \
         --name "${DOCKER_IMAGE_NAME}" \
         --tags $(IFS=,; echo "${TAGS[*]}") \
         $([[ -z "${ARG_FROM}" ]] || echo "--from" "${ARG_FROM}") \
