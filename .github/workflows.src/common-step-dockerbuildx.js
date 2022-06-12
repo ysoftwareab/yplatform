@@ -37,6 +37,7 @@ dockerBuildxSteps.push({
     DOCKER_AWS_SSH_SERVER: 'docker-arm64.aws.ysoftware.se'
   },
   run: [
+    'set -x',
     // fingerprint server
     'ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
     // test ssh connection
