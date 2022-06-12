@@ -39,6 +39,8 @@ dockerBuildxSteps.push({
   run: [
     'set -x',
     // fingerprint server
+    'sudo apt-get install openssh-client',
+    'command -v ssh-keyscan',
     'ssh-keyscan -v -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
     // test ssh connection
     'ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0',
