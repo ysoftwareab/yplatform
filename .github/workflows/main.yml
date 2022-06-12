@@ -1077,7 +1077,8 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          ssh -o StrictHostKeyChecking=no ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
+          ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
+          ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
           docker buildx create --name localamd64-remotearm64 default --platform linux/amd64
           docker buildx create --name localamd64-remotearm64 aws-docker-arm64 --platform linux/arm64 --append
@@ -1291,7 +1292,8 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          ssh -o StrictHostKeyChecking=no ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
+          ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
+          ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
           docker buildx create --name localamd64-remotearm64 default --platform linux/amd64
           docker buildx create --name localamd64-remotearm64 aws-docker-arm64 --platform linux/arm64 --append

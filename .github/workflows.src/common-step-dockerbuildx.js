@@ -38,8 +38,10 @@ dockerBuildxSteps.push({
   },
   run: [
     'set -x',
-    // test ssh connection, add fingerprint to known_hosts
-    'ssh -o StrictHostKeyChecking=no ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0',
+    // fingerprint server
+    'ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
+    // test ssh connection
+    'ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0',
     // create context based on local amd64 + remote arm64
     'docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}',
     'docker buildx create --name localamd64-remotearm64 default --platform linux/amd64',
