@@ -39,8 +39,6 @@ dockerBuildxSteps.push({
   run: [
     'set -x',
     // fingerprint server
-    'mkdir -p ~/.ssh && chmod 700 ~/.ssh',
-    'touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts',
     'ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0',
     // test ssh connection
     'ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0',

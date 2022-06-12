@@ -209,8 +209,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -428,8 +426,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -647,8 +643,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -866,8 +860,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -1086,8 +1078,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -1305,8 +1295,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -1522,8 +1510,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -1740,8 +1726,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -1958,8 +1942,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -2176,8 +2158,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -2394,8 +2374,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -2613,8 +2591,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -2831,8 +2807,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
@@ -3048,8 +3022,6 @@ jobs:
           DOCKER_AWS_SSH_SERVER: docker-arm64.aws.ysoftware.se
         run: |-
           set -x
-          mkdir -p ~/.ssh && chmod 700 ~/.ssh
-          touch ~/.ssh/known_hosts && chmod 600 ~/.ssh/known_hosts
           ssh-keyscan -H ${DOCKER_AWS_SSH_SERVER} >> ~/.ssh/known_hosts || exit 0
           ssh ${DOCKER_AWS_SSH_SERVER} "exit 0" || exit 0
           docker context create aws-docker-arm64 --docker host=ssh://${DOCKER_AWS_SSH_SERVER}
