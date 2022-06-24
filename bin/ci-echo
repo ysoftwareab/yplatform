@@ -156,7 +156,6 @@ function github_actions_echo() {
 
             # NOTE nesting doesn't work properly
             # see https://github.com/actions/runner/issues/802
-            # shellcheck disable=SC2012
             GITHUB_GROUP_MARKER=/tmp/ci_echo_github_group
             [[ -f "${GITHUB_GROUP_MARKER}" ]] || {
                 echo -n "${PWD_GROUP}" > ${GITHUB_GROUP_MARKER}
@@ -172,7 +171,6 @@ function github_actions_echo() {
 
             # NOTE nesting doesn't work properly
             # see https://github.com/actions/runner/issues/802
-            # shellcheck disable=SC2012
             GITHUB_GROUP_MARKER=/tmp/ci_echo_github_group
             [[ ! -f "${GITHUB_GROUP_MARKER}" ]] || {
                 PWD_GROUP2="$(cat "${GITHUB_GROUP_MARKER}")"
