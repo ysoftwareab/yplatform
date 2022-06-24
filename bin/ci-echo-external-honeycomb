@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+source ${YP_DIR}/ci/util/ci-env.inc.sh
+
+#- ci-echo-external-honeycomb 1.0
+## Usage: ci-echo-external-honeycomb [OPTION]
+## Log group metrics to honeycomb.io as close as possible as honeycombio/buildevents.
+##
+##   --group-parent
+##   --group
+##   --group-start
+##   --group-duration
+##
+##   -h, --help     Display this help and exit
+##   -v, --version  Output version information and exit
+
+API_KEY="${BUILDEVENT_API_KEY:-}" # compat with buildevents
+API_KEY="${API_KEY:-${YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY:-}}"
+
+DATASET="${BUILDEVENT_DATASET:-}" # compat with buildevents
+DATASET="${DATASET:-${YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET:-}}"
+
+TRACE_ID="${HONEYCOMB_TRACE:-}" # compat with buildevents
+TRACE_ID="${TRACE_ID:-${YP_CI_ECHO_EXTERNAL_HONEYCOMB_TRACE_ID:-}}"
+
+SERVICE_NAME="${YP_CI_ECHO_EXTERNAL_HONEYCOMB_SERVICE_NAME:-}"
+
+[[ "${CI:-}" != "true" ]] || {
+    TRACE_ID="${TRACE_ID:-yp-${YP_CI_PLATFORM}-${YP_CI_JOB_ID}}"
+    SERVICE_NAME="${SERVICE_NAME:-${YP_CI_REPO_SLUG}}"
+}
+
+GROUP_PARENT=
+GROUP_PARENT_ID=
+GROUP=
+GROUP_ID=
+GROUP_START=
+GROUP_DURATION=0
+
+if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
+    ARGS=$(getopt -o hv -l help,version,group-parent:,group:,group-start:,group-duration: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    eval set -- "${ARGS}"
+fi
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        --group-parent)
+            GROUP_PARENT=$2
+            shift 2
+            ;;
+        --group)
+            GROUP=$2
+            shift 2
+            ;;
+        --group-start)
+            GROUP_START=$2
+            shift 2
+            ;;
+        --group-duration)
+            GROUP_DURATION=$2
+            shift 2
+            ;;
+        -h|--help)
+            sh_script_usage
+            ;;
+        -v|--version)
+            sh_script_version
+            ;;
+        --)
+            shift
+            break
+            ;;
+        -*)
+            sh_script_usage
+            ;;
+        *)
+            break
+            ;;
+    esac
+done
+[[ $# -eq 0 ]] || sh_script_usage
+
+function env_as_json() {
+    printenv_all | grep -e "^CI=" -e "^YP_CI_" | cut -d"=" -f1 | {
+        echo "{"
+        while read -r VAR; do
+            echo "\"${VAR}\": \"${!VAR}\","
+        done
+        echo "\"_\": \"true\""
+        echo "}"
+    } || echo "{}"
+}
+
+[[ -z "${GROUP_PARENT}" ]] || \
+    GROUP_PARENT_ID=yp-$(echo "${GROUP_PARENT}" | cksum | cut -d" " -f1)
+GROUP_ID=yp-$(echo "${GROUP}" | cksum | cut -d" " -f1)
+
+# nanoseconds to milliseconds
+GROUP_DURATION=$(( GROUP_DURATION / 1000000 ))
+
+MAYBE_JSON_TRACE_PARENT_ID=
+[[ -z "${GROUP_PARENT_ID:-}" ]] || \
+    MAYBE_JSON_TRACE_PARENT_ID="\"trace.parent_id\": \"${GROUP_PARENT_ID}\","
+
+DATA=$(cat <<EOF
+{
+  "name": "${GROUP}",
+  "service.name": "${SERVICE_NAME}",
+  "service_name": "${SERVICE_NAME}",
+  "trace.trace_id": "${TRACE_ID}",
+  ${MAYBE_JSON_TRACE_PARENT_ID}
+  "trace.span_id": "${GROUP_ID}",
+  "duration_ms": ${GROUP_DURATION},
+
+  "ci_provider": "${BUILDEVENT_CIPROVIDER:-${YP_CI_PLATFORM}}",
+  "source": "yplatform-ci-echo",
+  "status": "${YP_CI_STATUS:-success}",
+
+  "env": $(env_as_json)
+}
+EOF
+)
+
+curl -qfsSL \
+    -X POST \
+    -H "X-Honeycomb-Team: ${API_KEY}" \
+    -H "X-Honeycomb-Event-Time: ${GROUP_START}" \
+    -d "${DATA}" \
+    "https://api.honeycomb.io/1/events/${DATASET}"

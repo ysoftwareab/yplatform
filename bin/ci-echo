@@ -9,14 +9,24 @@ source ${YP_DIR}/sh/common.inc.sh
 ## Echo message with a STEP indicator for stdout or for TeamCity/Travis consumption.
 ##
 ##   --benchmark    Benchmark file to use for benchmarking groups (DO-DONE durations).
+##   --external     Path to external logger.
+##                  Defaults to ci-echo-external-honeycomb if
+##                  both CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY and
+##                  and CI_ECHO_EXTERNAL_HONEYCOMB_DATASET are set.
 ##
 ##   -h, --help     Display this help and exit
 ##   -v, --version  Output version information and exit
 
 BENCHMARK=/dev/null
+EXTERNAL=
+
+[[ "${CI:-}" != "true" ]] || \
+    [[ -z "${YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY:-}" ]] || \
+    [[ -z "${YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET:-}" ]] || \
+    EXTERNAL=${YP_DIR}/bin/ci-echo-external-honeycomb
 
 if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; then
-    ARGS=$(getopt -o hv -l help,version,benchmark: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
+    ARGS=$(getopt -o hv -l help,version,benchmark:,external: -n $(basename ${BASH_SOURCE[0]}) -- "$@") || sh_script_usage
     eval set -- "${ARGS}"
 fi
 
@@ -55,6 +65,10 @@ while [[ $# -gt 0 ]]; do
                 echo "$(timestamp_nano) 0 benchmark" >> ${BENCHMARK}
             }
             ;;
+        --external)
+            EXTERNAL=$2
+            shift 2
+            ;;
         -h|--help)
             sh_script_usage
             ;;
@@ -74,6 +88,17 @@ while [[ $# -gt 0 ]]; do
     esac
 done
 # [[ $# -eq 0 ]] || sh_script_usage
+
+[[ -z "${EXTERNAL}" ]] || {
+    [[ -e "${EXTERNAL}" ]] || {
+        >&2 echo "$(timestamp)" "[ERR ] External logger '${EXTERNAL}' doesn't exist."
+        exit 1
+    }
+    [[ -x "${EXTERNAL}" ]] || {
+        >&2 echo "$(timestamp)" "[ERR ] External logger '${EXTERNAL}' isn't executable."
+        exit 1
+    }
+}
 
 STOPWATCH_TIMESTAMP=$(cat ${BENCHMARK} | head -n1 | cut -d" " -f1 || true)
 
@@ -291,9 +316,19 @@ case "${1:-}" in
         REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
         PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr "[:upper:]" "[:lower:]" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
+        # shellcheck disable=SC2012
+        # PARENT_GROUP_MARKER=$(ls -t /tmp/ci-echo-group-* 2>/dev/null | head -n1 || true)
+        # PARENT_GROUP_MARKER_PWD_GROUP=
+        # [[ -z "${PARENT_GROUP_MARKER}" ]] || \
+        #     PARENT_GROUP_MARKER_PWD_GROUP="$(cat "${PARENT_GROUP_MARKER}" | sed -n "3,3 p")"
+
         # GROUP_MARKER=/tmp/ci-echo-group-${PWD_GROUP}-${GROUP_START}_${RANDOM}
         GROUP_MARKER=/tmp/ci-echo-group-${GROUP_START}-${RANDOM}
         echo -en "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
+        # [[ -z "${EXTERNAL}" ]] || ${EXTERNAL} \
+        #     --group-parent "${PARENT_GROUP_MARKER_PWD_GROUP}" \
+        #     --group "${PWD_GROUP}" \
+        #     --group-start "${GROUP_START}" &
         ;;
     "[DONE]")
         REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
@@ -314,7 +349,18 @@ case "${1:-}" in
                 GROUP_DURATION=$(( ${GROUP_FINISH} - ${GROUP_START} ))
                 rm -f ${GROUP_MARKER}
 
+                # shellcheck disable=SC2012
+                PARENT_GROUP_MARKER=$(ls -t /tmp/ci-echo-group-* 2>/dev/null | head -n1 || true)
+                PARENT_GROUP_MARKER_PWD_GROUP=
+                [[ -z "${PARENT_GROUP_MARKER}" ]] || \
+                    PARENT_GROUP_MARKER_PWD_GROUP="$(cat "${PARENT_GROUP_MARKER}" | sed -n "3,3 p")"
+
                 echo "${GROUP_START} ${GROUP_DURATION} ${PWD_GROUP}" >> ${BENCHMARK}
+                [[ -z "${EXTERNAL}" ]] || ${EXTERNAL} \
+                    --group-parent "${PARENT_GROUP_MARKER_PWD_GROUP}" \
+                    --group "${PWD_GROUP}" \
+                    --group-start "${GROUP_START}" \
+                    --group-duration "${GROUP_DURATION}" &
             }
         }
 
