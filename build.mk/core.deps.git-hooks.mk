@@ -27,10 +27,12 @@ endif
 
 .PHONY: $(GIT_DIR)/hooks
 $(GIT_DIR)/hooks:
+	$(ECHO_DO) "Installing $(GIT_DIR)/hooks..."
 	$(CP_NOSYM) --recursive --no-target-directory .git-hooks/ $@/
 	$(TOUCH) $@/yp
 	(cd .git-hooks && $(FIND) . -mindepth 1 -print) >> $@/yp
 	$(CAT) $@/yp | $(SORT) -u | $(YP_DIR)/bin/sponge $@/yp
+	$(ECHO_DONE)
 
 
 .PHONY: repo/dot.git-hooks/

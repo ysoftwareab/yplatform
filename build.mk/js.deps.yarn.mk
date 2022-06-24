@@ -80,6 +80,7 @@ deps-yarn-unmet-peer:
 
 .PHONY: deps-yarn
 deps-yarn:
+	$(ECHO_DO) "Installing yarn dependencies..."
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
 	$(YARN) config list
@@ -92,10 +93,12 @@ ifeq (true,$(CI))
 else
 	$(ECHO_SKIP) "deps-yarn-unmet-peer"
 endif
+	$(ECHO_DONE)
 
 
 .PHONY: deps-yarn-prod
 deps-yarn-prod:
+	$(ECHO_DO) "Installing yarn dependencies..."
 	$(ECHO_INFO) "NODE=$(NODE) $(shell $(NODE) --version)"
 	$(ECHO_INFO) "YARN=$(YARN) $(shell $(YARN) --version)"
 	$(YARN) config list
@@ -108,3 +111,4 @@ ifeq (true,$(CI))
 else
 	$(ECHO_SKIP) "deps-yarn-unmet-peer"
 endif
+	$(ECHO_DONE)

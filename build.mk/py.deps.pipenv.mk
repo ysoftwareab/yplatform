@@ -21,9 +21,13 @@ export PIPENV_VERBOSITY = -1
 
 .PHONY: deps-pipenv
 deps-pipenv:
+	$(ECHO_DO) "Installing pipenv dependencies..."
 	$(PIPENV) install --skip-lock --dev
+	$(ECHO_DONE)
 
 
 .PHONY: deps-pipenv-prod
 deps-pipenv-prod:
+	$(ECHO_DO) "Installing pipenv dependencies..."
 	$(PIPENV) install --skip-lock
+	$(ECHO_DONE)

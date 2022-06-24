@@ -8,6 +8,7 @@ YP_DEPS_TARGETS += \
 
 .PHONY: deps--node_modules_private
 deps-node_modules_private:
+	$(ECHO_DO) "Installing node_modules_private dependencies..."
 	DEPS=""; \
 	for DEP_NAME in $$($(CAT) package.json | $(JQ) -r ".privateDependencies" | $(JQ) -r 'keys[]'); do \
 		DEP_VSN=$$($(CAT) "package.json" | $(JQ) -r ".privateDependencies.\"$${DEP_NAME}\""); \
@@ -19,7 +20,8 @@ deps-node_modules_private:
 			$(ECHO_ERR) "Run <make node_modules_private> to update it."; \
 			exit 1; \
 		}; \
-	done;
+	done
+	$(ECHO_DONE)
 
 
 .PHONY: node_modules_private
