@@ -24,23 +24,26 @@ workflows:
         opts:
           is_expand: false
     steps:
-      - activate-ssh-key@4:
-          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
       - git-clone@6:
           inputs:
             - clone_depth: "1"
       - script@1:
-          title: Do anything with Script step
           inputs:
             - content: |
                 #!/usr/bin/env bash
                 set -x
-                sudo chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
+                chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
+                ${BITRISE_SOURCE_DIR}/bin/linux-adduser --disabled-password bitrise
+                ${BITRISE_SOURCE_DIR}/bin/linux-adduser2group bitrise sudo
+                echo "bitrise ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+                echo "Defaults:bitrise !env_reset" >> /etc/sudoers
+                echo "Defaults:bitrise !secure_path" >> /etc/sudoers
+                chown -R bitrise:bitrise ${BITRISE_SOURCE_DIR}
                 set +x
+
                 set -euo pipefail
                 cd ${BITRISE_SOURCE_DIR}
-                source ci/pipeline.script.sh
-      - deploy-to-bitrise-io@2: {}
+                su -c "bash ci/pipeline.script.sh" bitrise
 
 
 # NOTE interesting that each key under 'steps' is actually a "<type>::<url>::<path>"
