@@ -23,10 +23,8 @@ function failure_pipeline() {
 }
 
 export YP_CI_STATUS=success
-if success_pipeline; then
-    exit 0
-else
+success_pipeline || {
     export YP_CI_STATUS=failure
     failure_pipeline
     exit 1
-fi
+}
