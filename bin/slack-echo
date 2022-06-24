@@ -81,19 +81,20 @@ TEXT="$*"
 TEXT="${TEXT//\"/\\\"}"
 TEXT="${TEXT//$'\n'/\\\n}"
 
-cat > ${TMP_SLACK_PAYLOAD} <<EOF
+DATA=$(cat <<EOF
 {
-"username": "${FROM}",
-${CHANNEL_TO}
-"icon_emoji": "${ICON}",
-"text": "${TEXT}"
+  "username": "${FROM}",
+  ${CHANNEL_TO}
+  "icon_emoji": "${ICON}",
+  "text": "${TEXT}"
 }
 EOF
+)
 
-cat ${TMP_SLACK_PAYLOAD}
+echo "${DATA}"
 
 curl -qfsSL \
     -X POST \
     -H "content-type: application/json" \
-    --data @${TMP_SLACK_PAYLOAD} \
+    -d "${DATA}" \
     ${SLACK_WEBHOOK}

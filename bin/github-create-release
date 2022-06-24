@@ -150,19 +150,22 @@ if [[ "${EXISTS}" = "true" ]]; then
         "${RELEASE_URL}"
     echo
 else
+    DATA=$(cat <<EOF
+{
+  "tag_name": "${TAG}",
+  "target_commitish": "${TARGET}",
+  "name": ${NAME_AS_JSON},
+  "body": ${BODY_AS_JSON},
+  "draft": true,
+  "prerelease": ${PRERELEASE}
+}
+EOF
+)
+
     curl -qfsSL \
         -X POST \
         -H "authorization: token ${GH_TOKEN}" \
-        -d "\
-{
-  \"tag_name\": \"${TAG}\",
-  \"target_commitish\": \"${TARGET}\",
-  \"name\": ${NAME_AS_JSON},
-  \"body\": ${BODY_AS_JSON},
-  \"draft\": true,
-  \"prerelease\": ${PRERELEASE}
-}
-" \
+        -d "${DATA}" \
         -o ${TMP_CURL} \
         "${RELEASES_URL}"
     echo
@@ -193,11 +196,7 @@ echo_info "Publishing release ${NAME}..."
 curl -qfsSL \
     -X POST \
     -H "authorization: token ${GH_TOKEN}" \
-    -d "\
-{
-  \"draft\": false
-}
-" \
+    -d '{"draft": false}' \
     "${RELEASE_URL}"
 echo
 
