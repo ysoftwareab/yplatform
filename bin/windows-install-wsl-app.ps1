@@ -12,11 +12,17 @@ $DistroIdArg = args[0]
 
 $Distros = @(
     @{
+        id="ubuntu2204",
+        url="https://aka.ms/wslubuntu2204",
+        installer="ubuntu2204.exe"
+    },
+
+    @{
         id="ubuntu2004",
         url="https://aka.ms/wslubuntu2004",
         installer="ubuntu2004.exe"
     },
-
+    
     @{
         id="ubuntu1804",
         url="https://aka.ms/wsl-ubuntu-1804",

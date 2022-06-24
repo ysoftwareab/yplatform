@@ -1086,6 +1086,7 @@ jobs:
         container:
           - ubuntu-18.04
           - ubuntu-20.04
+          - ubuntu-22.04
         yp_ci_brew_install:
           - minimal
     name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
@@ -2378,6 +2379,7 @@ jobs:
         container:
           - ubuntu-18.04
           - ubuntu-20.04
+          - ubuntu-22.04
         yp_ci_brew_install:
           - common
     name: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'

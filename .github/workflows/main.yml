@@ -23,6 +23,7 @@ jobs:
       matrix:
         os:
           - ubuntu-18.04
+          - ubuntu-22.04
         yp_ci_brew_install:
           - minimal
           - dev
