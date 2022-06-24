@@ -230,7 +230,7 @@ function report() {
         done
     else
         for VAR in "${YP_ENV_EXPORTS[@]}"; do
-            eval "echo ${VAR}=\${${VAR}}"
+            eval "echo ${VAR}=\${${VAR}:-}"
         done
     fi
 }
