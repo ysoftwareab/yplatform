@@ -76,4 +76,4 @@ function yp_ci_run() {
     echo_done
 }
 
-[[ -z "$*" ]] || yp_ci_run "$@"
+[[ -z "${1:-}" ]] || yp_ci_run "$@"
