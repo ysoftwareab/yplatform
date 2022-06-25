@@ -20,6 +20,30 @@ if { getopt --test >/dev/null 2>&1 && false; } || [[ "$?" = "4" ]] || false; the
     eval set -- "${ARGS}"
 fi
 
+function timestamp_nano() {
+    local TIMESTAMP_NANO=$(date +"%s%N")
+    echo ${TIMESTAMP_NANO}
+}
+# if not GNU date, then do best effort
+[[ $(date +"%N") != "N" ]] || {
+    # shellcheck disable=SC1091
+    YP_NANOSECONDS_VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_NANOSECONDS_VSN}")
+    function timestamp_nano() {
+        local TIMESTAMP_NANO
+        # bypass the proxy executable for speed reasons
+        # local NANOSECONDS_BINARY=${YP_DIR}/bin/nanoseconds
+        local NANOSECONDS_BINARY=nanoseconds-${YP_NANOSECONDS_VSN}-${OS_SHORT}-${ARCH_NORMALIZED}
+        NANOSECONDS_BINARY=${YP_DIR}/bin/nanoseconds-${YP_NANOSECONDS_VSN}/${NANOSECONDS_BINARY}
+        if [[ -e "${NANOSECONDS_BINARY}" ]]; then
+            TIMESTAMP_NANO=$(${NANOSECONDS_BINARY})
+        else
+            # seconds to nanoseconds
+            TIMESTAMP_NANO=$(date +"%s")000000000
+        fi
+        echo ${TIMESTAMP_NANO}
+    }
+}
+
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --benchmark)
@@ -28,7 +52,7 @@ while [[ $# -gt 0 ]]; do
             [[ -e "${BENCHMARK}" ]] || {
                 touch ${BENCHMARK}
                 chmod a+rw ${BENCHMARK}
-                echo "$(date +%s) 0 benchmark" >> ${BENCHMARK}
+                echo "$(timestamp_nano) 0 benchmark" >> ${BENCHMARK}
             }
             ;;
         -h|--help)
@@ -58,12 +82,12 @@ DATE_REF="--date=@"
 date --date=@0 >/dev/null 2>&1 || DATE_REF="-r "
 
 function timestamp() {
-    local TIMESTAMP_UNIX=$(date +%s)
-    local TIMESTAMP=$(date "${DATE_REF}"${TIMESTAMP_UNIX} +%H:%M:%S)
+    local TIMESTAMP_NANO=$(timestamp_nano)
+    local TIMESTAMP=$(date "${DATE_REF}"$(( ${TIMESTAMP_NANO} / 1000000000 )) +%H:%M:%S)
     if [[ -z "${STOPWATCH_TIMESTAMP}" ]]; then
         echo "${TIMESTAMP}"
     else
-        local STOPWATCH=$(date -u "${DATE_REF}"$(( ${TIMESTAMP_UNIX} - ${STOPWATCH_TIMESTAMP} )) +%H:%M:%S)
+        local STOPWATCH=$(date -u "${DATE_REF}"$(( ${TIMESTAMP_NANO} - ${STOPWATCH_TIMESTAMP} )) +%H:%M:%S)
         echo "${TIMESTAMP} ${STOPWATCH}"
     fi
 }
@@ -94,7 +118,7 @@ function fallback_echo() {
             >&2 echo
             >&2 echo -e "              ${COLOR_DIM}< ${PWD_GROUP}${COLOR_RESET}"
             >&2 echo -e "$(timestamp) $1 ${GROUP}"
-            >&2 echo -e "                in ${GROUP_DURATION} seconds"
+            >&2 echo -e "                in $(( ${GROUP_DURATION} / 1000000000 )) seconds"
             >&2 echo
             ;;
         ""|"      ")
@@ -132,11 +156,10 @@ function travis_echo() {
             >&2 echo
             >&2 echo -e "              < ${PWD_GROUP}"
 
-            # 000000000 suffix means "in nanoseconds"
-            basic_travis_echo "travis_time:end:${PWD_GROUP}:start=${GROUP_START}000000000,finish=${GROUP_FINISH}000000000,duration=${GROUP_DURATION}000000000"
+            basic_travis_echo "travis_time:end:${PWD_GROUP}:start=${GROUP_START}000000000,finish=${GROUP_FINISH},duration=${GROUP_DURATION}"
             basic_travis_echo "travis_fold:end:${PWD_GROUP}"
             >&2 echo "$(timestamp) $1 ${GROUP}"
-            >&2 echo "$(timestamp)        in ${GROUP_DURATION} seconds"
+            >&2 echo "$(timestamp)        in $(( ${GROUP_DURATION} / 1000000000 )) seconds"
             >&2 echo
             ;;
         ""|"      ")
@@ -181,7 +204,7 @@ function github_actions_echo() {
             }
 
             >&2 echo -e "$(timestamp) $1 ${GROUP}"
-            >&2 echo -e "                in ${GROUP_DURATION} seconds"
+            >&2 echo -e "                in $(( ${GROUP_DURATION} / 1000000000 )) seconds"
             >&2 echo
             ;;
         # "[WARN]")
@@ -264,7 +287,7 @@ GROUP="${*:2}"
 
 case "${1:-}" in
     "[DO  ]")
-        GROUP_START=$(date +%s)
+        GROUP_START=$(timestamp_nano)
         REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
         PWD_GROUP="$(echo "${REL_PWD} ${GROUP}" | tr "[:upper:]" "[:lower:]" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
@@ -276,7 +299,7 @@ case "${1:-}" in
         REL_PWD=$(${YP_DIR}/bin/relpath "$(pwd)" "${HOME}" 2>/dev/null || pwd)
         # PWD_GROUP_PREFIX="$(echo "${REL_PWD}" | tr "A-Z" "a-z" | sed "s/[^a-z0-9]\{1,\}/-/g" | sed "s/^-//" | sed "s/-$//")"
 
-        GROUP_FINISH=$(date +%s)
+        GROUP_FINISH=$(timestamp_nano)
         GROUP_START=${GROUP_FINISH}
         GROUP_DURATION=0
 
