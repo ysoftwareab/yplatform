@@ -27,7 +27,7 @@ source ${YP_DIR}/ci/after-deploy.inc.sh
 
 function yp_ci_run() {
     export YP_CI_PHASE=${1}
-    >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
+    echo_do "${YP_CI_PHASE}"
 
     CMD=
     if [[ "$(type -t "ci_run_${YP_CI_PHASE}" || true)" = "function" ]]; then
@@ -35,9 +35,8 @@ function yp_ci_run() {
     elif [[ "$(type -t "yp_ci_run_${YP_CI_PHASE}" || true)" = "function" ]]; then
         CMD="yp_ci_run_${YP_CI_PHASE}"
     else
-        >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${YP_CI_PHASE} or yp_ci_run_${YP_CI_PHASE} function."
-
-        >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
+        echo_info "Couldn't find a ci_run_${YP_CI_PHASE} or yp_ci_run_${YP_CI_PHASE} function."
+        echo_done
         return 0
     fi
 
@@ -74,7 +73,7 @@ function yp_ci_run() {
 
     eval "${CMD}"
 
-    >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
+    echo_done
 }
 
 [[ -z "$*" ]] || yp_ci_run "$@"
