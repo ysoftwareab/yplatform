@@ -9,20 +9,21 @@ source ${YP_DIR}/ci/util/env.inc.sh
     exit 0
 }
 
-# pipeline
+# script pipeline (in order of execution, see pipeline.script.sh)
 source ${YP_DIR}/ci/before-install.inc.sh
 source ${YP_DIR}/ci/install.inc.sh
-# source ${YP_DIR}/ci/before-script.inc.sh
+source ${YP_DIR}/ci/before-script.inc.sh
 source ${YP_DIR}/ci/script.inc.sh
 source ${YP_DIR}/ci/before-cache.inc.sh
-# source ${YP_DIR}/ci/after-success.inc.sh
-# source ${YP_DIR}/ci/after-failure.inc.sh
-source ${YP_DIR}/ci/before-deploy.inc.sh
-# source ${YP_DIR}/ci/deploy.inc.sh
-# source ${YP_DIR}/ci/after-deploy.inc.sh
+source ${YP_DIR}/ci/after-success.inc.sh
+source ${YP_DIR}/ci/after-failure.inc.sh
 source ${YP_DIR}/ci/after-script.inc.sh
-source ${YP_DIR}/ci/notifications.inc.sh
+source ${YP_DIR}/ci/notifications.inc.sh # extra
 
+# deploy pipeline (in order of execution, see pipeline.deploy.sh)
+source ${YP_DIR}/ci/before-deploy.inc.sh
+source ${YP_DIR}/ci/deploy.inc.sh
+source ${YP_DIR}/ci/after-deploy.inc.sh
 
 function yp_ci_run() {
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
