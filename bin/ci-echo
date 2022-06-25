@@ -324,7 +324,7 @@ case "${1:-}" in
 
         # GROUP_MARKER=/tmp/ci-echo-group-${PWD_GROUP}-${GROUP_START}_${RANDOM}
         GROUP_MARKER=/tmp/ci-echo-group-${GROUP_START}-${RANDOM}
-        echo -en "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
+        echo -e "${GROUP_START}\n${GROUP}\n${PWD_GROUP}" > ${GROUP_MARKER}
         # [[ -z "${EXTERNAL}" ]] || ${EXTERNAL} \
         #     --group-parent "${PARENT_GROUP_MARKER_PWD_GROUP}" \
         #     --group "${PWD_GROUP}" \
