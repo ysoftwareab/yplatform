@@ -135,7 +135,8 @@ let makeJobs = function(matrixOs, nameSuffix) {
     env: {
       ...env,
       GITHUB_JOB_NAME: name,
-      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
+      YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}',
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: name
     },
     steps: [
       checkoutStep,

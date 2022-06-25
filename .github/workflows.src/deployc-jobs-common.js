@@ -52,7 +52,8 @@ let makeJobs = function(matrixContainer, nameSuffix) {
     'runs-on': 'ubuntu-latest',
     env: {
       ...env,
-      GITHUB_JOB_NAME: name
+      GITHUB_JOB_NAME: name,
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: name
     },
     steps: [
       checkoutStep,

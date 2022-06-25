@@ -21,7 +21,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -31,6 +30,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -237,7 +237,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -247,6 +246,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -453,7 +453,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -463,6 +462,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -669,7 +669,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -679,6 +678,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -886,7 +886,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -896,6 +895,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1104,7 +1104,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -1114,6 +1113,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1321,7 +1321,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -1331,6 +1330,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1538,7 +1538,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -1548,6 +1547,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1755,7 +1755,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -1765,6 +1764,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -1972,7 +1972,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -1982,6 +1981,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -2190,7 +2190,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -2200,6 +2199,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
@@ -2409,7 +2409,6 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
-      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
       YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
@@ -2419,6 +2418,7 @@ jobs:
       GITHUB_MATRIX_CONTAINER: '${{ matrix.container }}'
       GITHUB_MATRIX_YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       GITHUB_JOB_NAME: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
+      YP_CI_ECHO_EXTERNAL_HONEYCOMB_DATASET: 'deployc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
     steps:
       - name: yplatform/bin/github-checkout
         shell: bash
