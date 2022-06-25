@@ -8,15 +8,15 @@ source ${YP_DIR}/sh/common.inc.sh
 VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_NANOSECONDS_VSN}")
 NANOSECONDS_URL=https://github.com/ysoftwareab/nanoseconds/releases/download
 
-case ${OS_SHORT}-${ARCH} in
+case ${OS_SHORT}-${ARCH_NORMALIZED} in
     darwin-amd64|darwin-arm64)
-        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH}
+        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH_NORMALIZED}
         ;;
     linux-amd64|linux-arm64)
-        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH}
+        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH_NORMALIZED}
         ;;
     *)
-        echo_err "nanoseconds: ${OS_SHORT}-${ARCH} is an unsupported OS-ARCH."
+        echo_err "nanoseconds: ${OS_SHORT}-${ARCH_NORMALIZED} is an unsupported OS-ARCH."
         exit 1
         ;;
 esac
