@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# can't symlink to ../nanoseconds or else YP_DIR detection in ../nanoseconds fails
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
+${YP_DIR}/bin/nanoseconds "$@"

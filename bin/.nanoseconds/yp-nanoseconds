@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# NOTE since this folder is meant to be appended to $PATH as
+# PATH=${PATH}:path/to/yplatform/bin/.nanoseconds
+# calling 'nanoseconds' might call the system executable 'nanoseconds'.
+# This scripts assumes that there's no system executable 'yp-nanoseconds',
+# so it will always call our 'bin/nanoseconds' script.
+
+# can't symlink to ../nanoseconds or else YP_DIR detection in ../nanoseconds fails
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
+${YP_DIR}/bin/nanoseconds "$@"

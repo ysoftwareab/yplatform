@@ -18,3 +18,6 @@ YP_ALPINE_PKG_GLIBC_VSN=2.32-r0
 
 # https://github.com/mikefarah/yq
 YP_YQ_VSN=4.16.2
+
+# https://github.com/ysoftwareab/nanoseconds
+YP_NANOSECONDS_VSN=0.0.1

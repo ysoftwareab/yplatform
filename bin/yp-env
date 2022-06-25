@@ -293,6 +293,10 @@ yp::path_append ${YP_ENV_DIR}/bin/.jq
 # NOTE if needed to bypass system's jd, call yp-jd
 yp::path_append ${YP_ENV_DIR}/bin/.jd
 
+# nanoseconds becomes always available
+# NOTE if needed to bypass system's nanoseconds, call yp-nanoseconds
+yp::path_append ${YP_ENV_DIR}/bin/.nanoseconds
+
 # yq becomes always available
 # NOTE if needed to bypass system's yq, call yp-yq
 yp::path_append ${YP_ENV_DIR}/bin/.yq

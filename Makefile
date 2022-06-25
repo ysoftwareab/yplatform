@@ -40,6 +40,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bin/aws-cfviz$$" \
 	-e "^bin/esh$$" \
 	-e "^bin/git-archive-all$$" \
+	-e "^bin/nanoseconds-" \
 	-e "^bin/retry$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \

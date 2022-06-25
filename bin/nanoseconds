@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." >/dev/null && pwd)"
+source ${YP_DIR}/sh/common.inc.sh
+
+# shellcheck disable=SC1091
+VSN=$(source ${YP_DIR}/CONST.inc && echo "${YP_NANOSECONDS_VSN}")
+NANOSECONDS_URL=https://github.com/ysoftwareab/nanoseconds/releases/download
+
+case ${OS_SHORT}-${ARCH} in
+    darwin-amd64|darwin-arm64)
+        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH}
+        ;;
+    linux-amd64|linux-arm64)
+        BINARY=nanoseconds_${VSN}_${OS_SHORT}_${ARCH}
+        ;;
+    *)
+        echo_err "nanoseconds: ${OS_SHORT}-${ARCH} is an unsupported OS-ARCH."
+        exit 1
+        ;;
+esac
+ASSET_LOCAL=${YP_DIR}/bin/nanoseconds-${VSN}/${BINARY}
+ASSET_REMOTE=${NANOSECONDS_URL}/v${VSN}/${BINARY}
+BINARY_LOCAL=${ASSET_LOCAL}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    ASSET_LOCAL=${HOME}/.cache/yplatform/nanoseconds-${VSN}/${BINARY}
+    BINARY_LOCAL=${ASSET_LOCAL}
+}
+
+[[ -f ${BINARY_LOCAL} ]] || {
+    echo_info "Fetching ${ASSET_REMOTE}..."
+    mkdir -p $(dirname ${ASSET_LOCAL})
+    curl -qfsSL \
+         -o ${ASSET_LOCAL} \
+         ${ASSET_REMOTE}
+    chmod +x ${BINARY_LOCAL}
+}
+
+echo_info "Proxying to 'nanoseconds' as ${BINARY_LOCAL}."
+${BINARY_LOCAL} "$@"

@@ -8,6 +8,7 @@ ${YP_DIR}/bin/editorconfig-checker -version >/dev/null
 ${YP_DIR}/bin/gitleaks -h >/dev/null
 ${YP_DIR}/bin/jq -h >/dev/null
 ${YP_DIR}/bin/jd -h >/dev/null
+${YP_DIR}/bin/nanoseconds >/dev/null
 ${YP_DIR}/bin/yq -h >/dev/null
 
 brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
