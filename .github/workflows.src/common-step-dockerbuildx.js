@@ -23,7 +23,7 @@ dockerBuildxSteps.push({
   id: 'buildx-arm64-ssh',
   uses: 'shimataro/ssh-key-action@v2',
   with: {
-    key: '${{ secrets.DOCKER_AWS_SSH_KEY }}',
+    key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}',
     // fingerprint changes on reboot
     known_hosts: 'unnecessary'
   }

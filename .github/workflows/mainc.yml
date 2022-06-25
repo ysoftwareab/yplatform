@@ -202,7 +202,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -421,7 +421,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -640,7 +640,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -859,7 +859,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -1079,7 +1079,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -1299,7 +1299,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -1516,7 +1516,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -1734,7 +1734,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -1952,7 +1952,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -2170,7 +2170,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -2388,7 +2388,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -2607,7 +2607,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -2826,7 +2826,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
@@ -3043,7 +3043,7 @@ jobs:
         id: buildx-arm64-ssh
         uses: shimataro/ssh-key-action@v2
         with:
-          key: '${{ secrets.DOCKER_AWS_SSH_KEY }}'
+          key: '${{ secrets.DOCKER_AWS_SSH_PRIVATE_KEY }}'
           known_hosts: unnecessary
       - name: 'Set up Docker Buildx: remote builder for arm64'
         id: buildx-arm64-builder
