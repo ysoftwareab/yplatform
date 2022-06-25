@@ -26,15 +26,16 @@ source ${YP_DIR}/ci/deploy.inc.sh
 source ${YP_DIR}/ci/after-deploy.inc.sh
 
 function yp_ci_run() {
+    export YP_CI_PHASE=${1}
     >&2 echo "$(date +"%H:%M:%S") [DO  ] $*"
 
     CMD=
-    if [[ "$(type -t "ci_run_${1}" || true)" = "function" ]]; then
-        CMD="ci_run_${1}"
-    elif [[ "$(type -t "yp_ci_run_${1}" || true)" = "function" ]]; then
-        CMD="yp_ci_run_${1}"
+    if [[ "$(type -t "ci_run_${YP_CI_PHASE}" || true)" = "function" ]]; then
+        CMD="ci_run_${YP_CI_PHASE}"
+    elif [[ "$(type -t "yp_ci_run_${YP_CI_PHASE}" || true)" = "function" ]]; then
+        CMD="yp_ci_run_${YP_CI_PHASE}"
     else
-        >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${1} or yp_ci_run_${1} function."
+        >&2 echo "$(date +"%H:%M:%S") [INFO] Couldn't find a ci_run_${YP_CI_PHASE} or yp_ci_run_${YP_CI_PHASE} function."
 
         >&2 echo "$(date +"%H:%M:%S") [DONE] $*"
         return 0
@@ -55,7 +56,7 @@ function yp_ci_run() {
             # use unbuffer and pv to minimize risk of travis getting jammed due to log-processing quirks
             CMD="unbuffer ${CMD} | pv -q -L 3k"
 
-            [[ "${1}" != "before_install" ]] || {
+            [[ "${YP_CI_PHASE}" != "before_install" ]] || {
                 yp_run_docker_ci_in_travis
 
                 # /home/travis is not readable by others, like the yp:yp user which will do the bootstrapping
@@ -63,7 +64,7 @@ function yp_ci_run() {
             }
         fi
 
-        [[ "${1}" != "before_install" ]] || {
+        [[ "${YP_CI_PHASE}" != "before_install" ]] || {
             [[ -f /yplatform.docker-ci ]] || yp_enable_travis_swap
         }
     }
