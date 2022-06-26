@@ -65,6 +65,7 @@
 
 # MERGE
 [merge]
+    autostash           = true
     guitool             = diffmerge
     log                 = true
     summary             = true
