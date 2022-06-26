@@ -1,0 +1,20 @@
+{
+  "Records": [
+    {
+      "kinesis": {
+        "kinesisSchemaVersion": "1.0",
+        "partitionKey": "6a6aa447-7161-5892-3d9c-306806df2987_c2b6411d-0f26-6051-8996-60a54f1ac747",
+        "sequenceNumber": "49630835411291121927759925062533669788056396538352500738",
+        "data": "eyJ2ZXJzaW9uIjoiMCIsImlkIjoiNmE2YWE0NDctNzE2MS01ODkyLTNkOWMtMzA2ODA2ZGYyOTg3IiwiZGV0YWlsLXR5cGUiOiJPYmplY3QgQ3JlYXRlZCIsInNvdXJjZSI6ImF3cy5zMyIsImFjY291bnQiOiI1NjA0NjQ4NjMzMjMiLCJ0aW1lIjoiMjAyMi0wNi0yNlQyMTozNTowMloiLCJyZWdpb24iOiJldS1ub3J0aC0xIiwicmVzb3VyY2VzIjpbImFybjphd3M6czM6OjpzZXJ2ZXJsZXNzLXBpcGVsaW5lLWltcG9ydHMzYnVja2V0LXNvdWFza3RsMHhhdCJdLCJkZXRhaWwiOnsidmVyc2lvbiI6IjAiLCJidWNrZXQiOnsibmFtZSI6InNlcnZlcmxlc3MtcGlwZWxpbmUtaW1wb3J0czNidWNrZXQtc291YXNrdGwweGF0In0sIm9iamVjdCI6eyJrZXkiOiJuYW5vc2Vjb25kc18wLjAuMV9kYXJ3aW5fYXJtNjQiLCJzaXplIjoxMzgxMzE0LCJldGFnIjoiN2RjMzBhZDE0M2Y0OGY3YmEyZjk3NjRlYWZmNjY3MjAiLCJ2ZXJzaW9uLWlkIjoiU1NkTE1JWEl3dEZYSjZWU0V2M3ZaamdqeS5EVjgyNG4iLCJzZXF1ZW5jZXIiOiIwMDYyQjhEMTA2NTBBNEQxRjAifSwicmVxdWVzdC1pZCI6IlBNMlNKMjFKV0pWRUFNWjkiLCJyZXF1ZXN0ZXIiOiI1NjA0NjQ4NjMzMjMiLCJzb3VyY2UtaXAtYWRkcmVzcyI6IjkwLjIyOS4yNDYuMjAxIiwicmVhc29uIjoiUHV0T2JqZWN0In19",
+        "approximateArrivalTimestamp": 1656279304.146
+      },
+      "eventSource": "aws:kinesis",
+      "eventVersion": "1.0",
+      "eventID": "shardId-000000000000:49630835411291121927759925062533669788056396538352500738",
+      "eventName": "aws:kinesis:record",
+      "invokeIdentityArn": "arn:aws:iam::560464863323:role/serverless-pipeline-ImportConsumerLambdaRole-17I5RE9ECAI2Q",
+      "awsRegion": "eu-north-1",
+      "eventSourceARN": "arn:aws:kinesis:eu-north-1:560464863323:stream/serverless-pipeline-ImportConsumerLambdaStream-RHVrTtSOMXuo"
+    }
+  ]
+}

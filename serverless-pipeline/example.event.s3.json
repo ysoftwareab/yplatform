@@ -1,0 +1,29 @@
+{
+  "version": "0",
+  "id": "6a6aa447-7161-5892-3d9c-306806df2987",
+  "detail-type": "Object Created",
+  "source": "aws.s3",
+  "account": "560464863323",
+  "time": "2022-06-26T21:35:02Z",
+  "region": "eu-north-1",
+  "resources": [
+    "arn:aws:s3:::serverless-pipeline-imports3bucket-souasktl0xat"
+  ],
+  "detail": {
+    "version": "0",
+    "bucket": {
+      "name": "serverless-pipeline-imports3bucket-souasktl0xat"
+    },
+    "object": {
+      "key": "nanoseconds_0.0.1_darwin_arm64",
+      "size": 1381314,
+      "etag": "7dc30ad143f48f7ba2f9764eaff66720",
+      "version-id": "SSdLMIXIwtFXJ6VSEv3vZjgjy.DV824n",
+      "sequencer": "0062B8D10650A4D1F0"
+    },
+    "request-id": "PM2SJ21JWJVEAMZ9",
+    "requester": "560464863323",
+    "source-ip-address": "90.229.246.201",
+    "reason": "PutObject"
+  }
+}
