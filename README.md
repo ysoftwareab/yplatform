@@ -315,8 +315,8 @@ and playing around without actually having to know anything about it.
 [Apache-2.0](LICENSE)
 
 
-  [1]: https://github.com/ysoftwareab/yplatform/actions?query=workflow%3ACI+branch%3Amaster
-  [2]: https://github.com/ysoftwareab/yplatform/workflows/CI/badge.svg?branch=master
+  [1]: https://github.com/ysoftwareab/yplatform/actions/workflows/main.yml?query=branch%3Amaster
+  [2]: https://github.com/ysoftwareab/yplatform/actions/workflows/main.yml/badge.svg?branch=master
   [3]: https://circleci.com/gh/ysoftwareab/yplatform/tree/master
   [4]: https://circleci.com/gh/ysoftwareab/yplatform/tree/master.svg?style=shield
   [5]: https://app.travis-ci.com/ysoftwareab/yplatform
