@@ -101,7 +101,7 @@ Protect master branch against push-force, outdated PRs and optionally PRs withou
 going to `Settings` tab -> `Code and automation` -> `Branches` -> `Add rule`.
 
 * type `master`
-* **optionally** enable `Require pull request reviews before merging`
+* **optionally** enable `Require pull request before merging`
   * enable `Require approvals`
   * enable `Dismiss stale pull request approvals when new commits are pushed`
 * enable `Require status checks to pass before merging`
