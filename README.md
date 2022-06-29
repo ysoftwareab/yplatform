@@ -198,6 +198,7 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 | Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               | env                              |
 | ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
 | AppVeyor          | [![AppVeyor Status][14]][13]        | :heavy_check_mark: | `appveyor*`        |                    |                    | [config](./appveyor.yml)             | [env](./ci/env/appveyor.inc.sh)  |
+| Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                | [env](./ci/env/buddy.inc.sh)     |
 | CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                | [env](./ci/env/circle.inc.sh)    |
 | Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              | [env](./ci/env/cirrus.inc.sh)    |
 | Codeship          | [![Codeship Status][8]][7]          | :heavy_check_mark: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       | [env](./ci/env/codeship.inc.sh)  |
@@ -211,12 +212,9 @@ We have also integrated in the past with more CI providers
 | Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               | env                              |
 | ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
 | Bitrise           | [![Bitrise Status][22]][21]         | :zzz:              | `bitrise*`         |                    |                    | [config](./bitrise.yml)              | [env](./ci/env/bitrise.inc.sh)   |
-| Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                | [env](./ci/env/buddy.inc.sh)     |
 | Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              | [env](./ci/env/travis.inc.sh)    |
 
 **NOTE** Bitrise builds for the `master` branch are paused because the freemium includes only 500 credits (so 500 minutes on Linux agents).
-
-**NOTE** Buddy has stopped/flagged our pipeline.
 
 **NOTE** Travis CI builds for the `master` branch are paused because one has to constantly ask for more open-source credits.
 
@@ -340,7 +338,7 @@ and playing around without actually having to know anything about it.
   [16]: https://api.cirrus-ci.com/github/ysoftwareab/yplatform.svg?branch=master
   [17]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml
   [18]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml.svg
-  [19]: https://app.buddy.works/ysoftwareab/yplatform/pipelines/pipeline/366736
-  [20]: https://app.buddy.works/ysoftwareab/yplatform/pipelines/pipeline/366736/badge.svg?token=2b8ae0765b731fa03f1e15d087757cfb81254da1dfdff0c6f80a8a53d7dd90dc
+  [19]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186
+  [20]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186/badge.svg?token=8f7b2ec2101eb8f5dec2ce6108a50eb34ff3629b5434826f24bd4152251f2bd5
   [21]: https://app.bitrise.io/app/d4c696b6b4e2be16
   [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
