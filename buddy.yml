@@ -1,30 +1,31 @@
-- pipeline: CI
-  on: EVENT
+- pipeline: "CI"
+  on: "EVENT"
   events:
-    - type: PUSH
-      refs:
-        - refs/heads/master
-        - refs/heads/buddy*
-        # - refs/tags/v* # version tags
+  - type: "PUSH"
+    refs:
+    - "refs/heads/master"
+    - "refs/heads/buddy*"
+    # - "refs/tags/v*" # version tags
   fail_on_prepare_env_warning: true
+  auto_clear_cache: true
   clone_depth: 1
   variables:
-    - key: YP_CI_BREW_INSTALL
-      value: minimal
-    - key: YP_LOG_BOOTSTRAP
+    - key: "YP_CI_BREW_INSTALL"
+      value: "minimal"
+    - key: "YP_LOG_BOOTSTRAP"
       value: "true"
   actions:
-    - action: CI
-      type: BUILD
-      docker_image_name: homebrew/ubuntu20.04
-      docker_image_tag: 3.2.8
-      timeout: 1800 # 30 minutes
-      shell: BASH
-      execute_commands:
-        - |
-          set -x
-          sudo chown -R $(id -u):$(id -g) ${WORKING_DIR}
-        - |
-          set -euo pipefail
-          cd ${WORKING_DIR}
-          source ci/pipeline.script.sh
+  - action: "CI"
+    type: "BUILD"
+    docker_image_name: "homebrew/ubuntu20.04"
+    docker_image_tag: "3.2.8"
+    timeout: 1800 # 30 minutes
+    shell: "BASH"
+    execute_commands:
+       - |
+         set -x
+         sudo chown -R $(id -u):$(id -g) ${WORKING_DIR}
+       - |
+         set -euo pipefail
+         cd ${WORKING_DIR}
+         source ci/pipeline.script.sh
