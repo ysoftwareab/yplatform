@@ -1,6 +1,4 @@
-let fs = require('fs');
 let util = require('./util');
-let lambdaCode = fs.readFileSync(`${__dirname}/lambda.js`, 'utf8');
 
 let partial = async function({env = {}} = {}) {
   const bucketRes = 'ImportS3Bucket';
@@ -106,10 +104,7 @@ let partial = async function({env = {}} = {}) {
     DependsOn: [],
     Type: 'AWS::Lambda::Function',
     Properties: {
-      Code: {
-        // cheating
-        ZipFile: lambdaCode
-      },
+      Code: `${__dirname}/lambda`,
       // FunctionName: ''
       Handler: 'index.handler',
       // fair price/perf ratio
