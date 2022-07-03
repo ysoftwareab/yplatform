@@ -22,10 +22,10 @@
     timeout: 1800 # 30 minutes
     shell: "BASH"
     execute_commands:
-       - |
-         set -x
-         sudo chown -R $(id -u):$(id -g) ${WORKING_DIR}
-       - |
-         set -euo pipefail
-         cd ${WORKING_DIR}
-         source ci/pipeline.script.sh
+      - |
+        set -x
+        sudo chown -R $(id -u):$(id -g) ${WORKING_DIR}
+      - |
+        set -euo pipefail
+        cd ${WORKING_DIR}
+        source ci/pipeline.script.sh
