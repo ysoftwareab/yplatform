@@ -272,7 +272,7 @@ bootstrap/brew-util/homebrew-install.sh:
 PHONY: bootstrap/brew-util/homebrew-install.sh.patch
 bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-install.sh.original
 bootstrap/brew-util/homebrew-install.sh.patch: bootstrap/brew-util/homebrew-install.sh
-	$(DIFF) -u --label $< --label $(word 2,$^) $< $(word 2,$^) > $@ || true
+	$(DIFF) -u --label $(word 2,$^) --label $< $(word 2,$^) $< > $@ || true
 
 
 .PHONY: Formula/patch-src/%.original.rb
