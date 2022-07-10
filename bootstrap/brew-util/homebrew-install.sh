@@ -904,6 +904,15 @@ ohai "Downloading and installing Homebrew..."
 
   execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF}"
 
+  if [[ "${CI:-}" = "true" ]] && [[ -n "${HOMEBREW_ON_LINUX-}" ]] && [[ "${UNAME_MACHINE}" == "aarch64" ]]
+  then
+    export ruby_AARCH64_FILENAME="portable-ruby--2.6.8.aarch64_linux.bottle.1.tar.gz"
+    export ruby_AARCH64_SHA="32944de2b7638229a3e2bc8f78cc08c4eaeaa3fc43e022bbc7233f6fe8db983f"
+    DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    export ruby_AARCH64_URL="file://${DIR}/${ruby_AARCH64_FILENAME}"
+    cat "${DIR}/vendor-install.sh.patch" | patch Library/Homebrew/cmd/vendor-install.sh
+  fi
+
   fi
 
   if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]

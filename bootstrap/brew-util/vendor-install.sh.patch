@@ -1,0 +1,38 @@
+--- vendor-install.sh	2022-01-03 19:26:35.553807018 +0100
++++ vendor-install.patched.sh	2022-01-03 21:13:51.209601335 +0100
+@@ -11,6 +11,9 @@
+ 
+ VENDOR_DIR="${HOMEBREW_LIBRARY}/Homebrew/vendor"
+ 
++ruby_FILENAME="${ruby_AARCH64_URL:-}"
++ruby_SHA="${ruby_AARCH64_SHA:-}"
++
+ # Built from https://github.com/Homebrew/homebrew-portable-ruby.
+ if [[ -n "${HOMEBREW_MACOS}" ]]
+ then
+@@ -58,6 +61,8 @@
+   ruby_URL="${ruby_URLs[0]}"
+ fi
+ 
++[[ -z "${ruby_AARCH64_URL:-}" ]] || ruby_URL="${ruby_AARCH64_URL:-}"
++
+ check_linux_glibc_version() {
+   if [[ -z "${HOMEBREW_LINUX}" || -z "${HOMEBREW_LINUX_MINIMUM_GLIBC_VERSION}" ]]
+   then
+@@ -149,9 +154,13 @@
+       first_try=''
+       if [[ -f "${temporary_path}" ]]
+       then
+-        # HOMEBREW_CURL is set by brew.sh (and isn't mispelt here)
+-        # shellcheck disable=SC2153
+-        "${HOMEBREW_CURL}" "${curl_args[@]}" -C - "${url}" -o "${temporary_path}"
++        if [[ "${url#file:}" = "${url}" ]]; then
++          # HOMEBREW_CURL is set by brew.sh (and isn't mispelt here)
++          # shellcheck disable=SC2153
++          "${HOMEBREW_CURL}" "${curl_args[@]}" -C - "${url}" -o "${temporary_path}"
++        else
++          cp "${url#file://}" "${temporary_path}"
++        fi
+         if [[ $? -eq 33 ]]
+         then
+           [[ -n "${HOMEBREW_QUIET}" ]] || echo "Trying a full download" >&2

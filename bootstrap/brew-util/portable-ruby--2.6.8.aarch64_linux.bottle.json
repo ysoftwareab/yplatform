@@ -1,0 +1,47 @@
+{
+  "homebrew/portable-ruby/portable-ruby": {
+    "formula": {
+      "name": "portable-ruby",
+      "pkg_version": "2.6.8",
+      "path": "Library/Taps/homebrew/homebrew-portable-ruby/Formula/portable-ruby.rb",
+      "tap_git_path": "Formula/portable-ruby.rb",
+      "tap_git_revision": "b531a8ad7021c932568a4f359bb0dfc363db2a67",
+      "tap_git_remote": "git@github.com:Homebrew/homebrew-portable-ruby.git",
+      "desc": "Powerful, clean, object-oriented scripting language",
+      "license": "Ruby",
+      "homepage": "https://www.ruby-lang.org/"
+    },
+    "bottle": {
+      "root_url": "https://ghcr.io/v2/homebrew/portable-ruby",
+      "prefix": "/home/linuxbrew/.linuxbrew",
+      "cellar": "any_skip_relocation",
+      "rebuild": 1,
+      "date": "2022-01-03",
+      "tags": {
+        "aarch64_linux": {
+          "filename": "portable-ruby-2.6.8.aarch64_linux.bottle.1.tar.gz",
+          "local_filename": "portable-ruby--2.6.8.aarch64_linux.bottle.1.tar.gz",
+          "sha256": "32944de2b7638229a3e2bc8f78cc08c4eaeaa3fc43e022bbc7233f6fe8db983f",
+          "formulae_brew_sh_path": "formula",
+          "tab": {
+            "homebrew_version": "3.3.9-110-gbd7e26b",
+            "changed_files": null,
+            "source_modified_time": 1625654340,
+            "compiler": "gcc-6",
+            "runtime_dependencies": [
+
+            ],
+            "arch": "arm64",
+            "built_on": {
+              "os": "Linux",
+              "os_version": "Debian GNU/Linux 9.13 (stretch)",
+              "cpu_family": "arm",
+              "glibc_version": "2.24",
+              "oldest_cpu_family": "armv8"
+            }
+          }
+        }
+      }
+    }
+  }
+}
