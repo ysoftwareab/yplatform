@@ -38,8 +38,14 @@ if [[ -z "${!VAR_PASS:-}" ]]; then
     export PATH="${PATH}:${MYSELF_CMD_DIR}"
     hash -r
     YP_NPX_CMD_ARGS=("$@")
-    eval "${VAR_PASS}=1 ${VAR_ARGS_FD}=<(declare -p YP_NPX_CMD_ARGS) \
-        npx ${YP_NPX_ARGS} ${MYSELF_CMD_BASENAME}"
+    export ${VAR_PASS}=1
+    export ${VAR_ARGS_FD}=$(mktemp -u -t ${VAR_ARGS_FD}.XXXXXXXXXX)
+    mkfifo ${!VAR_ARGS_FD}
+    >${!VAR_ARGS_FD} declare -p YP_NPX_CMD_ARGS &
+    npx ${YP_NPX_ARGS} ${MYSELF_CMD_BASENAME} || {
+        rm -f ${!VAR_ARGS_FD}
+        exit 1
+    }
     exit 0
 fi
 
