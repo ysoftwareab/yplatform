@@ -18,7 +18,30 @@
    PERMISSION_FORMAT="%a"
    CHOWN=("/bin/chown")
    CHGRP=("/bin/chgrp")
-@@ -893,6 +893,11 @@
+@@ -559,19 +559,10 @@
+     abort "Homebrew is only supported on Intel and ARM processors!"
+   fi
+ else
+-  # On Linux, support only 64-bit Intel
+-  if [[ "${UNAME_MACHINE}" == "aarch64" ]]
++  # On Linux, support only 64-bit Intel and ARM
++  if [[ "${UNAME_MACHINE}" != "aarch64" ]] && [[ "${UNAME_MACHINE}" != "x86_64" ]]
+   then
+-    abort "$(
+-      cat <<EOABORT
+-Homebrew on Linux is not supported on ARM processors.
+-You can try an alternate installation method instead:
+-  ${tty_underline}https://docs.brew.sh/Homebrew-on-Linux#arm${tty_reset}
+-EOABORT
+-    )"
+-  elif [[ "${UNAME_MACHINE}" != "x86_64" ]]
+-  then
+-    abort "Homebrew on Linux is only supported on Intel processors!"
++    abort "Homebrew on Linux is only supported on Intel and ARM processors!"
+   fi
+ fi
+ 
+@@ -893,6 +884,11 @@
  (
    cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
  
@@ -30,7 +53,7 @@
    # we do it in four steps to avoid merge errors when reinstalling
    execute "git" "init" "-q"
  
-@@ -906,7 +911,9 @@
+@@ -906,7 +902,9 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
@@ -41,7 +64,7 @@
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -934,19 +941,32 @@
+@@ -934,19 +932,32 @@
        execute "${MKDIR[@]}" "${HOMEBREW_CORE}"
        cd "${HOMEBREW_CORE}" >/dev/null || return
  
