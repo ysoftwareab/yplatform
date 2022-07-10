@@ -1,0 +1,293 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Metadata": {
+    "License": "Unlicense"
+  },
+  "Description": "A product import from a supplier is put on an existing S3 bucket in our AWS account every\nmorning at approximately 3AM. The data is in CSV format and contains approximately 10,000\nproducts.\n\nUse appropriate AWS services to design a system that in a fast, resilient and cost effective way\nprocesses the CSV file, turns each row into JSON and allows for other microservices to subscribe to\nthe products.\n",
+  "Parameters": {},
+  "Resources": {
+    "ImportS3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "NotificationConfiguration": {
+          "EventBridgeConfiguration": {
+            "EventBridgeEnabled": true
+          }
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      }
+    },
+    "Products3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "AccessControl": "Private",
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        },
+        "NotificationConfiguration": {
+          "EventBridgeConfiguration": {
+            "EventBridgeEnabled": true
+          }
+        },
+        "PublicAccessBlockConfiguration": {
+          "BlockPublicAcls": true,
+          "BlockPublicPolicy": true,
+          "IgnorePublicAcls": true,
+          "RestrictPublicBuckets": true
+        },
+        "VersioningConfiguration": {
+          "Status": "Enabled"
+        }
+      }
+    },
+    "ImportConsumerLambdaStreamRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Principal": {
+                "Service": [
+                  "events.amazonaws.com"
+                ]
+              }
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "ImportConsumerLambdaStream",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": {
+                "Effect": "Allow",
+                "Action": [
+                  "kinesis:PutRecord*"
+                ],
+                "Resource": [
+                  {
+                    "Fn::GetAtt": [
+                      "ImportConsumerLambdaStream",
+                      "Arn"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "ImportConsumerLambdaStreamEvent": {
+      "DependsOn": [
+        "ImportConsumerLambdaStream"
+      ],
+      "Type": "AWS::Events::Rule",
+      "Properties": {
+        "EventPattern": {
+          "source": [
+            "aws.s3"
+          ],
+          "detail-type": [
+            "Object Created"
+          ],
+          "detail": {
+            "bucket": {
+              "name": [
+                {
+                  "Ref": "ImportS3Bucket"
+                }
+              ]
+            }
+          }
+        },
+        "RoleArn": {
+          "Fn::GetAtt": [
+            "ImportConsumerLambdaStreamRole",
+            "Arn"
+          ]
+        },
+        "State": "ENABLED",
+        "Targets": [
+          {
+            "Id": "ImportConsumerLambdaStream",
+            "Arn": {
+              "Fn::GetAtt": [
+                "ImportConsumerLambdaStream",
+                "Arn"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "ImportConsumerLambdaStream": {
+      "DependsOn": [],
+      "Type": "AWS::Kinesis::Stream",
+      "Properties": {
+        "ShardCount": 1
+      }
+    },
+    "ImportConsumerLambdaEvent": {
+      "DependsOn": [
+        "ImportConsumerLambda",
+        "ImportConsumerLambdaStream"
+      ],
+      "Type": "AWS::Lambda::EventSourceMapping",
+      "Properties": {
+        "BatchSize": 1,
+        "FunctionName": {
+          "Ref": "ImportConsumerLambda"
+        },
+        "Enabled": true,
+        "EventSourceArn": {
+          "Fn::GetAtt": [
+            "ImportConsumerLambdaStream",
+            "Arn"
+          ]
+        },
+        "StartingPosition": "TRIM_HORIZON"
+      }
+    },
+    "ImportConsumerLambdaRole": {
+      "DependsOn": [],
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "sts:AssumeRole"
+              ],
+              "Principal": {
+                "Service": [
+                  "lambda.amazonaws.com"
+                ]
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaKinesisExecutionRole"
+        ],
+        "Policies": [
+          {
+            "PolicyName": "ImportConsumerLambdaStream",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": {
+                "Effect": "Allow",
+                "Action": [
+                  "s3:Get*",
+                  "s3:List*"
+                ],
+                "Resource": [
+                  {
+                    "Fn::GetAtt": [
+                      "Products3Bucket",
+                      "Arn"
+                    ]
+                  },
+                  {
+                    "Fn::Join": [
+                      "",
+                      [
+                        {
+                          "Fn::GetAtt": [
+                            "Products3Bucket",
+                            "Arn"
+                          ]
+                        },
+                        "/*"
+                      ]
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "ImportConsumerLambda": {
+      "DependsOn": [],
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": "/Users/andrei/git/ysoftwareab/yplatform/serverless-pipeline/lambda",
+        "Environment": {
+          "Variables": {
+            "PRODUCT_BUCKET": "Products3Bucket"
+          }
+        },
+        "Handler": "index.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "ImportConsumerLambdaRole",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs16.x",
+        "Timeout": 900
+      }
+    }
+  },
+  "Outputs": {
+    "ImportS3BucketName": {
+      "Value": {
+        "Ref": "ImportS3Bucket"
+      }
+    },
+    "ImportConsumerLambdaName": {
+      "Value": {
+        "Ref": "ImportConsumerLambda"
+      }
+    },
+    "ImportConsumerLambdaRoleName": {
+      "Value": {
+        "Ref": "ImportConsumerLambdaRole"
+      }
+    },
+    "ImportConsumerLambdaStreamName": {
+      "Value": {
+        "Ref": "ImportConsumerLambdaStream"
+      }
+    },
+    "Products3BucketName": {
+      "Value": {
+        "Ref": "Products3Bucket"
+      }
+    }
+  }
+}

@@ -5,3 +5,7 @@ products.
 Use appropriate AWS services to design a system that in a fast, resilient and cost effective way
 processes the CSV file, turns each row into JSON and allows for other microservices to subscribe to
 the products.
+
+
+----
+

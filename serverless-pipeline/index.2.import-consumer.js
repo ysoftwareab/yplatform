@@ -2,12 +2,43 @@ let util = require('./util');
 
 let partial = async function({env = {}} = {}) {
   const bucketRes = 'ImportS3Bucket';
+  const productBucketRes = 'Products3Bucket';
   const lambdaRes = 'ImportConsumerLambda';
   const lambdaRoleRes = `${lambdaRes}Role`;
   const streamRes = `${lambdaRes}Stream`;
 
   let Resources = {};
   let Outputs = {};
+
+  Resources[productBucketRes] = {
+    Type: 'AWS::S3::Bucket',
+    // DeletionPolicy: 'Retain',
+    Properties: {
+      AccessControl: 'Private',
+      BucketEncryption: {
+        ServerSideEncryptionConfiguration: [{
+          ServerSideEncryptionByDefault: {
+            SSEAlgorithm: 'AES256'
+          }
+        }]
+      },
+      // BucketName: ''
+      NotificationConfiguration: {
+        EventBridgeConfiguration: {
+          EventBridgeEnabled: true
+        }
+      },
+      PublicAccessBlockConfiguration: {
+        BlockPublicAcls: true,
+        BlockPublicPolicy: true,
+        IgnorePublicAcls: true,
+        RestrictPublicBuckets: true
+      },
+      VersioningConfiguration: {
+        Status: 'Enabled'
+      }
+    }
+  };
 
   Resources[`${streamRes}Role`] = {
     Type: 'AWS::IAM::Role',
@@ -81,6 +112,7 @@ let partial = async function({env = {}} = {}) {
     Type: 'AWS::Lambda::EventSourceMapping',
     Properties: {
       BatchSize: 1,
+      // BisectBatchOnFunctionError: true,
       FunctionName: util.ref(lambdaRes),
       Enabled: true,
       EventSourceArn: util.getAtt(streamRes, 'Arn'),
@@ -95,7 +127,24 @@ let partial = async function({env = {}} = {}) {
       AssumeRolePolicyDocument: util.assumeRolePolicyDocument('lambda'),
       ManagedPolicyArns: [
         'arn:aws:iam::aws:policy/service-role/AWSLambdaKinesisExecutionRole'
-      ]
+      ],
+      Policies: [{
+        PolicyName: streamRes,
+        PolicyDocument: {
+          Version: '2012-10-17',
+          Statement: {
+            Effect: 'Allow',
+            Action: [
+              's3:Get*',
+              's3:List*'
+            ],
+            Resource: [
+              util.getAtt(productBucketRes, 'Arn'),
+              util.join([util.getAtt(productBucketRes, 'Arn'), '/*'])
+            ]
+          }
+        }
+      }]
       // RoleName: ''
     }
   };
@@ -105,7 +154,12 @@ let partial = async function({env = {}} = {}) {
     Type: 'AWS::Lambda::Function',
     Properties: {
       Code: `${__dirname}/lambda`,
-      // FunctionName: ''
+      // FunctionName: '',
+      Environment: {
+        Variables: {
+          PRODUCT_BUCKET: productBucketRes
+        }
+      },
       Handler: 'index.handler',
       // fair price/perf ratio
       MemorySize: 1024,
@@ -125,6 +179,10 @@ let partial = async function({env = {}} = {}) {
 
   Outputs[`${streamRes}Name`] = {
     Value: util.ref(streamRes)
+  };
+
+  Outputs[`${productBucketRes}Name`] = {
+    Value: util.ref(productBucketRes)
   };
 
   return {

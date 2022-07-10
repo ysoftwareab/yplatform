@@ -27,8 +27,18 @@ let ref = function(res) {
   }
 };
 
+let join = function(items, delimiter = '') {
+  return {
+    'Fn::Join': [
+      delimiter,
+      items
+    ]
+  }
+}
+
 module.exports = {
   assumeRolePolicyDocument,
   getAtt,
-  ref
+  ref,
+  join
 }

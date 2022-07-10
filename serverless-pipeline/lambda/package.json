@@ -9,7 +9,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.121.0",
     "csvtojson": "^2.0.10",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "object-hash": "^3.0.0",
+    "s3-sync-client": "^3.0.2"
   }
 }

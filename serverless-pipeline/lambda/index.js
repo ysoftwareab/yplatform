@@ -9,59 +9,80 @@ console.debug = function(...args) {
   console.info(...args);
 };
 
+let j = function(json) {
+  return JSON.stringify(json, null, 2);
+};
+
+let _ = require('lodash');
 let aws = require('aws-sdk');
+let csvtojson = require('csvtojson');
+let fs = require('fs');
+let objectHash = require('object-hash');
 let s3 = new aws.S3();
+let s3SyncClient = require('s3-sync-client');
+let {S3Client} = require('@aws-sdk/client-s3');
+let {sync} = new s3SyncClient({client: new S3Client({})});
+
+aws.config.logger = console;
 
 let assertKinesisRecord = function(record) {
-  if (record?.eventName === 'aws:kinesis:record') {
-    console.error(`Unknown record.eventName. Expected aws:kinesis:record.`, {record});
-    throw new Error(`Unknown record.eventName.`);
-  }
+  // poor man's json schema validator
+  let expected = {
+    eventSource: 'aws:kinesis',
+    eventName: 'aws:kinesis:record',
+    kinesis: {
+      kinesisSchemaVersion: '1.0'
+    }
+  };
 
-  if (record.kinesis.kinesisSchemaVersion === '1.0') {
-    console.error(`Unknown record.kinesis.kinesisSchemaVersion . Expected 1.0.`, {record});
-    throw new Error(`Unknown record.kinesis.kinesisSchemaVersion.`);
+  if (!_.isMatch(record, expected)) {
+    console.error(`Unexpected record.`, j({record, expected}));
+    throw new Error('Unexpected record.');
+
   }
 };
 
 let assertS3PubOjectData = function(data, record) {
-  if (data.source !== 'aws.s3') {
-    console.error(`Unknown record.kinesis.data.source . Expected aws:s3.`, {record, data});
-    throw new Error(`Unknown record.kinesis.data.source.`);
-  }
+  // poor man's json schema validator
+  let expected = {
+    version: '0',
+    'detail-type': 'Object Created',
+    source: 'aws.s3',
+    detail: {
+      version: '0',
+      reason: 'PutObject'
+    }
+  };
 
-  if (data.version !== '0') {
-    console.error(`Unknown record.kinesis.data.version . Expected 0.`, {record, data});
-    throw new Error(`Unknown record.kinesis.data.version.`);
-  }
-
-  if (data['detail-type'] !== 'Object Created') {
-    console.error(`Unknown record.kinesis.data.detail-type . Expected Object Created.`, {record, data});
-    throw new Error(`Unknown record.kinesis.data.detail-type.`);
-  }
-
-  if (data.detail.version !== '0') {
-    console.error(`Unknown record.kinesis.data.detail.version . Expected 0.`, {record, data});
-    throw new Error(`Unknown record.kinesis.data.detail.version.`);
-  }
-
-  if (data.version !== '0') {
-    console.error(`Unknown record.kinesis.data.version . Expected 0.`, {record, data});
-    throw new Error(`Unknown record.kinesis.data.version.`);
+  if (!_.isMatch(data, expected)) {
+    console.error(`Unexpected data.`, j({record, data, expected}));
+    throw new Error('Unexpected data.');
   }
 };
 
 let handleRecord = async function(record) {
-  console.debug("RECORD: \n" + JSON.stringify(record, null, 2));
+  console.debug("RECORD: \n" + j(record));
 
   assertKinesisRecord(record);
 
   let stringData = Buffer.from(record.kinesis.data, 'base64').toString('ascii');
   let data = JSON.parse(stringData);
 
-  console.debug("RECORD: \n" + JSON.stringify(record, null, 2));
+  console.debug("RECORD: \n" + j(record));
 
   assertS3PubOjectData(data, record);
+
+  let recordHash = objectHash(record);
+  let tmpProductDir = `/tmp/products/${recordHash}`;
+  if (fs.existsSync(tmpProductDir)) {
+    fs.rmdirSync(tmpProductDir, {
+      recursive: true,
+      force: true
+    });
+  }
+  fs.mkdirSync(tmpProductDir, {
+    recursive: true
+  });
 
   let objMeta;
   try {
@@ -72,58 +93,48 @@ let handleRecord = async function(record) {
       VersionId: data.detail.object['version-id']
     }).promise();
   } catch(err) {
-    console.warn('Skipping. S3 reference cannot be found.', {record, data});
+    console.warn('Skipping. S3 reference cannot be found.', j({err, record, data}));
     return;
   }
 
-  // TODO split object based on objMeta.ContentLength
+  // NOTE could split object based on objMeta.ContentLength
+  // if the size is too big, though 10000 items with 1KB/item is ~10 MB
+  // so that would be premature optimization
 
-  let obj;
+  let stream = await s3.getObject({
+    Bucket: data.detail.bucket.name,
+    Key: data.detail.object.key,
+    IfMatch: data.detail.object.etag,
+    VersionId: data.detail.object['version-id']
+  }).createReadStream();
+
+  let products;
   try {
-    obj = await s3.getObject({
-      Bucket: data.detail.bucket.name,
-      Key: data.detail.object.key,
-      IfMatch: data.detail.object.etag,
-      VersionId: data.detail.object['version-id']
-    }).promise();
+    products = csvtojson.fromStream(stream);
   } catch(err) {
-    console.warn('Skipping. S3 reference cannot be found.', {record, data});
+    console.warn('Skipping. Invalid CSV format.', j({err, record, data}));
     return;
   }
 
-  let objBody = obj.Body.toString('ascii');
+  // NOTE could possibly chunk to sync in parallel for performance
 
+  products.subscribe(async function(product) {
+    let hash = hash(product);
+    fs.writeFileSync(`${tmpProductDir}/${hash}`, JSON.stringify(product, null, 2));
+  });
 
+  await sync(tmpProductDir, `s3://${process.env.PRODUCT_BUCKET}`);
 };
 
 let handler = async function(event, context) {
-  console.debug("EVENT: \n" + JSON.stringify(event, null, 2));
+  console.debug("EVENT: \n" + j(event));
 
   if (!event?.Records?.length) {
-    console.error('Unknown lambda event. Expected event.Records[].', {event});
+    console.error('Unknown lambda event. Expected event.Records[].', j({event}));
     throw new Error('Unknown lambda event.');
   }
 
-  await Promise.all(event.Records.map(handleRecord));
-
-
-
-  // if not from kinesis, exit early
-  // if not base64 data, exit early
-  // if data is not from s3, exit early
-
-  // https://dev.to/rajeshkumaryadavdotcom/node-js-determining-the-line-count-of-a-text-file-195l
-  // https://github.com/aws-samples/reactive-refarch-cloudformation/blob/master/infrastructure/lambda.yaml
-  // https://www.itonaut.com/2020/01/14/kinesis-data-stream-as-lambda-trigger-in-aws-cloudformation/
-  // https://www.derpturkey.com/a-simple-aws-cloudformation-example-with-lambda-and-kinesis/
-
-  // - copy s3 file to tmp (with range if available)
-  // - start reading file
-  // - while enough time left (calculate metrics!), transform line to json, write to s3
-  // - if not done, and no time left, resend s3 event with "skip first x bytes" addition
-  // ps: simpler alternative: use lines, not bytes
-
-
+  await Promise.all(_.map(event.Records, handleRecord));
 };
 
 module.exports = {
