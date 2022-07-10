@@ -100,7 +100,7 @@ done
     }
 }
 
-STOPWATCH_TIMESTAMP=$(cat ${BENCHMARK} | head -n1 | cut -d" " -f1 || true)
+STOPWATCH_TIMESTAMP_NANO=$(cat ${BENCHMARK} | head -n1 | cut -d" " -f1 || true)
 
 DATE_REF="--date=@"
 # assume bsd/macos
@@ -108,11 +108,13 @@ date --date=@0 >/dev/null 2>&1 || DATE_REF="-r "
 
 function timestamp() {
     local TIMESTAMP_NANO=$(timestamp_nano)
-    local TIMESTAMP=$(date "${DATE_REF}"$(( ${TIMESTAMP_NANO} / 1000000000 )) +%H:%M:%S)
-    if [[ -z "${STOPWATCH_TIMESTAMP}" ]]; then
+    local TIMESTAMP_MS="$(( ${TIMESTAMP_NANO} / 1000000000 ))"
+    local TIMESTAMP=$(date "${DATE_REF}${TIMESTAMP_MS}" +%H:%M:%S)
+    if [[ -z "${STOPWATCH_TIMESTAMP_NANO}" ]]; then
         echo "${TIMESTAMP}"
     else
-        local STOPWATCH=$(date -u "${DATE_REF}"$(( ${TIMESTAMP_NANO} - ${STOPWATCH_TIMESTAMP} )) +%H:%M:%S)
+        local STOPWATCH_TIMESTAMP_MS="$(( (${TIMESTAMP_NANO} - ${STOPWATCH_TIMESTAMP_NANO}) / 1000000000 ))"
+        local STOPWATCH=$(date -u "${DATE_REF}${STOPWATCH_TIMESTAMP_MS}" +%H:%M:%S)
         echo "${TIMESTAMP} ${STOPWATCH}"
     fi
 }
