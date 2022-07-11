@@ -52,7 +52,6 @@ let workflow = {
 };
 
 // NOTE PLACEHOLDER FOR DEBUG PURPOSES
-/*
 workflow.jobs = _.mapValues(_.pick(workflow.jobs, [
   'main-windows'
 ]), function(job) {
@@ -60,7 +59,6 @@ workflow.jobs = _.mapValues(_.pick(workflow.jobs, [
     'needs'
   ]);
 });
-*/
 
 if (require.main === module) {
   // eslint-disable-next-line no-console, no-null/no-null
