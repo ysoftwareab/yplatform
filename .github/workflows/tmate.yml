@@ -6,6 +6,7 @@ name: tmate
         description: jobs.main.runs-on
         required: false
         default: ubuntu-latest
+        type: choice
         options:
           - windows-latest
           - windows-2022
