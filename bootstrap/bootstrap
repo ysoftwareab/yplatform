@@ -9,6 +9,12 @@ source ${YP_DIR}/sh/common.inc.sh
     exit 1
 }
 
+if git log -1 --format="%B" | grep -q "\[bootstrap ci\]"; then
+    echo_info "Detected '[bootstrap ci]' marker in git commit message."
+    echo_info "Skipping bootstrap altogether."
+    export YP_SKIP_SUDO_BOOTSTRAP=true
+fi
+
 [[ "${YP_SKIP_SUDO_BOOTSTRAP:-}" = "true" ]] || {
     BOOSTRAP_SUDO_SCRIPT=${YP_DIR}/bootstrap/bootstrap-sudo-${OS_SHORT}-${OS_RELEASE_ID}
     [[ -f "${BOOSTRAP_SUDO_SCRIPT}" ]] || \
@@ -18,6 +24,13 @@ source ${YP_DIR}/sh/common.inc.sh
 }
 
 source ${YP_DIR}/bootstrap/brew-util.inc.sh
+
+if git log -1 --format="%B" | grep -q "\[bootstrap ci\]"; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    yp::env_force
+    brew install tmate
+    yp_ci_debug
+fi
 
 echo_do "Print state info pre-homebrew..."
 brew_print

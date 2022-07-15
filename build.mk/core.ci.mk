@@ -10,7 +10,7 @@
 
 CI_PREFIX += \
 	appveyor \
-	bitrish \
+	bitrise \
 	buddy \
 	circle \
 	cirrus \
@@ -26,6 +26,9 @@ CI_TARGETS += \
 
 DEBUG_CI_TARGETS += \
 	$(patsubst %,debug-ci/%-\%,$(CI_PREFIX)) \
+
+BOOTSTRAP_CI_TARGETS += \
+	$(patsubst %,bootstrap-ci/%-\%,$(CI_PREFIX)) \
 
 # ------------------------------------------------------------------------------
 
@@ -61,8 +64,28 @@ debug-ci/semaphore-%:
 debug-ci/sourcehut-%:
 debug-ci/travis-%:
 $(DEBUG_CI_TARGETS):
-debug-ci/%: ## Force push to a CI branch and debug (tmate session).
+debug-ci/%: ## Force push to a CI branch and debug post-ci-bootstrap (tmate session).
 	$(eval BRANCH := $(@:debug-ci/%=%))
 	$(ECHO) "$(GIT_COMMIT_MSG)" | $(GREP) -q "\[debug ci\]" || \
 		$(GIT) commit --allow-empty -m "$(GIT_COMMIT_MSG) [debug ci]"
+	$(GIT) push --force --no-verify $(GIT_REMOTE_OR_ORIGIN) head:refs/heads/$(BRANCH)
+
+.PHONY: $(BOOTSTRAP_CI_TARGETS)
+# NOTE: below is a workaround for 'make help-all' to work
+bootstrap-ci/appveyor-%:
+bootstrap-ci/bitrise:
+bootstrap-ci/buddy:
+bootstrap-ci/bootstraprcle-%:
+bootstrap-ci/bootstraprrus-%:
+bootstrap-ci/codeship-%:
+bootstrap-ci/github-%:
+bootstrap-ci/gitlab-%:
+bootstrap-ci/semaphore-%:
+bootstrap-ci/sourcehut-%:
+bootstrap-ci/travis-%:
+$(BOOTSTRAP_CI_TARGETS):
+bootstrap-ci/%: ## Force push to a CI branch and debug pre-bootstrap (tmate session).
+	$(eval BRANCH := $(@:bootstrap-ci/%=%))
+	$(ECHO) "$(GIT_COMMIT_MSG)" | $(GREP) -q "\[bootstrap ci\]" || \
+		$(GIT) commit --allow-empty -m "$(GIT_COMMIT_MSG) [bootstrap ci]"
 	$(GIT) push --force --no-verify $(GIT_REMOTE_OR_ORIGIN) head:refs/heads/$(BRANCH)

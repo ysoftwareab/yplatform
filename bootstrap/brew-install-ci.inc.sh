@@ -55,5 +55,6 @@ echo_done
 
 if git log -1 --format="%B" | grep -q "\[debug ci\]"; then
     echo_info "Detected '[debug ci]' marker in git commit message."
+    echo_info "Skipping post-ci bootstrap."
     yp_ci_debug
 fi
