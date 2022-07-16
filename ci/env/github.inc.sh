@@ -57,13 +57,17 @@ function yp_ci_printvars_github() {
     export GITHUB_EVENT_JSON="$(cat ${GITHUB_EVENT_PATH} | jq -c .)"
     printenv_all | sort -u | grep \
         -e "^CI[=_]" \
+        -e "^ACTIONS_RUNNER_[=_]" \
         -e "^GITHUB[=_]" \
         -e "^RUNNER[=_]"
 }
 
 function yp_ci_known_env_github() {
     # see https://docs.github.com/en/actions/reference/environment-variables#default-environment-variables
+    # see https://docs.github.com/en/actions/monitoring-and-troubleshooting-workflows/enabling-debug-logging
     cat <<EOF
+ACTIONS_RUNNER_DEBUG
+ACTIONS_STEP_DEBUG
 CI
 GITHUB_WORKFLOW
 GITHUB_RUN_ID
