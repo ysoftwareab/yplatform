@@ -13,7 +13,7 @@ if ${YP_DIR}/bin/is-wsl; then
     # 18.4.0+ versions crash with
     # -bash: /home/linuxbrew/.linuxbrew/bin/node: cannot execute binary file: Exec format error
     # see https://github.com/Homebrew/homebrew-core/issues/105968
-    brew_install_one ysoftwareab/tap/node@1380
+    brew_install_one ysoftwareab/tap/node@1830
 else
     brew_install_one node
 fi
