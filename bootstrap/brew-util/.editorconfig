@@ -1,0 +1,5 @@
+[homebrew-install.sh]
+indent_size = 2
+
+[homebrew-install.sh.original]
+indent_size = 2
