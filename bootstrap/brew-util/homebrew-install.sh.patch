@@ -18,19 +18,20 @@
    PERMISSION_FORMAT="%a"
    CHOWN=("/bin/chown")
    CHGRP=("/bin/chgrp")
-@@ -893,6 +893,11 @@
+@@ -893,6 +893,12 @@
  (
    cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
  
 +  HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
 +  if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git --version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
++    ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
 +    execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
 +  else
 +
    # we do it in four steps to avoid merge errors when reinstalling
    execute "git" "init" "-q"
  
-@@ -906,7 +911,9 @@
+@@ -906,7 +912,9 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
@@ -41,13 +42,14 @@
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -934,19 +941,32 @@
+@@ -934,19 +942,33 @@
        execute "${MKDIR[@]}" "${HOMEBREW_CORE}"
        cd "${HOMEBREW_CORE}" >/dev/null || return
  
 +      HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
 +      if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git --version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
-+          execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
++        ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
++        execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
 +      else
 +
        execute "git" "init" "-q"
@@ -66,7 +68,7 @@
    fi
  
 +  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
-+      warn "Skipping 'brew update --force --quiet' when using degit."
++    warn "Skipping 'brew update --force --quiet' when using degit."
 +  else
 +
    execute "${HOMEBREW_PREFIX}/bin/brew" "update" "--force" "--quiet"

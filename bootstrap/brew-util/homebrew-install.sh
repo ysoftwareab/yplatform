@@ -895,6 +895,7 @@ ohai "Downloading and installing Homebrew..."
 
   HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
   if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git --version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
+    ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
     execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
   else
 
@@ -943,7 +944,8 @@ ohai "Downloading and installing Homebrew..."
 
       HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
       if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git --version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
-          execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
+        ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
+        execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
       else
 
       execute "git" "init" "-q"
@@ -961,7 +963,7 @@ ohai "Downloading and installing Homebrew..."
   fi
 
   if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
-      warn "Skipping 'brew update --force --quiet' when using degit."
+    warn "Skipping 'brew update --force --quiet' when using degit."
   else
 
   execute "${HOMEBREW_PREFIX}/bin/brew" "update" "--force" "--quiet"
