@@ -369,6 +369,21 @@ test_git() {
   version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "${REQUIRED_GIT_VERSION}")"
 }
 
+test_degit() {
+  if [[ ! -x "$1" ]]
+  then
+    return 1
+  fi
+
+  local git_version_output
+  git_version_output="$("$1" --version 2>/dev/null)"
+  version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "2.26.0")"
+}
+if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! test_degit; then
+  ohai "Skipping HOMEBREW_DEGIT=${HOMEBREW_DEGIT} due to $(git --version)."
+  HOMEBREW_DEGIT=
+fi
+
 # Search for the given executable in PATH (avoids a dependency on the `which` command)
 which() {
   # Alias to Bash built-in command `type -P`
@@ -894,7 +909,7 @@ ohai "Downloading and installing Homebrew..."
   cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
 
   HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
-  if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
+  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
     ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
     execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
   else
@@ -943,7 +958,7 @@ ohai "Downloading and installing Homebrew..."
       cd "${HOMEBREW_CORE}" >/dev/null || return
 
       HOMEBREW_CORE_GIT_REF=${HOMEBREW_CORE_GIT_REF:-refs/remotes/origin/master}
-      if [[ -n "${HOMEBREW_DEGIT:-}" ]] && git --version | grep -q "^git version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
+      if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
         ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
         execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
       else
