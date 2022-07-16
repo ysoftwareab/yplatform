@@ -7,7 +7,17 @@ echo_do "brew: Installing NodeJS packages..."
 # - "npm i -g" is missing the right permissions
 # therefore we always install it via homebrew
 # brew_install_one_unless node "node --version | head -1" "^v"
-brew_install_one node
+# brew_install_one node
+
+if ${YP_DIR}/bin/is-wsl; then
+    # 18.4.0+ versions crash with
+    # -bash: /home/linuxbrew/.linuxbrew/bin/node: cannot execute binary file: Exec format error
+    # see https://github.com/Homebrew/homebrew-core/issues/105968
+    brew_install_one ysoftwareab/tap/node@1380
+else
+    brew_install_one node
+fi
+
 exe_and_grep_q "node --version | head -1" "^v"
 
 if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
