@@ -7,7 +7,8 @@ source ${YP_DIR}/sh/common.inc.sh
 #- degit 1.0
 ## Usage: degit -- URI
 ## Straightforward project scaffolding.
-## Downloads a history-less git repository from the Bitbucket/Github/Gitlab/Sourcehut.
+## Downloads a history-less git repository from Bitbucket/Github/Gitlab/Sourcehut.
+## Requires git version 2.26+ for --history.
 ##
 ## A bash subset version of https://github.com/Rich-Harris/degit.
 ## - no optimizations that include reading/writing access.json and map.json,
@@ -178,6 +179,7 @@ fi
 echo_done
 
 [[ "${HISTORY}" != "true" ]] || {
+    # --filter=blob:none introduced in 2.26 2020-03-22
     exe git clone --filter=blob:none --no-checkout ${REPO_URL} ${TMP_DEGIT}
     exe mv ${TMP_DEGIT}/.git .
     exe git reset --soft ${REPO_HASH}
