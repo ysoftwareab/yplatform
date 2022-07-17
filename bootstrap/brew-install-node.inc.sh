@@ -15,7 +15,7 @@ if ${YP_DIR}/bin/is-wsl; then
     # -bash: /home/linuxbrew/.linuxbrew/bin/node: cannot execute binary file: Exec format error
     # see https://github.com/Homebrew/homebrew-core/issues/105968
     node --version || {
-        brew unlink node
+        brew uninstall node
         brew_install_one ysoftwareab/tap/node # 18.3.0 bottles
         brew pin node
     }
