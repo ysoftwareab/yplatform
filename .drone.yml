@@ -24,7 +24,10 @@ steps:
     commands:
       - |
         set -x
+        printenv
+        cd ${DRONE_WORKSPACE}
         pwd
         sudo chown -R $(id -u):$(id -g) .
       - |
+        cd ${DRONE_WORKSPACE}
         bash ci/pipeline.script.sh
