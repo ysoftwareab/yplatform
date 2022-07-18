@@ -25,6 +25,7 @@
       - |
         set -x
         cd ${WORKING_DIR}
+        pwd
         sudo chown -R $(id -u):$(id -g) .
       - |
         set -euo pipefail

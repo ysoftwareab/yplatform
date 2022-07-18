@@ -24,6 +24,7 @@ steps:
     commands:
       - |
         set -x
+        pwd
         sudo chown -R $(id -u):$(id -g) .
       - |
         bash ci/pipeline.script.sh
