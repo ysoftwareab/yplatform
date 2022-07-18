@@ -24,10 +24,12 @@ steps:
     commands:
       - |
         set -x
-        printenv
-        cd ${DRONE_WORKSPACE}
+        cd $${DRONE_WORKSPACE}
         pwd
         sudo chown -R $(id -u):$(id -g) .
       - |
-        cd ${DRONE_WORKSPACE}
-        bash ci/pipeline.script.sh
+        cd $${DRONE_WORKSPACE}
+        # cannot source because shell is not bash
+        # source ci/pipeline.script.sh
+        export $(compgen -A variable | grep -e "^CI$" -e "^CI_" -e "^DRONE$" -e "^DRONE_" -e "^GIT_")
+        ci/pipeline.script.sh
