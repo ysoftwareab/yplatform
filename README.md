@@ -203,6 +203,7 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 | CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                | [env](./ci/env/circle.inc.sh)    |
 | Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              | [env](./ci/env/cirrus.inc.sh)    |
 | Codeship          | [![Codeship Status][8]][7]          | :heavy_check_mark: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       | [env](./ci/env/codeship.inc.sh)  |
+| Drone CI          | [![Drone CI Status][24]][23]        | :heavy_check_mark: | `drone*`           |                    |                    | [config](./.drone.yml)               | [env](./ci/env/drone.inc.sh)  |
 | Github Actions CI | [![Github Actions CI Status][2]][1] | :heavy_check_mark: | `github*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.github/workflows)        | [env](./ci/env/github.inc.sh)    |
 | Gitlab CI         | [![Gitlab CI Status][12]][11]       | :heavy_check_mark: | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           | [env](./ci/env/gitlab.inc.sh)    |
 | Semaphore         | [![Semaphore Status][10]][9]        | :heavy_check_mark: | `semaphore*`       |                    | :heavy_check_mark: | [config](./.semaphore/semaphore.yml) | [env](./ci/env/semaphore.inc.sh) |
@@ -342,3 +343,5 @@ and playing around without actually having to know anything about it.
   [20]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186/badge.svg?token=8f7b2ec2101eb8f5dec2ce6108a50eb34ff3629b5434826f24bd4152251f2bd5
   [21]: https://app.bitrise.io/app/d4c696b6b4e2be16
   [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
+  [23]: https://cloud.drone.io/ysoftwareab/yplatform
+  [24]: https://cloud.drone.io/api/badges/ysoftwareab/yplatform/status.svg

@@ -15,6 +15,7 @@ CI_PREFIX += \
 	circle \
 	cirrus \
 	codeship \
+	drone \
 	github \
 	gitlab \
 	semaphore \
@@ -40,6 +41,7 @@ ci/buddy-%:
 ci/circle-%:
 ci/cirrus-%:
 ci/codeship-%:
+ci/drone-%:
 ci/github-%:
 ci/gitlab-%:
 ci/semaphore-%:
@@ -58,6 +60,7 @@ debug-ci/buddy:
 debug-ci/circle-%:
 debug-ci/cirrus-%:
 debug-ci/codeship-%:
+debug-ci/drone-%:
 debug-ci/github-%:
 debug-ci/gitlab-%:
 debug-ci/semaphore-%:
@@ -78,6 +81,7 @@ debug-bootstrap/buddy:
 debug-bootstrap/bootstraprcle-%:
 debug-bootstrap/bootstraprrus-%:
 debug-bootstrap/codeship-%:
+debug-bootstrap/drone-%:
 debug-bootstrap/github-%:
 debug-bootstrap/gitlab-%:
 debug-bootstrap/semaphore-%:
