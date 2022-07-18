@@ -9,19 +9,22 @@ echo_do "brew: Installing NodeJS packages..."
 # brew_install_one_unless node "node --version | head -1" "^v"
 # brew_install_one node
 brew_install_one node
+# allow 'node --version' to fail on WSL; fails with exec format error
+exe_and_grep_q "node --version | head -1" "^v" || ${YP_DIR}/bin/is-wsl
 
-if ${YP_DIR}/bin/is-wsl; then
+if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
     # 18.4.0+ versions may crash with
     # -bash: /home/linuxbrew/.linuxbrew/bin/node: cannot execute binary file: Exec format error
     # see https://github.com/Homebrew/homebrew-core/issues/105968
+    # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1110508016
+    # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1133936081
     node --version || {
-        brew uninstall node
-        brew_install_one ysoftwareab/tap/node # 18.3.0 bottles
-        brew pin node
+        echo_do "Patch $(command -v node) for 'cannot execute binary file: Exec format error'..."
+        ${YP_DIR}/bin/wsl-fix-exec-format-error $(command -v node)
+        node --version
+        echo_done
     }
 fi
-
-exe_and_grep_q "node --version | head -1" "^v"
 
 if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
     # it just hangs
