@@ -47,6 +47,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bin/urldecode$$" \
 	-e "^bin/urlencode$$" \
 	-e "^bin/wait-for$$" \
+	-e "^bin/wsl-fix-exec-format-error$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.original$$" \
 	-e "^bootstrap/brew-util/homebrew-install\.sh\.patch$$" \
