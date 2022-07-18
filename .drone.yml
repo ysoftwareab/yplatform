@@ -31,5 +31,4 @@ steps:
         cd $${DRONE_WORKSPACE}
         # cannot source because shell is not bash
         # source ci/pipeline.script.sh
-        export $(compgen -A variable | grep -e "^CI$" -e "^CI_" -e "^DRONE$" -e "^DRONE_" -e "^GIT_")
         ci/pipeline.script.sh
