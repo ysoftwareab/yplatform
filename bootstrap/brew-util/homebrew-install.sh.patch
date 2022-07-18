@@ -18,7 +18,7 @@
    PERMISSION_FORMAT="%a"
    CHOWN=("/bin/chown")
    CHGRP=("/bin/chgrp")
-@@ -369,6 +369,21 @@
+@@ -369,6 +369,22 @@
    version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "${REQUIRED_GIT_VERSION}")"
  }
  
@@ -32,7 +32,8 @@
 +  git_version_output="$("$1" --version 2>/dev/null)"
 +  version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "2.26.0")"
 +}
-+if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! test_degit git; then
++# if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! test_degit git; then
++if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! grep -q "^git version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then
 +  ohai "Skipping HOMEBREW_DEGIT=${HOMEBREW_DEGIT} due to $(git --version)."
 +  HOMEBREW_DEGIT=
 +fi
@@ -40,7 +41,7 @@
  # Search for the given executable in PATH (avoids a dependency on the `which` command)
  which() {
    # Alias to Bash built-in command `type -P`
-@@ -893,6 +908,12 @@
+@@ -893,6 +909,12 @@
  (
    cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
  
@@ -53,7 +54,7 @@
    # we do it in four steps to avoid merge errors when reinstalling
    execute "git" "init" "-q"
  
-@@ -906,7 +927,9 @@
+@@ -906,7 +928,9 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
@@ -64,7 +65,7 @@
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -934,19 +957,33 @@
+@@ -934,19 +958,33 @@
        execute "${MKDIR[@]}" "${HOMEBREW_CORE}"
        cd "${HOMEBREW_CORE}" >/dev/null || return
  
