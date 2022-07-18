@@ -20,7 +20,9 @@ if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
     # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1133936081
     node --version || {
         echo_do "Patch $(command -v node) for 'cannot execute binary file: Exec format error'..."
-        ${YP_DIR}/bin/wsl-fix-exec-format-error $(command -v node)
+        # make sure you use system python3 which has pyelftools pip-installed
+        # ${YP_DIR}/bin/wsl-fix-exec-format-error $(command -v node)
+        sudo /usr/bin/python3 ${YP_DIR}/bin/wsl-fix-exec-format-error $(command -v node)
         node --version
         echo_done
     }
