@@ -379,10 +379,11 @@ test_degit() {
   git_version_output="$("$1" --version 2>/dev/null)"
   version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "2.26.0")"
 }
-if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! test_degit git; then
+# if [[ -n "${HOMEBREW_DEGIT:-}" ]] && ! test_degit git; then
+[[ -z "${HOMEBREW_DEGIT:-}" ]] || git --version | grep -q "^git version 2\.\(\|2[6-9]\|[3-9][0-9]\)\." || {
   ohai "Skipping HOMEBREW_DEGIT=${HOMEBREW_DEGIT} due to $(git --version)."
   HOMEBREW_DEGIT=
-fi
+}
 
 # Search for the given executable in PATH (avoids a dependency on the `which` command)
 which() {
