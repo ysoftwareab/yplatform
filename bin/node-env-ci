@@ -61,6 +61,7 @@ if (ypCompat) {
     let dataClone = _.clone(data);
     switch (data.YP_CI_PLATFORM) {
         case 'cirrus':
+        case 'drone':
         case 'github':
         case 'gitlab':
         case 'travis':

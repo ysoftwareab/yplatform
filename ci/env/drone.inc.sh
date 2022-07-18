@@ -6,7 +6,7 @@ function yp_ci_env_drone() {
     [[ "${DRONE:-}" = "true" ]] || return 0
 
     export CI=true
-    YP_CI_NAME=drone
+    YP_CI_NAME=Drone
     YP_CI_PLATFORM=drone
     YP_CI_SERVER_HOST=drone.io
     YP_CI_REPO_SLUG=${DRONE_REPO:-}
@@ -16,7 +16,7 @@ function yp_ci_env_drone() {
     YP_CI_IS_PR=
     [[ -z "${DRONE_PULL_REQUEST:-}" ]] || YP_CI_IS_PR=true
 
-    YP_CI_JOB_ID=${DRONE_STAGE_NUMBER:-}
+    YP_CI_JOB_ID= # TODO
     YP_CI_PIPELINE_ID=${DRONE_BUILD_NUMBER:-}
     YP_CI_JOB_URL= # TODO
     YP_CI_PIPELINE_URL=${DRONE_BUILD_LINK:-}
@@ -34,7 +34,7 @@ function yp_ci_env_drone() {
         YP_CI_PR_GIT_BRANCH=${DRONE_SOURCE_BRANCH:-}
     }
 
-    YP_CI_GIT_HASH=${DRONE_COMMIT_HASH:-}
+    YP_CI_GIT_HASH=${DRONE_COMMIT_SHA:-}
     YP_CI_GIT_BRANCH=${DRONE_TARGET_BRANCH:-${DRONE_BRANCH:-}}
     YP_CI_GIT_TAG=${DRONE_TAG:-}
 
