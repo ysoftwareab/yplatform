@@ -24,11 +24,17 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 echo_do "Setup aptitude..."
 apt_update
 
-# see https://github.com/microsoft/WSL/issues/8219#issuecomment-1110508016
 ! ${YP_DIR}/bin/is_wsl || {
+    # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1110508016
     apt_install_one gzip
     echo -en '\x10' | sudo dd of=/usr/bin/gzip count=1 bs=1 conv=notrunc seek=$((0x189))
+    # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1133936081
+    apt_install_one python3
+    apt_install_one python3-pip
+    # requirement for bin/wsl-fix-exec-format-error
+    pip install pyelftools
 }
+
 apt_install_one apt-transport-https
 apt_install_one ca-certificates
 apt_install_one software-properties-common
