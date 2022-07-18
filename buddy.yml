@@ -24,7 +24,8 @@
     execute_commands:
       - |
         set -x
-        sudo chown -R $(id -u):$(id -g) ${WORKING_DIR}
+        cd ${WORKING_DIR}
+        sudo chown -R $(id -u):$(id -g) .
       - |
         set -euo pipefail
         cd ${WORKING_DIR}
