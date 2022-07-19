@@ -20,7 +20,7 @@ function yp_ci_env_codeship() {
     [[ -z "${CI_PR_NUMBER:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || YP_CI_IS_PR=true
     [[ -z "${CI_PULL_REQUEST:-}" ]] || [[ "${CI_PR_NUMBER:-}" = "0" ]] || YP_CI_IS_PR=true
 
-    YP_CI_JOB_ID=${CI_BUILD_ID_:-}
+    YP_CI_JOB_ID=${CI_BUILD_ID:-}
     YP_CI_PIPELINE_ID=${CI_BUILD_NUMBER:-}
     YP_CI_JOB_URL=https://app.codeship.com/projects/${CI_PROJECT_ID:-}/builds/${YP_CI_JOB_ID}
     YP_CI_PIPELINE_URL=${CI_BUILD_URL:-}

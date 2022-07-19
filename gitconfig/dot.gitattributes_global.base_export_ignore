@@ -12,6 +12,7 @@
 .github                export-ignore
 .circleci              export-ignore
 .codeship              export-ignore
+.drone.yml             export-ignore
 .semaphore             export-ignore
 .cirrus.yml            export-ignore
 .travis.yml            export-ignore

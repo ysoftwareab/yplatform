@@ -1,0 +1,34 @@
+---
+
+kind: pipeline
+type: docker
+name: main
+
+platform:
+  os: linux
+  arch: amd64
+
+trigger:
+  event:
+    - push
+  branch:
+    - master
+    - drone*
+
+steps:
+  - name: .ci.sh
+    image: homebrew/ubuntu20.04:3.2.8
+    environment:
+      YP_CI_BREW_INSTALL: minimal
+      YP_LOG_BOOTSTRAP: "true"
+    commands:
+      - |
+        set -x
+        cd $${DRONE_WORKSPACE}
+        pwd
+        sudo chown -R $(id -u):$(id -g) .
+      - |
+        cd $${DRONE_WORKSPACE}
+        # cannot source because shell is not bash
+        # source ci/pipeline.script.sh
+        ci/pipeline.script.sh
