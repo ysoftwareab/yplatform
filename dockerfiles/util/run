@@ -29,6 +29,7 @@ case "${FLAVOUR}" in
         ;;
     *)
         echo_err "Unknown FLAVOUR=${FLAVOUR}."
+        echo_info "Known flavours: 'vanilla', 'yp-minimal(:*)', 'yp-common(:*)'."
         exit 1
         ;;
 esac
