@@ -29,3 +29,16 @@ git rev-parse HEAD > /yplatform.bootstrapped
 [[ -e /usr/local/bin/git ]] || \
     [[ ! -e /home/linuxbrew/.linuxbrew/bin/git ]] || \
     ln -sfn /home/linuxbrew/.linuxbrew/bin/git /usr/local/bin/git
+
+[[ -e /etc/wsl.conf ]] || {
+    echo_do "Generating /etc/wsl.conf..."
+    {
+        cat ${YP_DIR}/priv/wsl.conf | \
+            sed "s/uid=2000/uid=${UID_INDEX}/" | \
+            sed "s/gid=2000/gid=${GID_INDEX}/"
+        echo
+        echo "[user]"
+        echo "default=${UNAME}"
+    } | sudo tee -a /etc/wsl.conf
+    echo_done
+}
