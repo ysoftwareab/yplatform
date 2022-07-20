@@ -4,6 +4,9 @@ set -euo pipefail
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
 source ${YP_DIR}/sh/common.inc.sh
 
+MYSELF=${BASH_SOURCE[0]}
+OS_RELEASE_DIR="$(cd "$(dirname ${MYSELF})" >/dev/null && pwd)"
+
 source ${YP_DIR}/dockerfiles/util/os-release.inc.sh
 
 # vanilla
