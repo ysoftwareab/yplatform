@@ -32,13 +32,15 @@ workflows:
             - content: |
                 #!/usr/bin/env bash
                 set -x
-                chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
-                ${BITRISE_SOURCE_DIR}/bin/linux-adduser --disabled-password bitrise
-                ${BITRISE_SOURCE_DIR}/bin/linux-adduser2group bitrise sudo
+                cd ${BITRISE_SOURCE_DIR}
+                pwd
+                chown -R $(id -u):$(id -g) .
+                ./bin/linux-adduser --disabled-password bitrise
+                ./bin/linux-adduser2group bitrise sudo
                 echo "bitrise ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
                 echo "Defaults:bitrise !env_reset" >> /etc/sudoers
                 echo "Defaults:bitrise !secure_path" >> /etc/sudoers
-                chown -R bitrise:bitrise ${BITRISE_SOURCE_DIR}
+                chown -R bitrise:bitrise .
                 set +x
 
                 set -euo pipefail

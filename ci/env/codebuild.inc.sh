@@ -1,0 +1,91 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC2034
+set -euo pipefail
+
+function yp_ci_env_codebuild() {
+    [[ "${CODEBUILD_CI:-}" = "true" ]] || return 0
+
+    export CI=true
+    YP_CI_NAME=CodeBuild
+    YP_CI_PLATFORM=codebuild
+    YP_CI_SERVER_HOST=codebuild.aws.amazon.com
+    YP_CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
+    YP_CI_ROOT=${CODEBUILD_SRC_DIR}
+
+    YP_CI_IS_CRON= # TODO
+    YP_CI_IS_PR=
+    [[ "${CODEBUILD_WEBHOOK_EVENT:-}" != "PULL_REQUEST" ]] || YP_CI_IS_PR=true
+
+    YP_CI_JOB_ID= # TODO
+    YP_CI_PIPELINE_ID=${CODEBUILD_BUILD_NUMBER:-}
+    YP_CI_JOB_URL= # TODO
+    YP_CI_PIPELINE_URL=${CODEBUILD_BUILD_URL:-}
+
+    YP_CI_PR_NUMBER=
+    YP_CI_PR_URL=
+    YP_CI_PR_REPO_SLUG=
+    YP_CI_PR_GIT_HASH=
+    YP_CI_PR_GIT_BRANCH=
+    [[ "${YP_CI_IS_PR}" != "true" ]] || {
+        YP_CI_PR_NUMBER= # TODO
+        YP_CI_PR_URL= # TODO
+        YP_CI_PR_REPO_SLUG= # TODO
+        YP_CI_PR_GIT_HASH= # TODO
+        YP_CI_PR_GIT_BRANCH= # TODO
+    }
+
+    YP_CI_GIT_HASH=${CODEBUILD_SOURCE_VERSION:-}
+    YP_CI_GIT_BRANCH= # TODO
+    YP_CI_GIT_TAG= # TODO
+
+    YP_CI_DEBUG_MODE=${YP_CI_DEBUG_MODE:-}
+}
+
+function yp_ci_printvars_codebuild() {
+    printenv_all | sort -u | grep \
+        -e "^CI[=_]" \
+        -e "^AWS[=_]" \
+        -e "^CODEBUILD_"
+}
+
+function yp_ci_known_env_codebuild() {
+    # see https://docs.drone.io/pipeline/environment/reference/
+    cat <<EOF
+AWS_CONTAINER_CREDENTIALS_RELATIVE_URI
+AWS_DEFAULT_REGION
+AWS_EXECUTION_ENV
+AWS_REGION
+CODEBUILD_AGENT_ENDPOINT
+CODEBUILD_AUTH_TOKEN
+CODEBUILD_BADGE_URL
+CODEBUILD_BMR_URL
+CODEBUILD_BUILD_ARN
+CODEBUILD_BUILD_ID
+CODEBUILD_BUILD_IMAGE
+CODEBUILD_BUILD_NUMBER
+CODEBUILD_BUILD_SUCCEEDING
+CODEBUILD_BUILD_URL
+CODEBUILD_CI
+CODEBUILD_CONTAINER_NAME
+CODEBUILD_EXECUTION_ROLE_BUILD
+CODEBUILD_FE_REPORT_ENDPOINT
+CODEBUILD_GOPATH
+CODEBUILD_INITIATOR
+CODEBUILD_KMS_KEY_ID
+CODEBUILD_LAST_EXIT
+CODEBUILD_LOG_PATH
+CODEBUILD_PROJECT_UUID
+CODEBUILD_RESOLVED_SOURCE_VERSION
+CODEBUILD_SOURCE_REPO_URL
+CODEBUILD_SOURCE_VERSION
+CODEBUILD_SRC_DIR
+CODEBUILD_START_TIME
+CODEBUILD_WEBHOOK_ACTOR_ACCOUNT_ID
+CODEBUILD_WEBHOOK_EVENT
+CODEBUILD_WEBHOOK_HEAD_REF
+CODEBUILD_WEBHOOK_PREV_COMMIT
+CODEBUILD_WEBHOOK_TRIGGEREOF
+    # undocumented but observed
+    cat <<EOF
+EOF
+}

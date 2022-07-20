@@ -215,7 +215,10 @@ We have also integrated in the past with more CI providers
 
 | Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               | env                              |
 | ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
+| CodeBuild amzn2-amd64 | [![CodeBuild Status][26]][25]       | :zzz:              | `codebuild-test`   |                    |                    | [config](./buildspec.yml)            | [env](./ci/env/codebuild.inc.sh) |
 | Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              | [env](./ci/env/travis.inc.sh)    |
+
+**NOTE** AWS CodeBuild builds are paused (restricted only to codebuild-test branch) to keep costs low.
 
 **NOTE** Travis CI builds for the `master` branch are paused because one has to constantly ask for more open-source credits.
 
@@ -345,3 +348,5 @@ and playing around without actually having to know anything about it.
   [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
   [23]: https://cloud.drone.io/ysoftwareab/yplatform
   [24]: https://cloud.drone.io/api/badges/ysoftwareab/yplatform/status.svg
+  [25]: https://eu-north-1.codebuild.aws.amazon.com/project/eyJlbmNyeXB0ZWREYXRhIjoiaWxGajJyYVF1M2VORFZyYk92TkN5dFVhOTdNdjE0S0Npb3ZqMTRHOHZLaVl3aXdXRFZQVnpKczJSZlRsS25OZ2xMN0JXME9ya3JJM3U1Z09oQWlIanhYVVlreXUwalE4MU4rbUVtaXp5c0pIdmVyM1p0T1pBTm5MR0MyUGRGWmNkZXhzIiwiaXZQYXJhbWV0ZXJTcGVjIjoiNnB5OHZ4bDhBeno5bEN5LyIsIm1hdGVyaWFsU2V0U2VyaWFsIjoxfQ%3D%3D
+  [26]: https://codebuild.eu-north-1.amazonaws.com/badges?uuid=eyJlbmNyeXB0ZWREYXRhIjoiQno3V0FHNXdaZjRtUDF3TXNUeTRkTmZNVWhwVnNDazg5bnVXcGhFUEJNMXhYTmJhdGpadWxIbHF6ZGo2cC9MTWhHQ1ZuQlZnSDVEMEMxVUkvODFnL1RnPSIsIml2UGFyYW1ldGVyU3BlYyI6ImU4UVZKRWxNcWVhK1BTL3oiLCJtYXRlcmlhbFNldFNlcmlhbCI6MX0%3D&branch=main

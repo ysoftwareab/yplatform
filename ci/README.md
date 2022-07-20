@@ -171,6 +171,7 @@ See for yourself. Search `.ci.sh before_install` in
 * Buddy's [buddy.yml](../buddy.yml)
 * CircleCI's [.circleci/config.yml](../.circleci/config.yml)
 * Cirrus CI's [.cirrus.yml](../.cirrus.yml)
+* CodeBuild's [buildspec.yml](../buildspec.yml)
 * Codeship's [.codeship-steps.yml](../.codeship-steps.yml)
 * Drone CI's [.drone.yml](../.drone.yml)
 * Github Actions CI's [.github/workflows/main.yml](../.github/workflows/main.yml)

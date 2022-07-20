@@ -1,0 +1,26 @@
+version: 0.2
+
+env:
+  shell: bash
+  variables:
+    YP_CI_BREW_INSTALL: minimal
+    YP_LOG_BOOTSTRAP: "true"
+
+phases:
+  install:
+    commands:
+      - |
+        set -x
+        cd ${CODEBUILD_SRC_DIR}
+        chown -R $(id -u):$(id -g) .
+        ./bin/linux-adduser --disabled-password codebuild
+        ./bin/linux-adduser2group codebuild sudo
+        echo "codebuild ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+        echo "Defaults:codebuild !env_reset" >> /etc/sudoers
+        echo "Defaults:codebuild !secure_path" >> /etc/sudoers
+        chown -R codebuild:codebuild .
+        set +x
+
+        set -euo pipefail
+        cd ${CODEBUILD_SRC_DIR}
+        su -c "bash ci/pipeline.script.sh" codebuild
