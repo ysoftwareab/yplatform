@@ -27,11 +27,15 @@ apt_update
 if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
     # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1110508016
     apt_install_one gzip
-    echo -en '\x10' | sudo dd of=/usr/bin/gzip count=1 bs=1 conv=notrunc seek=$((0x189))
+    gzip --version | head -1 || {
+        echo_do "Patch $(command -v gzip) for 'cannot execute binary file: Exec format error'..."
+        echo -en '\x10' | sudo dd of=$(command -v gzip) count=1 bs=1 conv=notrunc seek=$((0x189))
+        echo_done
+    }
     # see https://github.com/microsoft/WSL/issues/8219#issuecomment-1133936081
+    # requirements for bin/wsl-fix-exec-format-error
     apt_install_one python3
     apt_install_one python3-pip
-    # requirement for bin/wsl-fix-exec-format-error
     pip install pyelftools
 fi
 
