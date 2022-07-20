@@ -1,0 +1,98 @@
+yplatform v0.3.34 Release Notes
+
+Highlights since v0.3.33:
+
+* None
+
+
+Breaking commits since v0.3.33:
+
+* None
+
+Commits since v0.3.33:
+
+* d7ebf40a 2022-07-20 add /etc/wsl.conf to docker images for better WSL integration
+* c1cae1f0 2022-07-20 lint
+* 29ab27e2 2022-07-20 print known flavours
+* 6e15243b 2022-07-20 Revert "fixup! refactor. dedupe in os-release.inc.sh"
+* c6fabe71 2022-07-20 patch node under wsl
+* 86910720 2022-07-18 wsl fixes only in CI
+* a8734214 2022-07-18 add https://gist.github.com/the-moog/179753aacc52b262d1068878d520e9c9 script to fix 'exec format error' due to https://github.com/microsoft/WSL/issues/8219#issuecomment-1133936081
+* 292018b3 2022-07-18 patch gzip under wsl
+* b3e0c597 2022-07-18 fixup! fixup! fixup! fix node under wsl
+* 428ce098 2022-07-19 brew 3.5.5
+* 57c5f1ae 2022-07-18 is test_degit working?
+* 1c9fc518 2022-07-18 bootstrap: install python without workarounds
+* 050e3706 2022-07-19 ubuntu: install newer git
+* add4b3fb 2022-07-19 sync buddy with drone
+* b29d18f0 2022-07-19 add drone ci
+* 51d0f937 2022-07-18 fixup! add '[debug bootstrap]' functionality
+* 0b3239c0 2022-07-17 lint
+* d31e0a0b 2022-07-17 fixup! fixup! fix node under wsl
+* 85e39ca2 2022-07-17 github: retire macos-10.15, document other envs
+* 64b35278 2022-07-17 fixup! improve git version detection for degit
+* f11bc351 2022-07-17 add note about degit requiring git version 2.26 for --history
+* 15ced5e5 2022-07-17 set indent
+* b528a305 2022-07-17 improve git version detection for degit
+* 0f50bd29 2022-07-16 fix homebrew install ignoring yplatform's degit
+* 6efc27a3 2022-07-16 editorial
+* 76a67efe 2022-07-16 fixup! fix node under wsl
+* b6b4715c 2022-07-16 typo
+* ab3ecbb2 2022-07-16 fix node under wsl
+* 4db3438c 2022-07-16 github: document ACTIONS_RUNNER_* env vars
+* 6c435d87 2022-07-15 add '[debug bootstrap]' functionality
+* bbcad116 2022-07-11 fixup! limit runs-on for tmate workflow
+* 9089c730 2022-07-11 limit runs-on for tmate workflow
+* a3033c00 2022-07-10 fixup! ci-echo: switch to nanoseconds internally and for benchmarks
+* a1ff25f9 2022-07-10 fix ttyrec
+* ae4f7d74 2022-07-10 newer npx runs command in a fork, and the file descriptor is not available anymore
+* 1e63eb15 2022-07-10 fix bootstrap/brew-util/homebrew-install.sh.patch
+* d0e87af5 2022-07-10 update info on bitrise
+* dbb4ea4c 2022-07-10 updated Brewfile.lock
+* 8b69252a 2022-07-04 whitespace
+* 91214768 2022-06-29 Buddy CI works again
+* 94240531 2022-06-29 editorial
+* 8b70a886 2022-06-29 group offline ci providers. Buddy also stopped working
+* 34cf4198 2022-06-29 updated buddy.yml
+* 52a272c1 2022-06-26 update urls to github actions workflow and badge
+* ac5d16f7 2022-06-26 gitconfig: merge.autostash = true
+* af950981 2022-06-26 allow undocumented SEMAPHORE_GIT_WORKING_BRANCH
+* 549d625c 2022-06-26 rename DOCKER_AWS_SSH_KEY -> DOCKER_AWS_SSH_PRIVATE_KEY
+* 49911b1b 2022-06-26 use one honeycomb dataset per workflow
+* d1e85abf 2022-06-25 redundant to remove trailing new line
+* 4fae6fab 2022-06-25 fixup! fixup! rename SF_ -> YP_
+* f43de635 2022-06-25 clarify that ci.sh (ci/run.sh) takes only one argument
+* fcf4ac07 2022-06-25 use echo utils for CI phases for external reporting
+* dce49455 2022-06-25 align with ci-echo-group-* namings
+* 10b61a16 2022-06-25 introduce YP_CI_PHASE
+* 6484ea28 2022-06-25 after_failure: close all open ci-echo groups
+* 2efe19d6 2022-06-25 add placeholders for all ci phases
+* abe68dc5 2022-06-25 fixup! add nanoseconds
+* 7b2be447 2022-06-24 ci-echo: support honeycomb
+* 7077f34f 2022-06-24 create ci-echo groups
+* a3033217 2022-06-25 ci-echo: switch to nanoseconds internally and for benchmarks
+* ce99a251 2022-06-25 add nanoseconds
+* 65bcf275 2022-06-24 uniform data to curl
+* 47dcb88d 2022-06-24 don't make YP_CI_ECHO static, since it could be changed dynamically and it's only a string interpolation
+* ec3af2ef 2022-06-24 remove redundant shellcheck directives
+* 4fdbbc8a 2022-06-24 add ubuntu-22.04
+* bc3686f4 2022-06-24 'if success_pipeline' would trump errexit bash option and ci steps would run as usual
+* 2ea14fff 2022-06-24 handle undefined vars intended to be exported
+* 25173b72 2022-06-24 allow undocumented BITRISE_STEP_EXECUTION_ID
+* 5a363bb2 2022-06-24 compat with older make, or else: unterminated call to function 'shell': missing ')'.  Stop.
+* b580e8e0 2022-06-24 bitrise runs as root by default
+* 195293ee 2022-06-24 allow undocumented CIRRUS_BUILD_SOURCE
+* 55383604 2022-06-13 Revert "fixup! fixup! add remote arm64 docker builder"
+* 67b7c7a5 2022-06-13 fixup! fixup! add remote arm64 docker builder
+* 71a33994 2022-06-13 Revert "fixup! fixup! add remote arm64 docker builder"
+* c8a76e2e 2022-06-13 fixup! fixup! add remote arm64 docker builder
+* 2591bb9d 2022-06-13 Revert "debug"
+* 1ff9d668 2022-06-13 Revert "debug"
+* 45b44994 2022-06-13 debug
+* d340b594 2022-06-12 debug
+* 850ab286 2022-06-12 fixup! add remote arm64 docker builder
+* a6a174be 2022-06-12 add remote arm64 docker builder
+* d40683db 2022-06-12 dry ci-env
+* 36798aa9 2022-05-16 fixup! refactor. dedupe in os-release.inc.sh
+* a8114d84 2022-05-11 gitconfig: set pull.rebase=true to escape 'fatal: Not possible to fast-forward, aborting.' errors
+o 68720919 2022-05-08 0.3.33
