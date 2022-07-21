@@ -9,22 +9,16 @@ after_script() {
 }
 trap after_script EXIT
 
-function success_pipeline() {
-    ./.ci.sh before_install
-    ./.ci.sh install
-    ./.ci.sh before_script
-    ./.ci.sh script
-    ./.ci.sh before_cache || true
-    ./.ci.sh after_success || true
-}
-
-function failure_pipeline() {
+function fail_pipeline() {
+    export YP_CI_STATUS=failure
     ./.ci.sh after_failure || true
+    exit 1
 }
 
 export YP_CI_STATUS=success
-success_pipeline || {
-    export YP_CI_STATUS=failure
-    failure_pipeline
-    exit 1
-}
+./.ci.sh before_install || fail_pipeline
+./.ci.sh install || fail_pipeline
+./.ci.sh before_script || fail_pipeline
+./.ci.sh script || fail_pipeline
+./.ci.sh before_cache || true
+./.ci.sh after_success || true
