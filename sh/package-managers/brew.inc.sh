@@ -166,7 +166,7 @@ function brew_link_all() {
 }
 
 function brew_uninstall_all() {
-    echo_do "brew: Uninstalling homebrew..."
+    echo_do "brew: Uninstalling call formula and casks..."
     exe brew uninstall --force --ignore-dependencies $(brew list --formula)
     exe brew uninstall --cask --force --ignore-dependencies $(brew list --formula)
     echo_done
