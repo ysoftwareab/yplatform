@@ -150,6 +150,8 @@ fi
 # TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | head -n1 | cut -d"/" -f1 || exit_allow_sigpipe)
 TAR_COMPONENT_1=$(tar -tf "${TAR_FILE}" | sed -n '1p' | cut -d"/" -f1)
 
+echo_info "Cloning into ${PWD}..."
+
 # see https://www.gnu.org/software/tar/
 # --verbatim-files-from introduced in 1.29 2016-05-16
 # --skip-old-files introduced in 1.27 2013-10-05
@@ -165,6 +167,7 @@ else
     echo_do "Extracting ${TAR_FILE}${REPO_DIR} with old-GNU/non-GNU tar..."
     [[ -n "$(find . -maxdepth 0 -empty)" ]] || {
         echo_err "Extracting with old-GNU/non-GNU tar requires an empty folder."
+        find ${PWD} -print0 | xargs -0 ls -lad
         exit 1
     }
     tar -xf "${TAR_FILE}" \
