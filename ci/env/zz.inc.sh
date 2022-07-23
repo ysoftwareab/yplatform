@@ -10,7 +10,9 @@ function yp_ci_env_zz() {
     YP_CI_NAME="$(whoami)@$(hostname)"
     YP_CI_PLATFORM=zz
     YP_CI_SERVER_HOST=$(hostname)
-    YP_CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
+    # BSD grep doesn't support -p (--perl-regexp)
+    # YP_CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep -oP "(?<=.com.).+" | grep -oP ".+(?= \(fetch\))" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
+    YP_CI_REPO_SLUG=$(git remote -v 2>/dev/null | grep ".com." | grep " (fetch)" | sed "s/.*.com.//" | sed "s/ (fetch)//" | head -n1 | sed "s/.git$//") # editorconfig-checker-disable-line
     YP_CI_ROOT=${GIT_ROOT:-}
 
     YP_CI_IS_CRON=
