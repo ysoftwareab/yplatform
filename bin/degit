@@ -167,7 +167,9 @@ else
     echo_do "Extracting ${TAR_FILE}${REPO_DIR} with old-GNU/non-GNU tar..."
     [[ -n "$(find . -maxdepth 0 -empty)" ]] || {
         echo_err "Extracting with old-GNU/non-GNU tar requires an empty folder."
-        find ${PWD} -print0 | xargs -0 ls -lad
+        exe find . -maxdepth 0 -empty >&2
+        echo_info "Verbose contents of ${PWD}:"
+        find ${PWD} -print0 | xargs -0 ls -lad >&2
         exit 1
     }
     tar -xf "${TAR_FILE}" \
