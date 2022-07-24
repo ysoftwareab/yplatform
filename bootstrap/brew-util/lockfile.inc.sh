@@ -55,7 +55,7 @@ function brew_lockfile() {
                 # and the tap-expected-version of brew
                 # brew tap "${TAP}"
                 mkdir -p "${TAP}"
-                if [[ "${CI:-}" = "true" ]] && git clone -h | grep -q "\-\-filter"; then
+                if [[ "${CI:-}" = "true" ]] && git --version | grep -q "^git version 2\.\(\|2[6-9]\|[3-9][0-9]\)\."; then # editorconfig-checker-disable-line
                     (
                         cd "${TAP}"
                         ${YP_DIR}/bin/degit \
