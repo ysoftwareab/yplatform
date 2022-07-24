@@ -31,4 +31,4 @@ fi
 # allow ${HOMEBREW_BASH} to be a login shell
 cat /etc/shells | grep -q "^${HOMEBREW_BASH}$"  || sudo bash -c "echo ${HOMEBREW_BASH} >>/etc/shells"
 
-chsh -s ${HOMEBREW_BASH}
+sudo chsh -s ${HOMEBREW_BASH} $(whoami)
