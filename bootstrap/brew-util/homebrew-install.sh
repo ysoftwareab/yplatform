@@ -912,6 +912,13 @@ ohai "Downloading and installing Homebrew..."
   HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
   if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
     ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
+    [[ -z "$(find . -mindepth 1 -not -type d)" ]] || {
+      ohai "HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY} is not empty as required by HOMEBREW_DEGIT."
+      find . -print0 | xargs -0 ls -lad >&2
+      exit 1
+    }
+    ohai "HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY} is required to be empty by HOMEBREW_DEGIT. Removing empty directories."
+    find . -mindepth 1 -print0 | xargs -0 rm -rf
     execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
   else
 

@@ -41,20 +41,27 @@
  # Search for the given executable in PATH (avoids a dependency on the `which` command)
  which() {
    # Alias to Bash built-in command `type -P`
-@@ -893,6 +909,12 @@
+@@ -893,6 +909,19 @@
  (
    cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
  
 +  HOMEBREW_BREW_GIT_REF=${HOMEBREW_BREW_GIT_REF:-refs/remotes/origin/master}
 +  if [[ -n "${HOMEBREW_DEGIT:-}" ]]; then
 +    ohai "Using HOMEBREW_DEGIT=${HOMEBREW_DEGIT} for a quicker checkout."
++    [[ -z "$(find . -mindepth 1 -not -type d)" ]] || {
++      ohai "HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY} is not empty as required by HOMEBREW_DEGIT."
++      find . -print0 | xargs -0 ls -lad >&2
++      exit 1
++    }
++    ohai "HOMEBREW_REPOSITORY=${HOMEBREW_REPOSITORY} is required to be empty by HOMEBREW_DEGIT. Removing empty directories."
++    find . -mindepth 1 -print0 | xargs -0 rm -rf
 +    execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_BREW_GIT_REMOTE}#${HOMEBREW_BREW_GIT_REF/refs\/remotes\/origin/refs\/heads}"
 +  else
 +
    # we do it in four steps to avoid merge errors when reinstalling
    execute "git" "init" "-q"
  
-@@ -906,7 +928,9 @@
+@@ -906,7 +935,9 @@
    execute "git" "fetch" "--force" "origin"
    execute "git" "fetch" "--force" "--tags" "origin"
  
@@ -65,7 +72,7 @@
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -934,19 +958,33 @@
+@@ -934,19 +965,33 @@
        execute "${MKDIR[@]}" "${HOMEBREW_CORE}"
        cd "${HOMEBREW_CORE}" >/dev/null || return
  

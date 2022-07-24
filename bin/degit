@@ -165,11 +165,9 @@ if tar --version | head -n1 | grep -q "^tar (GNU tar) \(1\.29\|1\.[3-9][0-9]\+\)
         --transform "s,^${TAR_COMPONENT_1}${REPO_DIR},,"
 else
     echo_do "Extracting ${TAR_FILE}${REPO_DIR} with old-GNU/non-GNU tar..."
-    [[ -n "$(find . -maxdepth 0 -empty)" ]] || {
+    [[ -z "$(find . -mindepth 1)" ]] || {
         echo_err "Extracting with old-GNU/non-GNU tar requires an empty folder."
-        exe find . -maxdepth 0 -empty >&2
-        echo_info "Verbose contents of ${PWD}:"
-        find ${PWD} -print0 | xargs -0 ls -lad >&2
+        find . -print0 | xargs -0 ls -lad >&2
         exit 1
     }
     tar -xf "${TAR_FILE}" \
