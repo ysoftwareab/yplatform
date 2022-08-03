@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
+[<8;24;5m
 # Print env-ci's output as CI environment variables.
 # See https://github.com/pvdlg/env-ci
 
@@ -127,6 +127,9 @@ if (ypCompat) {
     }
     if (data.YP_CI_PLATFORM === 'codeship') {
         data.YP_CI_NAME = 'codeship';
+    }
+    if (data.YP_CI_PLATFORM === 'drone') {
+        delete data.YP_CI_JOB_URL;
     }
     if (data.YP_CI_PLATFORM === 'github') {
         // env-ci reports e.g. 'refs/pull/239/merge' instead of the branch of the PR
