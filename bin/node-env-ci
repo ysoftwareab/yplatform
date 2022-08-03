@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-[<8;24;5m
+
 # Print env-ci's output as CI environment variables.
 # See https://github.com/pvdlg/env-ci
 
