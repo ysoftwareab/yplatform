@@ -219,7 +219,7 @@ test-env-ci:
 
 .PHONY: test-env-ci-unknown
 test-env-ci-unknown:
-	$(ECHO_DO) "Testing that we there are no new environment variables in CI..."
+	$(ECHO_DO) "Testing that there are no new environment variables in CI..."
 	$(CI_PRINTVARS) --unknown
 	$(CI_PRINTVARS) --unknown --yp
 	$(ECHO_DONE)
