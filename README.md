@@ -7,7 +7,7 @@
 and **time to first deployment** :rocket: .
 [Why?](#why)
 
-This was conceived within [Tobii Pro's Cloud Services team](https://github.com/tobiipro/support-firecloud) :wave: .
+`yplatform` was conceived within [Tobii Pro's Cloud Services team](https://github.com/tobiipro/support-firecloud) :wave:, previously known as `support-firecloud` .
 
 ![GitHub](https://img.shields.io/github/license/ysoftwareab/yplatform)
 ![GitHub contributors](https://img.shields.io/github/contributors-anon/ysoftwareab/yplatform)
