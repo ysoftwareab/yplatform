@@ -188,5 +188,9 @@ echo_done
     exe git reset --soft ${REPO_HASH}
     exe git add .
     # unsure why some files are still staged
-    exe git reset -q
+    exe git reset -q || {
+        # NOTE: a hack to retry due to spurious CI errors due to .git/index.lock file exists
+        exe sleep 5
+        exe git reset -q
+    }
 }
