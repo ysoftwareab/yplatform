@@ -34,3 +34,4 @@ yp::path_prepend "${GLOBAL_YP_DIR}/dev/bin"
 yp::path_append ./node_modules/.bin
 
 export YP_DEV=true
+export YP_DEV_INC_SH=true
