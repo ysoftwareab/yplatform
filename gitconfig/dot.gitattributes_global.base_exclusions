@@ -6,6 +6,7 @@
 *.patch           -text
 
 *.lock            -diff
-Brewfile.lock     diff
 *.svg             -diff
 package-lock.json -diff
+Brewfile.lock     diff
+Podfile.lock      diff

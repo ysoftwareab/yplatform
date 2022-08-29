@@ -433,9 +433,10 @@ Makefile*      text
 *.patch           -text
 
 *.lock            -diff
-Brewfile.lock     diff
 *.svg             -diff
 package-lock.json -diff
+Brewfile.lock     diff
+Podfile.lock      diff
 
 # END gitconfig/dot.gitattributes_global.base_exclusions
 
