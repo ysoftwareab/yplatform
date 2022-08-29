@@ -1,6 +1,6 @@
 Include ~/.ssh/yplatform/config.github
 Include ~/.ssh/yplatform/config.gitlab
-Include ~/.ssh/yplatform/config.sourehut
+Include ~/.ssh/yplatform/config.sourcehut
 
 IgnoreUnknown UseKeychain
 
