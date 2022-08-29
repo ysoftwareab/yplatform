@@ -50,3 +50,14 @@ Host *
     StrictHostKeyChecking ask
     UpdateHostKeys ask
     VerifyHostKeyDNS yes
+
+Host *.tmate.io
+    ControlMaster no
+    ControlPath no
+    ControlPersist no
+
+# allow one-off ssh login with something else than public keys
+Host withpassword
+    HostName insert-hostname-here.example.com
+    PasswordAuthentication yes
+    PreferredAuthentications gssapi-with-mic,hostbased,publickey,keyboard-interactive,password
