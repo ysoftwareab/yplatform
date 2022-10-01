@@ -4,7 +4,7 @@ set -euo pipefail
 CORE_INC_MK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null && pwd)"
 
 function resolve-include() {
-    while read -r LINE; do
+    while IFS= read -r LINE; do
         if echo "${LINE}" | grep -q "^include \$(CORE_INC_MK_DIR)/"; then
             FILENAME=$(echo "${LINE}" | sed "s|^include \$(CORE_INC_MK_DIR)/||")
             echo

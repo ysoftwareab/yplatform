@@ -103,12 +103,12 @@ VERBOSE_TF := $(shell [[ "$(VERBOSE)" = "true" ]] && echo true || echo false)
 
 MAKEFLAG_MAYBE_PRINT_DIRECTORY := --print-directory
 ifneq (,$(findstring --no-print-directory,$(MAKEFLAGS)))
-MAKEFLAG_MAYBE_PRINT_DIRECTORY :=
+	MAKEFLAG_MAYBE_PRINT_DIRECTORY :=
 endif
 
 MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY := --no-print-directory
 ifneq (,$(findstring -w,$(MAKEFLAGS))$(findstring --print-directory,$(MAKEFLAGS)))
-MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY :=
+	MAKEFLAG_MAYBE_NO_PRINT_DIRECTORY :=
 endif
 
 ifeq (false-true,$(VERBOSE_TF)-$(CI_TF))
@@ -196,18 +196,18 @@ COMMAND_Q := 2>/dev/null command -v
 # NOTE can't use $(ECHO)
 define global-which
 $(shell \
-hash -r; \
-export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
-echo "$${RESULT:-$(1)_NOT_FOUND}")
+	hash -r; \
+	export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
+	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 
 # NOTE can't use $(ECHO)
 define which
 $(shell \
-export PATH="$(PATH)"; \
-hash -r; \
-export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
-echo "$${RESULT:-$(1)_NOT_FOUND}")
+	export PATH="$(PATH)"; \
+	hash -r; \
+	export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
+	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 # END exe.which.inc.mk
 # ------------------------------------------------------------------------------
@@ -469,15 +469,15 @@ ARCH = $(shell $(UNAME) -m)
 # https://github.com/containerd/containerd/blob/f2c3122e9c6470c052318497899b290a5afc74a5/platforms/platforms.go#L88-L94
 # https://github.com/BretFisher/multi-platform-docker-build
 ARCH_NORMALIZED = $(shell $(ECHO) $(ARCH) | $(SED) \
--e "s|^aarch64$$|arm64|" \
--e "s|^arm64/v8$$|arm64|" \
--e "s|^armhf$$|arm|" \
--e "s|^arm64/v7$$|arm|" \
--e "s|^armel$$|arm/v6|" \
--e "s|^i386$$|386|" \
--e "s|^i686$$|386|" \
--e "s|^x86_64$$|amd64|" \
--e "s|^x86\-64$$|amd64|" \
+	-e "s|^aarch64$$|arm64|" \
+	-e "s|^arm64/v8$$|arm64|" \
+	-e "s|^armhf$$|arm|" \
+	-e "s|^arm64/v7$$|arm|" \
+	-e "s|^armel$$|arm/v6|" \
+	-e "s|^i386$$|386|" \
+	-e "s|^i686$$|386|" \
+	-e "s|^x86_64$$|amd64|" \
+	-e "s|^x86\-64$$|amd64|" \
 )
 ARCH_SHORT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "x64" || $(ECHO) "x86")
 ARCH_BIT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "64" || $(ECHO) "32")
@@ -513,20 +513,20 @@ endif
 
 GIT_REMOTE = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null)
 GIT_REMOTE_OR_ORIGIN = $(shell $(GIT) config branch.$(GIT_BRANCH).remote 2>/dev/null | \
-$(YP_DIR)/bin/ifne -p -n "$(ECHO) origin")
+	$(YP_DIR)/bin/ifne -p -n "$(ECHO) origin")
 GIT_ROOT = $(shell $(GIT) rev-parse --show-toplevel 2>/dev/null)
 $(foreach VAR,GIT_REMOTE GIT_REMOTE_OR_ORIGIN GIT_ROOT,$(call make-lazy-once,$(VAR)))
 
 GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && \
-$(ECHO) true || $(ECHO) false)
+	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_STAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^[^ U\?]" && \
-$(ECHO) true || $(ECHO) false)
+	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_UNSTAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^ [^ ]" && \
-$(ECHO) true || $(ECHO) false)
+	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_UNTRACKED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\?\?" && \
-$(ECHO) true || $(ECHO) false)
+	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_CONFLICTS = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
-$(ECHO) true || $(ECHO) false)
+	$(ECHO) true || $(ECHO) false)
 # END git.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -536,18 +536,18 @@ $(ECHO) true || $(ECHO) false)
 # BEGIN target.env.inc.mk
 .PHONY: guard-env-%
 guard-env-%: # Guard on environment variable.
-@if [ "$($*)" = "" ] && [ "$${$*:-}" = "" ]; then \
-$(ECHO) >&2 "ERROR: Environment variable $* is not defined!"; \
-exit 1; \
-fi
+	@if [ "$($*)" = "" ] && [ "$${$*:-}" = "" ]; then \
+		$(ECHO) >&2 "ERROR: Environment variable $* is not defined!"; \
+		exit 1; \
+	fi
 
 
 .PHONY: guard-env-has-%
 guard-env-has-%: # Guard on environment executable.
-@command -v "${*}" >/dev/null 2>&1 || { \
-$(ECHO) >&2 "ERROR: Please install ${*}!"; \
-exit 1; \
-}
+	@command -v "${*}" >/dev/null 2>&1 || { \
+		$(ECHO) >&2 "ERROR: Please install ${*}!"; \
+		exit 1; \
+	}
 # END target.env.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -559,35 +559,35 @@ COLUMN = $(call which,COLUMN,column)
 
 .PHONY: help
 help: ## Show this help message.
-$(eval RANDOM_MARKER := $(shell $(HEXDUMP) -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random))
-@$(ECHO) "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
-@$(ECHO)
-@$(ECHO) "Available targets:"
-@for Makefile in $(MAKEFILE_LIST); do \
-$(CAT) $${Makefile} | \
-$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}[[:space:]]##[[:space:]]\{1,\}\(.\{1,\}\)\$$|$(RANDOM_MARKER)  \1##\2|g"; \
-done | \
-$(GREP) "^$(RANDOM_MARKER)" | \
-$(SED) "s|^$(RANDOM_MARKER)||g" | \
-$(SORT) -u | \
-$(COLUMN) -t -s "##"
+	$(eval RANDOM_MARKER := $(shell $(HEXDUMP) -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random))
+	@$(ECHO) "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
+	@$(ECHO)
+	@$(ECHO) "Available targets:"
+	@for Makefile in $(MAKEFILE_LIST); do \
+		$(CAT) $${Makefile} | \
+		$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}[[:space:]]##[[:space:]]\{1,\}\(.\{1,\}\)\$$|$(RANDOM_MARKER)  \1##\2|g"; \
+	done | \
+		$(GREP) "^$(RANDOM_MARKER)" | \
+		$(SED) "s|^$(RANDOM_MARKER)||g" | \
+		$(SORT) -u | \
+		$(COLUMN) -t -s "##"
 
 
 .PHONY: help-all
 help-all: ## Show this help message, including all intermediary targets and source Makefiles.
-$(eval RANDOM_MARKER := $(shell $(HEXDUMP) -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random))
-@$(ECHO) "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
-@$(ECHO)
-@$(ECHO) "Available targets:"
-@for Makefile in $(MAKEFILE_LIST); do \
-$(CAT) $${Makefile} | \
-$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}\$$|$(RANDOM_MARKER)  \1##$${Makefile#$(MAKE_PATH)/}##|g" | \
-$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}\([[:space:]]##[[:space:]]\{1,\}\(.\{1,\}\)\)\?\$$|$(RANDOM_MARKER)  \1##$${Makefile#$(MAKE_PATH)/}##\3|g"; \
-done | \
-$(GREP) "^$(RANDOM_MARKER)" | \
-$(SED) "s|^$(RANDOM_MARKER)||g" | \
-$(SORT) -u | \
-$(COLUMN) -t -s "##"
+	$(eval RANDOM_MARKER := $(shell $(HEXDUMP) -n 16 -e '4/4 "%08X" 1 "\n"' /dev/random))
+	@$(ECHO) "usage: $(MAKE:$(firstword $(MAKE))=$$(basename $(firstword $(MAKE)))) [targets]"
+	@$(ECHO)
+	@$(ECHO) "Available targets:"
+	@for Makefile in $(MAKEFILE_LIST); do \
+		$(CAT) $${Makefile} | \
+		$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}\$$|$(RANDOM_MARKER)  \1##$${Makefile#$(MAKE_PATH)/}##|g" | \
+		$(SED) "s|^\([^#.\$$\t][^=]\{1,\}\):[^=]\{0,\}\([[:space:]]##[[:space:]]\{1,\}\(.\{1,\}\)\)\?\$$|$(RANDOM_MARKER)  \1##$${Makefile#$(MAKE_PATH)/}##\3|g"; \
+	done | \
+		$(GREP) "^$(RANDOM_MARKER)" | \
+		$(SED) "s|^$(RANDOM_MARKER)||g" | \
+		$(SORT) -u | \
+		$(COLUMN) -t -s "##"
 # END target.help.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -599,21 +599,21 @@ $(COLUMN) -t -s "##"
 # my-target: my-optional-target | noop
 .PHONY: noop
 noop:
-@:
+	@:
 
 # noop/% TARGET
 # Usage:
 # my-target: noop/my-optional-target
 .PHONY: noop/%
 noop/%:
-@:
+	@:
 
 # skip/% TARGET, alias to noop/%
 # Usage:
 # my-target: skip/my-optional-target
 .PHONY: skip/%
 skip/%:
-@:
+	@:
 # END target.noop.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -624,17 +624,17 @@ skip/%:
 
 # see https://www.gnu.org/software/make/manual/html_node/Origin-Function.html
 MAKEFILE_ORIGINS := \
-default \
-environment \
-environment\ override \
-file \
-command\ line \
-override \
-automatic \
-\%
+	default \
+	environment \
+	environment\ override \
+	file \
+	command\ line \
+	override \
+	automatic \
+	\%
 
 PRINTVARS_MAKEFILE_ORIGINS_TARGETS += \
-$(patsubst %,printvars/%,$(MAKEFILE_ORIGINS)) \
+	$(patsubst %,printvars/%,$(MAKEFILE_ORIGINS)) \
 
 # ------------------------------------------------------------------------------
 
@@ -644,23 +644,23 @@ printvars: printvars/file ## Print all Makefile variables (file origin).
 
 .PHONY: $(PRINTVARS_MAKEFILE_ORIGINS_TARGETS)
 $(PRINTVARS_MAKEFILE_ORIGINS_TARGETS):
-@$(foreach V, $(sort $(filter-out $(PRINTVARS_VARIABLES_IGNORE),$(.VARIABLES))), \
-$(if $(filter $(@:printvars/%=%), $(origin $V)), \
-$(warning $V=$($V) ($(value $V))))))
+	@$(foreach V, $(sort $(filter-out $(PRINTVARS_VARIABLES_IGNORE),$(.VARIABLES))), \
+		$(if $(filter $(@:printvars/%=%), $(origin $V)), \
+			$(warning $V=$($V) ($(value $V))))))
 
 
 .PHONY: printvars/lazy
 printvars/lazy:
-@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
-$(warning $V=$($V)))
+	@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
+		$(warning $V=$($V)))
 
 
 .PHONY: printvar-%
 printvar-%: ## Print one Makefile variable.
-@$(ECHO) $*=$($*)
-@$(ECHO) '  origin = $(origin $*)'
-@$(ECHO) '  flavor = $(flavor $*)'
-@$(ECHO) '   value = $(value  $*)'
+	@$(ECHO) $*=$($*)
+	@$(ECHO) '  origin = $(origin $*)'
+	@$(ECHO) '  flavor = $(flavor $*)'
+	@$(ECHO) '   value = $(value  $*)'
 # END target.printvar.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -672,7 +672,7 @@ printvar-%: ## Print one Makefile variable.
 
 .PHONY: verbose/%
 verbose/%: ## Run a target with verbosity on (VERBOSE=1 or V=1).
-@$(MAKE) V=1 $*
+	@$(MAKE) V=1 $*
 # END target.verbose.inc.mk
 # ------------------------------------------------------------------------------
 
@@ -680,8 +680,8 @@ verbose/%: ## Run a target with verbosity on (VERBOSE=1 or V=1).
 # ------------------------------------------------------------------------------
 # BEGIN target.lazy.inc.mk
 Makefile.lazy:
-@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
-$(ECHO) "$V:=$(subst ",\",$($V))" >> $@;)
+	@$(foreach V, $(sort $(.VARIABLES_LAZY)), \
+		$(ECHO) "$V:=$(subst ",\",$($V))" >> $@;)
 # END target.lazy.inc.mk
 # ------------------------------------------------------------------------------
 
