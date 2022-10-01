@@ -1,4 +1,4 @@
-[common.dist.inc.mk]
+[common.inc.dist.mk]
 max_line_length = unset
 
 [target.help.inc.mk]
