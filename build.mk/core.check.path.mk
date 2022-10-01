@@ -3,6 +3,12 @@
 # The 'check-path' target is automatically added to the 'check' target via YP_CHECK_TARGETS.
 #
 # The check is a match check against a regular expression defined via YP_PATH_LINT_RE.
+# The default YP_PATH_LINT_RE allow alphanumerics, forward slash, dot and hyphen.
+# Why not underscore?
+# - https://www.rothschillermd.com/file-naming-conventions/
+# - underscore is not a word separators, hyphen is
+# - ISO 8601 (dates) removed underscore in favour of hyphen
+# - there's life beyond python :) Seriously, when in need, simply modify to allow underscore
 #
 # For convenience, specific files can be ignored
 # via grep arguments given to YP_PATH_FILES_IGNORE:
