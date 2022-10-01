@@ -12,6 +12,7 @@ GREP := grep
 PYTHON := python
 
 
+# ------------------------------------------------------------------------------
 # BEGIN chars.inc.mk
 # see https://blog.jgc.org/2007/06/escaping-comma-and-space-in-gnu-make.html
 # $(,)
@@ -55,8 +56,10 @@ define \n
 
 endef
 # END chars.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN core.inc.mk
 ifndef CORE_INC_MK_DIR
 CORE_INC_MK_DIR = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -142,9 +145,11 @@ TOP ?= $(MAKE_PATH)
 TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
 $(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))
 # END core.inc.mk
+# ------------------------------------------------------------------------------
 
 
 
+# ------------------------------------------------------------------------------
 # BEGIN exe.inc.mk
 .VARIABLES_LAZY += \
 
@@ -182,6 +187,7 @@ endif
 endef
 
 
+# ------------------------------------------------------------------------------
 # BEGIN exe.which.inc.mk
 # WHICH_Q is kept for backward compatibility
 WHICH_Q := 2>/dev/null which
@@ -204,8 +210,10 @@ export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue;
 echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
 # END exe.which.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN exe.gnu.inc.mk
 # the g-prefixed commands are supposed to cater for MacOS (i.e. homebrew, etc)
 
@@ -394,8 +402,10 @@ $(foreach VAR,PATCH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-lin
 WATCH = $(call which,WATCH,gwatch watch)
 $(foreach VAR,WATCH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-line
 # END exe.gnu.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN exe.echo.inc.mk
 # YP_CI_ECHO can be used for e.g. pointing to
 # an executable that outputs teamcity messages
@@ -412,8 +422,10 @@ ECHO_ERR = $(YP_CI_ECHO) -- "[ERR ]"
 ECHO_INFO = $(YP_CI_ECHO) -- "[INFO]"
 ECHO_WARN = $(YP_CI_ECHO) -- "[WARN]"
 # END exe.echo.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN exe.misc.inc.mk
 CP_NOSYM = $(CP) -L
 DIFF_SS = $(DIFF) -y -W $(COLUMNS)
@@ -445,10 +457,13 @@ ZIP = $(ZIP_NOSYM) -y
 ZIPINFO = $(call which,ZIPINFO,zipinfo)
 $(foreach VAR,PATCH_STDOUT UNZIP VISUAL ZIP_NOSYM ZIP ZIPINFO,$(call make-lazy,$(VAR)))
 # END exe.misc.inc.mk
+# ------------------------------------------------------------------------------
 
 # END exe.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN os.inc.mk
 ARCH = $(shell $(UNAME) -m)
 # https://github.com/containerd/containerd/blob/f2c3122e9c6470c052318497899b290a5afc74a5/platforms/platforms.go#L88-L94
@@ -472,8 +487,10 @@ OS = $(shell $(UNAME) | $(TR) "[:upper:]" "[:lower:]")
 OS_SHORT = $(shell $(ECHO) $(OS) | $(SED) "s/^\([[:alpha:]]\{1,\}\).*\$$/\1/g")
 $(foreach VAR,OS OS_SHORT,$(call make-lazy,$(VAR)))
 # END os.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN git.inc.mk
 # sync with  sh/git.inc.sh
 
@@ -511,9 +528,11 @@ $(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_CONFLICTS = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
 $(ECHO) true || $(ECHO) false)
 # END git.inc.mk
+# ------------------------------------------------------------------------------
 
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.env.inc.mk
 .PHONY: guard-env-%
 guard-env-%: # Guard on environment variable.
@@ -530,8 +549,10 @@ $(ECHO) >&2 "ERROR: Please install ${*}!"; \
 exit 1; \
 }
 # END target.env.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.help.inc.mk
 HEXDUMP = $(call which,HEXDUMP,hexdump)
 COLUMN = $(call which,COLUMN,column)
@@ -568,8 +589,10 @@ $(SED) "s|^$(RANDOM_MARKER)||g" | \
 $(SORT) -u | \
 $(COLUMN) -t -s "##"
 # END target.help.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.noop.inc.mk
 # noop TARGET
 # Usage:
@@ -592,8 +615,10 @@ noop/%:
 skip/%:
 @:
 # END target.noop.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.printvar.inc.mk
 # see https://blog.melski.net/2010/11/30/makefile-hacks-print-the-value-of-any-variable/
 
@@ -637,8 +662,10 @@ printvar-%: ## Print one Makefile variable.
 @$(ECHO) '  flavor = $(flavor $*)'
 @$(ECHO) '   value = $(value  $*)'
 # END target.printvar.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.verbose.inc.mk
 # useful internally as
 # YP_DEPS_TARGETS := $(subst deps-npm,verbose/deps-npm,$(YP_DEPS_TARGETS))
@@ -647,13 +674,16 @@ printvar-%: ## Print one Makefile variable.
 verbose/%: ## Run a target with verbosity on (VERBOSE=1 or V=1).
 @$(MAKE) V=1 $*
 # END target.verbose.inc.mk
+# ------------------------------------------------------------------------------
 
 
+# ------------------------------------------------------------------------------
 # BEGIN target.lazy.inc.mk
 Makefile.lazy:
 @$(foreach V, $(sort $(.VARIABLES_LAZY)), \
 $(ECHO) "$V:=$(subst ",\",$($V))" >> $@;)
 # END target.lazy.inc.mk
+# ------------------------------------------------------------------------------
 
 
 MAKEFILE_LAZY ?= true
