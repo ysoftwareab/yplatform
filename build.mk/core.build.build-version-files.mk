@@ -73,12 +73,12 @@ endef
 BUILD:
 	$(ECHO_DO) "Generating $@..."
 	$(RM) $@
-	$(ECHO) $(foreach VAR,$(YP_BUILD_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
+	{ $(foreach VAR,$(YP_BUILD_VARS),$(ECHO) "$(VAR)=$($(VAR))" | $(TR) ' ' '_';) } > $@
 	$(ECHO_DONE)
 
 
 VERSION: BUILD
 	$(ECHO_DO) "Generating $@..."
 	$(RM) $@
-	$(ECHO) $(foreach VAR,$(YP_VERSION_VARS),"$(VAR)=$($(VAR))") | $(TR) ' ' '\n' > $@
+	{ $(foreach VAR,$(YP_VERSION_VARS),$(ECHO) "$(VAR)=$($(VAR))" | $(TR) ' ' '_';) } > $@
 	$(ECHO_DONE)
