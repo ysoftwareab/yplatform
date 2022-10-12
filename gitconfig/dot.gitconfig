@@ -137,10 +137,7 @@
     rebase              = true
 [pull]
     default             = current
-    # rebase=merges often gives 'fatal: Not possible to fast-forward, aborting.' error
-    # rebase              = merges # rebase and preserve merge commits
-    rebase              = true
-    ff                  = only
+    rebase              = merges # rebase and preserve merge commits
 [push]
     default             = current
     followTags          = true
