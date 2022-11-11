@@ -103,6 +103,7 @@ YP_CHECK_TPL_FILES += \
 	.gitpod.yml \
 	gitconfig/dot.gitignore_global \
 	mk/common.inc.dist.mk \
+	sh/common.inc.dist.sh \
 
 ifeq (true,$(CI))
 .PHONY: $(YP_CHECK_TPL_FILES)
@@ -253,6 +254,12 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 mk/common.inc.dist.mk: ## Regenerate mk/common.inc.dist.mk.
 mk/common.inc.dist.mk: $(wildcard mk/*.mk)
 mk/common.inc.dist.mk: mk/common.inc.dist.mk.tpl
+	$(call yp-generate-from-template)
+
+
+sh/common.inc.dist.sh: ## Regenerate sh/common.inc.dist.sh.
+sh/common.inc.dist.sh: $(wildcard sh/*.sh)
+sh/common.inc.dist.sh: sh/common.inc.dist.sh.tpl
 	$(call yp-generate-from-template)
 
 
