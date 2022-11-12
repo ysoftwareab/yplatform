@@ -212,7 +212,7 @@ YP_ENV_EXPORTS=(
     YP_ENV
 )
 
-function report() {
+function yp-env-report() {
     yp::executed || {
         export "${YP_ENV_EXPORTS[@]}"
         unset -f report
@@ -378,4 +378,5 @@ fi
     yp::path_prepend "${NVM_BIN}"
 }
 
-report "$@"
+yp-env-report "$@"
+unset -f yp-env-report
