@@ -252,13 +252,13 @@ gitconfig/dot.gitignore_global: gitconfig/dot.gitignore_global.tpl
 
 
 mk/common.inc.dist.mk: ## Regenerate mk/common.inc.dist.mk.
-mk/common.inc.dist.mk: $(wildcard mk/*.mk)
+mk/common.inc.dist.mk: $(filter-out mk/common.inc.dist.mk,$(wildcard mk/*.mk))
 mk/common.inc.dist.mk: mk/common.inc.dist.mk.tpl
 	$(call yp-generate-from-template)
 
 
 sh/common.inc.dist.sh: ## Regenerate sh/common.inc.dist.sh.
-sh/common.inc.dist.sh: $(wildcard sh/*.sh)
+sh/common.inc.dist.sh: $(filter-out sh/common.inc.dist.sh,$(wildcard sh/*.sh))
 sh/common.inc.dist.sh: sh/common.inc.dist.sh.tpl
 	$(call yp-generate-from-template)
 
