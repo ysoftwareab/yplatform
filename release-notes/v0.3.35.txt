@@ -1,0 +1,62 @@
+yplatform v0.3.35 Release Notes
+
+Highlights since v0.3.34:
+
+* None
+
+
+Breaking commits since v0.3.34:
+
+* None
+
+Commits since v0.3.34:
+
+* 02babc34 2022-11-12 include source line
+* 725a2927 2022-11-12 fixup! unset leaking function. bin/yp-env is also enved from sh folder
+* 8f675b34 2022-11-12 note alternative OS_RELEASE_VERSION_ID
+* ca94a2cf 2022-11-12 fixup! add all-in-one 'core' shell script
+* b8af4fba 2022-11-12 remove circular dependency
+* 6ee11a15 2022-11-12 unset leaking function. bin/yp-env is also enved from sh folder
+* 688e2e02 2022-11-12 style
+* b64f39a3 2022-11-12 add all-in-one 'core' shell script
+* 303393ca 2022-11-12 does sh/core.inc.sh need to be an executable?
+* 857e15a3 2022-11-08 buddy: document undocumented BUDDY_EXECUTION_PARALLEL_SLOT_NO
+* 7cb641f2 2022-11-08 fix link
+* 9d81a2e1 2022-11-08 restore contributing
+* e61605c7 2022-10-12 git add pull.rebase=true remote pull.ff=only
+* d94170f7 2022-10-02 undocumented SEMAPHORE_GIT_REPO_NAME
+* 51e5dac7 2022-10-02 undocumented CI_JOB_NAME_SLUG
+* da3c1d45 2022-10-02 undocumented GITHUB_OUTPUT and GITHUB_STATE
+* 0a137b62 2022-10-01 typo
+* 809a898d 2022-10-01 describe YP_PATH_LINT_RE
+* fed983e7 2022-10-01 lint
+* 9c878192 2022-10-01 fixup! fixup! add all-in-one 'core' makefile
+* 78b44667 2022-10-01 fixup! add all-in-one 'core' makefile
+* ed48383b 2022-10-01 fix BUILD VERSION vars with spaces
+* 7d364dfc 2022-10-01 add all-in-one 'core' makefile
+* fc74dab8 2022-08-29 add tmate.io, and withpassword ssh config
+* 9aa247f6 2022-08-29 typo sourcehut
+* e3703bfa 2022-08-29 support old YP_DEV_INC_SH for now
+* 47a139d9 2022-08-29 ignore Podfile.lock from diff
+* 6466cd65 2022-08-20 gitlab: document CI_TEMPLATE_REGISTRY_HOST
+* 6c7f7225 2022-08-20 hack for spurious CI errors due to .git/index.lock file exist. github actions, macos 11
+* fc1741b1 2022-08-04 document CI_PROJECT_DESCRIPTION
+* f45cc0ec 2022-08-04 Update README.md
+* d6bd79d4 2022-08-04 drone: handle our own GIT_* env vars
+* 35e4ccba 2022-08-03 typo
+* 2f7a2ff0 2022-08-03 fix compat with env-ci for drone ci
+* e0d1ccbd 2022-08-03 typo
+* 793ea492 2022-07-24 call 'sudo chsh' to take advantage of cached sudo credentials and skip chsh prompt
+* fe440966 2022-08-03 document CIRRUS_OIDC_TOKEN
+* ce7890d0 2022-08-03 document BUDDY_PIPELINE_REFS
+* 9f28fb88 2022-08-03 document new buddy ci vars
+* 09cfd1b8 2022-08-03 document GITHUB_TRIGGERING_ACTOR
+* 8f2c1e2a 2022-07-24 git clone -h exits with 129, causing degit to never be called
+* 791dc3d8 2022-07-24 better checks for degit's empty folder requirement
+* 270f5d94 2022-07-24 fixup! is test_degit working?
+* 6b69dd5c 2022-07-23 fixup! degit: more verbose
+* 41038d23 2022-07-23 bsd compat
+* 45e225b2 2022-07-23 typo
+* 329c656c 2022-07-23 degit: more verbose
+* 4dfac00c 2022-07-21 pipeline wouldn't fail
+o 2cbcab30 2022-07-20 0.3.34
