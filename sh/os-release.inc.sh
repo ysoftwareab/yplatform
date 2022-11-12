@@ -5,6 +5,7 @@ set -euo pipefail
 case ${OS_SHORT} in
     darwin)
         OS_RELEASE_VERSION_ID=$(sw_vers -productVersion)
+        # OS_RELEASE_VERSION_ID=$(sysctl -n kern.osproductversion)
 
         SETUP_ASSISTANT_APP_DIR="/System/Library/CoreServices/Setup Assistant.app"
         OS_RELEASE_ID_CODENAME=$(cat "${SETUP_ASSISTANT_APP_DIR}/Contents/Resources/en.lproj/OSXSoftwareLicense.html" | grep "SOFTWARE LICENSE AGREEMENT FOR" | sed "s/.*FOR //" | sed "s/<.*//") # editorconfig-checker-disable-line
