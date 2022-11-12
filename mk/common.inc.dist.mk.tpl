@@ -9,6 +9,7 @@ function resolve-include() {
             FILENAME=$(echo "${LINE}" | sed "s|^include \$(CORE_INC_MK_DIR)/||")
             echo
             echo "# ------------------------------------------------------------------------------"
+            echo "# ${LINE}"
             echo "# BEGIN ${FILENAME}"
             cat "${CORE_INC_MK_DIR}/${FILENAME}" | resolve-include
             echo "# END ${FILENAME}"

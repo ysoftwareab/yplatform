@@ -16,6 +16,7 @@ PYTHON := python
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/chars.inc.mk
 # BEGIN chars.inc.mk
 # see https://blog.jgc.org/2007/06/escaping-comma-and-space-in-gnu-make.html
 # $(,)
@@ -63,6 +64,7 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/core.inc.mk
 # BEGIN core.inc.mk
 ifndef CORE_INC_MK_DIR
 CORE_INC_MK_DIR = $(shell dirname $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -153,6 +155,7 @@ $(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.inc.mk
 # BEGIN exe.inc.mk
 .VARIABLES_LAZY += \
 
@@ -191,6 +194,7 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.which.inc.mk
 # BEGIN exe.which.inc.mk
 # WHICH_Q is kept for backward compatibility
 WHICH_Q := 2>/dev/null which
@@ -217,6 +221,7 @@ endef
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.gnu.inc.mk
 # BEGIN exe.gnu.inc.mk
 # the g-prefixed commands are supposed to cater for MacOS (i.e. homebrew, etc)
 
@@ -409,6 +414,7 @@ $(foreach VAR,WATCH,$(call make-lazy,$(VAR))) # editorconfig-checker-disable-lin
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.echo.inc.mk
 # BEGIN exe.echo.inc.mk
 # YP_CI_ECHO can be used for e.g. pointing to
 # an executable that outputs teamcity messages
@@ -429,6 +435,7 @@ ECHO_WARN = $(YP_CI_ECHO) -- "[WARN]"
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.misc.inc.mk
 # BEGIN exe.misc.inc.mk
 CP_NOSYM = $(CP) -L
 DIFF_SS = $(DIFF) -y -W $(COLUMNS)
@@ -467,6 +474,7 @@ $(foreach VAR,PATCH_STDOUT UNZIP VISUAL ZIP_NOSYM ZIP ZIPINFO,$(call make-lazy,$
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/os.inc.mk
 # BEGIN os.inc.mk
 ARCH = $(shell $(UNAME) -m)
 # https://github.com/containerd/containerd/blob/f2c3122e9c6470c052318497899b290a5afc74a5/platforms/platforms.go#L88-L94
@@ -494,6 +502,7 @@ $(foreach VAR,OS OS_SHORT,$(call make-lazy,$(VAR)))
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/git.inc.mk
 # BEGIN git.inc.mk
 # sync with  sh/git.inc.sh
 
@@ -536,6 +545,7 @@ GIT_REPO_HAS_CONFLICTS = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\(D
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.env.inc.mk
 # BEGIN target.env.inc.mk
 .PHONY: guard-env-%
 guard-env-%: # Guard on environment variable.
@@ -556,6 +566,7 @@ guard-env-has-%: # Guard on environment executable.
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.help.inc.mk
 # BEGIN target.help.inc.mk
 HEXDUMP = $(call which,HEXDUMP,hexdump)
 COLUMN = $(call which,COLUMN,column)
@@ -596,6 +607,7 @@ help-all: ## Show this help message, including all intermediary targets and sour
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.noop.inc.mk
 # BEGIN target.noop.inc.mk
 # noop TARGET
 # Usage:
@@ -622,6 +634,7 @@ skip/%:
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.printvar.inc.mk
 # BEGIN target.printvar.inc.mk
 # see https://blog.melski.net/2010/11/30/makefile-hacks-print-the-value-of-any-variable/
 
@@ -669,6 +682,7 @@ printvar-%: ## Print one Makefile variable.
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.verbose.inc.mk
 # BEGIN target.verbose.inc.mk
 # useful internally as
 # YP_DEPS_TARGETS := $(subst deps-npm,verbose/deps-npm,$(YP_DEPS_TARGETS))
@@ -681,6 +695,7 @@ verbose/%: ## Run a target with verbosity on (VERBOSE=1 or V=1).
 
 
 # ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/target.lazy.inc.mk
 # BEGIN target.lazy.inc.mk
 Makefile.lazy:
 	@$(foreach V, $(sort $(.VARIABLES_LAZY)), \

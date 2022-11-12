@@ -14,6 +14,7 @@ fi
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/core.inc.sh
 # BEGIN sh/core.inc.sh
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -86,6 +87,7 @@ fi
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/sudo.inc.sh
 # BEGIN sh/sudo.inc.sh
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -123,6 +125,7 @@ fi
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/os.inc.sh
 # BEGIN sh/os.inc.sh
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -152,6 +155,7 @@ OS_SHORT=$(echo "${OS}" | sed "s/^\([[:alpha:]]\{1,\}\).*/\1/g")
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/os-release.inc.sh
 # BEGIN sh/os-release.inc.sh
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -204,6 +208,7 @@ esac
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/git.inc.sh
 # BEGIN sh/git.inc.sh
 #!/usr/bin/env bash
 # shellcheck disable=SC2034
@@ -249,6 +254,7 @@ GIT_REPO_HAS_CONFLICTS=$(git status --porcelain 2>/dev/null | grep -q -e "^\(DD\
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/env.inc.sh
 # BEGIN sh/env.inc.sh
 #!/usr/bin/env bash
 #!/usr/bin/env zsh
@@ -268,6 +274,7 @@ GIT_REPO_HAS_CONFLICTS=$(git status --porcelain 2>/dev/null | grep -q -e "^\(DD\
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/bin/yp-env "$@"
 # BEGIN bin/yp-env "$@"
 #!/usr/bin/env bash
 #!/usr/bin/env zsh
@@ -659,6 +666,7 @@ unset -f yp-env-report
 
 
 # ------------------------------------------------------------------------------
+# source ${YP_DIR}/sh/exe.inc.sh
 # BEGIN sh/exe.inc.sh
 #!/usr/bin/env bash
 set -euo pipefail

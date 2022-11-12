@@ -9,6 +9,7 @@ function resolve-include() {
             FILENAME=$(echo "${LINE}" | sed "s|^source \${YP_DIR}/||")
             echo
             echo "# ------------------------------------------------------------------------------"
+            echo "# ${LINE}"
             echo "# BEGIN ${FILENAME}"
             case "${FILENAME}" in
                 'bin/yp-env "$@"')
