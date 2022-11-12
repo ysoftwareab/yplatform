@@ -92,6 +92,7 @@ YP_ECLINT_FILES_IGNORE += \
 
 YP_SHELLCHECK_FILES_IGNORE += \
 	-e "^doc/ci\-sh\.md$$" \
+	-e "sh/common\.inc\.dist\.sh" \
 
 YP_CHECK_TPL_FILES += \
 	$(FORMULA_PATCHED_FILES) \

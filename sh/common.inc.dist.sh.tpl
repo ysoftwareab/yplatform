@@ -10,7 +10,15 @@ function resolve-include() {
             echo
             echo "# ------------------------------------------------------------------------------"
             echo "# BEGIN ${FILENAME}"
-            cat ${YP_DIR}/${FILENAME} | resolve-include
+            case "${FILENAME}" in
+                'bin/yp-env "$@"')
+                    # ignore args
+                    cat "${YP_DIR}/bin/yp-env" | resolve-include
+                    ;;
+                *)
+                    cat "${YP_DIR}/${FILENAME}" | resolve-include
+                    ;;
+            esac
             echo "# END ${FILENAME}"
             echo "# ------------------------------------------------------------------------------"
             echo
