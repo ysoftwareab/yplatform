@@ -493,7 +493,7 @@ YP_ENV_EXPORTS=(
 function yp-env-report() {
     yp::executed || {
         export "${YP_ENV_EXPORTS[@]}"
-        unset -f report
+        unset -f yp-env-report
         unset YP_ENV_DIR
         unset YP_ENV_EXPORTS
         return 0
@@ -520,10 +520,10 @@ function yp-env-report() {
 
 [[ "${YP_ENV:-}" != "${YP_ENV_DIR/bin/yp-env}" ]] || {
     if yp::sourced; then
-        report "$@" || return 1
+        yp-env-report "$@" || return 1
         return 0
     else
-        report "$@"
+        yp-env-report "$@"
         echo exit 0
     fi
 }
@@ -657,7 +657,6 @@ fi
 }
 
 yp-env-report "$@"
-unset -f yp-env-report
 # END bin/yp-env "$@"
 # ------------------------------------------------------------------------------
 
