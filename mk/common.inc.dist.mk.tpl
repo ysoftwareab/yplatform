@@ -10,7 +10,7 @@ function resolve-include() {
             echo
             echo "# ------------------------------------------------------------------------------"
             echo "# BEGIN ${FILENAME}"
-            cat ${CORE_INC_MK_DIR}/${FILENAME} | resolve-include
+            cat "${CORE_INC_MK_DIR}/${FILENAME}" | resolve-include
             echo "# END ${FILENAME}"
             echo "# ------------------------------------------------------------------------------"
             echo
@@ -24,4 +24,4 @@ echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (mk/common.inc.dist.mk.tpl)"
 echo "# ------------------------------------------------------------------------------"
 echo
 
-cat ${CORE_INC_MK_DIR}/common.inc.mk | resolve-include
+cat "${CORE_INC_MK_DIR}/common.inc.mk" | resolve-include

@@ -1,3 +1,6 @@
+# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (mk/common.inc.dist.mk.tpl)
+# ------------------------------------------------------------------------------
+
 ifdef INSTALL_CORE_INC_MK
 else
 

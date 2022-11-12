@@ -1,5 +1,8 @@
 [common.inc.dist.mk]
 max_line_length = unset
 
+[common.inc.dist.mk.tpl]
+indent_size = 4
+
 [target.help.inc.mk]
 max_line_length = unset
