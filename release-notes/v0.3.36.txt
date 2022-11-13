@@ -1,0 +1,15 @@
+yplatform v0.3.36 Release Notes
+
+Highlights since v0.3.35:
+
+* None
+
+
+Breaking commits since v0.3.35:
+
+* None
+
+Commits since v0.3.35:
+
+* c1e0de89 2022-11-12 fixup! fixup! unset leaking function. bin/yp-env is also enved from sh folder
+o aacb42de 2022-11-12 0.3.35
