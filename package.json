@@ -2,7 +2,7 @@
   "private": true,
   "name": "yplatform",
   "description": "Software and configuration that supports various cycles of software development.",
-  "version": "0.3.35",
+  "version": "0.3.36",
   "license": "Apache-2.0",
   "engines": {
     "node": ">=12",
