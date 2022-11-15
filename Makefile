@@ -118,6 +118,7 @@ YP_DEPS_TARGETS += \
 	.gitpod.yml \
 
 # NOTE check-shellcheck is slow, and skip it during 'git push' hook, unless on master branch
+YP_GIT_HOOK ?=
 ifeq (true,$(YP_GIT_HOOK))
 ifneq (master,$(GIT_BRANCH))
 YP_CHECK_TARGETS := $(filter-out check-shellcheck,$(YP_CHECK_TARGETS))
