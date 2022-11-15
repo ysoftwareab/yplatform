@@ -1,5 +1,5 @@
 BASH_SILENT=
-ifneq (,$(findstring "s",$(MAKEFLAGS)))
+ifneq (,$(findstring "s",$(firstword -$(MAKEFLAGS))))
 BASH_SILENT=" >/dev/null 2>&1"
 endif
 

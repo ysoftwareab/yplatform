@@ -170,6 +170,9 @@ endef
 
 # ------------------------------------------------------------------------------
 
+# use MAKEFLAGS_SHORT for finding short flags: $(findstring "s",$(MAKEFLAGS_SHORT))
+MAKEFLAGS_SHORT = $(firstword -$(MAKEFLAGS))
+
 # NOTE can't use $(DATE)
 MAKE_DATE := $(shell date +'%y%m%d')
 MAKE_TIME := $(shell date +'%H%M%S')
