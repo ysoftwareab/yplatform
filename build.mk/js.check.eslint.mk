@@ -40,7 +40,7 @@ YP_ESLINT_FILES += $(shell $(GIT_LS) . | \
 		[[ ! -L "$${FILE}" ]] || continue; \
 		[[ -f "$${FILE}" ]] || continue; \
 		[[ -x "$${FILE}" ]] || continue; \
-		$(HEAD) -n1 "$${FILE}" | $(GREP) "^\#\!/" | $(GREP) -q -e "\bnode\b" || continue; \
+		$(HEAD) -n1 "$${FILE}" | $(GREP) "^#!/" | $(GREP) -q -e "\bnode\b" || continue; \
 		$(ECHO) "$${FILE}"; \
 	done | \
 	$(GREP) -v $(YP_ESLINT_FILES_IGNORE) | \

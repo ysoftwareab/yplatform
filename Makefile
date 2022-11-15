@@ -85,13 +85,13 @@ YP_ECLINT_FILES_IGNORE += \
 	-e "^bin/" \
 	-e "^gitconfig/dot.gitignore_global$$" \
 	-e "^gitconfig/dot.gitignore_global.base$$" \
-	-e "^release\-notes/" \
+	-e "^release-notes/" \
 	-e "^repo/LICENSE$$" \
 	-e "^repo/UNLICENSE$$" \
 	-e "^yplatform$$" \
 
 YP_SHELLCHECK_FILES_IGNORE += \
-	-e "^doc/ci\-sh\.md$$" \
+	-e "^doc/ci-sh\.md$$" \
 	-e "sh/common\.inc\.dist\.sh" \
 
 YP_CHECK_TPL_FILES += \

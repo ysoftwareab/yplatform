@@ -59,17 +59,17 @@ deps-yarn-unmet-peer:
 			$(GREP) --only-matching -e "warning \"[^\"]\+\" has unmet peer dependency \"[^\"]\+\"" | \
 			$(SORT) -u || true) \
 		>$(UNMET_PEER_DIFF_TMP) || $(TOUCH) $(UNMET_PEER_DIFF_TMP)
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\+warning"; then \
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^+warning"; then \
 		$(ECHO_ERR) "Found new unmet peer dependencies."; \
 		$(ECHO_INFO) "If you cannot fix the unmet peer dependencies, and want to ignore them instead,"; \
 		$(ECHO_INFO) "please edit yarn.lock.unmet-peer, and append these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\+warning" | $(SED) "s/^\+//g"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^+warning" | $(SED) "s/^+//g"; \
 		$(ECHO); \
 	fi
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\-warning"; then \
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^-warning"; then \
 		$(ECHO_ERR) "Found outdated unmet peer dependencies."; \
 		$(ECHO_INFO) "Please edit yarn.lock.unmet-peer, and remove these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-warning" | $(SED) "s/^\-//g"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^-warning" | $(SED) "s/^-//g"; \
 		$(ECHO); \
 	fi
 	$(MV) $(YARN_LOCK_TMP) yarn.lock

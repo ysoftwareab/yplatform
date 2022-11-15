@@ -143,7 +143,7 @@ ARCH_NORMALIZED=$(echo "${ARCH}" | sed \
     -e "s|^i386$|386|" \
     -e "s|^i686$|386|" \
     -e "s|^x86_64$|amd64|" \
-    -e "s|^x86\-64$|amd64|" \
+    -e "s|^x86-64$|amd64|" \
 )
 ARCH_SHORT=$(echo "${ARCH}" | grep -q "64" && echo "x64" || echo "x86")
 ARCH_BIT=$(echo "${ARCH}" | grep -q "64" && echo "64" || echo "32")
@@ -244,7 +244,7 @@ GIT_REPO_HAS_STAGED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^[^
     echo true || echo false)
 GIT_REPO_HAS_UNSTAGED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^ [^ ]" && \
     echo true || echo false)
-GIT_REPO_HAS_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^\?\?" && \
+GIT_REPO_HAS_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "^?\?" && \
     echo true || echo false)
 GIT_REPO_HAS_CONFLICTS=$(git status --porcelain 2>/dev/null | grep -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
     echo true || echo false)

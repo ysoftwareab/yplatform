@@ -490,7 +490,7 @@ ARCH_NORMALIZED = $(shell $(ECHO) $(ARCH) | $(SED) \
 	-e "s|^i386$$|386|" \
 	-e "s|^i686$$|386|" \
 	-e "s|^x86_64$$|amd64|" \
-	-e "s|^x86\-64$$|amd64|" \
+	-e "s|^x86-64$$|amd64|" \
 )
 ARCH_SHORT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "x64" || $(ECHO) "x86")
 ARCH_BIT = $(shell $(ECHO) $(ARCH) | $(GREP) -q "64" && $(ECHO) "64" || $(ECHO) "32")
@@ -537,7 +537,7 @@ GIT_REPO_HAS_STAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^
 	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_UNSTAGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^ [^ ]" && \
 	$(ECHO) true || $(ECHO) false)
-GIT_REPO_HAS_UNTRACKED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\?\?" && \
+GIT_REPO_HAS_UNTRACKED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^?\?" && \
 	$(ECHO) true || $(ECHO) false)
 GIT_REPO_HAS_CONFLICTS = $(shell $(GIT) status --porcelain | $(GREP) -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
 	$(ECHO) true || $(ECHO) false)

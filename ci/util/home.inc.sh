@@ -16,7 +16,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 
     # store exported vars as singleline vars (easier to diff)
     {
-        export -p | grep "^declare" | sed "s/^declare \-x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
+        export -p | grep "^declare" | sed "s/^declare -x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
             echo -n "${VAR}="
             echo "${!VAR:-}" | \
                 sed -e ":a" -e "N" -e "\$!ba" -e "s/\r/{{CRLF${RANDOM}CRLF}}/g" -e "s/\n/{{LF${RANDOM}LF}}/g"
@@ -34,7 +34,7 @@ HOME_REAL=$(eval echo "~$(id -u -n)")
 
     # store exported vars as singleline vars (easier to diff)
     {
-        export -p | grep "^declare" | sed "s/^declare \-x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
+        export -p | grep "^declare" | sed "s/^declare -x //g" | sed "s/=.*//g" | sort -u | while read -r VAR; do
             echo -n "${VAR}="
             echo "${!VAR:-}" | \
                 sed -e ":a" -e "N" -e "\$!ba" -e "s/\r/{{CRLF${RANDOM}CRLF}}/g" -e "s/\n/{{LF${RANDOM}LF}}/g"

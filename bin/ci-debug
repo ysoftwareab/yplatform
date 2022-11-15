@@ -21,7 +21,7 @@ CMD="${1:-bash}"
 export YP_CI_DEBUG_MODE=true
 
 # export all functions $(e.g. nvm)
-source <(declare -F | sed "s/^declare \-fx\?/export -f/g")
+source <(declare -F | sed "s/^declare -fx\?/export -f/g")
 
 # export PS1="${debian_chroot:+($debian_chroot)}\u\w\$ "
 export PS1="\w\$ "

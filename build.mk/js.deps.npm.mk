@@ -62,17 +62,17 @@ deps-npm-unmet-peer:
 			$(GREP) --only-matching -e "npm ERR! peer dep missing: [^,]\+, required by @\?[^@]\+" | \
 			$(SORT) -u || true) \
 		>$(UNMET_PEER_DIFF_TMP) || $(TOUCH) $(UNMET_PEER_DIFF_TMP)
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\+npm"; then \
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^+npm"; then \
 		$(ECHO_ERR) "Found new unmet peer dependencies."; \
 		$(ECHO_INFO) "If you cannot fix the unmet peer dependencies, and want to ignore them instead,"; \
 		$(ECHO_INFO) "please edit package.json.unmet-peer, and append these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\+npm" | $(SED) "s/^\+//g"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^+npm" | $(SED) "s/^+//g"; \
 		$(ECHO); \
 	fi
-	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^\-npm"; then \
+	if $(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -q -e "^-npm"; then \
 		$(ECHO_ERR) "Found outdated unmet peer dependencies."; \
 		$(ECHO_INFO) "Please edit package.json.unmet-peer, and remove these line(s):"; \
-		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^\-npm" | $(SED) "s/^\-//g"; \
+		$(CAT) $(UNMET_PEER_DIFF_TMP) | $(GREP) -e "^-npm" | $(SED) "s/^-//g"; \
 		$(ECHO); \
 	fi
 	if [[ -s $(UNMET_PEER_DIFF_TMP) ]]; then \

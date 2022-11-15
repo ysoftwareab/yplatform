@@ -15,7 +15,7 @@
 # ------------------------------------------------------------------------------
 
 YP_VENDOR_FILES_IGNORE += \
-	-e "^release\-notes/" \
+	-e "^release-notes/" \
 
 VERSION_LEVELS := \
 	patch \
