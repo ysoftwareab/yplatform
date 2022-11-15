@@ -133,30 +133,6 @@ endif
 
 # ------------------------------------------------------------------------------
 
-# NOTE can't use $(DATE)
-MAKE_DATE := $(shell date +'%y%m%d')
-MAKE_TIME := $(shell date +'%H%M%S')
-
-MAKE_FILENAME = $(notdir $(firstword $(MAKEFILE_LIST)))
-MAKE_PATH = $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
-MAKE_REALPATH = $(patsubst %/,%,$(dir $(realpath "$(MAKE_PATH)/$(MAKE_FILENAME)")))
-$(foreach VAR,MAKE_FILENAME MAKE_PATH MAKE_REALPATH,$(call make-lazy,$(VAR)))
-
-MAKE_SELF_FILENAME = $(notdir $(lastword $(MAKEFILE_LIST)))
-MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
-
-TOP ?= $(MAKE_PATH)
-# NOTE can't use $(PYTHON)
-TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
-$(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))
-# END core.inc.mk
-# ------------------------------------------------------------------------------
-
-
-
-# ------------------------------------------------------------------------------
-# include $(CORE_INC_MK_DIR)/exe.inc.mk
-# BEGIN exe.inc.mk
 .VARIABLES_LAZY += \
 
 # Turn variable into a lazy variable, evaluated only once per Makefile or on-demand per make call
@@ -192,6 +168,32 @@ export $(1)
 endif
 endef
 
+# ------------------------------------------------------------------------------
+
+# NOTE can't use $(DATE)
+MAKE_DATE := $(shell date +'%y%m%d')
+MAKE_TIME := $(shell date +'%H%M%S')
+
+MAKE_FILENAME = $(notdir $(firstword $(MAKEFILE_LIST)))
+MAKE_PATH = $(patsubst %/,%,$(dir $(abspath $(firstword $(MAKEFILE_LIST)))))
+MAKE_REALPATH = $(patsubst %/,%,$(dir $(realpath "$(MAKE_PATH)/$(MAKE_FILENAME)")))
+$(foreach VAR,MAKE_FILENAME MAKE_PATH MAKE_REALPATH,$(call make-lazy,$(VAR)))
+
+MAKE_SELF_FILENAME = $(notdir $(lastword $(MAKEFILE_LIST)))
+MAKE_SELF_PATH = $(patsubst %/,%,$(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
+
+TOP ?= $(MAKE_PATH)
+# NOTE can't use $(PYTHON)
+TOP_REL = $(shell python -c "import os.path; print('%s' % os.path.relpath('$(TOP)', '$(MAKE_PATH)'))")
+$(foreach VAR,TOP TOP_REL,$(call make-lazy-once,$(VAR)))
+# END core.inc.mk
+# ------------------------------------------------------------------------------
+
+
+
+# ------------------------------------------------------------------------------
+# include $(CORE_INC_MK_DIR)/exe.inc.mk
+# BEGIN exe.inc.mk
 
 # ------------------------------------------------------------------------------
 # include $(CORE_INC_MK_DIR)/exe.which.inc.mk
