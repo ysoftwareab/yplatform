@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# -*- mode: sh -*-
 
 # Run all /Dockerfile.entrypoint.d/*.sh entrypoints based on filename order
 # see https://www.camptocamp.com/en/news-events/flexible-docker-entrypoints-scripts
