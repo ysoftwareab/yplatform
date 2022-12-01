@@ -27,6 +27,7 @@ include $(CORE_INC_MK_DIR)/target.lazy.inc.mk
 
 MAKEFILE_LAZY ?= true
 ifeq (true,$(MAKEFILE_LAZY))
+MAKECMDGOALS ?=
 ifeq ($(MAKECMDGOALS),$(filter-out %Makefile.lazy,$(MAKECMDGOALS)))
 ifeq (,$(wildcard Makefile.lazy))
 $(info [DO  ] Generating Makefile.lazy...)
