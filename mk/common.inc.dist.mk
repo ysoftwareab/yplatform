@@ -711,6 +711,7 @@ Makefile.lazy:
 
 MAKEFILE_LAZY ?= true
 ifeq (true,$(MAKEFILE_LAZY))
+MAKECMDGOALS ?=
 ifeq ($(MAKECMDGOALS),$(filter-out %Makefile.lazy,$(MAKECMDGOALS)))
 ifeq (,$(wildcard Makefile.lazy))
 $(info [DO  ] Generating Makefile.lazy...)
