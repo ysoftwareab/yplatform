@@ -340,7 +340,7 @@ and playing around without actually having to know anything about it.
   [17]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml
   [18]: https://builds.sr.ht/~andreineculau/yplatform/commits/sourcehut.yml.svg
   [19]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186
-  [20]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186/badge.svg?token=8f7b2ec2101eb8f5dec2ce6108a50eb34ff3629b5434826f24bd4152251f2bd5
+  [20]: https://app.buddy.works/ysoftwareab-1/yplatform/pipelines/pipeline/399186/badge.svg?token=7e89daa287e8d08eff751ead670849dc6eee3f056bb16637bdee05ffb1c9e249
   [21]: https://app.bitrise.io/app/d4c696b6b4e2be16
   [22]: https://app.bitrise.io/app/d4c696b6b4e2be16/status.svg?token=HzPGqHokXBO_ta7E3WvWeQ&branch=master
   [23]: https://cloud.drone.io/ysoftwareab/yplatform
