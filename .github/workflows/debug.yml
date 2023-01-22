@@ -28,7 +28,10 @@ jobs:
           file: debug.new.txt
       - id: cache-keys
         shell: bash
-        run: echo ::set-output name=yyyymm::$(/bin/date -u "+%Y%m")
+        run: echo "yyyymm=$(/bin/date -u \"+%Y%m\")" >> ${GITHUB_OUTPUT}
+      - id: cache-keys-output
+        shell: bash
+        run: echo steps.cache-keys.output.yyyymm="${{ steps.cache-keys.output.yyyymm }}"
       - id: cache
         uses: actions/cache@v3
         with:
