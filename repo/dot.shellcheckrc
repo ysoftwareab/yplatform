@@ -35,6 +35,10 @@ disable=SC2155
 # SC2164: Use 'cd ... || exit' or 'cd ... || return' in case cd fails.
 disable=SC2164
 
-# Quote expansions in this for loop glob to prevent wordsplitting, e.g. "$dir"/*.txt
+# SC2231: Quote expansions in this for loop glob to prevent wordsplitting, e.g. "$dir"/*.txt
 # NOTE possibly enforce this
 disable=SC2231
+
+# SC2317: Command appears to be unreachable. Check usage (or ignore if invoked indirectly).
+# false positives https://github.com/koalaman/shellcheck/issues?q=is%3Aissue+sort%3Aupdated-desc+SC2317
+disable=SC2317
