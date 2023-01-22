@@ -1,1 +1,1 @@
-Moved to https://github.com/ysoftwareab/blob/master/.github/CONTRIBUTING.md
+Moved to https://github.com/ysoftwareab/yplatform/blob/master/.github/CONTRIBUTING.md
