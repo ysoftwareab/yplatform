@@ -224,7 +224,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -443,7 +443,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -662,7 +662,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -881,7 +881,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -1101,7 +1101,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -1321,7 +1321,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -1538,7 +1538,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -1756,7 +1756,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -1974,7 +1974,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -2192,7 +2192,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -2410,7 +2410,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -2629,7 +2629,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -2848,7 +2848,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-
@@ -3065,7 +3065,7 @@ jobs:
       - shell: bash
         run: ./.ci.sh after_deploy || true
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: 'mainc-${{ matrix.container }}-${{ matrix.yp_ci_brew_install }}'
           path: |-

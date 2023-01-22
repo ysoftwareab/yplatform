@@ -41,7 +41,7 @@ let getArtifacts = function(artifactsPath) {
 
 let artifactsStep = {
   name: 'Upload Artifacts',
-  uses: 'actions/upload-artifact@v2',
+  uses: 'actions/upload-artifact@v3',
   with: {
     name: undefined, // need to overwrite
     path: undefined, // need to overwrite
