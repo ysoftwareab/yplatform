@@ -121,7 +121,12 @@ This mindset is useful for junior and senior developers alike. It makes onboardi
 
 Others have also been writing about this
 as early as [2016](https://blog.capitaines.fr/2016/09/30/standardizing-interfaces-across-projects-with-makefiles/)
-and as late as [2021](https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/).
+and as late as [2021](https://spin.atomicobject.com/2021/03/22/makefiles-vs-package-json-scripts/)
+and [2022](https://rosszurowski.com/log/2022/makefiles).
+
+[Why use `make`](https://bost.ocks.org/mike/make/) you might ask. A few reasons actually:
+* `make` it's old (1976) but still under development, which makes it omnipresent, reliable and durable. In 5, 10, 20 years from now, expect it to still work!
+* lower cognitive load since chances are much higher that someone has already encountered `make` in other projects
 
 The entrypoint to all projects that use `yplatform` is
 
