@@ -216,7 +216,7 @@ function prompt_q_to_continue() {
 }
 
 ANY_PYTHON=
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python3 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
