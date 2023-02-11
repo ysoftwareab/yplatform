@@ -864,9 +864,16 @@ function printenv_all() {
 
 # MISC -------------------------------------------------------------------------
 
+# - use with: cmd1 | cmd2 || exit_allow_sigpipe
+# - use with: cmd1 | cmd2 || exit_allow_sigpipe "$?"
+# - use with: cmd1 | cmd2 || exit_allow_sigpipe "${PIPESTATUS[@]}"
 function exit_allow_sigpipe() {
     local EXIT_STATUS=$?
-    [[ ${EXIT_STATUS} -eq 141 ]] || exit ${EXIT_STATUS}
+    [[ $# -ne 0 ]] || set -- ${EXIT_STATUS}
+    for f in "$@"; do
+        [[ "$f" = "0" ]] || [[ "$f" = "141" ]] || return $f
+    done
+    return 0
 }
 
 function prompt_q_to_continue() {
@@ -885,9 +892,9 @@ function prompt_q_to_continue() {
 }
 
 ANY_PYTHON=
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python3 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 # END sh/exe.inc.sh
 # ------------------------------------------------------------------------------
