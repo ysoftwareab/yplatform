@@ -2,9 +2,9 @@
 set -euo pipefail
 
 ANY_PYTHON=
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
-ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python3 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python2 2>/dev/null || true)}
+ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 
 ${ANY_PYTHON} -c "import os.path; print('%s' % os.path.relpath('$1', '$2'))"
