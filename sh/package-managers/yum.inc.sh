@@ -21,8 +21,10 @@ function yum_update() {
     # see https://unix.stackexchange.com/a/372586/61053
     ${YP_SUDO:-} yum -y clean expire-cache
     # NOTE 100 means packages are available for update
-    ${YP_SUDO:-} yum -y check-update >/dev/null || \
-        if [[ $? -eq 100 ]]; then true; else exit $?; fi
+    ${YP_SUDO:-} yum -y check-update >/dev/null || {
+        local EXIT_STATUS=$?
+        [[ "${EXIT_STATUS}" = "100" ]] || exit ${EXIT_STATUS}
+    }
     echo_done
 }
 

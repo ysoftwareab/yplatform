@@ -198,11 +198,14 @@ function printenv_all() {
 # - use with: cmd1 | cmd2 || exit_allow_sigpipe
 # - use with: cmd1 | cmd2 || exit_allow_sigpipe "$?"
 # - use with: cmd1 | cmd2 || exit_allow_sigpipe "${PIPESTATUS[@]}"
+# - use with: cmd1 | cmd2 || exit_allow_sigpipe "$?" "${PIPESTATUS[@]}"
 function exit_allow_sigpipe() {
     local EXIT_STATUS=$?
-    [[ $# -ne 0 ]] || set -- ${EXIT_STATUS}
-    for f in "$@"; do
-        [[ "$f" = "0" ]] || [[ "$f" = "141" ]] || return $f
+    [[ $# -ne 0 ]] || set -- "${EXIT_STATUS}"
+    for EXIT_STATUS in "$@"; do
+        [[ "${EXIT_STATUS}" = "0" ]] || \
+            [[ "${EXIT_STATUS}" = "141" ]] || \
+            return ${EXIT_STATUS}
     done
     return 0
 }
