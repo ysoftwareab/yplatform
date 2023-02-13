@@ -186,18 +186,29 @@ echo_done
     exe git clone --filter=blob:none --no-checkout ${REPO_URL} ${TMP_DEGIT}
     exe mv ${TMP_DEGIT}/.git .
     exe git reset --soft ${REPO_HASH} || {
+        # NOTE: a hack to retry due to spurious CI errors due to .git/index.lock file exists
+        # NOTE: checking for .git/index.lock reveals the file is not there
         exe ls -la .
         exe ls -la .git
+        exe sleep 5
+        exe git reset --soft ${REPO_HASH}
         exit 1
     }
     exe git add . || {
+        # NOTE: a hack to retry due to spurious CI errors due to .git/index.lock file exists
+        # NOTE: checking for .git/index.lock reveals the file is not there
         exe ls -la .
         exe ls -la .git
+        exe sleep 5
+        exe git add .
         exit 1
     }
     # unsure why some files are still staged
     exe git reset -q || {
         # NOTE: a hack to retry due to spurious CI errors due to .git/index.lock file exists
+        # NOTE: checking for .git/index.lock reveals the file is not there
+        exe ls -la .
+        exe ls -la .git
         exe sleep 5
         exe git reset -q
     }
