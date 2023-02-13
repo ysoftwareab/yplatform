@@ -34,7 +34,7 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}'
       YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
@@ -240,7 +240,7 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}'
       YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
@@ -448,12 +448,12 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}'
       YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
       WSLENV: >-
-        CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:YP_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS
+        CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS
       WSLUSER: github
       WSLGROUP: github
     steps:
@@ -703,7 +703,7 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       GITHUB_JOB_NAME: 'main-${{ matrix.os }}-${{ matrix.yp_ci_brew_install }}'
       YP_CI_BREW_INSTALL: '${{ matrix.yp_ci_brew_install }}'
@@ -907,7 +907,7 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
@@ -1124,7 +1124,7 @@ jobs:
       YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY: '${{ secrets.YP_CI_ECHO_EXTERNAL_HONEYCOMB_API_KEY }}'
       YP_LOG_BOOTSTRAP: true
       YP_PRINTENV_BOOTSTRAP: '${{ secrets.YP_PRINTENV_BOOTSTRAP }}'
-      YP_TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
       V: '${{ secrets.V }}'
       DOCKER_USERNAME: '${{ secrets.DOCKER_USERNAME }}'
       DOCKER_TOKEN: '${{ secrets.DOCKER_TOKEN }}'
