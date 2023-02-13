@@ -23,6 +23,7 @@ function yum_update() {
     # NOTE 100 means packages are available for update
     ${YP_SUDO:-} yum -y check-update >/dev/null || {
         local EXIT_STATUS=$?
+        # NOTE 100 means packages are available for update
         [[ "${EXIT_STATUS}" = "100" ]] || exit ${EXIT_STATUS}
     }
     echo_done
