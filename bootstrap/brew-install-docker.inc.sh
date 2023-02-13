@@ -66,9 +66,9 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         ${YP_SUDO} add-apt-repository -u \
             "deb [arch=$(dpkg --print-architecture)] https://download.docker.com/linux/${OS_RELEASE_ID} ${OS_RELEASE_VERSION_CODENAME} stable" # editorconfig-checker-disable-line
 
+        apt_install_one containerd.io
         apt_install_one docker-ce
         apt_install_one docker-ce-cli
-        apt_install_one containerd.io
         # ENV https://docs.docker.com/engine/install/ubuntu/
 
         # BEGIN https://docs.docker.com/compose/install/
