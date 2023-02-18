@@ -42,6 +42,7 @@ YP_VENDOR_FILES_IGNORE += \
 	-e "^bin/git-archive-all$$" \
 	-e "^bin/nanoseconds-" \
 	-e "^bin/retry$$" \
+	-e "^bin/semver2$$" \
 	-e "^bin/transcrypt$$" \
 	-e "^bin/travis-wait$$" \
 	-e "^bin/urldecode$$" \
