@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# This script will run Probot settings in a push simulation.
+# This script can be used in a Github workflow to achieve the same functionality
+# without the need of installing the Probot settings app to your repository.
+#
+# Update repository settings of any git repository
+# that has a `.github/settings.yml` file, by running
+
+# ```bash
+# cd path/to/git/repo
+#
+# GITHUB_TOKEN=xxx GITHUB_API_URL=xxx GIT_REPO_SLUG=xxx/xxx GIT_REPO_DEFAULT_BRANCH=xxx path/to/probot-settings
+#
+# GITHUB_TOKEN               is a Github PAT with 'repo' permissions
+# GITHUB_API_URL             is optional, defaults to https://api.github.com
+# GITHUB_REPO_SLUG           is optional, defaults to current git repo based on PWD
+# GITHUB_REPO_DEFAULT_BRANCH is optional, defaults to master
+# ```
+
+TMP_PROBOT_SETTINGS=$(mktemp -d -t yplatform.XXXXXXXXXX)
+TMP_FIXTURE_PAYLOAD_PATH=${TMP_PROBOT_SETTINGS}/fixture-payload-pathjson
+TMP_NPX_SCRIPT=${TMP_PROBOT_SETTINGS}/npx-script
+function on_exit() {
+    rm -rf "${TMP_PROBOT_SETTINGS}"
+}
+trap on_exit EXIT
+
+command -v npx || {
+    >&2 echo "[ERR ]" "Install npx."
+    >&2 echo "[INFO]" "brew install node"
+    exit 1
+}
+
+GITHUB_API_URL=${GITHUB_API_URL:-https://api.github.com}
+GITHUB_REPO_DEFAULT_BRANCH="${REPO_DEFAULT_BRANCH:-master}"
+
+[[ -n "${GITHUB_REPO_SLUG:-}" ]] || {
+    GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || true)
+    GIT_REMOTE_ORIGIN_URL="$(git -C "${GIT_ROOT}" config remote.origin.url)"
+    GITHUB_REPO_OWNER=$(dirname "${GIT_REMOTE_ORIGIN_URL//://}")
+    GITHUB_REPO_NAME=$(basename "${GIT_REMOTE_ORIGIN_URL}" .git)
+    GITHUB_REPO_SLUG=${GITHUB_REPO_OWNER}/${GITHUB_REPO_NAME}
+    >&2 echo "[INFO]" "The settings will be read only from the remote ${GITHUB_REPO_DEFAULT_BRANCH} branch of"
+    >&2 echo "      " "${GIT_REMOTE_ORIGIN_URL}"
+    >&2 echo "[INFO]" "Make sure you 'git push' first."
+    [[ "${CI:-}" = "true" ]] || read -r -p "Press Enter to continue..."
+}
+
+[[ -n "${GITHUB_TOKEN:-}" ]] || {
+    >&2 echo "[INFO]" "Run this script as: GITHUB_TOKEN=xxx path/to/probot-settings"
+    >&2 echo "[ERR ]" "GITHUB_TOKEN required. Needs to contain a Github PAT with 'repo' permissions."
+    exit 1
+}
+
+GITHUB_REPO_OWNER=$(dirname "${GITHUB_REPO_SLUG}")
+GITHUB_REPO_NAME=$(basename "${GITHUB_REPO_SLUG}")
+
+cat <<-EOF >"${TMP_FIXTURE_PAYLOAD_PATH}"
+{
+  "repository": {
+    "owner": {
+      "login": "${GITHUB_REPO_OWNER}"
+    },
+    "name": "${GITHUB_REPO_NAME}",
+    "default_branch": "${GITHUB_REPO_DEFAULT_BRANCH}"
+  },
+  "ref": "refs/heads/master",
+  "commits": [
+    {
+      "added": [],
+      "modified": [
+        ".github/settings.yml"
+      ]
+    }
+  ]
+}
+EOF
+
+cat <<-EOF >${TMP_NPX_SCRIPT}
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+# which probot: path/to/node_modules/.bin/probot
+PROBOT=\$(which probot)
+NODE_MODULES_PATH=\$(dirname \$(dirname \${PROBOT}))
+
+\${PROBOT} receive \
+  --log-level debug \
+  --base-url "${GITHUB_API_URL}" \
+  --event "push" \
+  --payload-path "${TMP_FIXTURE_PAYLOAD_PATH}" \
+  "\${NODE_MODULES_PATH}/probot-settings/index.js"
+EOF
+
+chmod +x ${TMP_NPX_SCRIPT}
+
+exe npx --package "git+https://github.com/probot/settings.git#semver:^2.0.2" ${TMP_NPX_SCRIPT}
