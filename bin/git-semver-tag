@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# check if current tag matches the given semver
+# git-semver-tag semver git-describe-args*
+#
+# optionally use x as semver placeholder e.g. 0.x.x same as 0.x same as 0
+
+SEMVER=$1
+shift
+
+SEMVER_ARR=${SEMVER}
+SEMVER_ARR=${SEMVER_ARR//x/}
+# shellcheck disable=2206
+SEMVER_ARR=( ${SEMVER_ARR//./ } )
+SEMVER_MAJOR="${SEMVER_ARR[0]:-[0-9]\\+}"
+SEMVER_MINOR="${SEMVER_ARR[1]:-[0-9]\\+}"
+SEMVER_PATCH="${SEMVER_ARR[2]:-[0-9]\\+}"
+
+git describe --tags "$@" | \
+    grep "^v\?${SEMVER_MAJOR}\.${SEMVER_MINOR}\.${SEMVER_PATCH}$"

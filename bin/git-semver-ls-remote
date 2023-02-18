@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # get all tags that are semantic versions matching the one given
-# git-ls-remote-semver semver git-ls-remote-args+
+# git-semver-ls-remote semver git-ls-remote-args+
 #
 # optionally use x as semver placeholder e.g. 0.x.x same as 0.x same as 0
 # mandatory use x if you want the latest semver
@@ -23,5 +23,5 @@ git ls-remote --tags --sort=version:refname "$@" | \
     grep -v "\^{}" | \
     grep "refs/tags/" | \
     sed "s|^refs/tags/||g" | \
-    grep "^v\?${SEMVER_MAJOR}\.${SEMVER_MINOR}\.${SEMVER_PATCH}" | \
+    grep "^v\?${SEMVER_MAJOR}\.${SEMVER_MINOR}\.${SEMVER_PATCH}$" | \
     tail -n1

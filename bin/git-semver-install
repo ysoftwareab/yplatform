@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# install a git repo at a tag matching the given semver
+# git-semver-install semver git-url dir git-clone-args*
+#
+# optionally use x as semver placeholder e.g. 0.x.x same as 0.x same as 0
+
+SEMVER=$1
+shift
+GIT_URL=$1
+shift
+DIR=$1
+shift
+
+SEMVER_ARR=${SEMVER}
+SEMVER_ARR=${SEMVER_ARR//x/}
+# shellcheck disable=2206
+SEMVER_ARR=( ${SEMVER_ARR//./ } )
+SEMVER_MAJOR="${SEMVER_ARR[0]:-[0-9]\\+}"
+SEMVER_MINOR="${SEMVER_ARR[1]:-[0-9]\\+}"
+SEMVER_PATCH="${SEMVER_ARR[2]:-[0-9]\\+}"
+
+function get_current_tag() {
+    git -C "${DIR}" describe --tags --exact-match | \
+        grep "^v\?${SEMVER_MAJOR}\.${SEMVER_MINOR}\.${SEMVER_PATCH}$"
+}
+
+function get_remote_tag() {
+    git ls-remote --tags --sort=version:refname "${GIT_URL}" | \
+        cut -d$'\t' -f2 | \
+        grep -v "\^{}" | \
+        grep "refs/tags/" | \
+        sed "s|^refs/tags/||g" | \
+        grep "^v\?${SEMVER_MAJOR}\.${SEMVER_MINOR}\.${SEMVER_PATCH}$" | \
+        tail -n1
+}
+
+[[ -d "${DIR}/.git" ]] || {
+    rm -rf "${DIR}"
+    >&2 echo "[INFO]" "Checking for remote tag ${GIT_TAG} matching ${SEMVER} for ${GIT_URL}..."
+    GIT_TAG=$(git_remote_tag || true)
+    [[ -n "${GIT_TAG}" ]] || {
+        >&2 echo "[ERR ]" "Found no remote tag matching ${SEMVER} for ${GIT_URL}."
+        exit 1
+    }
+    >&2 echo "[INFO]" "Found remote tag ${GIT_TAG} matching ${SEMVER} for ${GIT_URL}."
+    >&2 echo "[INFO]" "Cloning ${GIT_URL}..."
+    git clone --branch "${GIT_TAG}" "$@" "${GIT_URL}" "${DIR}"
+    exit 0
+}
+
+>&2 echo "[INFO]" "Folder ${DIR} exists. Skipping cloning."
+GIT_TAG=$(get_current_tag || true)
+if [[ -n "${GIT_TAG}" ]]; then
+  >&2 echo "[INFO ]" "Found current tag ${GIT_TAG} matching ${SEMVER} for ${GIT_URL}."
+else
+    >&2 echo "[INFO]" "Checking for remote tag ${GIT_TAG} matching ${SEMVER} for ${GIT_URL}..."
+    GIT_TAG=$(git_remote_tag || true)
+    [[ -n "${GIT_TAG}" ]] || {
+        >&2 echo "[ERR ]" "Found no remote tag matching ${SEMVER} for ${GIT_URL}."
+        exit 1
+    }
+    >&2 echo "[INFO ]" "Found remote tag ${GIT_TAG} matching ${SEMVER} for ${GIT_URL}."
+    git -C "${DIR}" fetch
+    >&2 echo "[INFO]" "Checking out ${GIT_TAG} for ${DIR}..."
+    git -C "${DIR}" checkout "${GIT_TAG}"
+fi
+>&2 echo "[INFO]" "Resetting folder ${DIR} to ${GIT_TAG}..."
+git -C "${DIR}" reset --hard "${GIT_TAG}"
+git -C "${DIR}" clean -xdf
