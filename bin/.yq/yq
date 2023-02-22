@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# can't symlink to ../jqÂ½ or else YP_DIR detection in ../jq fails
+# can't symlink to ../yq or else YP_DIR detection in ../yq fails
 
 YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." >/dev/null && pwd)"
-${YP_DIR}/bin/jq "$@"
+${YP_DIR}/bin/yq "$@"
