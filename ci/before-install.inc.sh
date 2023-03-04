@@ -31,7 +31,7 @@ function yp_github_https_deploy() {
     local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
     local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
     echo_info "Found YP_GH_TOKEN_DEPLOY."
-    
+
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
     case ${YP_GH_TOKEN_DEPLOY:0:4} in
         ghp_)
@@ -79,7 +79,7 @@ function yp_github_https_insteadof_all() {
     local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
     local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
     echo_info "Found YP_GH_TOKEN."
-    
+
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
     case ${YP_GH_TOKEN:0:4} in
         ghp_)
