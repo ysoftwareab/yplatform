@@ -28,14 +28,31 @@ function yp_github_https_deploy() {
     # if we have a deploy token, use that to authenticate https for the current repo
     # and don't require SSH keys
 
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
+    local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
     echo_info "Found YP_GH_TOKEN_DEPLOY."
-    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol api.github.com URLs..."
-    echo -e "machine api.github.com\n  login ${YP_GH_TOKEN_DEPLOY}" >> ${HOME}/.netrc
+    
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
+    case ${YP_GH_TOKEN_DEPLOY:0:4} in
+        ghp_)
+            echo "machine ${GITHUB_SERVER_URL_DOMAIN}" >> "${HOME}/.netrc"
+            echo "  login ${YP_GH_TOKEN_DEPLOY}" >> "${HOME}/.netrc"
+            ;;
+        ghs_)
+            echo "machine ${GITHUB_SERVER_URL_DOMAIN}" >> "${HOME}/.netrc"
+            echo "  login x-access-token" >> "${HOME}/.netrc"
+            echo "  password ${YP_GH_TOKEN_DEPLOY}" >> "${HOME}/.netrc"
+            ;;
+        *)
+            >&2 echo "[ERR ]" "Unknown Github token format. Only ghp and ghs is supported."
+            ;;
+    esac
     echo_done
 
     echo_do "Setting up authenticated HTTPS-protocol for current repo's origin..."
     exe git remote -v show
-    exe git remote set-url origin https://${YP_GH_TOKEN_DEPLOY}@github.com/${YP_CI_REPO_SLUG}.git
+    exe git remote set-url origin \
+        https://${YP_GH_TOKEN_DEPLOY}@${GITHUB_SERVER_URL_DOMAIN}/${YP_CI_REPO_SLUG}.git
     echo_done
 }
 
@@ -59,10 +76,25 @@ function yp_github_https_insteadof_all() {
     # if we have a personal access token, use that to authenticate https
     # and don't require SSH keys
 
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
+    local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
     echo_info "Found YP_GH_TOKEN."
-    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol {,api.}github.com URLs..."
-    echo -e "machine github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
-    echo -e "machine api.github.com\n  login ${YP_GH_TOKEN}" >> ${HOME}/.netrc
+    
+    echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
+    case ${YP_GH_TOKEN:0:4} in
+        ghp_)
+            echo "machine ${GITHUB_SERVER_URL_DOMAIN}" >> "${HOME}/.netrc"
+            echo "  login ${YP_GH_TOKEN}" >> "${HOME}/.netrc"
+            ;;
+        ghs_)
+            echo "machine ${GITHUB_SERVER_URL_DOMAIN}" >> "${HOME}/.netrc"
+            echo "  login x-access-token" >> "${HOME}/.netrc"
+            echo "  password ${YP_GH_TOKEN}" >> "${HOME}/.netrc"
+            ;;
+        *)
+            >&2 echo "[ERR ]" "Unknown Github token format. Only ghp and ghs is supported."
+            ;;
+    esac
 
     cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-ssh$" || \
         printf '%s\n%s\n' \
