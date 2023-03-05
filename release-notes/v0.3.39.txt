@@ -1,0 +1,15 @@
+yplatform v0.3.39 Release Notes
+
+Highlights since v0.3.38:
+
+* None
+
+
+Breaking commits since v0.3.38:
+
+* None
+
+Commits since v0.3.38:
+
+* f9f5242a 2023-03-05 fixup! fixup! cannot have dangling symlinks or else cannot use this repo as a github actions: Error: Could not find file
+o 7e75a5ef 2023-03-05 0.3.38
