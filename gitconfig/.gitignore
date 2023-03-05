@@ -1,0 +1,4 @@
+/dot.gitconfig.*-https
+/dot.gitconfig.*-ssh
+!/dot.gitconfig.github.com-https
+!/dot.gitconfig.github.com-ssh

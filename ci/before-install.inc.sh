@@ -69,9 +69,15 @@ function yp_github_https_insteadof_git() {
 
     echo_do "Setting up HTTPS-protocol for all GIT-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
 
-    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github.com-https$" || \
+    [[ -e ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-https ]] || {
+        cat ${YP_DIR}/gitconfig/dot.gitconfig.github.com-https | \
+            sed "s/github.com/${GITHUB_SERVER_URL_DOMAIN}/g" \
+                > ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-https
+    }
+
+    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-https$" || \
         printf '%s\n%s\n' \
-            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github.com-https")" \
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-https")" \
             "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     echo_done
@@ -104,9 +110,15 @@ function yp_github_https_insteadof_all() {
             ;;
     esac
 
-    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github.com-ssh$" || \
+    [[ -e ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-ssh ]] || {
+        cat ${YP_DIR}/gitconfig/dot.gitconfig.github.com-ssh | \
+            sed "s/github.com/${GITHUB_SERVER_URL_DOMAIN}/g" \
+                > ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-ssh
+    }
+
+    cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-ssh$" || \
         printf '%s\n%s\n' \
-            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.github.com-ssh")" \
+            "$(echo -e "[include]\npath = ${YP_DIR}/gitconfig/dot.gitconfig.${GITHUB_SERVER_URL_DOMAIN}-ssh")" \
             "$(cat ${HOME}/.gitconfig)" >${HOME}/.gitconfig
 
     echo_done
