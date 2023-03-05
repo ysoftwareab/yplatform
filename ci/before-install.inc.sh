@@ -24,14 +24,15 @@ function yp_ga_set_env() {
 }
 
 
+# shellcheck disable=SC2120
 function yp_github_https_deploy() {
     # if we have a deploy token, use that to authenticate https for the current repo
     # and don't require SSH keys
 
-    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL:-https://github.com}}
     local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
-    echo_info "Found YP_GH_TOKEN_DEPLOY."
 
+    echo_info "Found YP_GH_TOKEN_DEPLOY."
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
     case ${YP_GH_TOKEN_DEPLOY:0:4} in
         ghp_)
@@ -57,11 +58,16 @@ function yp_github_https_deploy() {
 }
 
 
+# shellcheck disable=SC2120
 function yp_github_https_insteadof_git() {
     # NOTE git (over ssh) is a smarter protocol than https
     # but requires SSH keys, though there's no security server-side
 
-    echo_do "Setting up HTTPS-protocol for all GIT-protocol github.com URLs..."
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL:-https://github.com}}
+    local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
+    # TODO handle other domains than github.com
+
+    echo_do "Setting up HTTPS-protocol for all GIT-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
 
     cat ${HOME}/.gitconfig | grep -q "${YP_DIR}/gitconfig/dot.gitconfig.github-https$" || \
         printf '%s\n%s\n' \
@@ -72,14 +78,16 @@ function yp_github_https_insteadof_git() {
 }
 
 
+# shellcheck disable=SC2120
 function yp_github_https_insteadof_all() {
     # if we have a personal access token, use that to authenticate https
     # and don't require SSH keys
 
-    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL}}
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL:-https://github.com}}
     local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
-    echo_info "Found YP_GH_TOKEN."
+    # TODO handle other domains than github.com
 
+    echo_info "Found YP_GH_TOKEN."
     echo_do "Setting up authenticated HTTPS-protocol for all SSH-protocol ${GITHUB_SERVER_URL_DOMAIN} URLs..."
     case ${YP_GH_TOKEN:0:4} in
         ghp_)
@@ -105,7 +113,11 @@ function yp_github_https_insteadof_all() {
 }
 
 
+# shellcheck disable=SC2120
 function yp_github() {
+    local GITHUB_SERVER_URL=${1:-${GITHUB_SERVER_URL:-https://github.com}}
+    local GITHUB_SERVER_URL_DOMAIN="$(basename "${GITHUB_SERVER_URL}")"
+
     # GH_TOKEN is a common way to pass a personal access token to CI jobs
     export YP_GH_TOKEN=${YP_GH_TOKEN:-${GH_TOKEN:-}}
     if [[ "${YP_CI_PLATFORM:-}" = "github" ]]; then
@@ -120,22 +132,22 @@ function yp_github() {
     [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN=${YP_GH_TOKEN}"
     [[ "${YP_CI_PLATFORM:-}" != "github" ]] || yp_ga_set_env "YP_GH_TOKEN_DEPLOY=${YP_GH_TOKEN_DEPLOY}"
 
-    GIT_HTTPS_URL="https://github.com/actions/runner.git"
+    GIT_HTTPS_URL="https://${GITHUB_SERVER_URL_DOMAIN}/actions/runner.git"
 
     if [[ -n "${YP_GH_TOKEN:-}" ]]; then
         yp_github_https_insteadof_all
 
-        git ls-remote --get-url git@github.com:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git@${GITHUB_SERVER_URL_DOMAIN}:actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git://${GITHUB_SERVER_URL_DOMAIN}/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
         git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-        git ls-remote --get-url https://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url https://${GITHUB_SERVER_URL_DOMAIN}/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
     else
         yp_github_https_insteadof_git
         [[ -z "${YP_GH_TOKEN_DEPLOY:-}" ]] || yp_github_https_deploy
 
-        git ls-remote --get-url git://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url git://${GITHUB_SERVER_URL_DOMAIN}/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
         git ls-remote --get-url github://actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
-        git ls-remote --get-url https://github.com/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
+        git ls-remote --get-url https://${GITHUB_SERVER_URL_DOMAIN}/actions/runner.git | grep -q -Fx "${GIT_HTTPS_URL}"
     fi
 }
 
