@@ -144,6 +144,8 @@ YP_TEST_TARGETS += \
 
 
 .github/workflows/main.yml: bin/github-checkout
+.github/workflows/main.yml: bin/json2yaml
+.github/workflows/main.yml: bin/yaml-expand
 .github/workflows/main.yml: $(wildcard priv/wsl.conf)
 .github/workflows/main.yml: $(wildcard .github/workflows.src/common*)
 .github/workflows/main.yml: $(wildcard .github/workflows.src/main*)
@@ -152,6 +154,8 @@ YP_TEST_TARGETS += \
 
 
 .github/workflows/mainc.yml: bin/github-checkout
+.github/workflows/mainc.yml: bin/json2yaml
+.github/workflows/mainc.yml: bin/yaml-expand
 .github/workflows/mainc.yml: $(wildcard .github/workflows.src/common*)
 .github/workflows/mainc.yml: $(wildcard .github/workflows.src/mainc*)
 .github/workflows/mainc.yml: .github/workflows/mainc.yml.tpl
@@ -159,6 +163,8 @@ YP_TEST_TARGETS += \
 
 
 .github/workflows/deployc.yml: bin/github-checkout
+.github/workflows/deployc.yml: bin/json2yaml
+.github/workflows/deployc.yml: bin/yaml-expand
 .github/workflows/deployc.yml: $(wildcard .github/workflows.src/common*)
 .github/workflows/deployc.yml: $(wildcard .github/workflows.src/deployc*)
 .github/workflows/deployc.yml: .github/workflows/deployc.yml.tpl
