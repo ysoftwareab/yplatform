@@ -1,0 +1,3 @@
+# assume sh
+[*.tpl]
+indent_size = 4

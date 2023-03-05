@@ -1,0 +1,69 @@
+name: CI
+
+'on':
+  push:
+    branches:
+      - github* # github branches
+      - master
+    tags:
+      - 'v*' # version tags
+  pull_request:
+    branches:
+      - '**'
+  schedule:
+    - cron: 0 0 * * *
+
+aliases:
+  env: &env
+
+# ------------------------------------------------------------------------------
+
+jobs:
+  main:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    container:
+      image: ysoftwareab/yp-ubuntu-22.04-minimal:${ENVSUBST_YP_VSN}
+      options: '--user yp:yp'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        YP_LOG_BOOTSTRAP: ${{ secrets.YP_LOG_BOOTSTRAP }}
+        YP_PRINTENV_BOOTSTRAP: ${{ secrets.YP_PRINTENV_BOOTSTRAP }}
+        V: ${{ secrets.V }}
+    steps:
+      - uses: ysoftwareab/yplatform/.github/actions/run@v${ENVSUBST_YP_VSN}
+        with:
+          run: |
+            sudo chown yp:yp ${GITHUB_WORKSPACE} # owned by 1001:116 otherwise
+            bin/github-checkout
+
+      - shell: bash
+        run: ./.ci.sh before_install
+
+      - shell: bash
+        run: ./.ci.sh install
+
+      - shell: bash
+        run: ./.ci.sh before_script
+
+      - shell: bash
+        run: ./.ci.sh script
+
+      - if: failure()
+        shell: bash
+        run: ./.ci.sh after_failure || true
+
+      - shell: bash
+        run: ./.ci.sh after_success || true
+
+      - if: always()
+        shell: bash
+        run: ./.ci.sh after_script || true
+
+      - if: always()
+        shell: bash
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: cloud-ci
+          CI_STATUS: ${{ job.status }}
+        run: ./.ci.sh notifications || true

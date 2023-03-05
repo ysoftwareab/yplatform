@@ -9,4 +9,21 @@ include yplatform/build.mk/generic.common.mk
 
 # ------------------------------------------------------------------------------
 
+YP_CHECK_TPL_FILES += \
+	.github/workflows/main.yml \
+
+ifeq (true,$(CI))
+.PHONY: $(YP_CHECK_TPL_FILES)
+endif
+
+YP_DEPS_TARGETS += \
+	.github/workflows/main.yml \
+
 # ------------------------------------------------------------------------------
+
+.github/workflows/main.yml: yplatform/bin/github-checkout
+.github/workflows/main.yml: yplatform/bin/json2yaml
+.github/workflows/main.yml: yplatform/bin/yaml-expand
+.github/workflows/main.yml: .github/workflows.src/main.yml
+.github/workflows/main.yml: .github/workflows/main.yml.tpl
+	$(call yp-generate-from-template)
