@@ -97,7 +97,8 @@ ARTIFACT=.gitignore
 
 [[ -e .github ]] || {
     mkdir -p .github
-    for ARTIFACT in "${YP_DIR_REL}/repo/dot.github"/* "${YP_DIR_REL}/repo/dot.github"/.*; do
+    # for ARTIFACT in "${YP_DIR_REL}/repo/dot.github"/* "${YP_DIR_REL}/repo/dot.github"/.*; do
+    for ARTIFACT in "${YP_DIR_REL}/repo/dot.github"/*; do
         ARTIFACT=.github/$(basename ${ARTIFACT})
         [[ "${ARTIFACT}" != ".github/settings.base.yml" ]] || continue
         [[ -e ${ARTIFACT} ]] || {
