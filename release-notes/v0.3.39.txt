@@ -11,5 +11,11 @@ Breaking commits since v0.3.38:
 
 Commits since v0.3.38:
 
+* 5d91765c 2023-03-05 update node reqs
+* fc734108 2023-03-05 fixup! fixes for github workflows for bootstrapped repos
+* 25045d68 2023-03-05 fixes for github workflows for bootstrapped repos
+* 1bd91944 2023-03-05 updated bin/repo-generic-bootstrap
+* 70761021 2023-03-05 add dependencies
+* 43c866cd 2023-03-05 0.3.39 release notes
 * f9f5242a 2023-03-05 fixup! fixup! cannot have dangling symlinks or else cannot use this repo as a github actions: Error: Could not find file
 o 7e75a5ef 2023-03-05 0.3.38
