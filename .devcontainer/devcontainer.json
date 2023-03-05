@@ -22,14 +22,20 @@
     "source=unique-vol-name-here-insiders,target=/root/.vscode-server-insiders/extensions,type=volume"
   ],
   "extensions": [
+    "bierner.github-markdown-preview",
     "cardinal90.multi-cursor-case-preserve",
     "chrislajoie.vscode-modelines",
     "dbaeumer.vscode-eslint",
     "eamodio.gitlens",
     "EditorConfig.editorconfig",
+    "fnando.linter",
     "glen-84.sass-lint",
+    "hashicorp.terraform",
+    "mads-hartmann.bash-ide-vscode",
+    "me-dutour-mathieu.vscode-github-actions",
     "ms-azuretools.vscode-docker",
     "ms-vscode-remote.remote-containers",
+    "ms-vscode.makefile-tools",
     "orta.vscode-jest",
     "timonwong.shellcheck",
     "mutantdino.resourcemonitor"
