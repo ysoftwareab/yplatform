@@ -16,7 +16,7 @@ elif [[ -x ${SRC_FILE_EXECUTABLE} ]]; then
     echo "# WARNING: DO NOT EDIT. AUTO-GENERATED CODE (${SRC_FILE_EXECUTABLE})"
     ${SRC_FILE_EXECUTABLE} | ${YP_DIR}/bin/json2yaml
 else
-  exit 1
+    exit 1
 fi | \
     envsubst "$(printenv | grep "^ENVSUBST_" | sed "s/=.*//g" | sed "s/^/\${/g" | sed "s/\$/}/g")" | \
     ${YP_DIR}/bin/yaml-expand
