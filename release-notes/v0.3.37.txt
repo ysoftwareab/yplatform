@@ -1,0 +1,59 @@
+yplatform v0.3.37 Release Notes
+
+Highlights since v0.3.36:
+
+* None
+
+
+Breaking commits since v0.3.36:
+
+* 30722517 2023-03-05 breaking: rename dot.gitconfig.{github,github.com}-{https,ssh}
+* 690dfc82 2023-02-18 breaking: consolidate git-semver utils
+
+
+Commits since v0.3.36:
+
+* ffd27c68 2023-03-05 fixup! fixup! fixup! handle ghs token
+* 30722517 2023-03-05 breaking: rename dot.gitconfig.{github,github.com}-{https,ssh}
+* 7fa40b0c 2023-03-05 fixup! fixup! handle ghs token
+* b70536ba 2023-03-04 fixup! handle ghs token
+* fcf74a26 2023-03-04 handle ghs token
+* 67ff4662 2023-02-22 fix yq proxy
+* 7f2fe3a8 2023-02-18 add undocumented CIRRUS_CHANGE_TIMESTAMP
+* 690dfc82 2023-02-18 breaking: consolidate git-semver utils
+* 9b50ded0 2023-02-18 add git-ls-remote-semver script
+* 40531b38 2023-02-18 add script to run probot-settings without the app
+* 4d7b6464 2023-02-18 add semver2 1.0.5+1 from https://raw.githubusercontent.com/Ariel-Rodriguez/sh-semversion-2/afbcaa3/semver2.sh
+* 9c210900 2023-02-18 update transcrypt to https://raw.githubusercontent.com/elasticdog/transcrypt/8be50df/transcrypt
+* 8ab03793 2023-02-13 explain yum update's 100 exit code
+* f3161e30 2023-02-13 transcrypt: update to 2.2.1-andreineculau 546f3795a2b7eabb4b2b5939c3a64417a3bad509
+* eafc811f 2023-02-13 clarify deps tree
+* 2945ec11 2023-02-13 undocumented CI_JOB_TIMEOUT
+* e35ad205 2023-02-13 more retries for index.lock file exists
+* b9dd9d39 2023-02-12 allow latest docker version
+* cf9f40cd 2023-02-11 lint
+* 46fdbadf 2023-02-11 updated sh/common.inc.dist.sh
+* 9e32214b 2023-02-11 Revert "add make target for time sentinels"
+* edbdd35e 2023-02-11 backup https://tech.davis-hansson.com/p/make/
+* 1d06d582 2023-02-11 add make target for time sentinels
+* 8a410726 2023-02-11 allow argument to exit_allow_sigpipe
+* a2b03a35 2023-02-11 prefer specificity
+* 8b584e52 2023-02-11 prefer specificity
+* 3c18d5ae 2023-01-22 fix url
+* 76b47a33 2023-01-22 ignore shellcheck SC2317 - buggy with false positives
+* eea5a61d 2023-01-22 add makefile references
+* b2470f3f 2023-01-22 fix buddy ci badge
+* 9b5b9f7c 2023-01-22 new undocumented semaphoreci vars
+* 3370a29c 2023-01-22 new undocumented gitlab vars
+* 00e0f9c5 2023-01-22 github: set-output is deprecated
+* c369c883 2023-01-22 upgrade actions/upload-artifact to v3, use nodejs 16
+* 2e2533e5 2023-01-22 debug index.lock file exists - permissions issue maybe?
+* 6b2252b5 2023-01-22 new undocumented github vars
+* 00cd7a46 2022-12-02 fixup! makecmdgoals might be undefined
+* f1c4aea3 2022-12-01 makecmdgoals might be undefined
+* cee333af 2022-12-01 set file mode
+* ba9181ef 2022-11-15 add MAKEFLAGS_SHORT
+* 0fff0838 2022-11-15 fix grep: warning: stray
+* 33a2fa1b 2022-11-15 fix warning about undefined var
+* 2b4871ac 2022-11-15 supress warning about make-lazy being undefined when called from core.inc.mk (defined later in exe.inc.mk)
+o d8e5ef01 2022-11-13 0.3.36
