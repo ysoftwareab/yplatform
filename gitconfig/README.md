@@ -16,7 +16,7 @@ in your `~/.gitconfig` prepend AT THE TOP
 ```
 [includeIf "gitdir:~/git/ysoftwareab/"]
     path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig
-    path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig.github-ssh
+    path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig.github.com-ssh
 ```
 
 **NOTE** You can change the path `~/git/yplatform` accordingly, or duplicate the snippet with additional paths.
@@ -31,5 +31,5 @@ in your `~/.gitconfig` prepend AT THE TOP
 ```
 [include]
     path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig
-    path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig.github-ssh
+    path = ~/git/ysoftwareab/yplatform/generic/dot.gitconfig.github.com-ssh
 ```
