@@ -29,7 +29,9 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-
+  "github.copilot.enable": {
+    "*": false
+  },
   "html.format.enable": true,
   "html.format.wrapLineLength": 120,
   "html.format.unformatted": "a, abbr, acronym, b, bdo, big, br, button, cite, code, dfn, em, i, img, input, kbd, label, map, object, q, samp, select, small, span, strong, sub, sup, textarea, tt, var",
@@ -69,5 +71,6 @@
   "typescript.format.enable": false,
   "typescript.tsdk": "./node_modules/typescript/lib",
 
-  "workbench.settings.enableNaturalLanguageSearch": false
+  "workbench.settings.enableNaturalLanguageSearch": false,
+  "yaml.format.enable": false,
 }
