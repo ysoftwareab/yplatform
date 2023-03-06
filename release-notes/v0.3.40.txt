@@ -1,0 +1,17 @@
+yplatform v0.3.40 Release Notes
+
+Highlights since v0.3.39:
+
+* None
+
+
+Breaking commits since v0.3.39:
+
+* None
+
+Commits since v0.3.39:
+
+* a95826f3 2023-03-05 more .vscode
+* b3212397 2023-03-05 fixup! fixup! fixup! handle ghs token
+* 7c934b9d 2023-03-05 add more vscode extensions
+o cc419e62 2023-03-05 0.3.39
