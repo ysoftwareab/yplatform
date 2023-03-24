@@ -23,11 +23,11 @@ GIT_REMOTE_OR_ORIGIN = $(shell GIT_REMOTE=$(GIT_REMOTE); $(ECHO) $${GIT_REMOTE:-
 GIT_ROOT = $(shell $(GIT) rev-parse --show-toplevel 2>/dev/null)
 $(foreach VAR,GIT_REMOTE GIT_REMOTE_OR_ORIGIN GIT_ROOT,$(call make-lazy-once,$(VAR)))
 
-GIT_REMOTE_URL = $(shell $(GIT) config remote.$(GIT_REMOTE).url)
-GIT_REMOTE_SLUG = $(shell GIT_REMOTE_URL=$(GIT_REMOTE_URL); basename $$(dirname "$${GIT_REMOTE_URL//://}"))/$(shell basename "$(GIT_REMOTE_URL)" .git) # editorconfig-checker-disable-line
+GIT_REMOTE_URL = $(shell $(GIT) config remote.$(GIT_REMOTE).url 2>/dev/null)
+GIT_REMOTE_SLUG = $(shell test -n $(GIT_REMOTE_URL) || GIT_REMOTE_URL=$(GIT_REMOTE_URL); basename $$(dirname "$${GIT_REMOTE_URL//://}"))/$(shell basename "$(GIT_REMOTE_URL)" .git) # editorconfig-checker-disable-line
 
-GIT_REMOTE_OR_ORIGIN_URL = $(shell $(GIT) config remote.$(GIT_REMOTE_OR_ORIGIN).url)
-GIT_REMOTE_OR_ORIGIN_SLUG = $(shell GIT_REMOTE_OR_ORIGIN_URL=$(GIT_REMOTE_OR_ORIGIN_URL); basename $$(dirname "$${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(shell basename "$(GIT_REMOTE_OR_ORIGIN_URL)" .git) # editorconfig-checker-disable-line
+GIT_REMOTE_OR_ORIGIN_URL = $(shell $(GIT) config remote.$(GIT_REMOTE_OR_ORIGIN).url 2>/dev/null)
+GIT_REMOTE_OR_ORIGIN_SLUG = $(shell test -n $(GIT_REMOTE_OR_ORIGIN_URL) || GIT_REMOTE_OR_ORIGIN_URL=$(GIT_REMOTE_OR_ORIGIN_URL); basename $$(dirname "$${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(shell basename "$(GIT_REMOTE_OR_ORIGIN_URL)" .git) # editorconfig-checker-disable-line
 
 GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && \
 	$(ECHO) true || $(ECHO) false)
