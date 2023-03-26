@@ -26,7 +26,7 @@ jobs:
     runs-on: '${{ github.event.inputs.runs-on }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-      TRANSCRYPT_PASSWORD: '${{ secrets.TRANSCRYPT_PASSWORD }}'
+      TRANSCRYPT_PASSWORD: '${{ secrets.YP_TRANSCRYPT_PASSWORD }}'
     steps:
     - name: Setup tmate session
       uses: mxschmitt/action-tmate@v3
