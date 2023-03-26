@@ -619,7 +619,7 @@ if [[ -n "${HOMEBREW_PREFIX:-}" ]]; then
     for f in coreutils findutils gnu-sed gnu-tar gnu-time gnu-which grep gzip make; do
         yp::path_prepend ${HOMEBREW_PREFIX}/opt/${f}/libexec/gnubin
     done
-    for f in curl gnu-getopt openssl@1.1 unzip zip; do
+    for f in curl gnu-getopt openssl@3 unzip zip; do
         yp::path_prepend ${HOMEBREW_PREFIX}/opt/${f}/bin
     done
     unset f
@@ -911,3 +911,4 @@ ANY_PYTHON=${ANY_PYTHON:-$(command -v -p python 2>/dev/null || true)}
 ANY_PYTHON=${ANY_PYTHON:-ANY_PYTHON_NOT_FOUND}
 # END sh/exe.inc.sh
 # ------------------------------------------------------------------------------
+
