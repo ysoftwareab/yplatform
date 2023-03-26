@@ -29,7 +29,7 @@ brew_install_one_unless gzip "gzip --version | head -1" "^gzip 1\."
 brew_install_one_unless gzip "gzip --version | head -5 | tail -1" "^the GNU General Public License"
 # NOTE 'make' >=4 provides functionality for 'make-lazy'
 brew_install_one_unless make "make --version | head -1" "^GNU Make 4\.3"
-brew_install_one_unless nano "nano --version | head -1" "^GNU nano, version [67]\."
+brew_install_one_unless nano "nano --version | head -1" "^ GNU nano, version [67]\."
 brew_install_one_unless screen "screen --version | head -1" "^Screen version 4\."
 brew_install_one_unless wdiff "wdiff --version | head -1" "^wdiff (GNU wdiff) 1\."
 # NOTE use curl instead of wget; 'brew install wget' adds ~100MB (linuxbrew)
