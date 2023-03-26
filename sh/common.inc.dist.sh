@@ -250,11 +250,11 @@ GIT_REPO_HAS_UNTRACKED_FILES=$(git status --porcelain 2>/dev/null | grep -q -e "
 GIT_REPO_HAS_CONFLICTS=$(git status --porcelain 2>/dev/null | grep -q -e "^\(DD\|AU\|UD\|UA\|DU\|AA\|UU\)" && \
     echo true || echo false)
 
-GIT_REMOTE_URL=$(git config remote.${GIT_REMOTE}.url)
-GIT_REMOTE_SLUG=$(GIT_REMOTE_URL=${GIT_REMOTE_URL} basename $(dirname "${GIT_REMOTE_URL//://}"))/$(basename "${GIT_REMOTE_URL}" .git) # editorconfig-checker-disable-line
+GIT_REMOTE_URL=$(git config remote.${GIT_REMOTE}.url 2>/dev/null || true)
+GIT_REMOTE_SLUG=$(test -z "${GIT_REMOTE_URL}" || GIT_REMOTE_URL=${GIT_REMOTE_URL} basename $(dirname "${GIT_REMOTE_URL//://}"))/$(basename "${GIT_REMOTE_URL}" .git) # editorconfig-checker-disable-line
 
-GIT_REMOTE_OR_ORIGIN_URL=$(git config remote.${GIT_REMOTE_OR_ORIGIN}.url)
-GIT_REMOTE_OR_ORIGIN_SLUG=$(GIT_REMOTE_OR_ORIGIN_URL=${GIT_REMOTE_OR_ORIGIN_URL} basename $(dirname "${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(basename "${GIT_REMOTE_OR_ORIGIN_URL}" .git) # editorconfig-checker-disable-line
+GIT_REMOTE_OR_ORIGIN_URL=$(git config remote.${GIT_REMOTE_OR_ORIGIN}.url 2>/dev/null || true)
+GIT_REMOTE_OR_ORIGIN_SLUG=$(test -z ${GIT_REMOTE_OR_ORIGIN_URL} || GIT_REMOTE_OR_ORIGIN_URL=${GIT_REMOTE_OR_ORIGIN_URL} basename $(dirname "${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(basename "${GIT_REMOTE_OR_ORIGIN_URL}" .git) # editorconfig-checker-disable-line
 
 GITHUB_SERVER_URL=${GITHUB_SERVER_URL:-https://github.com}
 GITHUB_SERVER_URL_DOMAIN=$(basename "${GITHUB_SERVER_URL}")
