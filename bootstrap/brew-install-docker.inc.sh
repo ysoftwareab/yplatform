@@ -69,7 +69,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         apt_install_one containerd.io
         apt_install_one docker-ce
         apt_install_one docker-ce-cli
-        # ENV https://docs.docker.com/engine/install/ubuntu/
+        # END https://docs.docker.com/engine/install/ubuntu/
 
         # BEGIN https://docs.docker.com/compose/install/
         # FIXME 1.28 uses python@3.9. see https://github.com/docker/compose/issues/8048
