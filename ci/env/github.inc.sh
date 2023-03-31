@@ -130,4 +130,9 @@ EOF
     cat <<EOF
 GITHUB_JOB_ID
 EOF
+    # see mk/git.inc.mk
+    # see sh/git.inc.sh
+    cat <<EOF
+GITHUB_SERVER_URL_DOMAIN
+EOF
 }
