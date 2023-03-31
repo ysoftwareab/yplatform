@@ -72,5 +72,5 @@
   "typescript.tsdk": "./node_modules/typescript/lib",
 
   "workbench.settings.enableNaturalLanguageSearch": false,
-  "yaml.format.enable": false,
+  "yaml.format.enable": false
 }
