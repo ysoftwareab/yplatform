@@ -168,6 +168,7 @@ TRIGGER_PAYLOAD
 EOF
     # undocumented but observed
     cat <<EOF
+CI_API_GRAPHQL_URL
 CI_BUILD_BEFORE_SHA
 CI_BUILD_ID
 CI_BUILD_NAME
