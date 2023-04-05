@@ -14,7 +14,7 @@ variables:
       name: homebrew/ubuntu20.04:3.2.8
     only:
       - /^gitlab/ # gitlab branches
-      - master
+      # - master
       # - /^v(\d+)\.(\d+)\.(\d+)/ # version tags
     cache:
       key: ${CI_COMMIT_REF_SLUG}
