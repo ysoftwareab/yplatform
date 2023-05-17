@@ -19,6 +19,9 @@ jobs:
           path: |
             .upload-artifact-root
             ${{ github.ref_name }}/file.txt
+      - run: |
+          rm .upload-artifact-root
+          rm -rf ${{ github.ref_name }}
       - uses: actions/download-artifact@v3
         with:
           name: artifact
