@@ -1,0 +1,23 @@
+name: artifacts-test
+'on':
+  push:
+    branches:
+      - artifacts
+jobs:
+  main:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          touch .upload-artifact-root
+          mkdir -p ${{ github.ref_name }}
+          touch ${{ github.ref_name }}/file.txt
+      - uses: actions/upload-artifact@v3
+        with:
+          if-no-files-found: error
+          path: |
+            .upload-artifact-root
+            ${{ github.ref_name }}/file.txt
+      - uses: actions/download-artifact@v3
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
