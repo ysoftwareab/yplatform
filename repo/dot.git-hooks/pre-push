@@ -2,5 +2,5 @@
 set -euo pipefail
 
 # YP_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../yplatform" >/dev/null && pwd)"
-YP_DIR="$(cd "$(git rev-parse --show-cdup)/yplatform" >/dev/null && pwd)"
+YP_DIR="$(cd "$(git rev-parse --show-toplevel)/yplatform" >/dev/null && pwd)"
 ${YP_DIR}/bin/git-hook-run-parts "$0" "$@"
