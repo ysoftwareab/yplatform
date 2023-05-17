@@ -15,9 +15,12 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           if-no-files-found: error
+          name: artifact
           path: |
             .upload-artifact-root
             ${{ github.ref_name }}/file.txt
       - uses: actions/download-artifact@v3
+        with:
+          name: artifact
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
