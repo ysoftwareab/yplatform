@@ -11,6 +11,26 @@ Breaking commits since v0.3.39:
 
 Commits since v0.3.39:
 
+* 0419f68d 2023-04-07 bump docker actions
+* 97ed5393 2023-04-07 fix amzn2: package coreutils-8.32-30.amzn2023.0.3.x86_64 conflicts with coreutils-single provided by coreutils-single-8.32-30.amzn2023.0.3.x86_64
+* 72b451fc 2023-03-31 buddy: document BUDDY_EXECUTION_WEBHOOK_PAYLOAD
+* de8a7865 2023-03-31 gitlab: document CI_API_GRAPHQL_URL
+* 772a2974 2023-03-31 fixup! fixup! add a bunch of GIT vars for sh and mk
+* c4a39c57 2023-03-31 json-typo
+* 78639143 2023-03-31 typo
+* 1ff19570 2023-03-27 nano version prints a space?!
+* 0bb5ef99 2023-03-26 confirm dev/bootstrap
+* 9f75a40b 2023-03-26 re-transcrypt due to -pbkdf2
+* 8a65b2f8 2023-03-26 transcrypt: force -pbkdf2
+* 8b8d9bd4 2023-03-26 update transcrypt to https://raw.githubusercontent.com/elasticdog/transcrypt/605d9d0/transcrypt
+* f695f047 2023-03-26 fixup! add nano and screen to gnu bootstrap
+* 929f6c9a 2023-03-26 use openssl@3
+* 9c57c607 2023-03-26 fixup! fixup! add a bunch of GIT vars for sh and mk
+* df07b07c 2023-03-24 fixup! add a bunch of GIT vars for sh and mk
+* a7682c34 2023-03-23 gettext isn't keg-only
+* 704cec94 2023-03-23 add nano and screen to gnu bootstrap
+* 5e84e2d6 2023-03-06 add a bunch of GIT vars for sh and mk
+* fbf6824b 2023-03-06 0.3.40 release notes
 * a95826f3 2023-03-05 more .vscode
 * b3212397 2023-03-05 fixup! fixup! fixup! handle ghs token
 * 7c934b9d 2023-03-05 add more vscode extensions

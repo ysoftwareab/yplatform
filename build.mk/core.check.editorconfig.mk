@@ -45,9 +45,11 @@ YP_CHECK_TARGETS += \
 
 # ------------------------------------------------------------------------------
 
+# NOTE filter out noise IBM424_ltr noise. See https://github.com/editorconfig-checker/editorconfig-checker/issues/252
 .PHONY: check-editorconfig
 check-editorconfig:
 	YP_ECCHECKER_FILES_TMP=($(YP_ECCHECKER_FILES)); \
 	[[ "$${#YP_ECCHECKER_FILES_TMP[@]}" = "0" ]] || { \
-		$(ECCHECKER) $(ECCHECKER_ARGS) $${YP_ECCHECKER_FILES_TMP[@]}; \
+		$(ECCHECKER) $(ECCHECKER_ARGS) $${YP_ECCHECKER_FILES_TMP[@]} | \
+			{ $(GREP) -v -e "Could not decode the IBM424_ltr encoded file" -e "unrecognized charset IBM424_ltr" || true; }; \
 	}

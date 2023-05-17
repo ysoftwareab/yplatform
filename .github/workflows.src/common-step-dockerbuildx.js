@@ -6,13 +6,13 @@ let dockerBuildxSteps = [];
 
 dockerBuildxSteps.push({
   name: 'Set up QEMU',
-  uses: 'docker/setup-qemu-action@v1'
+  uses: 'docker/setup-qemu-action@v2'
 });
 
 dockerBuildxSteps.push({
   name: 'Set up Docker Buildx',
   id: 'buildx',
-  uses: 'docker/setup-buildx-action@v1',
+  uses: 'docker/setup-buildx-action@v2',
   with: {
     'buildkitd-flags': '--debug'
   }

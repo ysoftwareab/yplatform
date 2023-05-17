@@ -192,10 +192,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -411,10 +411,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -630,10 +630,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -849,10 +849,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -1069,10 +1069,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -1289,10 +1289,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -1506,10 +1506,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -1724,10 +1724,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -1942,10 +1942,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -2160,10 +2160,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -2378,10 +2378,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -2597,10 +2597,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -2816,10 +2816,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'
@@ -3033,10 +3033,10 @@ jobs:
 
           git submodule update --init --recursive --force ${GIT_DEPTH_ARG:-}
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
+        uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v1
+        uses: docker/setup-buildx-action@v2
         with:
           buildkitd-flags: '--debug'
       - name: 'Set up Docker Buildx: remote ssh for arm64'

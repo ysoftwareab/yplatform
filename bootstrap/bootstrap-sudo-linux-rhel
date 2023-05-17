@@ -35,10 +35,10 @@ echo_done
 echo_do "yum: Installing basic packages..."
 yum -y groupinstall "Development Tools"  # as per homebrew-install
 case ${OS_SHORT}-${OS_RELEASE_ID} in
-    linux-amzn|linux-rhel)
+    linux-rhel)
         yum_install_one coreutils
         ;;
-    linux-centos)
+    linux-amzn|linux-centos)
         # installing coreutils would create a conflict
         yum_install_one coreutils-single
         ;;

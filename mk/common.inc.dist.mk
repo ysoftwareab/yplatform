@@ -535,10 +535,16 @@ GIT_ROOT = $(shell $(GIT) rev-parse --show-toplevel 2>/dev/null)
 $(foreach VAR,GIT_REMOTE GIT_REMOTE_OR_ORIGIN GIT_ROOT,$(call make-lazy-once,$(VAR)))
 
 GIT_REMOTE_URL = $(shell $(GIT) config remote.$(GIT_REMOTE).url 2>/dev/null)
-GIT_REMOTE_SLUG = $(shell test -n $(GIT_REMOTE_URL) || GIT_REMOTE_URL=$(GIT_REMOTE_URL); basename $$(dirname "$${GIT_REMOTE_URL//://}"))/$(shell basename "$(GIT_REMOTE_URL)" .git) # editorconfig-checker-disable-line
+# editorconfig-checker-disable max_line_length
+# NOTE cannot use # editorconfig-checker-disable-line because it might add faux whitespace
+GIT_REMOTE_SLUG = $(shell test -n $(GIT_REMOTE_URL) || GIT_REMOTE_URL=$(GIT_REMOTE_URL); basename $$(dirname "$${GIT_REMOTE_URL//://}"))/$(shell basename "$(GIT_REMOTE_URL)" .git)
+# editorconfig-checker-enable max_line_length
 
 GIT_REMOTE_OR_ORIGIN_URL = $(shell $(GIT) config remote.$(GIT_REMOTE_OR_ORIGIN).url 2>/dev/null)
-GIT_REMOTE_OR_ORIGIN_SLUG = $(shell test -n $(GIT_REMOTE_OR_ORIGIN_URL) || GIT_REMOTE_OR_ORIGIN_URL=$(GIT_REMOTE_OR_ORIGIN_URL); basename $$(dirname "$${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(shell basename "$(GIT_REMOTE_OR_ORIGIN_URL)" .git) # editorconfig-checker-disable-line
+# editorconfig-checker-disable max_line_length
+# NOTE cannot use # editorconfig-checker-disable-line because it might add faux whitespace
+GIT_REMOTE_OR_ORIGIN_SLUG = $(shell test -n $(GIT_REMOTE_OR_ORIGIN_URL) || GIT_REMOTE_OR_ORIGIN_URL=$(GIT_REMOTE_OR_ORIGIN_URL); basename $$(dirname "$${GIT_REMOTE_OR_ORIGIN_URL//://}"))/$(shell basename "$(GIT_REMOTE_OR_ORIGIN_URL)" .git)
+# editorconfig-checker-enable max_line_length
 
 GIT_REPO_HAS_CHANGED_FILES = $(shell $(GIT) status --porcelain | $(GREP) -q -v -e "^$$" && \
 	$(ECHO) true || $(ECHO) false)
