@@ -34,7 +34,7 @@ if [[ "${CI:-}" = "true" ]] && ${YP_DIR}/bin/is-wsl; then
 else
     brew_install_one_unless deno "deno --version | head -1" "^deno 1\."
 fi
-brew_install_one_unless pnpm "pnpm --version | head -1" "^[67]\."
+brew_install_one_unless pnpm "pnpm --version | head -1" "^[678]\."
 brew_install_one_unless yarn "yarn --version | head -1" "^1\."
 
 # allow npm upgrade to fail on WSL; fails with EACCESS

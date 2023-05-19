@@ -27,13 +27,13 @@ if_exe_and_grep_q "which jd" "^${YP_DIR}/bin/\.jd/jd$" brew_install_one jd
 
 brew_install_one_unless jo "jo -v | head -1" "^jo 1\."
 brew_install_one_unless openssh "ssh -V 2>&1 | head -1" "^OpenSSH_[89]\."
-brew_install_one_unless shellcheck "shellcheck --version | head -2 | tail -1" "^version: 0\.[78]\."
+brew_install_one_unless shellcheck "shellcheck --version | head -2 | tail -1" "^version: 0\.[789]\."
 brew_install_one_unless unzip "unzip --version 2>&1 | head -2 | tail -1" "^UnZip 6\."
 brew_install_one_unless unzip "unzip --version 2>&1 | head -2 | tail -1" ", by Debian\."
 brew_install_one_unless zip "zip --version 2>&1 | head -2 | tail -1" "Zip 3\.0"
 brew_install_one_unless zip "zip --version 2>&1 | head -2 | tail -1" ", by Info-ZIP\."
 
-brew_install_one_unless yq "yq --version | head -1" " version 4\."
+brew_install_one_unless yq "yq --version | head -1" " version v4\."
 # install if we're falling back to our yq proxy
 [[ -f "${YP_DIR}/bin/.yq/yq" ]]
 if_exe_and_grep_q "which yq" "^${YP_DIR}/bin/\.yq/yq$" brew_install_one yq

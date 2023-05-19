@@ -45,6 +45,7 @@ done
     [[ ! -f ${HOME}/.asdf/asdf.sh ]] || ASDF_SH=${HOME}/.asdf/asdf.sh
     [[ ! -f ${XDG_CONFIG_HOME:-}/asdf/asdf.sh ]] || ASDF_SH=${XDG_CONFIG_HOME}/asdf/asdf.sh
     [[ ! -f ${BREW_ASDF_DIR}/asdf.sh ]] || ASDF_SH=${BREW_ASDF_DIR}/asdf.sh
+    [[ ! -f ${BREW_ASDF_DIR}/libexec/asdf.sh ]] || ASDF_SH=${BREW_ASDF_DIR}/libexec/asdf.sh
 
     [[ -n ${ASDF_SH} ]] || {
         >&2 echo "$(date +"%H:%M:%S")" "[WARN] Couldn't find asdf in any of the known locations."

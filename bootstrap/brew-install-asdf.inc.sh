@@ -11,7 +11,7 @@ echo_do "Enabling asdf..."
 NOUNSET_STATE="$(set +o | grep nounset)"
 set +u
 # shellcheck disable=SC1091
-source $(brew --prefix asdf)/asdf.sh
+source $(brew --prefix asdf)/libexec/asdf.sh
 eval "${NOUNSET_STATE}"
 unset NOUNSET_STATE
 echo_done
