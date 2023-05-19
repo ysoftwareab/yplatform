@@ -5,7 +5,7 @@ echo_do "brew: Installing Docker packages..."
 
 case ${OS_SHORT}-${OS_RELEASE_ID} in
     darwin-*|linux-amzn|linux-arch|linux-centos|linux-rhel)
-        brew_install_one_unless docker "docker --version | head -1" "^Docker version \(19\|20\|21\|22\|23\)\."
+        brew_install_one_unless docker "docker --version | head -1" "^Docker version"
         brew_install_one_unless docker-compose "docker-compose --version | head -1" \
             "^\(docker-compose version 1\.\|Docker Compose version 2\.\)"
         ;;
@@ -40,7 +40,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         # ${YP_SUDO} service docker start
         # END https://wiki.alpinelinux.org/wiki/Docker#Installation
 
-        exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\|21\|22\|23\)\."
+        exe_and_grep_q "docker --version | head -1" "^Docker version"
         exe_and_grep_q "docker-compose --version | head -1" \
             "^\(docker-compose version 1\.\|Docker Compose version 2\.\)"
         ;;
@@ -81,7 +81,7 @@ case ${OS_SHORT}-${OS_RELEASE_ID} in
         unset DOCKER_COMPOSE_LATEST_URL
         # END https://docs.docker.com/compose/install/
 
-        exe_and_grep_q "docker --version | head -1" "^Docker version \(19\|20\|21\|22\|23\)\."
+        exe_and_grep_q "docker --version | head -1" "^Docker version"
         exe_and_grep_q "docker-compose --version | head -1" \
             "^\(docker-compose version 1\.\|Docker Compose version 2\.\)"
         ;;
