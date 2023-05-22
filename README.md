@@ -210,9 +210,8 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 | Buddy             | [![Buddy Status][20]][19]           | :heavy_check_mark: | `buddy*`           |                    |                    | [config](./buddy.yml)                | [env](./ci/env/buddy.inc.sh)     |
 | CircleCI          | [![CircleCI Status][4]][3]          | :heavy_check_mark: | `circle*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.circleci)                | [env](./ci/env/circle.inc.sh)    |
 | Cirrus CI         | [![Cirrus CI Status][16]][15]       | :heavy_check_mark: | `cirrus*`          |                    | :heavy_check_mark: | [config](./.cirrus.yml)              | [env](./ci/env/cirrus.inc.sh)    |
-| Drone CI          | [![Drone CI Status][24]][23]        | :heavy_check_mark: | `drone*`           |                    |                    | [config](./.drone.yml)               | [env](./ci/env/drone.inc.sh)  |
 | Github Actions CI | [![Github Actions CI Status][2]][1] | :heavy_check_mark: | `github*`          | :heavy_check_mark: | :heavy_check_mark: | [config](./.github/workflows)        | [env](./ci/env/github.inc.sh)    |
-| Gitlab CI         | [![Gitlab CI Status][12]][11]       | :zzz: | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           | [env](./ci/env/gitlab.inc.sh)    |
+| Gitlab CI         | [![Gitlab CI Status][12]][11]       | :zzz:              | `gitlab*`          |                    |                    | [config](./.gitlab-ci.yml)           | [env](./ci/env/gitlab.inc.sh)    |
 | Semaphore         | [![Semaphore Status][10]][9]        | :heavy_check_mark: | `semaphore*`       |                    | :heavy_check_mark: | [config](./.semaphore/semaphore.yml) | [env](./ci/env/semaphore.inc.sh) |
 | Sourcehut         | [![Sourcehut Status][18]][17]       | :heavy_check_mark: | `sourcehut*`       |                    | :heavy_check_mark: | [config](./.builds/sourcehut.yml)    | [env](./ci/env/sourcehut.inc.sh) |
 
@@ -221,12 +220,14 @@ Similarly `yplatform` itself runs across these platforms with very little effort
 
 We have also integrated in the past with more CI providers
 
-| Provider          | yplatform status                    | master             | provider-branches  | version tags       | PR                 | config                               | env                              |
-| ----------------- | ----------------------------------- | ------------------ | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
-| Codeship          | [![Codeship Status][8]][7]          | :zzz: | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       | [env](./ci/env/codeship.inc.sh)  |
-| Travis CI         | [![Travis CI Status][6]][5]         | :zzz:              | `travis*`          |                    |                    | [config](./.travis.yml)              | [env](./ci/env/travis.inc.sh)    |
+| Provider          | yplatform status                    | master  | provider-branches  | version tags       | PR                 | config                               | env                              |
+| ----------------- | ----------------------------------- | ------- | ------------------ | ------------------ | ------------------ | ------------------------------------ | -------------------------------- |
+| Codeship          | [![Codeship Status][8]][7]          | :zzz:   | `codeship*`        |                    |                    | [config](./codeship-steps.yml)       | [env](./ci/env/codeship.inc.sh)  |
+| Drone CI          | [![Drone CI Status][24]][23]        | :zzz:   | `drone*`           |                    |                    | [config](./.drone.yml)               | [env](./ci/env/drone.inc.sh)  |
+| Travis CI         | [![Travis CI Status][6]][5]         | :zzz:   | `travis*`          |                    |                    | [config](./.travis.yml)              | [env](./ci/env/travis.inc.sh)    |
 
 **NOTE** Codeship builds are paused because Cloudbees Codeship stopped offering their free plan.
+**NOTE** Drone CI requires explicit runners.
 **NOTE** Travis CI builds for the `master` branch are paused because one has to constantly ask for more open-source credits.
 
 * Integration with Travis CI is unstable since it now requires a subscription.
