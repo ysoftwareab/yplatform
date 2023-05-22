@@ -20,7 +20,7 @@ exe_and_grep_q "asdf --version | head -1" "^v0\."
 
 # install nodejs plugin by default
 # help also as a workaround for https://github.com/asdf-vm/asdf/issues/1022
-asdf plugin list | grep -q "^nodejs$" || asdf plugin add nodejs
+{ asdf plugin list || true; } | grep -q "^nodejs$" || asdf plugin add nodejs
 
 [[ ! -f .tool-versions ]] || {
     ${YP_DIR}/bin/asdf-plugin-add-deps
