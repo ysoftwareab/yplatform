@@ -1,6 +1,6 @@
-homebrew/brew refs/tags/4.0.18
-homebrew/install 12564487c52b3a4486f19a093d8f3fac31216b02
-homebrew/homebrew-core 066eebff2ed0ded8bf4cbd25dbf656eb71ede051
-homebrew/homebrew-cask 08368cfdf37f036523ca92827db15b36beb72bcc
+homebrew/brew refs/tags/4.0.20
+homebrew/install 716a1d024f32890ef75ea82c18a769abc24e9475
+homebrew/homebrew-core 601b062d6c89f6d6d8758c4a288e23e7ebe9f4f8
+homebrew/homebrew-cask e42a03d13f0ff4c8c73d8f51478632b1ff53f75d
 ysoftwareab/homebrew-tap refs/heads/master
 homebrew/homebrew-command-not-found refs/heads/master
