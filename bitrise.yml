@@ -32,6 +32,11 @@ workflows:
             - content: |
                 #!/usr/bin/env bash
                 set -x
+
+                # asdf installed as root, issues for the bitrise user
+                rm -rf $ASDF_DIR
+                unset ASDF_DIR
+
                 chown -R $(id -u):$(id -g) ${BITRISE_SOURCE_DIR}
                 ${BITRISE_SOURCE_DIR}/bin/linux-adduser --disabled-password bitrise
                 ${BITRISE_SOURCE_DIR}/bin/linux-adduser2group bitrise sudo
