@@ -22,7 +22,6 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-18.04
           - ubuntu-22.04
         yp_ci_brew_install:
           - minimal
@@ -230,6 +229,7 @@ jobs:
       matrix:
         os:
           - macos-11
+          - macos-13
         yp_ci_brew_install:
           - minimal
           - dev

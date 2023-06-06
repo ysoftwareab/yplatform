@@ -8,7 +8,8 @@ let matrixOs = {
   ubuntu: [
     // obsolete 2020-09 https://github.com/actions/virtual-environments/issues/3287
     // 'ubuntu-16.04',
-    'ubuntu-18.04',
+    // https://github.com/actions/runner-images/issues/6002
+    // 'ubuntu-18.04',
     'ubuntu-20.04',
     'ubuntu-22.04'
   ],
@@ -16,7 +17,8 @@ let matrixOs = {
     // obsolete 2022-08 https://github.com/actions/virtual-environments/issues/5583
     // 'macos-10.15',
     'macos-11',
-    'macos-12'
+    'macos-12',
+    'macos-13'
   ],
   windows: [
     // obsolete 2022-03 https://github.com/actions/virtual-environments/issues/5238
