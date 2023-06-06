@@ -22,7 +22,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-22.04
+          - ubuntu-20.04
         yp_ci_brew_install:
           - minimal
           - dev
@@ -691,7 +691,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - ubuntu-20.04
+          - ubuntu-22.04
           - macos-13
         yp_ci_brew_install:
           - minimal
