@@ -24,7 +24,7 @@ let env = {
 let matrixOsWithSmoke = _.clone(matrixOs);
 matrixOsWithSmoke.smoke = [
   'ubuntu-20.04',
-  'macos-12'
+  'macos-13'
 ];
 _.forEach(matrixOsWithSmoke, function(_os, group) {
   if (group === 'smoke') {

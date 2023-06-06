@@ -229,7 +229,7 @@ jobs:
       matrix:
         os:
           - macos-11
-          - macos-13
+          - macos-12
         yp_ci_brew_install:
           - minimal
           - dev
@@ -692,7 +692,7 @@ jobs:
       matrix:
         os:
           - ubuntu-20.04
-          - macos-12
+          - macos-13
         yp_ci_brew_install:
           - minimal
           - dev
