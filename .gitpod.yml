@@ -17,7 +17,6 @@ vscode:
     - eamodio.gitlens
     - EditorConfig.editorconfig
     - fnando.linter
-    - glen-84.sass-lint
     - hashicorp.terraform
     - mads-hartmann.bash-ide-vscode
     - me-dutour-mathieu.vscode-github-actions
