@@ -78,7 +78,9 @@ make-lazy-major-version-problematic := 3.81 3.82
 make-lazy-major-version-problematic := $(filter $(MAKE_VERSION),$(make-lazy-major-version-problematic))
 ifeq (,$(make-lazy-major-version-problematic))
 make-lazy = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))$(eval .VARIABLES_LAZY += $1)
+PRINTVARS_VARIABLES_IGNORE += make-lazy
 make-lazy-once = $(eval $1 = $$(eval $1 := $(value $(1)))$$($1))
+PRINTVARS_VARIABLES_IGNORE += make-lazy-once
 else
 $(warning The 'make-lazy' function cannot run on GNU Make $(MAKE_VERSION). Disabling.)
 make-lazy =
@@ -89,7 +91,9 @@ endif
 # Complex ifdef
 # From http://stackoverflow.com/questions/5584872/complex-conditions-check-in-makefile
 ifndef_any_of = $(filter undefined,$(foreach v,$(1),$(origin $(v))))
+PRINTVARS_VARIABLES_IGNORE += ifndef_any_of
 ifdef_any_of = $(filter-out undefined,$(foreach v,$(1),$(origin $(v))))
+PRINTVARS_VARIABLES_IGNORE += ifdef_any_of
 # ifdef VAR1 || VAR2 -> ifneq ($(call ifdef_any_of,VAR1 VAR2),)
 # ifdef VAR1 && VAR2 -> ifeq ($(call ifndef_any_of,VAR1 VAR2),)
 
@@ -99,6 +103,7 @@ ifdef $(1)
 export $(1)
 endif
 endef
+PRINTVARS_VARIABLES_IGNORE += exportifdef
 
 # ------------------------------------------------------------------------------
 

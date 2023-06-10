@@ -9,6 +9,7 @@ $(shell \
 	export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
 	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
+PRINTVARS_VARIABLES_IGNORE += global-which
 
 # NOTE can't use $(ECHO)
 define which
@@ -18,3 +19,4 @@ $(shell \
 	export RESULT="$$(for CMD in $(2); do $(COMMAND_Q) $${CMD} && break || continue; done)"; \
 	echo "$${RESULT:-$(1)_NOT_FOUND}")
 endef
+PRINTVARS_VARIABLES_IGNORE += which

@@ -11,6 +11,13 @@ MAKEFILE_ORIGINS := \
 	automatic \
 	\%
 
+PRINTVARS_VARIABLES_IGNORE += \
+	exportifdef \
+	global-which \
+	ifdef_any_of \
+	ifndef_any_of \
+	which \
+
 PRINTVARS_MAKEFILE_ORIGINS_TARGETS += \
 	$(patsubst %,printvars/%,$(MAKEFILE_ORIGINS)) \
 
@@ -24,7 +31,10 @@ printvars: printvars/file ## Print all Makefile variables (file origin).
 $(PRINTVARS_MAKEFILE_ORIGINS_TARGETS):
 	@$(foreach V, $(sort $(filter-out $(PRINTVARS_VARIABLES_IGNORE),$(.VARIABLES))), \
 		$(if $(filter $(@:printvars/%=%), $(origin $V)), \
-			$(warning $V=$($V) ($(value $V))))))
+			$(warning $V=$($V) ($(value $V)))))
+	@$(foreach V, $(sort $(filter $(PRINTVARS_VARIABLES_IGNORE),$(.VARIABLES))), \
+		$(if $(filter $(@:printvars/%=%), $(origin $V)), \
+			$(warning $V was skipped based on PRINTVARS_VARIABLES_IGNORE.)))
 
 
 .PHONY: printvars/lazy

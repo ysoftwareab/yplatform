@@ -26,6 +26,7 @@ define yp-generate-from-template
 	$(shell $(REALPATH) -s $<) > $@
 	$(ECHO_DONE)
 endef
+PRINTVARS_VARIABLES_IGNORE += yp-generate-from-template
 
 define yp-generate-from-template-patch # patch: original patched
 	$(ECHO_DO) "Generating $@ from original $< and patched $1..."
@@ -33,6 +34,7 @@ define yp-generate-from-template-patch # patch: original patched
 	$(DIFF) -u --label $< --label $1 $< $1 > $@ || true
 	$(ECHO_DONE)
 endef
+PRINTVARS_VARIABLES_IGNORE += yp-generate-from-template-patch
 
 define yp-generate-from-template-patched # patched: original patch
 	$(ECHO_DO) "Generating $@ from original $< and patch $1..."
@@ -40,6 +42,7 @@ define yp-generate-from-template-patched # patched: original patch
 	$(CAT) $1 | $(PATCH) $< -o $@
 	$(ECHO_DONE)
 endef
+PRINTVARS_VARIABLES_IGNORE += yp-generate-from-template-patched
 
 YP_CHECK_TARGETS += \
 	check-tpl-files \
