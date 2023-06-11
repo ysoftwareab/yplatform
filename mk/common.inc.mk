@@ -25,6 +25,7 @@ include $(CORE_INC_MK_DIR)/target.printvar.inc.mk
 include $(CORE_INC_MK_DIR)/target.verbose.inc.mk
 include $(CORE_INC_MK_DIR)/target.lazy.inc.mk
 
+ifneq (,$(.VARIABLES_LAZY))
 MAKEFILE_LAZY ?= true
 ifeq (true,$(MAKEFILE_LAZY))
 MAKECMDGOALS ?=
@@ -36,6 +37,7 @@ $(info [DONE])
 $(info )
 endif
 include Makefile.lazy
+endif
 endif
 endif
 

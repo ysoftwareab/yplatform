@@ -741,6 +741,7 @@ Makefile.lazy:
 # ------------------------------------------------------------------------------
 
 
+ifneq (,$(.VARIABLES_LAZY))
 MAKEFILE_LAZY ?= true
 ifeq (true,$(MAKEFILE_LAZY))
 MAKECMDGOALS ?=
@@ -752,6 +753,7 @@ $(info [DONE])
 $(info )
 endif
 include Makefile.lazy
+endif
 endif
 endif
 
