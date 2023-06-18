@@ -1,6 +1,6 @@
 --- bootstrap/brew-util/homebrew-install.sh.original
 +++ bootstrap/brew-util/homebrew-install.sh
-@@ -130,7 +130,7 @@
+@@ -138,7 +138,7 @@
    fi
    HOMEBREW_CACHE="${HOME}/Library/Caches/Homebrew"
  
@@ -9,8 +9,8 @@
    PERMISSION_FORMAT="%A"
    CHOWN=("/usr/sbin/chown")
    CHGRP=("/usr/bin/chgrp")
-@@ -145,7 +145,7 @@
-   HOMEBREW_PREFIX_DEFAULT="/home/linuxbrew/.linuxbrew"
+@@ -153,7 +153,7 @@
+   HOMEBREW_REPOSITORY="${HOMEBREW_PREFIX}/Homebrew"
    HOMEBREW_CACHE="${HOME}/.cache/Homebrew"
  
 -  STAT_PRINTF=("stat" "--printf")
@@ -18,8 +18,8 @@
    PERMISSION_FORMAT="%a"
    CHOWN=("/bin/chown")
    CHGRP=("/bin/chgrp")
-@@ -369,6 +369,22 @@
-   version_ge "$(major_minor "${git_version_output##* }")" "$(major_minor "${REQUIRED_GIT_VERSION}")"
+@@ -393,6 +393,22 @@
+   fi
  }
  
 +test_degit() {
@@ -41,7 +41,7 @@
  # Search for the given executable in PATH (avoids a dependency on the `which` command)
  which() {
    # Alias to Bash built-in command `type -P`
-@@ -893,6 +909,19 @@
+@@ -899,6 +915,19 @@
  (
    cd "${HOMEBREW_REPOSITORY}" >/dev/null || return
  
@@ -59,20 +59,20 @@
 +  else
 +
    # we do it in four steps to avoid merge errors when reinstalling
-   execute "git" "init" "-q"
+   execute "${USABLE_GIT}" "-c" "init.defaultBranch=master" "init" "--quiet"
  
-@@ -906,7 +935,9 @@
-   execute "git" "fetch" "--force" "origin"
-   execute "git" "fetch" "--force" "--tags" "origin"
+@@ -915,7 +944,9 @@
+   execute "${USABLE_GIT}" "fetch" "--force" "origin"
+   execute "${USABLE_GIT}" "fetch" "--force" "--tags" "origin"
  
--  execute "git" "reset" "--hard" "origin/master"
-+  execute "git" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF}"
+-  execute "${USABLE_GIT}" "reset" "--hard" "origin/master"
++  execute "${USABLE_GIT}" "reset" "--hard" "${HOMEBREW_BREW_GIT_REF}"
 +
 +  fi
  
    if [[ "${HOMEBREW_REPOSITORY}" != "${HOMEBREW_PREFIX}" ]]
    then
-@@ -934,19 +965,33 @@
+@@ -936,6 +967,12 @@
        execute "${MKDIR[@]}" "${HOMEBREW_CORE}"
        cd "${HOMEBREW_CORE}" >/dev/null || return
  
@@ -82,14 +82,15 @@
 +        execute "${HOMEBREW_DEGIT}" "--history" "${HOMEBREW_CORE_GIT_REMOTE}#${HOMEBREW_CORE_GIT_REF/refs\/remotes\/origin/refs\/heads}"
 +      else
 +
-       execute "git" "init" "-q"
-       execute "git" "config" "remote.origin.url" "${HOMEBREW_CORE_GIT_REMOTE}"
-       execute "git" "config" "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"
-       execute "git" "config" "core.autocrlf" "false"
-       execute "git" "fetch" "--force" "origin" "refs/heads/master:refs/remotes/origin/master"
-       execute "git" "remote" "set-head" "origin" "--auto" >/dev/null
--      execute "git" "reset" "--hard" "origin/master"
-+      execute "git" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF}"
+       execute "${USABLE_GIT}" "-c" "init.defaultBranch=master" "init" "--quiet"
+       execute "${USABLE_GIT}" "config" "remote.origin.url" "${HOMEBREW_CORE_GIT_REMOTE}"
+       execute "${USABLE_GIT}" "config" "remote.origin.fetch" "+refs/heads/*:refs/remotes/origin/*"
+@@ -943,13 +980,21 @@
+       execute "${USABLE_GIT}" "config" "--bool" "core.symlinks" "true"
+       execute "${USABLE_GIT}" "fetch" "--force" "origin" "refs/heads/master:refs/remotes/origin/master"
+       execute "${USABLE_GIT}" "remote" "set-head" "origin" "--auto" >/dev/null
+-      execute "${USABLE_GIT}" "reset" "--hard" "origin/master"
++      execute "${USABLE_GIT}" "reset" "--hard" "${HOMEBREW_CORE_GIT_REF}"
 +
 +      fi
  
