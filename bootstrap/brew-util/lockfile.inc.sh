@@ -31,6 +31,7 @@ function brew_lockfile() {
     fi
 
     (
+        mkdir -p "$(brew --repository)/Library/Taps"
         cd "$(brew --repository)/Library/Taps"
         cat ${BREWFILE_LOCK} | \
             grep -v "^homebrew/brew " | \
