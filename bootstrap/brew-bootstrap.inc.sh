@@ -105,6 +105,7 @@ function bootstrap_brew() {
 
 bootstrap_brew
 brew_config
+brew_doctor
 
 [[ "${OS_RELEASE_ID}" != "alpine" ]] || apk list --installed | grep -q glibc || {
     apk_install_one libc6-compat # skipped in bootstrap/bootstrap-sudo-alpine
@@ -124,3 +125,4 @@ else
     brew_update
 fi
 brew_config
+brew_doctor

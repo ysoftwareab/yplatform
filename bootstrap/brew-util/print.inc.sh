@@ -109,6 +109,12 @@ function brew_config() {
     echo_done
 }
 
+function brew_doctor() {
+    echo_do "brew: Printing doctor..."
+    brew doctor || true
+    echo_done
+}
+
 function brew_list() {
     brew_list_installed
 
@@ -122,6 +128,7 @@ function brew_print() {
     brew_env
     if command -v brew >/dev/null 2>&1; then
         brew_config
+        brew_doctor
         brew_list
     fi
 }
