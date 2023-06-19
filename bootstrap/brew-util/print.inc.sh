@@ -122,8 +122,8 @@ function brew_config() {
 }
 
 function brew_doctor() {
-    echo_do "brew: Printing doctor..."
-    brew doctor || true
+    echo_do "brew: Doctor..."
+    brew doctor --debug --audit-debug $(brew doctor --list-checks | grep -v -e integrity -e origin) || true
     echo_done
 }
 
