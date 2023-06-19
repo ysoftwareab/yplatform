@@ -101,6 +101,11 @@ function bootstrap_brew() {
             return 1
             ;;
     esac
+
+    [[ "${CI}" != "true" ]] || {
+        brew_autoremove
+        brew_cleanup
+    }
 }
 
 bootstrap_brew

@@ -103,6 +103,18 @@ EOF
     echo_done
 }
 
+function brew_autoremove() {
+    echo_do "brew: Autoremove..."
+    brew autoremove
+    echo_done
+}
+
+function brew_cleanup() {
+    echo_do "brew: Cleanup..."
+    brew cleanup
+    echo_done
+}
+
 function brew_config() {
     echo_do "brew: Printing config..."
     brew config
