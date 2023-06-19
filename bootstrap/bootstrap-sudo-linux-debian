@@ -120,14 +120,18 @@ fi
 
 # Basic
 echo_do "aptitude: Installing basic packages..."
+# as per homebrew-install and https://docs.brew.sh/Homebrew-on-Linux#requirements
+apt_install_one build-essential
+apt_install_one curl
+apt_install_one file
+apt_install_one git
+apt_install_one procps
+
 apt_install_one bsdmainutils
-apt_install_one build-essential # as per homebrew-install
 apt_install_one uuid-runtime
 apt_install_one zlib1g-dev
 
 apt_install_one bash
-apt_install_one curl
-apt_install_one file
 apt_install_one python3-minimal
 echo_done
 
