@@ -15,9 +15,6 @@ brew_install_one_unless curl "curl --version | head -1" "^curl 7\."
 brew_install_one_unless dateutils "datetest --version | head -1" "^datetest 0\.4\."
 brew_install_one_unless git "git --version | head -1" "^git version 2\."
 
-# NOTE gcc postinstall is unstable
-brew install gcc || brew postinstall gcc || brew install gcc
-
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
 [[ -f "${YP_DIR}/bin/.jq/jq" ]]
