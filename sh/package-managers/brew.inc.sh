@@ -58,9 +58,12 @@ function brew_install_one_core() {
 
             echo_do "brew: Installing ${FORMULA}..."
             if [[ "${CI:-}" != "true" ]]; then
-                CI="" brew install ${FORMULA}
+                CI="" brew install ${FORMULA} || \
+                    CI="" brew install --debug ${FORMULA}
             else
-                CI="" brew install --force ${FORMULA} || brew link --force --overwrite ${NAME}
+                CI="" brew install --force ${FORMULA} || \
+                    CI="" brew install --force --debug ${FORMULA} || \
+                        brew link --force --overwrite ${NAME}
             fi
             brew info --json=v1 ${NAME} | \
                 jq -r ".[0].linked_keg" | \
