@@ -29,7 +29,9 @@ brew_install_one_unless git "git --version | head -1" "^git version 2\."
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
 [[ -f "${YP_DIR}/bin/.jq/jq" ]]
-if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq
+set -x # debug failure on wsl
+if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq || true
+set +x
 
 brew_install_one_unless jd "jd --version | head -1" "^jd version 1\."
 # install if we're falling back to our jd proxy
