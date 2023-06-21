@@ -37,7 +37,7 @@ wslSteps.push({
 
 wslSteps.push({
   name: 'Install WSL Distribution',
-  uses: 'Vampire/setup-wsl@v1',
+  uses: 'Vampire/setup-wsl@v2',
   with: {
     distribution: 'Ubuntu-20.04',
     update: 'false',
