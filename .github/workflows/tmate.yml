@@ -5,20 +5,18 @@ name: tmate
       runs-on:
         description: jobs.main.runs-on
         required: false
-        default: ubuntu-latest
+        default: ubuntu-22.04
         type: choice
         options:
-          - windows-latest
-          - windows-2022
-          - windows-2019
-          - ubuntu-latest
-          - ubuntu-22.04
+          # - ubuntu-18.04
           - ubuntu-20.04
-          - ubuntu-18.04
-          - macos-latest
+          - ubuntu-22.04
+          # - macos-10.15
+          # - macos-11
           - macos-12
-          - macos-11
-          - macos-10.15
+          - macos-13
+          - windows-2019
+          - windows-2022
 jobs:
   main:
     timeout-minutes: 30
