@@ -21,6 +21,9 @@ set -euo pipefail
 }
 
 echo_do "brew: Installing CI packages..."
+# 'brew postinstall gcc' is unstable
+brew_install_one gcc || brew postinstall gcc
+
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
 # NOTE 'findutils' provides 'xargs', because the MacOS version has no 'xargs -r'
 brew_install_one_unless findutils "find --version | head -1" "^find (GNU findutils) 4\."
@@ -29,9 +32,7 @@ brew_install_one_unless git "git --version | head -1" "^git version 2\."
 brew_install_one_unless jq "jq --version | head -1" "^jq-1\."
 # install if we're falling back to our jq proxy
 [[ -f "${YP_DIR}/bin/.jq/jq" ]]
-set -x # debug failure on wsl
-if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq || true
-set +x
+if_exe_and_grep_q "which jq" "^${YP_DIR}/bin/\.jq/jq$" brew_install_one jq
 
 brew_install_one_unless jd "jd --version | head -1" "^jd version 1\."
 # install if we're falling back to our jd proxy
