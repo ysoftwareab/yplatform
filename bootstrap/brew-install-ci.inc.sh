@@ -21,8 +21,11 @@ set -euo pipefail
 }
 
 echo_do "brew: Installing CI packages..."
+echo_do "Installing binutils and gcc..."
+brew install --verbose binutils
 # 'brew postinstall gcc' is unstable
-brew_install_one gcc || brew postinstall gcc
+brew install --verbose gcc || brew postinstall --debug gcc
+echo_done
 
 # NOTE 'findutils' provides 'find' with '-min/maxdepth' and '-printf'
 # NOTE 'findutils' provides 'xargs', because the MacOS version has no 'xargs -r'
