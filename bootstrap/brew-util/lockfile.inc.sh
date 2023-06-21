@@ -17,6 +17,12 @@ function brew_lockfile() {
     if [[ -z "${BREW_LOCK}" ]]; then
         echo_skip "Resetting Homebrew..."
     else
+        # TODO check wsl version; fix only for WSLv1
+        # see https://github.com/orgs/Homebrew/discussions/4112
+        if ${YP_DIR}/bin/is-wsl; then
+            BREW_LOCK=refs/tags/3.6.7
+            echo_warn "Ignoring ${BREWFILE_LOCK} for homebrew/brew on WSL. Using ${BREW_LOCK}."
+        fi
         local BREW_TO=$(echo "${BREW_LOCK}" | cut -d" " -f2 | sed "s|^refs/heads/|refs/remotes/origin/|")
 
         echo_do "Resetting Homebrew..."
