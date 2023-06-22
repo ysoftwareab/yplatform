@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -euo pipefail
+set -x
+
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1
+export HOMEBREW_NO_INSTALL_FROM_API=1
+export HOMEBREW_VERBOSE_USING_DOTS=1
+
+function install() {
+    sudo apt-get -y update
+    sudo apt-get -y install build-essential procps curl file git
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    exit 0
+}
+
+[[ -f /home/linuxbrew/.linuxbrew/bin/brew ]] || install
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+SHA=b2a0741226f5ec3f21b77e9c037fc962b89a1e34 # binutils 2.38_1
+SHA=c55866fa1e75c9de2df980a20279b20a23525e9a # binutils 2.39_1
+curl -o binutils.rb -fsSL https://github.com/Homebrew/homebrew-core/raw/${SHA}/Formula/binutils.rb
+mv binutils.rb $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+
+brew install binutils --verbose

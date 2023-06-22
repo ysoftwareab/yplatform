@@ -248,4 +248,7 @@ jobs:
           wsl bash -c "sudo echo \"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
       - if: ${{ startsWith(github.event.inputs.runs-on, 'windows') }}
         shell: bash
-        run: bin/wsl-bash -c "sudo apt-get -y update && sudo apt-get -y install tmate && bin/tmate-shell"
+        run: bin/wsl-bash -c "bin/brew-binutils"
+      - if: ${{ startsWith(github.event.inputs.runs-on, 'windows') }}
+        shell: bash
+        run: bin/wsl-bash -c "bin/brew-binutils"
