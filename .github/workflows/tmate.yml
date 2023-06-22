@@ -25,8 +25,63 @@ jobs:
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     steps:
-    - name: Setup tmate session
-      uses: mxschmitt/action-tmate@v3
-      # disabled due to https://github.com/mxschmitt/action-tmate/issues/69
-      # with:
-      #   limit-access-to-actor: true
+      - uses: actions/checkout@v3
+      - if: ! startsWith('${{ github.event.inputs.runs-on }}', 'windows')
+        name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
+        # disabled due to https://github.com/mxschmitt/action-tmate/issues/69
+        # with:
+        #   limit-access-to-actor: true
+      - if: startsWith('${{ github.event.inputs.runs-on }}', 'windows')
+        name: Install WSL Distribution
+        uses: Vampire/setup-wsl@v2
+        with:
+          distribution: Ubuntu-22.04
+          update: 'false'
+          wsl-conf: |
+            # see https://devblogs.microsoft.com/commandline/automatically-configuring-wsl/
+            # see https://github.com/MicrosoftDocs/WSL/blob/master/WSL/wsl-config.md
+
+            # DEFAULTS
+            # [automount]
+            # enabled = true
+            # mountFsTab = true
+            # root = /mnt/
+            # options =
+            # [network]
+            # generateHosts = true
+            # generateResolvConf = true
+            # [interop]
+            # enabled = true
+            # appendWindowsPath = true
+
+            [automount]
+            # see https://devblogs.microsoft.com/commandline/chmod-chown-wsl-improvements/
+            # using 2000:2000 because of consistency (UID:GID that TravisCI uses)
+            options = "metadata,case=dir,uid=2000,gid=2000,umask=22,fmask=11"
+
+            [interop]
+            appendWindowsPath = false
+
+            # see https://github.com/microsoft/WSL/issues/8358#issuecomment-1490561393
+            [network]
+            nameserver 1.1.1.1
+      - if: startsWith('${{ github.event.inputs.runs-on }}', 'windows')
+        name: Set up WSL Distribution
+        shell: bash
+        run: >-
+          set -x
+
+          wsl bash -c "cat /etc/os-release"
+
+          wsl bash -c "sudo addgroup --gid 2000 ${WSLGROUP}"
+
+          wsl bash -c "sudo adduser --uid 2000 --ingroup ${WSLGROUP} --home /home/${WSLUSER} --shell /bin/bash
+          --disabled-password --gecos \"Linux user\" ${WSLUSER}"
+
+          wsl bash -c "sudo adduser ${WSLUSER} sudo"
+
+          wsl bash -c "sudo echo \"${WSLUSER} ALL=(ALL) NOPASSWD:ALL\" >> /etc/sudoers"
+      - if: startsWith('${{ github.event.inputs.runs-on }}', 'windows')
+        shell: bash
+        run: bin/wsl-bash -c "bin/tmate-shell"
