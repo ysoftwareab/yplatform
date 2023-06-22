@@ -82,6 +82,7 @@ YP_ECLINT_FILES_IGNORE += \
 	-e "^\.github/workflows/deployc\.yml$$" \
 	-e "^\.github/workflows/main\.yml$$" \
 	-e "^\.github/workflows/mainc\.yml$$" \
+	-e "^\.github/workflows/tmate\.yml$$" \
 	-e "^\.travis\.yml\.bak$$" \
 	-e "^bin/" \
 	-e "^gitconfig/dot.gitignore_global$$" \
