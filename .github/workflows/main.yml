@@ -620,7 +620,7 @@ jobs:
       - name: Install WSL Distribution
         uses: Vampire/setup-wsl@v2
         with:
-          distribution: Ubuntu-20.04
+          distribution: Ubuntu-22.04
           update: 'false'
           wsl-conf: |
             # see https://devblogs.microsoft.com/commandline/automatically-configuring-wsl/

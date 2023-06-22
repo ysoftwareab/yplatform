@@ -39,7 +39,7 @@ wslSteps.push({
   name: 'Install WSL Distribution',
   uses: 'Vampire/setup-wsl@v2',
   with: {
-    distribution: 'Ubuntu-20.04',
+    distribution: 'Ubuntu-22.04',
     update: 'false',
     // Use wsl.conf to fix error: chmod on .git/config.lock failed: Operation not permitted
     // See https://gist.github.com/shakahl/8b6c969768b3a54506c0fc4905d729a0
