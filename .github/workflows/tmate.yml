@@ -26,7 +26,7 @@ jobs:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
     steps:
       - uses: actions/checkout@v3
-      - if: ! startsWith('${{ github.event.inputs.runs-on }}', 'windows')
+      - if: "!startsWith('${{ github.event.inputs.runs-on }}', 'windows')"
         name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
         # disabled due to https://github.com/mxschmitt/action-tmate/issues/69
