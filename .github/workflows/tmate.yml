@@ -24,6 +24,10 @@ jobs:
     runs-on: '${{ github.event.inputs.runs-on }}'
     env:
       GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+      WSLENV: >-
+        CI:V:YP_LOG_BOOTSTRAP:YP_PRINTENV_BOOTSTRAP:GH_TOKEN:GH_USERNAME:YP_TRANSCRYPT_PASSWORD:SLACK_WEBHOOK:SLACK_CHANNEL:YP_CI_BREW_INSTALL:YP_CI_STATUS
+      WSLUSER: github
+      WSLGROUP: github
     steps:
       - uses: actions/checkout@v3
       - if: ${{ !startsWith(github.event.inputs.runs-on, 'windows') }}
@@ -32,6 +36,18 @@ jobs:
         # disabled due to https://github.com/mxschmitt/action-tmate/issues/69
         # with:
         #   limit-access-to-actor: true
+      - if: ${{ startsWith(github.event.inputs.runs-on, 'windows') }}
+        name: Set up WSLENV
+        shell: bash
+        run: |-
+          set -x
+          GITHUB_WSLENV="$(printenv | grep "^GITHUB" | cut -d"=" -f1 | sort | \
+          sed "s|^GITHUB_ENV\$|GITHUB_ENV/p|" | \
+          sed "s|^GITHUB_EVENT_PATH\$|GITHUB_EVENT_PATH/p|" | \
+          sed "s|^GITHUB_PATH\$|GITHUB_PATH/p|" | \
+          sed "s|^GITHUB_WORKSPACE\$|GITHUB_WORKSPACE/p|" | \
+          tr "\n" ":")"
+          echo "WSLENV=${WSLENV:-}:${GITHUB_WSLENV}" >> ${GITHUB_ENV}
       - if: ${{ startsWith(github.event.inputs.runs-on, 'windows') }}
         name: Install WSL Distribution
         uses: Vampire/setup-wsl@v2
