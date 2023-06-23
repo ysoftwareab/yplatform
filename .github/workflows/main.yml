@@ -646,10 +646,6 @@ jobs:
 
             [interop]
             appendWindowsPath = false
-
-            # see https://github.com/microsoft/WSL/issues/8358#issuecomment-1490561393
-            [network]
-            nameserver 1.1.1.1
       - name: Set up WSL Distribution
         shell: bash
         run: >-
