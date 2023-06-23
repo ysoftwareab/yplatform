@@ -22,7 +22,8 @@ set -euo pipefail
         brew ls | grep -q "\binutils\›" || {
             echo_info "binutils 2.40 will freeze windows-2022. Downgrading to 2.39."
             echo_do "Downgrading homebrew Formula binutils to 2.39_1 bottle..."
-            curl -qfsSL  -o binutils.rb https://github.com/Homebrew/homebrew-core/raw/${SHA}/Formula/binutils.rb
+            curl -qfsSL -o binutils.rb \
+                https://github.com/Homebrew/homebrew-core/raw/c55866fa1e75c9de2df980a20279b20a23525e9a/Formula/binutils.rb
             mv binutils.rb $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
             brew install binutils
             echo_done
