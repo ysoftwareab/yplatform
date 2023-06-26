@@ -37,7 +37,7 @@ set -euo pipefail
             echo_do "Downgrading homebrew Formula icu4c to 12.1 bottle..."
             ICU4C_RB_SHA=e3317b86c11c644e88c762e03eb7b310c3337587
             curl -qfsSL -o icu4c.rb \
-                 https://github.com/Homebrew/homebrew-core/raw/${ICU4C_RB_SHA}/Formula/icu4c.rb
+                https://github.com/Homebrew/homebrew-core/raw/${ICU4C_RB_SHA}/Formula/icu4c.rb
             unset ICU4C_RB_SHA
             mv icu4c.rb $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
             brew install icu4c
