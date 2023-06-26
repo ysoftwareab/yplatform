@@ -19,8 +19,8 @@ set -euo pipefail
         echo_done
     }
     ! ${YP_DIR}/bin/is-wsl || {
-        brew ls | grep -q "\binutils\›" || {
-            echo_info "binutils 2.40 will freeze windows-2022. Downgrading to 2.39."
+        brew ls | grep -q "\binutils\b" || {
+            echo_info "Pouring binutils 2.40 will freeze windows-2022. Downgrading to 2.39."
             echo_do "Downgrading homebrew Formula binutils to 2.39_1 bottle..."
             BINUTILS_RB_SHA=c55866fa1e75c9de2df980a20279b20a23525e9a
             curl -qfsSL -o binutils.rb \
@@ -31,6 +31,19 @@ set -euo pipefail
             echo_done
         }
         brew pin binutils
+
+        brew ls | grep -q "\icu4c\b" || {
+            echo_info "Pouring icu4c 72.1 will freeze windows-2022. Downgrading to 71.1."
+            echo_do "Downgrading homebrew Formula icu4c to 12.1 bottle..."
+            ICU4C_RB_SHA=e3317b86c11c644e88c762e03eb7b310c3337587
+            curl -qfsSL -o icu4c.rb \
+                 https://github.com/Homebrew/homebrew-core/raw/${ICU4C_RB_SHA}/Formula/icu4c.rb
+            unset ICU4C_RB_SHA
+            mv icu4c.rb $(brew --prefix)/Homebrew/Library/Taps/homebrew/homebrew-core/Formula/
+            brew install icu4c
+            echo_done
+        }
+        brew pin icu4c
     }
 }
 
