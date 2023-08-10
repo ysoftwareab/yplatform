@@ -45,6 +45,7 @@ Host *
     IdentityFile ~/.ssh/id_ed25519
     IdentityFile ~/.ssh/id_rsa
     IdentitiesOnly yes
+    PubkeyAcceptedKeyTypes +ssh-rsa
     ServerAliveCountMax 0
     ServerAliveInterval 600
     StrictHostKeyChecking ask
