@@ -71,6 +71,11 @@
   "typescript.format.enable": false,
   "typescript.tsdk": "./node_modules/typescript/lib",
 
+  "workbench.colorCustomizations": {
+    "tree.indentGuidesStroke": "#ff0000"
+  }
   "workbench.settings.enableNaturalLanguageSearch": false,
+  "workbench.tree.indent": 20,
+  "workbench.tree.renderIndentGuides": "always",
   "yaml.format.enable": false
 }
