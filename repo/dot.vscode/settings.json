@@ -73,7 +73,7 @@
 
   "workbench.colorCustomizations": {
     "tree.indentGuidesStroke": "#ff0000"
-  }
+  },
   "workbench.settings.enableNaturalLanguageSearch": false,
   "workbench.tree.indent": 20,
   "workbench.tree.renderIndentGuides": "always",
