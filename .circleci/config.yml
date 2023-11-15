@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  jq: circleci/jq@1.9.1
+  jq: circleci/jq@3.0.0
 
 aliases:
   - &step_restore_cache
@@ -94,7 +94,8 @@ commands:
       - run: echo "YP_LOG_BOOTSTRAP=true" >> $BASH_ENV
       - run: date +%v > ~/week-number
       - checkout
-      - jq/install
+      - jq/install:
+          version: jq-1.7
       - run: git submodule sync --recursive
       - run: git submodule update --init --recursive
       - *step_restore_cache
