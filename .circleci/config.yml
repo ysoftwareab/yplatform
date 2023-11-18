@@ -26,20 +26,20 @@ aliases:
         - ~/.cache/pip
         - ~/.linuxbrew
 
-  - job-main-u2004-minimal: &job-main-u2004-minimal
+  - job-main-u2204-minimal: &job-main-u2204-minimal
       p_ci_is_cron: "" # false
       p_executor:
         name: docker
-        p_image: circleci/buildpack-deps:focal
-      p_cache_name: u2004-minimal
+        p_image: cimg/base:2023.11
+      p_cache_name: u2204-minimal
       p_install: minimal
 
-  - job-main-u2004-dev: &job-main-u2004-dev
+  - job-main-u2204-dev: &job-main-u2204-dev
       p_ci_is_cron: "" # false
       p_executor:
         name: docker
-        p_image: circleci/buildpack-deps:focal
-      p_cache_name: u2004-dev
+        p_image: cimg/base:2023.11
+      p_cache_name: u2204-dev
       p_install: dev
 
   - job-main-xcode132-dev: &job-main-xcode132-dev
@@ -143,13 +143,13 @@ jobs:
           p_cache_name: << parameters.p_cache_name >>
           p_install: << parameters.p_install >>
 
-  main-u2004-minimal:
+  main-u2204-minimal:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
       - *job-main-steps
 
-  main-u2004-dev:
+  main-u2204-dev:
     parameters: *job-main-parameters
     executor: *job-main-executor
     steps:
@@ -167,12 +167,12 @@ workflows:
 
   main:
     jobs:
-      - main-u2004-minimal:
+      - main-u2204-minimal:
           <<: *filter-main
-          <<: *job-main-u2004-minimal
-      - main-u2004-dev:
+          <<: *job-main-u2204-minimal
+      - main-u2204-dev:
           <<: *filter-main
-          <<: *job-main-u2004-dev
+          <<: *job-main-u2204-dev
       # - main-xcode132-dev:
       #     <<: *filter-main
       #     <<: *job-main-xcode132-dev
@@ -185,11 +185,11 @@ workflows:
   #             only: /master/
   #         cron: "0 0 * * *"
   #   jobs:
-  #     - main-u2004-minimal:
-  #         <<: *job-main-u2004-minimal
+  #     - main-u2204-minimal:
+  #         <<: *job-main-u2204-minimal
   #         p_ci_is_cron: "true"
-  #     - main-u2004-dev:
-  #         <<: *job-main-u2004-dev
+  #     - main-u2204-dev:
+  #         <<: *job-main-u2204-dev
   #         p_ci_is_cron: "true"
   #     # - main-xcode132-dev:
   #     #     <<: *job-main-xcode132-dev
