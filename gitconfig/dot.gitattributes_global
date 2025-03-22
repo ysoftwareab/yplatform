@@ -467,3 +467,5 @@ codeship-services.yml  export-ignore
 codeship-steps.yml     export-ignore
 
 # END gitconfig/dot.gitattributes_global.base_export_ignore
+
+poetry.lock diff
