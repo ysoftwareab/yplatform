@@ -13,31 +13,34 @@ source ${YP_DIR}/sh/common.inc.sh
 AWS_PROFILE=${AWS_PROFILE:-${AWS_DEFAULT_PROFILE:-}}
 [[ -n ${AWS_PROFILE} ]] || exit 0
 
-AWS_PROFILE_ROLE_ARN=$(aws configure get role_arn || true)
+AWS_CLI_CACHE_FILE=${AWS_CLI_CACHE_FILE:-$1}
+if [[ -z "${AWS_CLI_CACHE_FILE:-}" ]]; then
+    AWS_PROFILE_ROLE_ARN=$(aws configure get role_arn || true)
 
-if [[ -z ${AWS_PROFILE_ROLE_ARN} ]]; then
-    # profile is a user profile
-    aws sts get-session-token > ${TMP_AWS_CLI_CACHE}
-    AWS_CLI_CACHE_FILE=${TMP_AWS_CLI_CACHE}
-else
-    # profile is a role profile
-    STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}
-    STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
+    if [[ -z ${AWS_PROFILE_ROLE_ARN} ]]; then
+        # profile is a user profile
+        aws sts get-session-token > ${TMP_AWS_CLI_CACHE}
+        AWS_CLI_CACHE_FILE=${TMP_AWS_CLI_CACHE}
+    else
+        # profile is a role profile
+        STS_ASSUME_ROLE_ARN_PREFIX=${AWS_PROFILE_ROLE_ARN/iam/sts}
+        STS_ASSUME_ROLE_ARN_PREFIX=${STS_ASSUME_ROLE_ARN_PREFIX/:role\//:assumed-role\/}
 
-    # AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
-    # gross assumption, but aws-cli/boto changed to hash-named filenames
-    AWS_CLI_CACHE_FILE=
-    # shellcheck disable=SC2045
-    for f in $(ls -t ~/.aws/cli/cache/); do
-        # shellcheck disable=SC2015
-        cat ~/.aws/cli/cache/${f} | \
-            jq -r ".AssumedRoleUser.Arn" | \
-            grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
-            AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${f} && \
-            break || \
-                true
-    done
-    [[ -n ${AWS_CLI_CACHE_FILE} ]] || exit 0
+        # AWS_CLI_CACHE_FILE=$(ls ~/.aws/cli/cache/ | grep "^${AWS_PROFILE}--arn_aws_iam__" | head -1 || true)
+        # gross assumption, but aws-cli/boto changed to hash-named filenames
+        AWS_CLI_CACHE_FILE=
+        # shellcheck disable=SC2045
+        for f in $(ls -t ~/.aws/cli/cache/); do
+            # shellcheck disable=SC2015
+            cat ~/.aws/cli/cache/${f} | \
+                jq -r ".AssumedRoleUser.Arn" | \
+                grep -q "${STS_ASSUME_ROLE_ARN_PREFIX}" && \
+                AWS_CLI_CACHE_FILE=~/.aws/cli/cache/${f} && \
+                break || \
+                    true
+        done
+        [[ -n ${AWS_CLI_CACHE_FILE} ]] || exit 0
+    fi
 fi
 
 AWS_CLI_CACHE_FILE_EXPIRATION=$(cat ${AWS_CLI_CACHE_FILE} | jq -r ".Credentials.Expiration")
