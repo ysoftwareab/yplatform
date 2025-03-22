@@ -36,6 +36,9 @@ YP_CLEAN_FILES += \
 YP_DEPS_TARGETS += \
 	deps-npm \
 
+YP_DEPS_UPGRADE_TARGETS += \
+	deps-upgrade-npm \
+
 YP_CHECK_TARGETS += \
 	check-package-json \
 	check-package-lock-json \
