@@ -1,5 +1,7 @@
 # -*- mode: Gitignore -*-
 
+.git-worktree/
+
 # BEGIN gitconfig/dot.gitignore_global.base
 
 # -*- mode: Gitignore -*-
